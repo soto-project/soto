@@ -1098,6 +1098,12 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public enum ZeroCapacityStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manual = "MANUAL"
+        case scaleToAndFromZero = "SCALE_TO_AND_FROM_ZERO"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AcceptMatchInput: AWSEncodableShape {
@@ -1263,7 +1269,7 @@ extension GameLift {
         public let creationTime: Date?
         /// A descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
         public let name: String?
-        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// The Amazon GameLift Servers Server SDK version used to develop your game server.
         public let serverSdkVersion: String?
@@ -1409,7 +1415,7 @@ extension GameLift {
         public let ipAddress: String?
         /// The name of the custom location you added to the fleet that this compute resource resides in.
         public let location: String?
-        /// The type of operating system on the compute resource.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// The type of operating system on the compute resource.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// The Amazon EC2 instance type that the fleet uses. For registered computes in an Amazon GameLift Servers Anywhere fleet, this property is empty.
         public let type: EC2InstanceType?
@@ -1674,7 +1680,7 @@ extension GameLift {
         public let gameServerContainerDefinition: GameServerContainerDefinition?
         /// A descriptive identifier for the container group definition. The name value is unique in an Amazon Web Services Region.
         public let name: String?
-        /// The platform that all containers in the container group definition run on.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// The platform that all containers in the container group definition run on.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: ContainerOperatingSystem?
         /// Current status of the container group definition resource. Values include:    COPYING -- Amazon GameLift Servers is in the process of making copies of all container images that are defined in the group. While in this state, the resource can't be used to create a container fleet.    READY -- Amazon GameLift Servers has copied the registry images for all containers that are defined in the group. You can use a container group definition in this status to create a container fleet.     FAILED -- Amazon GameLift Servers failed to create a valid container group definition resource. For more details on the cause of the failure, see StatusReason. A container group definition resource in failed status will be deleted within a few minutes.
         public let status: ContainerGroupDefinitionStatus?
@@ -1928,7 +1934,7 @@ extension GameLift {
     public struct CreateBuildInput: AWSEncodableShape {
         /// A descriptive label that is associated with a build. Build names do not need to be unique. You can change this value later.
         public let name: String?
-        /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.    Windows Server 2016 will reach end of support on 1/12/2027. For game servers that are hosted on Windows Server 2016 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to Windows Server 2022 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// A server SDK version you used when integrating your game server build with Amazon GameLift Servers. For more information see Integrate games with custom game servers. By default Amazon GameLift Servers sets this value to 4.0.2.
         public let serverSdkVersion: String?
@@ -2125,7 +2131,7 @@ extension GameLift {
         public let gameServerContainerDefinition: GameServerContainerDefinitionInput?
         /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
         public let name: String?
-        /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023   Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023   Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: ContainerOperatingSystem?
         /// One or more definition for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
         public let supportContainerDefinitions: [SupportContainerDefinitionInput]?
@@ -2519,7 +2525,7 @@ extension GameLift {
         public let creatorId: String?
         /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see Create a game session with custom properties.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see Create a game session with custom properties.                       Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
@@ -2622,7 +2628,7 @@ extension GameLift {
         public let priorityConfiguration: PriorityConfiguration?
         /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value.  The minimum value is 10 and the maximum value is 600.
         public let timeoutInSeconds: Int?
 
         @inlinable
@@ -2745,7 +2751,7 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
@@ -2997,6 +3003,8 @@ extension GameLift {
     public struct CreateScriptInput: AWSEncodableShape {
         /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later.
         public let name: String?
+        /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later.
+        public let nodeJsVersion: String?
         /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
@@ -3007,8 +3015,9 @@ extension GameLift {
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(name: String? = nil, storageLocation: S3Location? = nil, tags: [Tag]? = nil, version: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(name: String? = nil, nodeJsVersion: String? = nil, storageLocation: S3Location? = nil, tags: [Tag]? = nil, version: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.name = name
+            self.nodeJsVersion = nodeJsVersion
             self.storageLocation = storageLocation
             self.tags = tags
             self.version = version
@@ -3018,6 +3027,8 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.nodeJsVersion, name: "nodeJsVersion", parent: name, max: 16)
+            try self.validate(self.nodeJsVersion, name: "nodeJsVersion", parent: name, pattern: "^\\d+\\.[x0-9]+$")
             try self.storageLocation?.validate(name: "\(name).storageLocation")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -3030,6 +3041,7 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case nodeJsVersion = "NodeJsVersion"
             case storageLocation = "StorageLocation"
             case tags = "Tags"
             case version = "Version"
@@ -5314,7 +5326,7 @@ extension GameLift {
         public let name: String?
         /// The type of game session protection to set on all new instances that are started in the fleet. This attribute is used with fleets where ComputeType is EC2.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         ///  The Amazon Resource Name (ARN) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
@@ -5405,15 +5417,18 @@ extension GameLift {
         public let instanceType: EC2InstanceType?
         /// The fleet location for the instance count information, expressed as an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
+        /// Configuration settings for managed capacity scaling.
+        public let managedCapacityConfiguration: ManagedCapacityConfiguration?
 
         @inlinable
-        public init(fleetArn: String? = nil, fleetId: String? = nil, gameServerContainerGroupCounts: GameServerContainerGroupCounts? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil, location: String? = nil) {
+        public init(fleetArn: String? = nil, fleetId: String? = nil, gameServerContainerGroupCounts: GameServerContainerGroupCounts? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil, location: String? = nil, managedCapacityConfiguration: ManagedCapacityConfiguration? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.gameServerContainerGroupCounts = gameServerContainerGroupCounts
             self.instanceCounts = instanceCounts
             self.instanceType = instanceType
             self.location = location
+            self.managedCapacityConfiguration = managedCapacityConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5423,6 +5438,7 @@ extension GameLift {
             case instanceCounts = "InstanceCounts"
             case instanceType = "InstanceType"
             case location = "Location"
+            case managedCapacityConfiguration = "ManagedCapacityConfiguration"
         }
     }
 
@@ -5511,7 +5527,7 @@ extension GameLift {
     }
 
     public struct GameProperty: AWSEncodableShape & AWSDecodableShape {
-        /// The game property identifier.
+        /// The game property identifier.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let key: String?
         /// The game property value.
         public let value: String?
@@ -5840,7 +5856,7 @@ extension GameLift {
         public let fleetArn: String?
         /// A unique identifier for the fleet that the game session is running on.
         public let fleetId: String?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
@@ -5989,7 +6005,7 @@ extension GameLift {
         public let dnsName: String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public let endTime: Date?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
         public let gameSessionArn: String?
@@ -6089,7 +6105,7 @@ extension GameLift {
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This  configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly  named will be automatically applied at the end of the prioritization process.
         public let priorityConfiguration: PriorityConfiguration?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.  The minimum value is 10 and the maximum value is 600.
         public let timeoutInSeconds: Int?
 
         @inlinable
@@ -6350,7 +6366,7 @@ extension GameLift {
         public let ipAddress: String?
         /// The fleet location of the instance, expressed as an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
-        /// Operating system that is running on this EC2 instance.   Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// Operating system that is running on this EC2 instance.   Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// Current status of the instance. Possible statuses include the following:    PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift Servers that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.
         public let status: InstanceStatus?
@@ -7277,6 +7293,29 @@ extension GameLift {
         }
     }
 
+    public struct ManagedCapacityConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Length of time, in minutes, that Amazon GameLift Servers will wait before scaling in your MinSize and DesiredInstances to 0 after a period with no game session activity. Default: 30 minutes.
+        public let scaleInAfterInactivityMinutes: Int?
+        /// The strategy Amazon GameLift Servers will use to automatically scale your capacity to and from zero instances in response to game session activity. Game session activity refers to any active running sessions or game session requests. Possible ZeroCapacityStrategy types include:    MANUAL -- (default value) Amazon GameLift Servers will not update capacity to and from zero on your behalf.    SCALE_TO_AND_FROM_ZERO --  Amazon GameLift Servers will automatically scale out MinSize and DesiredInstances from 0 to 1 in response to a game session request, and will scale in MinSize and DesiredInstances to 0 after a period with no game session activity. The duration of this scale in period can be configured using ScaleInAfterInactivityMinutes.
+        public let zeroCapacityStrategy: ZeroCapacityStrategy?
+
+        @inlinable
+        public init(scaleInAfterInactivityMinutes: Int? = nil, zeroCapacityStrategy: ZeroCapacityStrategy? = nil) {
+            self.scaleInAfterInactivityMinutes = scaleInAfterInactivityMinutes
+            self.zeroCapacityStrategy = zeroCapacityStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scaleInAfterInactivityMinutes, name: "scaleInAfterInactivityMinutes", parent: name, max: 1440)
+            try self.validate(self.scaleInAfterInactivityMinutes, name: "scaleInAfterInactivityMinutes", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scaleInAfterInactivityMinutes = "ScaleInAfterInactivityMinutes"
+            case zeroCapacityStrategy = "ZeroCapacityStrategy"
+        }
+    }
+
     public struct MatchedPlayerSession: AWSDecodableShape {
         /// A unique identifier for a player
         public let playerId: String?
@@ -7314,7 +7353,7 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
@@ -8199,6 +8238,8 @@ extension GameLift {
         public let creationTime: Date?
         /// A descriptive label that is associated with a script. Script names do not need to be unique.
         public let name: String?
+        /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later.
+        public let nodeJsVersion: String?
         /// The Amazon Resource Name (ARN) that is assigned to a Amazon GameLift Servers script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public let scriptArn: String?
         /// A unique identifier for the Realtime script
@@ -8211,9 +8252,10 @@ extension GameLift {
         public let version: String?
 
         @inlinable
-        public init(creationTime: Date? = nil, name: String? = nil, scriptArn: String? = nil, scriptId: String? = nil, sizeOnDisk: Int64? = nil, storageLocation: S3Location? = nil, version: String? = nil) {
+        public init(creationTime: Date? = nil, name: String? = nil, nodeJsVersion: String? = nil, scriptArn: String? = nil, scriptId: String? = nil, sizeOnDisk: Int64? = nil, storageLocation: S3Location? = nil, version: String? = nil) {
             self.creationTime = creationTime
             self.name = name
+            self.nodeJsVersion = nodeJsVersion
             self.scriptArn = scriptArn
             self.scriptId = scriptId
             self.sizeOnDisk = sizeOnDisk
@@ -8224,6 +8266,7 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case name = "Name"
+            case nodeJsVersion = "NodeJsVersion"
             case scriptArn = "ScriptArn"
             case scriptId = "ScriptId"
             case sizeOnDisk = "SizeOnDisk"
@@ -8391,7 +8434,7 @@ extension GameLift {
     public struct StartGameSessionPlacementInput: AWSEncodableShape {
         /// Set of information on each player to create a player session for.
         public let desiredPlayerSessions: [DesiredPlayerSession]?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
@@ -9244,7 +9287,7 @@ extension GameLift {
         public let gameServerContainerDefinition: GameServerContainerDefinitionInput?
         /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
         public let name: String?
-        /// The platform that all containers in the group use. Containers in a group must run on the same operating system.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
+        /// The platform that all containers in the group use. Containers in a group must run on the same operating system.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: ContainerOperatingSystem?
         /// The container group definition version to update. The new version starts with values from the source version, and then updates values included in this request.
         public let sourceVersionNumber: Int?
@@ -9393,16 +9436,19 @@ extension GameLift {
         public let fleetId: String?
         /// The name of a remote location to update fleet capacity settings for, in the form of an Amazon Web Services Region code such as us-west-2.
         public let location: String?
+        /// Configuration for Amazon GameLift Servers-managed capacity scaling options.
+        public let managedCapacityConfiguration: ManagedCapacityConfiguration?
         /// The maximum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 1.
         public let maxSize: Int?
-        /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0.
+        /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0. This parameter cannot be set when using a ManagedCapacityConfiguration where ZeroCapacityStrategy has a value of SCALE_TO_AND_FROM_ZERO.
         public let minSize: Int?
 
         @inlinable
-        public init(desiredInstances: Int? = nil, fleetId: String? = nil, location: String? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
+        public init(desiredInstances: Int? = nil, fleetId: String? = nil, location: String? = nil, managedCapacityConfiguration: ManagedCapacityConfiguration? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
             self.desiredInstances = desiredInstances
             self.fleetId = fleetId
             self.location = location
+            self.managedCapacityConfiguration = managedCapacityConfiguration
             self.maxSize = maxSize
             self.minSize = minSize
         }
@@ -9415,6 +9461,7 @@ extension GameLift {
             try self.validate(self.location, name: "location", parent: name, max: 64)
             try self.validate(self.location, name: "location", parent: name, min: 1)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
+            try self.managedCapacityConfiguration?.validate(name: "\(name).managedCapacityConfiguration")
             try self.validate(self.maxSize, name: "maxSize", parent: name, min: 0)
             try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
         }
@@ -9423,6 +9470,7 @@ extension GameLift {
             case desiredInstances = "DesiredInstances"
             case fleetId = "FleetId"
             case location = "Location"
+            case managedCapacityConfiguration = "ManagedCapacityConfiguration"
             case maxSize = "MaxSize"
             case minSize = "MinSize"
         }
@@ -9435,18 +9483,22 @@ extension GameLift {
         public let fleetId: String?
         /// The remote location being updated, expressed as an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
+        /// Configuration for Amazon GameLift Servers-managed capacity scaling options.
+        public let managedCapacityConfiguration: ManagedCapacityConfiguration?
 
         @inlinable
-        public init(fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil) {
+        public init(fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil, managedCapacityConfiguration: ManagedCapacityConfiguration? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
             self.location = location
+            self.managedCapacityConfiguration = managedCapacityConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case fleetArn = "FleetArn"
             case fleetId = "FleetId"
             case location = "Location"
+            case managedCapacityConfiguration = "ManagedCapacityConfiguration"
         }
     }
 
@@ -9619,7 +9671,7 @@ extension GameLift {
     }
 
     public struct UpdateGameSessionInput: AWSEncodableShape {
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see Update the value of a game property.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see Update the value of a game property.   Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// A unique identifier for the game session to update.
         public let gameSessionId: String?
@@ -9696,7 +9748,7 @@ extension GameLift {
         public let playerLatencyPolicies: [PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This  configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly  named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
         public let priorityConfiguration: PriorityConfiguration?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.  The minimum value is 10 and the maximum value is 600.
         public let timeoutInSeconds: Int?
 
         @inlinable
@@ -9771,7 +9823,7 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?

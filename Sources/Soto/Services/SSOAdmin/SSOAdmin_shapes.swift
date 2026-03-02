@@ -112,6 +112,13 @@ extension SSOAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case adding = "ADDING"
+        case removing = "REMOVING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kmsNotFoundException = "KMS_NotFoundException"
         public var description: String { return self.rawValue }
@@ -413,6 +420,47 @@ extension SSOAdmin {
         }
     }
 
+    public struct AddRegionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to replicate to the target Region.
+        public let instanceArn: String
+        /// The name of the Amazon Web Services Region to add to the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1).
+        public let regionName: String
+
+        @inlinable
+        public init(instanceArn: String, regionName: String) {
+            self.instanceArn = instanceArn
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 1)
+            try self.validate(self.regionName, name: "regionName", parent: name, pattern: "^([a-z]+-){2,3}\\d$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct AddRegionResponse: AWSDecodableShape {
+        /// The status of the Region after the Add operation. The status is ADDING when the asynchronous workflow is in progress and changes to ACTIVE when complete.
+        public let status: RegionStatus?
+
+        @inlinable
+        public init(status: RegionStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct Application: AWSDecodableShape {
         /// The Amazon Web Services account ID number of the application.
         public let applicationAccount: String?
@@ -422,6 +470,8 @@ extension SSOAdmin {
         public let applicationProviderArn: String?
         /// The date and time when the application was originally created.
         public let createdDate: Date?
+        /// The Amazon Web Services Region where the application was created in IAM Identity Center.
+        public let createdFrom: String?
         /// The description of the application.
         public let description: String?
         /// The ARN of the instance of IAM Identity Center that is configured with this application.
@@ -434,11 +484,12 @@ extension SSOAdmin {
         public let status: ApplicationStatus?
 
         @inlinable
-        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
+        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, createdFrom: String? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
             self.applicationAccount = applicationAccount
             self.applicationArn = applicationArn
             self.applicationProviderArn = applicationProviderArn
             self.createdDate = createdDate
+            self.createdFrom = createdFrom
             self.description = description
             self.instanceArn = instanceArn
             self.name = name
@@ -451,6 +502,7 @@ extension SSOAdmin {
             case applicationArn = "ApplicationArn"
             case applicationProviderArn = "ApplicationProviderArn"
             case createdDate = "CreatedDate"
+            case createdFrom = "CreatedFrom"
             case description = "Description"
             case instanceArn = "InstanceArn"
             case name = "Name"
@@ -548,10 +600,10 @@ extension SSOAdmin {
             try self.customerManagedPolicyReference.validate(name: "\(name).customerManagedPolicyReference")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -583,13 +635,13 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
-            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -679,7 +731,7 @@ extension SSOAdmin {
             try self.validate(self.authorizedAudiences, name: "authorizedAudiences", parent: name, min: 1)
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
-            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -715,10 +767,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -769,7 +821,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -819,7 +871,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, max: 1224)
             try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, min: 10)
-            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
@@ -827,7 +879,7 @@ extension SSOAdmin {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S\\s]*$")
@@ -880,7 +932,7 @@ extension SSOAdmin {
             try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -971,7 +1023,7 @@ extension SSOAdmin {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -1041,7 +1093,7 @@ extension SSOAdmin {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -1130,10 +1182,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -1181,7 +1233,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.scope, name: "scope", parent: name, pattern: "^([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}$")
         }
 
@@ -1209,7 +1261,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -1241,7 +1293,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1265,7 +1317,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1286,7 +1338,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1313,10 +1365,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1341,7 +1393,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1365,7 +1417,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1392,10 +1444,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1423,10 +1475,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1451,7 +1503,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
-            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1481,7 +1533,7 @@ extension SSOAdmin {
             try self.validate(self.accountAssignmentCreationRequestId, name: "accountAssignmentCreationRequestId", parent: name, pattern: "^\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1522,7 +1574,7 @@ extension SSOAdmin {
             try self.validate(self.accountAssignmentDeletionRequestId, name: "accountAssignmentDeletionRequestId", parent: name, pattern: "^\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1563,7 +1615,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -1610,7 +1662,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, max: 1224)
             try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, min: 10)
-            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
+            try self.validate(self.applicationProviderArn, name: "applicationProviderArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1656,7 +1708,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1673,6 +1725,8 @@ extension SSOAdmin {
         public let applicationProviderArn: String?
         /// The date the application was created.
         public let createdDate: Date?
+        /// The Amazon Web Services Region where the application was created in IAM Identity Center.
+        public let createdFrom: String?
         /// The description of the .
         public let description: String?
         /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
@@ -1685,11 +1739,12 @@ extension SSOAdmin {
         public let status: ApplicationStatus?
 
         @inlinable
-        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
+        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, createdFrom: String? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
             self.applicationAccount = applicationAccount
             self.applicationArn = applicationArn
             self.applicationProviderArn = applicationProviderArn
             self.createdDate = createdDate
+            self.createdFrom = createdFrom
             self.description = description
             self.instanceArn = instanceArn
             self.name = name
@@ -1702,6 +1757,7 @@ extension SSOAdmin {
             case applicationArn = "ApplicationArn"
             case applicationProviderArn = "ApplicationProviderArn"
             case createdDate = "CreatedDate"
+            case createdFrom = "CreatedFrom"
             case description = "Description"
             case instanceArn = "InstanceArn"
             case name = "Name"
@@ -1722,7 +1778,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1764,7 +1820,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1829,7 +1885,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.provisionPermissionSetRequestId, name: "provisionPermissionSetRequestId", parent: name, max: 36)
             try self.validate(self.provisionPermissionSetRequestId, name: "provisionPermissionSetRequestId", parent: name, min: 36)
             try self.validate(self.provisionPermissionSetRequestId, name: "provisionPermissionSetRequestId", parent: name, pattern: "^\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b$")
@@ -1870,10 +1926,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1896,6 +1952,59 @@ extension SSOAdmin {
         }
     }
 
+    public struct DescribeRegionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+        public let instanceArn: String
+        /// The name of the Amazon Web Services Region to retrieve information about. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1).
+        public let regionName: String
+
+        @inlinable
+        public init(instanceArn: String, regionName: String) {
+            self.instanceArn = instanceArn
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 1)
+            try self.validate(self.regionName, name: "regionName", parent: name, pattern: "^([a-z]+-){2,3}\\d$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct DescribeRegionResponse: AWSDecodableShape {
+        /// The timestamp when the Region was added to the IAM Identity Center instance. For the primary Region, this is the IAM Identity Center instance creation time.
+        public let addedDate: Date?
+        /// Indicates whether this is the primary Region where the IAM Identity Center instance was originally enabled. For more information on the difference between the primary Region and additional Regions, see IAM Identity Center User Guide
+        public let isPrimaryRegion: Bool?
+        /// The Amazon Web Services Region name.
+        public let regionName: String?
+        /// The current status of the Region. Valid values are ACTIVE (Region is operational), ADDING (Region replication workflow is in progress), or REMOVING (Region removal workflow is in progress).
+        public let status: RegionStatus?
+
+        @inlinable
+        public init(addedDate: Date? = nil, isPrimaryRegion: Bool? = nil, regionName: String? = nil, status: RegionStatus? = nil) {
+            self.addedDate = addedDate
+            self.isPrimaryRegion = isPrimaryRegion
+            self.regionName = regionName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addedDate = "AddedDate"
+            case isPrimaryRegion = "IsPrimaryRegion"
+            case regionName = "RegionName"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeTrustedTokenIssuerRequest: AWSEncodableShape {
         /// Specifies the ARN of the trusted token issuer configuration that you want details about.
         public let trustedTokenIssuerArn: String
@@ -1908,7 +2017,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
-            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1961,10 +2070,10 @@ extension SSOAdmin {
             try self.customerManagedPolicyReference.validate(name: "\(name).customerManagedPolicyReference")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1996,13 +2105,13 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
-            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2053,7 +2162,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-[bcd]):kms:([a-z]{2,}(-[a-z0-9]+)+){1}:[0-9]{12}:key/(mrk-[a-f0-9]{32}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:kms:([a-z]{2,}(-[a-z0-9]+)+){1}:[0-9]{12}:key/(mrk-[a-f0-9]{32}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2103,7 +2212,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.scope, name: "scope", parent: name, pattern: "^([A-Za-z0-9_]{1,50})(:[A-Za-z0-9_]{1,50}){0,1}(:[A-Za-z0-9_]{1,50}){0,1}$")
         }
 
@@ -2143,7 +2252,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2180,7 +2289,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2218,7 +2327,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2253,7 +2362,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2290,10 +2399,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2331,10 +2440,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2491,7 +2600,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2545,7 +2654,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2626,7 +2735,7 @@ extension SSOAdmin {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2691,14 +2800,14 @@ extension SSOAdmin {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2752,14 +2861,14 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2807,7 +2916,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2851,7 +2960,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2887,7 +2996,7 @@ extension SSOAdmin {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2943,7 +3052,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2990,7 +3099,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
         }
@@ -3034,7 +3143,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
         }
@@ -3124,7 +3233,7 @@ extension SSOAdmin {
             try self.validate(self.applicationAccount, name: "applicationAccount", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.applicationProvider, name: "applicationProvider", parent: name, max: 1224)
             try self.validate(self.applicationProvider, name: "applicationProvider", parent: name, min: 10)
-            try self.validate(self.applicationProvider, name: "applicationProvider", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
+            try self.validate(self.applicationProvider, name: "applicationProvider", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::aws:applicationProvider/[a-zA-Z0-9-/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3155,7 +3264,7 @@ extension SSOAdmin {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -3209,14 +3318,14 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3309,14 +3418,14 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3366,7 +3475,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -3426,7 +3535,7 @@ extension SSOAdmin {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -3478,7 +3587,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -3510,6 +3619,56 @@ extension SSOAdmin {
         }
     }
 
+    public struct ListRegionsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+        public let instanceArn: String
+        /// The maximum number of results to return in a single call. Default is 100.
+        public let maxResults: Int?
+        /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceArn = instanceArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRegionsResponse: AWSDecodableShape {
+        /// The pagination token to be used in subsequent calls. If the value is null, then there are no more entries.
+        public let nextToken: String?
+        /// The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.
+        public let regions: [RegionMetadata]?
+
+        @inlinable
+        public init(nextToken: String? = nil, regions: [RegionMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case regions = "Regions"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
@@ -3528,12 +3687,12 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3579,7 +3738,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -3800,7 +3959,7 @@ extension SSOAdmin {
             try self.customerManagedPolicyReference?.validate(name: "\(name).customerManagedPolicyReference")
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, max: 2048)
             try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, min: 20)
-            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
+            try self.validate(self.managedPolicyArn, name: "managedPolicyArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:iam::aws:policy((/[A-Za-z0-9\\.,\\+@=_-]+)*)/([A-Za-z0-9\\.,\\+=@_-]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3852,10 +4011,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.validate(self.targetId, name: "targetId", parent: name, max: 12)
             try self.validate(self.targetId, name: "targetId", parent: name, min: 12)
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^\\d{12}$")
@@ -3901,11 +4060,11 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.authorizedTargets?.forEach {
                 try validate($0, name: "authorizedTargets[]", parent: name, max: 100)
                 try validate($0, name: "authorizedTargets[]", parent: name, min: 1)
-                try validate($0, name: "authorizedTargets[]", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}|:instance/(sso)?ins-[a-zA-Z0-9-.]{16})$")
+                try validate($0, name: "authorizedTargets[]", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}|:instance/(sso)?ins-[a-zA-Z0-9-.]{16})$")
             }
             try self.validate(self.authorizedTargets, name: "authorizedTargets", parent: name, max: 10)
             try self.validate(self.authorizedTargets, name: "authorizedTargets", parent: name, min: 1)
@@ -3934,7 +4093,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3965,7 +4124,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3993,7 +4152,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.grant.validate(name: "\(name).grant")
         }
 
@@ -4019,7 +4178,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4053,10 +4212,10 @@ extension SSOAdmin {
             try self.validate(self.inlinePolicy, name: "inlinePolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4088,11 +4247,11 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.permissionsBoundary.validate(name: "\(name).permissionsBoundary")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4108,6 +4267,73 @@ extension SSOAdmin {
 
     public struct RefreshTokenGrant: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RegionMetadata: AWSDecodableShape {
+        /// The timestamp when the Region was added to the IAM Identity Center instance. For the primary Region, this is the instance creation time.
+        public let addedDate: Date?
+        /// Indicates whether this is the primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.
+        public let isPrimaryRegion: Bool?
+        /// The Amazon Web Services Region name.
+        public let regionName: String?
+        /// The current status of the Region. Valid values are ACTIVE (Region is operational), ADDING (Region extension workflow is in progress), or REMOVING (Region removal workflow is in progress).
+        public let status: RegionStatus?
+
+        @inlinable
+        public init(addedDate: Date? = nil, isPrimaryRegion: Bool? = nil, regionName: String? = nil, status: RegionStatus? = nil) {
+            self.addedDate = addedDate
+            self.isPrimaryRegion = isPrimaryRegion
+            self.regionName = regionName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addedDate = "AddedDate"
+            case isPrimaryRegion = "IsPrimaryRegion"
+            case regionName = "RegionName"
+            case status = "Status"
+        }
+    }
+
+    public struct RemoveRegionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+        public let instanceArn: String
+        /// The name of the Amazon Web Services Region to remove from the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). The primary Region cannot be removed.
+        public let regionName: String
+
+        @inlinable
+        public init(instanceArn: String, regionName: String) {
+            self.instanceArn = instanceArn
+            self.regionName = regionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 1)
+            try self.validate(self.regionName, name: "regionName", parent: name, pattern: "^([a-z]+-){2,3}\\d$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+            case regionName = "RegionName"
+        }
+    }
+
+    public struct RemoveRegionResponse: AWSDecodableShape {
+        /// The status of the Region after the remove operation. The status is REMOVING when the asynchronous workflow is in progress. The Region record is deleted when the workflow completes.
+        public let status: RegionStatus?
+
+        @inlinable
+        public init(status: RegionStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
@@ -4245,10 +4471,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4327,10 +4553,10 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 10)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::((:instance/(sso)?ins-[a-zA-Z0-9-.]{16})|(:permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16})|(\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16})|(\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}))$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -4392,7 +4618,7 @@ extension SSOAdmin {
         public func validate(name: String) throws {
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 1224)
             try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 10)
-            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 100)
@@ -4430,7 +4656,7 @@ extension SSOAdmin {
             try self.instanceAccessControlAttributeConfiguration.validate(name: "\(name).instanceAccessControlAttributeConfiguration")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4444,7 +4670,7 @@ extension SSOAdmin {
     }
 
     public struct UpdateInstanceRequest: AWSEncodableShape {
-        /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys (CMK) or Amazon Web Services owned KMS keys for encrypting your instance data.
+        /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String
@@ -4462,7 +4688,7 @@ extension SSOAdmin {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
         }
@@ -4505,10 +4731,10 @@ extension SSOAdmin {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 1224)
             try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 10)
-            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, max: 1224)
             try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, min: 10)
-            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
+            try self.validate(self.permissionSetArn, name: "permissionSetArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso:::permissionSet/(sso)?ins-[a-zA-Z0-9-.]{16}/ps-[a-zA-Z0-9-./]{16}$")
             try self.validate(self.relayState, name: "relayState", parent: name, max: 240)
             try self.validate(self.relayState, name: "relayState", parent: name, min: 1)
             try self.validate(self.relayState, name: "relayState", parent: name, pattern: "^[a-zA-Z0-9&$@#\\\\\\/%?=~\\-_'\"|!:,.;*+\\[\\]\\ \\(\\)\\{\\}]+$")
@@ -4551,7 +4777,7 @@ extension SSOAdmin {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w+=,.@-]+$")
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, max: 1224)
             try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, min: 10)
-            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.trustedTokenIssuerArn, name: "trustedTokenIssuerArn", parent: name, pattern: "^arn:aws(-[a-z]{1,5}){0,3}:sso::\\d{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.trustedTokenIssuerConfiguration?.validate(name: "\(name).trustedTokenIssuerConfiguration")
         }
 

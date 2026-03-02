@@ -101,6 +101,7 @@ public struct KafkaConnect: AWSService {
     ///   - kafkaClusterEncryptionInTransit: Details of encryption in transit to the Apache Kafka cluster.
     ///   - kafkaConnectVersion: The version of Kafka Connect. It has to be compatible with both the Apache Kafka cluster's version and the plugins.
     ///   - logDelivery: Details about log delivery.
+    ///   - networkType: The network type of the connector. It gives connectors connectivity to either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
     ///   - plugins:  Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together.  Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object.
     ///   - serviceExecutionRoleArn: The Amazon Resource Name (ARN) of the IAM role used by the connector to access the Amazon Web Services resources that it needs. The types of resources depends on the logic of the connector. For example, a connector that has Amazon S3 as a destination must have permissions that allow it to write to the S3 destination bucket.
     ///   - tags: The tags you want to attach to the connector.
@@ -117,6 +118,7 @@ public struct KafkaConnect: AWSService {
         kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit,
         kafkaConnectVersion: String,
         logDelivery: LogDelivery? = nil,
+        networkType: NetworkType? = nil,
         plugins: [Plugin],
         serviceExecutionRoleArn: String,
         tags: [String: String]? = nil,
@@ -133,6 +135,7 @@ public struct KafkaConnect: AWSService {
             kafkaClusterEncryptionInTransit: kafkaClusterEncryptionInTransit, 
             kafkaConnectVersion: kafkaConnectVersion, 
             logDelivery: logDelivery, 
+            networkType: networkType, 
             plugins: plugins, 
             serviceExecutionRoleArn: serviceExecutionRoleArn, 
             tags: tags, 
@@ -659,7 +662,7 @@ public struct KafkaConnect: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the specified connector.
+    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration.
     @Sendable
     @inlinable
     public func updateConnector(_ input: UpdateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectorResponse {
@@ -672,7 +675,7 @@ public struct KafkaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified connector.
+    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration.
     ///
     /// Parameters:
     ///   - capacity: The target capacity.

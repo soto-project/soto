@@ -873,6 +873,7 @@ public struct Bedrock: AWSService {
     ///   - inputDataConfig: Details about the location of the input to the batch inference job.
     ///   - jobName: A name to give the batch inference job.
     ///   - modelId: The unique identifier of the foundation model to use for the batch inference job.
+    ///   - modelInvocationType: The invocation endpoint for ModelInvocationJob
     ///   - outputDataConfig: Details about the location of the output of the batch inference job.
     ///   - roleArn: The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
     ///   - tags: Any tags to associate with the batch inference job. For more information, see Tagging Amazon Bedrock resources.
@@ -885,6 +886,7 @@ public struct Bedrock: AWSService {
         inputDataConfig: ModelInvocationJobInputDataConfig,
         jobName: String,
         modelId: String,
+        modelInvocationType: ModelInvocationType? = nil,
         outputDataConfig: ModelInvocationJobOutputDataConfig,
         roleArn: String,
         tags: [Tag]? = nil,
@@ -897,6 +899,7 @@ public struct Bedrock: AWSService {
             inputDataConfig: inputDataConfig, 
             jobName: jobName, 
             modelId: modelId, 
+            modelInvocationType: modelInvocationType, 
             outputDataConfig: outputDataConfig, 
             roleArn: roleArn, 
             tags: tags, 
@@ -1585,18 +1588,21 @@ public struct Bedrock: AWSService {
     /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
     ///
     /// Parameters:
-    ///   - assetType: The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION).
+    ///   - assetId: The unique identifier of the specific asset to retrieve when multiple assets of the same type exist. This is required when retrieving SOURCE_DOCUMENT assets, as multiple source documents may have been used in the workflow. The asset ID can be obtained from the asset manifest.
+    ///   - assetType: The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_REPORT, ASSET_MANIFEST, SOURCE_DOCUMENT).
     ///   - buildWorkflowId: The unique identifier of the build workflow whose result assets you want to retrieve.
     ///   - policyArn: The Amazon Resource Name (ARN) of the Automated Reasoning policy whose build workflow assets you want to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAutomatedReasoningPolicyBuildWorkflowResultAssets(
+        assetId: String? = nil,
         assetType: AutomatedReasoningPolicyBuildResultAssetType,
         buildWorkflowId: String,
         policyArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse {
         let input = GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest(
+            assetId: assetId, 
             assetType: assetType, 
             buildWorkflowId: buildWorkflowId, 
             policyArn: policyArn

@@ -143,7 +143,7 @@ public struct Health: AWSService {
     /// Parameters:
     ///   - filter: Values to narrow the results returned. At least one event ARN is required.
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - nextToken: If the results of a search are large, only a portion of the
     ///   - logger: Logger use during operation
     @inlinable
@@ -180,7 +180,7 @@ public struct Health: AWSService {
     ///
     /// Parameters:
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - nextToken: If the results of a search are large, only a portion of the
     ///   - organizationEntityAccountFilters: A JSON set of elements including the awsAccountId, eventArn and a set of statusCodes.
     ///   - logger: Logger use during operation
@@ -420,7 +420,7 @@ public struct Health: AWSService {
     /// Parameters:
     ///   - filter: Values to narrow the results returned.
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - nextToken: If the results of a search are large, only a portion of the
     ///   - logger: Logger use during operation
     @inlinable
@@ -458,7 +458,7 @@ public struct Health: AWSService {
     /// Parameters:
     ///   - filter: Values to narrow the results returned.
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - nextToken: If the results of a search are large, only a portion of the
     ///   - logger: Logger use during operation
     @inlinable
@@ -591,7 +591,7 @@ extension Health {
     /// - Parameters:
     ///   - filter: Values to narrow the results returned. At least one event ARN is required.
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeAffectedEntitiesPaginator(
@@ -630,7 +630,7 @@ extension Health {
     ///
     /// - Parameters:
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - organizationEntityAccountFilters: A JSON set of elements including the awsAccountId, eventArn and a set of statusCodes.
     ///   - logger: Logger used for logging
     @inlinable
@@ -751,7 +751,7 @@ extension Health {
     /// - Parameters:
     ///   - filter: Values to narrow the results returned.
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeEventsPaginator(
@@ -791,7 +791,7 @@ extension Health {
     /// - Parameters:
     ///   - filter: Values to narrow the results returned.
     ///   - locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-    ///   - maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    ///   - maxResults: The maximum number of items to return in one batch, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeEventsForOrganizationPaginator(

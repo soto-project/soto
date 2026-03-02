@@ -95,6 +95,7 @@ public struct SageMaker: AWSService {
             "ap-southeast-3": "api-fips.sagemaker.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "api-fips.sagemaker.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "api-fips.sagemaker.ap-southeast-5.amazonaws.com",
+            "ap-southeast-6": "api-fips.sagemaker.ap-southeast-6.amazonaws.com",
             "ap-southeast-7": "api-fips.sagemaker.ap-southeast-7.amazonaws.com",
             "ca-central-1": "api-fips.sagemaker.ca-central-1.amazonaws.com",
             "ca-west-1": "api-fips.sagemaker.ca-west-1.amazonaws.com",
@@ -794,7 +795,7 @@ public struct SageMaker: AWSService {
     ///   - instanceGroups: The instance groups to be created in the SageMaker HyperPod cluster.
     ///   - nodeProvisioningMode: The mode for provisioning nodes in the cluster. You can specify the following modes:    Continuous: Scaling behavior that enables 1) concurrent operation execution within instance groups, 2) continuous retry mechanisms for failed operations, 3) enhanced customer visibility into cluster events through detailed event streams, 4) partial provisioning capabilities. Your clusters and instance groups remain InService while scaling. This mode is only supported for EKS orchestrated clusters.
     ///   - nodeRecovery: The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
-    ///   - orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service cluster as the orchestrator.
+    ///   - orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, supported values are "Eks" and "Slurm", which is to use an Amazon Elastic Kubernetes Service or Slurm cluster as the orchestrator.  If you specify the Orchestrator field, you must provide exactly one orchestrator configuration: either Eks or Slurm. Specifying both or providing an empty configuration returns a validation error.
     ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     ///   - tags: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
     ///   - tieredStorageConfig: The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
@@ -2739,7 +2740,7 @@ public struct SageMaker: AWSService {
         return try await self.createNotebookInstance(input, logger: logger)
     }
 
-    /// Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin. View Amazon CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
+    /// Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin. View Amazon CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.  Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
     @Sendable
     @inlinable
     public func createNotebookInstanceLifecycleConfig(_ input: CreateNotebookInstanceLifecycleConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotebookInstanceLifecycleConfigOutput {
@@ -2752,7 +2753,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin. View Amazon CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
+    /// Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin. View Amazon CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.  Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
     ///
     /// Parameters:
     ///   - notebookInstanceLifecycleConfigName: The name of the lifecycle configuration.
@@ -12765,7 +12766,7 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
-    ///   - mlflowExperimentName:  The MLflow experiment name of the start execution.
+    ///   - mlflowExperimentName:  The MLflow experiment name of the pipeline execution.
     ///   - parallelismConfiguration: This configuration, if specified, overrides the parallelism configuration of the parent pipeline for this specific run.
     ///   - pipelineExecutionDescription: The description of the pipeline execution.
     ///   - pipelineExecutionDisplayName: The display name of the pipeline execution.
@@ -13452,6 +13453,7 @@ public struct SageMaker: AWSService {
     ///   - instanceGroupsToDelete: Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
     ///   - nodeProvisioningMode: Determines how instance provisioning is handled during cluster operations. In Continuous mode, the cluster provisions available instances incrementally and retries until the target count is reached. The cluster becomes operational once cluster-level resources are ready. Use CurrentCount and TargetCount in DescribeCluster to track provisioning progress.
     ///   - nodeRecovery: The node recovery mode to be applied to the SageMaker HyperPod cluster.
+    ///   - orchestrator: 
     ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     ///   - tieredStorageConfig: Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
     ///   - logger: Logger use during operation
@@ -13464,6 +13466,7 @@ public struct SageMaker: AWSService {
         instanceGroupsToDelete: [String]? = nil,
         nodeProvisioningMode: ClusterNodeProvisioningMode? = nil,
         nodeRecovery: ClusterNodeRecovery? = nil,
+        orchestrator: ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
         tieredStorageConfig: ClusterTieredStorageConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -13476,6 +13479,7 @@ public struct SageMaker: AWSService {
             instanceGroupsToDelete: instanceGroupsToDelete, 
             nodeProvisioningMode: nodeProvisioningMode, 
             nodeRecovery: nodeRecovery, 
+            orchestrator: orchestrator, 
             restrictedInstanceGroups: restrictedInstanceGroups, 
             tieredStorageConfig: tieredStorageConfig
         )
@@ -14589,7 +14593,7 @@ public struct SageMaker: AWSService {
         return try await self.updateMonitoringSchedule(input, logger: logger)
     }
 
-    /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
+    /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.  This API can attach lifecycle configurations to notebook instances. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Principals with this permission and access to lifecycle configurations can execute code with the execution role's credentials. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
     @Sendable
     @inlinable
     public func updateNotebookInstance(_ input: UpdateNotebookInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotebookInstanceOutput {
@@ -14602,7 +14606,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
+    /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.  This API can attach lifecycle configurations to notebook instances. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Principals with this permission and access to lifecycle configurations can execute code with the execution role's credentials. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
     ///
     /// Parameters:
     ///   - acceleratorTypes: This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance.
@@ -14663,7 +14667,7 @@ public struct SageMaker: AWSService {
         return try await self.updateNotebookInstance(input, logger: logger)
     }
 
-    /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
+    /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.  Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
     @Sendable
     @inlinable
     public func updateNotebookInstanceLifecycleConfig(_ input: UpdateNotebookInstanceLifecycleConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotebookInstanceLifecycleConfigOutput {
@@ -14676,7 +14680,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.
+    /// Updates a notebook instance lifecycle configuration created with the CreateNotebookInstanceLifecycleConfig API.  Updates to lifecycle configurations affect all notebook instances using that configuration upon their next start. Lifecycle configuration scripts execute with root access and the notebook instance's IAM execution role privileges. Grant this permission only to trusted principals. See Customize a Notebook Instance Using a Lifecycle Configuration Script for security best practices.
     ///
     /// Parameters:
     ///   - notebookInstanceLifecycleConfigName: The name of the lifecycle configuration.

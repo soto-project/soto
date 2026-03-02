@@ -87,6 +87,13 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeletionProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "none"
+        case preventAllDeletion = "prevent-all-deletion"
+        case preventForceDeletion = "prevent-force-deletion"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImpairedZoneHealthCheckBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ignoreUnhealthy = "IgnoreUnhealthy"
         case replaceUnhealthy = "ReplaceUnhealthy"
@@ -615,84 +622,86 @@ extension AutoScaling {
         public let autoScalingGroupARN: String?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
-        ///  The instance capacity distribution across Availability Zones.
+        /// The EC2 instance capacity distribution across Availability Zones for the Auto Scaling group.
         public let availabilityZoneDistribution: AvailabilityZoneDistribution?
-        ///  The Availability Zone impairment policy.
+        /// The Availability Zone impairment policy for the Auto Scaling group.
         public let availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy?
-        /// One or more Availability Zones for the group.
+        /// One or more Availability Zones for the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
         /// Indicates whether Capacity Rebalancing is enabled.
         public let capacityRebalance: Bool?
-        ///  The capacity reservation specification.
+        /// The capacity reservation specification for the Auto Scaling group.
         public let capacityReservationSpecification: CapacityReservationSpecification?
         /// Reserved.
         public let context: String?
-        /// The date and time the group was created.
+        /// The date and time the Auto Scaling group was created.
         public let createdTime: Date?
-        /// The duration of the default cooldown period, in seconds.
+        /// The duration of the default cooldown period, in seconds, for the Auto Scaling group.
         public let defaultCooldown: Int?
-        /// The duration of the default instance warmup, in seconds.
+        /// The duration of the default EC2 instance warmup time, in seconds, for the Auto Scaling group.
         public let defaultInstanceWarmup: Int?
-        /// The desired size of the group.
+        /// The deletion protection setting for the Auto Scaling group.
+        public let deletionProtection: DeletionProtection?
+        /// The desired size of the Auto Scaling group.
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only.
         public let desiredCapacityType: String?
-        /// The metrics enabled for the group.
+        /// The metrics enabled for the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<EnabledMetric>>
         public var enabledMetrics: [EnabledMetric]?
-        /// The duration of the health check grace period, in seconds.
+        /// The duration of the health check grace period, in seconds, for the Auto Scaling group.
         public let healthCheckGracePeriod: Int?
-        /// A comma-separated value string of one or more health check types.
+        /// One or more comma-separated health check types for the Auto Scaling group.
         public let healthCheckType: String?
-        ///  The instance lifecycle policy applied to this Auto Scaling group. This policy determines  instance behavior when an instance transitions through its lifecycle states. It provides additional  control over graceful instance management processes.
+        /// The instance lifecycle policy for the Auto Scaling group.
         public let instanceLifecyclePolicy: InstanceLifecyclePolicy?
         /// An instance maintenance policy.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
-        /// The EC2 instances associated with the group.
+        /// The EC2 instances associated with the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<Instance>>
         public var instances: [Instance]?
-        /// The name of the associated launch configuration.
+        /// The name of the associated launch configuration for the Auto Scaling group.
         public let launchConfigurationName: String?
-        /// The launch template for the group.
+        /// The launch template for the Auto Scaling group.
         public let launchTemplate: LaunchTemplateSpecification?
         /// One or more load balancers associated with the group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var loadBalancerNames: [String]?
-        /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 0.
+        /// The maximum amount of time, in seconds, that an EC2 instance can be in service for the Auto Scaling group.
         public let maxInstanceLifetime: Int?
-        /// The maximum size of the group.
+        /// The maximum size of the Auto Scaling group.
         public let maxSize: Int?
-        /// The minimum size of the group.
+        /// The minimum size of the Auto Scaling group.
         public let minSize: Int?
         /// The mixed instances policy for the group.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in,  see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether newly launched EC2 instances are protected from termination when scaling in for the Auto Scaling group.  For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
-        /// The name of the placement group into which to launch your instances, if any.
+        /// The name of the placement group into which to launch EC2 instances for the Auto Scaling group.
         public let placementGroup: String?
         /// The predicted capacity of the group when it has a predictive scaling policy.
         public let predictedCapacity: Int?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf.
         public let serviceLinkedRoleARN: String?
-        /// The current state of the group when the DeleteAutoScalingGroup operation is in progress.
+        /// The current state of the Auto Scaling group when the DeleteAutoScalingGroup operation is in progress.
         public let status: String?
-        /// The suspended processes associated with the group.
+        /// The suspended processes associated with the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<SuspendedProcess>>
         public var suspendedProcesses: [SuspendedProcess]?
-        /// The tags for the group.
+        /// The tags for the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<TagDescription>>
         public var tags: [TagDescription]?
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var targetGroupARNs: [String]?
-        /// The termination policies for the group.
+        /// The termination policies for the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicies: [String]?
         /// The traffic sources associated with this Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder<TrafficSourceIdentifier>>
         public var trafficSources: [TrafficSourceIdentifier]?
-        /// One or more subnet IDs, if applicable, separated by commas.
+        /// One or more comma-separated subnet IDs for the Auto Scaling group.
         public let vpcZoneIdentifier: String?
         /// The warm pool for the group.
         public let warmPoolConfiguration: WarmPoolConfiguration?
@@ -700,7 +709,7 @@ extension AutoScaling {
         public let warmPoolSize: Int?
 
         @inlinable
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
@@ -712,6 +721,7 @@ extension AutoScaling {
             self.createdTime = createdTime
             self.defaultCooldown = defaultCooldown
             self.defaultInstanceWarmup = defaultInstanceWarmup
+            self.deletionProtection = deletionProtection
             self.desiredCapacity = desiredCapacity
             self.desiredCapacityType = desiredCapacityType
             self.enabledMetrics = enabledMetrics
@@ -754,6 +764,7 @@ extension AutoScaling {
             case createdTime = "CreatedTime"
             case defaultCooldown = "DefaultCooldown"
             case defaultInstanceWarmup = "DefaultInstanceWarmup"
+            case deletionProtection = "DeletionProtection"
             case desiredCapacity = "DesiredCapacity"
             case desiredCapacityType = "DesiredCapacityType"
             case enabledMetrics = "EnabledMetrics"
@@ -865,7 +876,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template for the instance.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see Amazon EC2 Auto Scaling instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminated | Warmed:Stopped | Warmed:Running
+        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see Amazon EC2 Auto Scaling instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminating:Retained | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Pending:Retained | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminating:Retained | Warmed:Terminated | Warmed:Stopped | Warmed:Running
         public let lifecycleState: String?
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool?
@@ -1312,6 +1323,8 @@ extension AutoScaling {
         public let defaultCooldown: Int?
         /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.  Default: None
         public let defaultInstanceWarmup: Int?
+        ///  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none
+        public let deletionProtection: DeletionProtection?
         /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Create a mixed instances group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
@@ -1322,7 +1335,7 @@ extension AutoScaling {
         public let healthCheckType: String?
         /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Create an Auto Scaling group using parameters from an existing instance in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
-        ///  The instance lifecycle policy for the Auto Scaling group. This policy controls instance  behavior when an instance transitions through its lifecycle states. Configure retention  triggers to specify when instances should move to a Retained  state for manual intervention instead of automatic termination.   Instances in a Retained state will continue to incur standard EC2 charges until terminated.
+        ///  The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination.  For more information, see  Control instance retention with instance lifecycle policies in the Amazon EC2 Auto Scaling User Guide.   Instances in a Retained state will continue to incur standard EC2 charges until terminated.
         public let instanceLifecyclePolicy: InstanceLifecyclePolicy?
         /// An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
@@ -1368,7 +1381,7 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
@@ -1378,6 +1391,7 @@ extension AutoScaling {
             self.context = context
             self.defaultCooldown = defaultCooldown
             self.defaultInstanceWarmup = defaultInstanceWarmup
+            self.deletionProtection = deletionProtection
             self.desiredCapacity = desiredCapacity
             self.desiredCapacityType = desiredCapacityType
             self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -1474,6 +1488,7 @@ extension AutoScaling {
             case context = "Context"
             case defaultCooldown = "DefaultCooldown"
             case defaultInstanceWarmup = "DefaultInstanceWarmup"
+            case deletionProtection = "DeletionProtection"
             case desiredCapacity = "DesiredCapacity"
             case desiredCapacityType = "DesiredCapacityType"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
@@ -2316,11 +2331,14 @@ extension AutoScaling {
     }
 
     public struct DescribeScalingActivitiesType: AWSEncodableShape {
-        /// The activity IDs of the desired scaling activities. If you omit this property, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
+        ///  The activity IDs of the desired scaling activities. If unknown activity IDs are requested, they are ignored with no error. Only activities started within the last six weeks can be returned regardless of the activity IDs specified. If other filters are specified with the request, only results matching all filter criteria can be returned.  Array Members: Maximum number of 50 IDs.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var activityIds: [String]?
-        /// The name of the Auto Scaling group.
+        /// The name of the Auto Scaling group.   Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
         public let autoScalingGroupName: String?
+        ///  One or more filters to limit the results based on specific criteria. The following filters are supported:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.
+        @OptionalCustomCoding<StandardArrayCoder<Filter>>
+        public var filters: [Filter]?
         /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
         public let includeDeletedGroups: Bool?
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -2329,9 +2347,10 @@ extension AutoScaling {
         public let nextToken: String?
 
         @inlinable
-        public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, includeDeletedGroups: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+        public init(activityIds: [String]? = nil, autoScalingGroupName: String? = nil, filters: [Filter]? = nil, includeDeletedGroups: Bool? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
             self.activityIds = activityIds
             self.autoScalingGroupName = autoScalingGroupName
+            self.filters = filters
             self.includeDeletedGroups = includeDeletedGroups
             self.maxRecords = maxRecords
             self.nextToken = nextToken
@@ -2344,12 +2363,16 @@ extension AutoScaling {
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case activityIds = "ActivityIds"
             case autoScalingGroupName = "AutoScalingGroupName"
+            case filters = "Filters"
             case includeDeletedGroups = "IncludeDeletedGroups"
             case maxRecords = "MaxRecords"
             case nextToken = "NextToken"
@@ -3020,9 +3043,9 @@ extension AutoScaling {
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter (DescribeAutoScalingGroups or  DescribeTags).  DescribeAutoScalingGroups  Valid values for Name include the following:     tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.     tag-value - Accepts tag values. The results only include information about the Auto Scaling groups associated with these tag values.     tag: - Accepts the key/value combination of the tag. Use the tag key in the filter name and the tag value as the filter value. The results only include information about the Auto Scaling groups associated with the specified key/value combination.     DescribeTags  Valid values for Name include the following:     auto-scaling-group - Accepts the names of Auto Scaling groups. The results only include information about the tags associated with these Auto Scaling groups.     key - Accepts tag keys. The results only include information about the tags associated with these tag keys.     value - Accepts tag values. The results only include information about the tags associated with these tag values.     propagate-at-launch - Accepts a Boolean value, which specifies whether tags propagate to instances at launch. The results only include information about the tags associated with the specified Boolean value.
+        /// The name of the filter.  The valid values for Name depend on which API operation you're using with the filter.    DescribeAutoScalingGroups   Valid values for Name include the following:     tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.     tag-value - Accepts tag values. The results only include information about the Auto Scaling groups associated with these tag values.     tag: - Accepts the key/value combination of the tag. Use the tag key in the filter name and the tag value as the filter value. The results only include information about the Auto Scaling groups associated with the specified key/value combination.      DescribeTags   Valid values for Name include the following:     auto-scaling-group - Accepts the names of Auto Scaling groups. The results only include information about the tags associated with these Auto Scaling groups.     key - Accepts tag keys. The results only include information about the tags associated with these tag keys.     value - Accepts tag values. The results only include information about the tags associated with these tag values.     propagate-at-launch - Accepts a Boolean value, which specifies whether tags propagate to instances at launch. The results only include information about the tags associated with the specified Boolean value.      DescribeScalingActivities   Valid values for Name include the following:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.
         public let name: String?
-        /// One or more filter values. Filter values are case-sensitive.  If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. For example, specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development".
+        /// One or more filter values. Filter values are case-sensitive.  If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values.  DescribeAutoScalingGroups example: Specify "tag:environment"  for the filter name and "production,development" for the filter values to find Auto Scaling groups with  the tag "environment=production" or "environment=development".   DescribeScalingActivities example: Specify "Status" for the  filter name and "Successful,Failed" for the filter values to find scaling activities with a  status of either "Successful" or "Failed".
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
@@ -3189,7 +3212,7 @@ extension AutoScaling {
     }
 
     public struct InstanceLifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
-        ///  Specifies the conditions that trigger instance retention behavior. These triggers determine when instances  should move to a Retained state instead of being terminated. This allows you to maintain control over  instance management when lifecycle operations fail.
+        ///  Specifies the conditions that trigger instance retention behavior. These triggers determine when instances  should move to a Retained state instead of automatic termination. This allows you to maintain control over instance management when lifecycles transition and operations fail.
         public let retentionTriggers: RetentionTriggers?
 
         @inlinable
@@ -5158,7 +5181,7 @@ extension AutoScaling {
     }
 
     public struct RetentionTriggers: AWSEncodableShape & AWSDecodableShape {
-        ///  Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction).   Set to Retain to move instances to a Retained state. Set to Terminate for default termination behavior.   Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
+        ///  Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction).   Set to retain to move instances to a retained state. Set to terminate for default termination behavior.   Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
         public let terminateHookAbandon: RetentionAction?
 
         @inlinable
@@ -5586,7 +5609,7 @@ extension AutoScaling {
         public let desiredConfiguration: DesiredConfiguration?
         /// Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum and maximum healthy percentages, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:   Auto rollback   Checkpoints   CloudWatch alarms   Skip matching   Bake time
         public let preferences: RefreshPreferences?
-        /// The strategy to use for the instance refresh. The only valid value is Rolling.
+        /// The strategy to use for the instance refresh. The default value is Rolling.
         public let strategy: RefreshStrategy?
 
         @inlinable
@@ -5982,6 +6005,8 @@ extension AutoScaling {
         public let defaultCooldown: Int?
         /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
         public let defaultInstanceWarmup: Int?
+        ///  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none
+        public let deletionProtection: DeletionProtection?
         /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Create a mixed instances group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
@@ -5990,7 +6015,7 @@ extension AutoScaling {
         public let healthCheckGracePeriod: Int?
         /// A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
-        ///  The instance lifecycle policy for the Auto Scaling group. Use this to add, modify, or remove lifecycle  policies that control instance behavior when an instance transitions through its lifecycle states. Configure  retention triggers to specify when to preserve instances for manual intervention.
+        ///  The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination.  For more information, see  Control instance retention with instance lifecycle policies in the Amazon EC2 Auto Scaling User Guide.
         public let instanceLifecyclePolicy: InstanceLifecyclePolicy?
         /// An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
@@ -6021,7 +6046,7 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
@@ -6031,6 +6056,7 @@ extension AutoScaling {
             self.context = context
             self.defaultCooldown = defaultCooldown
             self.defaultInstanceWarmup = defaultInstanceWarmup
+            self.deletionProtection = deletionProtection
             self.desiredCapacity = desiredCapacity
             self.desiredCapacityType = desiredCapacityType
             self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -6098,6 +6124,7 @@ extension AutoScaling {
             case context = "Context"
             case defaultCooldown = "DefaultCooldown"
             case defaultInstanceWarmup = "DefaultInstanceWarmup"
+            case deletionProtection = "DeletionProtection"
             case desiredCapacity = "DesiredCapacity"
             case desiredCapacityType = "DesiredCapacityType"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"

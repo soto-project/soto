@@ -3113,6 +3113,8 @@ extension CloudFront {
         public let ipAddressType: IpAddressType?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see Keep-alive timeout (custom origins only) in the Amazon CloudFront Developer Guide.
         public let originKeepaliveTimeout: Int?
+        /// Configures mutual TLS authentication between CloudFront and your origin server.
+        public let originMtlsConfig: OriginMtlsConfig?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:    http-only – CloudFront always uses HTTP to connect to the origin.    match-viewer – CloudFront connects to the origin using the same protocol that the viewer used to connect to CloudFront.    https-only – CloudFront always uses HTTPS to connect to the origin.
         public let originProtocolPolicy: OriginProtocolPolicy
         /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see Response timeout in the Amazon CloudFront Developer Guide.
@@ -3121,11 +3123,12 @@ extension CloudFront {
         public let originSslProtocols: OriginSslProtocols?
 
         @inlinable
-        public init(httpPort: Int, httpsPort: Int, ipAddressType: IpAddressType? = nil, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
+        public init(httpPort: Int, httpsPort: Int, ipAddressType: IpAddressType? = nil, originKeepaliveTimeout: Int? = nil, originMtlsConfig: OriginMtlsConfig? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
             self.ipAddressType = ipAddressType
             self.originKeepaliveTimeout = originKeepaliveTimeout
+            self.originMtlsConfig = originMtlsConfig
             self.originProtocolPolicy = originProtocolPolicy
             self.originReadTimeout = originReadTimeout
             self.originSslProtocols = originSslProtocols
@@ -3136,6 +3139,7 @@ extension CloudFront {
             case httpsPort = "HTTPSPort"
             case ipAddressType = "IpAddressType"
             case originKeepaliveTimeout = "OriginKeepaliveTimeout"
+            case originMtlsConfig = "OriginMtlsConfig"
             case originProtocolPolicy = "OriginProtocolPolicy"
             case originReadTimeout = "OriginReadTimeout"
             case originSslProtocols = "OriginSslProtocols"
@@ -9331,6 +9335,20 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct OriginMtlsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the client certificate stored in Amazon Web Services Certificate Manager (ACM) that CloudFront uses to authenticate with your origin using Mutual TLS.
+        public let clientCertificateArn: String
+
+        @inlinable
+        public init(clientCertificateArn: String) {
+            self.clientCertificateArn = clientCertificateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientCertificateArn = "ClientCertificateArn"
         }
     }
 

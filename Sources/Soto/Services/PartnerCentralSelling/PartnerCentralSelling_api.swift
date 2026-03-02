@@ -285,7 +285,7 @@ public struct PartnerCentralSelling: AWSService {
     ///   - catalog:  Specifies the catalog related to the engagement. Accepted values are AWS and Sandbox, which determine the environment in which the engagement is managed.
     ///   - clientToken:  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once. This token helps prevent duplicate invitation creations.
     ///   - engagementIdentifier:  The unique identifier of the Engagement associated with the invitation. This parameter ensures the invitation is created within the correct Engagement context.
-    ///   - invitation:  The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details.
+    ///   - invitation:  The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details, or LeadInvitation, which includes structures for customer information and interaction details.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEngagementInvitation(
@@ -1074,6 +1074,7 @@ public struct PartnerCentralSelling: AWSService {
     ///
     /// Parameters:
     ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - createdDate: Filter opportunities by creation date criteria.
     ///   - customerCompanyName: Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string.
     ///   - identifier: Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results.
     ///   - lastModifiedDate: Filters the opportunities based on their last modified date. This filter helps retrieve opportunities that were updated after the specified date, allowing partners to track recent changes or updates.
@@ -1082,10 +1083,12 @@ public struct PartnerCentralSelling: AWSService {
     ///   - maxResults: Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid providing too many results at once. Default: 20
     ///   - nextToken: A pagination token used to retrieve the next set of results in subsequent calls. This token is included in the response only if there are additional result pages available.
     ///   - sort: An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
+    ///   - targetCloseDate: Filters opportunities based on their target close date. This filter helps retrieve opportunities with an expected close date before or after a specified date.
     ///   - logger: Logger use during operation
     @inlinable
     public func listOpportunities(
         catalog: String,
+        createdDate: CreatedDateFilter? = nil,
         customerCompanyName: [String]? = nil,
         identifier: [String]? = nil,
         lastModifiedDate: LastModifiedDate? = nil,
@@ -1094,10 +1097,12 @@ public struct PartnerCentralSelling: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         sort: OpportunitySort? = nil,
+        targetCloseDate: TargetCloseDateFilter? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListOpportunitiesResponse {
         let input = ListOpportunitiesRequest(
             catalog: catalog, 
+            createdDate: createdDate, 
             customerCompanyName: customerCompanyName, 
             identifier: identifier, 
             lastModifiedDate: lastModifiedDate, 
@@ -1105,7 +1110,8 @@ public struct PartnerCentralSelling: AWSService {
             lifeCycleStage: lifeCycleStage, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            sort: sort
+            sort: sort, 
+            targetCloseDate: targetCloseDate
         )
         return try await self.listOpportunities(input, logger: logger)
     }
@@ -2131,6 +2137,7 @@ extension PartnerCentralSelling {
     ///
     /// - Parameters:
     ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
+    ///   - createdDate: Filter opportunities by creation date criteria.
     ///   - customerCompanyName: Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string.
     ///   - identifier: Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results.
     ///   - lastModifiedDate: Filters the opportunities based on their last modified date. This filter helps retrieve opportunities that were updated after the specified date, allowing partners to track recent changes or updates.
@@ -2138,10 +2145,12 @@ extension PartnerCentralSelling {
     ///   - lifeCycleStage: Filters the opportunities based on their lifecycle stage. This filter allows partners to retrieve opportunities at various stages in the sales cycle, such as Qualified, Technical Validation, Business Validation, or Closed Won.
     ///   - maxResults: Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid providing too many results at once. Default: 20
     ///   - sort: An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
+    ///   - targetCloseDate: Filters opportunities based on their target close date. This filter helps retrieve opportunities with an expected close date before or after a specified date.
     ///   - logger: Logger used for logging
     @inlinable
     public func listOpportunitiesPaginator(
         catalog: String,
+        createdDate: CreatedDateFilter? = nil,
         customerCompanyName: [String]? = nil,
         identifier: [String]? = nil,
         lastModifiedDate: LastModifiedDate? = nil,
@@ -2149,17 +2158,20 @@ extension PartnerCentralSelling {
         lifeCycleStage: [Stage]? = nil,
         maxResults: Int? = nil,
         sort: OpportunitySort? = nil,
+        targetCloseDate: TargetCloseDateFilter? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListOpportunitiesRequest, ListOpportunitiesResponse> {
         let input = ListOpportunitiesRequest(
             catalog: catalog, 
+            createdDate: createdDate, 
             customerCompanyName: customerCompanyName, 
             identifier: identifier, 
             lastModifiedDate: lastModifiedDate, 
             lifeCycleReviewStatus: lifeCycleReviewStatus, 
             lifeCycleStage: lifeCycleStage, 
             maxResults: maxResults, 
-            sort: sort
+            sort: sort, 
+            targetCloseDate: targetCloseDate
         )
         return self.listOpportunitiesPaginator(input, logger: logger)
     }
@@ -2465,6 +2477,7 @@ extension PartnerCentralSelling.ListOpportunitiesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListOpportunitiesRequest {
         return .init(
             catalog: self.catalog,
+            createdDate: self.createdDate,
             customerCompanyName: self.customerCompanyName,
             identifier: self.identifier,
             lastModifiedDate: self.lastModifiedDate,
@@ -2472,7 +2485,8 @@ extension PartnerCentralSelling.ListOpportunitiesRequest: AWSPaginateToken {
             lifeCycleStage: self.lifeCycleStage,
             maxResults: self.maxResults,
             nextToken: token,
-            sort: self.sort
+            sort: self.sort,
+            targetCloseDate: self.targetCloseDate
         )
     }
 }

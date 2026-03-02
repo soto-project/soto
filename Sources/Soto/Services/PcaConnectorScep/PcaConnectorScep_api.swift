@@ -133,6 +133,7 @@ public struct PcaConnectorScep: AWSService {
     ///   - clientToken: Custom string that can be used to distinguish between calls to the CreateChallenge action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple challenge passwords.
     ///   - mobileDeviceManagement: If you don't supply a value, by default Connector for SCEP creates a connector for general-purpose use. A general-purpose connector is designed to work with clients or endpoints that support the SCEP protocol, except Connector for SCEP for Microsoft Intune. With connectors for general-purpose use, you manage SCEP challenge passwords using Connector for SCEP. For information about considerations and limitations with using Connector for SCEP, see Considerations and Limitations. If you provide an IntuneConfiguration, Connector for SCEP creates a connector for use with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune. For more information, see Using Connector for SCEP for Microsoft Intune.
     ///   - tags: The key-value pairs to associate with the resource.
+    ///   - vpcEndpointId: If you don't supply a value, by default Connector for SCEP creates a connector accessible over the public internet. If you provide a VPC endpoint ID, creates a connector accessible only through that specific VPC endpoint.
     ///   - logger: Logger use during operation
     @inlinable
     public func createConnector(
@@ -140,13 +141,15 @@ public struct PcaConnectorScep: AWSService {
         clientToken: String? = CreateConnectorRequest.idempotencyToken(),
         mobileDeviceManagement: MobileDeviceManagement? = nil,
         tags: [String: String]? = nil,
+        vpcEndpointId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateConnectorResponse {
         let input = CreateConnectorRequest(
             certificateAuthorityArn: certificateAuthorityArn, 
             clientToken: clientToken, 
             mobileDeviceManagement: mobileDeviceManagement, 
-            tags: tags
+            tags: tags, 
+            vpcEndpointId: vpcEndpointId
         )
         return try await self.createConnector(input, logger: logger)
     }

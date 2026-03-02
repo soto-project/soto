@@ -290,6 +290,7 @@ public struct VerifiedPermissions: AWSService {
     ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - deletionProtection: Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
     ///   - description: Descriptive text that you can provide to help with identification of the current policy store.
+    ///   - encryptionSettings: Specifies the encryption settings used to encrypt the policy store and their child resources. Allows for the ability to use a customer owned KMS key for encryption of data. This is an optional field to be used when providing a customer-managed KMS key for encryption.
     ///   - tags: The list of key-value pairs to associate with the policy store.
     ///   - validationSettings: Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode.  We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on.
     ///   - logger: Logger use during operation
@@ -298,6 +299,7 @@ public struct VerifiedPermissions: AWSService {
         clientToken: String? = CreatePolicyStoreInput.idempotencyToken(),
         deletionProtection: DeletionProtection? = nil,
         description: String? = nil,
+        encryptionSettings: EncryptionSettings? = nil,
         tags: [String: String]? = nil,
         validationSettings: ValidationSettings,
         logger: Logger = AWSClient.loggingDisabled        
@@ -306,6 +308,7 @@ public struct VerifiedPermissions: AWSService {
             clientToken: clientToken, 
             deletionProtection: deletionProtection, 
             description: description, 
+            encryptionSettings: encryptionSettings, 
             tags: tags, 
             validationSettings: validationSettings
         )
@@ -1051,7 +1054,7 @@ public struct VerifiedPermissions: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePolicy(
-        definition: UpdatePolicyDefinition,
+        definition: UpdatePolicyDefinition? = nil,
         policyId: String,
         policyStoreId: String,
         logger: Logger = AWSClient.loggingDisabled        

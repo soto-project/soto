@@ -1343,15 +1343,18 @@ extension ResourceExplorer2 {
         public let scopeType: String?
         /// The Amazon Resource Name (ARN) of the service view.
         public let serviceViewArn: String
+        /// The name of the service view.
+        public let serviceViewName: String?
         /// The Amazon Web Services service that has streaming access to this view's data.
         public let streamingAccessForService: String?
 
         @inlinable
-        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, scopeType: String? = nil, serviceViewArn: String, streamingAccessForService: String? = nil) {
+        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, scopeType: String? = nil, serviceViewArn: String, serviceViewName: String? = nil, streamingAccessForService: String? = nil) {
             self.filters = filters
             self.includedProperties = includedProperties
             self.scopeType = scopeType
             self.serviceViewArn = serviceViewArn
+            self.serviceViewName = serviceViewName
             self.streamingAccessForService = streamingAccessForService
         }
 
@@ -1360,6 +1363,7 @@ extension ResourceExplorer2 {
             case includedProperties = "IncludedProperties"
             case scopeType = "ScopeType"
             case serviceViewArn = "ServiceViewArn"
+            case serviceViewName = "ServiceViewName"
             case streamingAccessForService = "StreamingAccessForService"
         }
     }
@@ -1582,15 +1586,18 @@ extension ResourceExplorer2 {
         public let scope: String?
         /// The Amazon resource name (ARN) of the view.
         public let viewArn: String?
+        /// The name of the view.
+        public let viewName: String?
 
         @inlinable
-        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, lastUpdatedAt: Date? = nil, owner: String? = nil, scope: String? = nil, viewArn: String? = nil) {
+        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, lastUpdatedAt: Date? = nil, owner: String? = nil, scope: String? = nil, viewArn: String? = nil, viewName: String? = nil) {
             self.filters = filters
             self.includedProperties = includedProperties
             self.lastUpdatedAt = lastUpdatedAt
             self.owner = owner
             self.scope = scope
             self.viewArn = viewArn
+            self.viewName = viewName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1600,6 +1607,7 @@ extension ResourceExplorer2 {
             case owner = "Owner"
             case scope = "Scope"
             case viewArn = "ViewArn"
+            case viewName = "ViewName"
         }
     }
 

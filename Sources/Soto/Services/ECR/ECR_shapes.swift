@@ -139,6 +139,7 @@ extension ECR {
     }
 
     public enum RCTAppliedFor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createOnPush = "CREATE_ON_PUSH"
         case pullThroughCache = "PULL_THROUGH_CACHE"
         case replication = "REPLICATION"
         public var description: String { return self.rawValue }
@@ -346,7 +347,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,7 +399,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -455,7 +456,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -497,7 +498,7 @@ extension ECR {
             try self.repositoryNames.forEach {
                 try validate($0, name: "repositoryNames[]", parent: name, max: 256)
                 try validate($0, name: "repositoryNames[]", parent: name, min: 2)
-                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
             }
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, max: 25)
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, min: 1)
@@ -553,7 +554,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
             try self.validate(self.uploadId, name: "uploadId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
         }
 
@@ -625,11 +626,11 @@ extension ECR {
             try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -686,7 +687,7 @@ extension ECR {
     }
 
     public struct CreateRepositoryCreationTemplateRequest: AWSEncodableShape {
-        /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
         public let appliedFor: [RCTAppliedFor]
         /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
         public let customRoleArn: String?
@@ -733,7 +734,7 @@ extension ECR {
             try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, max: 30720)
             try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             try self.validate(self.repositoryPolicy, name: "repositoryPolicy", parent: name, max: 10240)
         }
 
@@ -806,7 +807,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -924,7 +925,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -974,7 +975,7 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 
@@ -1056,7 +1057,7 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1098,7 +1099,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1148,7 +1149,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1246,7 +1247,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1304,7 +1305,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1369,7 +1370,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1458,7 +1459,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1511,7 +1512,7 @@ extension ECR {
             try self.ecrRepositoryPrefixes?.forEach {
                 try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, max: 30)
                 try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, min: 2)
-                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             }
             try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, max: 100)
             try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, min: 1)
@@ -1593,7 +1594,7 @@ extension ECR {
             try self.repositoryNames?.forEach {
                 try validate($0, name: "repositoryNames[]", parent: name, max: 256)
                 try validate($0, name: "repositoryNames[]", parent: name, min: 2)
-                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
             }
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, max: 100)
             try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, min: 1)
@@ -1646,7 +1647,7 @@ extension ECR {
             try self.prefixes?.forEach {
                 try validate($0, name: "prefixes[]", parent: name, max: 256)
                 try validate($0, name: "prefixes[]", parent: name, min: 1)
-                try validate($0, name: "prefixes[]", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+                try validate($0, name: "prefixes[]", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             }
         }
 
@@ -1716,7 +1717,7 @@ extension ECR {
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^$|arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key\\/[a-z0-9-]+$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^$|arn:aws[a-z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key\\/[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1804,7 +1805,7 @@ extension ECR {
     }
 
     public struct GetAccountSettingRequest: AWSEncodableShape {
-        /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
+        /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION, REGISTRY_POLICY_SCOPE, or BLOB_MOUNTING.
         public let name: String
 
         @inlinable
@@ -1825,7 +1826,7 @@ extension ECR {
     public struct GetAccountSettingResponse: AWSDecodableShape {
         /// Retrieves the name of the account setting.
         public let name: String?
-        /// The setting value for the setting name. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
+        /// The setting value for the setting name. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V1 or V2. Valid values for blob mounting: ENABLED or DISABLED.
         public let value: String?
 
         @inlinable
@@ -1902,7 +1903,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1965,7 +1966,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2032,7 +2033,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2127,7 +2128,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2565,7 +2566,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2788,7 +2789,7 @@ extension ECR {
                 try validate($0, name: "artifactTypes[]", parent: name, max: 255)
                 try validate($0, name: "artifactTypes[]", parent: name, min: 1)
             }
-            try self.validate(self.artifactTypes, name: "artifactTypes", parent: name, max: 1)
+            try self.validate(self.artifactTypes, name: "artifactTypes", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2828,7 +2829,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2904,7 +2905,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3100,9 +3101,9 @@ extension ECR {
     }
 
     public struct PutAccountSettingRequest: AWSEncodableShape {
-        /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
+        /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION, REGISTRY_POLICY_SCOPE, or BLOB_MOUNTING.
         public let name: String
-        /// Setting value that is specified. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
+        /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V1 or V2. Valid values for blob mounting: ENABLED or DISABLED.
         public let value: String
 
         @inlinable
@@ -3172,7 +3173,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3218,7 +3219,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3277,7 +3278,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3335,7 +3336,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3740,7 +3741,7 @@ extension ECR {
     }
 
     public struct RepositoryCreationTemplate: AWSDecodableShape {
-        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
         public let appliedFor: [RCTAppliedFor]?
         /// The date and time, in JavaScript date format, when the repository creation template was created.
         public let createdAt: Date?
@@ -3974,7 +3975,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4099,7 +4100,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4155,7 +4156,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4307,7 +4308,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4368,7 +4369,7 @@ extension ECR {
             try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 
@@ -4415,7 +4416,7 @@ extension ECR {
     }
 
     public struct UpdateRepositoryCreationTemplateRequest: AWSEncodableShape {
-        /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
         public let appliedFor: [RCTAppliedFor]?
         /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
         public let customRoleArn: String?
@@ -4461,7 +4462,7 @@ extension ECR {
             try self.validate(self.lifecyclePolicy, name: "lifecyclePolicy", parent: name, max: 30720)
             try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             try self.validate(self.repositoryPolicy, name: "repositoryPolicy", parent: name, max: 10240)
         }
 
@@ -4528,7 +4529,7 @@ extension ECR {
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
             try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
-            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*$")
             try self.validate(self.uploadId, name: "uploadId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
         }
 
@@ -4583,7 +4584,7 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^([a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*(\\/[a-z0-9]+((\\.|_|__|-+)[a-z0-9]+)*)*\\/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 

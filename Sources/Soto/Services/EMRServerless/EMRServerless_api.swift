@@ -146,10 +146,12 @@ public struct EMRServerless: AWSService {
     ///   - autoStartConfiguration: The configuration for an application to automatically start on job submission.
     ///   - autoStopConfiguration: The configuration for an application to automatically stop after a certain amount of time being idle.
     ///   - clientToken: The client idempotency token of the application to create. Its value must be unique for each request.
+    ///   - diskEncryptionConfiguration: The configuration object that allows encrypting local disks.
     ///   - identityCenterConfiguration: The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     ///   - imageConfiguration: The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
     ///   - initialCapacity: The capacity to initialize when the application is created.
     ///   - interactiveConfiguration: The interactive configuration object that enables the interactive use cases to use when running an application.
+    ///   - jobLevelCostAllocationConfiguration: The configuration object that enables job level cost allocation.
     ///   - maximumCapacity: The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
     ///   - monitoringConfiguration: The configuration setting for monitoring.
     ///   - name: The name of the application.
@@ -167,10 +169,12 @@ public struct EMRServerless: AWSService {
         autoStartConfiguration: AutoStartConfig? = nil,
         autoStopConfiguration: AutoStopConfig? = nil,
         clientToken: String = CreateApplicationRequest.idempotencyToken(),
+        diskEncryptionConfiguration: DiskEncryptionConfiguration? = nil,
         identityCenterConfiguration: IdentityCenterConfigurationInput? = nil,
         imageConfiguration: ImageConfigurationInput? = nil,
         initialCapacity: [String: InitialCapacityConfig]? = nil,
         interactiveConfiguration: InteractiveConfiguration? = nil,
+        jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil,
         maximumCapacity: MaximumAllowedResources? = nil,
         monitoringConfiguration: MonitoringConfiguration? = nil,
         name: String? = nil,
@@ -188,10 +192,12 @@ public struct EMRServerless: AWSService {
             autoStartConfiguration: autoStartConfiguration, 
             autoStopConfiguration: autoStopConfiguration, 
             clientToken: clientToken, 
+            diskEncryptionConfiguration: diskEncryptionConfiguration, 
             identityCenterConfiguration: identityCenterConfiguration, 
             imageConfiguration: imageConfiguration, 
             initialCapacity: initialCapacity, 
             interactiveConfiguration: interactiveConfiguration, 
+            jobLevelCostAllocationConfiguration: jobLevelCostAllocationConfiguration, 
             maximumCapacity: maximumCapacity, 
             monitoringConfiguration: monitoringConfiguration, 
             name: name, 
@@ -688,10 +694,12 @@ public struct EMRServerless: AWSService {
     ///   - autoStartConfiguration: The configuration for an application to automatically start on job submission.
     ///   - autoStopConfiguration: The configuration for an application to automatically stop after a certain amount of time being idle.
     ///   - clientToken: The client idempotency token of the application to update. Its value must be unique for each request.
+    ///   - diskEncryptionConfiguration: The configuration object that allows encrypting local disks.
     ///   - identityCenterConfiguration: Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
     ///   - imageConfiguration: The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
     ///   - initialCapacity: The capacity to initialize when the application is updated.
     ///   - interactiveConfiguration: The interactive configuration object that contains new interactive use cases when the application is updated.
+    ///   - jobLevelCostAllocationConfiguration: The configuration object that enables job level cost allocation.
     ///   - maximumCapacity: The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
     ///   - monitoringConfiguration: The configuration setting for monitoring.
     ///   - networkConfiguration: 
@@ -707,10 +715,12 @@ public struct EMRServerless: AWSService {
         autoStartConfiguration: AutoStartConfig? = nil,
         autoStopConfiguration: AutoStopConfig? = nil,
         clientToken: String = UpdateApplicationRequest.idempotencyToken(),
+        diskEncryptionConfiguration: DiskEncryptionConfiguration? = nil,
         identityCenterConfiguration: IdentityCenterConfigurationInput? = nil,
         imageConfiguration: ImageConfigurationInput? = nil,
         initialCapacity: [String: InitialCapacityConfig]? = nil,
         interactiveConfiguration: InteractiveConfiguration? = nil,
+        jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil,
         maximumCapacity: MaximumAllowedResources? = nil,
         monitoringConfiguration: MonitoringConfiguration? = nil,
         networkConfiguration: NetworkConfiguration? = nil,
@@ -726,10 +736,12 @@ public struct EMRServerless: AWSService {
             autoStartConfiguration: autoStartConfiguration, 
             autoStopConfiguration: autoStopConfiguration, 
             clientToken: clientToken, 
+            diskEncryptionConfiguration: diskEncryptionConfiguration, 
             identityCenterConfiguration: identityCenterConfiguration, 
             imageConfiguration: imageConfiguration, 
             initialCapacity: initialCapacity, 
             interactiveConfiguration: interactiveConfiguration, 
+            jobLevelCostAllocationConfiguration: jobLevelCostAllocationConfiguration, 
             maximumCapacity: maximumCapacity, 
             monitoringConfiguration: monitoringConfiguration, 
             networkConfiguration: networkConfiguration, 

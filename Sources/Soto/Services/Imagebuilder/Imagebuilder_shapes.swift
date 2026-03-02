@@ -409,7 +409,7 @@ extension Imagebuilder {
             try self.amiTags?.forEach {
                 try validate($0.key, name: "amiTags.key", parent: name, max: 128)
                 try validate($0.key, name: "amiTags.key", parent: name, min: 1)
-                try validate($0.key, name: "amiTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "amiTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "amiTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.amiTags, name: "amiTags", parent: name, max: 50)
@@ -1153,7 +1153,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1290,7 +1290,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1380,7 +1380,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1500,7 +1500,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1607,7 +1607,7 @@ extension Imagebuilder {
             try self.amiTags?.forEach {
                 try validate($0.key, name: "amiTags.key", parent: name, max: 128)
                 try validate($0.key, name: "amiTags.key", parent: name, min: 1)
-                try validate($0.key, name: "amiTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "amiTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "amiTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.amiTags, name: "amiTags", parent: name, max: 50)
@@ -1630,7 +1630,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1746,7 +1746,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1880,7 +1880,7 @@ extension Imagebuilder {
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
                 try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
-                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 30)
@@ -1895,7 +1895,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1996,7 +1996,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -2106,7 +2106,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -2622,7 +2622,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4730,7 +4730,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4838,7 +4838,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4932,7 +4932,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -5647,7 +5647,7 @@ extension Imagebuilder {
             try self.tagMap?.forEach {
                 try validate($0.key, name: "tagMap.key", parent: name, max: 128)
                 try validate($0.key, name: "tagMap.key", parent: name, min: 1)
-                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tagMap, name: "tagMap", parent: name, max: 50)
@@ -5696,7 +5696,7 @@ extension Imagebuilder {
             try self.tagMap?.forEach {
                 try validate($0.key, name: "tagMap.key", parent: name, max: 128)
                 try validate($0.key, name: "tagMap.key", parent: name, min: 1)
-                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tagMap, name: "tagMap", parent: name, max: 50)
@@ -5799,7 +5799,7 @@ extension Imagebuilder {
             try self.tagMap?.forEach {
                 try validate($0.key, name: "tagMap.key", parent: name, max: 128)
                 try validate($0.key, name: "tagMap.key", parent: name, min: 1)
-                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tagMap, name: "tagMap", parent: name, max: 50)
@@ -5826,7 +5826,7 @@ extension Imagebuilder {
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
-            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7963,7 +7963,7 @@ extension Imagebuilder {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -8109,7 +8109,7 @@ extension Imagebuilder {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -8174,7 +8174,7 @@ extension Imagebuilder {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -8451,7 +8451,7 @@ extension Imagebuilder {
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
                 try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
-                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 30)

@@ -178,7 +178,7 @@ public struct RAM: AWSService {
         return try await self.acceptResourceShareInvitation(input, logger: logger)
     }
 
-    /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
+    /// Adds the specified list of principals, resources, and source constraints to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
     @Sendable
     @inlinable
     public func associateResourceShare(_ input: AssociateResourceShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateResourceShareResponse {
@@ -191,14 +191,14 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
+    /// Adds the specified list of principals, resources, and source constraints to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
     ///
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
-    ///   - principals: Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is determined by the RAM permissions that you associate with the resource share. See AssociateResourceSharePermission. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+    ///   - principals: Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is determined by the RAM permissions that you associate with the resource share. See AssociateResourceSharePermission. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
     ///   - resourceArns: Specifies a list of Amazon Resource Names (ARNs) of the resources that you want to share. This can be null if you want to add only principals.
     ///   - resourceShareArn: Specifies the Amazon Resource Name (ARN) of the resource share that you want to add principals or resources to.
-    ///   - sources: Specifies from which source accounts the service principal has access to the resources in this resource share.
+    ///   - sources: Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateResourceShare(
@@ -279,7 +279,7 @@ public struct RAM: AWSService {
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - name: Specifies the name of the customer managed permission. The name must be unique within the Amazon Web Services Region.
     ///   - policyTemplate: A string in JSON format string that contains the following elements of a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide.    Condition: (optional) specifies conditional  parameters that must evaluate to true when a user attempts an action for that  action to be allowed. For more information about the Condition element, see  IAM policies: Condition element in the Identity and Access Management User Guide.   This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates  the resource-based policy on each resource shared using this managed permission. The  Resource comes from the ARN of the specific resource that you are sharing.  The Principal comes from the list of identities added to the resource  share.
-    ///   - resourceType: Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is not case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:subnet. To see the list of valid values for this parameter, query the ListResourceTypes operation.
+    ///   - resourceType: Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet. To see the list of valid values for this parameter, query the ListResourceTypes operation. This value must match the display name of the resource  (available in ListResourceTypes).
     ///   - tags: Specifies a list of one or more tag key and value pairs to attach to the permission.
     ///   - logger: Logger use during operation
     @inlinable
@@ -336,7 +336,7 @@ public struct RAM: AWSService {
         return try await self.createPermissionVersion(input, logger: logger)
     }
 
-    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals.  Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
+    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of principals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing.  Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
     @Sendable
     @inlinable
     public func createResourceShare(_ input: CreateResourceShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceShareResponse {
@@ -349,16 +349,17 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals.  Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
+    /// Creates a resource share. You can provide a list of the Amazon Resource Names (ARNs) for the resources that you want to share, a list of principals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing.  Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
     ///
     /// Parameters:
     ///   - allowExternalPrincipals: Specifies whether principals outside your organization in Organizations can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your account is a member of an Amazon Web Services Organization. The default value is true.
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - name: Specifies the name of the resource share.
     ///   - permissionArns: Specifies the Amazon Resource Names (ARNs) of the RAM permission to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. You can associate only one permission with each resource type included in the resource share.
-    ///   - principals: Specifies a list of one or more principals to associate with the resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+    ///   - principals: Specifies a list of one or more principals to associate with the resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
     ///   - resourceArns: Specifies a list of one or more ARNs of the resources to associate with the resource share.
-    ///   - sources: Specifies from which source accounts the service principal has access to the resources in this resource share.
+    ///   - resourceShareConfiguration: Specifies the configuration of this resource share.
+    ///   - sources: Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from.
     ///   - tags: Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
     ///   - logger: Logger use during operation
     @inlinable
@@ -369,6 +370,7 @@ public struct RAM: AWSService {
         permissionArns: [String]? = nil,
         principals: [String]? = nil,
         resourceArns: [String]? = nil,
+        resourceShareConfiguration: ResourceShareConfiguration? = nil,
         sources: [String]? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -380,6 +382,7 @@ public struct RAM: AWSService {
             permissionArns: permissionArns, 
             principals: principals, 
             resourceArns: resourceArns, 
+            resourceShareConfiguration: resourceShareConfiguration, 
             sources: sources, 
             tags: tags
         )
@@ -485,7 +488,7 @@ public struct RAM: AWSService {
         return try await self.deleteResourceShare(input, logger: logger)
     }
 
-    /// Removes the specified principals or resources from participating in the specified resource share.
+    /// Removes the specified principals, resources, or source constraints from participating in the specified resource share.
     @Sendable
     @inlinable
     public func disassociateResourceShare(_ input: DisassociateResourceShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateResourceShareResponse {
@@ -498,14 +501,14 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified principals or resources from participating in the specified resource share.
+    /// Removes the specified principals, resources, or source constraints from participating in the specified resource share.
     ///
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
-    ///   - principals: Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+    ///   - principals: Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
     ///   - resourceArns: Specifies a list of Amazon Resource Names (ARNs) for one or more resources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals associated with the resource share.
     ///   - resourceShareArn: Specifies Amazon Resource Name (ARN) of the resource share that you want to remove resources or principals from.
-    ///   - sources: Specifies from which source accounts the service principal no longer has access to the resources in this resource share.
+    ///   - sources: Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) to remove from the resource share. This enables granular management of source constraints while maintaining service principal associations. At least one source must remain when service principals are present.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateResourceShare(
@@ -619,7 +622,10 @@ public struct RAM: AWSService {
         return try await self.getPermission(input, logger: logger)
     }
 
-    /// Retrieves the resource policies for the specified resources that you own and have shared.
+    /// Retrieves the resource policies for the specified resources that you own and have shared.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func getResourcePolicies(_ input: GetResourcePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePoliciesResponse {
@@ -632,7 +638,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the resource policies for the specified resources that you own and have shared.
+    /// Retrieves the resource policies for the specified resources that you own and have shared.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -657,7 +666,10 @@ public struct RAM: AWSService {
         return try await self.getResourcePolicies(input, logger: logger)
     }
 
-    /// Retrieves the lists of resources and principals that associated for resource shares that you own.
+    /// Retrieves the lists of resources and principals that associated for resource shares that you own.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func getResourceShareAssociations(_ input: GetResourceShareAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceShareAssociationsResponse {
@@ -670,7 +682,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the lists of resources and principals that associated for resource shares that you own.
+    /// Retrieves the lists of resources and principals that associated for resource shares that you own.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - associationStatus: Specifies that you want to retrieve only associations that have this status.
@@ -704,7 +719,10 @@ public struct RAM: AWSService {
         return try await self.getResourceShareAssociations(input, logger: logger)
     }
 
-    /// Retrieves details about invitations that you have received for resource shares.
+    /// Retrieves details about invitations that you have received for resource shares.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func getResourceShareInvitations(_ input: GetResourceShareInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceShareInvitationsResponse {
@@ -717,7 +735,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves details about invitations that you have received for resource shares.
+    /// Retrieves details about invitations that you have received for resource shares.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -742,7 +763,10 @@ public struct RAM: AWSService {
         return try await self.getResourceShareInvitations(input, logger: logger)
     }
 
-    /// Retrieves details about the resource shares that you own or that are shared with you.
+    /// Retrieves details about the resource shares that you own or that are shared with you.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func getResourceShares(_ input: GetResourceSharesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceSharesResponse {
@@ -755,7 +779,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves details about the resource shares that you own or that are shared with you.
+    /// Retrieves details about the resource shares that you own or that are shared with you.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -795,7 +822,10 @@ public struct RAM: AWSService {
         return try await self.getResourceShares(input, logger: logger)
     }
 
-    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listPendingInvitationResources(_ input: ListPendingInvitationResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPendingInvitationResourcesResponse {
@@ -808,7 +838,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -833,7 +866,10 @@ public struct RAM: AWSService {
         return try await self.listPendingInvitationResources(input, logger: logger)
     }
 
-    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
+    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listPermissionAssociations(_ input: ListPermissionAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionAssociationsResponse {
@@ -846,7 +882,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
+    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - associationStatus: Specifies that you want to list only those associations with resource shares that match this status.
@@ -883,7 +922,10 @@ public struct RAM: AWSService {
         return try await self.listPermissionAssociations(input, logger: logger)
     }
 
-    /// Lists the available versions of the specified RAM permission.
+    /// Lists the available versions of the specified RAM permission.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listPermissionVersions(_ input: ListPermissionVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionVersionsResponse {
@@ -896,7 +938,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Lists the available versions of the specified RAM permission.
+    /// Lists the available versions of the specified RAM permission.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -918,7 +963,10 @@ public struct RAM: AWSService {
         return try await self.listPermissionVersions(input, logger: logger)
     }
 
-    /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
+    /// Retrieves a list of available RAM permissions that you can use for the supported resource types.   Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionsResponse {
@@ -931,7 +979,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
+    /// Retrieves a list of available RAM permissions that you can use for the supported resource types.   Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -956,7 +1007,10 @@ public struct RAM: AWSService {
         return try await self.listPermissions(input, logger: logger)
     }
 
-    /// Lists the principals that you are sharing resources with or that are sharing resources with you.
+    /// Lists the principals that you are sharing resources with or that are sharing resources with you.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listPrincipals(_ input: ListPrincipalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrincipalsResponse {
@@ -969,12 +1023,15 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Lists the principals that you are sharing resources with or that are sharing resources with you.
+    /// Lists the principals that you are sharing resources with or that are sharing resources with you.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
-    ///   - principals: Specifies that you want to list information for only the listed principals. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+    ///   - principals: Specifies that you want to list information for only the listed principals. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
     ///   - resourceArn: Specifies that you want to list principal information for the resource share with the specified Amazon Resource Name (ARN).
     ///   - resourceOwner: Specifies that you want to list information for only resource shares that match the following:     SELF – principals that your account is sharing resources with     OTHER-ACCOUNTS – principals that are sharing resources with your account
     ///   - resourceShareArns: Specifies that you want to list information for only principals associated with the resource shares specified by a list the Amazon Resource Names (ARNs).
@@ -1003,7 +1060,10 @@ public struct RAM: AWSService {
         return try await self.listPrincipals(input, logger: logger)
     }
 
-    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation.
+    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listReplacePermissionAssociationsWork(_ input: ListReplacePermissionAssociationsWorkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReplacePermissionAssociationsWorkResponse {
@@ -1016,7 +1076,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation.
+    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the ReplacePermissionAssociationsWork operation.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -1041,7 +1104,10 @@ public struct RAM: AWSService {
         return try await self.listReplacePermissionAssociationsWork(input, logger: logger)
     }
 
-    /// Lists the RAM permissions that are associated with a resource share.
+    /// Lists the RAM permissions that are associated with a resource share.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listResourceSharePermissions(_ input: ListResourceSharePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceSharePermissionsResponse {
@@ -1054,7 +1120,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Lists the RAM permissions that are associated with a resource share.
+    /// Lists the RAM permissions that are associated with a resource share.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -1111,7 +1180,10 @@ public struct RAM: AWSService {
         return try await self.listResourceTypes(input, logger: logger)
     }
 
-    /// Lists the resources that you added to a resource share or the resources that are shared with you.
+    /// Lists the resources that you added to a resource share or the resources that are shared with you.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     @Sendable
     @inlinable
     public func listResources(_ input: ListResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcesResponse {
@@ -1124,7 +1196,10 @@ public struct RAM: AWSService {
             logger: logger
         )
     }
-    /// Lists the resources that you added to a resource share or the resources that are shared with you.
+    /// Lists the resources that you added to a resource share or the resources that are shared with you.  Always check the NextToken response parameter for a null value
+    /// when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more
+    /// results available. The NextToken response parameter value is null only
+    /// when there are no more results to display.
     ///
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
@@ -1159,6 +1234,50 @@ public struct RAM: AWSService {
             resourceType: resourceType
         )
         return try await self.listResources(input, logger: logger)
+    }
+
+    /// Lists source associations for resource shares. Source associations control which sources can be used with service principals in resource shares. This operation provides visibility into source associations for resource share owners. You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listSourceAssociations(_ input: ListSourceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListSourceAssociations", 
+            path: "/listsourceassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists source associations for resource shares. Source associations control which sources can be used with service principals in resource shares. This operation provides visibility into source associations for resource share owners. You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - associationStatus: The status of the source associations that you want to retrieve.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The pagination token that indicates the next set of results to retrieve.
+    ///   - resourceShareArns: The Amazon Resource Names (ARNs) of the resource shares for which you want to retrieve source associations.
+    ///   - sourceId: The identifier of the source for which you want to retrieve associations. This can be an account ID, Amazon Resource Name (ARN), organization ID, or organization path.
+    ///   - sourceType: The type of source for which you want to retrieve associations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSourceAssociations(
+        associationStatus: ResourceShareAssociationStatus? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceShareArns: [String]? = nil,
+        sourceId: String? = nil,
+        sourceType: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSourceAssociationsResponse {
+        let input = ListSourceAssociationsRequest(
+            associationStatus: associationStatus, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceShareArns: resourceShareArns, 
+            sourceId: sourceId, 
+            sourceType: sourceType
+        )
+        return try await self.listSourceAssociations(input, logger: logger)
     }
 
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation creates a separate, fully manageable customer managed permission that has the same IAM permissions as the original resource-based policy. You can associate this customer managed permission to any resource shares. Before you use PromoteResourceShareCreatedFromPolicy, you should first run this operation to ensure that you have an appropriate customer managed permission that can be associated with the promoted resource share.    The original CREATED_FROM_POLICY policy isn't deleted, and resource shares using that original policy aren't automatically updated.   You can't modify a CREATED_FROM_POLICY resource share so you can't associate the new customer managed permission by using ReplacePermsissionAssociations. However, if you use PromoteResourceShareCreatedFromPolicy, that operation automatically associates the fully manageable customer managed permission to the newly promoted STANDARD resource share.   After you promote a resource share, if the original CREATED_FROM_POLICY managed permission has no other associations to A resource share, then RAM automatically deletes it.
@@ -1827,7 +1946,7 @@ extension RAM {
     ///
     /// - Parameters:
     ///   - maxResults: Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
-    ///   - principals: Specifies that you want to list information for only the listed principals. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+    ///   - principals: Specifies that you want to list information for only the listed principals. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
     ///   - resourceArn: Specifies that you want to list principal information for the resource share with the specified Amazon Resource Name (ARN).
     ///   - resourceOwner: Specifies that you want to list information for only resource shares that match the following:     SELF – principals that your account is sharing resources with     OTHER-ACCOUNTS – principals that are sharing resources with your account
     ///   - resourceShareArns: Specifies that you want to list information for only principals associated with the resource shares specified by a list the Amazon Resource Names (ARNs).
@@ -2019,6 +2138,52 @@ extension RAM {
         )
         return self.listResourcesPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listSourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceAssociationsPaginator(
+        _ input: ListSourceAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSourceAssociationsRequest, ListSourceAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listSourceAssociations,
+            inputKey: \ListSourceAssociationsRequest.nextToken,
+            outputKey: \ListSourceAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - associationStatus: The status of the source associations that you want to retrieve.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - resourceShareArns: The Amazon Resource Names (ARNs) of the resource shares for which you want to retrieve source associations.
+    ///   - sourceId: The identifier of the source for which you want to retrieve associations. This can be an account ID, Amazon Resource Name (ARN), organization ID, or organization path.
+    ///   - sourceType: The type of source for which you want to retrieve associations.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceAssociationsPaginator(
+        associationStatus: ResourceShareAssociationStatus? = nil,
+        maxResults: Int? = nil,
+        resourceShareArns: [String]? = nil,
+        sourceId: String? = nil,
+        sourceType: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSourceAssociationsRequest, ListSourceAssociationsResponse> {
+        let input = ListSourceAssociationsRequest(
+            associationStatus: associationStatus, 
+            maxResults: maxResults, 
+            resourceShareArns: resourceShareArns, 
+            sourceId: sourceId, 
+            sourceType: sourceType
+        )
+        return self.listSourceAssociationsPaginator(input, logger: logger)
+    }
 }
 
 extension RAM.GetResourcePoliciesRequest: AWSPaginateToken {
@@ -2189,6 +2354,20 @@ extension RAM.ListResourcesRequest: AWSPaginateToken {
             resourceRegionScope: self.resourceRegionScope,
             resourceShareArns: self.resourceShareArns,
             resourceType: self.resourceType
+        )
+    }
+}
+
+extension RAM.ListSourceAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RAM.ListSourceAssociationsRequest {
+        return .init(
+            associationStatus: self.associationStatus,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceShareArns: self.resourceShareArns,
+            sourceId: self.sourceId,
+            sourceType: self.sourceType
         )
     }
 }

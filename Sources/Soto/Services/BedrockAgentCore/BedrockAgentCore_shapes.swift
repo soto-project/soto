@@ -369,6 +369,24 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct BasicAuth: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing proxy credentials. The secret must be a JSON object with username and password string fields that meet validation requirements. The caller must have secretsmanager:GetSecretValue permission for this ARN. Example secret format: {"username": "proxy_user", "password": "secure_password"}
+        public let secretArn: String
+
+        @inlinable
+        public init(secretArn: String) {
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "secretArn"
+        }
+    }
+
     public struct BatchCreateMemoryRecordsInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure idempotent processing of the batch request.
         public let clientToken: String?
@@ -573,6 +591,38 @@ extension BedrockAgentCore {
         private enum CodingKeys: String, CodingKey {
             case includeParentBranches = "includeParentBranches"
             case name = "name"
+        }
+    }
+
+    public struct BrowserExtension: AWSEncodableShape & AWSDecodableShape {
+        /// The location where the browser extension files are stored. This specifies the source from which the extension will be loaded and installed.
+        public let location: ResourceLocation
+
+        @inlinable
+        public init(location: ResourceLocation) {
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+        }
+    }
+
+    public struct BrowserProfileConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the browser profile. This identifier is used to reference the profile when starting new browser sessions or saving session data to the profile.
+        public let profileIdentifier: String
+
+        @inlinable
+        public init(profileIdentifier: String) {
+            self.profileIdentifier = profileIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileIdentifier, name: "profileIdentifier", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileIdentifier = "profileIdentifier"
         }
     }
 
@@ -1148,6 +1198,46 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct ExternalProxy: AWSEncodableShape & AWSDecodableShape {
+        /// Optional authentication credentials for the proxy server. If omitted, the proxy is accessed without authentication (useful for IP-allowlisted proxies).
+        public let credentials: ProxyCredentials?
+        /// Optional array of domain patterns that should route through this specific proxy. Supports .example.com for subdomain matching (matches any subdomain of example.com) or example.com for exact domain matching. If omitted, this proxy acts as a catch-all for domains not matched by other proxies. Maximum 100 patterns per proxy, each up to 253 characters.
+        public let domainPatterns: [String]?
+        /// The port number of the proxy server. Valid range: 1-65535.
+        public let port: Int
+        /// The hostname of the proxy server. Must be a valid DNS hostname (maximum 253 characters).
+        public let server: String
+
+        @inlinable
+        public init(credentials: ProxyCredentials? = nil, domainPatterns: [String]? = nil, port: Int, server: String) {
+            self.credentials = credentials
+            self.domainPatterns = domainPatterns
+            self.port = port
+            self.server = server
+        }
+
+        public func validate(name: String) throws {
+            try self.credentials?.validate(name: "\(name).credentials")
+            try self.domainPatterns?.forEach {
+                try validate($0, name: "domainPatterns[]", parent: name, max: 253)
+                try validate($0, name: "domainPatterns[]", parent: name, min: 1)
+                try validate($0, name: "domainPatterns[]", parent: name, pattern: "^(\\.)?[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)*$")
+            }
+            try self.validate(self.domainPatterns, name: "domainPatterns", parent: name, max: 100)
+            try self.validate(self.domainPatterns, name: "domainPatterns", parent: name, min: 1)
+            try self.validate(self.server, name: "server", parent: name, max: 253)
+            try self.validate(self.server, name: "server", parent: name, min: 1)
+            try self.validate(self.server, name: "server", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "credentials"
+            case domainPatterns = "domainPatterns"
+            case port = "port"
+            case server = "server"
+        }
+    }
+
     public struct ExtractionJob: AWSEncodableShape {
         /// The unique identifier of the extraction job.
         public let jobId: String
@@ -1342,11 +1432,17 @@ extension BedrockAgentCore {
         /// The time at which the browser session was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
+        /// The list of browser extensions that are configured in the browser session.
+        public let extensions: [BrowserExtension]?
         /// The time at which the browser session was last updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
         /// The name of the browser session.
         public let name: String?
+        /// The browser profile configuration associated with this session. Contains the profile identifier that links to persistent browser data such as cookies and local storage.
+        public let profileConfiguration: BrowserProfileConfiguration?
+        /// The active proxy configuration for this browser session. This field is only present if proxy configuration was provided when the session was started using StartBrowserSession. The configuration includes proxy servers, domain bypass rules and the proxy authentication credentials.
+        public let proxyConfiguration: ProxyConfiguration?
         /// The identifier of the browser session.
         public let sessionId: String
         /// The artifact containing the session replay information.
@@ -1360,11 +1456,14 @@ extension BedrockAgentCore {
         public let viewPort: ViewPort?
 
         @inlinable
-        public init(browserIdentifier: String, createdAt: Date, lastUpdatedAt: Date? = nil, name: String? = nil, sessionId: String, sessionReplayArtifact: String? = nil, sessionTimeoutSeconds: Int? = nil, status: BrowserSessionStatus? = nil, streams: BrowserSessionStream? = nil, viewPort: ViewPort? = nil) {
+        public init(browserIdentifier: String, createdAt: Date, extensions: [BrowserExtension]? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, profileConfiguration: BrowserProfileConfiguration? = nil, proxyConfiguration: ProxyConfiguration? = nil, sessionId: String, sessionReplayArtifact: String? = nil, sessionTimeoutSeconds: Int? = nil, status: BrowserSessionStatus? = nil, streams: BrowserSessionStream? = nil, viewPort: ViewPort? = nil) {
             self.browserIdentifier = browserIdentifier
             self.createdAt = createdAt
+            self.extensions = extensions
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.profileConfiguration = profileConfiguration
+            self.proxyConfiguration = proxyConfiguration
             self.sessionId = sessionId
             self.sessionReplayArtifact = sessionReplayArtifact
             self.sessionTimeoutSeconds = sessionTimeoutSeconds
@@ -1376,8 +1475,11 @@ extension BedrockAgentCore {
         private enum CodingKeys: String, CodingKey {
             case browserIdentifier = "browserIdentifier"
             case createdAt = "createdAt"
+            case extensions = "extensions"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case profileConfiguration = "profileConfiguration"
+            case proxyConfiguration = "proxyConfiguration"
             case sessionId = "sessionId"
             case sessionReplayArtifact = "sessionReplayArtifact"
             case sessionTimeoutSeconds = "sessionTimeoutSeconds"
@@ -1848,7 +1950,7 @@ extension BedrockAgentCore {
         public let accept: String?
         /// The identifier of the Amazon Web Services account for the agent runtime resource.
         public let accountId: String?
-        /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
+        /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock AgentCore.
         public let agentRuntimeArn: String
         /// Additional context information for distributed tracing.
         public let baggage: String?
@@ -1860,7 +1962,7 @@ extension BedrockAgentCore {
         public let mcpSessionId: String?
         /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
         public let payload: AWSHTTPBody
-        /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+        /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default version of the agent runtime.
         public let qualifier: String?
         /// The identifier of the runtime session.
         public let runtimeSessionId: String?
@@ -2112,7 +2214,7 @@ extension BedrockAgentCore {
         public let browserIdentifier: String
         /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
         public let nextToken: String?
         /// The status of the browser sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
         public let status: BrowserSessionStatus?
@@ -2172,7 +2274,7 @@ extension BedrockAgentCore {
         public let codeInterpreterIdentifier: String
         /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
-        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
         public let nextToken: String?
         /// The status of the code interpreter sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
         public let status: CodeInterpreterSessionStatus?
@@ -2370,7 +2472,7 @@ extension BedrockAgentCore {
         public let memoryId: String
         /// The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
         public let memoryStrategyId: String?
-        /// The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
+        /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
         public let namespace: String
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2762,6 +2864,55 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct ProxyBypass: AWSEncodableShape & AWSDecodableShape {
+        /// Array of domain patterns that should bypass the proxy. Supports .amazonaws.com for subdomain matching or amazonaws.com for exact domain matching. Requests to these domains connect directly without using any proxy. Maximum 253 characters per pattern.
+        public let domainPatterns: [String]?
+
+        @inlinable
+        public init(domainPatterns: [String]? = nil) {
+            self.domainPatterns = domainPatterns
+        }
+
+        public func validate(name: String) throws {
+            try self.domainPatterns?.forEach {
+                try validate($0, name: "domainPatterns[]", parent: name, max: 253)
+                try validate($0, name: "domainPatterns[]", parent: name, min: 1)
+                try validate($0, name: "domainPatterns[]", parent: name, pattern: "^(\\.)?[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)*$")
+            }
+            try self.validate(self.domainPatterns, name: "domainPatterns", parent: name, max: 100)
+            try self.validate(self.domainPatterns, name: "domainPatterns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPatterns = "domainPatterns"
+        }
+    }
+
+    public struct ProxyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Optional configuration for domains that should bypass all proxies and connect directly to their destination, like the internet. Takes precedence over all proxy routing rules.
+        public let bypass: ProxyBypass?
+        /// An array of 1-5 proxy server configurations for domain-based routing. Each proxy can specify which domains it handles via domainPatterns, enabling flexible routing of different traffic through different proxies based on destination domain.
+        public let proxies: [Proxy]
+
+        @inlinable
+        public init(bypass: ProxyBypass? = nil, proxies: [Proxy]) {
+            self.bypass = bypass
+            self.proxies = proxies
+        }
+
+        public func validate(name: String) throws {
+            try self.bypass?.validate(name: "\(name).bypass")
+            try self.proxies.forEach {
+                try $0.validate(name: "\(name).proxies[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bypass = "bypass"
+            case proxies = "proxies"
+        }
+    }
+
     public struct ResourceContent: AWSDecodableShape {
         /// The binary resource content.
         public let blob: AWSBase64Data?
@@ -2810,7 +2961,7 @@ extension BedrockAgentCore {
         public let maxResults: Int?
         /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
         public let memoryId: String
-        /// The namespace to filter memory records by.
+        /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
         public let namespace: String
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2870,6 +3021,105 @@ extension BedrockAgentCore {
         private enum CodingKeys: String, CodingKey {
             case memoryRecordSummaries = "memoryRecordSummaries"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket where the resource is stored.
+        public let bucket: String
+        /// The name of the Amazon S3 prefix/key where the resource is stored.
+        public let prefix: String
+        /// The name of the Amazon S3 version ID where the resource is stored (Optional).
+        public let versionId: String?
+
+        @inlinable
+        public init(bucket: String, prefix: String, versionId: String? = nil) {
+            self.bucket = bucket
+            self.prefix = prefix
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case prefix = "prefix"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct SaveBrowserSessionProfileRequest: AWSEncodableShape {
+        /// The unique identifier of the browser associated with the session from which to save the profile.
+        public let browserIdentifier: String
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanumeric suffix.
+        public let profileIdentifier: String
+        /// The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile.
+        public let sessionId: String
+        /// The trace identifier for request tracking.
+        public let traceId: String?
+        /// The parent trace information for distributed tracing.
+        public let traceParent: String?
+
+        @inlinable
+        public init(browserIdentifier: String, clientToken: String? = SaveBrowserSessionProfileRequest.idempotencyToken(), profileIdentifier: String, sessionId: String, traceId: String? = nil, traceParent: String? = nil) {
+            self.browserIdentifier = browserIdentifier
+            self.clientToken = clientToken
+            self.profileIdentifier = profileIdentifier
+            self.sessionId = sessionId
+            self.traceId = traceId
+            self.traceParent = traceParent
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.browserIdentifier, forKey: .browserIdentifier)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.profileIdentifier, key: "profileIdentifier")
+            try container.encode(self.sessionId, forKey: .sessionId)
+            request.encodeHeader(self.traceId, key: "X-Amzn-Trace-Id")
+            request.encodeHeader(self.traceParent, key: "traceparent")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.profileIdentifier, name: "profileIdentifier", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-zA-Z]{1,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case browserIdentifier = "browserIdentifier"
+            case clientToken = "clientToken"
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct SaveBrowserSessionProfileResponse: AWSDecodableShape {
+        /// The unique identifier of the browser associated with the session from which the profile was saved.
+        public let browserIdentifier: String
+        /// The timestamp when the browser profile was last updated. This value is in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The unique identifier of the saved browser profile.
+        public let profileIdentifier: String
+        /// The unique identifier of the browser session from which the profile was saved.
+        public let sessionId: String
+
+        @inlinable
+        public init(browserIdentifier: String, lastUpdatedAt: Date, profileIdentifier: String, sessionId: String) {
+            self.browserIdentifier = browserIdentifier
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileIdentifier = profileIdentifier
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case browserIdentifier = "browserIdentifier"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case profileIdentifier = "profileIdentifier"
+            case sessionId = "sessionId"
         }
     }
 
@@ -2970,24 +3220,33 @@ extension BedrockAgentCore {
     public struct StartBrowserSessionRequest: AWSEncodableShape {
         /// The unique identifier of the browser to use for this session. This identifier specifies which browser environment to initialize for the session.
         public let browserIdentifier: String
-        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
         public let clientToken: String?
+        /// A list of browser extensions to load into the browser session.
+        public let extensions: [BrowserExtension]?
         /// The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
         public let name: String?
+        /// The browser profile configuration to use for this session. A browser profile contains persistent data such as cookies and local storage that can be reused across multiple browser sessions. If specified, the session initializes with the profile's stored data, enabling continuity for tasks that require authentication or personalized settings.
+        public let profileConfiguration: BrowserProfileConfiguration?
+        /// Optional proxy configuration for routing browser traffic through customer-specified proxy servers. When provided, enables HTTP Basic authentication via Amazon Web Services Secrets Manager and domain-based routing rules. Requires secretsmanager:GetSecretValue IAM permission for the specified secret ARNs.
+        public let proxyConfiguration: ProxyConfiguration?
         /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
         public let sessionTimeoutSeconds: Int?
         /// The trace identifier for request tracking.
         public let traceId: String?
         /// The parent trace information for distributed tracing.
         public let traceParent: String?
-        /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock uses a default viewport size.
+        /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock AgentCore uses a default viewport size.
         public let viewPort: ViewPort?
 
         @inlinable
-        public init(browserIdentifier: String, clientToken: String? = StartBrowserSessionRequest.idempotencyToken(), name: String? = nil, sessionTimeoutSeconds: Int? = nil, traceId: String? = nil, traceParent: String? = nil, viewPort: ViewPort? = nil) {
+        public init(browserIdentifier: String, clientToken: String? = StartBrowserSessionRequest.idempotencyToken(), extensions: [BrowserExtension]? = nil, name: String? = nil, profileConfiguration: BrowserProfileConfiguration? = nil, proxyConfiguration: ProxyConfiguration? = nil, sessionTimeoutSeconds: Int? = nil, traceId: String? = nil, traceParent: String? = nil, viewPort: ViewPort? = nil) {
             self.browserIdentifier = browserIdentifier
             self.clientToken = clientToken
+            self.extensions = extensions
             self.name = name
+            self.profileConfiguration = profileConfiguration
+            self.proxyConfiguration = proxyConfiguration
             self.sessionTimeoutSeconds = sessionTimeoutSeconds
             self.traceId = traceId
             self.traceParent = traceParent
@@ -2999,7 +3258,10 @@ extension BedrockAgentCore {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.browserIdentifier, key: "browserIdentifier")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.extensions, forKey: .extensions)
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.profileConfiguration, forKey: .profileConfiguration)
+            try container.encodeIfPresent(self.proxyConfiguration, forKey: .proxyConfiguration)
             try container.encodeIfPresent(self.sessionTimeoutSeconds, forKey: .sessionTimeoutSeconds)
             request.encodeHeader(self.traceId, key: "X-Amzn-Trace-Id")
             request.encodeHeader(self.traceParent, key: "traceparent")
@@ -3010,8 +3272,12 @@ extension BedrockAgentCore {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.extensions, name: "extensions", parent: name, max: 10)
+            try self.validate(self.extensions, name: "extensions", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.profileConfiguration?.validate(name: "\(name).profileConfiguration")
+            try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
             try self.validate(self.sessionTimeoutSeconds, name: "sessionTimeoutSeconds", parent: name, max: 28800)
             try self.validate(self.sessionTimeoutSeconds, name: "sessionTimeoutSeconds", parent: name, min: 1)
             try self.viewPort?.validate(name: "\(name).viewPort")
@@ -3019,7 +3285,10 @@ extension BedrockAgentCore {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case extensions = "extensions"
             case name = "name"
+            case profileConfiguration = "profileConfiguration"
+            case proxyConfiguration = "proxyConfiguration"
             case sessionTimeoutSeconds = "sessionTimeoutSeconds"
             case viewPort = "viewPort"
         }
@@ -3053,7 +3322,7 @@ extension BedrockAgentCore {
     }
 
     public struct StartCodeInterpreterSessionRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
         public let clientToken: String?
         /// The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
         public let codeInterpreterIdentifier: String
@@ -3178,7 +3447,7 @@ extension BedrockAgentCore {
     public struct StopBrowserSessionRequest: AWSEncodableShape {
         /// The unique identifier of the browser associated with the session.
         public let browserIdentifier: String
-        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
         public let clientToken: String?
         /// The unique identifier of the browser session to stop.
         public let sessionId: String
@@ -3242,7 +3511,7 @@ extension BedrockAgentCore {
     }
 
     public struct StopCodeInterpreterSessionRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
         public let clientToken: String?
         /// The unique identifier of the code interpreter associated with the session.
         public let codeInterpreterIdentifier: String
@@ -3734,6 +4003,56 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct Proxy: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for an external customer-managed proxy server.
+        public let externalProxy: ExternalProxy?
+
+        @inlinable
+        public init(externalProxy: ExternalProxy? = nil) {
+            self.externalProxy = externalProxy
+        }
+
+        public func validate(name: String) throws {
+            try self.externalProxy?.validate(name: "\(name).externalProxy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalProxy = "externalProxy"
+        }
+    }
+
+    public struct ProxyCredentials: AWSEncodableShape & AWSDecodableShape {
+        /// HTTP Basic Authentication credentials (username and password) stored in Amazon Web Services Secrets Manager.
+        public let basicAuth: BasicAuth?
+
+        @inlinable
+        public init(basicAuth: BasicAuth? = nil) {
+            self.basicAuth = basicAuth
+        }
+
+        public func validate(name: String) throws {
+            try self.basicAuth?.validate(name: "\(name).basicAuth")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basicAuth = "basicAuth"
+        }
+    }
+
+    public struct ResourceLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 location of the resource. Use this when the resource is stored in an Amazon S3 bucket.
+        public let s3: S3Location?
+
+        @inlinable
+        public init(s3: S3Location? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
     public struct RightExpression: AWSEncodableShape {
         /// Value associated with the key in eventMetadata.
         public let metadataValue: MetadataValue?
@@ -3774,6 +4093,7 @@ public struct BedrockAgentCoreErrorType: AWSErrorType {
         case internalServerException = "InternalServerException"
         case invalidInputException = "InvalidInputException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case retryableConflictException = "RetryableConflictException"
         case runtimeClientError = "RuntimeClientError"
         case serviceException = "ServiceException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -3813,6 +4133,8 @@ public struct BedrockAgentCoreErrorType: AWSErrorType {
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+    public static var retryableConflictException: Self { .init(.retryableConflictException) }
     /// The exception that occurs when there is an error in the runtime client. This can happen due to network issues, invalid configuration, or other client-side problems. Check the error message for specific details about the error.
     public static var runtimeClientError: Self { .init(.runtimeClientError) }
     /// The service encountered an internal error. Try your request again later.

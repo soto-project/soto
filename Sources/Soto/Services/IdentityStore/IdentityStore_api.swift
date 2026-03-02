@@ -186,6 +186,7 @@ public struct IdentityStore: AWSService {
     ///   - photos: A list of photos associated with the user. You can add up to 3 photos per user. Each photo can include a value, type, display name, and primary designation.
     ///   - preferredLanguage: A string containing the preferred language of the user. For example, "American English" or "en-us."
     ///   - profileUrl: A string containing a URL that might be associated with the user.
+    ///   - roles: A list of Role objects containing roles associated with the user.
     ///   - timezone: A string containing the time zone of the user.
     ///   - title: A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
     ///   - userName: A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store. Administrator and AWSAdministrators are reserved names and can't be used for users or groups.
@@ -207,6 +208,7 @@ public struct IdentityStore: AWSService {
         photos: [Photo]? = nil,
         preferredLanguage: String? = nil,
         profileUrl: String? = nil,
+        roles: [Role]? = nil,
         timezone: String? = nil,
         title: String? = nil,
         userName: String? = nil,
@@ -228,6 +230,7 @@ public struct IdentityStore: AWSService {
             photos: photos, 
             preferredLanguage: preferredLanguage, 
             profileUrl: profileUrl, 
+            roles: roles, 
             timezone: timezone, 
             title: title, 
             userName: userName, 

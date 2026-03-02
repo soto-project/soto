@@ -72,7 +72,16 @@ extension Lambda {
     }
 
     public enum EventSourceMappingMetric: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case errorCount = "ErrorCount"
         case eventCount = "EventCount"
+        case kafkaMetrics = "KafkaMetrics"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSourceMappingSystemLogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case debug = "DEBUG"
+        case info = "INFO"
+        case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
@@ -1746,6 +1755,8 @@ extension Lambda {
         public let functionResponseTypes: [FunctionResponseType]?
         ///  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
         public let kmsKeyArn: String?
+        /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see Event source mapping logging.
+        public let loggingConfig: EventSourceMappingLoggingConfig?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
@@ -1780,7 +1791,7 @@ extension Lambda {
         public let tumblingWindowInSeconds: Int?
 
         @inlinable
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, tags: [String: String]? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, loggingConfig: EventSourceMappingLoggingConfig? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, tags: [String: String]? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -1792,6 +1803,7 @@ extension Lambda {
             self.functionName = functionName
             self.functionResponseTypes = functionResponseTypes
             self.kmsKeyArn = kmsKeyArn
+            self.loggingConfig = loggingConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -1870,6 +1882,7 @@ extension Lambda {
             case functionName = "FunctionName"
             case functionResponseTypes = "FunctionResponseTypes"
             case kmsKeyArn = "KMSKeyArn"
+            case loggingConfig = "LoggingConfig"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
@@ -3017,6 +3030,8 @@ extension Lambda {
         public let lastModified: Date?
         /// The result of the event source mapping's last processing attempt.
         public let lastProcessingResult: String?
+        /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see Event source mapping logging.
+        public let loggingConfig: EventSourceMappingLoggingConfig?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.  The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
@@ -3055,7 +3070,7 @@ extension Lambda {
         public let uuid: String?
 
         @inlinable
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, eventSourceMappingArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, eventSourceArn: String? = nil, eventSourceMappingArn: String? = nil, filterCriteria: FilterCriteria? = nil, filterCriteriaError: FilterCriteriaError? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, loggingConfig: EventSourceMappingLoggingConfig? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, queues: [String]? = nil, scalingConfig: ScalingConfig? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -3070,6 +3085,7 @@ extension Lambda {
             self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
+            self.loggingConfig = loggingConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -3105,6 +3121,7 @@ extension Lambda {
             case kmsKeyArn = "KMSKeyArn"
             case lastModified = "LastModified"
             case lastProcessingResult = "LastProcessingResult"
+            case loggingConfig = "LoggingConfig"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
@@ -3126,8 +3143,22 @@ extension Lambda {
         }
     }
 
+    public struct EventSourceMappingLoggingConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The log level you want your event source mapping to use. Lambda event poller only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest. For more information about these metrics, see  Event source mapping logging.
+        public let systemLogLevel: EventSourceMappingSystemLogLevel?
+
+        @inlinable
+        public init(systemLogLevel: EventSourceMappingSystemLogLevel? = nil) {
+            self.systemLogLevel = systemLogLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemLogLevel = "SystemLogLevel"
+        }
+    }
+
     public struct EventSourceMappingMetricsConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  The metrics you want your event source mapping to produce. Include EventCount to receive event source mapping metrics related to the number of events processed by your event source mapping. For more information about these metrics, see  Event source mapping metrics.
+        ///  The metrics you want your event source mapping to produce, including EventCount, ErrorCount, KafkaMetrics.     EventCount to receive metrics related to the number of events processed by your event source mapping.    ErrorCount (Amazon MSK and self-managed Apache Kafka) to receive metrics related to the number of errors in your event source mapping processing.    KafkaMetrics (Amazon MSK and self-managed Apache Kafka) to receive metrics related to the Kafka consumers from your event source mapping.    For more information about these metrics, see  Event source mapping metrics.
         public let metrics: [EventSourceMappingMetric]?
 
         @inlinable
@@ -3136,7 +3167,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.metrics, name: "metrics", parent: name, max: 1)
+            try self.validate(self.metrics, name: "metrics", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8305,6 +8336,7 @@ extension Lambda {
         public let functionResponseTypes: [FunctionResponseType]?
         ///  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
         public let kmsKeyArn: String?
+        public let loggingConfig: EventSourceMappingLoggingConfig?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
         /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
@@ -8328,7 +8360,7 @@ extension Lambda {
         public let uuid: String
 
         @inlinable
-        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, scalingConfig: ScalingConfig? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(amazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig? = nil, batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, documentDBEventSourceConfig: DocumentDBEventSourceConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, kmsKeyArn: String? = nil, loggingConfig: EventSourceMappingLoggingConfig? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, metricsConfig: EventSourceMappingMetricsConfig? = nil, parallelizationFactor: Int? = nil, provisionedPollerConfig: ProvisionedPollerConfig? = nil, scalingConfig: ScalingConfig? = nil, selfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
@@ -8339,6 +8371,7 @@ extension Lambda {
             self.functionName = functionName
             self.functionResponseTypes = functionResponseTypes
             self.kmsKeyArn = kmsKeyArn
+            self.loggingConfig = loggingConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -8365,6 +8398,7 @@ extension Lambda {
             try container.encodeIfPresent(self.functionName, forKey: .functionName)
             try container.encodeIfPresent(self.functionResponseTypes, forKey: .functionResponseTypes)
             try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            try container.encodeIfPresent(self.loggingConfig, forKey: .loggingConfig)
             try container.encodeIfPresent(self.maximumBatchingWindowInSeconds, forKey: .maximumBatchingWindowInSeconds)
             try container.encodeIfPresent(self.maximumRecordAgeInSeconds, forKey: .maximumRecordAgeInSeconds)
             try container.encodeIfPresent(self.maximumRetryAttempts, forKey: .maximumRetryAttempts)
@@ -8421,6 +8455,7 @@ extension Lambda {
             case functionName = "FunctionName"
             case functionResponseTypes = "FunctionResponseTypes"
             case kmsKeyArn = "KMSKeyArn"
+            case loggingConfig = "LoggingConfig"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
             case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"

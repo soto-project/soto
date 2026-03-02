@@ -128,7 +128,7 @@ public struct MPA: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services populates this field.   What is idempotency?  When you make a mutating API request, the request typically returns a result before the operation's asynchronous workflows have completed. Operations might also time out or encounter other server issues before they complete, even though the request has already returned a result. This could make it difficult to determine whether the request succeeded or not, and could lead to multiple retries to ensure that the operation completes successfully. However, if the original request and the subsequent retries are successful, the operation is completed multiple times. This means that you might create more resources than you intended.  Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     ///   - description: Description for the team.
     ///   - name: Name of the team.
-    ///   - policies: An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+    ///   - policies: An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources.
     ///   - tags: Tags you want to attach to the team.
     ///   - logger: Logger use during operation
     @inlinable
@@ -308,7 +308,7 @@ public struct MPA: AWSService {
         return try await self.getIdentitySource(input, logger: logger)
     }
 
-    /// Returns details for the version of a policy. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+    /// Returns details for the version of a policy. Policies define the permissions for team resources.
     @Sendable
     @inlinable
     public func getPolicyVersion(_ input: GetPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyVersionResponse {
@@ -321,7 +321,7 @@ public struct MPA: AWSService {
             logger: logger
         )
     }
-    /// Returns details for the version of a policy. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+    /// Returns details for the version of a policy. Policies define the permissions for team resources.
     ///
     /// Parameters:
     ///   - policyVersionArn: Amazon Resource Name (ARN) for the policy.
@@ -465,7 +465,7 @@ public struct MPA: AWSService {
         return try await self.listIdentitySources(input, logger: logger)
     }
 
-    /// Returns a list of policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+    /// Returns a list of policies. Policies define the permissions for team resources.
     @Sendable
     @inlinable
     public func listPolicies(_ input: ListPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPoliciesResponse {
@@ -478,7 +478,7 @@ public struct MPA: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+    /// Returns a list of policies. Policies define the permissions for team resources.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
@@ -497,7 +497,7 @@ public struct MPA: AWSService {
         return try await self.listPolicies(input, logger: logger)
     }
 
-    /// Returns a list of the versions for policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+    /// Returns a list of the versions for policies. Policies define the permissions for team resources.
     @Sendable
     @inlinable
     public func listPolicyVersions(_ input: ListPolicyVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyVersionsResponse {
@@ -510,7 +510,7 @@ public struct MPA: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the versions for policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+    /// Returns a list of the versions for policies. Policies define the permissions for team resources.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
@@ -750,6 +750,7 @@ public struct MPA: AWSService {
     ///   - approvers: An array of ApprovalTeamRequestApprover objects. Contains details for the approvers in the team.
     ///   - arn: Amazon Resource Name (ARN) for the team.
     ///   - description: Description for the team.
+    ///   - updateActions: A list of UpdateAction to perform when updating the team.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApprovalTeam(
@@ -757,13 +758,15 @@ public struct MPA: AWSService {
         approvers: [ApprovalTeamRequestApprover]? = nil,
         arn: String,
         description: String? = nil,
+        updateActions: [UpdateAction]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateApprovalTeamResponse {
         let input = UpdateApprovalTeamRequest(
             approvalStrategy: approvalStrategy, 
             approvers: approvers, 
             arn: arn, 
-            description: description
+            description: description, 
+            updateActions: updateActions
         )
         return try await self.updateApprovalTeam(input, logger: logger)
     }

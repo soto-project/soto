@@ -538,16 +538,22 @@ extension Budgets {
         public let costFilters: [String: [String]]?
         /// The history of the cost types for a budget during the specified time period.
         public let costTypes: CostTypes?
+        /// The filtering dimensions for the budget and their corresponding values.
+        public let filterExpression: Expression?
+        /// The definition for how the budget data is aggregated.
+        public let metrics: [Metric]?
         public let timeUnit: TimeUnit?
 
         @inlinable
-        public init(billingViewArn: String? = nil, budgetedAndActualAmountsList: [BudgetedAndActualAmounts]? = nil, budgetName: String? = nil, budgetType: BudgetType? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, timeUnit: TimeUnit? = nil) {
+        public init(billingViewArn: String? = nil, budgetedAndActualAmountsList: [BudgetedAndActualAmounts]? = nil, budgetName: String? = nil, budgetType: BudgetType? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, filterExpression: Expression? = nil, metrics: [Metric]? = nil, timeUnit: TimeUnit? = nil) {
             self.billingViewArn = billingViewArn
             self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
             self.budgetName = budgetName
             self.budgetType = budgetType
             self.costFilters = costFilters
             self.costTypes = costTypes
+            self.filterExpression = filterExpression
+            self.metrics = metrics
             self.timeUnit = timeUnit
         }
 
@@ -558,6 +564,8 @@ extension Budgets {
             case budgetType = "BudgetType"
             case costFilters = "CostFilters"
             case costTypes = "CostTypes"
+            case filterExpression = "FilterExpression"
+            case metrics = "Metrics"
             case timeUnit = "TimeUnit"
         }
     }

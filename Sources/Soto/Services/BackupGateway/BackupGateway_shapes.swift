@@ -79,7 +79,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
             try self.validate(self.serverArn, name: "serverArn", parent: name, max: 500)
@@ -108,7 +108,7 @@ extension BackupGateway {
     }
 
     public struct BandwidthRateLimitInterval: AWSEncodableShape & AWSDecodableShape {
-        /// The average upload rate limit component of the bandwidth rate limit  interval, in bits per second. This field does not appear in the response if  the upload rate limit is not set.  For Backup Gateway, the minimum value is (Value).
+        /// The average upload rate limit component of the bandwidth rate limit  interval, in bits per second. This field does not appear in the response if  the upload rate limit is not set.
         public let averageUploadRateLimitInBitsPerSec: Int64?
         /// The days of the week component of the bandwidth rate limit interval,  represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents  Saturday.
         public let daysOfWeek: [Int]
@@ -239,7 +239,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
         }
@@ -307,7 +307,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
         }
@@ -362,6 +362,8 @@ extension BackupGateway {
     }
 
     public struct GatewayDetails: AWSDecodableShape {
+        /// Date after which this gateway will not receive software updates for new features and bug fixes.
+        public let deprecationDate: Date?
         /// The Amazon Resource Name (ARN) of the  gateway. Use the ListGateways operation to return a list of gateways for your account and  Amazon Web Services Region.
         public let gatewayArn: String?
         /// The display name of the gateway.
@@ -376,11 +378,14 @@ extension BackupGateway {
         public let maintenanceStartTime: MaintenanceStartTime?
         /// Details showing the next update availability time of the  gateway.
         public let nextUpdateAvailabilityTime: Date?
+        /// The version number of the software running on the gateway appliance.
+        public let softwareVersion: String?
         /// The DNS name for the virtual private cloud (VPC) endpoint the gateway  uses to connect to the cloud for backup gateway.
         public let vpcEndpoint: String?
 
         @inlinable
-        public init(gatewayArn: String? = nil, gatewayDisplayName: String? = nil, gatewayType: GatewayType? = nil, hypervisorId: String? = nil, lastSeenTime: Date? = nil, maintenanceStartTime: MaintenanceStartTime? = nil, nextUpdateAvailabilityTime: Date? = nil, vpcEndpoint: String? = nil) {
+        public init(deprecationDate: Date? = nil, gatewayArn: String? = nil, gatewayDisplayName: String? = nil, gatewayType: GatewayType? = nil, hypervisorId: String? = nil, lastSeenTime: Date? = nil, maintenanceStartTime: MaintenanceStartTime? = nil, nextUpdateAvailabilityTime: Date? = nil, softwareVersion: String? = nil, vpcEndpoint: String? = nil) {
+            self.deprecationDate = deprecationDate
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
             self.gatewayType = gatewayType
@@ -388,10 +393,12 @@ extension BackupGateway {
             self.lastSeenTime = lastSeenTime
             self.maintenanceStartTime = maintenanceStartTime
             self.nextUpdateAvailabilityTime = nextUpdateAvailabilityTime
+            self.softwareVersion = softwareVersion
             self.vpcEndpoint = vpcEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deprecationDate = "DeprecationDate"
             case gatewayArn = "GatewayArn"
             case gatewayDisplayName = "GatewayDisplayName"
             case gatewayType = "GatewayType"
@@ -399,6 +406,7 @@ extension BackupGateway {
             case lastSeenTime = "LastSeenTime"
             case maintenanceStartTime = "MaintenanceStartTime"
             case nextUpdateAvailabilityTime = "NextUpdateAvailabilityTime"
+            case softwareVersion = "SoftwareVersion"
             case vpcEndpoint = "VpcEndpoint"
         }
     }
@@ -413,7 +421,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
         }
@@ -451,7 +459,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
         }
@@ -534,7 +542,7 @@ extension BackupGateway {
         public let hypervisorArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role.
         public let iamRoleArn: String?
-        /// This is a display of the mappings of on-premises VMware tags to the  Amazon Web Services tags.
+        /// This is a display of the mappings of VMware tags to the  Amazon Web Services tags.
         public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]?
 
         @inlinable
@@ -947,7 +955,7 @@ extension BackupGateway {
                 try $0.validate(name: "\(name).bandwidthRateLimitIntervals[]")
             }
             try self.validate(self.bandwidthRateLimitIntervals, name: "bandwidthRateLimitIntervals", parent: name, max: 20)
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
         }
@@ -977,7 +985,7 @@ extension BackupGateway {
         public let hypervisorArn: String
         /// The Amazon Resource Name (ARN) of the IAM role.
         public let iamRoleArn: String
-        /// This action requests the mappings of on-premises VMware tags to the  Amazon Web Services tags.
+        /// This action requests the mappings of VMware tags to the  Amazon Web Services tags.
         public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]
 
         @inlinable
@@ -1046,7 +1054,7 @@ extension BackupGateway {
             try self.validate(self.dayOfMonth, name: "dayOfMonth", parent: name, min: 1)
             try self.validate(self.dayOfWeek, name: "dayOfWeek", parent: name, max: 6)
             try self.validate(self.dayOfWeek, name: "dayOfWeek", parent: name, min: 0)
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
             try self.validate(self.hourOfDay, name: "hourOfDay", parent: name, max: 23)
@@ -1215,7 +1223,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
             try self.validate(self.host, name: "host", parent: name, max: 128)
@@ -1297,7 +1305,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
             try self.validate(self.gatewayDisplayName, name: "gatewayDisplayName", parent: name, max: 100)
@@ -1335,7 +1343,7 @@ extension BackupGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 500)
+            try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, max: 180)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, min: 50)
             try self.validate(self.gatewayArn, name: "gatewayArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):backup-gateway(:[a-zA-Z-0-9]+){3}\\/[a-zA-Z-0-9]+$")
         }

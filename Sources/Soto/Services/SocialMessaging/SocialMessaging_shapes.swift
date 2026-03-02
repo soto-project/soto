@@ -86,7 +86,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.metaLibraryTemplate.validate(name: "\(name).metaLibraryTemplate")
@@ -133,7 +133,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.validate(self.templateDefinition, name: "templateDefinition", parent: name, max: 6000)
@@ -158,7 +158,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
         }
@@ -228,7 +228,7 @@ extension SocialMessaging {
             try self.validate(self.mediaId, name: "mediaId", parent: name, max: 100)
             try self.validate(self.mediaId, name: "mediaId", parent: name, min: 1)
             try self.validate(self.mediaId, name: "mediaId", parent: name, pattern: "^[A-Za-z0-9]+$")
-            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 100)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 115)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, min: 1)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, pattern: "(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$)")
         }
@@ -278,7 +278,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, max: 100)
@@ -296,7 +296,7 @@ extension SocialMessaging {
     }
 
     public struct DisassociateWhatsAppBusinessAccountInput: AWSEncodableShape {
-        /// The unique identifier of your WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901. Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their details.
+        /// The unique identifier of your WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901. Use ListLinkedWhatsAppBusinessAccounts to list all WABAs  and their details.
         public let id: String
 
         @inlinable
@@ -311,7 +311,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
         }
@@ -339,7 +339,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
         }
@@ -362,7 +362,7 @@ extension SocialMessaging {
     }
 
     public struct GetLinkedWhatsAppBusinessAccountPhoneNumberInput: AWSEncodableShape {
-        /// The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use GetLinkedWhatsAppBusinessAccount to find a phone number's id.
+        /// The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use GetLinkedWhatsAppBusinessAccount  to find a phone number's id.
         public let id: String
 
         @inlinable
@@ -377,7 +377,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$)")
         }
@@ -427,7 +427,7 @@ extension SocialMessaging {
             try self.validate(self.mediaId, name: "mediaId", parent: name, max: 100)
             try self.validate(self.mediaId, name: "mediaId", parent: name, min: 1)
             try self.validate(self.mediaId, name: "mediaId", parent: name, pattern: "^[A-Za-z0-9]+$")
-            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 100)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 115)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, min: 1)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, pattern: "(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$)")
         }
@@ -442,7 +442,7 @@ extension SocialMessaging {
     }
 
     public struct GetWhatsAppMessageMediaOutput: AWSDecodableShape {
-        /// The file size of the media, in KB.
+        /// The size of the media file, in KB.
         public let fileSize: Int64?
         /// The MIME type of the media.
         public let mimeType: String?
@@ -479,7 +479,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, max: 100)
@@ -837,7 +837,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
@@ -896,7 +896,7 @@ extension SocialMessaging {
 
         public func validate(name: String) throws {
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
@@ -981,6 +981,8 @@ extension SocialMessaging {
     public struct MetaLibraryTemplateDefinition: AWSDecodableShape {
         /// The body text of the template.
         public let templateBody: String?
+        /// Example parameter values for the template body, used to demonstrate how dynamic content appears in the template.
+        public let templateBodyExampleParams: [String]?
         /// The buttons included in the template.
         public let templateButtons: [LibraryTemplateButtonList]?
         /// The category of the template (for example, UTILITY or MARKETING).
@@ -1001,8 +1003,9 @@ extension SocialMessaging {
         public let templateUseCase: String?
 
         @inlinable
-        public init(templateBody: String? = nil, templateButtons: [LibraryTemplateButtonList]? = nil, templateCategory: String? = nil, templateHeader: String? = nil, templateId: String? = nil, templateIndustry: [String]? = nil, templateLanguage: String? = nil, templateName: String? = nil, templateTopic: String? = nil, templateUseCase: String? = nil) {
+        public init(templateBody: String? = nil, templateBodyExampleParams: [String]? = nil, templateButtons: [LibraryTemplateButtonList]? = nil, templateCategory: String? = nil, templateHeader: String? = nil, templateId: String? = nil, templateIndustry: [String]? = nil, templateLanguage: String? = nil, templateName: String? = nil, templateTopic: String? = nil, templateUseCase: String? = nil) {
             self.templateBody = templateBody
+            self.templateBodyExampleParams = templateBodyExampleParams
             self.templateButtons = templateButtons
             self.templateCategory = templateCategory
             self.templateHeader = templateHeader
@@ -1016,6 +1019,7 @@ extension SocialMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case templateBody = "templateBody"
+            case templateBodyExampleParams = "templateBodyExampleParams"
             case templateButtons = "templateButtons"
             case templateCategory = "templateCategory"
             case templateHeader = "templateHeader"
@@ -1044,7 +1048,7 @@ extension SocialMessaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 100)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 115)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, min: 1)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, pattern: "(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$)")
         }
@@ -1087,7 +1091,7 @@ extension SocialMessaging {
                 try $0.validate(name: "\(name).eventDestinations[]")
             }
             try self.validate(self.eventDestinations, name: "eventDestinations", parent: name, max: 1)
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
         }
@@ -1105,7 +1109,7 @@ extension SocialMessaging {
     public struct S3File: AWSEncodableShape {
         /// The bucket name.
         public let bucketName: String
-        /// The object key of the media file.
+        /// The S3 key prefix that defines the storage location of your media files. The prefix works like a folder path in S3,  and is combined with the WhatsApp mediaId to create the final file path. For example, if a media file's WhatsApp mediaId is 123.ogg, and the key is audio/example.ogg,  the final file path is audio/example.ogg123.ogg. For the same mediaId, a key of audio/ results in the file path audio/123.ogg.
         public let key: String
 
         @inlinable
@@ -1156,7 +1160,7 @@ extension SocialMessaging {
         public func validate(name: String) throws {
             try self.validate(self.message, name: "message", parent: name, max: 2048000)
             try self.validate(self.message, name: "message", parent: name, min: 1)
-            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 100)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 115)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, min: 1)
             try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, pattern: "(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$)")
         }
@@ -1309,30 +1313,38 @@ extension SocialMessaging {
     }
 
     public struct UpdateWhatsAppMessageTemplateInput: AWSEncodableShape {
+        /// When true, disables click tracking for call-to-action URL buttons in the template.
+        public let ctaUrlLinkTrackingOptedOut: Bool?
         /// The ID of the WhatsApp Business Account associated with this template.
         public let id: String
         /// The numeric ID of the template assigned by Meta.
         public let metaTemplateId: String
+        /// The format specification for parameters in the template, this can be either 'named' or 'positional'.
+        public let parameterFormat: String?
         /// The new category for the template (for example, UTILITY or MARKETING).
         public let templateCategory: String?
         /// The updated components of the template as a JSON blob (maximum 3000 characters).
         public let templateComponents: AWSBase64Data?
 
         @inlinable
-        public init(id: String, metaTemplateId: String, templateCategory: String? = nil, templateComponents: AWSBase64Data? = nil) {
+        public init(ctaUrlLinkTrackingOptedOut: Bool? = nil, id: String, metaTemplateId: String, parameterFormat: String? = nil, templateCategory: String? = nil, templateComponents: AWSBase64Data? = nil) {
+            self.ctaUrlLinkTrackingOptedOut = ctaUrlLinkTrackingOptedOut
             self.id = id
             self.metaTemplateId = metaTemplateId
+            self.parameterFormat = parameterFormat
             self.templateCategory = templateCategory
             self.templateComponents = templateComponents
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, max: 100)
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, min: 1)
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.parameterFormat, name: "parameterFormat", parent: name, max: 15)
+            try self.validate(self.parameterFormat, name: "parameterFormat", parent: name, min: 1)
             try self.validate(self.templateCategory, name: "templateCategory", parent: name, max: 100)
             try self.validate(self.templateCategory, name: "templateCategory", parent: name, min: 1)
             try self.validate(self.templateComponents, name: "templateComponents", parent: name, max: 3000)
@@ -1340,8 +1352,10 @@ extension SocialMessaging {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ctaUrlLinkTrackingOptedOut = "ctaUrlLinkTrackingOptedOut"
             case id = "id"
             case metaTemplateId = "metaTemplateId"
+            case parameterFormat = "parameterFormat"
             case templateCategory = "templateCategory"
             case templateComponents = "templateComponents"
         }
@@ -1354,7 +1368,7 @@ extension SocialMessaging {
     public struct WabaPhoneNumberSetupFinalization: AWSEncodableShape {
         /// The two letter ISO region for the location of where Meta will store data.  Asia–Pacific (APAC)    Australia AU    Indonesia ID    India IN    Japan JP    Singapore SG    South Korea KR     Europe    Germany DE    Switzerland CH    United Kingdom GB     Latin America (LATAM)    Brazil BR     Middle East and Africa (MEA)    Bahrain BH    South Africa ZA    United Arab Emirates AE     North America (NORAM)    Canada CA
         public let dataLocalizationRegion: String?
-        /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use GetLinkedWhatsAppBusinessAccount to find a phone number's id.
+        /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use the  GetLinkedWhatsAppBusinessAccount  API action to find a phone number's id.
         public let id: String
         /// An array of key and value pair tags.
         public let tags: [Tag]?
@@ -1431,7 +1445,7 @@ extension SocialMessaging {
         public func validate(name: String) throws {
             try self.validate(self.eventDestinationArn, name: "eventDestinationArn", parent: name, max: 2048)
             try self.validate(self.eventDestinationArn, name: "eventDestinationArn", parent: name, pattern: "^arn:.*:[a-z-]+([/:](.*))?$")
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role\\/[a-zA-Z0-9+=,.@\\-_]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.*:iam::\\d{12}:role\\/[a-zA-Z0-9+=,.@\\-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1544,7 +1558,7 @@ extension SocialMessaging {
 
         public func validate(name: String) throws {
             try self.validate(self.associateInProgressToken, name: "associateInProgressToken", parent: name, max: 50)
-            try self.validate(self.phoneNumberParent, name: "phoneNumberParent", parent: name, max: 100)
+            try self.validate(self.phoneNumberParent, name: "phoneNumberParent", parent: name, max: 115)
             try self.validate(self.phoneNumberParent, name: "phoneNumberParent", parent: name, min: 1)
             try self.validate(self.phoneNumberParent, name: "phoneNumberParent", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
             try self.phoneNumbers.forEach {

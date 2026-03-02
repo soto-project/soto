@@ -104,14 +104,31 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApprovalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case denied = "DENIED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoApprovedChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addMember = "ADD_MEMBER"
+        case grantReceiveResultsAbility = "GRANT_RECEIVE_RESULTS_ABILITY"
+        case revokeReceiveResultsAbility = "REVOKE_RECEIVE_RESULTS_ABILITY"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoRefreshMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeRequestAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approve = "APPROVE"
+        case cancel = "CANCEL"
+        case commit = "COMMIT"
+        case deny = "DENY"
         public var description: String { return self.rawValue }
     }
 
@@ -125,12 +142,16 @@ extension CleanRooms {
     }
 
     public enum ChangeSpecificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case collaboration = "COLLABORATION"
         case member = "MEMBER"
         public var description: String { return self.rawValue }
     }
 
     public enum ChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addMember = "ADD_MEMBER"
+        case editAutoApprovedChangeTypes = "EDIT_AUTO_APPROVED_CHANGE_TYPES"
+        case grantReceiveResultsAbility = "GRANT_RECEIVE_RESULTS_ABILITY"
+        case revokeReceiveResultsAbility = "REVOKE_RECEIVE_RESULTS_ABILITY"
         public var description: String { return self.rawValue }
     }
 
@@ -611,6 +632,56 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
             case text = "text"
+        }
+    }
+
+    public enum ChangeSpecification: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The collaboration configuration changes being requested. Currently, this only supports modifying which change types are auto-approved for the collaboration.
+        case collaboration(CollaborationChangeSpecification)
+        /// The member change specification when the change type is MEMBER.
+        case member(MemberChangeSpecification)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .collaboration:
+                let value = try container.decode(CollaborationChangeSpecification.self, forKey: .collaboration)
+                self = .collaboration(value)
+            case .member:
+                let value = try container.decode(MemberChangeSpecification.self, forKey: .member)
+                self = .member(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .collaboration(let value):
+                try container.encode(value, forKey: .collaboration)
+            case .member(let value):
+                try container.encode(value, forKey: .member)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .member(let value):
+                try value.validate(name: "\(name).member")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaboration = "collaboration"
+            case member = "member"
         }
     }
 
@@ -1361,7 +1432,7 @@ extension CleanRooms {
     public struct AnalysisParameter: AWSEncodableShape & AWSDecodableShape {
         /// Optional. The default value that is applied in the analysis template. The member who can query can override this value in the query editor.
         public let defaultValue: String?
-        /// The name of the parameter. The name must use only alphanumeric, underscore (_), or hyphen (-) characters but cannot start or end with a hyphen.
+        /// The name of the parameter. The name must use only alphanumeric or underscore (_) characters.
         public let name: String
         /// The type of parameter.
         public let type: ParameterType
@@ -1374,7 +1445,7 @@ extension CleanRooms {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 250)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1000)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-zA-Z_]+$")
@@ -1856,7 +1927,23 @@ extension CleanRooms {
         }
     }
 
+    public struct ApprovalStatusDetails: AWSDecodableShape {
+        /// The approval status of a member's vote on the change request. Valid values are PENDING (if they haven't voted), APPROVED, or DENIED.
+        public let status: ApprovalStatus
+
+        @inlinable
+        public init(status: ApprovalStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct AthenaTableReference: AWSEncodableShape & AWSDecodableShape {
+        ///  The catalog name.
+        public let catalogName: String?
         ///  The database name.
         public let databaseName: String
         ///  The output location for the Athena table.
@@ -1869,7 +1956,8 @@ extension CleanRooms {
         public let workGroup: String
 
         @inlinable
-        public init(databaseName: String, outputLocation: String? = nil, region: CommercialRegion? = nil, tableName: String, workGroup: String) {
+        public init(catalogName: String? = nil, databaseName: String, outputLocation: String? = nil, region: CommercialRegion? = nil, tableName: String, workGroup: String) {
+            self.catalogName = catalogName
             self.databaseName = databaseName
             self.outputLocation = outputLocation
             self.region = region
@@ -1878,6 +1966,9 @@ extension CleanRooms {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogName, name: "catalogName", parent: name, max: 64)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 128)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_]+-)*([a-zA-Z0-9_]+))?$")
             try self.validate(self.outputLocation, name: "outputLocation", parent: name, max: 1024)
@@ -1891,6 +1982,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogName = "catalogName"
             case databaseName = "databaseName"
             case outputLocation = "outputLocation"
             case region = "region"
@@ -1943,7 +2035,7 @@ extension CleanRooms {
         public func validate(name: String) throws {
             try self.analysisTemplateArns.forEach {
                 try validate($0, name: "analysisTemplateArns[]", parent: name, max: 200)
-                try validate($0, name: "analysisTemplateArns[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
+                try validate($0, name: "analysisTemplateArns[]", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
             }
             try self.validate(self.analysisTemplateArns, name: "analysisTemplateArns", parent: name, max: 10)
             try self.validate(self.analysisTemplateArns, name: "analysisTemplateArns", parent: name, min: 1)
@@ -2250,6 +2342,8 @@ extension CleanRooms {
         public let description: String?
         /// The unique ID for the collaboration.
         public let id: String
+        /// An indicator as to whether metrics are enabled for the collaboration. When true, collaboration members can opt in to Amazon CloudWatch metrics for their membership queries.
+        public let isMetricsEnabled: Bool?
         /// An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: CollaborationJobLogStatus?
         /// The unique ARN for your membership within the collaboration.
@@ -2266,7 +2360,7 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(allowedResultRegions: [SupportedS3Region]? = nil, analyticsEngine: AnalyticsEngine? = nil, arn: String, autoApprovedChangeTypes: [AutoApprovedChangeType]? = nil, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, jobLogStatus: CollaborationJobLogStatus? = nil, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
+        public init(allowedResultRegions: [SupportedS3Region]? = nil, analyticsEngine: AnalyticsEngine? = nil, arn: String, autoApprovedChangeTypes: [AutoApprovedChangeType]? = nil, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, isMetricsEnabled: Bool? = nil, jobLogStatus: CollaborationJobLogStatus? = nil, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
             self.allowedResultRegions = allowedResultRegions
             self.analyticsEngine = analyticsEngine
             self.arn = arn
@@ -2277,6 +2371,7 @@ extension CleanRooms {
             self.dataEncryptionMetadata = dataEncryptionMetadata
             self.description = description
             self.id = id
+            self.isMetricsEnabled = isMetricsEnabled
             self.jobLogStatus = jobLogStatus
             self.membershipArn = membershipArn
             self.membershipId = membershipId
@@ -2297,6 +2392,7 @@ extension CleanRooms {
             case dataEncryptionMetadata = "dataEncryptionMetadata"
             case description = "description"
             case id = "id"
+            case isMetricsEnabled = "isMetricsEnabled"
             case jobLogStatus = "jobLogStatus"
             case membershipArn = "membershipArn"
             case membershipId = "membershipId"
@@ -2436,6 +2532,8 @@ extension CleanRooms {
     }
 
     public struct CollaborationChangeRequest: AWSDecodableShape {
+        /// A list of approval details from collaboration members, including approval status and multi-party approval workflow information.
+        public let approvals: [String: ApprovalStatusDetails]?
         /// The list of changes specified in this change request.
         public let changes: [Change]
         /// The unique identifier for the collaboration being modified.
@@ -2452,7 +2550,8 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(changes: [Change], collaborationId: String, createTime: Date, id: String, isAutoApproved: Bool, status: ChangeRequestStatus, updateTime: Date) {
+        public init(approvals: [String: ApprovalStatusDetails]? = nil, changes: [Change], collaborationId: String, createTime: Date, id: String, isAutoApproved: Bool, status: ChangeRequestStatus, updateTime: Date) {
+            self.approvals = approvals
             self.changes = changes
             self.collaborationId = collaborationId
             self.createTime = createTime
@@ -2463,6 +2562,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case approvals = "approvals"
             case changes = "changes"
             case collaborationId = "collaborationId"
             case createTime = "createTime"
@@ -2474,6 +2574,8 @@ extension CleanRooms {
     }
 
     public struct CollaborationChangeRequestSummary: AWSDecodableShape {
+        /// Summary of approval statuses from all collaboration members for this change request.
+        public let approvals: [String: ApprovalStatusDetails]?
         /// Summary of the changes in this change request.
         public let changes: [Change]
         /// The unique identifier for the collaboration.
@@ -2490,7 +2592,8 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(changes: [Change], collaborationId: String, createTime: Date, id: String, isAutoApproved: Bool, status: ChangeRequestStatus, updateTime: Date) {
+        public init(approvals: [String: ApprovalStatusDetails]? = nil, changes: [Change], collaborationId: String, createTime: Date, id: String, isAutoApproved: Bool, status: ChangeRequestStatus, updateTime: Date) {
+            self.approvals = approvals
             self.changes = changes
             self.collaborationId = collaborationId
             self.createTime = createTime
@@ -2501,6 +2604,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case approvals = "approvals"
             case changes = "changes"
             case collaborationId = "collaborationId"
             case createTime = "createTime"
@@ -2508,6 +2612,20 @@ extension CleanRooms {
             case isAutoApproved = "isAutoApproved"
             case status = "status"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct CollaborationChangeSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Defines requested updates to properties of the collaboration. Currently, this only supports modifying which change types are auto-approved for the collaboration.
+        public let autoApprovedChangeTypes: [AutoApprovedChangeType]?
+
+        @inlinable
+        public init(autoApprovedChangeTypes: [AutoApprovedChangeType]? = nil) {
+            self.autoApprovedChangeTypes = autoApprovedChangeTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoApprovedChangeTypes = "autoApprovedChangeTypes"
         }
     }
 
@@ -3744,6 +3862,8 @@ extension CleanRooms {
         public let dataEncryptionMetadata: DataEncryptionMetadata?
         /// A description of the collaboration provided by the collaboration owner.
         public let description: String
+        /// An indicator as to whether metrics have been enabled or disabled for the collaboration. When true, collaboration members can opt in to Amazon CloudWatch metrics for their membership queries. The default value is false.
+        public let isMetricsEnabled: Bool?
         /// Specifies whether job logs are enabled for this collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration; those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: CollaborationJobLogStatus?
         /// A list of initial members, not including the creator. This list is immutable.
@@ -3756,7 +3876,7 @@ extension CleanRooms {
         public let tags: [String: String]?
 
         @inlinable
-        public init(allowedResultRegions: [SupportedS3Region]? = nil, analyticsEngine: AnalyticsEngine? = nil, autoApprovedChangeRequestTypes: [AutoApprovedChangeType]? = nil, creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorMLMemberAbilities: MLMemberAbilities? = nil, creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, jobLogStatus: CollaborationJobLogStatus? = nil, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
+        public init(allowedResultRegions: [SupportedS3Region]? = nil, analyticsEngine: AnalyticsEngine? = nil, autoApprovedChangeRequestTypes: [AutoApprovedChangeType]? = nil, creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorMLMemberAbilities: MLMemberAbilities? = nil, creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, isMetricsEnabled: Bool? = nil, jobLogStatus: CollaborationJobLogStatus? = nil, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
             self.allowedResultRegions = allowedResultRegions
             self.analyticsEngine = analyticsEngine
             self.autoApprovedChangeRequestTypes = autoApprovedChangeRequestTypes
@@ -3766,6 +3886,7 @@ extension CleanRooms {
             self.creatorPaymentConfiguration = creatorPaymentConfiguration
             self.dataEncryptionMetadata = dataEncryptionMetadata
             self.description = description
+            self.isMetricsEnabled = isMetricsEnabled
             self.jobLogStatus = jobLogStatus
             self.members = members
             self.name = name
@@ -3805,6 +3926,7 @@ extension CleanRooms {
             case creatorPaymentConfiguration = "creatorPaymentConfiguration"
             case dataEncryptionMetadata = "dataEncryptionMetadata"
             case description = "description"
+            case isMetricsEnabled = "isMetricsEnabled"
             case jobLogStatus = "jobLogStatus"
             case members = "members"
             case name = "name"
@@ -4325,6 +4447,8 @@ extension CleanRooms {
         public let defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration?
         /// The default protected query result configuration as specified by the member who can receive results.
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
+        /// An indicator as to whether Amazon CloudWatch metrics have been enabled or disabled for the membership. Amazon CloudWatch metrics are only available when the collaboration has metrics enabled. This option can be set by collaboration members who have the ability to run queries (analysis runners) or by members who are configured as payers. When true, metrics about query execution are collected in Amazon CloudWatch. The default value is false.
+        public let isMetricsEnabled: Bool?
         /// An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: MembershipJobLogStatus?
         /// The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries.  Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
@@ -4335,10 +4459,11 @@ extension CleanRooms {
         public let tags: [String: String]?
 
         @inlinable
-        public init(collaborationIdentifier: String, defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, jobLogStatus: MembershipJobLogStatus? = nil, paymentConfiguration: MembershipPaymentConfiguration? = nil, queryLogStatus: MembershipQueryLogStatus, tags: [String: String]? = nil) {
+        public init(collaborationIdentifier: String, defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, isMetricsEnabled: Bool? = nil, jobLogStatus: MembershipJobLogStatus? = nil, paymentConfiguration: MembershipPaymentConfiguration? = nil, queryLogStatus: MembershipQueryLogStatus, tags: [String: String]? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.defaultJobResultConfiguration = defaultJobResultConfiguration
             self.defaultResultConfiguration = defaultResultConfiguration
+            self.isMetricsEnabled = isMetricsEnabled
             self.jobLogStatus = jobLogStatus
             self.paymentConfiguration = paymentConfiguration
             self.queryLogStatus = queryLogStatus
@@ -4363,6 +4488,7 @@ extension CleanRooms {
             case collaborationIdentifier = "collaborationIdentifier"
             case defaultJobResultConfiguration = "defaultJobResultConfiguration"
             case defaultResultConfiguration = "defaultResultConfiguration"
+            case isMetricsEnabled = "isMetricsEnabled"
             case jobLogStatus = "jobLogStatus"
             case paymentConfiguration = "paymentConfiguration"
             case queryLogStatus = "queryLogStatus"
@@ -5220,7 +5346,7 @@ extension CleanRooms {
 
         public func validate(name: String) throws {
             try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, max: 200)
-            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
+            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -7797,6 +7923,8 @@ extension CleanRooms {
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
         /// The unique ID of the membership.
         public let id: String
+        /// An indicator as to whether Amazon CloudWatch metrics are enabled for the membership. When true, metrics about query execution are collected in Amazon CloudWatch.
+        public let isMetricsEnabled: Bool?
         /// An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: MembershipJobLogStatus?
         /// The abilities granted to the collaboration member.
@@ -7813,7 +7941,7 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, id: String, jobLogStatus: MembershipJobLogStatus? = nil, memberAbilities: [MemberAbility], mlMemberAbilities: MLMemberAbilities? = nil, paymentConfiguration: MembershipPaymentConfiguration, queryLogStatus: MembershipQueryLogStatus, status: MembershipStatus, updateTime: Date) {
+        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, id: String, isMetricsEnabled: Bool? = nil, jobLogStatus: MembershipJobLogStatus? = nil, memberAbilities: [MemberAbility], mlMemberAbilities: MLMemberAbilities? = nil, paymentConfiguration: MembershipPaymentConfiguration, queryLogStatus: MembershipQueryLogStatus, status: MembershipStatus, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationCreatorAccountId = collaborationCreatorAccountId
@@ -7824,6 +7952,7 @@ extension CleanRooms {
             self.defaultJobResultConfiguration = defaultJobResultConfiguration
             self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
+            self.isMetricsEnabled = isMetricsEnabled
             self.jobLogStatus = jobLogStatus
             self.memberAbilities = memberAbilities
             self.mlMemberAbilities = mlMemberAbilities
@@ -7844,6 +7973,7 @@ extension CleanRooms {
             case defaultJobResultConfiguration = "defaultJobResultConfiguration"
             case defaultResultConfiguration = "defaultResultConfiguration"
             case id = "id"
+            case isMetricsEnabled = "isMetricsEnabled"
             case jobLogStatus = "jobLogStatus"
             case memberAbilities = "memberAbilities"
             case mlMemberAbilities = "mlMemberAbilities"
@@ -8503,19 +8633,29 @@ extension CleanRooms {
     public struct ProtectedJobParameters: AWSEncodableShape & AWSDecodableShape {
         ///  The ARN of the analysis template.
         public let analysisTemplateArn: String
+        /// Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template.
+        public let parameters: [String: String]?
 
         @inlinable
-        public init(analysisTemplateArn: String) {
+        public init(analysisTemplateArn: String, parameters: [String: String]? = nil) {
             self.analysisTemplateArn = analysisTemplateArn
+            self.parameters = parameters
         }
 
         public func validate(name: String) throws {
             try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, max: 200)
-            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
+            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 100)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[0-9a-zA-Z_]+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 1000)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case analysisTemplateArn = "analysisTemplateArn"
+            case parameters = "parameters"
         }
     }
 
@@ -8949,12 +9089,12 @@ extension CleanRooms {
 
         public func validate(name: String) throws {
             try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, max: 200)
-            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
+            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws[-a-z]*:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 100)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[0-9a-zA-Z_]+$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 250)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 1000)
             }
         }
 
@@ -9701,6 +9841,56 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case analysisTemplate = "analysisTemplate"
+        }
+    }
+
+    public struct UpdateCollaborationChangeRequestInput: AWSEncodableShape {
+        /// The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (cancel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+        public let action: ChangeRequestAction
+        /// The unique identifier of the specific change request to be updated within the collaboration.
+        public let changeRequestIdentifier: String
+        /// The unique identifier of the collaboration that contains the change request to be updated.
+        public let collaborationIdentifier: String
+
+        @inlinable
+        public init(action: ChangeRequestAction, changeRequestIdentifier: String, collaborationIdentifier: String) {
+            self.action = action
+            self.changeRequestIdentifier = changeRequestIdentifier
+            self.collaborationIdentifier = collaborationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            request.encodePath(self.changeRequestIdentifier, key: "changeRequestIdentifier")
+            request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changeRequestIdentifier, name: "changeRequestIdentifier", parent: name, max: 36)
+            try self.validate(self.changeRequestIdentifier, name: "changeRequestIdentifier", parent: name, min: 36)
+            try self.validate(self.changeRequestIdentifier, name: "changeRequestIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
+            try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+        }
+    }
+
+    public struct UpdateCollaborationChangeRequestOutput: AWSDecodableShape {
+        public let collaborationChangeRequest: CollaborationChangeRequest
+
+        @inlinable
+        public init(collaborationChangeRequest: CollaborationChangeRequest) {
+            self.collaborationChangeRequest = collaborationChangeRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collaborationChangeRequest = "collaborationChangeRequest"
         }
     }
 
@@ -10506,24 +10696,6 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case artifacts = "artifacts"
-        }
-    }
-
-    public struct ChangeSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The member change specification when the change type is MEMBER.
-        public let member: MemberChangeSpecification?
-
-        @inlinable
-        public init(member: MemberChangeSpecification? = nil) {
-            self.member = member
-        }
-
-        public func validate(name: String) throws {
-            try self.member?.validate(name: "\(name).member")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case member = "member"
         }
     }
 

@@ -202,7 +202,7 @@ extension RedshiftServerless {
     }
 
     public struct ConfigParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless.
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless.
         public let parameterKey: String?
         /// The value of the parameter to set.
         public let parameterValue: String?
@@ -749,10 +749,12 @@ extension RedshiftServerless {
     public struct CreateWorkgroupRequest: AWSEncodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
         public let enhancedVpcRouting: Bool?
+        /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+        public let extraComputeForAutomaticOptimization: Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public let ipAddressType: String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -777,10 +779,11 @@ extension RedshiftServerless {
         public let workgroupName: String
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, trackName: String? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, extraComputeForAutomaticOptimization: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, trackName: String? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
@@ -815,6 +818,7 @@ extension RedshiftServerless {
             case baseCapacity = "baseCapacity"
             case configParameters = "configParameters"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case extraComputeForAutomaticOptimization = "extraComputeForAutomaticOptimization"
             case ipAddressType = "ipAddressType"
             case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"
@@ -3904,10 +3908,12 @@ extension RedshiftServerless {
     public struct UpdateWorkgroupRequest: AWSEncodableShape {
         /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
+        /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+        public let extraComputeForAutomaticOptimization: Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public let ipAddressType: String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -3928,10 +3934,11 @@ extension RedshiftServerless {
         public let workgroupName: String
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, trackName: String? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, extraComputeForAutomaticOptimization: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, trackName: String? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.port = port
@@ -3957,6 +3964,7 @@ extension RedshiftServerless {
             case baseCapacity = "baseCapacity"
             case configParameters = "configParameters"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case extraComputeForAutomaticOptimization = "extraComputeForAutomaticOptimization"
             case ipAddressType = "ipAddressType"
             case maxCapacity = "maxCapacity"
             case port = "port"
@@ -4064,7 +4072,7 @@ extension RedshiftServerless {
     public struct Workgroup: AWSDecodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The creation date of the workgroup.
         public let creationDate: Date?
@@ -4080,6 +4088,8 @@ extension RedshiftServerless {
         public let endpoint: Endpoint?
         /// The value that specifies whether to enable enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
+        /// A boolean value that, if true, indicates that the workgroup allocates additional compute resources to run automatic optimization operations. Default: false
+        public let extraComputeForAutomaticOptimization: Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public let ipAddressType: String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -4114,7 +4124,7 @@ extension RedshiftServerless {
         public let workgroupVersion: String?
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, pendingTrackName: String? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, trackName: String? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, extraComputeForAutomaticOptimization: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, pendingTrackName: String? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, trackName: String? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
@@ -4124,6 +4134,7 @@ extension RedshiftServerless {
             self.customDomainName = customDomainName
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
@@ -4152,6 +4163,7 @@ extension RedshiftServerless {
             case customDomainName = "customDomainName"
             case endpoint = "endpoint"
             case enhancedVpcRouting = "enhancedVpcRouting"
+            case extraComputeForAutomaticOptimization = "extraComputeForAutomaticOptimization"
             case ipAddressType = "ipAddressType"
             case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"

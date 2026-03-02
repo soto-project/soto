@@ -140,7 +140,7 @@ extension Billing {
         public let billingViewType: BillingViewType?
         /// The time when the billing view was created.
         public let createdAt: Date?
-        ///  See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+        ///  See Expression. Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
         public let dataFilterExpression: Expression?
         ///  The number of billing views that use this billing view as a source.
         public let derivedViewCount: Int?
@@ -272,10 +272,40 @@ extension Billing {
         }
     }
 
+    public struct CostCategoryValues: AWSEncodableShape & AWSDecodableShape {
+        ///  The unique name of the Cost Category.
+        public let key: String
+        ///  The specific value of the Cost Category.
+        public let values: [String]
+
+        @inlinable
+        public init(key: String, values: [String]) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 50)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case values = "values"
+        }
+    }
+
     public struct CreateBillingViewRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request.
         public let clientToken: String?
-        ///  See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+        ///  See Expression. Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
         public let dataFilterExpression: Expression?
         ///  The description of the billing view.
         public let description: String?
@@ -458,6 +488,8 @@ extension Billing {
     }
 
     public struct Expression: AWSEncodableShape & AWSDecodableShape {
+        ///  The filter that's based on CostCategory values.
+        public let costCategories: CostCategoryValues?
         ///  The specific Dimension to use for Expression.
         public let dimensions: DimensionValues?
         ///  The specific Tag to use for Expression.
@@ -466,18 +498,21 @@ extension Billing {
         public let timeRange: TimeRange?
 
         @inlinable
-        public init(dimensions: DimensionValues? = nil, tags: TagValues? = nil, timeRange: TimeRange? = nil) {
+        public init(costCategories: CostCategoryValues? = nil, dimensions: DimensionValues? = nil, tags: TagValues? = nil, timeRange: TimeRange? = nil) {
+            self.costCategories = costCategories
             self.dimensions = dimensions
             self.tags = tags
             self.timeRange = timeRange
         }
 
         public func validate(name: String) throws {
+            try self.costCategories?.validate(name: "\(name).costCategories")
             try self.dimensions?.validate(name: "\(name).dimensions")
             try self.tags?.validate(name: "\(name).tags")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case costCategories = "costCategories"
             case dimensions = "dimensions"
             case tags = "tags"
             case timeRange = "timeRange"
@@ -919,7 +954,7 @@ extension Billing {
     public struct UpdateBillingViewRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public let arn: String
-        /// See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+        /// See Expression. Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
         public let dataFilterExpression: Expression?
         ///  The description of the billing view.
         public let description: String?

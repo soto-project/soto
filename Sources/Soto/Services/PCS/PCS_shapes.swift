@@ -37,6 +37,7 @@ extension PCS {
         case creating = "CREATING"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
+        case resuming = "RESUMING"
         case suspended = "SUSPENDED"
         case suspending = "SUSPENDING"
         case updateFailed = "UPDATE_FAILED"
@@ -51,6 +52,7 @@ extension PCS {
         case deleteFailed = "DELETE_FAILED"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case resuming = "RESUMING"
         case suspended = "SUSPENDED"
         case suspending = "SUSPENDING"
         case updateFailed = "UPDATE_FAILED"
@@ -84,6 +86,7 @@ extension PCS {
         case creating = "CREATING"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
+        case resuming = "RESUMING"
         case suspended = "SUSPENDED"
         case suspending = "SUSPENDING"
         case updateFailed = "UPDATE_FAILED"
@@ -129,7 +132,7 @@ extension PCS {
     public struct Accounting: AWSDecodableShape {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the slurmdbd.conf documentation at SchedMD. The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists.   0 isn't a valid value.
         public let defaultPurgeTimeInDays: Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         public let mode: AccountingMode
 
         @inlinable
@@ -147,7 +150,7 @@ extension PCS {
     public struct AccountingRequest: AWSEncodableShape {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the slurmdbd.conf documentation at SchedMD. The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists.   0 isn't a valid value.
         public let defaultPurgeTimeInDays: Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         public let mode: AccountingMode
 
         @inlinable
@@ -1002,9 +1005,9 @@ extension PCS {
     }
 
     public struct JwtKey: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the JWT key.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the JWT key.
         public let secretArn: String
-        /// The version of the AWS Secrets Manager secret containing the JWT key.
+        /// The version of the Amazon Web Services Secrets Manager secret containing the JWT key.
         public let secretVersion: String
 
         @inlinable
@@ -1566,7 +1569,7 @@ extension PCS {
     }
 
     public struct SlurmRest: AWSDecodableShape {
-        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
         public let mode: SlurmRestMode
 
         @inlinable
@@ -1580,7 +1583,7 @@ extension PCS {
     }
 
     public struct SlurmRestRequest: AWSEncodableShape {
-        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
         public let mode: SlurmRestMode
 
         @inlinable
@@ -1708,7 +1711,7 @@ extension PCS {
     public struct UpdateAccountingRequest: AWSEncodableShape {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the slurmdbd.conf documentation at SchedMD. The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists.   0 isn't a valid value.
         public let defaultPurgeTimeInDays: Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         public let mode: AccountingMode?
 
         @inlinable
@@ -1943,7 +1946,7 @@ extension PCS {
     }
 
     public struct UpdateSlurmRestRequest: AWSEncodableShape {
-        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
         public let mode: SlurmRestMode?
 
         @inlinable

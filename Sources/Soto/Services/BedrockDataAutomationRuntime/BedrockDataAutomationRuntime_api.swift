@@ -130,6 +130,7 @@ public struct BedrockDataAutomationRuntime: AWSService {
     ///   - dataAutomationProfileArn: Data automation profile ARN
     ///   - encryptionConfiguration: Encryption configuration.
     ///   - inputConfiguration: Input configuration.
+    ///   - outputConfiguration: Output configuration.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeDataAutomation(
@@ -138,6 +139,7 @@ public struct BedrockDataAutomationRuntime: AWSService {
         dataAutomationProfileArn: String,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         inputConfiguration: SyncInputConfiguration,
+        outputConfiguration: OutputConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeDataAutomationResponse {
         let input = InvokeDataAutomationRequest(
@@ -145,7 +147,8 @@ public struct BedrockDataAutomationRuntime: AWSService {
             dataAutomationConfiguration: dataAutomationConfiguration, 
             dataAutomationProfileArn: dataAutomationProfileArn, 
             encryptionConfiguration: encryptionConfiguration, 
-            inputConfiguration: inputConfiguration
+            inputConfiguration: inputConfiguration, 
+            outputConfiguration: outputConfiguration
         )
         return try await self.invokeDataAutomation(input, logger: logger)
     }

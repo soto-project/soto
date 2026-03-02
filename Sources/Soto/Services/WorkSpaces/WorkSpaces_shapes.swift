@@ -91,6 +91,7 @@ extension WorkSpaces {
     }
 
     public enum AssociationErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationOldversionexistFailure = "ValidationError.ApplicationOldVersionExists"
         case insufficientDiskspace = "ValidationError.InsufficientDiskSpace"
         case insufficientMemory = "ValidationError.InsufficientMemory"
         case internalServerError = "DeploymentError.InternalServerError"
@@ -158,6 +159,18 @@ extension WorkSpaces {
         case generalpurpose8Xlarge = "GENERALPURPOSE_8XLARGE"
         case graphics = "GRAPHICS"
         case graphicsG4Dn = "GRAPHICS_G4DN"
+        case graphicsG616Xlarge = "GRAPHICS_G6_16XLARGE"
+        case graphicsG62Xlarge = "GRAPHICS_G6_2XLARGE"
+        case graphicsG64Xlarge = "GRAPHICS_G6_4XLARGE"
+        case graphicsG68Xlarge = "GRAPHICS_G6_8XLARGE"
+        case graphicsG6F2Xlarge = "GRAPHICS_G6F_2XLARGE"
+        case graphicsG6F4Xlarge = "GRAPHICS_G6F_4XLARGE"
+        case graphicsG6FLarge = "GRAPHICS_G6F_LARGE"
+        case graphicsG6FXlarge = "GRAPHICS_G6F_XLARGE"
+        case graphicsG6Xlarge = "GRAPHICS_G6_XLARGE"
+        case graphicsGr64Xlarge = "GRAPHICS_GR6_4XLARGE"
+        case graphicsGr68Xlarge = "GRAPHICS_GR6_8XLARGE"
+        case graphicsGr6F4Xlarge = "GRAPHICS_GR6F_4XLARGE"
         case graphicspro = "GRAPHICSPRO"
         case graphicsproG4Dn = "GRAPHICSPRO_G4DN"
         case performance = "PERFORMANCE"
@@ -191,9 +204,19 @@ extension WorkSpaces {
 
     public enum CustomWorkspaceImageImportState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
+        case creatingTestInstance = "CREATING_TEST_INSTANCE"
         case error = "ERROR"
+        case generalizing = "GENERALIZING"
+        case imageCompatibilityChecking = "IMAGE_COMPATIBILITY_CHECKING"
+        case imageTestingGeneralization = "IMAGE_TESTING_GENERALIZATION"
+        case imageTestingStart = "IMAGE_TESTING_START"
         case inProgress = "IN_PROGRESS"
+        case installingComponents = "INSTALLING_COMPONENTS"
         case pending = "PENDING"
+        case processingSourceImage = "PROCESSING_SOURCE_IMAGE"
+        case publishing = "PUBLISHING"
+        case updatingOperatingSystem = "UPDATING_OPERATING_SYSTEM"
+        case validating = "VALIDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -271,6 +294,7 @@ extension WorkSpaces {
     public enum ImageComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case base = "BASE"
         case graphicsG4Dn = "GRAPHICS_G4DN"
+        case graphicsG6 = "GRAPHICS_G6"
         public var description: String { return self.rawValue }
     }
 
@@ -2918,11 +2942,15 @@ extension WorkSpaces {
         public let infrastructureConfigurationArn: String?
         /// The timestamp when the WorkSpace image import was last updated.
         public let lastUpdatedTime: Date?
+        /// The estimated progress percentage of the WorkSpace image import workflow.
+        public let progressPercentage: Int?
         /// The state of the WorkSpace image.
         public let state: CustomWorkspaceImageImportState?
+        /// The state message of the WorkSpace image import workflow.
+        public let stateMessage: String?
 
         @inlinable
-        public init(created: Date? = nil, errorDetails: [CustomWorkspaceImageImportErrorDetails]? = nil, imageBuilderInstanceId: String? = nil, imageId: String? = nil, imageSource: ImageSourceIdentifier? = nil, infrastructureConfigurationArn: String? = nil, lastUpdatedTime: Date? = nil, state: CustomWorkspaceImageImportState? = nil) {
+        public init(created: Date? = nil, errorDetails: [CustomWorkspaceImageImportErrorDetails]? = nil, imageBuilderInstanceId: String? = nil, imageId: String? = nil, imageSource: ImageSourceIdentifier? = nil, infrastructureConfigurationArn: String? = nil, lastUpdatedTime: Date? = nil, progressPercentage: Int? = nil, state: CustomWorkspaceImageImportState? = nil, stateMessage: String? = nil) {
             self.created = created
             self.errorDetails = errorDetails
             self.imageBuilderInstanceId = imageBuilderInstanceId
@@ -2930,7 +2958,9 @@ extension WorkSpaces {
             self.imageSource = imageSource
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.lastUpdatedTime = lastUpdatedTime
+            self.progressPercentage = progressPercentage
             self.state = state
+            self.stateMessage = stateMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2941,7 +2971,9 @@ extension WorkSpaces {
             case imageSource = "ImageSource"
             case infrastructureConfigurationArn = "InfrastructureConfigurationArn"
             case lastUpdatedTime = "LastUpdatedTime"
+            case progressPercentage = "ProgressPercentage"
             case state = "State"
+            case stateMessage = "StateMessage"
         }
     }
 

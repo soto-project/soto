@@ -86,6 +86,8 @@ extension SageMakerRuntime {
         public let customAttributes: String?
         /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API.
         public let endpointName: String
+        /// The filename for the inference response payload stored in Amazon S3. If not specified, Amazon SageMaker AI generates a filename based on the inference ID.
+        public let filename: String?
         /// The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified.
         public let inferenceId: String?
         /// The Amazon S3 URI where the inference request payload is stored.
@@ -94,17 +96,21 @@ extension SageMakerRuntime {
         public let invocationTimeoutSeconds: Int?
         /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
         public let requestTTLSeconds: Int?
+        /// The path extension that is appended to the Amazon S3 output path where the inference response payload is stored.
+        public let s3OutputPathExtension: String?
 
         @inlinable
-        public init(accept: String? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceId: String? = nil, inputLocation: String? = nil, invocationTimeoutSeconds: Int? = nil, requestTTLSeconds: Int? = nil) {
+        public init(accept: String? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, filename: String? = nil, inferenceId: String? = nil, inputLocation: String? = nil, invocationTimeoutSeconds: Int? = nil, requestTTLSeconds: Int? = nil, s3OutputPathExtension: String? = nil) {
             self.accept = accept
             self.contentType = contentType
             self.customAttributes = customAttributes
             self.endpointName = endpointName
+            self.filename = filename
             self.inferenceId = inferenceId
             self.inputLocation = inputLocation
             self.invocationTimeoutSeconds = invocationTimeoutSeconds
             self.requestTTLSeconds = requestTTLSeconds
+            self.s3OutputPathExtension = s3OutputPathExtension
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -114,10 +120,12 @@ extension SageMakerRuntime {
             request.encodeHeader(self.contentType, key: "X-Amzn-SageMaker-Content-Type")
             request.encodeHeader(self.customAttributes, key: "X-Amzn-SageMaker-Custom-Attributes")
             request.encodePath(self.endpointName, key: "EndpointName")
+            request.encodeHeader(self.filename, key: "X-Amzn-SageMaker-Filename")
             request.encodeHeader(self.inferenceId, key: "X-Amzn-SageMaker-Inference-Id")
             request.encodeHeader(self.inputLocation, key: "X-Amzn-SageMaker-InputLocation")
             request.encodeHeader(self.invocationTimeoutSeconds, key: "X-Amzn-SageMaker-InvocationTimeoutSeconds")
             request.encodeHeader(self.requestTTLSeconds, key: "X-Amzn-SageMaker-RequestTTLSeconds")
+            request.encodeHeader(self.s3OutputPathExtension, key: "X-Amzn-SageMaker-S3OutputPathExtension")
         }
 
         public func validate(name: String) throws {
@@ -129,6 +137,9 @@ extension SageMakerRuntime {
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, pattern: "^\\p{ASCII}*$")
             try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
             try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.filename, name: "filename", parent: name, max: 32)
+            try self.validate(self.filename, name: "filename", parent: name, min: 1)
+            try self.validate(self.filename, name: "filename", parent: name, pattern: "^(?!.*\\..*\\.)[a-zA-Z0-9][a-zA-Z0-9-_\\.]*$")
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, max: 64)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, min: 1)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, pattern: "^\\A\\S[\\p{Print}]*\\z$")
@@ -139,6 +150,9 @@ extension SageMakerRuntime {
             try self.validate(self.invocationTimeoutSeconds, name: "invocationTimeoutSeconds", parent: name, min: 1)
             try self.validate(self.requestTTLSeconds, name: "requestTTLSeconds", parent: name, max: 21600)
             try self.validate(self.requestTTLSeconds, name: "requestTTLSeconds", parent: name, min: 60)
+            try self.validate(self.s3OutputPathExtension, name: "s3OutputPathExtension", parent: name, max: 512)
+            try self.validate(self.s3OutputPathExtension, name: "s3OutputPathExtension", parent: name, min: 1)
+            try self.validate(self.s3OutputPathExtension, name: "s3OutputPathExtension", parent: name, pattern: "^(?!s3:|https:)[a-zA-Z0-9!_.*'()/-]+$")
         }
 
         private enum CodingKeys: CodingKey {}

@@ -2945,6 +2945,7 @@ extension CostExplorer {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 6000)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.validate(self.service, name: "service", parent: name, max: 1024)
             try self.validate(self.service, name: "service", parent: name, pattern: "^[\\S\\s]*$")
@@ -3082,6 +3083,7 @@ extension CostExplorer {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 6000)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.validate(self.service, name: "service", parent: name, max: 1024)
             try self.validate(self.service, name: "service", parent: name, pattern: "^[\\S\\s]*$")
@@ -3274,6 +3276,7 @@ extension CostExplorer {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 6000)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
         }
 
@@ -3708,6 +3711,7 @@ extension CostExplorer {
             try self.validate(self.analysisIds, name: "analysisIds", parent: name, max: 600)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 600)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
         }
 
@@ -3848,7 +3852,7 @@ extension CostExplorer {
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
-        ///  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing.
+        ///  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing and billing:billingview.
         public let supportedResourceTypes: [String]?
 
         @inlinable
@@ -3970,6 +3974,7 @@ extension CostExplorer {
         public func validate(name: String) throws {
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 6000)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.recommendationIds?.forEach {
                 try validate($0, name: "recommendationIds[]", parent: name, max: 36)
@@ -4170,6 +4175,8 @@ extension CostExplorer {
         public let databaseEdition: String?
         /// The database engine that the recommended reservation supports.
         public let databaseEngine: String?
+        /// Determines whether the recommendation is for a reservation for RDS Custom.
+        public let deploymentModel: String?
         /// Determines whether the recommendation is for a reservation in a single Availability Zone or a reservation with a backup in a second Availability Zone.
         public let deploymentOption: String?
         /// The instance family of the recommended reservation.
@@ -4184,10 +4191,11 @@ extension CostExplorer {
         public let sizeFlexEligible: Bool?
 
         @inlinable
-        public init(currentGeneration: Bool? = nil, databaseEdition: String? = nil, databaseEngine: String? = nil, deploymentOption: String? = nil, family: String? = nil, instanceType: String? = nil, licenseModel: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
+        public init(currentGeneration: Bool? = nil, databaseEdition: String? = nil, databaseEngine: String? = nil, deploymentModel: String? = nil, deploymentOption: String? = nil, family: String? = nil, instanceType: String? = nil, licenseModel: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.databaseEdition = databaseEdition
             self.databaseEngine = databaseEngine
+            self.deploymentModel = deploymentModel
             self.deploymentOption = deploymentOption
             self.family = family
             self.instanceType = instanceType
@@ -4200,6 +4208,7 @@ extension CostExplorer {
             case currentGeneration = "CurrentGeneration"
             case databaseEdition = "DatabaseEdition"
             case databaseEngine = "DatabaseEngine"
+            case deploymentModel = "DeploymentModel"
             case deploymentOption = "DeploymentOption"
             case family = "Family"
             case instanceType = "InstanceType"

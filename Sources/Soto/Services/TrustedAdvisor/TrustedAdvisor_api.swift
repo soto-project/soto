@@ -85,7 +85,7 @@ public struct TrustedAdvisor: AWSService {
 
     // MARK: API Calls
 
-    /// Update one or more exclusion status for a list of recommendation resources
+    /// Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.
     @Sendable
     @inlinable
     public func batchUpdateRecommendationResourceExclusion(_ input: BatchUpdateRecommendationResourceExclusionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateRecommendationResourceExclusionResponse {
@@ -98,7 +98,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// Update one or more exclusion status for a list of recommendation resources
+    /// Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.
     ///
     /// Parameters:
     ///   - recommendationResourceExclusions: A list of recommendation resource ARNs and exclusion status to update
@@ -114,7 +114,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.batchUpdateRecommendationResourceExclusion(input, logger: logger)
     }
 
-    /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations.
+    /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func getOrganizationRecommendation(_ input: GetOrganizationRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationRecommendationResponse {
@@ -127,7 +127,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations.
+    /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - organizationRecommendationIdentifier: The Recommendation identifier
@@ -143,7 +143,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.getOrganizationRecommendation(input, logger: logger)
     }
 
-    /// Get a specific Recommendation
+    /// Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func getRecommendation(_ input: GetRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationResponse {
@@ -156,23 +156,26 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// Get a specific Recommendation
+    /// Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
+    ///   - language: The ISO 639-1 code for the language that you want your recommendations to appear in.
     ///   - recommendationIdentifier: The Recommendation identifier
     ///   - logger: Logger use during operation
     @inlinable
     public func getRecommendation(
+        language: RecommendationLanguage? = nil,
         recommendationIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetRecommendationResponse {
         let input = GetRecommendationRequest(
+            language: language, 
             recommendationIdentifier: recommendationIdentifier
         )
         return try await self.getRecommendation(input, logger: logger)
     }
 
-    /// List a filterable set of Checks
+    /// List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func listChecks(_ input: ListChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChecksResponse {
@@ -185,7 +188,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// List a filterable set of Checks
+    /// List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - awsService: The aws service associated with the check
@@ -216,7 +219,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.listChecks(input, logger: logger)
     }
 
-    /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations.
+    /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func listOrganizationRecommendationAccounts(_ input: ListOrganizationRecommendationAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationRecommendationAccountsResponse {
@@ -229,7 +232,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations.
+    /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - affectedAccountId: An account affected by this organization recommendation
@@ -254,7 +257,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.listOrganizationRecommendationAccounts(input, logger: logger)
     }
 
-    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func listOrganizationRecommendationResources(_ input: ListOrganizationRecommendationResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationRecommendationResourcesResponse {
@@ -267,7 +270,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - affectedAccountId: An account affected by this organization recommendation
@@ -301,7 +304,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.listOrganizationRecommendationResources(input, logger: logger)
     }
 
-    /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations.
+    /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func listOrganizationRecommendations(_ input: ListOrganizationRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationRecommendationsResponse {
@@ -314,7 +317,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations.
+    /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - afterLastUpdatedAt: After the last update of the Recommendation
@@ -357,7 +360,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.listOrganizationRecommendations(input, logger: logger)
     }
 
-    /// List Resources of a Recommendation
+    /// List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func listRecommendationResources(_ input: ListRecommendationResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationResourcesResponse {
@@ -370,10 +373,11 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// List Resources of a Recommendation
+    /// List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - exclusionStatus: The exclusion status of the resource
+    ///   - language: The ISO 639-1 code for the language that you want your recommendations to appear in.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - recommendationIdentifier: The Recommendation identifier
@@ -383,6 +387,7 @@ public struct TrustedAdvisor: AWSService {
     @inlinable
     public func listRecommendationResources(
         exclusionStatus: ExclusionStatus? = nil,
+        language: RecommendationLanguage? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         recommendationIdentifier: String,
@@ -392,6 +397,7 @@ public struct TrustedAdvisor: AWSService {
     ) async throws -> ListRecommendationResourcesResponse {
         let input = ListRecommendationResourcesRequest(
             exclusionStatus: exclusionStatus, 
+            language: language, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             recommendationIdentifier: recommendationIdentifier, 
@@ -401,7 +407,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.listRecommendationResources(input, logger: logger)
     }
 
-    /// List a filterable set of Recommendations
+    /// List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func listRecommendations(_ input: ListRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationsResponse {
@@ -414,13 +420,14 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// List a filterable set of Recommendations
+    /// List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - afterLastUpdatedAt: After the last update of the Recommendation
     ///   - awsService: The aws service associated with the Recommendation
     ///   - beforeLastUpdatedAt: Before the last update of the Recommendation
     ///   - checkIdentifier: The check identifier of the Recommendation
+    ///   - language: The ISO 639-1 code for the language that you want your recommendations to appear in.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - pillar: The pillar of the Recommendation
@@ -434,6 +441,7 @@ public struct TrustedAdvisor: AWSService {
         awsService: String? = nil,
         beforeLastUpdatedAt: Date? = nil,
         checkIdentifier: String? = nil,
+        language: RecommendationLanguage? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         pillar: RecommendationPillar? = nil,
@@ -447,6 +455,7 @@ public struct TrustedAdvisor: AWSService {
             awsService: awsService, 
             beforeLastUpdatedAt: beforeLastUpdatedAt, 
             checkIdentifier: checkIdentifier, 
+            language: language, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             pillar: pillar, 
@@ -457,7 +466,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.listRecommendations(input, logger: logger)
     }
 
-    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func updateOrganizationRecommendationLifecycle(_ input: UpdateOrganizationRecommendationLifecycleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -470,7 +479,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - lifecycleStage: The new lifecycle stage
@@ -495,7 +504,7 @@ public struct TrustedAdvisor: AWSService {
         return try await self.updateOrganizationRecommendationLifecycle(input, logger: logger)
     }
 
-    /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
+    /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
     public func updateRecommendationLifecycle(_ input: UpdateRecommendationLifecycleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -508,7 +517,7 @@ public struct TrustedAdvisor: AWSService {
             logger: logger
         )
     }
-    /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
+    /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// Parameters:
     ///   - lifecycleStage: The new lifecycle stage
@@ -762,6 +771,7 @@ extension TrustedAdvisor {
     ///
     /// - Parameters:
     ///   - exclusionStatus: The exclusion status of the resource
+    ///   - language: The ISO 639-1 code for the language that you want your recommendations to appear in.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - recommendationIdentifier: The Recommendation identifier
     ///   - regionCode: The AWS Region code of the resource
@@ -770,6 +780,7 @@ extension TrustedAdvisor {
     @inlinable
     public func listRecommendationResourcesPaginator(
         exclusionStatus: ExclusionStatus? = nil,
+        language: RecommendationLanguage? = nil,
         maxResults: Int? = nil,
         recommendationIdentifier: String,
         regionCode: String? = nil,
@@ -778,6 +789,7 @@ extension TrustedAdvisor {
     ) -> AWSClient.PaginatorSequence<ListRecommendationResourcesRequest, ListRecommendationResourcesResponse> {
         let input = ListRecommendationResourcesRequest(
             exclusionStatus: exclusionStatus, 
+            language: language, 
             maxResults: maxResults, 
             recommendationIdentifier: recommendationIdentifier, 
             regionCode: regionCode, 
@@ -811,6 +823,7 @@ extension TrustedAdvisor {
     ///   - awsService: The aws service associated with the Recommendation
     ///   - beforeLastUpdatedAt: Before the last update of the Recommendation
     ///   - checkIdentifier: The check identifier of the Recommendation
+    ///   - language: The ISO 639-1 code for the language that you want your recommendations to appear in.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - pillar: The pillar of the Recommendation
     ///   - source: The source of the Recommendation
@@ -823,6 +836,7 @@ extension TrustedAdvisor {
         awsService: String? = nil,
         beforeLastUpdatedAt: Date? = nil,
         checkIdentifier: String? = nil,
+        language: RecommendationLanguage? = nil,
         maxResults: Int? = nil,
         pillar: RecommendationPillar? = nil,
         source: RecommendationSource? = nil,
@@ -835,6 +849,7 @@ extension TrustedAdvisor {
             awsService: awsService, 
             beforeLastUpdatedAt: beforeLastUpdatedAt, 
             checkIdentifier: checkIdentifier, 
+            language: language, 
             maxResults: maxResults, 
             pillar: pillar, 
             source: source, 
@@ -909,6 +924,7 @@ extension TrustedAdvisor.ListRecommendationResourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> TrustedAdvisor.ListRecommendationResourcesRequest {
         return .init(
             exclusionStatus: self.exclusionStatus,
+            language: self.language,
             maxResults: self.maxResults,
             nextToken: token,
             recommendationIdentifier: self.recommendationIdentifier,
@@ -926,6 +942,7 @@ extension TrustedAdvisor.ListRecommendationsRequest: AWSPaginateToken {
             awsService: self.awsService,
             beforeLastUpdatedAt: self.beforeLastUpdatedAt,
             checkIdentifier: self.checkIdentifier,
+            language: self.language,
             maxResults: self.maxResults,
             nextToken: token,
             pillar: self.pillar,

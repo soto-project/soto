@@ -631,6 +631,7 @@ extension CleanRoomsML {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[-a-z]*:iam::[0-9]{12}:role/.+$")
+            try self.sqlComputeConfiguration?.validate(name: "\(name).sqlComputeConfiguration")
             try self.sqlParameters?.validate(name: "\(name).sqlParameters")
         }
 
@@ -4937,14 +4938,14 @@ extension CleanRoomsML {
 
     public struct MLSyntheticDataParameters: AWSDecodableShape {
         /// Classification details for data columns that specify how each column should be treated during synthetic data generation.
-        public let columnClassification: ColumnClassificationDetails
+        public let columnClassification: ColumnClassificationDetails?
         /// The epsilon value for differential privacy, which controls the privacy-utility tradeoff in synthetic data generation. Lower values provide stronger privacy guarantees but may reduce data utility.
         public let epsilon: Double
         /// The maximum acceptable score for membership inference attack vulnerability. Synthetic data generation fails if the score for the resulting data exceeds this threshold.
         public let maxMembershipInferenceAttackScore: Double
 
         @inlinable
-        public init(columnClassification: ColumnClassificationDetails, epsilon: Double, maxMembershipInferenceAttackScore: Double) {
+        public init(columnClassification: ColumnClassificationDetails? = nil, epsilon: Double, maxMembershipInferenceAttackScore: Double) {
             self.columnClassification = columnClassification
             self.epsilon = epsilon
             self.maxMembershipInferenceAttackScore = maxMembershipInferenceAttackScore
@@ -5128,6 +5129,7 @@ extension CleanRoomsML {
         }
 
         public func validate(name: String) throws {
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
             try self.sqlParameters.validate(name: "\(name).sqlParameters")
         }
 
@@ -5287,7 +5289,7 @@ extension CleanRoomsML {
         public let instanceCount: Int?
         /// The instance type that is used to train the model.
         public let instanceType: InstanceType
-        /// The maximum size of the instance that is used to train the model.
+        /// The volume size of the instance that is used to train the model. Please see EC2 volume limit for volume size limitations on different instance types.
         public let volumeSizeInGB: Int
 
         @inlinable
@@ -6242,17 +6244,24 @@ extension CleanRoomsML {
     public struct WorkerComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The number of compute workers that are used.
         public let number: Int?
+        public let properties: WorkerComputeConfigurationProperties?
         /// The instance type of the compute workers that are used.
         public let type: WorkerComputeType?
 
         @inlinable
-        public init(number: Int? = nil, type: WorkerComputeType? = nil) {
+        public init(number: Int? = nil, properties: WorkerComputeConfigurationProperties? = nil, type: WorkerComputeType? = nil) {
             self.number = number
+            self.properties = properties
             self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.properties?.validate(name: "\(name).properties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case number = "number"
+            case properties = "properties"
             case type = "type"
         }
     }
@@ -6264,6 +6273,10 @@ extension CleanRoomsML {
         @inlinable
         public init(worker: WorkerComputeConfiguration? = nil) {
             self.worker = worker
+        }
+
+        public func validate(name: String) throws {
+            try self.worker?.validate(name: "\(name).worker")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6299,6 +6312,29 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case accessBudgets = "accessBudgets"
+        }
+    }
+
+    public struct WorkerComputeConfigurationProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
+        public let spark: [String: String]?
+
+        @inlinable
+        public init(spark: [String: String]? = nil) {
+            self.spark = spark
+        }
+
+        public func validate(name: String) throws {
+            try self.spark?.forEach {
+                try validate($0.key, name: "spark.key", parent: name, max: 200)
+                try validate($0.key, name: "spark.key", parent: name, min: 1)
+                try validate($0.value, name: "spark[\"\($0.key)\"]", parent: name, max: 500)
+            }
+            try self.validate(self.spark, name: "spark", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spark = "spark"
         }
     }
 }

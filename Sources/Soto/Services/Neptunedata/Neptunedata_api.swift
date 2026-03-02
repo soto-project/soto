@@ -1288,6 +1288,7 @@ public struct Neptunedata: AWSService {
     ///
     /// Parameters:
     ///   - dependencies: This is an optional parameter that can make a queued load request contingent on the successful completion of one or more previous jobs in the queue. Neptune can queue up as many as 64 load requests at a time, if their queueRequest parameters are set to "TRUE". The dependencies parameter lets you make execution of such a queued request dependent on the successful completion of one or more specified previous requests in the queue. For example, if load Job-A and Job-B are independent of each other, but load Job-C needs Job-A and Job-B to be finished before it begins, proceed as follows:   Submit load-job-A and load-job-B one after another in any order, and save their load-ids.   Submit load-job-C with the load-ids of the two jobs in its dependencies field:   Because of the dependencies parameter, the bulk loader will not start Job-C until Job-A and Job-B have completed successfully. If either one of them fails, Job-C will not be executed, and its status will be set to LOAD_FAILED_BECAUSE_DEPENDENCY_NOT_SATISFIED. You can set up multiple levels of dependency in this way, so that the failure of one job will cause all requests that are directly or indirectly dependent on it to be cancelled.
+    ///   - edgeOnlyLoad:   edgeOnlyLoad    –   A flag that controls file processing order during bulk loading.  Allowed values: "TRUE", "FALSE".  Default value: "FALSE". When this parameter is set to "FALSE", the loader automatically loads vertex files first, then edge files afterwards. It does this by first scanning all files to determine their contents (vertices or edges). When this parameter is set to "TRUE", the loader skips the initial scanning phase and immediately loads all files in the order they appear.
     ///   - failOnError:   failOnError    –   A flag to toggle a complete stop on an error.  Allowed values: "TRUE", "FALSE".  Default value: "TRUE". When this parameter is set to "FALSE", the loader tries to load all the data in the location specified, skipping any entries with errors. When this parameter is set to "TRUE", the loader stops as soon as it encounters an error. Data loaded up to that point persists.
     ///   - format: The format of the data. For more information about data formats for the Neptune Loader command, see Load Data Formats.  Allowed values      csv  for the Gremlin CSV data format.     opencypher  for the openCypher CSV data format.     ntriples  for the N-Triples RDF data format.     nquads  for the N-Quads RDF data format.     rdfxml  for the RDF\XML RDF data format.     turtle  for the Turtle RDF data format.
     ///   - iamRoleArn: The Amazon Resource Name (ARN) for an IAM role to be assumed by the Neptune DB instance for access to the S3 bucket. The IAM role ARN provided here should be attached to the DB cluster (see Adding the IAM Role to an Amazon Neptune Cluster.
@@ -1303,6 +1304,7 @@ public struct Neptunedata: AWSService {
     @inlinable
     public func startLoaderJob(
         dependencies: [String]? = nil,
+        edgeOnlyLoad: Bool? = nil,
         failOnError: Bool? = nil,
         format: Format,
         iamRoleArn: String,
@@ -1318,6 +1320,7 @@ public struct Neptunedata: AWSService {
     ) async throws -> StartLoaderJobOutput {
         let input = StartLoaderJobInput(
             dependencies: dependencies, 
+            edgeOnlyLoad: edgeOnlyLoad, 
             failOnError: failOnError, 
             format: format, 
             iamRoleArn: iamRoleArn, 

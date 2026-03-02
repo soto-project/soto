@@ -1055,6 +1055,10 @@ extension Neptune {
     }
 
     public struct CreateGlobalClusterMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The name for the new global database (up to 64 alpha-numeric characters.
+        public let databaseName: String?
         /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
         /// The name of the database engine to be used in the global database. Valid values: neptune
@@ -1067,15 +1071,20 @@ extension Neptune {
         public let sourceDBClusterIdentifier: String?
         /// The storage encryption setting for the new global database cluster.
         public let storageEncrypted: Bool?
+        /// Tags to assign to the global cluster.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         @inlinable
-        public init(deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil) {
+            self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
             self.globalClusterIdentifier = globalClusterIdentifier
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
             self.storageEncrypted = storageEncrypted
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1085,12 +1094,14 @@ extension Neptune {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
             case deletionProtection = "DeletionProtection"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case globalClusterIdentifier = "GlobalClusterIdentifier"
             case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
             case storageEncrypted = "StorageEncrypted"
+            case tags = "Tags"
         }
     }
 
@@ -3599,7 +3610,10 @@ extension Neptune {
 
     public struct GlobalCluster: AWSDecodableShape {
         public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
+        /// The default database name within the new global database cluster.
+        public let databaseName: String?
         /// The deletion protection setting for the global database.
         public let deletionProtection: Bool?
         /// The Neptune database engine used by the global database ("neptune").
@@ -3621,9 +3635,13 @@ extension Neptune {
         public let status: String?
         /// The storage encryption setting for the global database.
         public let storageEncrypted: Bool?
+        /// A list of global cluster tags.
+        @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
+        public var tagList: [Tag]?
 
         @inlinable
-        public init(deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil) {
+            self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
@@ -3634,9 +3652,11 @@ extension Neptune {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
 
         private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
             case deletionProtection = "DeletionProtection"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
@@ -3647,6 +3667,7 @@ extension Neptune {
             case globalClusterResourceId = "GlobalClusterResourceId"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
+            case tagList = "TagList"
         }
     }
 

@@ -357,14 +357,17 @@ extension BedrockDataAutomationRuntime {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// Input configuration.
         public let inputConfiguration: SyncInputConfiguration
+        /// Output configuration.
+        public let outputConfiguration: OutputConfiguration?
 
         @inlinable
-        public init(blueprints: [Blueprint]? = nil, dataAutomationConfiguration: DataAutomationConfiguration? = nil, dataAutomationProfileArn: String, encryptionConfiguration: EncryptionConfiguration? = nil, inputConfiguration: SyncInputConfiguration) {
+        public init(blueprints: [Blueprint]? = nil, dataAutomationConfiguration: DataAutomationConfiguration? = nil, dataAutomationProfileArn: String, encryptionConfiguration: EncryptionConfiguration? = nil, inputConfiguration: SyncInputConfiguration, outputConfiguration: OutputConfiguration? = nil) {
             self.blueprints = blueprints
             self.dataAutomationConfiguration = dataAutomationConfiguration
             self.dataAutomationProfileArn = dataAutomationProfileArn
             self.encryptionConfiguration = encryptionConfiguration
             self.inputConfiguration = inputConfiguration
+            self.outputConfiguration = outputConfiguration
         }
 
         public func validate(name: String) throws {
@@ -379,6 +382,7 @@ extension BedrockDataAutomationRuntime {
             try self.validate(self.dataAutomationProfileArn, name: "dataAutomationProfileArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+$")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.inputConfiguration.validate(name: "\(name).inputConfiguration")
+            try self.outputConfiguration?.validate(name: "\(name).outputConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -387,22 +391,27 @@ extension BedrockDataAutomationRuntime {
             case dataAutomationProfileArn = "dataAutomationProfileArn"
             case encryptionConfiguration = "encryptionConfiguration"
             case inputConfiguration = "inputConfiguration"
+            case outputConfiguration = "outputConfiguration"
         }
     }
 
     public struct InvokeDataAutomationResponse: AWSDecodableShape {
+        /// Output configuration
+        public let outputConfiguration: OutputConfiguration?
         /// List of outputs for each logical sub-doc
-        public let outputSegments: [OutputSegment]
+        public let outputSegments: [OutputSegment]?
         /// Detected semantic modality
         public let semanticModality: SemanticModality
 
         @inlinable
-        public init(outputSegments: [OutputSegment], semanticModality: SemanticModality) {
+        public init(outputConfiguration: OutputConfiguration? = nil, outputSegments: [OutputSegment]? = nil, semanticModality: SemanticModality) {
+            self.outputConfiguration = outputConfiguration
             self.outputSegments = outputSegments
             self.semanticModality = semanticModality
         }
 
         private enum CodingKeys: String, CodingKey {
+            case outputConfiguration = "outputConfiguration"
             case outputSegments = "outputSegments"
             case semanticModality = "semanticModality"
         }

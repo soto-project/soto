@@ -33,6 +33,18 @@ extension S3Tables {
         public var description: String { return self.rawValue }
     }
 
+    public enum IcebergNullOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case nullsFirst = "nulls-first"
+        case nullsLast = "nulls-last"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IcebergSortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "asc"
+        case desc = "desc"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case failed = "Failed"
@@ -1604,20 +1616,72 @@ extension S3Tables {
     }
 
     public struct IcebergMetadata: AWSEncodableShape {
-        /// Contains configuration properties for an Iceberg table.
+        /// The partition specification for the Iceberg table. Partitioning organizes data into separate files based on the values of one or more fields, which can improve query performance by reducing the amount of data scanned. Each partition field applies a transform (such as identity, year, month, or bucket) to a single field.
+        public let partitionSpec: IcebergPartitionSpec?
+        /// A map of custom configuration properties for the Iceberg table.
         public let properties: [String: String]?
         /// The schema for an Iceberg table.
         public let schema: IcebergSchema
+        /// The sort order for the Iceberg table. Sort order defines how data is sorted within data files, which can improve query performance by enabling more efficient data skipping and filtering.
+        public let writeOrder: IcebergSortOrder?
 
         @inlinable
-        public init(properties: [String: String]? = nil, schema: IcebergSchema) {
+        public init(partitionSpec: IcebergPartitionSpec? = nil, properties: [String: String]? = nil, schema: IcebergSchema, writeOrder: IcebergSortOrder? = nil) {
+            self.partitionSpec = partitionSpec
             self.properties = properties
             self.schema = schema
+            self.writeOrder = writeOrder
         }
 
         private enum CodingKeys: String, CodingKey {
+            case partitionSpec = "partitionSpec"
             case properties = "properties"
             case schema = "schema"
+            case writeOrder = "writeOrder"
+        }
+    }
+
+    public struct IcebergPartitionField: AWSEncodableShape {
+        /// An optional unique identifier for this partition field. If not specified, S3 Tables automatically assigns a field ID.
+        public let fieldId: Int?
+        /// The name for this partition field. This name is used in the partitioned file paths.
+        public let name: String
+        /// The ID of the source schema field to partition by. This must reference a valid field ID from the table schema.
+        public let sourceId: Int
+        /// The partition transform to apply to the source field. Supported transforms include identity, year, month, day, hour, bucket, and truncate. For more information, see the Apache Iceberg partition transforms documentation.
+        public let transform: String
+
+        @inlinable
+        public init(fieldId: Int? = nil, name: String, sourceId: Int, transform: String) {
+            self.fieldId = fieldId
+            self.name = name
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "field-id"
+            case name = "name"
+            case sourceId = "source-id"
+            case transform = "transform"
+        }
+    }
+
+    public struct IcebergPartitionSpec: AWSEncodableShape {
+        /// The list of partition fields that define how the table data is partitioned. Each field specifies a source field and a transform to apply. This field is required if partitionSpec is provided.
+        public let fields: [IcebergPartitionField]
+        /// The unique identifier for this partition specification. If not specified, defaults to 0.
+        public let specId: Int?
+
+        @inlinable
+        public init(fields: [IcebergPartitionField], specId: Int? = nil) {
+            self.fields = fields
+            self.specId = specId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case specId = "spec-id"
         }
     }
 
@@ -1657,6 +1721,50 @@ extension S3Tables {
         private enum CodingKeys: String, CodingKey {
             case maxSnapshotAgeHours = "maxSnapshotAgeHours"
             case minSnapshotsToKeep = "minSnapshotsToKeep"
+        }
+    }
+
+    public struct IcebergSortField: AWSEncodableShape {
+        /// The sort direction. Valid values are asc for ascending order or desc for descending order.
+        public let direction: IcebergSortDirection
+        /// Specifies how null values are ordered. Valid values are nulls-first to place nulls before non-null values, or nulls-last to place nulls after non-null values.
+        public let nullOrder: IcebergNullOrder
+        /// The ID of the source schema field to sort by. This must reference a valid field ID from the table schema.
+        public let sourceId: Int
+        /// The transform to apply to the source field before sorting. Use identity to sort by the field value directly, or specify other transforms as needed.
+        public let transform: String
+
+        @inlinable
+        public init(direction: IcebergSortDirection, nullOrder: IcebergNullOrder, sourceId: Int, transform: String) {
+            self.direction = direction
+            self.nullOrder = nullOrder
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case direction = "direction"
+            case nullOrder = "null-order"
+            case sourceId = "source-id"
+            case transform = "transform"
+        }
+    }
+
+    public struct IcebergSortOrder: AWSEncodableShape {
+        /// The list of sort fields that define how data is sorted within files. Each field specifies a source field, sort direction, and null ordering. This field is required if writeOrder is provided.
+        public let fields: [IcebergSortField]
+        /// The unique identifier for this sort order. If not specified, defaults to 1. The order ID is used by Apache Iceberg to track sort order evolution.
+        public let orderId: Int
+
+        @inlinable
+        public init(fields: [IcebergSortField], orderId: Int) {
+            self.fields = fields
+            self.orderId = orderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case orderId = "order-id"
         }
     }
 
@@ -2455,6 +2563,8 @@ extension S3Tables {
     }
 
     public struct SchemaField: AWSEncodableShape {
+        /// An optional unique identifier for the schema field. Field IDs are used by Apache Iceberg to track schema evolution and maintain compatibility across schema changes. If not specified, S3 Tables automatically assigns field IDs.
+        public let id: Int?
         /// The name of the field.
         public let name: String
         /// A Boolean value that specifies whether values are required for each row in this field. By default, this is false and null values are allowed in the field. If this is true the field does not allow null values.
@@ -2463,13 +2573,15 @@ extension S3Tables {
         public let type: String
 
         @inlinable
-        public init(name: String, required: Bool? = nil, type: String) {
+        public init(id: Int? = nil, name: String, required: Bool? = nil, type: String) {
+            self.id = id
             self.name = name
             self.required = required
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id = "id"
             case name = "name"
             case required = "required"
             case type = "type"

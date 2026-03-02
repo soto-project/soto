@@ -86,6 +86,8 @@ extension KeyspacesStreams {
         case decimalT(String)
         /// A 64-bit double-precision floating point value.
         case doubleT(String)
+        /// A duration value with nanosecond precision, representing a period of time encoded as 32-bit months, 32-bit days, and 64-bit nanoseconds.
+        case durationT(String)
         /// A 32-bit single-precision floating point value.
         case floatT(String)
         /// An IP address value, either IPv4 or IPv6 format.
@@ -118,7 +120,7 @@ extension KeyspacesStreams {
         case uuidT(String)
         /// A UTF-8 encoded string value, functionally equivalent to text type.
         case varcharT(String)
-        /// A variable precision integer value with arbitrary length.
+        /// An integer value within the +/-10^38 range.
         case varintT(String)
 
         public init(from decoder: Decoder) throws {
@@ -155,6 +157,9 @@ extension KeyspacesStreams {
             case .doubleT:
                 let value = try container.decode(String.self, forKey: .doubleT)
                 self = .doubleT(value)
+            case .durationT:
+                let value = try container.decode(String.self, forKey: .durationT)
+                self = .durationT(value)
             case .floatT:
                 let value = try container.decode(String.self, forKey: .floatT)
                 self = .floatT(value)
@@ -218,6 +223,7 @@ extension KeyspacesStreams {
             case dateT = "dateT"
             case decimalT = "decimalT"
             case doubleT = "doubleT"
+            case durationT = "durationT"
             case floatT = "floatT"
             case inetT = "inetT"
             case intT = "intT"
@@ -241,9 +247,9 @@ extension KeyspacesStreams {
     // MARK: Shapes
 
     public struct GetRecordsInput: AWSEncodableShape {
-        ///  The maximum number of records to return in a single GetRecords request. Default value is 1000. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
+        ///  The maximum number of records to return in a single GetRecords request. The default value is 100. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
         public let maxResults: Int?
-        ///  The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator operation. Each shard iterator is valid for 15 minutes after creation.
+        ///  The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator  operation. Each shard iterator is valid for 15 minutes after creation.
         public let shardIterator: String
 
         @inlinable
@@ -266,7 +272,7 @@ extension KeyspacesStreams {
     public struct GetRecordsOutput: AWSDecodableShape {
         ///  An array of change data records retrieved from the specified shard. Each record represents a single data modification (insert, update, or delete) to a row in the Amazon Keyspaces table. Records include the primary key columns and information about what data was modified.
         public let changeRecords: [Record]?
-        ///  The next position in the shard from which to start sequentially reading data records. If null, the shard has been closed and the requested iterator doesn't return any more data.
+        ///  The next position in the shard from which to start sequentially reading data records. If null, the shard has been closed and the requested iterator will not return any more data.
         public let nextShardIterator: String?
 
         @inlinable
@@ -286,7 +292,7 @@ extension KeyspacesStreams {
         public let sequenceNumber: String?
         ///  The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access.
         public let shardId: String
-        ///  Determines how the shard iterator is positioned. Must be one of the following:    TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard.    AT_SEQUENCE_NUMBER - Start reading exactly from the specified sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number.    LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data.
+        ///  Determines how the shard iterator is positioned. Must be one of the following:     TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard.    AT_SEQUENCE_NUMBER - Start reading exactly from the specified sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number.     LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data.
         public let shardIteratorType: ShardIteratorType
         ///  The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces.
         public let streamArn: String
@@ -331,11 +337,11 @@ extension KeyspacesStreams {
     }
 
     public struct GetStreamInput: AWSEncodableShape {
-        ///  The maximum number of shard objects to return in a single GetStream request. Default value is 100. The minimum value is 1 and the maximum value is 100.
+        ///  The maximum number of shard objects to return in a single GetStream request. The default value is 100. The minimum value is 1 and the maximum value is 100.
         public let maxResults: Int?
-        ///  An optional pagination token provided by a previous GetStream operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
+        ///  An optional pagination token provided by a previous GetStream operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
-        ///  Optional filter criteria to apply when retrieving shards. You can filter shards based on their state or other attributes to narrow down the results returned by the GetStream operation.
+        ///  Optional filter criteria to apply when retrieving shards. You can filter shards based on their parent shardID to get a list of children shards to narrow down the results returned by the GetStream operation.
         public let shardFilter: ShardFilter?
         ///  The Amazon Resource Name (ARN) of the stream for which detailed information is requested. This uniquely identifies the specific stream you want to get information about.
         public let streamArn: String
@@ -379,7 +385,7 @@ extension KeyspacesStreams {
         public let streamLabel: String
         ///  The current status of the stream. Values can be ENABLING, ENABLED, DISABLING, or DISABLED. Operations on the stream depend on its current status.
         public let streamStatus: StreamStatus
-        ///  The format of the data records in this stream. Currently, this can be one of the following options:    NEW_AND_OLD_IMAGES - both versions of the row, before and after the change. This is the default.    NEW_IMAGE - the version of the row after the change.    OLD_IMAGE - the version of the row before the change.    KEYS_ONLY - the partition and clustering keys of the row that was changed.
+        ///  The format of the data records in this stream. Currently, this can be one of the following options:     NEW_AND_OLD_IMAGES - both versions of the row, before and after the change. This is the default.    NEW_IMAGE - the version of the row after the change.    OLD_IMAGE - the version of the row before the change.    KEYS_ONLY - the partition and clustering keys of the row that was changed.
         public let streamViewType: StreamViewType
         ///  The name of the table associated with this stream. The stream captures changes to rows in this Amazon Keyspaces table.
         public let tableName: String
@@ -493,7 +499,7 @@ extension KeyspacesStreams {
     public struct ListStreamsInput: AWSEncodableShape {
         ///  The name of the keyspace for which to list streams. If specified, only streams associated with tables in this keyspace are returned. If omitted, streams from all keyspaces are included in the results.
         public let keyspaceName: String?
-        ///  The maximum number of streams to return in a single ListStreams request. Default value is 100. The minimum value is 1 and the maximum value is 100.
+        ///  The maximum number of streams to return in a single ListStreams request. The default value is 100. The minimum value is 1 and the maximum value is 100.
         public let maxResults: Int?
         ///  An optional pagination token provided by a previous ListStreams operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
         public let nextToken: String?
@@ -528,7 +534,7 @@ extension KeyspacesStreams {
     }
 
     public struct ListStreamsOutput: AWSDecodableShape {
-        ///  A pagination token that can be used in a subsequent ListStreams request. This token is returned if the response contains more streams than can be returned in a single response based on the MaxResults parameter.
+        ///  A pagination token that can be used in a subsequent ListStreams request. This token is returned if the response contains more streams than can be returned in a single response based on the maxResults parameter.
         public let nextToken: String?
         ///  An array of stream objects, each containing summary information about a stream including its ARN, status, and associated table information. This list includes all streams that match the request criteria.
         public let streams: [Stream]?
@@ -731,7 +737,7 @@ public struct KeyspacesStreamsErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The requested resource doesn't exist or could not be found.  This exception occurs when you attempt to access a keyspace, table, stream, or other Amazon Keyspaces resource that doesn't exist or that has been deleted. Verify that the resource identifier is correct and that the resource exists in your account.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request rate is too high and exceeds the service's throughput limits.  This exception occurs when you send too many requests in a short period of time. Implement exponential backoff in your retry strategy to handle this exception. Reducing your request frequency or distributing requests more evenly can help avoid throughput exceptions.
+    /// The request rate is too high and exceeds the service's throughput limits.  This exception occurs when you send too many requests in a short period of time. Implement exponential backoff in your retry strategy to handle this exception. Reducing your request frequency or distributing requests more evenly can help avoid throughput exceptions. This exception can also occur when more than two processes are reading from the same stream shard at the same time. Ensure that only one process reads from a stream shard at the same time.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request validation failed because one or more input parameters failed validation.  This exception occurs when there are syntax errors in the request, field constraints are violated, or required parameters are missing. To help you fix the issue, the exception message provides details about which parameter failed and why.
     public static var validationException: Self { .init(.validationException) }

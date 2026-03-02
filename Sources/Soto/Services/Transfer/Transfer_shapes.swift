@@ -167,6 +167,7 @@ extension Transfer {
     }
 
     public enum MdnResponse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `async` = "ASYNC"
         case none = "NONE"
         case sync = "SYNC"
         public var description: String { return self.rawValue }
@@ -297,7 +298,38 @@ extension Transfer {
 
     // MARK: Shapes
 
+    public struct As2AsyncMdnConnectorConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A list of server identifiers that can handle asynchronous MDN responses. You can specify between 1 and 10 server IDs.
+        public let serverIds: [String]?
+        /// The URL endpoint where asynchronous MDN responses should be sent.
+        public let url: String?
+
+        @inlinable
+        public init(serverIds: [String]? = nil, url: String? = nil) {
+            self.serverIds = serverIds
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.serverIds?.forEach {
+                try validate($0, name: "serverIds[]", parent: name, max: 19)
+                try validate($0, name: "serverIds[]", parent: name, min: 19)
+                try validate($0, name: "serverIds[]", parent: name, pattern: "^s-([0-9a-f]{17})$")
+            }
+            try self.validate(self.serverIds, name: "serverIds", parent: name, max: 10)
+            try self.validate(self.serverIds, name: "serverIds", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverIds = "ServerIds"
+            case url = "Url"
+        }
+    }
+
     public struct As2ConnectorConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for asynchronous Message Disposition Notification (MDN) responses. This allows you to configure where asynchronous MDN responses should be sent and which servers should handle them.
+        public let asyncMdnConfig: As2AsyncMdnConnectorConfig?
         /// Provides Basic authentication support to the AS2 Connectors API. To use Basic authentication, you must provide the name or Amazon Resource Name (ARN) of a secret in Secrets Manager. The default value for this parameter is null, which indicates that Basic authentication is not enabled for the connector. If the connector should use Basic authentication, the secret needs to be in the following format:  { "Username": "user-name", "Password": "user-password" }  Replace user-name and user-password with the credentials for the actual user that is being authenticated. Note the following:   You are storing these credentials in Secrets Manager, not passing them directly into this API.   If you are using the API, SDKs, or CloudFormation to configure your connector, then you must create the secret before you can enable Basic authentication. However, if you are using the Amazon Web Services management console, you can have the system create the secret for you.   If you have previously enabled Basic authentication for a connector, you can disable it by using the UpdateConnector API call. For example, if you are using the CLI, you can run the following command to remove Basic authentication:  update-connector --connector-id my-connector-id --as2-config 'BasicAuthSecretId=""'
         public let basicAuthSecretId: String?
         /// Specifies whether the AS2 file is compressed.
@@ -306,7 +338,7 @@ extension Transfer {
         public let encryptionAlgorithm: EncryptionAlg?
         /// A unique identifier for the AS2 local profile.
         public let localProfileId: String?
-        /// Used for outbound requests (from an Transfer Family connector to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:    SYNC: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).    NONE: Specifies that no MDN response is required.
+        /// Used for outbound requests (from an Transfer Family connector to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:    ASYNC: The system expects an asynchronous MDN response, confirming that the file was transferred successfully (or not).    SYNC: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).    NONE: Specifies that no MDN response is required.
         public let mdnResponse: MdnResponse?
         /// The signing algorithm for the MDN response.  If set to DEFAULT (or not set at all), the value for SigningAlgorithm is used.
         public let mdnSigningAlgorithm: MdnSigningAlg?
@@ -320,7 +352,8 @@ extension Transfer {
         public let signingAlgorithm: SigningAlg?
 
         @inlinable
-        public init(basicAuthSecretId: String? = nil, compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, preserveContentType: PreserveContentType? = nil, signingAlgorithm: SigningAlg? = nil) {
+        public init(asyncMdnConfig: As2AsyncMdnConnectorConfig? = nil, basicAuthSecretId: String? = nil, compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, preserveContentType: PreserveContentType? = nil, signingAlgorithm: SigningAlg? = nil) {
+            self.asyncMdnConfig = asyncMdnConfig
             self.basicAuthSecretId = basicAuthSecretId
             self.compression = compression
             self.encryptionAlgorithm = encryptionAlgorithm
@@ -334,19 +367,21 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
+            try self.asyncMdnConfig?.validate(name: "\(name).asyncMdnConfig")
             try self.validate(self.basicAuthSecretId, name: "basicAuthSecretId", parent: name, max: 2048)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, max: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, min: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
             try self.validate(self.messageSubject, name: "messageSubject", parent: name, max: 1024)
             try self.validate(self.messageSubject, name: "messageSubject", parent: name, min: 1)
-            try self.validate(self.messageSubject, name: "messageSubject", parent: name, pattern: "^[\\p{Print}\\p{Blank}]+$")
+            try self.validate(self.messageSubject, name: "messageSubject", parent: name, pattern: "^[\\u0020-\\u007E\\t]+$")
             try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, max: 19)
             try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, min: 19)
             try self.validate(self.partnerProfileId, name: "partnerProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asyncMdnConfig = "AsyncMdnConfig"
             case basicAuthSecretId = "BasicAuthSecretId"
             case compression = "Compression"
             case encryptionAlgorithm = "EncryptionAlgorithm"
@@ -574,7 +609,7 @@ extension Transfer {
             try self.customDirectories?.validate(name: "\(name).customDirectories")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0021-\\u007E]+$")
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, max: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, min: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
@@ -717,7 +752,7 @@ extension Transfer {
         public func validate(name: String) throws {
             try self.validate(self.as2Id, name: "as2Id", parent: name, max: 128)
             try self.validate(self.as2Id, name: "as2Id", parent: name, min: 1)
-            try self.validate(self.as2Id, name: "as2Id", parent: name, pattern: "^[\\p{Print}\\s]*$")
+            try self.validate(self.as2Id, name: "as2Id", parent: name, pattern: "^[\\u0020-\\u007E\\s]*$")
             try self.certificateIds?.forEach {
                 try validate($0, name: "certificateIds[]", parent: name, max: 22)
                 try validate($0, name: "certificateIds[]", parent: name, min: 22)
@@ -1133,6 +1168,32 @@ extension Transfer {
             case payloadFilesDirectory = "PayloadFilesDirectory"
             case statusFilesDirectory = "StatusFilesDirectory"
             case temporaryFilesDirectory = "TemporaryFilesDirectory"
+        }
+    }
+
+    public struct CustomHttpHeader: AWSEncodableShape {
+        /// The name of the custom HTTP header.
+        public let key: String?
+        /// The value of the custom HTTP header.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 64)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9 +\\-./:=@_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
         }
     }
 
@@ -2999,16 +3060,16 @@ extension Transfer {
         public func validate(name: String) throws {
             try self.validate(self.certificate, name: "certificate", parent: name, max: 16384)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
-            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "^[\\t\\n\\r\\u0020-\\u00FF]+$")
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2097152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
-            try self.validate(self.certificateChain, name: "certificateChain", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, pattern: "^[\\t\\n\\r\\u0020-\\u00FF]+$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0021-\\u007E]+$")
             try self.validate(self.privateKey, name: "privateKey", parent: name, max: 16384)
             try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
-            try self.validate(self.privateKey, name: "privateKey", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+            try self.validate(self.privateKey, name: "privateKey", parent: name, pattern: "^[\\t\\n\\r\\u0020-\\u00FF]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4602,6 +4663,8 @@ extension Transfer {
     public struct StartFileTransferRequest: AWSEncodableShape {
         /// The unique identifier for the connector.
         public let connectorId: String
+        /// An array of key-value pairs that represent custom HTTP headers to include in AS2 messages. These headers are added to the AS2 message when sending files to your trading partner.
+        public let customHttpHeaders: [CustomHttpHeader]?
         /// For an inbound transfer, the LocaDirectoryPath specifies the destination for one or more files that are transferred from the partner's SFTP server.
         public let localDirectoryPath: String?
         /// For an outbound transfer, the RemoteDirectoryPath specifies the destination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath, the destination for transferred files is the SFTP user's home directory.
@@ -4612,8 +4675,9 @@ extension Transfer {
         public let sendFilePaths: [String]?
 
         @inlinable
-        public init(connectorId: String, localDirectoryPath: String? = nil, remoteDirectoryPath: String? = nil, retrieveFilePaths: [String]? = nil, sendFilePaths: [String]? = nil) {
+        public init(connectorId: String, customHttpHeaders: [CustomHttpHeader]? = nil, localDirectoryPath: String? = nil, remoteDirectoryPath: String? = nil, retrieveFilePaths: [String]? = nil, sendFilePaths: [String]? = nil) {
             self.connectorId = connectorId
+            self.customHttpHeaders = customHttpHeaders
             self.localDirectoryPath = localDirectoryPath
             self.remoteDirectoryPath = remoteDirectoryPath
             self.retrieveFilePaths = retrieveFilePaths
@@ -4624,6 +4688,9 @@ extension Transfer {
             try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+            try self.customHttpHeaders?.forEach {
+                try $0.validate(name: "\(name).customHttpHeaders[]")
+            }
             try self.validate(self.localDirectoryPath, name: "localDirectoryPath", parent: name, max: 1024)
             try self.validate(self.localDirectoryPath, name: "localDirectoryPath", parent: name, min: 1)
             try self.validate(self.localDirectoryPath, name: "localDirectoryPath", parent: name, pattern: "^(.)+$")
@@ -4648,6 +4715,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case connectorId = "ConnectorId"
+            case customHttpHeaders = "CustomHttpHeaders"
             case localDirectoryPath = "LocalDirectoryPath"
             case remoteDirectoryPath = "RemoteDirectoryPath"
             case retrieveFilePaths = "RetrieveFilePaths"
@@ -5174,7 +5242,7 @@ extension Transfer {
             try self.customDirectories?.validate(name: "\(name).customDirectories")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0021-\\u007E]+$")
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, max: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, min: 19)
             try self.validate(self.localProfileId, name: "localProfileId", parent: name, pattern: "^p-([0-9a-f]{17})$")
@@ -5239,7 +5307,7 @@ extension Transfer {
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "^cert-([0-9a-f]{17})$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0021-\\u007E]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -469,6 +469,7 @@ public struct Odb: AWSService {
     ///   - odbNetworkId: The unique identifier of the ODB network that initiates the peering connection.
     ///   - peerNetworkCidrsToBeAdded: A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
     ///   - peerNetworkId: The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID.
+    ///   - peerNetworkRouteTableIds: The unique identifier of the VPC route table for which a route to the ODB network is automatically created during peering connection establishment.
     ///   - tags: The tags to assign to the ODB peering connection.
     ///   - logger: Logger use during operation
     @inlinable
@@ -478,6 +479,7 @@ public struct Odb: AWSService {
         odbNetworkId: String,
         peerNetworkCidrsToBeAdded: [String]? = nil,
         peerNetworkId: String,
+        peerNetworkRouteTableIds: [String]? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateOdbPeeringConnectionOutput {
@@ -487,6 +489,7 @@ public struct Odb: AWSService {
             odbNetworkId: odbNetworkId, 
             peerNetworkCidrsToBeAdded: peerNetworkCidrsToBeAdded, 
             peerNetworkId: peerNetworkId, 
+            peerNetworkRouteTableIds: peerNetworkRouteTableIds, 
             tags: tags
         )
         return try await self.createOdbPeeringConnection(input, logger: logger)

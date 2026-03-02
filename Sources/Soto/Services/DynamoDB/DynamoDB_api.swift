@@ -295,7 +295,9 @@ public struct DynamoDB: AWSService {
     ///   - attributeDefinitions: An array of attributes that describe the key schema for the table and indexes.
     ///   - billingMode: Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode.     PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to Provisioned capacity mode.
     ///   - deletionProtectionEnabled: Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
-    ///   - globalSecondaryIndexes: One or more global secondary indexes (the maximum is 20) to be created on the table. Each global secondary index in the array includes the following:    IndexName - The name of the global secondary index. Must be unique only for this table.     KeySchema - Specifies the key schema for the global secondary index.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units.
+    ///   - globalSecondaryIndexes: One or more global secondary indexes (the maximum is 20) to be created on the table. Each global secondary index in the array includes the following:    IndexName - The name of the global secondary index. Must be unique only for this table.     KeySchema - Specifies the key schema for the global secondary index. Each global secondary index supports up to 4 partition keys and up to 4 sort keys.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units.
+    ///   - globalTableSettingsReplicationMode: Controls the settings synchronization mode for the global table. For multi-account global tables, this parameter is required and the only supported value is ENABLED. For same-account global tables, this parameter is set to ENABLED_WITH_OVERRIDES.
+    ///   - globalTableSourceArn: The Amazon Resource Name (ARN) of the source table used for the creation of a multi-account global table.
     ///   - keySchema: Specifies the attributes that make up the primary key for a table or an index. The attributes in KeySchema must also be defined in the AttributeDefinitions array. For more information, see Data Model in the Amazon DynamoDB Developer Guide. Each KeySchemaElement in the array is composed of:    AttributeName - The name of this key attribute.    KeyType - The role that the key attribute will assume:    HASH - partition key    RANGE - sort key      The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from the DynamoDB usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.  For a simple primary key (partition key), you must provide exactly one element with a KeyType of HASH. For a composite primary key (partition key and sort key), you must provide exactly two elements, in this order: The first element must have a KeyType of HASH, and the second element must have a KeyType of RANGE. For more information, see Working with Tables in the Amazon DynamoDB Developer Guide.
     ///   - localSecondaryIndexes: One or more local secondary indexes (the maximum is 5) to be created on the table. Each index is scoped to a given partition key value. There is a 10 GB size limit per partition key value; otherwise, the size of a local secondary index is unconstrained. Each local secondary index in the array includes the following:    IndexName - The name of the local secondary index. Must be unique only for this table.     KeySchema - Specifies the key schema for the local secondary index. The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total. This limit only applies when you specify the ProjectionType of INCLUDE. You still can specify the ProjectionType of ALL to project all attributes from the source table, even if the table has more than 100 attributes.
     ///   - onDemandThroughput: Sets the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
@@ -310,11 +312,13 @@ public struct DynamoDB: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createTable(
-        attributeDefinitions: [AttributeDefinition],
+        attributeDefinitions: [AttributeDefinition]? = nil,
         billingMode: BillingMode? = nil,
         deletionProtectionEnabled: Bool? = nil,
         globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil,
-        keySchema: [KeySchemaElement],
+        globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil,
+        globalTableSourceArn: String? = nil,
+        keySchema: [KeySchemaElement]? = nil,
         localSecondaryIndexes: [LocalSecondaryIndex]? = nil,
         onDemandThroughput: OnDemandThroughput? = nil,
         provisionedThroughput: ProvisionedThroughput? = nil,
@@ -332,6 +336,8 @@ public struct DynamoDB: AWSService {
             billingMode: billingMode, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
             globalSecondaryIndexes: globalSecondaryIndexes, 
+            globalTableSettingsReplicationMode: globalTableSettingsReplicationMode, 
+            globalTableSourceArn: globalTableSourceArn, 
             keySchema: keySchema, 
             localSecondaryIndexes: localSecondaryIndexes, 
             onDemandThroughput: onDemandThroughput, 
@@ -1066,7 +1072,7 @@ public struct DynamoDB: AWSService {
     /// Exports table data to an S3 bucket. The table must have point in time recovery enabled, and you can export data from any time within the point in time recovery window.
     ///
     /// Parameters:
-    ///   - clientToken: Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an ImportConflictException.
+    ///   - clientToken: Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an ExportConflictException.
     ///   - exportFormat: The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
     ///   - exportTime: Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
     ///   - exportType: Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
@@ -1314,7 +1320,7 @@ public struct DynamoDB: AWSService {
         return try await self.listContributorInsights(input, logger: logger)
     }
 
-    /// Lists completed exports within the past 90 days.
+    /// Lists completed exports within the past 90 days, in reverse alphanumeric order of ExportArn.
     @Sendable
     @inlinable
     public func listExports(_ input: ListExportsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportsOutput {
@@ -1327,7 +1333,7 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Lists completed exports within the past 90 days.
+    /// Lists completed exports within the past 90 days, in reverse alphanumeric order of ExportArn.
     ///
     /// Parameters:
     ///   - maxResults: Maximum number of results to return per page.
@@ -1489,7 +1495,7 @@ public struct DynamoDB: AWSService {
         return try await self.listTagsOfResource(input, logger: logger)
     }
 
-    /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter. When you add an item, the primary key attributes are the only required attributes.  Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
+    /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter. When you add an item, the primary key attributes are the only required attributes.  Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.   To determine whether PutItem overwrote an existing item, use ReturnValues set to ALL_OLD. If the response includes the Attributes element, an existing item was overwritten.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
     @Sendable
     @inlinable
     public func putItem(_ input: PutItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutItemOutput {
@@ -1504,7 +1510,7 @@ public struct DynamoDB: AWSService {
             logger: logger
         )
     }
-    /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter. When you add an item, the primary key attributes are the only required attributes.  Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
+    /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter. When you add an item, the primary key attributes are the only required attributes.  Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.   To determine whether PutItem overwrote an existing item, use ReturnValues set to ALL_OLD. If the response includes the Attributes element, an existing item was overwritten.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
     ///
     /// Parameters:
     ///   - conditionalOperator: This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
@@ -2182,7 +2188,7 @@ public struct DynamoDB: AWSService {
     ///   - returnValues: Use ReturnValues if you want to get the item attributes as they appear before or after they are successfully updated. For UpdateItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - Returns all of the attributes of the item, as they appeared before the UpdateItem operation.    UPDATED_OLD - Returns only the updated attributes, as they appeared before the UpdateItem operation.    ALL_NEW - Returns all of the attributes of the item, as they appear after the UpdateItem operation.    UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem operation.   There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The values returned are strongly consistent.
     ///   - returnValuesOnConditionCheckFailure: An optional parameter that returns the item attributes for an UpdateItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
     ///   - tableName: The name of the table containing the item to update. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
-    ///   - updateExpression: An expression that defines one or more attributes to be updated, the action to be performed on them, and new values for them. The following action values are available for UpdateExpression.    SET - Adds one or more attributes and values to an item. If any of these attributes already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val   SET supports the following functions:    if_not_exists (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.    list_append (operand, operand) - evaluates to a list with a new element added to it. You can append the new element to the start or the end of the list by reversing the order of the operands.   These function names are case-sensitive.    REMOVE - Removes one or more attributes from an item.    ADD - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.  If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use ADD for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update doesn't have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.    The ADD action only supports Number and set data types. In addition, ADD can only be used on top-level attributes, not nested attributes.     DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error.  The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.    You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5  For more information on update expressions, see Modifying Items and Attributes in the Amazon DynamoDB Developer Guide.
+    ///   - updateExpression: An expression that defines one or more attributes to be updated, the action to be performed on them, and new values for them. The following action values are available for UpdateExpression.    SET - Adds one or more attributes and values to an item. If any of these attributes already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val   SET supports the following functions:    if_not_exists (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.    list_append (operand, operand) - evaluates to a list with a new element added to it. You can append the new element to the start or the end of the list by reversing the order of the operands.   These function names are case-sensitive.    REMOVE - Removes one or more attributes from an item.    ADD - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.  If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use ADD for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update doesn't have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.    The ADD action only supports Number and set data types.     DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error.  The DELETE action only supports set data types.    You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5  For more information on update expressions, see Modifying Items and Attributes in the Amazon DynamoDB Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateItem(
@@ -2278,6 +2284,7 @@ public struct DynamoDB: AWSService {
     ///   - billingMode: Controls how you are charged for read and write throughput and how you manage capacity. When switching from pay-per-request to provisioned capacity, initial provisioned capacity values must be set. The initial provisioned capacity values are estimated based on the consumed read and write capacity of your table and global secondary indexes over the past 30 minutes.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for most DynamoDB workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode.     PROVISIONED - We recommend using PROVISIONED for steady workloads with predictable growth where capacity requirements can be reliably forecasted. PROVISIONED sets the billing mode to Provisioned capacity mode.
     ///   - deletionProtectionEnabled: Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     ///   - globalSecondaryIndexUpdates: An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:    Create - add a new global secondary index to the table.    Update - modify the provisioned throughput settings of an existing global secondary index.    Delete - remove a global secondary index from the table.   You can create or delete only one global secondary index per UpdateTable operation. For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide.
+    ///   - globalTableSettingsReplicationMode: Controls the settings replication mode for a global table replica. This attribute can be defined using UpdateTable operation only on a regional table with values:    ENABLED: Defines settings replication on a regional table to be used as a source table for creating Multi-Account Global Table.    DISABLED: Remove settings replication on a regional table. Settings replication needs to be defined to ENABLED again in order to create a Multi-Account Global Table using this table.
     ///   - globalTableWitnessUpdates: A list of witness updates for a  MRSC global table. A witness provides a cost-effective alternative to a full replica in a MRSC global table by maintaining replicated change data written to global table replicas. You cannot perform read or write operations on a witness. For each witness, you can request one action:    Create - add a new witness to the global table.    Delete - remove a witness from the global table.   You can create or delete only one witness per UpdateTable operation. For more information, see Multi-Region strong consistency (MRSC) in the Amazon DynamoDB Developer Guide
     ///   - multiRegionConsistency: Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more Create actions in the ReplicaUpdates action list. You can specify one of the following consistency modes:    EVENTUAL: Configures a new global table for multi-Region eventual consistency (MREC). This is the default consistency mode for global tables.    STRONG: Configures a new global table for multi-Region strong consistency (MRSC).   If you don't specify this field, the global table consistency mode defaults to EVENTUAL. For more information about global tables consistency modes, see  Consistency modes in DynamoDB developer guide.
     ///   - onDemandThroughput: Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
@@ -2295,6 +2302,7 @@ public struct DynamoDB: AWSService {
         billingMode: BillingMode? = nil,
         deletionProtectionEnabled: Bool? = nil,
         globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil,
+        globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil,
         globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil,
         multiRegionConsistency: MultiRegionConsistency? = nil,
         onDemandThroughput: OnDemandThroughput? = nil,
@@ -2312,6 +2320,7 @@ public struct DynamoDB: AWSService {
             billingMode: billingMode, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
             globalSecondaryIndexUpdates: globalSecondaryIndexUpdates, 
+            globalTableSettingsReplicationMode: globalTableSettingsReplicationMode, 
             globalTableWitnessUpdates: globalTableWitnessUpdates, 
             multiRegionConsistency: multiRegionConsistency, 
             onDemandThroughput: onDemandThroughput, 
@@ -2823,6 +2832,158 @@ extension DynamoDB.ScanInput: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DynamoDB {
+    /// Waiter for operation ``describeContributorInsights(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilContributorInsightsEnabled(
+        _ input: DescribeContributorInsightsInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeContributorInsightsInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("contributorInsightsStatus", expected: "ENABLED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("contributorInsightsStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(20),
+            command: self.describeContributorInsights
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeContributorInsights(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - indexName: The name of the global secondary index to describe, if applicable.
+    ///   - tableName: The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilContributorInsightsEnabled(
+        indexName: String? = nil,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeContributorInsightsInput(
+            indexName: indexName, 
+            tableName: tableName
+        )
+        try await self.waitUntilContributorInsightsEnabled(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeExport(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExportCompleted(
+        _ input: DescribeExportInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeExportInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("exportDescription.exportStatus", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("exportDescription.exportStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(20),
+            command: self.describeExport
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeExport(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - exportArn: The Amazon Resource Name (ARN) associated with the export.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExportCompleted(
+        exportArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeExportInput(
+            exportArn: exportArn
+        )
+        try await self.waitUntilExportCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeImport(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilImportCompleted(
+        _ input: DescribeImportInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeImportInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("importTableDescription.importStatus", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("importTableDescription.importStatus", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("importTableDescription.importStatus", expected: "CANCELLED")),
+            ],
+            minDelayTime: .seconds(20),
+            command: self.describeImport
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeImport(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - importArn:  The Amazon Resource Name (ARN) associated with the table you're importing to.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilImportCompleted(
+        importArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeImportInput(
+            importArn: importArn
+        )
+        try await self.waitUntilImportCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeKinesisStreamingDestination(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilKinesisStreamingDestinationActive(
+        _ input: DescribeKinesisStreamingDestinationInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeKinesisStreamingDestinationInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAnyPathMatcher("kinesisDataStreamDestinations[].destinationStatus", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("length(kinesisDataStreamDestinations) > `0`  && length(kinesisDataStreamDestinations[?destinationStatus == 'disableD' || destinationStatus == 'enablefaileD']) ==  length(kinesisDataStreamDestinations)", expected: "true")),
+            ],
+            minDelayTime: .seconds(20),
+            command: self.describeKinesisStreamingDestination
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeKinesisStreamingDestination(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - tableName: The name of the table being described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilKinesisStreamingDestinationActive(
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeKinesisStreamingDestinationInput(
+            tableName: tableName
+        )
+        try await self.waitUntilKinesisStreamingDestinationActive(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeTable(_:logger:)``.
     ///
     /// - Parameters:

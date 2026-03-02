@@ -36,19 +36,18 @@ extension MarketplaceMetering {
 
     public struct BatchMeterUsageRequest: AWSEncodableShape {
         /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
-        public let productCode: String
+        public let productCode: String?
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
         public let usageRecords: [UsageRecord]
 
         @inlinable
-        public init(productCode: String, usageRecords: [UsageRecord]) {
+        public init(productCode: String? = nil, usageRecords: [UsageRecord]) {
             self.productCode = productCode
             self.usageRecords = usageRecords
         }
 
         public func validate(name: String) throws {
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
-            try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, pattern: "^[-a-zA-Z0-9/=:_.@]*$")
             try self.usageRecords.forEach {
                 try $0.validate(name: "\(name).usageRecords[]")
@@ -111,7 +110,6 @@ extension MarketplaceMetering {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
-            try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, pattern: "^[-a-zA-Z0-9/=:_.@]*$")
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
@@ -169,7 +167,6 @@ extension MarketplaceMetering {
             try self.validate(self.nonce, name: "nonce", parent: name, max: 255)
             try self.validate(self.nonce, name: "nonce", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
-            try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, pattern: "^[-a-zA-Z0-9/=:_.@]*$")
             try self.validate(self.publicKeyVersion, name: "publicKeyVersion", parent: name, min: 1)
         }
@@ -200,7 +197,7 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerRequest: AWSEncodableShape {
-        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
+        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
         public let registrationToken: String
 
         @inlinable
@@ -218,23 +215,27 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerResult: AWSDecodableShape {
-        /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer.
+        /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer. Calls to BatchMeterUsage require CustomerAWSAccountId for each UsageRecord.
         public let customerAWSAccountId: String?
-        /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
+        /// The CustomerIdentifier is used to identify an individual customer in your application.
         public let customerIdentifier: String?
+        /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord.  Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
+        public let licenseArn: String?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
         public let productCode: String?
 
         @inlinable
-        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, productCode: String? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, licenseArn: String? = nil, productCode: String? = nil) {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
+            self.licenseArn = licenseArn
             self.productCode = productCode
         }
 
         private enum CodingKeys: String, CodingKey {
             case customerAWSAccountId = "CustomerAWSAccountId"
             case customerIdentifier = "CustomerIdentifier"
+            case licenseArn = "LicenseArn"
             case productCode = "ProductCode"
         }
     }
@@ -295,12 +296,14 @@ extension MarketplaceMetering {
     }
 
     public struct UsageRecord: AWSEncodableShape & AWSDecodableShape {
-        ///  The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer.  For existing integrations, to access your CustomerIdentifier to CustomerAWSAccountId mapping, see Account Feeds.
         public let customerAWSAccountId: String?
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String?
         /// During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These represent different units of value in your application.
         public let dimension: String
+        /// The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through Amazon Web Services Marketplace.  To access your CustomerAWSAccountId and LicenseArn mapping, visit Agreements Feeds.
+        public let licenseArn: String?
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public let quantity: Int?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
@@ -309,10 +312,11 @@ extension MarketplaceMetering {
         public let usageAllocations: [UsageAllocation]?
 
         @inlinable
-        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String, licenseArn: String? = nil, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
+            self.licenseArn = licenseArn
             self.quantity = quantity
             self.timestamp = timestamp
             self.usageAllocations = usageAllocations
@@ -327,6 +331,7 @@ extension MarketplaceMetering {
             try self.validate(self.dimension, name: "dimension", parent: name, max: 255)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
             try self.validate(self.dimension, name: "dimension", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.quantity, name: "quantity", parent: name, max: 2147483647)
             try self.validate(self.quantity, name: "quantity", parent: name, min: 0)
             try self.usageAllocations?.forEach {
@@ -340,6 +345,7 @@ extension MarketplaceMetering {
             case customerAWSAccountId = "CustomerAWSAccountId"
             case customerIdentifier = "CustomerIdentifier"
             case dimension = "Dimension"
+            case licenseArn = "LicenseArn"
             case quantity = "Quantity"
             case timestamp = "Timestamp"
             case usageAllocations = "UsageAllocations"
@@ -382,6 +388,7 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
         case internalServiceErrorException = "InternalServiceErrorException"
         case invalidCustomerIdentifierException = "InvalidCustomerIdentifierException"
         case invalidEndpointRegionException = "InvalidEndpointRegionException"
+        case invalidLicenseException = "InvalidLicenseException"
         case invalidProductCodeException = "InvalidProductCodeException"
         case invalidPublicKeyVersionException = "InvalidPublicKeyVersionException"
         case invalidRegionException = "InvalidRegionException"
@@ -428,6 +435,8 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var invalidCustomerIdentifierException: Self { .init(.invalidCustomerIdentifierException) }
     /// The endpoint being called is in a Amazon Web Services Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the Amazon Web Services Region of the resource must match.
     public static var invalidEndpointRegionException: Self { .init(.invalidEndpointRegionException) }
+    /// Ensure the LicenseArn is valid, matches the customer, and usage is within the license activation period.
+    public static var invalidLicenseException: Self { .init(.invalidLicenseException) }
     /// The product code passed does not match the product code used for publishing the product.
     public static var invalidProductCodeException: Self { .init(.invalidProductCodeException) }
     /// Public Key version is invalid.

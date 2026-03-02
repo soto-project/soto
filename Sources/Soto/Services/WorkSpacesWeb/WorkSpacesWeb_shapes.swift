@@ -739,10 +739,10 @@ extension WorkSpacesWeb {
         /// The terms of service text in Markdown format that users must accept before accessing the portal.
         public let termsOfService: String?
         /// Metadata for the wallpaper image file, including the MIME type, file extension, and upload timestamp.
-        public let wallpaper: ImageMetadata
+        public let wallpaper: ImageMetadata?
 
         @inlinable
-        public init(colorTheme: ColorTheme, favicon: ImageMetadata, localizedStrings: [Locale: LocalizedBrandingStrings], logo: ImageMetadata, termsOfService: String? = nil, wallpaper: ImageMetadata) {
+        public init(colorTheme: ColorTheme, favicon: ImageMetadata, localizedStrings: [Locale: LocalizedBrandingStrings], logo: ImageMetadata, termsOfService: String? = nil, wallpaper: ImageMetadata? = nil) {
             self.colorTheme = colorTheme
             self.favicon = favicon
             self.localizedStrings = localizedStrings
@@ -772,7 +772,7 @@ extension WorkSpacesWeb {
         public let logo: IconImageInput
         /// The terms of service text in Markdown format. Users will be presented with the terms of service after successfully signing in.
         public let termsOfService: String?
-        /// The wallpaper image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 5 MB in JPEG or PNG format.
+        /// The wallpaper image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 5 MB in JPEG or PNG format. If not provided, a default wallpaper will be used as the background image.
         public let wallpaper: WallpaperImageInput?
 
         @inlinable
@@ -1423,11 +1423,13 @@ extension WorkSpacesWeb {
         public let instanceType: InstanceType?
         /// The maximum number of concurrent sessions for the portal.
         public let maxConcurrentSessions: Int?
+        /// The custom domain of the web portal that users access in order to start streaming sessions.
+        public let portalCustomDomain: String?
         /// The tags to add to the web portal. A tag is a key-value pair.
         public let tags: [Tag]?
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), customerManagedKey: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, maxConcurrentSessions: Int? = nil, tags: [Tag]? = nil) {
+        public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), customerManagedKey: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, maxConcurrentSessions: Int? = nil, portalCustomDomain: String? = nil, tags: [Tag]? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
             self.clientToken = clientToken
@@ -1435,6 +1437,7 @@ extension WorkSpacesWeb {
             self.displayName = displayName
             self.instanceType = instanceType
             self.maxConcurrentSessions = maxConcurrentSessions
+            self.portalCustomDomain = portalCustomDomain
             self.tags = tags
         }
 
@@ -1455,6 +1458,8 @@ extension WorkSpacesWeb {
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^.+$")
             try self.validate(self.maxConcurrentSessions, name: "maxConcurrentSessions", parent: name, max: 5000)
             try self.validate(self.maxConcurrentSessions, name: "maxConcurrentSessions", parent: name, min: 1)
+            try self.validate(self.portalCustomDomain, name: "portalCustomDomain", parent: name, max: 128)
+            try self.validate(self.portalCustomDomain, name: "portalCustomDomain", parent: name, pattern: "^(|[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1469,6 +1474,7 @@ extension WorkSpacesWeb {
             case displayName = "displayName"
             case instanceType = "instanceType"
             case maxConcurrentSessions = "maxConcurrentSessions"
+            case portalCustomDomain = "portalCustomDomain"
             case tags = "tags"
         }
     }
@@ -1666,7 +1672,7 @@ extension WorkSpacesWeb {
     public struct CreateUserSettingsRequest: AWSEncodableShape {
         /// The additional encryption context of the user settings.
         public let additionalEncryptionContext: [String: String]?
-        /// The branding configuration input that customizes the appearance of the web portal for end users. This includes a custom logo, favicon, wallpaper, localized strings, color theme, and an optional terms of service.
+        /// The branding configuration input that customizes the appearance of the web portal for end users. This includes a custom logo, favicon, localized strings, color theme, and optionally a wallpaper and terms of service.
         public let brandingConfigurationInput: BrandingConfigurationCreateInput?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request.  If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
         public let clientToken: String?
@@ -1694,9 +1700,11 @@ extension WorkSpacesWeb {
         public let toolbarConfiguration: ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, brandingConfigurationInput: BrandingConfigurationCreateInput? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType) {
+        public init(additionalEncryptionContext: [String: String]? = nil, brandingConfigurationInput: BrandingConfigurationCreateInput? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType, webAuthnAllowed: EnabledType? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.brandingConfigurationInput = brandingConfigurationInput
             self.clientToken = clientToken
@@ -1712,6 +1720,7 @@ extension WorkSpacesWeb {
             self.tags = tags
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         public func validate(name: String) throws {
@@ -1754,6 +1763,7 @@ extension WorkSpacesWeb {
             case tags = "tags"
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 
@@ -4012,6 +4022,8 @@ extension WorkSpacesWeb {
         public let networkSettingsArn: String?
         /// The ARN of the web portal.
         public let portalArn: String
+        /// The custom domain of the web portal that users access in order to start streaming sessions.
+        public let portalCustomDomain: String?
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public let portalEndpoint: String?
         /// The status of the web portal.
@@ -4030,7 +4042,7 @@ extension WorkSpacesWeb {
         public let userSettingsArn: String?
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, customerManagedKey: String? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, sessionLoggerArn: String? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(additionalEncryptionContext: [String: String]? = nil, authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, customerManagedKey: String? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalCustomDomain: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, sessionLoggerArn: String? = nil, statusReason: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
@@ -4044,6 +4056,7 @@ extension WorkSpacesWeb {
             self.maxConcurrentSessions = maxConcurrentSessions
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
+            self.portalCustomDomain = portalCustomDomain
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
@@ -4068,6 +4081,7 @@ extension WorkSpacesWeb {
             case maxConcurrentSessions = "maxConcurrentSessions"
             case networkSettingsArn = "networkSettingsArn"
             case portalArn = "portalArn"
+            case portalCustomDomain = "portalCustomDomain"
             case portalEndpoint = "portalEndpoint"
             case portalStatus = "portalStatus"
             case rendererType = "rendererType"
@@ -4102,6 +4116,8 @@ extension WorkSpacesWeb {
         public let networkSettingsArn: String?
         /// The ARN of the web portal.
         public let portalArn: String
+        /// The custom domain of the web portal that users access in order to start streaming sessions.
+        public let portalCustomDomain: String?
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public let portalEndpoint: String?
         /// The status of the web portal.
@@ -4118,7 +4134,7 @@ extension WorkSpacesWeb {
         public let userSettingsArn: String?
 
         @inlinable
-        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, sessionLoggerArn: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, browserSettingsArn: String? = nil, browserType: BrowserType? = nil, creationDate: Date? = nil, dataProtectionSettingsArn: String? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, ipAccessSettingsArn: String? = nil, maxConcurrentSessions: Int? = nil, networkSettingsArn: String? = nil, portalArn: String, portalCustomDomain: String? = nil, portalEndpoint: String? = nil, portalStatus: PortalStatus? = nil, rendererType: RendererType? = nil, sessionLoggerArn: String? = nil, trustStoreArn: String? = nil, userAccessLoggingSettingsArn: String? = nil, userSettingsArn: String? = nil) {
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
@@ -4130,6 +4146,7 @@ extension WorkSpacesWeb {
             self.maxConcurrentSessions = maxConcurrentSessions
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
+            self.portalCustomDomain = portalCustomDomain
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
@@ -4151,6 +4168,7 @@ extension WorkSpacesWeb {
             case maxConcurrentSessions = "maxConcurrentSessions"
             case networkSettingsArn = "networkSettingsArn"
             case portalArn = "portalArn"
+            case portalCustomDomain = "portalCustomDomain"
             case portalEndpoint = "portalEndpoint"
             case portalStatus = "portalStatus"
             case rendererType = "rendererType"
@@ -4991,14 +5009,17 @@ extension WorkSpacesWeb {
         public let maxConcurrentSessions: Int?
         /// The ARN of the web portal.
         public let portalArn: String
+        /// The custom domain of the web portal that users access in order to start streaming sessions.
+        public let portalCustomDomain: String?
 
         @inlinable
-        public init(authenticationType: AuthenticationType? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, maxConcurrentSessions: Int? = nil, portalArn: String) {
+        public init(authenticationType: AuthenticationType? = nil, displayName: String? = nil, instanceType: InstanceType? = nil, maxConcurrentSessions: Int? = nil, portalArn: String, portalCustomDomain: String? = nil) {
             self.authenticationType = authenticationType
             self.displayName = displayName
             self.instanceType = instanceType
             self.maxConcurrentSessions = maxConcurrentSessions
             self.portalArn = portalArn
+            self.portalCustomDomain = portalCustomDomain
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5009,6 +5030,7 @@ extension WorkSpacesWeb {
             try container.encodeIfPresent(self.instanceType, forKey: .instanceType)
             try container.encodeIfPresent(self.maxConcurrentSessions, forKey: .maxConcurrentSessions)
             request.encodePath(self.portalArn, key: "portalArn")
+            try container.encodeIfPresent(self.portalCustomDomain, forKey: .portalCustomDomain)
         }
 
         public func validate(name: String) throws {
@@ -5020,6 +5042,8 @@ extension WorkSpacesWeb {
             try self.validate(self.portalArn, name: "portalArn", parent: name, max: 2048)
             try self.validate(self.portalArn, name: "portalArn", parent: name, min: 20)
             try self.validate(self.portalArn, name: "portalArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:[a-zA-Z0-9\\-]+:[a-zA-Z0-9\\-]*:[a-zA-Z0-9]{1,12}:[a-zA-Z]+(\\/[a-fA-F0-9\\-]{36})+$")
+            try self.validate(self.portalCustomDomain, name: "portalCustomDomain", parent: name, max: 128)
+            try self.validate(self.portalCustomDomain, name: "portalCustomDomain", parent: name, pattern: "^(|[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\\.)+[a-zA-Z0-9]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5027,6 +5051,7 @@ extension WorkSpacesWeb {
             case displayName = "displayName"
             case instanceType = "instanceType"
             case maxConcurrentSessions = "maxConcurrentSessions"
+            case portalCustomDomain = "portalCustomDomain"
         }
     }
 
@@ -5223,7 +5248,7 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateUserSettingsRequest: AWSEncodableShape {
-        /// The branding configuration that customizes the appearance of the web portal for end users. When updating user settings without an existing branding configuration, all fields (logo, favicon, wallpaper, localized strings, and color theme) are required except for terms of service. When updating user settings with an existing branding configuration, all fields are optional.
+        /// The branding configuration that customizes the appearance of the web portal for end users. When updating user settings without an existing branding configuration, all fields (logo, favicon, localized strings, and color theme) are required except for wallpaper and terms of service. When updating user settings with an existing branding configuration, all fields are optional.
         public let brandingConfigurationInput: BrandingConfigurationUpdateInput?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
         public let clientToken: String?
@@ -5249,9 +5274,11 @@ extension WorkSpacesWeb {
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(brandingConfigurationInput: BrandingConfigurationUpdateInput? = nil, clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(brandingConfigurationInput: BrandingConfigurationUpdateInput? = nil, clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String, webAuthnAllowed: EnabledType? = nil) {
             self.brandingConfigurationInput = brandingConfigurationInput
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -5265,6 +5292,7 @@ extension WorkSpacesWeb {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5283,6 +5311,7 @@ extension WorkSpacesWeb {
             try container.encodeIfPresent(self.toolbarConfiguration, forKey: .toolbarConfiguration)
             try container.encodeIfPresent(self.uploadAllowed, forKey: .uploadAllowed)
             request.encodePath(self.userSettingsArn, key: "userSettingsArn")
+            try container.encodeIfPresent(self.webAuthnAllowed, forKey: .webAuthnAllowed)
         }
 
         public func validate(name: String) throws {
@@ -5312,6 +5341,7 @@ extension WorkSpacesWeb {
             case printAllowed = "printAllowed"
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 
@@ -5400,9 +5430,11 @@ extension WorkSpacesWeb {
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String, webAuthnAllowed: EnabledType? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.brandingConfiguration = brandingConfiguration
@@ -5418,6 +5450,7 @@ extension WorkSpacesWeb {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5436,6 +5469,7 @@ extension WorkSpacesWeb {
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
             case userSettingsArn = "userSettingsArn"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 
@@ -5464,9 +5498,11 @@ extension WorkSpacesWeb {
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String, webAuthnAllowed: EnabledType? = nil) {
             self.brandingConfiguration = brandingConfiguration
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
@@ -5479,6 +5515,7 @@ extension WorkSpacesWeb {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5494,6 +5531,7 @@ extension WorkSpacesWeb {
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
             case userSettingsArn = "userSettingsArn"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 

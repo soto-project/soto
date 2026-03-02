@@ -25,6 +25,11 @@ import Foundation
 extension GeoMaps {
     // MARK: Enums
 
+    public enum Buildings: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case buildings3D = "Buildings3D"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ColorScheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dark = "Dark"
         case light = "Light"
@@ -72,6 +77,7 @@ extension GeoMaps {
 
     public enum Terrain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hillshade = "Hillshade"
+        case terrain3D = "Terrain3D"
         public var description: String { return self.rawValue }
     }
 
@@ -327,18 +333,16 @@ extension GeoMaps {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.boundedPositions, name: "boundedPositions", parent: name, max: 7000)
             try self.validate(self.boundedPositions, name: "boundedPositions", parent: name, min: 7)
             try self.validate(self.boundedPositions, name: "boundedPositions", parent: name, pattern: "^(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?)(,(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?))*$")
-            try self.validate(self.boundingBox, name: "boundingBox", parent: name, max: 7000)
             try self.validate(self.boundingBox, name: "boundingBox", parent: name, min: 7)
             try self.validate(self.boundingBox, name: "boundingBox", parent: name, pattern: "^(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?)(,(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?))*$")
             try self.validate(self.center, name: "center", parent: name, max: 36)
             try self.validate(self.center, name: "center", parent: name, min: 3)
             try self.validate(self.center, name: "center", parent: name, pattern: "^-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?$")
-            try self.validate(self.compactOverlay, name: "compactOverlay", parent: name, max: 7000)
+            try self.validate(self.compactOverlay, name: "compactOverlay", parent: name, max: 5000)
             try self.validate(self.compactOverlay, name: "compactOverlay", parent: name, min: 1)
-            try self.validate(self.geoJsonOverlay, name: "geoJsonOverlay", parent: name, max: 7000)
+            try self.validate(self.geoJsonOverlay, name: "geoJsonOverlay", parent: name, max: 4200)
             try self.validate(self.geoJsonOverlay, name: "geoJsonOverlay", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
@@ -389,9 +393,11 @@ extension GeoMaps {
     }
 
     public struct GetStyleDescriptorRequest: AWSEncodableShape {
+        /// Adjusts how building details are rendered on the map. The following building styles are currently supported:    Buildings3D: Displays buildings as three-dimensional extrusions on the map.    Buildings3D is valid only for the Standard and Monochrome map styles.
+        public let buildings: Buildings?
         /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
         public let colorScheme: ColorScheme?
-        /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard map style.
+        /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard, Monochrome, and Hybrid map styles.
         public let contourDensity: ContourDensity?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -399,7 +405,7 @@ extension GeoMaps {
         public let politicalView: String?
         /// Style specifies the desired map style.
         public let style: MapStyle
-        /// Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.   This parameter is valid only for the Standard map style.
+        /// Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.    Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.    Hillshade is valid only for the Standard and Monochrome map styles.
         public let terrain: Terrain?
         /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
         public let traffic: Traffic?
@@ -407,7 +413,8 @@ extension GeoMaps {
         public let travelModes: [TravelMode]?
 
         @inlinable
-        public init(colorScheme: ColorScheme? = nil, contourDensity: ContourDensity? = nil, key: String? = nil, politicalView: String? = nil, style: MapStyle, terrain: Terrain? = nil, traffic: Traffic? = nil, travelModes: [TravelMode]? = nil) {
+        public init(buildings: Buildings? = nil, colorScheme: ColorScheme? = nil, contourDensity: ContourDensity? = nil, key: String? = nil, politicalView: String? = nil, style: MapStyle, terrain: Terrain? = nil, traffic: Traffic? = nil, travelModes: [TravelMode]? = nil) {
+            self.buildings = buildings
             self.colorScheme = colorScheme
             self.contourDensity = contourDensity
             self.key = key
@@ -421,6 +428,7 @@ extension GeoMaps {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.buildings, key: "buildings")
             request.encodeQuery(self.colorScheme, key: "color-scheme")
             request.encodeQuery(self.contourDensity, key: "contour-density")
             request.encodeQuery(self.key, key: "key")
@@ -478,7 +486,7 @@ extension GeoMaps {
         public let additionalFeatures: [TileAdditionalFeature]?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap
+        /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
         public let tileset: String
         /// The X axis value for the map tile. Must be between 0 and 19.
         public let x: String

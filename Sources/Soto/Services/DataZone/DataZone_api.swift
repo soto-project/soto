@@ -115,6 +115,7 @@ public struct DataZone: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "af-south-1": "datazone-fips.af-south-1.api.aws",
             "ap-east-1": "datazone-fips.ap-east-1.api.aws",
             "ap-east-2": "datazone-fips.ap-east-2.api.aws",
             "ap-northeast-1": "datazone-fips.ap-northeast-1.api.aws",
@@ -137,6 +138,7 @@ public struct DataZone: AWSService {
             "eu-central-2": "datazone-fips.eu-central-2.api.aws",
             "eu-north-1": "datazone-fips.eu-north-1.api.aws",
             "eu-south-1": "datazone-fips.eu-south-1.api.aws",
+            "eu-south-2": "datazone-fips.eu-south-2.api.aws",
             "eu-west-1": "datazone-fips.eu-west-1.api.aws",
             "eu-west-2": "datazone-fips.eu-west-2.api.aws",
             "eu-west-3": "datazone-fips.eu-west-3.api.aws",
@@ -1824,6 +1826,7 @@ public struct DataZone: AWSService {
     ///   - manageAccessRole: The manage access role that is used to create the subscription target.
     ///   - name: The name of the subscription target.
     ///   - provider: The provider of the subscription target.
+    ///   - subscriptionGrantCreationMode:  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
     ///   - subscriptionTargetConfig: The configuration of the subscription target.
     ///   - type: The type of the subscription target.
     ///   - logger: Logger use during operation
@@ -1837,6 +1840,7 @@ public struct DataZone: AWSService {
         manageAccessRole: String,
         name: String,
         provider: String? = nil,
+        subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil,
         subscriptionTargetConfig: [SubscriptionTargetForm],
         type: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1850,6 +1854,7 @@ public struct DataZone: AWSService {
             manageAccessRole: manageAccessRole, 
             name: name, 
             provider: provider, 
+            subscriptionGrantCreationMode: subscriptionGrantCreationMode, 
             subscriptionTargetConfig: subscriptionTargetConfig, 
             type: type
         )
@@ -2055,6 +2060,35 @@ public struct DataZone: AWSService {
             identifier: identifier
         )
         return try await self.deleteConnection(input, logger: logger)
+    }
+
+    /// Deletes data export configuration for a domain. This operation does not delete the S3 table created by the PutDataExportConfiguration operation. To temporarily disable export without deleting the configuration, use the PutDataExportConfiguration operation with the --no-enable-export flag instead. This allows you to re-enable export for the same domain using the --enable-export flag without deleting S3 table.
+    @Sendable
+    @inlinable
+    public func deleteDataExportConfiguration(_ input: DeleteDataExportConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataExportConfigurationOutput {
+        try await self.client.execute(
+            operation: "DeleteDataExportConfiguration", 
+            path: "/v2/domains/{domainIdentifier}/data-export-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes data export configuration for a domain. This operation does not delete the S3 table created by the PutDataExportConfiguration operation. To temporarily disable export without deleting the configuration, use the PutDataExportConfiguration operation with the --no-enable-export flag instead. This allows you to re-enable export for the same domain using the --enable-export flag without deleting S3 table.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The domain ID for which you want to delete the data export configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataExportConfiguration(
+        domainIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDataExportConfigurationOutput {
+        let input = DeleteDataExportConfigurationInput(
+            domainIdentifier: domainIdentifier
+        )
+        return try await self.deleteDataExportConfiguration(input, logger: logger)
     }
 
     /// Deletes a data product in Amazon DataZone. Prerequisites:   The data product must exist and not be deleted or archived.    The user must have delete permissions for the data product.   Domain and project must be active.
@@ -5238,6 +5272,7 @@ public struct DataZone: AWSService {
     ///   - maxResults: The maximum number of subscription grants to return in a single call to ListSubscriptionGrants. When the number of subscription grants to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
     ///   - nextToken: When the number of subscription grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
     ///   - owningGroupId: The ID of the owning group.
+    ///   - owningIamPrincipalArn: The ARN of the owning IAM principal.
     ///   - owningProjectId: The ID of the owning project of the subscription grants.
     ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order of this action.
@@ -5252,6 +5287,7 @@ public struct DataZone: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         owningGroupId: String? = nil,
+        owningIamPrincipalArn: String? = nil,
         owningProjectId: String? = nil,
         owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
@@ -5266,6 +5302,7 @@ public struct DataZone: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             owningGroupId: owningGroupId, 
+            owningIamPrincipalArn: owningIamPrincipalArn, 
             owningProjectId: owningProjectId, 
             owningUserId: owningUserId, 
             sortOrder: sortOrder, 
@@ -5297,6 +5334,7 @@ public struct DataZone: AWSService {
     ///   - maxResults: The maximum number of subscription requests to return in a single call to ListSubscriptionRequests. When the number of subscription requests to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
     ///   - nextToken: When the number of subscription requests is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription requests, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
     ///   - owningGroupId: The ID of the owning group.
+    ///   - owningIamPrincipalArn: The ARN of the owning IAM principal.
     ///   - owningProjectId: The identifier of the project for the subscription requests.
     ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
@@ -5310,6 +5348,7 @@ public struct DataZone: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         owningGroupId: String? = nil,
+        owningIamPrincipalArn: String? = nil,
         owningProjectId: String? = nil,
         owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
@@ -5323,6 +5362,7 @@ public struct DataZone: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             owningGroupId: owningGroupId, 
+            owningIamPrincipalArn: owningIamPrincipalArn, 
             owningProjectId: owningProjectId, 
             owningUserId: owningUserId, 
             sortOrder: sortOrder, 
@@ -5397,6 +5437,7 @@ public struct DataZone: AWSService {
     ///   - maxResults: The maximum number of subscriptions to return in a single call to ListSubscriptions. When the number of subscriptions to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptions to list the next set of Subscriptions.
     ///   - nextToken: When the number of subscriptions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscriptions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptions to list the next set of subscriptions.
     ///   - owningGroupId: The ID of the owning group.
+    ///   - owningIamPrincipalArn: The ARN of the owning IAM principal.
     ///   - owningProjectId: The identifier of the owning project.
     ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
@@ -5411,6 +5452,7 @@ public struct DataZone: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         owningGroupId: String? = nil,
+        owningIamPrincipalArn: String? = nil,
         owningProjectId: String? = nil,
         owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
@@ -5425,6 +5467,7 @@ public struct DataZone: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             owningGroupId: owningGroupId, 
+            owningIamPrincipalArn: owningIamPrincipalArn, 
             owningProjectId: owningProjectId, 
             owningUserId: owningUserId, 
             sortOrder: sortOrder, 
@@ -5590,7 +5633,7 @@ public struct DataZone: AWSService {
         return try await self.postTimeSeriesDataPoints(input, logger: logger)
     }
 
-    /// Creates data export configuration details. In the current release, you can enable exporting asset metadata only for one domain per Amazon Web Services account per region. If you disable exporting asset metadata feature for a domain where it's already enabled, you cannot enable this feature for another domain in the same Amazon Web Services account and region.
+    /// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table.  You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps:   Delete the export configuration for the currently enabled domain using the DeleteDataExportConfiguration operation.   Delete the asset S3 table under the aws-sagemaker-catalog S3 table bucket. We recommend backing up the S3 table before deletion.   Call the PutDataExportConfiguration API to enable export for the new domain.
     @Sendable
     @inlinable
     public func putDataExportConfiguration(_ input: PutDataExportConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataExportConfigurationOutput {
@@ -5603,11 +5646,11 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Creates data export configuration details. In the current release, you can enable exporting asset metadata only for one domain per Amazon Web Services account per region. If you disable exporting asset metadata feature for a domain where it's already enabled, you cannot enable this feature for another domain in the same Amazon Web Services account and region.
+    /// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table.  You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps:   Delete the export configuration for the currently enabled domain using the DeleteDataExportConfiguration operation.   Delete the asset S3 table under the aws-sagemaker-catalog S3 table bucket. We recommend backing up the S3 table before deletion.   Call the PutDataExportConfiguration API to enable export for the new domain.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
-    ///   - domainIdentifier: The domain ID where you want to create data export configuration details.
+    ///   - domainIdentifier: The domain ID for which you want to create data export configuration details.
     ///   - enableExport: Specifies that the export is to be enabled as part of creating data export configuration details.
     ///   - encryptionConfiguration: The encryption configuration as part of creating data export configuration details. The KMS key provided here as part of encryptionConfiguration must have the required permissions as described in KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio.
     ///   - logger: Logger use during operation
@@ -5883,7 +5926,7 @@ public struct DataZone: AWSService {
         return try await self.revokeSubscription(input, logger: logger)
     }
 
-    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various criteria such as creation date, owner, or status. The search functionality is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. Many search commands in Amazon DataZone are paginated, including search and search-types. When the result set is large, Amazon DataZone returns a nextToken in the response. This token can be used to retrieve the next page of results.  Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of: ASSET, GLOSSARY_TERM, DATA_PRODUCT, or GLOSSARY.   The user must have search permissions in the specified domain.   If using --filters, ensure that the JSON is well-formed and that each filter includes valid attribute and value keys.    For paginated results, be prepared to use --next-token to fetch additional pages.
+    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various criteria such as creation date, owner, or status. The search functionality is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. Many search commands in Amazon DataZone are paginated, including search and search-types. When the result set is large, Amazon DataZone returns a nextToken in the response. This token can be used to retrieve the next page of results.  Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of: ASSET, GLOSSARY_TERM, DATA_PRODUCT, or GLOSSARY.   The user must have search permissions in the specified domain.   If using --filters, ensure that the JSON is well-formed and that each filter includes valid attribute and value keys.    For paginated results, be prepared to use --next-token to fetch additional pages.   To run a standard free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms. To filter on an indexed numeric attribute (i.e., a numeric attribute annotated with @amazon.datazone#sortable), provide a filter using the intValue parameter. The filters parameter can also be used to run more advanced free-text searches that target specific attributes (attributes must be annotated with @amazon.datazone#searchable for free-text search). Create/update timestamp filtering is supported using the special creationTime/lastUpdatedTime attributes. Filter types can be mixed and matched to power complex queries.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
     @Sendable
     @inlinable
     public func search(_ input: SearchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchOutput {
@@ -5896,7 +5939,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various criteria such as creation date, owner, or status. The search functionality is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. Many search commands in Amazon DataZone are paginated, including search and search-types. When the result set is large, Amazon DataZone returns a nextToken in the response. This token can be used to retrieve the next page of results.  Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of: ASSET, GLOSSARY_TERM, DATA_PRODUCT, or GLOSSARY.   The user must have search permissions in the specified domain.   If using --filters, ensure that the JSON is well-formed and that each filter includes valid attribute and value keys.    For paginated results, be prepared to use --next-token to fetch additional pages.
+    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various criteria such as creation date, owner, or status. The search functionality is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. Many search commands in Amazon DataZone are paginated, including search and search-types. When the result set is large, Amazon DataZone returns a nextToken in the response. This token can be used to retrieve the next page of results.  Prerequisites:   The --domain-identifier must refer to an existing Amazon DataZone domain.    --search-scope must be one of: ASSET, GLOSSARY_TERM, DATA_PRODUCT, or GLOSSARY.   The user must have search permissions in the specified domain.   If using --filters, ensure that the JSON is well-formed and that each filter includes valid attribute and value keys.    For paginated results, be prepared to use --next-token to fetch additional pages.   To run a standard free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms. To filter on an indexed numeric attribute (i.e., a numeric attribute annotated with @amazon.datazone#sortable), provide a filter using the intValue parameter. The filters parameter can also be used to run more advanced free-text searches that target specific attributes (attributes must be annotated with @amazon.datazone#searchable for free-text search). Create/update timestamp filtering is supported using the special creationTime/lastUpdatedTime attributes. Filter types can be mixed and matched to power complex queries.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
     ///
     /// Parameters:
     ///   - additionalAttributes: Specifies additional attributes for the Search action.
@@ -5980,7 +6023,7 @@ public struct DataZone: AWSService {
         return try await self.searchGroupProfiles(input, logger: logger)
     }
 
-    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. SearchListings returns results in a paginated format. When the result set is large, the response will include a nextToken, which can be used to retrieve the next page of results. The SearchListings API gives users flexibility in specifying what kind of search is run. To run a free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
+    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. SearchListings returns results in a paginated format. When the result set is large, the response will include a nextToken, which can be used to retrieve the next page of results. The SearchListings API gives users flexibility in specifying what kind of search is run. To run a standard free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms. To filter on an indexed numeric attribute (i.e., a numeric attribute annotated with @amazon.datazone#sortable), provide a filter using the intValue parameter. The filters parameter can also be used to run more advanced free-text searches that target specific attributes (attributes must be annotated with @amazon.datazone#searchable for free-text search). Create/update timestamp filtering is supported using the special creationTime/lastUpdatedTime attributes. Filter types can be mixed and matched to power complex queries.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
     @Sendable
     @inlinable
     public func searchListings(_ input: SearchListingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchListingsOutput {
@@ -5993,7 +6036,7 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. SearchListings returns results in a paginated format. When the result set is large, the response will include a nextToken, which can be used to retrieve the next page of results. The SearchListings API gives users flexibility in specifying what kind of search is run. To run a free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
+    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. SearchListings returns results in a paginated format. When the result set is large, the response will include a nextToken, which can be used to retrieve the next page of results. The SearchListings API gives users flexibility in specifying what kind of search is run. To run a standard free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the CreateFormType API documentation. To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms. To filter on an indexed numeric attribute (i.e., a numeric attribute annotated with @amazon.datazone#sortable), provide a filter using the intValue parameter. The filters parameter can also be used to run more advanced free-text searches that target specific attributes (attributes must be annotated with @amazon.datazone#searchable for free-text search). Create/update timestamp filtering is supported using the special creationTime/lastUpdatedTime attributes. Filter types can be mixed and matched to power complex queries.  To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
     ///
     /// Parameters:
     ///   - additionalAttributes: Specifies additional attributes for the search.
@@ -7148,6 +7191,7 @@ public struct DataZone: AWSService {
     ///   - manageAccessRole: The manage access role to be updated as part of the UpdateSubscriptionTarget action.
     ///   - name: The name to be updated as part of the UpdateSubscriptionTarget action.
     ///   - provider: The provider to be updated as part of the UpdateSubscriptionTarget action.
+    ///   - subscriptionGrantCreationMode:  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
     ///   - subscriptionTargetConfig: The configuration to be updated as part of the UpdateSubscriptionTarget action.
     ///   - logger: Logger use during operation
     @inlinable
@@ -7160,6 +7204,7 @@ public struct DataZone: AWSService {
         manageAccessRole: String? = nil,
         name: String? = nil,
         provider: String? = nil,
+        subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil,
         subscriptionTargetConfig: [SubscriptionTargetForm]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateSubscriptionTargetOutput {
@@ -7172,6 +7217,7 @@ public struct DataZone: AWSService {
             manageAccessRole: manageAccessRole, 
             name: name, 
             provider: provider, 
+            subscriptionGrantCreationMode: subscriptionGrantCreationMode, 
             subscriptionTargetConfig: subscriptionTargetConfig
         )
         return try await self.updateSubscriptionTarget(input, logger: logger)
@@ -8465,6 +8511,7 @@ extension DataZone {
     ///   - environmentId: The identifier of the Amazon DataZone environment.
     ///   - maxResults: The maximum number of subscription grants to return in a single call to ListSubscriptionGrants. When the number of subscription grants to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
     ///   - owningGroupId: The ID of the owning group.
+    ///   - owningIamPrincipalArn: The ARN of the owning IAM principal.
     ///   - owningProjectId: The ID of the owning project of the subscription grants.
     ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order of this action.
@@ -8478,6 +8525,7 @@ extension DataZone {
         environmentId: String? = nil,
         maxResults: Int? = nil,
         owningGroupId: String? = nil,
+        owningIamPrincipalArn: String? = nil,
         owningProjectId: String? = nil,
         owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
@@ -8491,6 +8539,7 @@ extension DataZone {
             environmentId: environmentId, 
             maxResults: maxResults, 
             owningGroupId: owningGroupId, 
+            owningIamPrincipalArn: owningIamPrincipalArn, 
             owningProjectId: owningProjectId, 
             owningUserId: owningUserId, 
             sortOrder: sortOrder, 
@@ -8526,6 +8575,7 @@ extension DataZone {
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - maxResults: The maximum number of subscription requests to return in a single call to ListSubscriptionRequests. When the number of subscription requests to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
     ///   - owningGroupId: The ID of the owning group.
+    ///   - owningIamPrincipalArn: The ARN of the owning IAM principal.
     ///   - owningProjectId: The identifier of the project for the subscription requests.
     ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
@@ -8538,6 +8588,7 @@ extension DataZone {
         domainIdentifier: String,
         maxResults: Int? = nil,
         owningGroupId: String? = nil,
+        owningIamPrincipalArn: String? = nil,
         owningProjectId: String? = nil,
         owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
@@ -8550,6 +8601,7 @@ extension DataZone {
             domainIdentifier: domainIdentifier, 
             maxResults: maxResults, 
             owningGroupId: owningGroupId, 
+            owningIamPrincipalArn: owningIamPrincipalArn, 
             owningProjectId: owningProjectId, 
             owningUserId: owningUserId, 
             sortOrder: sortOrder, 
@@ -8630,6 +8682,7 @@ extension DataZone {
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - maxResults: The maximum number of subscriptions to return in a single call to ListSubscriptions. When the number of subscriptions to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptions to list the next set of Subscriptions.
     ///   - owningGroupId: The ID of the owning group.
+    ///   - owningIamPrincipalArn: The ARN of the owning IAM principal.
     ///   - owningProjectId: The identifier of the owning project.
     ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
@@ -8643,6 +8696,7 @@ extension DataZone {
         domainIdentifier: String,
         maxResults: Int? = nil,
         owningGroupId: String? = nil,
+        owningIamPrincipalArn: String? = nil,
         owningProjectId: String? = nil,
         owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
@@ -8656,6 +8710,7 @@ extension DataZone {
             domainIdentifier: domainIdentifier, 
             maxResults: maxResults, 
             owningGroupId: owningGroupId, 
+            owningIamPrincipalArn: owningIamPrincipalArn, 
             owningProjectId: owningProjectId, 
             owningUserId: owningUserId, 
             sortOrder: sortOrder, 
@@ -9351,6 +9406,7 @@ extension DataZone.ListSubscriptionGrantsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             owningGroupId: self.owningGroupId,
+            owningIamPrincipalArn: self.owningIamPrincipalArn,
             owningProjectId: self.owningProjectId,
             owningUserId: self.owningUserId,
             sortOrder: self.sortOrder,
@@ -9370,6 +9426,7 @@ extension DataZone.ListSubscriptionRequestsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             owningGroupId: self.owningGroupId,
+            owningIamPrincipalArn: self.owningIamPrincipalArn,
             owningProjectId: self.owningProjectId,
             owningUserId: self.owningUserId,
             sortOrder: self.sortOrder,
@@ -9402,6 +9459,7 @@ extension DataZone.ListSubscriptionsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             owningGroupId: self.owningGroupId,
+            owningIamPrincipalArn: self.owningIamPrincipalArn,
             owningProjectId: self.owningProjectId,
             owningUserId: self.owningUserId,
             sortOrder: self.sortOrder,

@@ -93,6 +93,7 @@ public struct SageMakerRuntimeHTTP2: AWSService {
             "ap-southeast-3": "runtime-fips.sagemaker.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "runtime-fips.sagemaker.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "runtime-fips.sagemaker.ap-southeast-5.amazonaws.com",
+            "ap-southeast-6": "runtime-fips.sagemaker.ap-southeast-6.amazonaws.com",
             "ap-southeast-7": "runtime-fips.sagemaker.ap-southeast-7.amazonaws.com",
             "ca-central-1": "runtime-fips.sagemaker.ca-central-1.amazonaws.com",
             "ca-west-1": "runtime-fips.sagemaker.ca-west-1.amazonaws.com",

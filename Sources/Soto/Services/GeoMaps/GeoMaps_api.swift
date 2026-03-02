@@ -250,17 +250,19 @@ public struct GeoMaps: AWSService {
     ///  GetStyleDescriptor returns information about the style. For more information, see Style dynamic maps in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
+    ///   - buildings: Adjusts how building details are rendered on the map. The following building styles are currently supported:    Buildings3D: Displays buildings as three-dimensional extrusions on the map.    Buildings3D is valid only for the Standard and Monochrome map styles.
     ///   - colorScheme: Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
-    ///   - contourDensity: Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard map style.
+    ///   - contourDensity: Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard, Monochrome, and Hybrid map styles.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     ///   - politicalView: Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
     ///   - style: Style specifies the desired map style.
-    ///   - terrain: Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.   This parameter is valid only for the Standard map style.
+    ///   - terrain: Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.    Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.    Hillshade is valid only for the Standard and Monochrome map styles.
     ///   - traffic: Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
     ///   - travelModes: Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid only for the Standard map style.
     ///   - logger: Logger use during operation
     @inlinable
     public func getStyleDescriptor(
+        buildings: Buildings? = nil,
         colorScheme: ColorScheme? = nil,
         contourDensity: ContourDensity? = nil,
         key: String? = nil,
@@ -272,6 +274,7 @@ public struct GeoMaps: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetStyleDescriptorResponse {
         let input = GetStyleDescriptorRequest(
+            buildings: buildings, 
             colorScheme: colorScheme, 
             contourDensity: contourDensity, 
             key: key, 
@@ -302,7 +305,7 @@ public struct GeoMaps: AWSService {
     /// Parameters:
     ///   - additionalFeatures: A list of optional additional parameters such as map styles that can be requested for each result.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - tileset: Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap
+    ///   - tileset: Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
     ///   - x: The X axis value for the map tile. Must be between 0 and 19.
     ///   - y: The Y axis value for the map tile.
     ///   - z: The zoom value for the map tile.

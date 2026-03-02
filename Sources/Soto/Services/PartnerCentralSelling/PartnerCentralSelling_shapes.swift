@@ -732,9 +732,11 @@ extension PartnerCentralSelling {
     }
 
     public enum OpportunitySortName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createdDate = "CreatedDate"
         case customerCompanyName = "CustomerCompanyName"
         case identifier = "Identifier"
         case lastModifieddate = "LastModifiedDate"
+        case targetCloseDate = "TargetCloseDate"
         public var description: String { return self.rawValue }
     }
 
@@ -1029,6 +1031,37 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case leadInvitation = "LeadInvitation"
             case opportunityInvitation = "OpportunityInvitation"
+        }
+    }
+
+    public enum ResourceSnapshotPayload: AWSDecodableShape, Sendable {
+        /// Provides a comprehensive view of AwsOpportunitySummaryFullView template.
+        case awsOpportunitySummaryFullView(AwsOpportunitySummaryFullView)
+        ///  An object that contains an opportunity's subset of fields.
+        case opportunitySummary(OpportunitySummaryView)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .awsOpportunitySummaryFullView:
+                let value = try container.decode(AwsOpportunitySummaryFullView.self, forKey: .awsOpportunitySummaryFullView)
+                self = .awsOpportunitySummaryFullView(value)
+            case .opportunitySummary:
+                let value = try container.decode(OpportunitySummaryView.self, forKey: .opportunitySummary)
+                self = .opportunitySummary(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsOpportunitySummaryFullView = "AwsOpportunitySummaryFullView"
+            case opportunitySummary = "OpportunitySummary"
         }
     }
 
@@ -1370,6 +1403,7 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsOpportunityInsights: AWSDecodableShape {
+        /// Source-separated spend insights that provide independent analysis for AWS recommendations and partner estimates.
         public let awsProductsSpendInsightsBySource: AwsProductsSpendInsightsBySource?
         /// Represents a score assigned by AWS to indicate the level of engagement and potential success for the opportunity. This score helps partners prioritize their efforts.
         public let engagementScore: EngagementScore?
@@ -1421,7 +1455,7 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsOpportunityProject: AWSDecodableShape {
-        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, `null` for all other partitions
+        /// AWS partition where the opportunity will be deployed. Possible values: aws-eusc for AWS European Sovereign Cloud, null for all other partitions.
         public let awsPartition: AwsPartition?
         /// Indicates the expected spending by the customer over the course of the project. This value helps partners and AWS estimate the financial impact of the opportunity. Use the AWS Pricing Calculator to create an estimate of the customer’s total spend. If only annual recurring revenue (ARR) is available, distribute it across 12 months to provide an average monthly value.
         public let expectedCustomerSpend: [ExpectedCustomerSpend]?
@@ -1456,20 +1490,69 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct AwsOpportunitySummaryFullView: AWSDecodableShape {
+        public let customer: AwsOpportunityCustomer?
+        public let insights: AwsOpportunityInsights?
+        /// Type of AWS involvement in the opportunity.
+        public let involvementType: SalesInvolvementType?
+        /// Reason for changes in AWS involvement type for the opportunity.
+        public let involvementTypeChangeReason: InvolvementTypeChangeReason?
+        public let lifeCycle: AwsOpportunityLifeCycle?
+        /// AWS team members involved in the opportunity.
+        public let opportunityTeam: [AwsTeamMember]?
+        /// Source origin of the AWS opportunity.
+        public let origin: OpportunityOrigin?
+        public let project: AwsOpportunityProject?
+        public let relatedEntityIds: AwsOpportunityRelatedEntities?
+        /// Identifier of the related partner opportunity.
+        public let relatedOpportunityId: String?
+        /// Visibility level for the AWS opportunity.
+        public let visibility: Visibility?
+
+        @inlinable
+        public init(customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, visibility: Visibility? = nil) {
+            self.customer = customer
+            self.insights = insights
+            self.involvementType = involvementType
+            self.involvementTypeChangeReason = involvementTypeChangeReason
+            self.lifeCycle = lifeCycle
+            self.opportunityTeam = opportunityTeam
+            self.origin = origin
+            self.project = project
+            self.relatedEntityIds = relatedEntityIds
+            self.relatedOpportunityId = relatedOpportunityId
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customer = "Customer"
+            case insights = "Insights"
+            case involvementType = "InvolvementType"
+            case involvementTypeChangeReason = "InvolvementTypeChangeReason"
+            case lifeCycle = "LifeCycle"
+            case opportunityTeam = "OpportunityTeam"
+            case origin = "Origin"
+            case project = "Project"
+            case relatedEntityIds = "RelatedEntityIds"
+            case relatedOpportunityId = "RelatedOpportunityId"
+            case visibility = "Visibility"
+        }
+    }
+
     public struct AwsProductDetails: AWSDecodableShape {
-        /// Baseline service cost before optimizations (may be null for AWS-sourced predictions)
+        /// Baseline service cost before optimizations.
         public let amount: String?
-        /// List of program and pathway categories this product is eligible for
+        /// List of program and pathway categories this product is eligible for.
         public let categories: [String]
-        /// List of specific optimization recommendations for this product
+        /// List of specific optimization recommendations for this product.
         public let optimizations: [AwsProductOptimization]
-        /// Service cost after applying optimizations (may be null for AWS-sourced predictions)
+        /// Service cost after applying optimizations.
         public let optimizedAmount: String?
-        /// Service-specific cost reduction through optimizations (may be null for AWS-sourced predictions)
+        /// Service-specific cost reduction through optimizations.
         public let potentialSavingsAmount: String?
-        /// AWS Partner Central product identifier used for opportunity association
+        /// AWS Partner Central product identifier used for opportunity association.
         public let productCode: String
-        /// Pricing Calculator service code (links to original calculator URL)
+        /// Pricing Calculator service code.
         public let serviceCode: String?
 
         @inlinable
@@ -1495,19 +1578,19 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsProductInsights: AWSDecodableShape {
-        /// Product-level details including costs and optimization recommendations
+        /// Product-level details including costs and optimization recommendations.
         public let awsProducts: [AwsProductDetails]
-        /// ISO 4217 currency code (e.g., "USD") ensuring consistent representation across calculations
+        /// ISO 4217 currency code.
         public let currencyCode: CurrencyCode
-        /// Time period for spend amounts: "Monthly" or "Annually"
+        /// Time period for spend amounts.
         public let frequency: PaymentFrequency
-        /// Total estimated spend for this source before optimizations
+        /// Total estimated spend for this source before optimizations.
         public let totalAmount: String?
-        /// Spend amounts mapped to AWS programs and modernization pathways
+        /// Spend amounts mapped to AWS programs and modernization pathways.
         public let totalAmountByCategory: [String: String]
-        /// Total estimated spend after applying recommended optimizations
+        /// Total estimated spend after applying recommended optimizations.
         public let totalOptimizedAmount: String?
-        /// Quantified savings achievable through implementing optimizations
+        /// Quantified savings achievable through implementing optimizations.
         public let totalPotentialSavingsAmount: String?
 
         @inlinable
@@ -1533,9 +1616,9 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsProductOptimization: AWSDecodableShape {
-        /// Human-readable explanation of the optimization strategy
+        /// Human-readable explanation of the optimization strategy.
         public let description: String
-        /// Quantified cost savings achievable by implementing this optimization
+        /// Quantified cost savings achievable by implementing this optimization.
         public let savingsAmount: String
 
         @inlinable
@@ -1551,9 +1634,9 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsProductsSpendInsightsBySource: AWSDecodableShape {
-        /// AI-generated insights including recommended products from AWS
+        /// AI-generated insights including recommended products from AWS.
         public let aws: AwsProductInsights?
-        /// Partner-sourced insights derived from Pricing Calculator URLs including detailed service costs and optimizations
+        /// Partner-sourced insights derived from Pricing Calculator URLs.
         public let partner: AwsProductInsights?
 
         @inlinable
@@ -1720,7 +1803,7 @@ extension PartnerCentralSelling {
         public let clientToken: String
         ///  The unique identifier of the Engagement associated with the invitation. This parameter ensures the invitation is created within the correct Engagement context.
         public let engagementIdentifier: String
-        ///  The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details.
+        ///  The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details, or LeadInvitation, which includes structures for customer information and interaction details.
         public let invitation: Invitation
 
         @inlinable
@@ -2061,6 +2144,26 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case revision = "Revision"
+        }
+    }
+
+    public struct CreatedDateFilter: AWSEncodableShape {
+        /// Filter opportunities created after this date.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var afterCreatedDate: Date?
+        /// Filter opportunities created before this date.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var beforeCreatedDate: Date?
+
+        @inlinable
+        public init(afterCreatedDate: Date? = nil, beforeCreatedDate: Date? = nil) {
+            self.afterCreatedDate = afterCreatedDate
+            self.beforeCreatedDate = beforeCreatedDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterCreatedDate = "AfterCreatedDate"
+            case beforeCreatedDate = "BeforeCreatedDate"
         }
     }
 
@@ -3003,9 +3106,11 @@ extension PartnerCentralSelling {
         public let resourceType: ResourceType?
         /// The revision number of this snapshot. This is a positive integer that is sequential and unique within the context of a resource view.
         public let revision: Int?
+        /// Target member accounts associated with the resource snapshot.
+        public let targetMemberAccounts: [String]?
 
         @inlinable
-        public init(arn: String? = nil, catalog: String, createdAt: Date? = nil, createdBy: String? = nil, engagementId: String? = nil, payload: ResourceSnapshotPayload? = nil, resourceId: String? = nil, resourceSnapshotTemplateName: String? = nil, resourceType: ResourceType? = nil, revision: Int? = nil) {
+        public init(arn: String? = nil, catalog: String, createdAt: Date? = nil, createdBy: String? = nil, engagementId: String? = nil, payload: ResourceSnapshotPayload? = nil, resourceId: String? = nil, resourceSnapshotTemplateName: String? = nil, resourceType: ResourceType? = nil, revision: Int? = nil, targetMemberAccounts: [String]? = nil) {
             self.arn = arn
             self.catalog = catalog
             self.createdAt = createdAt
@@ -3016,6 +3121,7 @@ extension PartnerCentralSelling {
             self.resourceSnapshotTemplateName = resourceSnapshotTemplateName
             self.resourceType = resourceType
             self.revision = revision
+            self.targetMemberAccounts = targetMemberAccounts
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3029,6 +3135,7 @@ extension PartnerCentralSelling {
             case resourceSnapshotTemplateName = "ResourceSnapshotTemplateName"
             case resourceType = "ResourceType"
             case revision = "Revision"
+            case targetMemberAccounts = "TargetMemberAccounts"
         }
     }
 
@@ -4034,6 +4141,8 @@ extension PartnerCentralSelling {
     public struct ListOpportunitiesRequest: AWSEncodableShape {
         /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
         public let catalog: String
+        /// Filter opportunities by creation date criteria.
+        public let createdDate: CreatedDateFilter?
         /// Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string.
         public let customerCompanyName: [String]?
         /// Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results.
@@ -4050,10 +4159,13 @@ extension PartnerCentralSelling {
         public let nextToken: String?
         /// An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
         public let sort: OpportunitySort?
+        /// Filters opportunities based on their target close date. This filter helps retrieve opportunities with an expected close date before or after a specified date.
+        public let targetCloseDate: TargetCloseDateFilter?
 
         @inlinable
-        public init(catalog: String, customerCompanyName: [String]? = nil, identifier: [String]? = nil, lastModifiedDate: LastModifiedDate? = nil, lifeCycleReviewStatus: [ReviewStatus]? = nil, lifeCycleStage: [Stage]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: OpportunitySort? = nil) {
+        public init(catalog: String, createdDate: CreatedDateFilter? = nil, customerCompanyName: [String]? = nil, identifier: [String]? = nil, lastModifiedDate: LastModifiedDate? = nil, lifeCycleReviewStatus: [ReviewStatus]? = nil, lifeCycleStage: [Stage]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: OpportunitySort? = nil, targetCloseDate: TargetCloseDateFilter? = nil) {
             self.catalog = catalog
+            self.createdDate = createdDate
             self.customerCompanyName = customerCompanyName
             self.identifier = identifier
             self.lastModifiedDate = lastModifiedDate
@@ -4062,6 +4174,7 @@ extension PartnerCentralSelling {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sort = sort
+            self.targetCloseDate = targetCloseDate
         }
 
         public func validate(name: String) throws {
@@ -4071,10 +4184,12 @@ extension PartnerCentralSelling {
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.targetCloseDate?.validate(name: "\(name).targetCloseDate")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
+            case createdDate = "CreatedDate"
             case customerCompanyName = "CustomerCompanyName"
             case identifier = "Identifier"
             case lastModifiedDate = "LastModifiedDate"
@@ -4083,6 +4198,7 @@ extension PartnerCentralSelling {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case sort = "Sort"
+            case targetCloseDate = "TargetCloseDate"
         }
     }
 
@@ -4739,7 +4855,7 @@ extension PartnerCentralSelling {
         public let additionalComments: String?
         /// Specifies the Amazon Partner Network (APN) program that influenced the Opportunity. APN programs refer to specific partner programs or initiatives that can impact the Opportunity. Valid values: APN Immersion Days | APN Solution Space | ATO (Authority to Operate) | AWS Marketplace Campaign | IS Immersion Day SFID Program | ISV Workload Migration | Migration Acceleration Program | P3 | Partner Launch Initiative | Partner Opportunity Acceleration Funded | The Next Smart | VMware Cloud on AWS | Well-Architected | Windows | Workspaces/AppStream Accelerator Program | WWPS NDPP
         public let apnPrograms: [String]?
-        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, `null` for all other partitions
+        /// AWS partition where the opportunity will be deployed. Possible values: aws-eusc for AWS European Sovereign Cloud, null for all other partitions.
         public let awsPartition: AwsPartition?
         /// Name of the Opportunity's competitor (if any). Use Other to submit a value not in the picklist.
         public let competitorName: CompetitorName?
@@ -5585,6 +5701,29 @@ extension PartnerCentralSelling {
         public init() {}
     }
 
+    public struct TargetCloseDateFilter: AWSEncodableShape {
+        /// Filters opportunities with a target close date after this date. Use the YYYY-MM-DD format.
+        public let afterTargetCloseDate: String?
+        /// Filters opportunities with a target close date before this date. Use the YYYY-MM-DD format.
+        public let beforeTargetCloseDate: String?
+
+        @inlinable
+        public init(afterTargetCloseDate: String? = nil, beforeTargetCloseDate: String? = nil) {
+            self.afterTargetCloseDate = afterTargetCloseDate
+            self.beforeTargetCloseDate = beforeTargetCloseDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterTargetCloseDate, name: "afterTargetCloseDate", parent: name, pattern: "^[1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
+            try self.validate(self.beforeTargetCloseDate, name: "beforeTargetCloseDate", parent: name, pattern: "^[1-9][0-9]{3}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterTargetCloseDate = "AfterTargetCloseDate"
+            case beforeTargetCloseDate = "BeforeTargetCloseDate"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to untag.
         public let resourceArn: String
@@ -5858,20 +5997,6 @@ extension PartnerCentralSelling {
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
-        }
-    }
-
-    public struct ResourceSnapshotPayload: AWSDecodableShape {
-        ///  An object that contains an opportunity's subset of fields.
-        public let opportunitySummary: OpportunitySummaryView?
-
-        @inlinable
-        public init(opportunitySummary: OpportunitySummaryView? = nil) {
-            self.opportunitySummary = opportunitySummary
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case opportunitySummary = "OpportunitySummary"
         }
     }
 }

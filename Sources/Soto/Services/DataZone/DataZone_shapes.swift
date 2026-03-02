@@ -269,6 +269,16 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eq = "EQ"
+        case ge = "GE"
+        case gt = "GT"
+        case le = "LE"
+        case lt = "LT"
+        case textSearch = "TEXT_SEARCH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalid = "INVALID"
         case valid = "VALID"
@@ -595,6 +605,12 @@ extension DataZone {
     public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionGrantCreationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -952,6 +968,10 @@ extension DataZone {
         case sparkEmrProperties(SparkEmrPropertiesInput)
         /// The Spark Amazon Web Services Glue properties of a connection.
         case sparkGlueProperties(SparkGluePropertiesInput)
+        /// The Amazon MWAA properties of a connection.
+        case workflowsMwaaProperties(WorkflowsMwaaPropertiesInput)
+        /// The MWAA serverless properties of a connection.
+        case workflowsServerlessProperties(WorkflowsServerlessPropertiesInput)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -976,6 +996,10 @@ extension DataZone {
                 try container.encode(value, forKey: .sparkEmrProperties)
             case .sparkGlueProperties(let value):
                 try container.encode(value, forKey: .sparkGlueProperties)
+            case .workflowsMwaaProperties(let value):
+                try container.encode(value, forKey: .workflowsMwaaProperties)
+            case .workflowsServerlessProperties(let value):
+                try container.encode(value, forKey: .workflowsServerlessProperties)
             }
         }
 
@@ -1003,6 +1027,8 @@ extension DataZone {
             case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
             case sparkGlueProperties = "sparkGlueProperties"
+            case workflowsMwaaProperties = "workflowsMwaaProperties"
+            case workflowsServerlessProperties = "workflowsServerlessProperties"
         }
     }
 
@@ -1027,6 +1053,10 @@ extension DataZone {
         case sparkEmrProperties(SparkEmrPropertiesOutput)
         /// The Spark Amazon Web Services Glue properties of a connection.
         case sparkGlueProperties(SparkGluePropertiesOutput)
+        /// The Amazon MWAA properties of a connection.
+        case workflowsMwaaProperties(WorkflowsMwaaPropertiesOutput)
+        /// The MWAA serverless properties of a connection.
+        case workflowsServerlessProperties(WorkflowsServerlessPropertiesOutput)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -1068,6 +1098,12 @@ extension DataZone {
             case .sparkGlueProperties:
                 let value = try container.decode(SparkGluePropertiesOutput.self, forKey: .sparkGlueProperties)
                 self = .sparkGlueProperties(value)
+            case .workflowsMwaaProperties:
+                let value = try container.decode(WorkflowsMwaaPropertiesOutput.self, forKey: .workflowsMwaaProperties)
+                self = .workflowsMwaaProperties(value)
+            case .workflowsServerlessProperties:
+                let value = try container.decode(WorkflowsServerlessPropertiesOutput.self, forKey: .workflowsServerlessProperties)
+                self = .workflowsServerlessProperties(value)
             }
         }
 
@@ -1082,6 +1118,8 @@ extension DataZone {
             case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
             case sparkGlueProperties = "sparkGlueProperties"
+            case workflowsMwaaProperties = "workflowsMwaaProperties"
+            case workflowsServerlessProperties = "workflowsServerlessProperties"
         }
     }
 
@@ -2242,6 +2280,8 @@ extension DataZone {
     public enum SubscribedPrincipal: AWSDecodableShape, Sendable {
         /// The subscribed group.
         case group(SubscribedGroup)
+        /// The subscribed IAM principal.
+        case iam(SubscribedIamPrincipal)
         /// The project that has the subscription grant.
         case project(SubscribedProject)
         /// The subscribed user.
@@ -2260,6 +2300,9 @@ extension DataZone {
             case .group:
                 let value = try container.decode(SubscribedGroup.self, forKey: .group)
                 self = .group(value)
+            case .iam:
+                let value = try container.decode(SubscribedIamPrincipal.self, forKey: .iam)
+                self = .iam(value)
             case .project:
                 let value = try container.decode(SubscribedProject.self, forKey: .project)
                 self = .project(value)
@@ -2271,6 +2314,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case group = "group"
+            case iam = "iam"
             case project = "project"
             case user = "user"
         }
@@ -2279,6 +2323,8 @@ extension DataZone {
     public enum SubscribedPrincipalInput: AWSEncodableShape, Sendable {
         /// The subscribed group.
         case group(SubscribedGroupInput)
+        /// The subscribed IAM principal.
+        case iam(SubscribedIamPrincipalInput)
         /// The project that is to be given a subscription grant.
         case project(SubscribedProjectInput)
         /// The subscribed user.
@@ -2289,6 +2335,8 @@ extension DataZone {
             switch self {
             case .group(let value):
                 try container.encode(value, forKey: .group)
+            case .iam(let value):
+                try container.encode(value, forKey: .iam)
             case .project(let value):
                 try container.encode(value, forKey: .project)
             case .user(let value):
@@ -2300,6 +2348,8 @@ extension DataZone {
             switch self {
             case .group(let value):
                 try value.validate(name: "\(name).group")
+            case .iam(let value):
+                try value.validate(name: "\(name).iam")
             case .project(let value):
                 try value.validate(name: "\(name).project")
             case .user(let value):
@@ -2309,6 +2359,7 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case group = "group"
+            case iam = "iam"
             case project = "project"
             case user = "user"
         }
@@ -7558,13 +7609,15 @@ extension DataZone {
         public let name: String
         /// The provider of the subscription target.
         public let provider: String?
+        ///  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+        public let subscriptionGrantCreationMode: SubscriptionGrantCreationMode?
         /// The configuration of the subscription target.
         public let subscriptionTargetConfig: [SubscriptionTargetForm]
         /// The type of the subscription target.
         public let type: String
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], clientToken: String? = CreateSubscriptionTargetInput.idempotencyToken(), domainIdentifier: String, environmentIdentifier: String, manageAccessRole: String, name: String, provider: String? = nil, subscriptionTargetConfig: [SubscriptionTargetForm], type: String) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], clientToken: String? = CreateSubscriptionTargetInput.idempotencyToken(), domainIdentifier: String, environmentIdentifier: String, manageAccessRole: String, name: String, provider: String? = nil, subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil, subscriptionTargetConfig: [SubscriptionTargetForm], type: String) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.clientToken = clientToken
@@ -7573,6 +7626,7 @@ extension DataZone {
             self.manageAccessRole = manageAccessRole
             self.name = name
             self.provider = provider
+            self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
             self.subscriptionTargetConfig = subscriptionTargetConfig
             self.type = type
         }
@@ -7588,6 +7642,7 @@ extension DataZone {
             try container.encode(self.manageAccessRole, forKey: .manageAccessRole)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.provider, forKey: .provider)
+            try container.encodeIfPresent(self.subscriptionGrantCreationMode, forKey: .subscriptionGrantCreationMode)
             try container.encode(self.subscriptionTargetConfig, forKey: .subscriptionTargetConfig)
             try container.encode(self.type, forKey: .type)
         }
@@ -7620,6 +7675,7 @@ extension DataZone {
             case manageAccessRole = "manageAccessRole"
             case name = "name"
             case provider = "provider"
+            case subscriptionGrantCreationMode = "subscriptionGrantCreationMode"
             case subscriptionTargetConfig = "subscriptionTargetConfig"
             case type = "type"
         }
@@ -7648,6 +7704,8 @@ extension DataZone {
         public let projectId: String
         /// The provider of the subscription target.
         public let provider: String
+        ///  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+        public let subscriptionGrantCreationMode: SubscriptionGrantCreationMode?
         /// The configuration of the subscription target.
         public let subscriptionTargetConfig: [SubscriptionTargetForm]
         /// The type of the subscription target.
@@ -7658,7 +7716,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -7670,6 +7728,7 @@ extension DataZone {
             self.name = name
             self.projectId = projectId
             self.provider = provider
+            self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
             self.subscriptionTargetConfig = subscriptionTargetConfig
             self.type = type
             self.updatedAt = updatedAt
@@ -7688,6 +7747,7 @@ extension DataZone {
             case name = "name"
             case projectId = "projectId"
             case provider = "provider"
+            case subscriptionGrantCreationMode = "subscriptionGrantCreationMode"
             case subscriptionTargetConfig = "subscriptionTargetConfig"
             case type = "type"
             case updatedAt = "updatedAt"
@@ -8470,6 +8530,32 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case status = "status"
         }
+    }
+
+    public struct DeleteDataExportConfigurationInput: AWSEncodableShape {
+        /// The domain ID for which you want to delete the data export configuration.
+        public let domainIdentifier: String
+
+        @inlinable
+        public init(domainIdentifier: String) {
+            self.domainIdentifier = domainIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataExportConfigurationOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteDataProductInput: AWSEncodableShape {
@@ -10197,12 +10283,18 @@ extension DataZone {
     public struct Filter: AWSEncodableShape {
         /// A search filter attribute in Amazon DataZone.
         public let attribute: String
-        /// A search filter value in Amazon DataZone.
-        public let value: String
+        /// A search filter integer value in Amazon DataZone.
+        public let intValue: Int64?
+        /// Specifies the search filter operator.
+        public let `operator`: FilterOperator?
+        /// A search filter string value in Amazon DataZone.
+        public let value: String?
 
         @inlinable
-        public init(attribute: String, value: String) {
+        public init(attribute: String, intValue: Int64? = nil, operator: FilterOperator? = nil, value: String? = nil) {
             self.attribute = attribute
+            self.intValue = intValue
+            self.`operator` = `operator`
             self.value = value
         }
 
@@ -10213,6 +10305,8 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case attribute = "attribute"
+            case intValue = "intValue"
+            case `operator` = "operator"
             case value = "value"
         }
     }
@@ -13332,6 +13426,8 @@ extension DataZone {
         public let projectId: String
         /// The provider of the subscription target.
         public let provider: String
+        ///  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+        public let subscriptionGrantCreationMode: SubscriptionGrantCreationMode?
         /// The configuration of teh subscription target.
         public let subscriptionTargetConfig: [SubscriptionTargetForm]
         /// The type of the subscription target.
@@ -13342,7 +13438,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -13354,6 +13450,7 @@ extension DataZone {
             self.name = name
             self.projectId = projectId
             self.provider = provider
+            self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
             self.subscriptionTargetConfig = subscriptionTargetConfig
             self.type = type
             self.updatedAt = updatedAt
@@ -13372,6 +13469,7 @@ extension DataZone {
             case name = "name"
             case projectId = "projectId"
             case provider = "provider"
+            case subscriptionGrantCreationMode = "subscriptionGrantCreationMode"
             case subscriptionTargetConfig = "subscriptionTargetConfig"
             case type = "type"
             case updatedAt = "updatedAt"
@@ -16434,6 +16532,8 @@ extension DataZone {
         public let nextToken: String?
         /// The ID of the owning group.
         public let owningGroupId: String?
+        /// The ARN of the owning IAM principal.
+        public let owningIamPrincipalArn: String?
         /// The ID of the owning project of the subscription grants.
         public let owningProjectId: String?
         /// The ID of the owning user.
@@ -16450,12 +16550,13 @@ extension DataZone {
         public let subscriptionTargetId: String?
 
         @inlinable
-        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
+        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningIamPrincipalArn: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.owningGroupId = owningGroupId
+            self.owningIamPrincipalArn = owningIamPrincipalArn
             self.owningProjectId = owningProjectId
             self.owningUserId = owningUserId
             self.sortBy = nil
@@ -16467,12 +16568,13 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members sortBy have been deprecated")
         @inlinable
-        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
+        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningIamPrincipalArn: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.owningGroupId = owningGroupId
+            self.owningIamPrincipalArn = owningIamPrincipalArn
             self.owningProjectId = owningProjectId
             self.owningUserId = owningUserId
             self.sortBy = sortBy
@@ -16490,6 +16592,7 @@ extension DataZone {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.owningGroupId, key: "owningGroupId")
+            request.encodeQuery(self.owningIamPrincipalArn, key: "owningIamPrincipalArn")
             request.encodeQuery(self.owningProjectId, key: "owningProjectId")
             request.encodeQuery(self.owningUserId, key: "owningUserId")
             request.encodeQuery(self.sortBy, key: "sortBy")
@@ -16507,6 +16610,9 @@ extension DataZone {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.owningGroupId, name: "owningGroupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, max: 255)
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, min: 1)
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|user)(/[\\w+=,.@-]*)*/[\\w+=,.@-]+$")
             try self.validate(self.owningProjectId, name: "owningProjectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.owningUserId, name: "owningUserId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.subscribedListingId, name: "subscribedListingId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
@@ -16546,6 +16652,8 @@ extension DataZone {
         public let nextToken: String?
         /// The ID of the owning group.
         public let owningGroupId: String?
+        /// The ARN of the owning IAM principal.
+        public let owningIamPrincipalArn: String?
         /// The identifier of the project for the subscription requests.
         public let owningProjectId: String?
         /// The ID of the owning user.
@@ -16560,12 +16668,13 @@ extension DataZone {
         public let subscribedListingId: String?
 
         @inlinable
-        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningIamPrincipalArn: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.owningGroupId = owningGroupId
+            self.owningIamPrincipalArn = owningIamPrincipalArn
             self.owningProjectId = owningProjectId
             self.owningUserId = owningUserId
             self.sortBy = nil
@@ -16576,12 +16685,13 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members sortBy have been deprecated")
         @inlinable
-        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningIamPrincipalArn: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.owningGroupId = owningGroupId
+            self.owningIamPrincipalArn = owningIamPrincipalArn
             self.owningProjectId = owningProjectId
             self.owningUserId = owningUserId
             self.sortBy = sortBy
@@ -16598,6 +16708,7 @@ extension DataZone {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.owningGroupId, key: "owningGroupId")
+            request.encodeQuery(self.owningIamPrincipalArn, key: "owningIamPrincipalArn")
             request.encodeQuery(self.owningProjectId, key: "owningProjectId")
             request.encodeQuery(self.owningUserId, key: "owningUserId")
             request.encodeQuery(self.sortBy, key: "sortBy")
@@ -16614,6 +16725,9 @@ extension DataZone {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.owningGroupId, name: "owningGroupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, max: 255)
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, min: 1)
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|user)(/[\\w+=,.@-]*)*/[\\w+=,.@-]+$")
             try self.validate(self.owningProjectId, name: "owningProjectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.owningUserId, name: "owningUserId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.subscribedListingId, name: "subscribedListingId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
@@ -16716,6 +16830,8 @@ extension DataZone {
         public let nextToken: String?
         /// The ID of the owning group.
         public let owningGroupId: String?
+        /// The ARN of the owning IAM principal.
+        public let owningIamPrincipalArn: String?
         /// The identifier of the owning project.
         public let owningProjectId: String?
         /// The ID of the owning user.
@@ -16732,12 +16848,13 @@ extension DataZone {
         public let subscriptionRequestIdentifier: String?
 
         @inlinable
-        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningIamPrincipalArn: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.owningGroupId = owningGroupId
+            self.owningIamPrincipalArn = owningIamPrincipalArn
             self.owningProjectId = owningProjectId
             self.owningUserId = owningUserId
             self.sortBy = nil
@@ -16749,12 +16866,13 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members sortBy have been deprecated")
         @inlinable
-        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningIamPrincipalArn: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.owningGroupId = owningGroupId
+            self.owningIamPrincipalArn = owningIamPrincipalArn
             self.owningProjectId = owningProjectId
             self.owningUserId = owningUserId
             self.sortBy = sortBy
@@ -16772,6 +16890,7 @@ extension DataZone {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.owningGroupId, key: "owningGroupId")
+            request.encodeQuery(self.owningIamPrincipalArn, key: "owningIamPrincipalArn")
             request.encodeQuery(self.owningProjectId, key: "owningProjectId")
             request.encodeQuery(self.owningUserId, key: "owningUserId")
             request.encodeQuery(self.sortBy, key: "sortBy")
@@ -16789,6 +16908,9 @@ extension DataZone {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.owningGroupId, name: "owningGroupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, max: 255)
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, min: 1)
+            try self.validate(self.owningIamPrincipalArn, name: "owningIamPrincipalArn", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|user)(/[\\w+=,.@-]*)*/[\\w+=,.@-]+$")
             try self.validate(self.owningProjectId, name: "owningProjectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.owningUserId, name: "owningUserId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.subscribedListingId, name: "subscribedListingId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
@@ -18025,7 +18147,7 @@ extension DataZone {
     public struct PutDataExportConfigurationInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
         public let clientToken: String?
-        /// The domain ID where you want to create data export configuration details.
+        /// The domain ID for which you want to create data export configuration details.
         public let domainIdentifier: String
         /// Specifies that the export is to be enabled as part of creating data export configuration details.
         public let enableExport: Bool
@@ -20401,6 +20523,40 @@ extension DataZone {
         }
     }
 
+    public struct SubscribedIamPrincipal: AWSDecodableShape {
+        /// The ARN of the subscribed IAM principal.
+        public let principalArn: String?
+
+        @inlinable
+        public init(principalArn: String? = nil) {
+            self.principalArn = principalArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalArn = "principalArn"
+        }
+    }
+
+    public struct SubscribedIamPrincipalInput: AWSEncodableShape {
+        /// The ARN of the subscribed IAM principal.
+        public let identifier: String?
+
+        @inlinable
+        public init(identifier: String? = nil) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^arn:aws[^:]*:iam::\\d{12}:(role|user)(/[\\w+=,.@-]*)*/[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+        }
+    }
+
     public struct SubscribedListing: AWSDecodableShape {
         /// The description of the published asset for which the subscription grant is created.
         public let description: String
@@ -20805,6 +20961,8 @@ extension DataZone {
         public let projectId: String
         /// The provider of the subscription target.
         public let provider: String
+        ///  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+        public let subscriptionGrantCreationMode: SubscriptionGrantCreationMode?
         /// The configuration of the subscription target.
         public let subscriptionTargetConfig: [SubscriptionTargetForm]
         /// The type of the subscription target.
@@ -20815,7 +20973,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -20827,6 +20985,7 @@ extension DataZone {
             self.name = name
             self.projectId = projectId
             self.provider = provider
+            self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
             self.subscriptionTargetConfig = subscriptionTargetConfig
             self.type = type
             self.updatedAt = updatedAt
@@ -20845,6 +21004,7 @@ extension DataZone {
             case name = "name"
             case projectId = "projectId"
             case provider = "provider"
+            case subscriptionGrantCreationMode = "subscriptionGrantCreationMode"
             case subscriptionTargetConfig = "subscriptionTargetConfig"
             case type = "type"
             case updatedAt = "updatedAt"
@@ -23220,11 +23380,13 @@ extension DataZone {
         public let name: String?
         /// The provider to be updated as part of the UpdateSubscriptionTarget action.
         public let provider: String?
+        ///  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+        public let subscriptionGrantCreationMode: SubscriptionGrantCreationMode?
         /// The configuration to be updated as part of the UpdateSubscriptionTarget action.
         public let subscriptionTargetConfig: [SubscriptionTargetForm]?
 
         @inlinable
-        public init(applicableAssetTypes: [String]? = nil, authorizedPrincipals: [String]? = nil, domainIdentifier: String, environmentIdentifier: String, identifier: String, manageAccessRole: String? = nil, name: String? = nil, provider: String? = nil, subscriptionTargetConfig: [SubscriptionTargetForm]? = nil) {
+        public init(applicableAssetTypes: [String]? = nil, authorizedPrincipals: [String]? = nil, domainIdentifier: String, environmentIdentifier: String, identifier: String, manageAccessRole: String? = nil, name: String? = nil, provider: String? = nil, subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil, subscriptionTargetConfig: [SubscriptionTargetForm]? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.domainIdentifier = domainIdentifier
@@ -23233,6 +23395,7 @@ extension DataZone {
             self.manageAccessRole = manageAccessRole
             self.name = name
             self.provider = provider
+            self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
             self.subscriptionTargetConfig = subscriptionTargetConfig
         }
 
@@ -23247,6 +23410,7 @@ extension DataZone {
             try container.encodeIfPresent(self.manageAccessRole, forKey: .manageAccessRole)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.provider, forKey: .provider)
+            try container.encodeIfPresent(self.subscriptionGrantCreationMode, forKey: .subscriptionGrantCreationMode)
             try container.encodeIfPresent(self.subscriptionTargetConfig, forKey: .subscriptionTargetConfig)
         }
 
@@ -23278,6 +23442,7 @@ extension DataZone {
             case manageAccessRole = "manageAccessRole"
             case name = "name"
             case provider = "provider"
+            case subscriptionGrantCreationMode = "subscriptionGrantCreationMode"
             case subscriptionTargetConfig = "subscriptionTargetConfig"
         }
     }
@@ -23305,6 +23470,8 @@ extension DataZone {
         public let projectId: String
         /// The provider to be updated as part of the UpdateSubscriptionTarget action.
         public let provider: String
+        ///  Determines the subscription grant creation mode for this target, defining if grants are auto-created upon subscription approval or managed manually.
+        public let subscriptionGrantCreationMode: SubscriptionGrantCreationMode?
         /// The configuration to be updated as part of the UpdateSubscriptionTarget action.
         public let subscriptionTargetConfig: [SubscriptionTargetForm]
         /// The type to be updated as part of the UpdateSubscriptionTarget action.
@@ -23315,7 +23482,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String? = nil, name: String, projectId: String, provider: String, subscriptionGrantCreationMode: SubscriptionGrantCreationMode? = nil, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
             self.createdAt = createdAt
@@ -23327,6 +23494,7 @@ extension DataZone {
             self.name = name
             self.projectId = projectId
             self.provider = provider
+            self.subscriptionGrantCreationMode = subscriptionGrantCreationMode
             self.subscriptionTargetConfig = subscriptionTargetConfig
             self.type = type
             self.updatedAt = updatedAt
@@ -23345,6 +23513,7 @@ extension DataZone {
             case name = "name"
             case projectId = "projectId"
             case provider = "provider"
+            case subscriptionGrantCreationMode = "subscriptionGrantCreationMode"
             case subscriptionTargetConfig = "subscriptionTargetConfig"
             case type = "type"
             case updatedAt = "updatedAt"
@@ -23505,6 +23674,42 @@ extension DataZone {
             case password = "password"
             case username = "username"
         }
+    }
+
+    public struct WorkflowsMwaaPropertiesInput: AWSEncodableShape {
+        /// The MWAA environment name.
+        public let mwaaEnvironmentName: String?
+
+        @inlinable
+        public init(mwaaEnvironmentName: String? = nil) {
+            self.mwaaEnvironmentName = mwaaEnvironmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mwaaEnvironmentName = "mwaaEnvironmentName"
+        }
+    }
+
+    public struct WorkflowsMwaaPropertiesOutput: AWSDecodableShape {
+        /// The MWAA environment name.
+        public let mwaaEnvironmentName: String?
+
+        @inlinable
+        public init(mwaaEnvironmentName: String? = nil) {
+            self.mwaaEnvironmentName = mwaaEnvironmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mwaaEnvironmentName = "mwaaEnvironmentName"
+        }
+    }
+
+    public struct WorkflowsServerlessPropertiesInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct WorkflowsServerlessPropertiesOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ActionParameters: AWSEncodableShape & AWSDecodableShape {

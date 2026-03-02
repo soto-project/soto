@@ -3232,7 +3232,8 @@ public struct ConfigService: AWSService {
     /// 				account to create conformance pack resources. This service-linked role includes the
     /// 				permissions to create Config rules and remediation configurations, even
     /// 				if your account IAM policies explicitly deny these actions.  This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
-    /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
+    /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.    Tags are added at creation and cannot be updated with this operation   PutConformancePack is an idempotent API. Subsequent requests won't create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     @Sendable
     @inlinable
     public func putConformancePack(_ input: PutConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConformancePackResponse {
@@ -3255,13 +3256,15 @@ public struct ConfigService: AWSService {
     /// 				account to create conformance pack resources. This service-linked role includes the
     /// 				permissions to create Config rules and remediation configurations, even
     /// 				if your account IAM policies explicitly deny these actions.  This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
-    /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
+    /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.    Tags are added at creation and cannot be updated with this operation   PutConformancePack is an idempotent API. Subsequent requests won't create a duplicate resource if one was already created. If a following request has different tags values,
+    /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use TagResource and UntagResource to update tags after creation.
     ///
     /// Parameters:
     ///   - conformancePackInputParameters: A list of ConformancePackInputParameter objects.
     ///   - conformancePackName: The unique name of the conformance pack you want to deploy.
     ///   - deliveryS3Bucket: The name of the Amazon S3 bucket where Config stores conformance pack templates.  This field is optional.
     ///   - deliveryS3KeyPrefix: The prefix for the Amazon S3 bucket.   This field is optional.
+    ///   - tags: The tags for the conformance pack. Each tag consists of a key and an optional value, both of which you define.
     ///   - templateBody: A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
     ///   - templateS3Uri: The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack.   You must have access to read Amazon S3 bucket.
     ///   - templateSSMDocumentDetails: An object of type TemplateSSMDocumentDetails, which contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems Manager document (SSM document) and the version of the SSM document that is used to create a conformance pack.
@@ -3272,6 +3275,7 @@ public struct ConfigService: AWSService {
         conformancePackName: String,
         deliveryS3Bucket: String? = nil,
         deliveryS3KeyPrefix: String? = nil,
+        tags: [Tag]? = nil,
         templateBody: String? = nil,
         templateS3Uri: String? = nil,
         templateSSMDocumentDetails: TemplateSSMDocumentDetails? = nil,
@@ -3282,6 +3286,7 @@ public struct ConfigService: AWSService {
             conformancePackName: conformancePackName, 
             deliveryS3Bucket: deliveryS3Bucket, 
             deliveryS3KeyPrefix: deliveryS3KeyPrefix, 
+            tags: tags, 
             templateBody: templateBody, 
             templateS3Uri: templateS3Uri, 
             templateSSMDocumentDetails: templateSSMDocumentDetails

@@ -459,6 +459,67 @@ extension VerifiedPermissions {
         }
     }
 
+    public enum EncryptionSettings: AWSEncodableShape, Sendable {
+        /// This is the default encryption setting. The policy store uses an Amazon Web Services owned key for encrypting data.
+        case `default`
+        /// The KMS encryption settings for this policy store to encrypt data with. It will contain the customer-managed KMS key, and a user-defined encryption context.
+        case kmsEncryptionSettings(KmsEncryptionSettings)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .`default`:
+                try container.encode([String: String](), forKey: .`default`)
+            case .kmsEncryptionSettings(let value):
+                try container.encode(value, forKey: .kmsEncryptionSettings)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .kmsEncryptionSettings(let value):
+                try value.validate(name: "\(name).kmsEncryptionSettings")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `default` = "default"
+            case kmsEncryptionSettings = "kmsEncryptionSettings"
+        }
+    }
+
+    public enum EncryptionState: AWSDecodableShape, Sendable {
+        /// This is the default encryption state. The policy store is encrypted using an Amazon Web Services owned key.
+        case `default`
+        /// The KMS encryption settings currently configured for this policy store to encrypt data with. It contains the customer-managed KMS key, and a user-defined encryption context.
+        case kmsEncryptionState(KmsEncryptionState)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .`default`:
+                self = .`default`
+            case .kmsEncryptionState:
+                let value = try container.decode(KmsEncryptionState.self, forKey: .kmsEncryptionState)
+                self = .kmsEncryptionState(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `default` = "default"
+            case kmsEncryptionState = "kmsEncryptionState"
+        }
+    }
+
     public enum EntitiesDefinition: AWSEncodableShape, Sendable {
         /// A Cedar JSON string representation of the entities needed to successfully evaluate an authorization request. Example: {"cedarJson": "[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":[]}]"}
         case cedarJson(String)
@@ -786,7 +847,7 @@ extension VerifiedPermissions {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.actionId, name: "actionId", parent: name, max: 200)
+            try self.validate(self.actionId, name: "actionId", parent: name, max: 512)
             try self.validate(self.actionId, name: "actionId", parent: name, min: 1)
             try self.validate(self.actionId, name: "actionId", parent: name, pattern: "^.*$")
             try self.validate(self.actionType, name: "actionType", parent: name, max: 200)
@@ -863,7 +924,7 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyId, name: "policyId", parent: name, max: 200)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 1)
-            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
@@ -1460,16 +1521,19 @@ extension VerifiedPermissions {
         public let deletionProtection: DeletionProtection?
         /// Descriptive text that you can provide to help with identification of the current policy store.
         public let description: String?
+        /// Specifies the encryption settings used to encrypt the policy store and their child resources. Allows for the ability to use a customer owned KMS key for encryption of data. This is an optional field to be used when providing a customer-managed KMS key for encryption.
+        public let encryptionSettings: EncryptionSettings?
         /// The list of key-value pairs to associate with the policy store.
         public let tags: [String: String]?
         /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode.  We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on.
         public let validationSettings: ValidationSettings
 
         @inlinable
-        public init(clientToken: String? = CreatePolicyStoreInput.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, tags: [String: String]? = nil, validationSettings: ValidationSettings) {
+        public init(clientToken: String? = CreatePolicyStoreInput.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, encryptionSettings: EncryptionSettings? = nil, tags: [String: String]? = nil, validationSettings: ValidationSettings) {
             self.clientToken = clientToken
             self.deletionProtection = deletionProtection
             self.description = description
+            self.encryptionSettings = encryptionSettings
             self.tags = tags
             self.validationSettings = validationSettings
         }
@@ -1479,6 +1543,7 @@ extension VerifiedPermissions {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.description, name: "description", parent: name, max: 150)
+            try self.encryptionSettings?.validate(name: "\(name).encryptionSettings")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1491,6 +1556,7 @@ extension VerifiedPermissions {
             case clientToken = "clientToken"
             case deletionProtection = "deletionProtection"
             case description = "description"
+            case encryptionSettings = "encryptionSettings"
             case tags = "tags"
             case validationSettings = "validationSettings"
         }
@@ -1636,7 +1702,7 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyId, name: "policyId", parent: name, max: 200)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 1)
-            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
@@ -1734,7 +1800,7 @@ extension VerifiedPermissions {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.entityId, name: "entityId", parent: name, max: 200)
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 612)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^.*$")
             try self.validate(self.entityType, name: "entityType", parent: name, max: 200)
@@ -1895,7 +1961,7 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyId, name: "policyId", parent: name, max: 200)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 1)
-            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
@@ -1995,6 +2061,8 @@ extension VerifiedPermissions {
         public let deletionProtection: DeletionProtection?
         /// Descriptive text that you can provide to help with identification of the current policy store.
         public let description: String?
+        /// A structure that contains the encryption configuration for the policy store.
+        public let encryptionState: EncryptionState?
         /// The date and time that the policy store was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
@@ -2006,12 +2074,13 @@ extension VerifiedPermissions {
         public let validationSettings: ValidationSettings
 
         @inlinable
-        public init(arn: String, cedarVersion: CedarVersion? = nil, createdDate: Date, deletionProtection: DeletionProtection? = nil, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, tags: [String: String]? = nil, validationSettings: ValidationSettings) {
+        public init(arn: String, cedarVersion: CedarVersion? = nil, createdDate: Date, deletionProtection: DeletionProtection? = nil, description: String? = nil, encryptionState: EncryptionState? = nil, lastUpdatedDate: Date, policyStoreId: String, tags: [String: String]? = nil, validationSettings: ValidationSettings) {
             self.arn = arn
             self.cedarVersion = cedarVersion
             self.createdDate = createdDate
             self.deletionProtection = deletionProtection
             self.description = description
+            self.encryptionState = encryptionState
             self.lastUpdatedDate = lastUpdatedDate
             self.policyStoreId = policyStoreId
             self.tags = tags
@@ -2024,6 +2093,7 @@ extension VerifiedPermissions {
             case createdDate = "createdDate"
             case deletionProtection = "deletionProtection"
             case description = "description"
+            case encryptionState = "encryptionState"
             case lastUpdatedDate = "lastUpdatedDate"
             case policyStoreId = "policyStoreId"
             case tags = "tags"
@@ -2432,6 +2502,51 @@ extension VerifiedPermissions {
             case determiningPolicies = "determiningPolicies"
             case errors = "errors"
             case principal = "principal"
+        }
+    }
+
+    public struct KmsEncryptionSettings: AWSEncodableShape {
+        /// User-defined, additional context to be added to encryption processes.
+        public let encryptionContext: [String: String]?
+        /// The customer-managed KMS key Amazon Resource Name (ARN), alias or ID to be used for encryption processes.  Users can provide the full KMS key ARN, a KMS key alias, or a KMS key ID, but it will be mapped to the full KMS key ARN after policy store creation, and referenced when encrypting child resources.
+        public let key: String
+
+        @inlinable
+        public init(encryptionContext: [String: String]? = nil, key: String) {
+            self.encryptionContext = encryptionContext
+            self.key = key
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionContext?.forEach {
+                try validate($0.key, name: "encryptionContext.key", parent: name, min: 1)
+                try validate($0.value, name: "encryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.encryptionContext, name: "encryptionContext", parent: name, max: 8192)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "encryptionContext"
+            case key = "key"
+        }
+    }
+
+    public struct KmsEncryptionState: AWSDecodableShape {
+        /// User-defined, additional context added to encryption processes.
+        public let encryptionContext: [String: String]
+        /// The customer-managed KMS key Amazon Resource Name (ARN) being used for encryption processes.
+        public let key: String
+
+        @inlinable
+        public init(encryptionContext: [String: String], key: String) {
+            self.encryptionContext = encryptionContext
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "encryptionContext"
+            case key = "key"
         }
     }
 
@@ -3696,24 +3811,24 @@ extension VerifiedPermissions {
 
     public struct UpdatePolicyInput: AWSEncodableShape {
         /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. You can change only the following elements from the policy definition:   The action referenced by the policy.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   Changing from static to templateLinked.   Changing the effect of the policy from permit or forbid.   The principal referenced by the policy.   The resource referenced by the policy.
-        public let definition: UpdatePolicyDefinition
+        public let definition: UpdatePolicyDefinition?
         /// Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies.
         public let policyId: String
         /// Specifies the ID of the policy store that contains the policy that you want to update.
         public let policyStoreId: String
 
         @inlinable
-        public init(definition: UpdatePolicyDefinition, policyId: String, policyStoreId: String) {
+        public init(definition: UpdatePolicyDefinition? = nil, policyId: String, policyStoreId: String) {
             self.definition = definition
             self.policyId = policyId
             self.policyStoreId = policyStoreId
         }
 
         public func validate(name: String) throws {
-            try self.definition.validate(name: "\(name).definition")
+            try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.policyId, name: "policyId", parent: name, max: 200)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 1)
-            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")

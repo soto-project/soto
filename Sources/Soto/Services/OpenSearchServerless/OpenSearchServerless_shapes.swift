@@ -232,6 +232,59 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct BatchGetCollectionGroupRequest: AWSEncodableShape {
+        /// A list of collection group IDs. You can't provide names and IDs in the same request.
+        public let ids: [String]?
+        /// A list of collection group names. You can't provide names and IDs in the same request.
+        public let names: [String]?
+
+        @inlinable
+        public init(ids: [String]? = nil, names: [String]? = nil) {
+            self.ids = ids
+            self.names = names
+        }
+
+        public func validate(name: String) throws {
+            try self.ids?.forEach {
+                try validate($0, name: "ids[]", parent: name, max: 40)
+                try validate($0, name: "ids[]", parent: name, min: 3)
+                try validate($0, name: "ids[]", parent: name, pattern: "^[a-z0-9]{3,40}$")
+            }
+            try self.validate(self.ids, name: "ids", parent: name, max: 100)
+            try self.validate(self.ids, name: "ids", parent: name, min: 1)
+            try self.names?.forEach {
+                try validate($0, name: "names[]", parent: name, max: 32)
+                try validate($0, name: "names[]", parent: name, min: 3)
+                try validate($0, name: "names[]", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 100)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case names = "names"
+        }
+    }
+
+    public struct BatchGetCollectionGroupResponse: AWSDecodableShape {
+        /// Details about each collection group.
+        public let collectionGroupDetails: [CollectionGroupDetail]?
+        /// Error information for the request.
+        public let collectionGroupErrorDetails: [CollectionGroupErrorDetail]?
+
+        @inlinable
+        public init(collectionGroupDetails: [CollectionGroupDetail]? = nil, collectionGroupErrorDetails: [CollectionGroupErrorDetail]? = nil) {
+            self.collectionGroupDetails = collectionGroupDetails
+            self.collectionGroupErrorDetails = collectionGroupErrorDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionGroupDetails = "collectionGroupDetails"
+            case collectionGroupErrorDetails = "collectionGroupErrorDetails"
+        }
+    }
+
     public struct BatchGetCollectionRequest: AWSEncodableShape {
         /// A list of collection IDs. You can't provide names and IDs in the same request. The ID is part of the collection endpoint. You can also retrieve it using the ListCollections API.
         public let ids: [String]?
@@ -435,6 +488,8 @@ extension OpenSearchServerless {
         public let arn: String?
         /// Collection-specific endpoint used to submit index, search, and data upload requests to an OpenSearch Serverless collection.
         public let collectionEndpoint: String?
+        /// The name of the collection group that contains this collection.
+        public let collectionGroupName: String?
         /// The Epoch time when the collection was created.
         public let createdDate: Int64?
         /// Collection-specific endpoint used to access OpenSearch Dashboards.
@@ -465,9 +520,10 @@ extension OpenSearchServerless {
         public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, fipsEndpoints: FipsEndpoints? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+        public init(arn: String? = nil, collectionEndpoint: String? = nil, collectionGroupName: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, fipsEndpoints: FipsEndpoints? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
+            self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
             self.dashboardEndpoint = dashboardEndpoint
             self.description = description
@@ -487,6 +543,7 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case collectionEndpoint = "collectionEndpoint"
+            case collectionGroupName = "collectionGroupName"
             case createdDate = "createdDate"
             case dashboardEndpoint = "dashboardEndpoint"
             case description = "description"
@@ -531,50 +588,203 @@ extension OpenSearchServerless {
     }
 
     public struct CollectionFilters: AWSEncodableShape {
+        /// The name of the collection group to filter by.
+        public let collectionGroupName: String?
         /// The name of the collection.
         public let name: String?
         /// The current status of the collection.
         public let status: CollectionStatus?
 
         @inlinable
-        public init(name: String? = nil, status: CollectionStatus? = nil) {
+        public init(collectionGroupName: String? = nil, name: String? = nil, status: CollectionStatus? = nil) {
+            self.collectionGroupName = collectionGroupName
             self.name = name
             self.status = status
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, max: 32)
+            try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, min: 3)
+            try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, pattern: "^[a-z][a-z0-9-]+$")
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case collectionGroupName = "collectionGroupName"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct CollectionGroupCapacityLimits: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum indexing capacity for collections in the group.
+        public let maxIndexingCapacityInOCU: Float?
+        /// The maximum search capacity for collections in the group.
+        public let maxSearchCapacityInOCU: Float?
+        /// The minimum indexing capacity for collections in the group.
+        public let minIndexingCapacityInOCU: Float?
+        /// The minimum search capacity for collections in the group.
+        public let minSearchCapacityInOCU: Float?
+
+        @inlinable
+        public init(maxIndexingCapacityInOCU: Float? = nil, maxSearchCapacityInOCU: Float? = nil, minIndexingCapacityInOCU: Float? = nil, minSearchCapacityInOCU: Float? = nil) {
+            self.maxIndexingCapacityInOCU = maxIndexingCapacityInOCU
+            self.maxSearchCapacityInOCU = maxSearchCapacityInOCU
+            self.minIndexingCapacityInOCU = minIndexingCapacityInOCU
+            self.minSearchCapacityInOCU = minSearchCapacityInOCU
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxIndexingCapacityInOCU, name: "maxIndexingCapacityInOCU", parent: name, min: 1.0)
+            try self.validate(self.maxSearchCapacityInOCU, name: "maxSearchCapacityInOCU", parent: name, min: 1.0)
+            try self.validate(self.minIndexingCapacityInOCU, name: "minIndexingCapacityInOCU", parent: name, min: 1.0)
+            try self.validate(self.minSearchCapacityInOCU, name: "minSearchCapacityInOCU", parent: name, min: 1.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxIndexingCapacityInOCU = "maxIndexingCapacityInOCU"
+            case maxSearchCapacityInOCU = "maxSearchCapacityInOCU"
+            case minIndexingCapacityInOCU = "minIndexingCapacityInOCU"
+            case minSearchCapacityInOCU = "minSearchCapacityInOCU"
+        }
+    }
+
+    public struct CollectionGroupDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public let arn: String?
+        /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        public let capacityLimits: CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public let createdDate: Int64?
+        /// The description of the collection group.
+        public let description: String?
+        /// The unique identifier of the collection group.
+        public let id: String?
+        /// The name of the collection group.
+        public let name: String?
+        /// The number of collections associated with the collection group.
+        public let numberOfCollections: Int?
+        /// Indicates whether standby replicas are used for the collection group.
+        public let standbyReplicas: StandbyReplicas?
+        /// A map of key-value pairs associated with the collection group.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, numberOfCollections: Int? = nil, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.description = description
+            self.id = id
+            self.name = name
+            self.numberOfCollections = numberOfCollections
+            self.standbyReplicas = standbyReplicas
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capacityLimits = "capacityLimits"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case numberOfCollections = "numberOfCollections"
+            case standbyReplicas = "standbyReplicas"
+            case tags = "tags"
+        }
+    }
+
+    public struct CollectionGroupErrorDetail: AWSDecodableShape {
+        /// The error code for the request. For example, NOT_FOUND.
+        public let errorCode: String?
+        /// A description of the error. For example, The specified Collection Group is not found.
+        public let errorMessage: String?
+        /// If the request contains collection group IDs, the response includes the IDs provided in the request.
+        public let id: String?
+        /// If the request contains collection group names, the response includes the names provided in the request.
+        public let name: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, errorMessage: String? = nil, id: String? = nil, name: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case id = "id"
+            case name = "name"
+        }
+    }
+
+    public struct CollectionGroupSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public let arn: String?
+        public let capacityLimits: CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public let createdDate: Int64?
+        /// The unique identifier of the collection group.
+        public let id: String?
+        /// The name of the collection group.
+        public let name: String?
+        /// The number of collections within the collection group.
+        public let numberOfCollections: Int?
+
+        @inlinable
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, id: String? = nil, name: String? = nil, numberOfCollections: Int? = nil) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.id = id
+            self.name = name
+            self.numberOfCollections = numberOfCollections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capacityLimits = "capacityLimits"
+            case createdDate = "createdDate"
+            case id = "id"
+            case name = "name"
+            case numberOfCollections = "numberOfCollections"
         }
     }
 
     public struct CollectionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the collection.
         public let arn: String?
+        /// The name of the collection group that contains this collection.
+        public let collectionGroupName: String?
         /// The unique identifier of the collection.
         public let id: String?
+        /// The ARN of the Amazon Web Services Key Management Service key used to encrypt the collection.
+        public let kmsKeyArn: String?
         /// The name of the collection.
         public let name: String?
         /// The current status of the collection.
         public let status: CollectionStatus?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, name: String? = nil, status: CollectionStatus? = nil) {
+        public init(arn: String? = nil, collectionGroupName: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, name: String? = nil, status: CollectionStatus? = nil) {
             self.arn = arn
+            self.collectionGroupName = collectionGroupName
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case collectionGroupName = "collectionGroupName"
             case id = "id"
+            case kmsKeyArn = "kmsKeyArn"
             case name = "name"
             case status = "status"
         }
@@ -639,6 +849,8 @@ extension OpenSearchServerless {
     public struct CreateCollectionDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the collection.
         public let arn: String?
+        /// The name of the collection group that contains this collection.
+        public let collectionGroupName: String?
         /// The Epoch time when the collection was created.
         public let createdDate: Int64?
         /// A description of the collection.
@@ -661,8 +873,9 @@ extension OpenSearchServerless {
         public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+        public init(arn: String? = nil, collectionGroupName: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
+            self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
             self.description = description
             self.id = id
@@ -677,6 +890,7 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case collectionGroupName = "collectionGroupName"
             case createdDate = "createdDate"
             case description = "description"
             case id = "id"
@@ -690,34 +904,74 @@ extension OpenSearchServerless {
         }
     }
 
-    public struct CreateCollectionRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier to ensure idempotency of the request.
-        public let clientToken: String?
-        /// Description of the collection.
+    public struct CreateCollectionGroupDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public let arn: String?
+        /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        public let capacityLimits: CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public let createdDate: Int64?
+        /// The description of the collection group.
         public let description: String?
-        /// Name of the collection.
-        public let name: String
-        /// Indicates whether standby replicas should be used for a collection.
+        /// The unique identifier of the collection group.
+        public let id: String?
+        /// The name of the collection group.
+        public let name: String?
+        /// Indicates whether standby replicas are used for the collection group.
         public let standbyReplicas: StandbyReplicas?
-        /// An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection.
+        /// A map of key-value pairs associated with the collection group.
         public let tags: [Tag]?
-        /// The type of collection.
-        public let type: CollectionType?
-        /// Configuration options for vector search capabilities in the collection.
-        public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), description: String? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.description = description
+            self.id = id
+            self.name = name
+            self.standbyReplicas = standbyReplicas
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capacityLimits = "capacityLimits"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case standbyReplicas = "standbyReplicas"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCollectionGroupRequest: AWSEncodableShape {
+        /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs). These limits control the maximum and minimum capacity for collections within the group.
+        public let capacityLimits: CollectionGroupCapacityLimits?
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// A description of the collection group.
+        public let description: String?
+        /// The name of the collection group.
+        public let name: String
+        /// Indicates whether standby replicas should be used for a collection group.
+        public let standbyReplicas: StandbyReplicas
+        /// An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection group.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(capacityLimits: CollectionGroupCapacityLimits? = nil, clientToken: String? = CreateCollectionGroupRequest.idempotencyToken(), description: String? = nil, name: String, standbyReplicas: StandbyReplicas, tags: [Tag]? = nil) {
+            self.capacityLimits = capacityLimits
             self.clientToken = clientToken
             self.description = description
             self.name = name
             self.standbyReplicas = standbyReplicas
             self.tags = tags
-            self.type = type
-            self.vectorOptions = vectorOptions
         }
 
         public func validate(name: String) throws {
+            try self.capacityLimits?.validate(name: "\(name).capacityLimits")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 32)
@@ -730,8 +984,82 @@ extension OpenSearchServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
             case clientToken = "clientToken"
             case description = "description"
+            case name = "name"
+            case standbyReplicas = "standbyReplicas"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCollectionGroupResponse: AWSDecodableShape {
+        /// Details about the created collection group.
+        public let createCollectionGroupDetail: CreateCollectionGroupDetail?
+
+        @inlinable
+        public init(createCollectionGroupDetail: CreateCollectionGroupDetail? = nil) {
+            self.createCollectionGroupDetail = createCollectionGroupDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createCollectionGroupDetail = "createCollectionGroupDetail"
+        }
+    }
+
+    public struct CreateCollectionRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The name of the collection group to associate with the collection.
+        public let collectionGroupName: String?
+        /// Description of the collection.
+        public let description: String?
+        /// Encryption settings for the collection.
+        public let encryptionConfig: EncryptionConfig?
+        /// Name of the collection.
+        public let name: String
+        /// Indicates whether standby replicas should be used for a collection.
+        public let standbyReplicas: StandbyReplicas?
+        /// An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection.
+        public let tags: [Tag]?
+        /// The type of collection.
+        public let type: CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public let vectorOptions: VectorOptions?
+
+        @inlinable
+        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), collectionGroupName: String? = nil, description: String? = nil, encryptionConfig: EncryptionConfig? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+            self.clientToken = clientToken
+            self.collectionGroupName = collectionGroupName
+            self.description = description
+            self.encryptionConfig = encryptionConfig
+            self.name = name
+            self.standbyReplicas = standbyReplicas
+            self.tags = tags
+            self.type = type
+            self.vectorOptions = vectorOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, max: 32)
+            try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, min: 3)
+            try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case collectionGroupName = "collectionGroupName"
+            case description = "description"
+            case encryptionConfig = "encryptionConfig"
             case name = "name"
             case standbyReplicas = "standbyReplicas"
             case tags = "tags"
@@ -881,7 +1209,7 @@ extension OpenSearchServerless {
         public let iamIdentityCenterOptions: CreateIamIdentityCenterConfigOptions?
         /// The name of the security configuration.
         public let name: String
-        /// Describes SAML options in in the form of a key-value map. This field is required if you specify SAML for the type parameter.
+        /// Describes SAML options in the form of a key-value map. This field is required if you specify SAML for the type parameter.
         public let samlOptions: SamlConfigOptions?
         /// The type of security configuration.
         public let type: SecurityConfigType
@@ -1135,6 +1463,36 @@ extension OpenSearchServerless {
             case name = "name"
             case status = "status"
         }
+    }
+
+    public struct DeleteCollectionGroupRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the collection group to delete.
+        public let id: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteCollectionGroupRequest.idempotencyToken(), id: String) {
+            self.clientToken = clientToken
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 40)
+            try self.validate(self.id, name: "id", parent: name, min: 3)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case id = "id"
+        }
+    }
+
+    public struct DeleteCollectionGroupResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteCollectionRequest: AWSEncodableShape {
@@ -1421,6 +1779,24 @@ extension OpenSearchServerless {
             case errorMessage = "errorMessage"
             case resource = "resource"
             case type = "type"
+        }
+    }
+
+    public struct EncryptionConfig: AWSEncodableShape {
+        /// Indicates whether to use an Amazon Web Services-owned key for encryption.
+        public let aWSOwnedKey: Bool?
+        /// The ARN of the Amazon Web Services Key Management Service key used to encrypt the collection.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(aWSOwnedKey: Bool? = nil, kmsKeyArn: String? = nil) {
+            self.aWSOwnedKey = aWSOwnedKey
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aWSOwnedKey = "aWSOwnedKey"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -1900,6 +2276,42 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case accessPolicySummaries = "accessPolicySummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollectionGroupsRequest: AWSEncodableShape {
+        /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results.
+        public let maxResults: Int?
+        /// If your initial ListCollectionGroups operation returns a nextToken, you can include the returned nextToken in subsequent ListCollectionGroups operations, which returns results in the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCollectionGroupsResponse: AWSDecodableShape {
+        /// Details about each collection group.
+        public let collectionGroupSummaries: [CollectionGroupSummary]?
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(collectionGroupSummaries: [CollectionGroupSummary]? = nil, nextToken: String? = nil) {
+            self.collectionGroupSummaries = collectionGroupSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectionGroupSummaries = "collectionGroupSummaries"
             case nextToken = "nextToken"
         }
     }
@@ -2631,6 +3043,93 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct UpdateCollectionGroupDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public let arn: String?
+        /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        public let capacityLimits: CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public let createdDate: Int64?
+        /// The description of the collection group.
+        public let description: String?
+        /// The unique identifier of the collection group.
+        public let id: String?
+        /// The date and time when the collection group was last modified.
+        public let lastModifiedDate: Int64?
+        /// The name of the collection group.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.description = description
+            self.id = id
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capacityLimits = "capacityLimits"
+            case createdDate = "createdDate"
+            case description = "description"
+            case id = "id"
+            case lastModifiedDate = "lastModifiedDate"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateCollectionGroupRequest: AWSEncodableShape {
+        /// Updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        public let capacityLimits: CollectionGroupCapacityLimits?
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// A new description for the collection group.
+        public let description: String?
+        /// The unique identifier of the collection group to update.
+        public let id: String
+
+        @inlinable
+        public init(capacityLimits: CollectionGroupCapacityLimits? = nil, clientToken: String? = UpdateCollectionGroupRequest.idempotencyToken(), description: String? = nil, id: String) {
+            self.capacityLimits = capacityLimits
+            self.clientToken = clientToken
+            self.description = description
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.capacityLimits?.validate(name: "\(name).capacityLimits")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 40)
+            try self.validate(self.id, name: "id", parent: name, min: 3)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,40}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case clientToken = "clientToken"
+            case description = "description"
+            case id = "id"
+        }
+    }
+
+    public struct UpdateCollectionGroupResponse: AWSDecodableShape {
+        /// Details about the updated collection group.
+        public let updateCollectionGroupDetail: UpdateCollectionGroupDetail?
+
+        @inlinable
+        public init(updateCollectionGroupDetail: UpdateCollectionGroupDetail? = nil) {
+            self.updateCollectionGroupDetail = updateCollectionGroupDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateCollectionGroupDetail = "updateCollectionGroupDetail"
+        }
+    }
+
     public struct UpdateCollectionRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -3183,7 +3682,7 @@ public struct OpenSearchServerlessErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// When creating a resource, thrown when a resource with the same name already exists or is being created.
     public static var conflictException: Self { .init(.conflictException) }
     /// Thrown when an error internal to the service occurs while processing a request.
     public static var internalServerException: Self { .init(.internalServerException) }

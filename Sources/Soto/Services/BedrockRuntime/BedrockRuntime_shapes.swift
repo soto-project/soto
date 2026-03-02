@@ -56,6 +56,12 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum CacheTTL: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fiveMinutes = "5m"
+        case oneHour = "1h"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assistant = "assistant"
         case user = "user"
@@ -267,6 +273,11 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum OutputFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jsonSchema = "json_schema"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PerformanceConfigLatency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optimized = "optimized"
         case standard = "standard"
@@ -313,6 +324,7 @@ extension BedrockRuntime {
 
     public enum ToolUseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case serverToolUse = "server_tool_use"
+        case toolUse = "tool_use"
         public var description: String { return self.rawValue }
     }
 
@@ -1773,16 +1785,38 @@ extension BedrockRuntime {
         }
     }
 
+    public struct CacheDetail: AWSDecodableShape {
+        /// Number of tokens written to cache with this TTL (cache creation tokens)
+        public let inputTokens: Int
+        /// TTL duration for these cached tokens
+        public let ttl: CacheTTL
+
+        @inlinable
+        public init(inputTokens: Int, ttl: CacheTTL) {
+            self.inputTokens = inputTokens
+            self.ttl = ttl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTokens = "inputTokens"
+            case ttl = "ttl"
+        }
+    }
+
     public struct CachePointBlock: AWSEncodableShape & AWSDecodableShape {
+        /// Optional TTL duration for cache entries. When specified, enables extended TTL caching with the specified duration. When omitted, uses type value for caching behavior.
+        public let ttl: CacheTTL?
         /// Specifies the type of cache point within the CachePointBlock.
         public let type: CachePointType
 
         @inlinable
-        public init(type: CachePointType) {
+        public init(ttl: CacheTTL? = nil, type: CachePointType) {
+            self.ttl = ttl
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ttl = "ttl"
             case type = "type"
         }
     }
@@ -1962,6 +1996,8 @@ extension BedrockRuntime {
         public let messages: [Message]?
         /// Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
         public let modelId: String
+        /// Output configuration for a model response.
+        public let outputConfig: OutputConfig?
         /// Model performance settings for the request.
         public let performanceConfig: PerformanceConfiguration?
         /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
@@ -1976,13 +2012,14 @@ extension BedrockRuntime {
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, serviceTier: ServiceTier? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, outputConfig: OutputConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, serviceTier: ServiceTier? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
             self.inferenceConfig = inferenceConfig
             self.messages = messages
             self.modelId = modelId
+            self.outputConfig = outputConfig
             self.performanceConfig = performanceConfig
             self.promptVariables = promptVariables
             self.requestMetadata = requestMetadata
@@ -2000,6 +2037,7 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
             try container.encodeIfPresent(self.messages, forKey: .messages)
             request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.outputConfig, forKey: .outputConfig)
             try container.encodeIfPresent(self.performanceConfig, forKey: .performanceConfig)
             try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
             try container.encodeIfPresent(self.requestMetadata, forKey: .requestMetadata)
@@ -2032,6 +2070,7 @@ extension BedrockRuntime {
             case guardrailConfig = "guardrailConfig"
             case inferenceConfig = "inferenceConfig"
             case messages = "messages"
+            case outputConfig = "outputConfig"
             case performanceConfig = "performanceConfig"
             case promptVariables = "promptVariables"
             case requestMetadata = "requestMetadata"
@@ -2140,6 +2179,8 @@ extension BedrockRuntime {
         public let messages: [Message]?
         /// Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
         public let modelId: String
+        /// Output configuration for a model response.
+        public let outputConfig: OutputConfig?
         /// Model performance settings for the request.
         public let performanceConfig: PerformanceConfiguration?
         /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
@@ -2154,13 +2195,14 @@ extension BedrockRuntime {
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, serviceTier: ServiceTier? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, outputConfig: OutputConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, serviceTier: ServiceTier? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
             self.inferenceConfig = inferenceConfig
             self.messages = messages
             self.modelId = modelId
+            self.outputConfig = outputConfig
             self.performanceConfig = performanceConfig
             self.promptVariables = promptVariables
             self.requestMetadata = requestMetadata
@@ -2178,6 +2220,7 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.inferenceConfig, forKey: .inferenceConfig)
             try container.encodeIfPresent(self.messages, forKey: .messages)
             request.encodePath(self.modelId, key: "modelId")
+            try container.encodeIfPresent(self.outputConfig, forKey: .outputConfig)
             try container.encodeIfPresent(self.performanceConfig, forKey: .performanceConfig)
             try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
             try container.encodeIfPresent(self.requestMetadata, forKey: .requestMetadata)
@@ -2210,6 +2253,7 @@ extension BedrockRuntime {
             case guardrailConfig = "guardrailConfig"
             case inferenceConfig = "inferenceConfig"
             case messages = "messages"
+            case outputConfig = "outputConfig"
             case performanceConfig = "performanceConfig"
             case promptVariables = "promptVariables"
             case requestMetadata = "requestMetadata"
@@ -3759,6 +3803,28 @@ extension BedrockRuntime {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct JsonSchemaDefinition: AWSEncodableShape {
+        ///  A description of the JSON schema.
+        public let description: String?
+        ///  The name of the JSON schema.
+        public let name: String?
+        ///  The JSON schema to constrain the model's output. For more information, see JSON Schema Reference.
+        public let schema: String
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, schema: String) {
+            self.description = description
+            self.name = name
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case schema = "schema"
+        }
+    }
+
     public struct ListAsyncInvokesRequest: AWSEncodableShape {
         /// The maximum number of invocations to return in one page of results.
         public let maxResults: Int?
@@ -3937,6 +4003,38 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct OutputConfig: AWSEncodableShape {
+        /// Structured output parameters to control the model's text response.
+        public let textFormat: OutputFormat?
+
+        @inlinable
+        public init(textFormat: OutputFormat? = nil) {
+            self.textFormat = textFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textFormat = "textFormat"
+        }
+    }
+
+    public struct OutputFormat: AWSEncodableShape {
+        ///  The structure that the model's output must adhere to.
+        public let structure: OutputFormatStructure
+        ///  The type of structured output format.
+        public let type: OutputFormatType
+
+        @inlinable
+        public init(structure: OutputFormatStructure, type: OutputFormatType) {
+            self.structure = structure
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case structure = "structure"
+            case type = "type"
         }
     }
 
@@ -4252,6 +4350,8 @@ extension BedrockRuntime {
     }
 
     public struct TokenUsage: AWSDecodableShape {
+        /// Detailed breakdown of cache writes by TTL. Empty if no cache creation occurred. Sorted by TTL duration (1h before 5m).
+        public let cacheDetails: [CacheDetail]?
         /// The number of input tokens read from the cache for the request.
         public let cacheReadInputTokens: Int?
         /// The number of input tokens written to the cache for the request.
@@ -4264,7 +4364,8 @@ extension BedrockRuntime {
         public let totalTokens: Int
 
         @inlinable
-        public init(cacheReadInputTokens: Int? = nil, cacheWriteInputTokens: Int? = nil, inputTokens: Int, outputTokens: Int, totalTokens: Int) {
+        public init(cacheDetails: [CacheDetail]? = nil, cacheReadInputTokens: Int? = nil, cacheWriteInputTokens: Int? = nil, inputTokens: Int, outputTokens: Int, totalTokens: Int) {
+            self.cacheDetails = cacheDetails
             self.cacheReadInputTokens = cacheReadInputTokens
             self.cacheWriteInputTokens = cacheWriteInputTokens
             self.inputTokens = inputTokens
@@ -4273,6 +4374,7 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheDetails = "cacheDetails"
             case cacheReadInputTokens = "cacheReadInputTokens"
             case cacheWriteInputTokens = "cacheWriteInputTokens"
             case inputTokens = "inputTokens"
@@ -4370,12 +4472,15 @@ extension BedrockRuntime {
         public let inputSchema: ToolInputSchema
         /// The name for the tool.
         public let name: String
+        /// Flag to enable structured output enforcement on a tool usage response.
+        public let strict: Bool?
 
         @inlinable
-        public init(description: String? = nil, inputSchema: ToolInputSchema, name: String) {
+        public init(description: String? = nil, inputSchema: ToolInputSchema, name: String, strict: Bool? = nil) {
             self.description = description
             self.inputSchema = inputSchema
             self.name = name
+            self.strict = strict
         }
 
         public func validate(name: String) throws {
@@ -4389,6 +4494,7 @@ extension BedrockRuntime {
             case description = "description"
             case inputSchema = "inputSchema"
             case name = "name"
+            case strict = "strict"
         }
     }
 
@@ -4633,6 +4739,20 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case chunk = "chunk"
+        }
+    }
+
+    public struct OutputFormatStructure: AWSEncodableShape {
+        ///  A JSON schema structure that the model's output must adhere to.
+        public let jsonSchema: JsonSchemaDefinition?
+
+        @inlinable
+        public init(jsonSchema: JsonSchemaDefinition? = nil) {
+            self.jsonSchema = jsonSchema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jsonSchema = "jsonSchema"
         }
     }
 

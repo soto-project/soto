@@ -490,8 +490,9 @@ public struct RedshiftServerless: AWSService {
     ///
     /// Parameters:
     ///   - baseCapacity: The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
-    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
     ///   - enhancedVpcRouting: The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
+    ///   - extraComputeForAutomaticOptimization: If true, allocates additional compute resources for running automatic optimization operations. Default: false
     ///   - ipAddressType: The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     ///   - maxCapacity: The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     ///   - namespaceName: The name of the namespace to associate with the workgroup.
@@ -509,6 +510,7 @@ public struct RedshiftServerless: AWSService {
         baseCapacity: Int? = nil,
         configParameters: [ConfigParameter]? = nil,
         enhancedVpcRouting: Bool? = nil,
+        extraComputeForAutomaticOptimization: Bool? = nil,
         ipAddressType: String? = nil,
         maxCapacity: Int? = nil,
         namespaceName: String,
@@ -526,6 +528,7 @@ public struct RedshiftServerless: AWSService {
             baseCapacity: baseCapacity, 
             configParameters: configParameters, 
             enhancedVpcRouting: enhancedVpcRouting, 
+            extraComputeForAutomaticOptimization: extraComputeForAutomaticOptimization, 
             ipAddressType: ipAddressType, 
             maxCapacity: maxCapacity, 
             namespaceName: namespaceName, 
@@ -2427,8 +2430,9 @@ public struct RedshiftServerless: AWSService {
     ///
     /// Parameters:
     ///   - baseCapacity: The new base data warehouse capacity in Redshift Processing Units (RPUs).
-    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
     ///   - enhancedVpcRouting: The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
+    ///   - extraComputeForAutomaticOptimization: If true, allocates additional compute resources for running automatic optimization operations. Default: false
     ///   - ipAddressType: The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     ///   - maxCapacity: The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     ///   - port: The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
@@ -2444,6 +2448,7 @@ public struct RedshiftServerless: AWSService {
         baseCapacity: Int? = nil,
         configParameters: [ConfigParameter]? = nil,
         enhancedVpcRouting: Bool? = nil,
+        extraComputeForAutomaticOptimization: Bool? = nil,
         ipAddressType: String? = nil,
         maxCapacity: Int? = nil,
         port: Int? = nil,
@@ -2459,6 +2464,7 @@ public struct RedshiftServerless: AWSService {
             baseCapacity: baseCapacity, 
             configParameters: configParameters, 
             enhancedVpcRouting: enhancedVpcRouting, 
+            extraComputeForAutomaticOptimization: extraComputeForAutomaticOptimization, 
             ipAddressType: ipAddressType, 
             maxCapacity: maxCapacity, 
             port: port, 

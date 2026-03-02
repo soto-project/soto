@@ -103,6 +103,12 @@ extension ConnectCases {
         public var description: String { return self.rawValue }
     }
 
+    public enum TagPropagationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Cases resources created within the domain
+        case cases = "Cases"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TemplateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
@@ -215,6 +221,8 @@ extension ConnectCases {
         case not(CaseFilter)
         /// Provides "or all" filtering.
         case orAll([CaseFilter])
+        /// A list of tags to filter on.
+        case tag(TagFilter)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -227,6 +235,8 @@ extension ConnectCases {
                 try container.encode(value, forKey: .not)
             case .orAll(let value):
                 try container.encode(value, forKey: .orAll)
+            case .tag(let value):
+                try container.encode(value, forKey: .tag)
             }
         }
 
@@ -244,6 +254,8 @@ extension ConnectCases {
                 try value.forEach {
                     try $0.validate(name: "\(name).orAll[]")
                 }
+            case .tag(let value):
+                try value.validate(name: "\(name).tag")
             }
         }
 
@@ -252,6 +264,7 @@ extension ConnectCases {
             case field = "field"
             case not = "not"
             case orAll = "orAll"
+            case tag = "tag"
         }
     }
 
@@ -1320,15 +1333,18 @@ extension ConnectCases {
         /// An array of objects with field ID (matching ListFields/DescribeField) and value union data.
         public let fields: [FieldValue]
         public let performedBy: UserUnion?
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
         /// A unique identifier of a template.
         public let templateId: String
 
         @inlinable
-        public init(clientToken: String? = CreateCaseRequest.idempotencyToken(), domainId: String, fields: [FieldValue], performedBy: UserUnion? = nil, templateId: String) {
+        public init(clientToken: String? = CreateCaseRequest.idempotencyToken(), domainId: String, fields: [FieldValue], performedBy: UserUnion? = nil, tags: [String: String]? = nil, templateId: String) {
             self.clientToken = clientToken
             self.domainId = domainId
             self.fields = fields
             self.performedBy = performedBy
+            self.tags = tags
             self.templateId = templateId
         }
 
@@ -1339,6 +1355,7 @@ extension ConnectCases {
             request.encodePath(self.domainId, key: "domainId")
             try container.encode(self.fields, forKey: .fields)
             try container.encodeIfPresent(self.performedBy, forKey: .performedBy)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encode(self.templateId, forKey: .templateId)
         }
 
@@ -1349,6 +1366,14 @@ extension ConnectCases {
                 try $0.validate(name: "\(name).fields[]")
             }
             try self.performedBy?.validate(name: "\(name).performedBy")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?![aA][wW][sS]:)[a-zA-Z0-9 _.:/=+\\-@]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([a-zA-Z0-9 _.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.templateId, name: "templateId", parent: name, max: 500)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
         }
@@ -1357,6 +1382,7 @@ extension ConnectCases {
             case clientToken = "clientToken"
             case fields = "fields"
             case performedBy = "performedBy"
+            case tags = "tags"
             case templateId = "templateId"
         }
     }
@@ -1484,6 +1510,8 @@ extension ConnectCases {
     }
 
     public struct CreateFieldRequest: AWSEncodableShape {
+        /// Union of field attributes.
+        public let attributes: FieldAttributes?
         /// The description of the field.
         public let description: String?
         /// The unique identifier of the Cases domain.
@@ -1494,7 +1522,8 @@ extension ConnectCases {
         public let type: FieldType
 
         @inlinable
-        public init(description: String? = nil, domainId: String, name: String, type: FieldType) {
+        public init(attributes: FieldAttributes? = nil, description: String? = nil, domainId: String, name: String, type: FieldType) {
+            self.attributes = attributes
             self.description = description
             self.domainId = domainId
             self.name = name
@@ -1504,6 +1533,7 @@ extension ConnectCases {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainId, key: "domainId")
             try container.encode(self.name, forKey: .name)
@@ -1520,6 +1550,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
             case description = "description"
             case name = "name"
             case type = "type"
@@ -1680,9 +1711,11 @@ extension ConnectCases {
         public let rules: [TemplateRule]?
         /// The status of the template.
         public let status: TemplateStatus?
+        /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+        public let tagPropagationConfigurations: [TagPropagationConfiguration]?
 
         @inlinable
-        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus? = nil) {
+        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus? = nil, tagPropagationConfigurations: [TagPropagationConfiguration]? = nil) {
             self.description = description
             self.domainId = domainId
             self.layoutConfiguration = layoutConfiguration
@@ -1690,6 +1723,7 @@ extension ConnectCases {
             self.requiredFields = requiredFields
             self.rules = rules
             self.status = status
+            self.tagPropagationConfigurations = tagPropagationConfigurations
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1702,6 +1736,7 @@ extension ConnectCases {
             try container.encodeIfPresent(self.requiredFields, forKey: .requiredFields)
             try container.encodeIfPresent(self.rules, forKey: .rules)
             try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.tagPropagationConfigurations, forKey: .tagPropagationConfigurations)
         }
 
         public func validate(name: String) throws {
@@ -1720,6 +1755,10 @@ extension ConnectCases {
                 try $0.validate(name: "\(name).rules[]")
             }
             try self.validate(self.rules, name: "rules", parent: name, max: 50)
+            try self.tagPropagationConfigurations?.forEach {
+                try $0.validate(name: "\(name).tagPropagationConfigurations[]")
+            }
+            try self.validate(self.tagPropagationConfigurations, name: "tagPropagationConfigurations", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1729,6 +1768,7 @@ extension ConnectCases {
             case requiredFields = "requiredFields"
             case rules = "rules"
             case status = "status"
+            case tagPropagationConfigurations = "tagPropagationConfigurations"
         }
     }
 
@@ -2279,6 +2319,8 @@ extension ConnectCases {
     }
 
     public struct FieldSummary: AWSDecodableShape {
+        /// Union of field attributes.
+        public let attributes: FieldAttributes?
         /// The Amazon Resource Name (ARN) of the field.
         public let fieldArn: String
         /// The unique identifier of a field.
@@ -2291,7 +2333,8 @@ extension ConnectCases {
         public let type: FieldType
 
         @inlinable
-        public init(fieldArn: String, fieldId: String, name: String, namespace: FieldNamespace, type: FieldType) {
+        public init(attributes: FieldAttributes? = nil, fieldArn: String, fieldId: String, name: String, namespace: FieldNamespace, type: FieldType) {
+            self.attributes = attributes
             self.fieldArn = fieldArn
             self.fieldId = fieldId
             self.name = name
@@ -2300,6 +2343,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
             case fieldArn = "fieldArn"
             case fieldId = "fieldId"
             case name = "name"
@@ -2642,6 +2686,8 @@ extension ConnectCases {
     }
 
     public struct GetFieldResponse: AWSDecodableShape {
+        /// Union of field attributes.
+        public let attributes: FieldAttributes?
         /// Timestamp at which the resource was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTime: Date?
@@ -2666,7 +2712,8 @@ extension ConnectCases {
         public let type: FieldType
 
         @inlinable
-        public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, fieldArn: String, fieldId: String, lastModifiedTime: Date? = nil, name: String, namespace: FieldNamespace, tags: [String: String]? = nil, type: FieldType) {
+        public init(attributes: FieldAttributes? = nil, createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, fieldArn: String, fieldId: String, lastModifiedTime: Date? = nil, name: String, namespace: FieldNamespace, tags: [String: String]? = nil, type: FieldType) {
+            self.attributes = attributes
             self.createdTime = createdTime
             self.deleted = deleted
             self.description = description
@@ -2680,6 +2727,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
             case createdTime = "createdTime"
             case deleted = "deleted"
             case description = "description"
@@ -2816,6 +2864,8 @@ extension ConnectCases {
         public let rules: [TemplateRule]?
         /// The status of the template.
         public let status: TemplateStatus
+        /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+        public let tagPropagationConfigurations: [TagPropagationConfiguration]?
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The Amazon Resource Name (ARN) of the template.
@@ -2824,7 +2874,7 @@ extension ConnectCases {
         public let templateId: String
 
         @inlinable
-        public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, lastModifiedTime: Date? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus, tags: [String: String]? = nil, templateArn: String, templateId: String) {
+        public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, lastModifiedTime: Date? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus, tagPropagationConfigurations: [TagPropagationConfiguration]? = nil, tags: [String: String]? = nil, templateArn: String, templateId: String) {
             self.createdTime = createdTime
             self.deleted = deleted
             self.description = description
@@ -2834,6 +2884,7 @@ extension ConnectCases {
             self.requiredFields = requiredFields
             self.rules = rules
             self.status = status
+            self.tagPropagationConfigurations = tagPropagationConfigurations
             self.tags = tags
             self.templateArn = templateArn
             self.templateId = templateId
@@ -2849,6 +2900,7 @@ extension ConnectCases {
             case requiredFields = "requiredFields"
             case rules = "rules"
             case status = "status"
+            case tagPropagationConfigurations = "tagPropagationConfigurations"
             case tags = "tags"
             case templateArn = "templateArn"
             case templateId = "templateId"
@@ -3716,16 +3768,20 @@ extension ConnectCases {
         public let cases: [SearchCasesResponseItem]
         /// The token for the next set of results. This is null if there are no more results to return.
         public let nextToken: String?
+        /// The total number of cases that matched the search criteria.
+        public let totalCount: Int64?
 
         @inlinable
-        public init(cases: [SearchCasesResponseItem], nextToken: String? = nil) {
+        public init(cases: [SearchCasesResponseItem], nextToken: String? = nil, totalCount: Int64? = nil) {
             self.cases = cases
             self.nextToken = nextToken
+            self.totalCount = totalCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case cases = "cases"
             case nextToken = "nextToken"
+            case totalCount = "totalCount"
         }
     }
 
@@ -4000,6 +4056,35 @@ extension ConnectCases {
         }
     }
 
+    public struct TagPropagationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Supported resource types for tag propagation. Determines which resources will receive automatically propagated tags.
+        public let resourceType: TagPropagationResourceType
+        /// The tags that will be applied to the created resource.
+        public let tagMap: [String: String]
+
+        @inlinable
+        public init(resourceType: TagPropagationResourceType, tagMap: [String: String]) {
+            self.resourceType = resourceType
+            self.tagMap = tagMap
+        }
+
+        public func validate(name: String) throws {
+            try self.tagMap.forEach {
+                try validate($0.key, name: "tagMap.key", parent: name, max: 128)
+                try validate($0.key, name: "tagMap.key", parent: name, min: 1)
+                try validate($0.key, name: "tagMap.key", parent: name, pattern: "^(?![aA][wW][sS]:)[a-zA-Z0-9 _.:/=+\\-@]+$")
+                try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tagMap[\"\($0.key)\"]", parent: name, pattern: "^([a-zA-Z0-9 _.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagMap, name: "tagMap", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case tagMap = "tagMap"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN)
         public let arn: String
@@ -4026,6 +4111,32 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct TagValue: AWSEncodableShape {
+        /// The tag key in the tag filter value.
+        public let key: String?
+        /// The tag value in the tag filter value.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9 _.:/=+\\-@]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([a-zA-Z0-9 _.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -4059,15 +4170,18 @@ extension ConnectCases {
         public let name: String
         /// The status of the template.
         public let status: TemplateStatus
+        /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+        public let tagPropagationConfigurations: [TagPropagationConfiguration]?
         /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String
         /// The unique identifier for the template.
         public let templateId: String
 
         @inlinable
-        public init(name: String, status: TemplateStatus, templateArn: String, templateId: String) {
+        public init(name: String, status: TemplateStatus, tagPropagationConfigurations: [TagPropagationConfiguration]? = nil, templateArn: String, templateId: String) {
             self.name = name
             self.status = status
+            self.tagPropagationConfigurations = tagPropagationConfigurations
             self.templateArn = templateArn
             self.templateId = templateId
         }
@@ -4075,8 +4189,23 @@ extension ConnectCases {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case status = "status"
+            case tagPropagationConfigurations = "tagPropagationConfigurations"
             case templateArn = "templateArn"
             case templateId = "templateId"
+        }
+    }
+
+    public struct TextAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Attribute that defines rendering component and validation.
+        public let isMultiline: Bool
+
+        @inlinable
+        public init(isMultiline: Bool) {
+            self.isMultiline = isMultiline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isMultiline = "isMultiline"
         }
     }
 
@@ -4215,6 +4344,8 @@ extension ConnectCases {
     }
 
     public struct UpdateFieldRequest: AWSEncodableShape {
+        /// Union of field attributes.
+        public let attributes: FieldAttributes?
         /// The description of a field.
         public let description: String?
         /// The unique identifier of the Cases domain.
@@ -4225,7 +4356,8 @@ extension ConnectCases {
         public let name: String?
 
         @inlinable
-        public init(description: String? = nil, domainId: String, fieldId: String, name: String? = nil) {
+        public init(attributes: FieldAttributes? = nil, description: String? = nil, domainId: String, fieldId: String, name: String? = nil) {
+            self.attributes = attributes
             self.description = description
             self.domainId = domainId
             self.fieldId = fieldId
@@ -4235,6 +4367,7 @@ extension ConnectCases {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainId, key: "domainId")
             request.encodePath(self.fieldId, key: "fieldId")
@@ -4253,6 +4386,7 @@ extension ConnectCases {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
             case description = "description"
             case name = "name"
         }
@@ -4325,11 +4459,13 @@ extension ConnectCases {
         public let rules: [TemplateRule]?
         /// The status of the template.
         public let status: TemplateStatus?
+        /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+        public let tagPropagationConfigurations: [TagPropagationConfiguration]?
         /// A unique identifier for the template.
         public let templateId: String
 
         @inlinable
-        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String? = nil, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus? = nil, templateId: String) {
+        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String? = nil, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus? = nil, tagPropagationConfigurations: [TagPropagationConfiguration]? = nil, templateId: String) {
             self.description = description
             self.domainId = domainId
             self.layoutConfiguration = layoutConfiguration
@@ -4337,6 +4473,7 @@ extension ConnectCases {
             self.requiredFields = requiredFields
             self.rules = rules
             self.status = status
+            self.tagPropagationConfigurations = tagPropagationConfigurations
             self.templateId = templateId
         }
 
@@ -4350,6 +4487,7 @@ extension ConnectCases {
             try container.encodeIfPresent(self.requiredFields, forKey: .requiredFields)
             try container.encodeIfPresent(self.rules, forKey: .rules)
             try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.tagPropagationConfigurations, forKey: .tagPropagationConfigurations)
             request.encodePath(self.templateId, key: "templateId")
         }
 
@@ -4369,6 +4507,10 @@ extension ConnectCases {
                 try $0.validate(name: "\(name).rules[]")
             }
             try self.validate(self.rules, name: "rules", parent: name, max: 50)
+            try self.tagPropagationConfigurations?.forEach {
+                try $0.validate(name: "\(name).tagPropagationConfigurations[]")
+            }
+            try self.validate(self.tagPropagationConfigurations, name: "tagPropagationConfigurations", parent: name, max: 1)
             try self.validate(self.templateId, name: "templateId", parent: name, max: 500)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
         }
@@ -4380,11 +4522,26 @@ extension ConnectCases {
             case requiredFields = "requiredFields"
             case rules = "rules"
             case status = "status"
+            case tagPropagationConfigurations = "tagPropagationConfigurations"
         }
     }
 
     public struct UpdateTemplateResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct FieldAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Field attributes for Text field type.
+        public let text: TextAttributes?
+
+        @inlinable
+        public init(text: TextAttributes? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
     }
 
     public struct LayoutContent: AWSEncodableShape & AWSDecodableShape {
@@ -4457,6 +4614,24 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case slaInputConfiguration = "slaInputConfiguration"
+        }
+    }
+
+    public struct TagFilter: AWSEncodableShape {
+        /// Object containing tag key and value information.
+        public let equalTo: TagValue?
+
+        @inlinable
+        public init(equalTo: TagValue? = nil) {
+            self.equalTo = equalTo
+        }
+
+        public func validate(name: String) throws {
+            try self.equalTo?.validate(name: "\(name).equalTo")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equalTo = "equalTo"
         }
     }
 }

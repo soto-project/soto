@@ -228,6 +228,7 @@ extension S3Control {
         case s3PutObjectRetention = "S3PutObjectRetention"
         case s3PutObjectTagging = "S3PutObjectTagging"
         case s3ReplicateObject = "S3ReplicateObject"
+        case s3UpdateObjectEncryption = "S3UpdateObjectEncryption"
         public var description: String { return self.rawValue }
     }
 
@@ -1709,8 +1710,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2000)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+$")
         }
 
@@ -4491,9 +4492,11 @@ extension S3Control {
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
         /// Directs the specified job to invoke ReplicateObject on every object in the job's manifest.  This functionality is not supported by directory buckets.
         public let s3ReplicateObject: S3ReplicateObjectOperation?
+        /// Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption operation to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Management Service (KMS)  keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the  UpdateObjectEncryption operation to change the customer-managed KMS key used to encrypt your data so that you can comply with custom  key-rotation standards.
+        public let s3UpdateObjectEncryption: S3UpdateObjectEncryptionOperation?
 
         @inlinable
-        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3ComputeObjectChecksum: S3ComputeObjectChecksumOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil, s3ReplicateObject: S3ReplicateObjectOperation? = nil) {
+        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3ComputeObjectChecksum: S3ComputeObjectChecksumOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil, s3ReplicateObject: S3ReplicateObjectOperation? = nil, s3UpdateObjectEncryption: S3UpdateObjectEncryptionOperation? = nil) {
             self.lambdaInvoke = lambdaInvoke
             self.s3ComputeObjectChecksum = s3ComputeObjectChecksum
             self.s3DeleteObjectTagging = s3DeleteObjectTagging
@@ -4504,6 +4507,7 @@ extension S3Control {
             self.s3PutObjectRetention = s3PutObjectRetention
             self.s3PutObjectTagging = s3PutObjectTagging
             self.s3ReplicateObject = s3ReplicateObject
+            self.s3UpdateObjectEncryption = s3UpdateObjectEncryption
         }
 
         public func validate(name: String) throws {
@@ -4512,6 +4516,7 @@ extension S3Control {
             try self.s3PutObjectAcl?.validate(name: "\(name).s3PutObjectAcl")
             try self.s3PutObjectCopy?.validate(name: "\(name).s3PutObjectCopy")
             try self.s3PutObjectTagging?.validate(name: "\(name).s3PutObjectTagging")
+            try self.s3UpdateObjectEncryption?.validate(name: "\(name).s3UpdateObjectEncryption")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4525,6 +4530,7 @@ extension S3Control {
             case s3PutObjectRetention = "S3PutObjectRetention"
             case s3PutObjectTagging = "S3PutObjectTagging"
             case s3ReplicateObject = "S3ReplicateObject"
+            case s3UpdateObjectEncryption = "S3UpdateObjectEncryption"
         }
     }
 
@@ -6032,6 +6038,24 @@ extension S3Control {
 
     public struct NotSSEFilter: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ObjectEncryption: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
+        public let ssekms: S3UpdateObjectEncryptionSSEKMS?
+
+        @inlinable
+        public init(ssekms: S3UpdateObjectEncryptionSSEKMS? = nil) {
+            self.ssekms = ssekms
+        }
+
+        public func validate(name: String) throws {
+            try self.ssekms?.validate(name: "\(name).ssekms")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssekms = "SSE-KMS"
+        }
     }
 
     public struct ObjectLambdaAccessPoint: AWSDecodableShape {
@@ -7750,6 +7774,48 @@ extension S3Control {
         }
     }
 
+    public struct S3UpdateObjectEncryptionOperation: AWSEncodableShape & AWSDecodableShape {
+        /// The updated server-side encryption type for this S3 object. The UpdateObjectEncryption operation supports the SSE-KMS encryption type.
+        public let objectEncryption: ObjectEncryption?
+
+        @inlinable
+        public init(objectEncryption: ObjectEncryption? = nil) {
+            self.objectEncryption = objectEncryption
+        }
+
+        public func validate(name: String) throws {
+            try self.objectEncryption?.validate(name: "\(name).objectEncryption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectEncryption = "ObjectEncryption"
+        }
+    }
+
+    public struct S3UpdateObjectEncryptionSSEKMS: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false. Setting this value to true causes Amazon S3 to use an S3 Bucket Key for update object encryption with SSE-KMS.
+        public let bucketKeyEnabled: Bool?
+        /// Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if UpdateObjectEncryption specifies SSEKMS.
+        public let kmsKeyArn: String
+
+        @inlinable
+        public init(bucketKeyEnabled: Bool? = nil, kmsKeyArn: String) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketKeyEnabled = "BucketKeyEnabled"
+            case kmsKeyArn = "KMSKeyArn"
+        }
+    }
+
     public struct SSECFilter: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -7800,8 +7866,8 @@ extension S3Control {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2000)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+$")
         }
 

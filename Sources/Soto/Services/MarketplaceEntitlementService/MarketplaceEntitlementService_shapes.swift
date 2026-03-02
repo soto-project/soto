@@ -29,13 +29,14 @@ extension MarketplaceEntitlementService {
         case customerAwsAccountId = "CUSTOMER_AWS_ACCOUNT_ID"
         case customerIdentifier = "CUSTOMER_IDENTIFIER"
         case dimension = "DIMENSION"
+        case licenseArn = "LICENSE_ARN"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Entitlement: AWSDecodableShape {
-        ///  The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        ///  The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer.
         public let customerAWSAccountId: String?
         /// The customer identifier is a handle to each unique customer in an application. Customer identifiers are obtained through the ResolveCustomer operation in AWS Marketplace Metering Service.
         public let customerIdentifier: String?
@@ -43,17 +44,20 @@ extension MarketplaceEntitlementService {
         public let dimension: String?
         /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
         public let expirationDate: Date?
+        /// The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through AWS Marketplace.
+        public let licenseArn: String?
         /// The product code for which the given entitlement applies. Product codes are provided by AWS Marketplace when the product listing is created.
         public let productCode: String?
         /// The EntitlementValue represents the amount of capacity that the customer is entitled to for the product.
         public let value: EntitlementValue?
 
         @inlinable
-        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String? = nil, expirationDate: Date? = nil, productCode: String? = nil, value: EntitlementValue? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String? = nil, expirationDate: Date? = nil, licenseArn: String? = nil, productCode: String? = nil, value: EntitlementValue? = nil) {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.expirationDate = expirationDate
+            self.licenseArn = licenseArn
             self.productCode = productCode
             self.value = value
         }
@@ -63,6 +67,7 @@ extension MarketplaceEntitlementService {
             case customerIdentifier = "CustomerIdentifier"
             case dimension = "Dimension"
             case expirationDate = "ExpirationDate"
+            case licenseArn = "LicenseArn"
             case productCode = "ProductCode"
             case value = "Value"
         }
@@ -95,7 +100,7 @@ extension MarketplaceEntitlementService {
     }
 
     public struct GetEntitlementsRequest: AWSEncodableShape {
-        /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.  CustomerIdentifier and CustomerAWSAccountID are mutually exclusive. You can't specify both in the same request.
+        /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.  CustomerIdentifier and CustomerAWSAccountId are mutually exclusive parameters. You must use one or the other, but not both in the same request.   If you're migrating an existing integration, use Account Feeds to map CustomerIdentifier to CustomerAWSAccountId, and Agreements Feeds to map CustomerAWSAccountId and LicenseArn.
         public let filter: [GetEntitlementFilterName: [String]]?
         /// The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
         public let maxResults: Int?

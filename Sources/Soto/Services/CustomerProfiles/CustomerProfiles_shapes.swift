@@ -476,6 +476,7 @@ extension CustomerProfiles {
         case airSegment = "AIR_SEGMENT"
         case asset = "ASSET"
         case communicationRecord = "COMMUNICATION_RECORD"
+        case device = "DEVICE"
         case hotelPreference = "HOTEL_PREFERENCE"
         case hotelReservation = "HOTEL_RESERVATION"
         case hotelStayRevenue = "HOTEL_STAY_REVENUE"
@@ -488,6 +489,7 @@ extension CustomerProfiles {
         case profile = "PROFILE"
         case secondary = "SECONDARY"
         case unique = "UNIQUE"
+        case webAnalytics = "WEB_ANALYTICS"
         public var description: String { return self.rawValue }
     }
 
@@ -5443,13 +5445,15 @@ extension CustomerProfiles {
         public let objectTypeName: String
         /// The format of your sourceLastUpdatedTimestamp that was previously set up.
         public let sourceLastUpdatedTimestampFormat: String?
+        /// An integer that determines the priority of this object type when data from multiple sources is ingested. Lower values take priority. Object types without a specified source priority default to the lowest priority.
+        public let sourcePriority: Int?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier for the object template.
         public let templateId: String?
 
         @inlinable
-        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, sourcePriority: Int? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
             self.description = description
@@ -5462,6 +5466,7 @@ extension CustomerProfiles {
             self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
+            self.sourcePriority = sourcePriority
             self.tags = tags
             self.templateId = templateId
         }
@@ -5479,6 +5484,7 @@ extension CustomerProfiles {
             case maxProfileObjectCount = "MaxProfileObjectCount"
             case objectTypeName = "ObjectTypeName"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
+            case sourcePriority = "SourcePriority"
             case tags = "Tags"
             case templateId = "TemplateId"
         }
@@ -7529,17 +7535,20 @@ extension CustomerProfiles {
         public let maxProfileObjectCount: Int?
         /// The name of the profile object type.
         public let objectTypeName: String
+        /// An integer that determines the priority of this object type when data from multiple sources is ingested. Lower values take priority. Object types without a specified source priority default to the lowest priority.
+        public let sourcePriority: Int?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, tags: [String: String]? = nil) {
+        public init(createdAt: Date? = nil, description: String, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourcePriority: Int? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
             self.maxAvailableProfileObjectCount = maxAvailableProfileObjectCount
             self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
+            self.sourcePriority = sourcePriority
             self.tags = tags
         }
 
@@ -7550,6 +7559,7 @@ extension CustomerProfiles {
             case maxAvailableProfileObjectCount = "MaxAvailableProfileObjectCount"
             case maxProfileObjectCount = "MaxProfileObjectCount"
             case objectTypeName = "ObjectTypeName"
+            case sourcePriority = "SourcePriority"
             case tags = "Tags"
         }
     }
@@ -9303,13 +9313,15 @@ extension CustomerProfiles {
         public let objectTypeName: String
         /// The format of your sourceLastUpdatedTimestamp that was previously set up.
         public let sourceLastUpdatedTimestampFormat: String?
+        /// An integer that determines the priority of this object type when data from multiple sources is ingested. Lower values take priority. Object types without a specified source priority default to the lowest priority.
+        public let sourcePriority: Int?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException. These attributes include: AllowProfileCreation, SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException.
         public let templateId: String?
 
         @inlinable
-        public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, sourcePriority: Int? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.description = description
             self.domainName = domainName
@@ -9320,6 +9332,7 @@ extension CustomerProfiles {
             self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
+            self.sourcePriority = sourcePriority
             self.tags = tags
             self.templateId = templateId
         }
@@ -9337,6 +9350,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.maxProfileObjectCount, forKey: .maxProfileObjectCount)
             request.encodePath(self.objectTypeName, key: "ObjectTypeName")
             try container.encodeIfPresent(self.sourceLastUpdatedTimestampFormat, forKey: .sourceLastUpdatedTimestampFormat)
+            try container.encodeIfPresent(self.sourcePriority, forKey: .sourcePriority)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.templateId, forKey: .templateId)
         }
@@ -9367,6 +9381,7 @@ extension CustomerProfiles {
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
             try self.validate(self.sourceLastUpdatedTimestampFormat, name: "sourceLastUpdatedTimestampFormat", parent: name, max: 255)
             try self.validate(self.sourceLastUpdatedTimestampFormat, name: "sourceLastUpdatedTimestampFormat", parent: name, min: 1)
+            try self.validate(self.sourcePriority, name: "sourcePriority", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -9389,6 +9404,7 @@ extension CustomerProfiles {
             case keys = "Keys"
             case maxProfileObjectCount = "MaxProfileObjectCount"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
+            case sourcePriority = "SourcePriority"
             case tags = "Tags"
             case templateId = "TemplateId"
         }
@@ -9419,13 +9435,15 @@ extension CustomerProfiles {
         public let objectTypeName: String
         /// The format of your sourceLastUpdatedTimestamp that was previously set up in fields that were parsed using SimpleDateFormat. If you have sourceLastUpdatedTimestamp in your field, you must set up sourceLastUpdatedTimestampFormat.
         public let sourceLastUpdatedTimestampFormat: String?
+        /// An integer that determines the priority of this object type when data from multiple sources is ingested. Lower values take priority. Object types without a specified source priority default to the lowest priority.
+        public let sourcePriority: Int?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier for the object template.
         public let templateId: String?
 
         @inlinable
-        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, maxAvailableProfileObjectCount: Int? = nil, maxProfileObjectCount: Int? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, sourcePriority: Int? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
             self.description = description
@@ -9438,6 +9456,7 @@ extension CustomerProfiles {
             self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
+            self.sourcePriority = sourcePriority
             self.tags = tags
             self.templateId = templateId
         }
@@ -9455,6 +9474,7 @@ extension CustomerProfiles {
             case maxProfileObjectCount = "MaxProfileObjectCount"
             case objectTypeName = "ObjectTypeName"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
+            case sourcePriority = "SourcePriority"
             case tags = "Tags"
             case templateId = "TemplateId"
         }

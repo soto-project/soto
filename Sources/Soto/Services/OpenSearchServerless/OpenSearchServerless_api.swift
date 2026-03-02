@@ -111,6 +111,38 @@ public struct OpenSearchServerless: AWSService {
         return try await self.batchGetCollection(input, logger: logger)
     }
 
+    /// Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    @Sendable
+    @inlinable
+    public func batchGetCollectionGroup(_ input: BatchGetCollectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCollectionGroupResponse {
+        try await self.client.execute(
+            operation: "BatchGetCollectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    ///
+    /// Parameters:
+    ///   - ids: A list of collection group IDs. You can't provide names and IDs in the same request.
+    ///   - names: A list of collection group names. You can't provide names and IDs in the same request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetCollectionGroup(
+        ids: [String]? = nil,
+        names: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetCollectionGroupResponse {
+        let input = BatchGetCollectionGroupRequest(
+            ids: ids, 
+            names: names
+        )
+        return try await self.batchGetCollectionGroup(input, logger: logger)
+    }
+
     /// Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
     @Sendable
     @inlinable
@@ -256,7 +288,9 @@ public struct OpenSearchServerless: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - collectionGroupName: The name of the collection group to associate with the collection.
     ///   - description: Description of the collection.
+    ///   - encryptionConfig: Encryption settings for the collection.
     ///   - name: Name of the collection.
     ///   - standbyReplicas: Indicates whether standby replicas should be used for a collection.
     ///   - tags: An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection.
@@ -266,7 +300,9 @@ public struct OpenSearchServerless: AWSService {
     @inlinable
     public func createCollection(
         clientToken: String? = CreateCollectionRequest.idempotencyToken(),
+        collectionGroupName: String? = nil,
         description: String? = nil,
+        encryptionConfig: EncryptionConfig? = nil,
         name: String,
         standbyReplicas: StandbyReplicas? = nil,
         tags: [Tag]? = nil,
@@ -276,7 +312,9 @@ public struct OpenSearchServerless: AWSService {
     ) async throws -> CreateCollectionResponse {
         let input = CreateCollectionRequest(
             clientToken: clientToken, 
+            collectionGroupName: collectionGroupName, 
             description: description, 
+            encryptionConfig: encryptionConfig, 
             name: name, 
             standbyReplicas: standbyReplicas, 
             tags: tags, 
@@ -284,6 +322,50 @@ public struct OpenSearchServerless: AWSService {
             vectorOptions: vectorOptions
         )
         return try await self.createCollection(input, logger: logger)
+    }
+
+    /// Creates a collection group within OpenSearch Serverless. Collection groups let you manage OpenSearch Compute Units (OCUs) at a group level, with multiple collections sharing the group's capacity limits. For more information, see Managing collection groups.
+    @Sendable
+    @inlinable
+    public func createCollectionGroup(_ input: CreateCollectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCollectionGroupResponse {
+        try await self.client.execute(
+            operation: "CreateCollectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a collection group within OpenSearch Serverless. Collection groups let you manage OpenSearch Compute Units (OCUs) at a group level, with multiple collections sharing the group's capacity limits. For more information, see Managing collection groups.
+    ///
+    /// Parameters:
+    ///   - capacityLimits: The capacity limits for the collection group, in OpenSearch Compute Units (OCUs). These limits control the maximum and minimum capacity for collections within the group.
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - description: A description of the collection group.
+    ///   - name: The name of the collection group.
+    ///   - standbyReplicas: Indicates whether standby replicas should be used for a collection group.
+    ///   - tags: An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCollectionGroup(
+        capacityLimits: CollectionGroupCapacityLimits? = nil,
+        clientToken: String? = CreateCollectionGroupRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        standbyReplicas: StandbyReplicas,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCollectionGroupResponse {
+        let input = CreateCollectionGroupRequest(
+            capacityLimits: capacityLimits, 
+            clientToken: clientToken, 
+            description: description, 
+            name: name, 
+            standbyReplicas: standbyReplicas, 
+            tags: tags
+        )
+        return try await self.createCollectionGroup(input, logger: logger)
     }
 
     /// Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the OpenSearch User Guide.
@@ -383,7 +465,7 @@ public struct OpenSearchServerless: AWSService {
     ///   - iamFederationOptions: Describes IAM federation options in the form of a key-value map. This field is required if you specify iamFederation for the type parameter.
     ///   - iamIdentityCenterOptions: Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
     ///   - name: The name of the security configuration.
-    ///   - samlOptions: Describes SAML options in in the form of a key-value map. This field is required if you specify SAML for the type parameter.
+    ///   - samlOptions: Describes SAML options in the form of a key-value map. This field is required if you specify SAML for the type parameter.
     ///   - type: The type of security configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -556,6 +638,38 @@ public struct OpenSearchServerless: AWSService {
             id: id
         )
         return try await self.deleteCollection(input, logger: logger)
+    }
+
+    /// Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    @Sendable
+    @inlinable
+    public func deleteCollectionGroup(_ input: DeleteCollectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCollectionGroupResponse {
+        try await self.client.execute(
+            operation: "DeleteCollectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - id: The unique identifier of the collection group to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCollectionGroup(
+        clientToken: String? = DeleteCollectionGroupRequest.idempotencyToken(),
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCollectionGroupResponse {
+        let input = DeleteCollectionGroupRequest(
+            clientToken: clientToken, 
+            id: id
+        )
+        return try await self.deleteCollectionGroup(input, logger: logger)
     }
 
     /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
@@ -937,6 +1051,38 @@ public struct OpenSearchServerless: AWSService {
             type: type
         )
         return try await self.listAccessPolicies(input, logger: logger)
+    }
+
+    /// Returns a list of collection groups. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    @Sendable
+    @inlinable
+    public func listCollectionGroups(_ input: ListCollectionGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollectionGroupsResponse {
+        try await self.client.execute(
+            operation: "ListCollectionGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of collection groups. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results.
+    ///   - nextToken: If your initial ListCollectionGroups operation returns a nextToken, you can include the returned nextToken in subsequent ListCollectionGroups operations, which returns results in the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCollectionGroups(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCollectionGroupsResponse {
+        let input = ListCollectionGroupsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCollectionGroups(input, logger: logger)
     }
 
     /// Lists all OpenSearch Serverless collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.  Make sure to include an empty request body {} if you don't include any collection filters in the request.
@@ -1321,6 +1467,44 @@ public struct OpenSearchServerless: AWSService {
         return try await self.updateCollection(input, logger: logger)
     }
 
+    /// Updates the description and capacity limits of a collection group.
+    @Sendable
+    @inlinable
+    public func updateCollectionGroup(_ input: UpdateCollectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCollectionGroupResponse {
+        try await self.client.execute(
+            operation: "UpdateCollectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the description and capacity limits of a collection group.
+    ///
+    /// Parameters:
+    ///   - capacityLimits: Updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - description: A new description for the collection group.
+    ///   - id: The unique identifier of the collection group to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCollectionGroup(
+        capacityLimits: CollectionGroupCapacityLimits? = nil,
+        clientToken: String? = UpdateCollectionGroupRequest.idempotencyToken(),
+        description: String? = nil,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCollectionGroupResponse {
+        let input = UpdateCollectionGroupRequest(
+            capacityLimits: capacityLimits, 
+            clientToken: clientToken, 
+            description: description, 
+            id: id
+        )
+        return try await self.updateCollectionGroup(input, logger: logger)
+    }
+
     /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
     @Sendable
     @inlinable
@@ -1589,6 +1773,40 @@ extension OpenSearchServerless {
         return self.listAccessPoliciesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCollectionGroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollectionGroupsPaginator(
+        _ input: ListCollectionGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCollectionGroupsRequest, ListCollectionGroupsResponse> {
+        return .init(
+            input: input,
+            command: self.listCollectionGroups,
+            inputKey: \ListCollectionGroupsRequest.nextToken,
+            outputKey: \ListCollectionGroupsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCollectionGroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCollectionGroupsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCollectionGroupsRequest, ListCollectionGroupsResponse> {
+        let input = ListCollectionGroupsRequest(
+            maxResults: maxResults
+        )
+        return self.listCollectionGroupsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCollections(_:logger:)``.
     ///
     /// - Parameters:
@@ -1789,6 +2007,16 @@ extension OpenSearchServerless.ListAccessPoliciesRequest: AWSPaginateToken {
             nextToken: token,
             resource: self.resource,
             type: self.type
+        )
+    }
+}
+
+extension OpenSearchServerless.ListCollectionGroupsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> OpenSearchServerless.ListCollectionGroupsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

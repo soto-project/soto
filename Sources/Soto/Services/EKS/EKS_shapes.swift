@@ -37,14 +37,18 @@ extension EKS {
         case bottlerocketArm64 = "BOTTLEROCKET_ARM_64"
         case bottlerocketArm64Fips = "BOTTLEROCKET_ARM_64_FIPS"
         case bottlerocketArm64Nvidia = "BOTTLEROCKET_ARM_64_NVIDIA"
+        case bottlerocketArm64NvidiaFips = "BOTTLEROCKET_ARM_64_NVIDIA_FIPS"
         case bottlerocketX8664 = "BOTTLEROCKET_x86_64"
         case bottlerocketX8664FIPS = "BOTTLEROCKET_x86_64_FIPS"
         case bottlerocketX8664NVIDIA = "BOTTLEROCKET_x86_64_NVIDIA"
+        case bottlerocketX8664NVIDIAFIPS = "BOTTLEROCKET_x86_64_NVIDIA_FIPS"
         case custom = "CUSTOM"
         case windowsCORE2019X8664 = "WINDOWS_CORE_2019_x86_64"
         case windowsCORE2022X8664 = "WINDOWS_CORE_2022_x86_64"
+        case windowsCORE2025X8664 = "WINDOWS_CORE_2025_x86_64"
         case windowsFULL2019X8664 = "WINDOWS_FULL_2019_x86_64"
         case windowsFULL2022X8664 = "WINDOWS_FULL_2022_x86_64"
+        case windowsFULL2025X8664 = "WINDOWS_FULL_2025_x86_64"
         public var description: String { return self.rawValue }
     }
 
@@ -448,6 +452,7 @@ extension EKS {
         case loggingUpdate = "LoggingUpdate"
         case remoteNetworkConfigUpdate = "RemoteNetworkConfigUpdate"
         case upgradePolicyUpdate = "UpgradePolicyUpdate"
+        case vendedLogsUpdate = "VendedLogsUpdate"
         case versionUpdate = "VersionUpdate"
         case vpcConfigUpdate = "VpcConfigUpdate"
         case zonalShiftConfigUpdate = "ZonalShiftConfigUpdate"
@@ -1166,7 +1171,7 @@ extension EKS {
     }
 
     public struct AutoScalingGroup: AWSDecodableShape {
-        /// The name of the Amazon EC2 Auto Scaling group associated with an Amazon EKS managed node group.
+        /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
         public let name: String?
 
         @inlinable
@@ -2460,6 +2465,8 @@ extension EKS {
         public let disableSessionTags: Bool?
         /// The name of the Kubernetes namespace inside the cluster to create the EKS Pod Identity association in. The service account and the Pods that use the service account must be in this namespace.
         public let namespace: String
+        /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications.  Important considerations     Session tags: When using this policy, disableSessionTags must be set to true.    Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+        public let policy: String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
         public let roleArn: String
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
@@ -2470,11 +2477,12 @@ extension EKS {
         public let targetRoleArn: String?
 
         @inlinable
-        public init(clientRequestToken: String? = CreatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, disableSessionTags: Bool? = nil, namespace: String, roleArn: String, serviceAccount: String, tags: [String: String]? = nil, targetRoleArn: String? = nil) {
+        public init(clientRequestToken: String? = CreatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, disableSessionTags: Bool? = nil, namespace: String, policy: String? = nil, roleArn: String, serviceAccount: String, tags: [String: String]? = nil, targetRoleArn: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.disableSessionTags = disableSessionTags
             self.namespace = namespace
+            self.policy = policy
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
             self.tags = tags
@@ -2488,6 +2496,7 @@ extension EKS {
             request.encodePath(self.clusterName, key: "clusterName")
             try container.encodeIfPresent(self.disableSessionTags, forKey: .disableSessionTags)
             try container.encode(self.namespace, forKey: .namespace)
+            try container.encodeIfPresent(self.policy, forKey: .policy)
             try container.encode(self.roleArn, forKey: .roleArn)
             try container.encode(self.serviceAccount, forKey: .serviceAccount)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -2508,6 +2517,7 @@ extension EKS {
             case clientRequestToken = "clientRequestToken"
             case disableSessionTags = "disableSessionTags"
             case namespace = "namespace"
+            case policy = "policy"
             case roleArn = "roleArn"
             case serviceAccount = "serviceAccount"
             case tags = "tags"
@@ -4134,7 +4144,7 @@ extension EKS {
     }
 
     public struct Issue: AWSDecodableShape {
-        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Amazon EC2 Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Amazon EC2 Auto Scaling group associated with the managed node group. You may be able to recreate an Amazon EC2 Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
+        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
@@ -5461,6 +5471,8 @@ extension EKS {
         public let namespace: String?
         /// If defined, the EKS Pod Identity association is owned by an Amazon EKS add-on.
         public let ownerArn: String?
+        /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications.
+        public let policy: String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
         public let roleArn: String?
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
@@ -5471,7 +5483,7 @@ extension EKS {
         public let targetRoleArn: String?
 
         @inlinable
-        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, disableSessionTags: Bool? = nil, externalId: String? = nil, modifiedAt: Date? = nil, namespace: String? = nil, ownerArn: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil, targetRoleArn: String? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, disableSessionTags: Bool? = nil, externalId: String? = nil, modifiedAt: Date? = nil, namespace: String? = nil, ownerArn: String? = nil, policy: String? = nil, roleArn: String? = nil, serviceAccount: String? = nil, tags: [String: String]? = nil, targetRoleArn: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.clusterName = clusterName
@@ -5481,6 +5493,7 @@ extension EKS {
             self.modifiedAt = modifiedAt
             self.namespace = namespace
             self.ownerArn = ownerArn
+            self.policy = policy
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
             self.tags = tags
@@ -5497,6 +5510,7 @@ extension EKS {
             case modifiedAt = "modifiedAt"
             case namespace = "namespace"
             case ownerArn = "ownerArn"
+            case policy = "policy"
             case roleArn = "roleArn"
             case serviceAccount = "serviceAccount"
             case tags = "tags"
@@ -6676,17 +6690,20 @@ extension EKS {
         public let clusterName: String
         /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see List of session tags added by EKS Pod Identity in the Amazon EKS User Guide. Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
         public let disableSessionTags: Bool?
+        /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications.  Important considerations     Session tags: When using this policy, disableSessionTags must be set to true.    Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+        public let policy: String?
         /// The new IAM role to change in the association.
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For example, your application running in “Account A” might need to access resources, such as buckets in “Account B” or within “Account A” itself. You can create a association to access Amazon Web Services resources in “Account B” by creating two IAM roles: a role in “Account A” and a role in “Account B” (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
         public let targetRoleArn: String?
 
         @inlinable
-        public init(associationId: String, clientRequestToken: String? = UpdatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, disableSessionTags: Bool? = nil, roleArn: String? = nil, targetRoleArn: String? = nil) {
+        public init(associationId: String, clientRequestToken: String? = UpdatePodIdentityAssociationRequest.idempotencyToken(), clusterName: String, disableSessionTags: Bool? = nil, policy: String? = nil, roleArn: String? = nil, targetRoleArn: String? = nil) {
             self.associationId = associationId
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.disableSessionTags = disableSessionTags
+            self.policy = policy
             self.roleArn = roleArn
             self.targetRoleArn = targetRoleArn
         }
@@ -6698,6 +6715,7 @@ extension EKS {
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             request.encodePath(self.clusterName, key: "clusterName")
             try container.encodeIfPresent(self.disableSessionTags, forKey: .disableSessionTags)
+            try container.encodeIfPresent(self.policy, forKey: .policy)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.targetRoleArn, forKey: .targetRoleArn)
         }
@@ -6705,6 +6723,7 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case disableSessionTags = "disableSessionTags"
+            case policy = "policy"
             case roleArn = "roleArn"
             case targetRoleArn = "targetRoleArn"
         }

@@ -572,6 +572,7 @@ public struct Redshift: AWSService {
     ///   - elasticIp: The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. Don't specify the Elastic IP address for a publicly accessible  cluster with availability zone relocation turned on. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
     ///   - encrypted: If true, the data in the cluster is encrypted at rest.  If you set the value on this parameter to false, the request will fail. Default: true
     ///   - enhancedVpcRouting: An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
+    ///   - extraComputeForAutomaticOptimization: If true, allocates additional compute resources for running automatic optimization operations. Default: false
     ///   - hsmClientCertificateIdentifier: Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
     ///   - hsmConfigurationIdentifier: Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
     ///   - iamRoles: A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format.  The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide.
@@ -615,6 +616,7 @@ public struct Redshift: AWSService {
         elasticIp: String? = nil,
         encrypted: Bool? = nil,
         enhancedVpcRouting: Bool? = nil,
+        extraComputeForAutomaticOptimization: Bool? = nil,
         hsmClientCertificateIdentifier: String? = nil,
         hsmConfigurationIdentifier: String? = nil,
         iamRoles: [String]? = nil,
@@ -658,6 +660,7 @@ public struct Redshift: AWSService {
             elasticIp: elasticIp, 
             encrypted: encrypted, 
             enhancedVpcRouting: enhancedVpcRouting, 
+            extraComputeForAutomaticOptimization: extraComputeForAutomaticOptimization, 
             hsmClientCertificateIdentifier: hsmClientCertificateIdentifier, 
             hsmConfigurationIdentifier: hsmConfigurationIdentifier, 
             iamRoles: iamRoles, 
@@ -1352,7 +1355,7 @@ public struct Redshift: AWSService {
     ///   - breachAction: The action that Amazon Redshift takes when the limit is reached. The default is log.  For more information about this parameter, see UsageLimit.
     ///   - clusterIdentifier: The identifier of the cluster that you want to limit usage.
     ///   - featureType: The Amazon Redshift feature that you want to limit.
-    ///   - limitType: The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned.
+    ///   - limitType: The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned. If FeatureType is extra-compute-for-automatic-optimization, then LimitType must be time.
     ///   - period: The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly.
     ///   - tags: A list of tag instances.
     ///   - logger: Logger use during operation
@@ -4265,6 +4268,7 @@ public struct Redshift: AWSService {
     ///   - elasticIp: The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
     ///   - encrypted: Indicates whether the cluster is encrypted. If the value is encrypted (true) and you provide a value for the KmsKeyId parameter, we encrypt the cluster with the provided KmsKeyId. If you don't provide a KmsKeyId, we encrypt with the default key.  If the value is not encrypted (false), then the cluster is decrypted.
     ///   - enhancedVpcRouting: An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
+    ///   - extraComputeForAutomaticOptimization: If true, allocates additional compute resources for running automatic optimization operations. Default: false
     ///   - hsmClientCertificateIdentifier: Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
     ///   - hsmConfigurationIdentifier: Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
     ///   - ipAddressType: The IP address types that the cluster supports. Possible values are ipv4 and dualstack.
@@ -4297,6 +4301,7 @@ public struct Redshift: AWSService {
         elasticIp: String? = nil,
         encrypted: Bool? = nil,
         enhancedVpcRouting: Bool? = nil,
+        extraComputeForAutomaticOptimization: Bool? = nil,
         hsmClientCertificateIdentifier: String? = nil,
         hsmConfigurationIdentifier: String? = nil,
         ipAddressType: String? = nil,
@@ -4329,6 +4334,7 @@ public struct Redshift: AWSService {
             elasticIp: elasticIp, 
             encrypted: encrypted, 
             enhancedVpcRouting: enhancedVpcRouting, 
+            extraComputeForAutomaticOptimization: extraComputeForAutomaticOptimization, 
             hsmClientCertificateIdentifier: hsmClientCertificateIdentifier, 
             hsmConfigurationIdentifier: hsmConfigurationIdentifier, 
             ipAddressType: ipAddressType, 
@@ -4438,7 +4444,7 @@ public struct Redshift: AWSService {
     /// Parameters:
     ///   - clusterIdentifier: A unique identifier for the cluster.
     ///   - deferMaintenance: A boolean indicating whether to enable the deferred maintenance window.
-    ///   - deferMaintenanceDuration: An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 45 days or less.
+    ///   - deferMaintenanceDuration: An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 60 days or less.
     ///   - deferMaintenanceEndTime: A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you can't specify a duration.
     ///   - deferMaintenanceIdentifier: A unique identifier for the deferred maintenance window.
     ///   - deferMaintenanceStartTime: A timestamp indicating the start time for the deferred maintenance window.

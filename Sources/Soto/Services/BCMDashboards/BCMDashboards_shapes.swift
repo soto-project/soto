@@ -1037,17 +1037,20 @@ extension BCMDashboards {
         public let height: Int?
         /// Specifies the starting column position of the widget in the dashboard's grid layout. Used to control widget placement.
         public let horizontalOffset: Int?
+        /// The unique identifier for the widget.
+        public let id: String?
         /// The title of the widget.
         public let title: String
         /// The width of the widget in column spans. The dashboard layout consists of a grid system.
         public let width: Int?
 
         @inlinable
-        public init(configs: [WidgetConfig], description: String? = nil, height: Int? = nil, horizontalOffset: Int? = nil, title: String, width: Int? = nil) {
+        public init(configs: [WidgetConfig], description: String? = nil, height: Int? = nil, horizontalOffset: Int? = nil, id: String? = nil, title: String, width: Int? = nil) {
             self.configs = configs
             self.description = description
             self.height = height
             self.horizontalOffset = horizontalOffset
+            self.id = id
             self.title = title
             self.width = width
         }
@@ -1063,6 +1066,9 @@ extension BCMDashboards {
             try self.validate(self.description, name: "description", parent: name, pattern: "^(?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&\\-_/\\\\]*$")
             try self.validate(self.height, name: "height", parent: name, max: 10)
             try self.validate(self.height, name: "height", parent: name, min: 4)
+            try self.validate(self.id, name: "id", parent: name, max: 32)
+            try self.validate(self.id, name: "id", parent: name, min: 32)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{32}$")
             try self.validate(self.title, name: "title", parent: name, max: 50)
             try self.validate(self.title, name: "title", parent: name, min: 2)
             try self.validate(self.title, name: "title", parent: name, pattern: "^(?!.* {2})[a-zA-Z0-9_-][ a-zA-Z0-9_-]*[a-zA-Z0-9_-]$")
@@ -1075,6 +1081,7 @@ extension BCMDashboards {
             case description = "description"
             case height = "height"
             case horizontalOffset = "horizontalOffset"
+            case id = "id"
             case title = "title"
             case width = "width"
         }

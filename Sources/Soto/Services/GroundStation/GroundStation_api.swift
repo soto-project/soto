@@ -106,7 +106,7 @@ public struct GroundStation: AWSService {
 
     // MARK: API Calls
 
-    /// Cancels a contact with a specified contact ID.
+    /// Cancels or stops a contact with a specified contact ID based on its position in the contact lifecycle. For contacts that:   Have yet to start, the contact will be cancelled.   Have started but have yet to finish, the contact will be stopped.
     @Sendable
     @inlinable
     public func cancelContact(_ input: CancelContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ContactIdResponse {
@@ -119,7 +119,7 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Cancels a contact with a specified contact ID.
+    /// Cancels or stops a contact with a specified contact ID based on its position in the contact lifecycle. For contacts that:   Have yet to start, the contact will be cancelled.   Have started but have yet to finish, the contact will be stopped.
     ///
     /// Parameters:
     ///   - contactId: UUID of a contact.
@@ -170,7 +170,7 @@ public struct GroundStation: AWSService {
         return try await self.createConfig(input, logger: logger)
     }
 
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of  DataflowEndpoint objects. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     @Sendable
     @inlinable
     public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DataflowEndpointGroupIdResponse {
@@ -183,11 +183,11 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of  DataflowEndpoint objects. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     ///
     /// Parameters:
-    ///   - contactPostPassDurationSeconds: Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
-    ///   - contactPrePassDurationSeconds: Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    ///   - contactPostPassDurationSeconds:  Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    ///   - contactPrePassDurationSeconds:  Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     ///   - endpointDetails: Endpoint details of each endpoint in the dataflow endpoint group. All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix  AWS Ground Station Agent endpoints with Dataflow endpoints in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
     ///   - tags: Tags of a dataflow endpoint group.
     ///   - logger: Logger use during operation
@@ -208,7 +208,7 @@ public struct GroundStation: AWSService {
         return try await self.createDataflowEndpointGroup(input, logger: logger)
     }
 
-    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of Ground Station Agent based endpoints. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     @Sendable
     @inlinable
     public func createDataflowEndpointGroupV2(_ input: CreateDataflowEndpointGroupV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataflowEndpointGroupV2Response {
@@ -221,11 +221,11 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of Ground Station Agent based endpoints. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     ///
     /// Parameters:
-    ///   - contactPostPassDurationSeconds: Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
-    ///   - contactPrePassDurationSeconds: Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    ///   - contactPostPassDurationSeconds:  Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    ///   - contactPrePassDurationSeconds:  Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     ///   - endpoints: Dataflow endpoint group's endpoint definitions
     ///   - tags: Tags of a V2 dataflow endpoint group.
     ///   - logger: Logger use during operation
@@ -314,12 +314,13 @@ public struct GroundStation: AWSService {
     /// Parameters:
     ///   - contactPostPassDurationSeconds: Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     ///   - contactPrePassDurationSeconds: Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
-    ///   - dataflowEdges: A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    ///   - dataflowEdges: A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     ///   - minimumViableContactDurationSeconds: Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     ///   - name: Name of a mission profile.
     ///   - streamsKmsKey: KMS key to use for encrypting streams.
     ///   - streamsKmsRole: Role to use for encrypting streams with KMS key.
     ///   - tags: Tags assigned to a mission profile.
+    ///   - telemetrySinkConfigArn: ARN of a telemetry sink Config.
     ///   - trackingConfigArn: ARN of a tracking Config.
     ///   - logger: Logger use during operation
     @inlinable
@@ -332,6 +333,7 @@ public struct GroundStation: AWSService {
         streamsKmsKey: KmsKey? = nil,
         streamsKmsRole: String? = nil,
         tags: [String: String]? = nil,
+        telemetrySinkConfigArn: String? = nil,
         trackingConfigArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> MissionProfileIdResponse {
@@ -344,6 +346,7 @@ public struct GroundStation: AWSService {
             streamsKmsKey: streamsKmsKey, 
             streamsKmsRole: streamsKmsRole, 
             tags: tags, 
+            telemetrySinkConfigArn: telemetrySinkConfigArn, 
             trackingConfigArn: trackingConfigArn
         )
         return try await self.createMissionProfile(input, logger: logger)
@@ -770,7 +773,7 @@ public struct GroundStation: AWSService {
         return try await self.listConfigs(input, logger: logger)
     }
 
-    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include  groundStation, missionprofileArn, and satelliteArn.
     @Sendable
     @inlinable
     public func listContacts(_ input: ListContactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactsResponse {
@@ -783,7 +786,7 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include  groundStation, missionprofileArn, and satelliteArn.
     ///
     /// Parameters:
     ///   - endTime: End time of a contact in UTC.
@@ -1308,12 +1311,13 @@ public struct GroundStation: AWSService {
     /// Parameters:
     ///   - contactPostPassDurationSeconds: Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     ///   - contactPrePassDurationSeconds: Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
-    ///   - dataflowEdges: A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    ///   - dataflowEdges: A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     ///   - minimumViableContactDurationSeconds: Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     ///   - missionProfileId: UUID of a mission profile.
     ///   - name: Name of a mission profile.
     ///   - streamsKmsKey: KMS key to use for encrypting streams.
     ///   - streamsKmsRole: Role to use for encrypting streams with KMS key.
+    ///   - telemetrySinkConfigArn: ARN of a telemetry sink Config.
     ///   - trackingConfigArn: ARN of a tracking Config.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1326,6 +1330,7 @@ public struct GroundStation: AWSService {
         name: String? = nil,
         streamsKmsKey: KmsKey? = nil,
         streamsKmsRole: String? = nil,
+        telemetrySinkConfigArn: String? = nil,
         trackingConfigArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> MissionProfileIdResponse {
@@ -1338,6 +1343,7 @@ public struct GroundStation: AWSService {
             name: name, 
             streamsKmsKey: streamsKmsKey, 
             streamsKmsRole: streamsKmsRole, 
+            telemetrySinkConfigArn: telemetrySinkConfigArn, 
             trackingConfigArn: trackingConfigArn
         )
         return try await self.updateMissionProfile(input, logger: logger)

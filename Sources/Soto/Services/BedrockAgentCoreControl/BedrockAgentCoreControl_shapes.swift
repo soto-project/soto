@@ -72,6 +72,14 @@ extension BedrockAgentCoreControl {
         public var description: String { return self.rawValue }
     }
 
+    public enum BrowserProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case ready = "READY"
+        case saving = "SAVING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BrowserStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -254,6 +262,12 @@ extension BedrockAgentCoreControl {
         case semantic = "SEMANTIC"
         case summarization = "SUMMARIZATION"
         case userPreference = "USER_PREFERENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MemoryView: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "full"
+        case withoutDecryption = "without_decryption"
         public var description: String { return self.rawValue }
     }
 
@@ -1724,6 +1738,59 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct BrowserProfileSummary: AWSDecodableShape {
+        /// The timestamp when the browser profile was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the browser profile.
+        public let description: String?
+        /// The timestamp when browser session data was last saved to this profile.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastSavedAt: Date?
+        /// The identifier of the browser from which data was last saved to this profile.
+        public let lastSavedBrowserId: String?
+        /// The identifier of the browser session from which data was last saved to this profile.
+        public let lastSavedBrowserSessionId: String?
+        /// The timestamp when the browser profile was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The name of the browser profile.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the browser profile.
+        public let profileArn: String
+        /// The unique identifier of the browser profile.
+        public let profileId: String
+        /// The current status of the browser profile. Possible values include READY, SAVING, DELETING, and DELETED.
+        public let status: BrowserProfileStatus
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, lastSavedAt: Date? = nil, lastSavedBrowserId: String? = nil, lastSavedBrowserSessionId: String? = nil, lastUpdatedAt: Date, name: String, profileArn: String, profileId: String, status: BrowserProfileStatus) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lastSavedAt = lastSavedAt
+            self.lastSavedBrowserId = lastSavedBrowserId
+            self.lastSavedBrowserSessionId = lastSavedBrowserSessionId
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.profileArn = profileArn
+            self.profileId = profileId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastSavedAt = "lastSavedAt"
+            case lastSavedBrowserId = "lastSavedBrowserId"
+            case lastSavedBrowserSessionId = "lastSavedBrowserSessionId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case profileArn = "profileArn"
+            case profileId = "profileId"
+            case status = "status"
+        }
+    }
+
     public struct BrowserSigningConfigInput: AWSEncodableShape {
         /// Specifies whether browser signing is enabled. When enabled, the browser will cryptographically sign HTTP requests to identify itself as an AI agent to bot control vendors.
         public let enabled: Bool
@@ -2270,10 +2337,80 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct CreateBrowserProfileRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
+        public let clientToken: String?
+        /// A description of the browser profile. Use this field to describe the purpose or contents of the profile.
+        public let description: String?
+        /// The name of the browser profile. The name must be unique within your account and can contain alphanumeric characters and underscores.
+        public let name: String
+        /// A map of tag keys and values to assign to the browser profile. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateBrowserProfileRequest.idempotencyToken(), description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateBrowserProfileResponse: AWSDecodableShape {
+        /// The timestamp when the browser profile was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) of the created browser profile.
+        public let profileArn: String
+        /// The unique identifier of the created browser profile.
+        public let profileId: String
+        /// The current status of the browser profile.
+        public let status: BrowserProfileStatus
+
+        @inlinable
+        public init(createdAt: Date, profileArn: String, profileId: String, status: BrowserProfileStatus) {
+            self.createdAt = createdAt
+            self.profileArn = profileArn
+            self.profileId = profileId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case profileArn = "profileArn"
+            case profileId = "profileId"
+            case status = "status"
+        }
+    }
+
     public struct CreateBrowserRequest: AWSEncodableShape {
         /// The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
         public let browserSigning: BrowserSigningConfigInput?
-        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
         public let clientToken: String?
         /// The description of the browser.
         public let description: String?
@@ -2361,7 +2498,7 @@ extension BedrockAgentCoreControl {
     }
 
     public struct CreateCodeInterpreterRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
         public let clientToken: String?
         /// The description of the code interpreter.
         public let description: String?
@@ -2453,14 +2590,17 @@ extension BedrockAgentCoreControl {
         public let evaluatorName: String
         ///  The evaluation level that determines the scope of evaluation. Valid values are TOOL_CALL for individual tool invocations, TRACE for single request-response interactions, or SESSION for entire conversation sessions.
         public let level: EvaluatorLevel
+        /// A map of tag keys and values to assign to an AgentCore Evaluator. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateEvaluatorRequest.idempotencyToken(), description: String? = nil, evaluatorConfig: EvaluatorConfig, evaluatorName: String, level: EvaluatorLevel) {
+        public init(clientToken: String? = CreateEvaluatorRequest.idempotencyToken(), description: String? = nil, evaluatorConfig: EvaluatorConfig, evaluatorName: String, level: EvaluatorLevel, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.evaluatorConfig = evaluatorConfig
             self.evaluatorName = evaluatorName
             self.level = level
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2471,6 +2611,14 @@ extension BedrockAgentCoreControl {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.evaluatorConfig.validate(name: "\(name).evaluatorConfig")
             try self.validate(self.evaluatorName, name: "evaluatorName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2479,6 +2627,7 @@ extension BedrockAgentCoreControl {
             case evaluatorConfig = "evaluatorConfig"
             case evaluatorName = "evaluatorName"
             case level = "level"
+            case tags = "tags"
         }
     }
 
@@ -2698,17 +2847,20 @@ extension BedrockAgentCoreControl {
         public let description: String?
         /// The identifier of the gateway to create a target for.
         public let gatewayIdentifier: String
+        /// Optional configuration for HTTP header and query parameter propagation to and from the gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the gateway target. The name must be unique within the gateway.
         public let name: String
         /// The configuration settings for the target, including endpoint information and schema definitions.
         public let targetConfiguration: TargetConfiguration
 
         @inlinable
-        public init(clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, name: String, targetConfiguration: TargetConfiguration) {
+        public init(clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String, targetConfiguration: TargetConfiguration) {
             self.clientToken = clientToken
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayIdentifier = gatewayIdentifier
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.targetConfiguration = targetConfiguration
         }
@@ -2720,6 +2872,7 @@ extension BedrockAgentCoreControl {
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.gatewayIdentifier, key: "gatewayIdentifier")
+            try container.encodeIfPresent(self.metadataConfiguration, forKey: .metadataConfiguration)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.targetConfiguration, forKey: .targetConfiguration)
         }
@@ -2736,6 +2889,7 @@ extension BedrockAgentCoreControl {
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.gatewayIdentifier, name: "gatewayIdentifier", parent: name, pattern: "^([0-9a-z][-]?){1,100}-[0-9a-z]{10}$")
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][-]?){1,100}$")
             try self.targetConfiguration.validate(name: "\(name).targetConfiguration")
         }
@@ -2744,6 +2898,7 @@ extension BedrockAgentCoreControl {
             case clientToken = "clientToken"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case targetConfiguration = "targetConfiguration"
         }
@@ -2762,6 +2917,8 @@ extension BedrockAgentCoreControl {
         /// The last synchronization of the target.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration that was applied to the created gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the target.
         public let name: String
         /// The current status of the target.
@@ -2777,12 +2934,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -2797,6 +2955,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"
@@ -2969,9 +3128,11 @@ extension BedrockAgentCoreControl {
         public let onlineEvaluationConfigName: String
         ///  The evaluation rule that defines sampling configuration, filters, and session detection settings for the online evaluation.
         public let rule: Rule
+        /// A map of tag keys and values to assign to an AgentCore Online Evaluation Config. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateOnlineEvaluationConfigRequest.idempotencyToken(), dataSourceConfig: DataSourceConfig, description: String? = nil, enableOnCreate: Bool, evaluationExecutionRoleArn: String, evaluators: [EvaluatorReference], onlineEvaluationConfigName: String, rule: Rule) {
+        public init(clientToken: String? = CreateOnlineEvaluationConfigRequest.idempotencyToken(), dataSourceConfig: DataSourceConfig, description: String? = nil, enableOnCreate: Bool, evaluationExecutionRoleArn: String, evaluators: [EvaluatorReference], onlineEvaluationConfigName: String, rule: Rule, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.dataSourceConfig = dataSourceConfig
             self.description = description
@@ -2980,6 +3141,7 @@ extension BedrockAgentCoreControl {
             self.evaluators = evaluators
             self.onlineEvaluationConfigName = onlineEvaluationConfigName
             self.rule = rule
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -3000,6 +3162,14 @@ extension BedrockAgentCoreControl {
             try self.validate(self.evaluators, name: "evaluators", parent: name, min: 1)
             try self.validate(self.onlineEvaluationConfigName, name: "onlineEvaluationConfigName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$")
             try self.rule.validate(name: "\(name).rule")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3011,6 +3181,7 @@ extension BedrockAgentCoreControl {
             case evaluators = "evaluators"
             case onlineEvaluationConfigName = "onlineEvaluationConfigName"
             case rule = "rule"
+            case tags = "tags"
         }
     }
 
@@ -3611,6 +3782,67 @@ extension BedrockAgentCoreControl {
 
     public struct DeleteApiKeyCredentialProviderResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteBrowserProfileRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the browser profile to delete.
+        public let profileId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteBrowserProfileRequest.idempotencyToken(), profileId: String) {
+            self.clientToken = clientToken
+            self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.profileId, key: "profileId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBrowserProfileResponse: AWSDecodableShape {
+        /// The timestamp when browser session data was last saved to this profile before deletion.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastSavedAt: Date?
+        /// The timestamp when the browser profile was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The Amazon Resource Name (ARN) of the deleted browser profile.
+        public let profileArn: String
+        /// The unique identifier of the deleted browser profile.
+        public let profileId: String
+        /// The current status of the browser profile deletion.
+        public let status: BrowserProfileStatus
+
+        @inlinable
+        public init(lastSavedAt: Date? = nil, lastUpdatedAt: Date, profileArn: String, profileId: String, status: BrowserProfileStatus) {
+            self.lastSavedAt = lastSavedAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileArn = profileArn
+            self.profileId = profileId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastSavedAt = "lastSavedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case profileArn = "profileArn"
+            case profileId = "profileId"
+            case status = "status"
+        }
     }
 
     public struct DeleteBrowserRequest: AWSEncodableShape {
@@ -4661,6 +4893,8 @@ extension BedrockAgentCoreControl {
         /// The last synchronization time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration for HTTP header and query parameter propagation to and from this gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the gateway target.
         public let name: String
         /// The status of the gateway target.
@@ -4675,12 +4909,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -4695,6 +4930,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"
@@ -4946,6 +5182,81 @@ extension BedrockAgentCoreControl {
             case credentialProviderArn = "credentialProviderArn"
             case lastUpdatedTime = "lastUpdatedTime"
             case name = "name"
+        }
+    }
+
+    public struct GetBrowserProfileRequest: AWSEncodableShape {
+        /// The unique identifier of the browser profile to retrieve.
+        public let profileId: String
+
+        @inlinable
+        public init(profileId: String) {
+            self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileId, key: "profileId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}-[a-zA-Z0-9]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBrowserProfileResponse: AWSDecodableShape {
+        /// The timestamp when the browser profile was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The description of the browser profile.
+        public let description: String?
+        /// The timestamp when browser session data was last saved to this profile.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastSavedAt: Date?
+        /// The identifier of the browser from which data was last saved to this profile.
+        public let lastSavedBrowserId: String?
+        /// The identifier of the browser session from which data was last saved to this profile.
+        public let lastSavedBrowserSessionId: String?
+        /// The timestamp when the browser profile was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date
+        /// The name of the browser profile.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the browser profile.
+        public let profileArn: String
+        /// The unique identifier of the browser profile.
+        public let profileId: String
+        /// The current status of the browser profile.
+        public let status: BrowserProfileStatus
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, lastSavedAt: Date? = nil, lastSavedBrowserId: String? = nil, lastSavedBrowserSessionId: String? = nil, lastUpdatedAt: Date, name: String, profileArn: String, profileId: String, status: BrowserProfileStatus) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lastSavedAt = lastSavedAt
+            self.lastSavedBrowserId = lastSavedBrowserId
+            self.lastSavedBrowserSessionId = lastSavedBrowserSessionId
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.profileArn = profileArn
+            self.profileId = profileId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastSavedAt = "lastSavedAt"
+            case lastSavedBrowserId = "lastSavedBrowserId"
+            case lastSavedBrowserSessionId = "lastSavedBrowserSessionId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case profileArn = "profileArn"
+            case profileId = "profileId"
+            case status = "status"
         }
     }
 
@@ -5323,6 +5634,8 @@ extension BedrockAgentCoreControl {
         /// The last synchronization of the target.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration for HTTP header and query parameter propagation for the retrieved gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the gateway target.
         public let name: String
         /// The current status of the gateway target.
@@ -5337,12 +5650,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -5357,6 +5671,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"
@@ -5369,16 +5684,20 @@ extension BedrockAgentCoreControl {
     public struct GetMemoryInput: AWSEncodableShape {
         /// The unique identifier of the memory to retrieve.
         public let memoryId: String
+        /// The level of detail to return for the memory.
+        public let view: MemoryView?
 
         @inlinable
-        public init(memoryId: String) {
+        public init(memoryId: String, view: MemoryView? = nil) {
             self.memoryId = memoryId
+            self.view = view
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.memoryId, key: "memoryId")
+            request.encodeQuery(self.view, key: "view")
         }
 
         public func validate(name: String) throws {
@@ -6441,6 +6760,54 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct ListBrowserProfilesRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBrowserProfilesResponse: AWSDecodableShape {
+        /// A token to retrieve the next page of results.
+        public let nextToken: String?
+        /// The list of browser profile summaries.
+        public let profileSummaries: [BrowserProfileSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, profileSummaries: [BrowserProfileSummary]) {
+            self.nextToken = nextToken
+            self.profileSummaries = profileSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case profileSummaries = "profileSummaries"
+        }
+    }
+
     public struct ListBrowsersRequest: AWSEncodableShape {
         /// The maximum number of results to return in a single call. The default value is 10. The maximum value is 50.
         public let maxResults: Int?
@@ -7349,6 +7716,49 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case messageCount = "messageCount"
+        }
+    }
+
+    public struct MetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of URL query parameters that are allowed to be propagated from incoming gateway URL to the target.
+        public let allowedQueryParameters: [String]?
+        /// A list of HTTP headers that are allowed to be propagated from incoming client requests to the target.
+        public let allowedRequestHeaders: [String]?
+        /// A list of HTTP headers that are allowed to be propagated from the target response back to the client.
+        public let allowedResponseHeaders: [String]?
+
+        @inlinable
+        public init(allowedQueryParameters: [String]? = nil, allowedRequestHeaders: [String]? = nil, allowedResponseHeaders: [String]? = nil) {
+            self.allowedQueryParameters = allowedQueryParameters
+            self.allowedRequestHeaders = allowedRequestHeaders
+            self.allowedResponseHeaders = allowedResponseHeaders
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedQueryParameters?.forEach {
+                try validate($0, name: "allowedQueryParameters[]", parent: name, max: 40)
+                try validate($0, name: "allowedQueryParameters[]", parent: name, min: 1)
+            }
+            try self.validate(self.allowedQueryParameters, name: "allowedQueryParameters", parent: name, max: 10)
+            try self.validate(self.allowedQueryParameters, name: "allowedQueryParameters", parent: name, min: 1)
+            try self.allowedRequestHeaders?.forEach {
+                try validate($0, name: "allowedRequestHeaders[]", parent: name, max: 100)
+                try validate($0, name: "allowedRequestHeaders[]", parent: name, min: 1)
+            }
+            try self.validate(self.allowedRequestHeaders, name: "allowedRequestHeaders", parent: name, max: 10)
+            try self.validate(self.allowedRequestHeaders, name: "allowedRequestHeaders", parent: name, min: 1)
+            try self.allowedResponseHeaders?.forEach {
+                try validate($0, name: "allowedResponseHeaders[]", parent: name, max: 100)
+                try validate($0, name: "allowedResponseHeaders[]", parent: name, min: 1)
+            }
+            try self.validate(self.allowedResponseHeaders, name: "allowedResponseHeaders", parent: name, max: 10)
+            try self.validate(self.allowedResponseHeaders, name: "allowedResponseHeaders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedQueryParameters = "allowedQueryParameters"
+            case allowedRequestHeaders = "allowedRequestHeaders"
+            case allowedResponseHeaders = "allowedResponseHeaders"
         }
     }
 
@@ -9507,6 +9917,8 @@ extension BedrockAgentCoreControl {
         public let description: String?
         /// The unique identifier of the gateway associated with the target.
         public let gatewayIdentifier: String
+        /// Configuration for HTTP header and query parameter propagation to the gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The updated name for the gateway target.
         public let name: String
         public let targetConfiguration: TargetConfiguration
@@ -9514,10 +9926,11 @@ extension BedrockAgentCoreControl {
         public let targetId: String
 
         @inlinable
-        public init(credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, name: String, targetConfiguration: TargetConfiguration, targetId: String) {
+        public init(credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String, targetConfiguration: TargetConfiguration, targetId: String) {
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayIdentifier = gatewayIdentifier
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.targetConfiguration = targetConfiguration
             self.targetId = targetId
@@ -9529,6 +9942,7 @@ extension BedrockAgentCoreControl {
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.gatewayIdentifier, key: "gatewayIdentifier")
+            try container.encodeIfPresent(self.metadataConfiguration, forKey: .metadataConfiguration)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.targetConfiguration, forKey: .targetConfiguration)
             request.encodePath(self.targetId, key: "targetId")
@@ -9543,6 +9957,7 @@ extension BedrockAgentCoreControl {
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.gatewayIdentifier, name: "gatewayIdentifier", parent: name, pattern: "^([0-9a-z][-]?){1,100}-[0-9a-z]{10}$")
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][-]?){1,100}$")
             try self.targetConfiguration.validate(name: "\(name).targetConfiguration")
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
@@ -9551,6 +9966,7 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case targetConfiguration = "targetConfiguration"
         }
@@ -9569,6 +9985,8 @@ extension BedrockAgentCoreControl {
         /// The date and time at which the targets were last synchronized.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration that was applied to the gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The updated name of the gateway target.
         public let name: String
         /// The current status of the updated gateway target.
@@ -9583,12 +10001,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -9603,6 +10022,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"

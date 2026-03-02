@@ -44,6 +44,12 @@ extension WorkspacesInstances {
         public var description: String { return self.rawValue }
     }
 
+    public enum BillingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hourly = "HOURLY"
+        case monthly = "MONTHLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityReservationPreferenceEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityReservationsOnly = "capacity-reservations-only"
         case none = "none"
@@ -87,6 +93,12 @@ extension WorkspacesInstances {
         public var description: String { return self.rawValue }
     }
 
+    public enum InstanceConfigurationTenancyEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dedicated = "DEDICATED"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceInterruptionBehaviorEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hibernate = "hibernate"
         case stop = "stop"
@@ -109,6 +121,17 @@ extension WorkspacesInstances {
     public enum MarketTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityBlock = "capacity-block"
         case spot = "spot"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case linuxByol = "Red Hat BYOL Linux"
+        case linuxUnix = "Linux/UNIX"
+        case rhel = "Red Hat Enterprise Linux"
+        case suse = "SUSE Linux"
+        case ubuntuPro = "Ubuntu Pro Linux"
+        case windows = "Windows"
+        case windowsByol = "Windows BYOL"
         public var description: String { return self.rawValue }
     }
 
@@ -198,6 +221,20 @@ extension WorkspacesInstances {
 
     public struct AssociateVolumeResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct BillingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the billing mode for WorkSpace Instances. MONTHLY provides fixed monthly rates for predictable budgeting, while HOURLY enables pay-per-second billing for actual usage.
+        public let billingMode: BillingMode
+
+        @inlinable
+        public init(billingMode: BillingMode) {
+            self.billingMode = billingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingMode = "BillingMode"
+        }
     }
 
     public struct BlockDeviceMappingRequest: AWSEncodableShape {
@@ -436,6 +473,8 @@ extension WorkspacesInstances {
     }
 
     public struct CreateWorkspaceInstanceRequest: AWSEncodableShape {
+        /// Optional billing configuration for the WorkSpace Instance. Allows customers to specify their preferred billing mode when creating a new instance. Defaults to hourly billing if not specified.
+        public let billingConfiguration: BillingConfiguration?
         /// Unique token to ensure idempotent instance creation, preventing duplicate workspace launches.
         public let clientToken: String?
         /// Comprehensive configuration settings for the WorkSpaces Instance, including network, compute, and storage parameters.
@@ -444,7 +483,8 @@ extension WorkspacesInstances {
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateWorkspaceInstanceRequest.idempotencyToken(), managedInstance: ManagedInstanceRequest, tags: [Tag]? = nil) {
+        public init(billingConfiguration: BillingConfiguration? = nil, clientToken: String? = CreateWorkspaceInstanceRequest.idempotencyToken(), managedInstance: ManagedInstanceRequest, tags: [Tag]? = nil) {
+            self.billingConfiguration = billingConfiguration
             self.clientToken = clientToken
             self.managedInstance = managedInstance
             self.tags = tags
@@ -457,10 +497,11 @@ extension WorkspacesInstances {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 30)
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingConfiguration = "BillingConfiguration"
             case clientToken = "ClientToken"
             case managedInstance = "ManagedInstance"
             case tags = "Tags"
@@ -723,6 +764,8 @@ extension WorkspacesInstances {
     }
 
     public struct GetWorkspaceInstanceResponse: AWSDecodableShape {
+        /// Returns the current billing configuration for the WorkSpace Instance, indicating the active billing mode.
+        public let billingConfiguration: BillingConfiguration?
         /// Includes any underlying EC2 instance errors encountered.
         public let ec2InstanceErrors: [EC2InstanceError]?
         /// Details of the associated EC2 managed instance.
@@ -735,7 +778,8 @@ extension WorkspacesInstances {
         public let workspaceInstanceId: String?
 
         @inlinable
-        public init(ec2InstanceErrors: [EC2InstanceError]? = nil, ec2ManagedInstance: EC2ManagedInstance? = nil, provisionState: ProvisionStateEnum? = nil, workspaceInstanceErrors: [WorkspaceInstanceError]? = nil, workspaceInstanceId: String? = nil) {
+        public init(billingConfiguration: BillingConfiguration? = nil, ec2InstanceErrors: [EC2InstanceError]? = nil, ec2ManagedInstance: EC2ManagedInstance? = nil, provisionState: ProvisionStateEnum? = nil, workspaceInstanceErrors: [WorkspaceInstanceError]? = nil, workspaceInstanceId: String? = nil) {
+            self.billingConfiguration = billingConfiguration
             self.ec2InstanceErrors = ec2InstanceErrors
             self.ec2ManagedInstance = ec2ManagedInstance
             self.provisionState = provisionState
@@ -744,6 +788,7 @@ extension WorkspacesInstances {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingConfiguration = "BillingConfiguration"
             case ec2InstanceErrors = "EC2InstanceErrors"
             case ec2ManagedInstance = "EC2ManagedInstance"
             case provisionState = "ProvisionState"
@@ -787,6 +832,28 @@ extension WorkspacesInstances {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case name = "Name"
+        }
+    }
+
+    public struct InstanceConfigurationFilter: AWSEncodableShape {
+        /// Filters WorkSpace Instance types based on supported billing modes. Allows customers to search for instance types that support their preferred billing model, such as HOURLY or MONTHLY billing.
+        public let billingMode: BillingMode
+        /// Filters WorkSpace Instance types by operating system platform. Allows customers to find instances that support their desired OS, such as Windows, Linux/UNIX, Ubuntu Pro, RHEL, or SUSE.
+        public let platformType: PlatformTypeEnum
+        /// Filters WorkSpace Instance types by tenancy model. Allows customers to find instances that match their tenancy requirements, such as SHARED or DEDICATED.
+        public let tenancy: InstanceConfigurationTenancyEnum
+
+        @inlinable
+        public init(billingMode: BillingMode, platformType: PlatformTypeEnum, tenancy: InstanceConfigurationTenancyEnum) {
+            self.billingMode = billingMode
+            self.platformType = platformType
+            self.tenancy = tenancy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingMode = "BillingMode"
+            case platformType = "PlatformType"
+            case tenancy = "Tenancy"
         }
     }
 
@@ -1024,14 +1091,18 @@ extension WorkspacesInstances {
     public struct InstanceTypeInfo: AWSDecodableShape {
         /// Unique identifier for the WorkSpace Instance type.
         public let instanceType: String?
+        /// Lists all valid combinations of tenancy, platform type, and billing mode supported for the specific WorkSpace Instance type. Contains the complete set of configuration options available for this instance type.
+        public let supportedInstanceConfigurations: [SupportedInstanceConfiguration]?
 
         @inlinable
-        public init(instanceType: String? = nil) {
+        public init(instanceType: String? = nil, supportedInstanceConfigurations: [SupportedInstanceConfiguration]? = nil) {
             self.instanceType = instanceType
+            self.supportedInstanceConfigurations = supportedInstanceConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceType = "InstanceType"
+            case supportedInstanceConfigurations = "SupportedInstanceConfigurations"
         }
     }
 
@@ -1115,25 +1186,29 @@ extension WorkspacesInstances {
     }
 
     public struct ListInstanceTypesRequest: AWSEncodableShape {
+        /// Optional filter to narrow instance type results based on configuration requirements. Only returns instance types that support the specified combination of tenancy, platform type, and billing mode.
+        public let instanceConfigurationFilter: InstanceConfigurationFilter?
         /// Maximum number of instance types to return in a single API call. Enables pagination of instance type results.
         public let maxResults: Int?
         /// Pagination token for retrieving subsequent pages of instance type results.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(instanceConfigurationFilter: InstanceConfigurationFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceConfigurationFilter = instanceConfigurationFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 600)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case instanceConfigurationFilter = "InstanceConfigurationFilter"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1491,7 +1566,7 @@ extension WorkspacesInstances {
 
         public func validate(name: String) throws {
             try self.validate(self.affinity, name: "affinity", parent: name, max: 64)
-            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "^[a-z]{2}-[a-z]+-\\d[a-z](-[a-z0-9]+)?$")
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "^[a-z]{2}-[a-z]+-\\d(?:[a-z]|-[a-z]+-\\d[a-z])$")
             try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^pg-[0-9a-zA-Z]{1,63}$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 64)
             try self.validate(self.hostId, name: "hostId", parent: name, pattern: "^h-[0-9a-zA-Z]{1,63}$")
@@ -1671,6 +1746,28 @@ extension WorkspacesInstances {
         }
     }
 
+    public struct SupportedInstanceConfiguration: AWSDecodableShape {
+        /// Specifies the billing mode supported in this configuration combination.
+        public let billingMode: BillingMode?
+        /// Specifies the operating system platform supported in this configuration combination.
+        public let platformType: PlatformTypeEnum?
+        /// Specifies the tenancy model supported in this configuration combination.
+        public let tenancy: InstanceConfigurationTenancyEnum?
+
+        @inlinable
+        public init(billingMode: BillingMode? = nil, platformType: PlatformTypeEnum? = nil, tenancy: InstanceConfigurationTenancyEnum? = nil) {
+            self.billingMode = billingMode
+            self.platformType = platformType
+            self.tenancy = tenancy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingMode = "BillingMode"
+            case platformType = "PlatformType"
+            case tenancy = "Tenancy"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// Unique identifier for the tag.
         public let key: String?
@@ -1713,7 +1810,7 @@ extension WorkspacesInstances {
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 30)
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.workspaceInstanceId, name: "workspaceInstanceId", parent: name, max: 70)
             try self.validate(self.workspaceInstanceId, name: "workspaceInstanceId", parent: name, min: 15)
             try self.validate(self.workspaceInstanceId, name: "workspaceInstanceId", parent: name, pattern: "^wsinst-[0-9a-zA-Z]{8,63}$")
@@ -1745,7 +1842,7 @@ extension WorkspacesInstances {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 30)
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1806,7 +1903,7 @@ extension WorkspacesInstances {
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
-            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 30)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
             try self.validate(self.workspaceInstanceId, name: "workspaceInstanceId", parent: name, max: 70)
             try self.validate(self.workspaceInstanceId, name: "workspaceInstanceId", parent: name, min: 15)

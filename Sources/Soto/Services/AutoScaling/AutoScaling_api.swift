@@ -157,7 +157,7 @@ public struct AutoScaling: AWSService {
         return try await self.attachLoadBalancerTargetGroups(input, logger: logger)
     }
 
-    ///  This API operation is superseded by https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html, which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers. You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group.  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API. To detach a load balancer from the Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and does not detach existing Classic Load Balancers or target groups from the Auto Scaling group. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+    ///  This API operation is superseded by AttachTrafficSources, which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers. You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group.  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API. To detach a load balancer from the Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and does not detach existing Classic Load Balancers or target groups from the Auto Scaling group. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     @inlinable
     public func attachLoadBalancers(_ input: AttachLoadBalancersType, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachLoadBalancersResultType {
@@ -170,7 +170,7 @@ public struct AutoScaling: AWSService {
             logger: logger
         )
     }
-    ///  This API operation is superseded by https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html, which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers. You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group.  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API. To detach a load balancer from the Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and does not detach existing Classic Load Balancers or target groups from the Auto Scaling group. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+    ///  This API operation is superseded by AttachTrafficSources, which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers. You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group.  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API. To detach a load balancer from the Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and does not detach existing Classic Load Balancers or target groups from the Auto Scaling group. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// Parameters:
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
@@ -386,12 +386,13 @@ public struct AutoScaling: AWSService {
     ///   - context: Reserved.
     ///   - defaultCooldown:  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
     ///   - defaultInstanceWarmup: The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.  Default: None
+    ///   - deletionProtection:  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none
     ///   - desiredCapacity: The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
     ///   - desiredCapacityType: The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Create a mixed instances group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
     ///   - healthCheckGracePeriod: The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
     ///   - healthCheckType: A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     ///   - instanceId: The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Create an Auto Scaling group using parameters from an existing instance in the Amazon EC2 Auto Scaling User Guide.
-    ///   - instanceLifecyclePolicy:  The instance lifecycle policy for the Auto Scaling group. This policy controls instance  behavior when an instance transitions through its lifecycle states. Configure retention  triggers to specify when instances should move to a Retained  state for manual intervention instead of automatic termination.   Instances in a Retained state will continue to incur standard EC2 charges until terminated.
+    ///   - instanceLifecyclePolicy:  The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination.  For more information, see  Control instance retention with instance lifecycle policies in the Amazon EC2 Auto Scaling User Guide.   Instances in a Retained state will continue to incur standard EC2 charges until terminated.
     ///   - instanceMaintenancePolicy: An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
     ///   - launchConfigurationName: The name of the launch configuration to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
     ///   - launchTemplate: Information used to specify the launch template and version to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).  The launch template that is specified must be configured for use with an Auto Scaling group. For more information, see Create a launch template for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
@@ -422,6 +423,7 @@ public struct AutoScaling: AWSService {
         context: String? = nil,
         defaultCooldown: Int? = nil,
         defaultInstanceWarmup: Int? = nil,
+        deletionProtection: DeletionProtection? = nil,
         desiredCapacity: Int? = nil,
         desiredCapacityType: String? = nil,
         healthCheckGracePeriod: Int? = nil,
@@ -458,6 +460,7 @@ public struct AutoScaling: AWSService {
             context: context, 
             defaultCooldown: defaultCooldown, 
             defaultInstanceWarmup: defaultInstanceWarmup, 
+            deletionProtection: deletionProtection, 
             desiredCapacity: desiredCapacity, 
             desiredCapacityType: desiredCapacityType, 
             healthCheckGracePeriod: healthCheckGracePeriod, 
@@ -1256,8 +1259,9 @@ public struct AutoScaling: AWSService {
     /// Gets information about the scaling activities in the account and Region. When scaling events occur, you see a record of the scaling activity in the scaling activities. For more information, see Verify a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element in the response is Successful. If an attempt to launch instances failed, the StatusCode value is Failed or Cancelled and the StatusMessage element in the response indicates the cause of the failure. For help interpreting the StatusMessage, see Troubleshooting Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// Parameters:
-    ///   - activityIds: The activity IDs of the desired scaling activities. If you omit this property, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
-    ///   - autoScalingGroupName: The name of the Auto Scaling group.
+    ///   - activityIds:  The activity IDs of the desired scaling activities. If unknown activity IDs are requested, they are ignored with no error. Only activities started within the last six weeks can be returned regardless of the activity IDs specified. If other filters are specified with the request, only results matching all filter criteria can be returned.  Array Members: Maximum number of 50 IDs.
+    ///   - autoScalingGroupName: The name of the Auto Scaling group.   Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
+    ///   - filters:  One or more filters to limit the results based on specific criteria. The following filters are supported:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.
     ///   - includeDeletedGroups: Indicates whether to include scaling activity from deleted Auto Scaling groups.
     ///   - maxRecords: The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
@@ -1266,6 +1270,7 @@ public struct AutoScaling: AWSService {
     public func describeScalingActivities(
         activityIds: [String]? = nil,
         autoScalingGroupName: String? = nil,
+        filters: [Filter]? = nil,
         includeDeletedGroups: Bool? = nil,
         maxRecords: Int? = nil,
         nextToken: String? = nil,
@@ -1274,6 +1279,7 @@ public struct AutoScaling: AWSService {
         let input = DescribeScalingActivitiesType(
             activityIds: activityIds, 
             autoScalingGroupName: autoScalingGroupName, 
+            filters: filters, 
             includeDeletedGroups: includeDeletedGroups, 
             maxRecords: maxRecords, 
             nextToken: nextToken
@@ -2323,7 +2329,7 @@ public struct AutoScaling: AWSService {
     ///   - autoScalingGroupName: The name of the Auto Scaling group.
     ///   - desiredConfiguration: The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration.   When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and instance types. This can help you reduce the number of replacements that are required to apply updates.
     ///   - preferences: Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum and maximum healthy percentages, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:   Auto rollback   Checkpoints   CloudWatch alarms   Skip matching   Bake time
-    ///   - strategy: The strategy to use for the instance refresh. The only valid value is Rolling.
+    ///   - strategy: The strategy to use for the instance refresh. The default value is Rolling.
     ///   - logger: Logger use during operation
     @inlinable
     public func startInstanceRefresh(
@@ -2431,11 +2437,12 @@ public struct AutoScaling: AWSService {
     ///   - context: Reserved.
     ///   - defaultCooldown:  Only needed if you use simple scaling policies.  The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
     ///   - defaultInstanceWarmup: The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
+    ///   - deletionProtection:  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none
     ///   - desiredCapacity: The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
     ///   - desiredCapacityType: The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Create a mixed instances group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
     ///   - healthCheckGracePeriod: The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     ///   - healthCheckType: A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
-    ///   - instanceLifecyclePolicy:  The instance lifecycle policy for the Auto Scaling group. Use this to add, modify, or remove lifecycle  policies that control instance behavior when an instance transitions through its lifecycle states. Configure  retention triggers to specify when to preserve instances for manual intervention.
+    ///   - instanceLifecyclePolicy:  The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination.  For more information, see  Control instance retention with instance lifecycle policies in the Amazon EC2 Auto Scaling User Guide.
     ///   - instanceMaintenancePolicy: An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
     ///   - launchConfigurationName: The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
     ///   - launchTemplate: The launch template and version to use to specify the updates. If you specify LaunchTemplate in your update request, you can't specify LaunchConfigurationName or MixedInstancesPolicy.
@@ -2461,6 +2468,7 @@ public struct AutoScaling: AWSService {
         context: String? = nil,
         defaultCooldown: Int? = nil,
         defaultInstanceWarmup: Int? = nil,
+        deletionProtection: DeletionProtection? = nil,
         desiredCapacity: Int? = nil,
         desiredCapacityType: String? = nil,
         healthCheckGracePeriod: Int? = nil,
@@ -2491,6 +2499,7 @@ public struct AutoScaling: AWSService {
             context: context, 
             defaultCooldown: defaultCooldown, 
             defaultInstanceWarmup: defaultInstanceWarmup, 
+            deletionProtection: deletionProtection, 
             desiredCapacity: desiredCapacity, 
             desiredCapacityType: desiredCapacityType, 
             healthCheckGracePeriod: healthCheckGracePeriod, 
@@ -2859,8 +2868,9 @@ extension AutoScaling {
     /// Return PaginatorSequence for operation ``describeScalingActivities(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - activityIds: The activity IDs of the desired scaling activities. If you omit this property, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
-    ///   - autoScalingGroupName: The name of the Auto Scaling group.
+    ///   - activityIds:  The activity IDs of the desired scaling activities. If unknown activity IDs are requested, they are ignored with no error. Only activities started within the last six weeks can be returned regardless of the activity IDs specified. If other filters are specified with the request, only results matching all filter criteria can be returned.  Array Members: Maximum number of 50 IDs.
+    ///   - autoScalingGroupName: The name of the Auto Scaling group.   Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
+    ///   - filters:  One or more filters to limit the results based on specific criteria. The following filters are supported:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.
     ///   - includeDeletedGroups: Indicates whether to include scaling activity from deleted Auto Scaling groups.
     ///   - maxRecords: The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
     ///   - logger: Logger used for logging
@@ -2868,6 +2878,7 @@ extension AutoScaling {
     public func describeScalingActivitiesPaginator(
         activityIds: [String]? = nil,
         autoScalingGroupName: String? = nil,
+        filters: [Filter]? = nil,
         includeDeletedGroups: Bool? = nil,
         maxRecords: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2875,6 +2886,7 @@ extension AutoScaling {
         let input = DescribeScalingActivitiesType(
             activityIds: activityIds, 
             autoScalingGroupName: autoScalingGroupName, 
+            filters: filters, 
             includeDeletedGroups: includeDeletedGroups, 
             maxRecords: maxRecords
         )
@@ -3130,6 +3142,7 @@ extension AutoScaling.DescribeScalingActivitiesType: AWSPaginateToken {
         return .init(
             activityIds: self.activityIds,
             autoScalingGroupName: self.autoScalingGroupName,
+            filters: self.filters,
             includeDeletedGroups: self.includeDeletedGroups,
             maxRecords: self.maxRecords,
             nextToken: token

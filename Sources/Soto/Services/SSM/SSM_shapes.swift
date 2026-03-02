@@ -1172,6 +1172,8 @@ extension SSM {
         public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
+        /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.
+        public let associationDispatchAssumeRole: String?
         /// The association ID.
         public let associationId: String?
         /// The association name.
@@ -1228,9 +1230,10 @@ extension SSM {
         public let triggeredAlarms: [AlarmStateInformation]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, duration: Int? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationDispatchAssumeRole: String? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, duration: Int? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+            self.associationDispatchAssumeRole = associationDispatchAssumeRole
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -1263,6 +1266,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case alarmConfiguration = "AlarmConfiguration"
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
+            case associationDispatchAssumeRole = "AssociationDispatchAssumeRole"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -1515,6 +1519,8 @@ extension SSM {
     public struct AssociationVersionInfo: AWSDecodableShape {
         /// By default, when you create new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
+        /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.
+        public let associationDispatchAssumeRole: String?
         /// The ID created by the system when the association was created.
         public let associationId: String?
         /// The name specified for the association version when the association version was created.
@@ -1555,8 +1561,9 @@ extension SSM {
         public let targets: [Target]?
 
         @inlinable
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, duration: Int? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationDispatchAssumeRole: String? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, duration: Int? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+            self.associationDispatchAssumeRole = associationDispatchAssumeRole
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -1580,6 +1587,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
+            case associationDispatchAssumeRole = "AssociationDispatchAssumeRole"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
@@ -2754,15 +2762,21 @@ extension SSM {
     }
 
     public struct CreateAssociationBatchRequest: AWSEncodableShape {
+        /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.   It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
+        public let associationDispatchAssumeRole: String?
         /// One or more associations.
         public let entries: [CreateAssociationBatchRequestEntry]
 
         @inlinable
-        public init(entries: [CreateAssociationBatchRequestEntry]) {
+        public init(associationDispatchAssumeRole: String? = nil, entries: [CreateAssociationBatchRequestEntry]) {
+            self.associationDispatchAssumeRole = associationDispatchAssumeRole
             self.entries = entries
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, max: 512)
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, min: 1)
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
@@ -2770,6 +2784,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associationDispatchAssumeRole = "AssociationDispatchAssumeRole"
             case entries = "Entries"
         }
     }
@@ -2922,6 +2937,8 @@ extension SSM {
         public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronIntervalif you want the association to run only according to the schedule you specified. For more information, see Understanding when associations are applied to resources and >About target updates with Automation runbooks in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
+        /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.   It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
+        public let associationDispatchAssumeRole: String?
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
@@ -2962,9 +2979,10 @@ extension SSM {
         public let targets: [Target]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, duration: Int? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationDispatchAssumeRole: String? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, duration: Int? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, tags: [Tag]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+            self.associationDispatchAssumeRole = associationDispatchAssumeRole
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
             self.calendarNames = calendarNames
@@ -2988,6 +3006,9 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, max: 512)
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, min: 1)
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, max: 50)
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, min: 1)
@@ -3030,6 +3051,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case alarmConfiguration = "AlarmConfiguration"
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
+            case associationDispatchAssumeRole = "AssociationDispatchAssumeRole"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
             case calendarNames = "CalendarNames"
@@ -3261,7 +3283,7 @@ extension SSM {
         public let notifications: [OpsItemNotification]?
         /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Create OpsItems manually in the Amazon Web Services Systems Manager User Guide.
         public let operationalData: [String: OpsItemDataValue]?
-        /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.   Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+        /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.   Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
         /// Amazon Web Services Systems Manager Change Manager availability change.
         public let opsItemType: String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
@@ -14765,6 +14787,8 @@ extension SSM {
         public let alarmConfiguration: AlarmConfiguration?
         /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. If you chose this option when you created an association and later you edit that association or you make changes to the Automation runbook or SSM document on which that association is based, State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously set ApplyOnlyAtCronInterval to true. If this option wasn't selected, State Manager immediately runs the association. For more information, see Understanding when associations are applied to resources and About target updates with Automation runbooks in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions. You can reset this parameter. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
         public let applyOnlyAtCronInterval: Bool?
+        /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.   It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
+        public let associationDispatchAssumeRole: String?
         /// The ID of the association you want to update.
         public let associationId: String
         /// The name of the association that you want to update.
@@ -14805,9 +14829,10 @@ extension SSM {
         public let targets: [Target]?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, duration: Int? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, applyOnlyAtCronInterval: Bool? = nil, associationDispatchAssumeRole: String? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, duration: Int? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+            self.associationDispatchAssumeRole = associationDispatchAssumeRole
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -14831,6 +14856,9 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.alarmConfiguration?.validate(name: "\(name).alarmConfiguration")
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, max: 512)
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, min: 1)
+            try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "^([$]LATEST)|([1-9][0-9]*)$")
@@ -14870,6 +14898,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case alarmConfiguration = "AlarmConfiguration"
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
+            case associationDispatchAssumeRole = "AssociationDispatchAssumeRole"
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"

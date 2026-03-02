@@ -99,6 +99,7 @@ extension ConnectCampaignsV2 {
         case campaignOrchestration = "Campaign-Orchestration"
         case campaignSMS = "Campaign-SMS"
         case campaignTelephony = "Campaign-Telephony"
+        case campaignWhatsapp = "Campaign-WhatsApp"
         public var description: String { return self.rawValue }
     }
 

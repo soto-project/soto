@@ -75,6 +75,7 @@ extension GroundStation {
         case antennaUplink = "antenna-uplink"
         case dataflowEndpoint = "dataflow-endpoint"
         case s3Recording = "s3-recording"
+        case telemetrySink = "telemetry-sink"
         case tracking = "tracking"
         case uplinkEcho = "uplink-echo"
         public var description: String { return self.rawValue }
@@ -212,6 +213,11 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
+    public enum TelemetrySinkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kinesisDataStream = "KINESIS_DATA_STREAM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AzElSegmentsData: AWSEncodableShape, Sendable {
         /// Azimuth elevation segment data provided directly in the request. Use this option for smaller datasets or when Amazon S3 access is not available.
         case azElData(AzElSegments)
@@ -290,9 +296,11 @@ extension GroundStation {
         case dataflowEndpointConfig(DataflowEndpointConfig)
         /// Information about an S3 recording Config.
         case s3RecordingConfig(S3RecordingConfig)
+        /// Information about a telemetry sink Config.
+        case telemetrySinkConfig(TelemetrySinkConfig)
         /// Object that determines whether tracking should be used during a contact executed with this Config in the mission profile.
         case trackingConfig(TrackingConfig)
-        /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
+        /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified  AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
         case uplinkEchoConfig(UplinkEchoConfig)
 
         public init(from decoder: Decoder) throws {
@@ -320,6 +328,9 @@ extension GroundStation {
             case .s3RecordingConfig:
                 let value = try container.decode(S3RecordingConfig.self, forKey: .s3RecordingConfig)
                 self = .s3RecordingConfig(value)
+            case .telemetrySinkConfig:
+                let value = try container.decode(TelemetrySinkConfig.self, forKey: .telemetrySinkConfig)
+                self = .telemetrySinkConfig(value)
             case .trackingConfig:
                 let value = try container.decode(TrackingConfig.self, forKey: .trackingConfig)
                 self = .trackingConfig(value)
@@ -342,6 +353,8 @@ extension GroundStation {
                 try container.encode(value, forKey: .dataflowEndpointConfig)
             case .s3RecordingConfig(let value):
                 try container.encode(value, forKey: .s3RecordingConfig)
+            case .telemetrySinkConfig(let value):
+                try container.encode(value, forKey: .telemetrySinkConfig)
             case .trackingConfig(let value):
                 try container.encode(value, forKey: .trackingConfig)
             case .uplinkEchoConfig(let value):
@@ -355,6 +368,8 @@ extension GroundStation {
                 try value.validate(name: "\(name).antennaDownlinkDemodDecodeConfig")
             case .s3RecordingConfig(let value):
                 try value.validate(name: "\(name).s3RecordingConfig")
+            case .telemetrySinkConfig(let value):
+                try value.validate(name: "\(name).telemetrySinkConfig")
             case .uplinkEchoConfig(let value):
                 try value.validate(name: "\(name).uplinkEchoConfig")
             default:
@@ -368,6 +383,7 @@ extension GroundStation {
             case antennaUplinkConfig = "antennaUplinkConfig"
             case dataflowEndpointConfig = "dataflowEndpointConfig"
             case s3RecordingConfig = "s3RecordingConfig"
+            case telemetrySinkConfig = "telemetrySinkConfig"
             case trackingConfig = "trackingConfig"
             case uplinkEchoConfig = "uplinkEchoConfig"
         }
@@ -1123,9 +1139,9 @@ extension GroundStation {
     }
 
     public struct CreateDataflowEndpointGroupRequest: AWSEncodableShape {
-        /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+        ///  Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
         public let contactPostPassDurationSeconds: Int?
-        /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+        ///  Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
         public let contactPrePassDurationSeconds: Int?
         /// Endpoint details of each endpoint in the dataflow endpoint group. All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix  AWS Ground Station Agent endpoints with Dataflow endpoints in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
         public let endpointDetails: [EndpointDetails]
@@ -1160,9 +1176,9 @@ extension GroundStation {
     }
 
     public struct CreateDataflowEndpointGroupV2Request: AWSEncodableShape {
-        /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+        ///  Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
         public let contactPostPassDurationSeconds: Int?
-        /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+        ///  Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
         public let contactPrePassDurationSeconds: Int?
         /// Dataflow endpoint group's endpoint definitions
         public let endpoints: [CreateEndpointDetails]
@@ -1270,7 +1286,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
         public let dataflowEdges: [[String]]
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int
@@ -1282,11 +1298,13 @@ extension GroundStation {
         public let streamsKmsRole: String?
         /// Tags assigned to a mission profile.
         public let tags: [String: String]?
+        /// ARN of a telemetry sink Config.
+        public let telemetrySinkConfigArn: String?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String
 
         @inlinable
-        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int, name: String, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]], minimumViableContactDurationSeconds: Int, name: String, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, telemetrySinkConfigArn: String? = nil, trackingConfigArn: String) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
@@ -1295,6 +1313,7 @@ extension GroundStation {
             self.streamsKmsKey = streamsKmsKey
             self.streamsKmsRole = streamsKmsRole
             self.tags = tags
+            self.telemetrySinkConfigArn = telemetrySinkConfigArn
             self.trackingConfigArn = trackingConfigArn
         }
 
@@ -1314,6 +1333,12 @@ extension GroundStation {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
             try self.streamsKmsKey?.validate(name: "\(name).streamsKmsKey")
+            try self.validate(self.streamsKmsRole, name: "streamsKmsRole", parent: name, max: 165)
+            try self.validate(self.streamsKmsRole, name: "streamsKmsRole", parent: name, min: 30)
+            try self.validate(self.streamsKmsRole, name: "streamsKmsRole", parent: name, pattern: "^arn:[a-z0-9-.]{1,63}:iam::[0-9]{12}:role/[\\w+=,.@-]{1,64}$")
+            try self.validate(self.telemetrySinkConfigArn, name: "telemetrySinkConfigArn", parent: name, max: 424)
+            try self.validate(self.telemetrySinkConfigArn, name: "telemetrySinkConfigArn", parent: name, min: 82)
+            try self.validate(self.telemetrySinkConfigArn, name: "telemetrySinkConfigArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:config/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?$")
             try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, max: 424)
             try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, min: 82)
             try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:config/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?$")
@@ -1328,6 +1353,7 @@ extension GroundStation {
             case streamsKmsKey = "streamsKmsKey"
             case streamsKmsRole = "streamsKmsRole"
             case tags = "tags"
+            case telemetrySinkConfigArn = "telemetrySinkConfigArn"
             case trackingConfigArn = "trackingConfigArn"
         }
     }
@@ -1987,6 +2013,7 @@ extension GroundStation {
             try self.downlinkAwsGroundStationAgentEndpoint?.validate(name: "\(name).downlinkAwsGroundStationAgentEndpoint")
             try self.endpoint?.validate(name: "\(name).endpoint")
             try self.validate(self.healthReasons, name: "healthReasons", parent: name, max: 500)
+            try self.securityDetails?.validate(name: "\(name).securityDetails")
             try self.uplinkAwsGroundStationAgentEndpoint?.validate(name: "\(name).uplinkAwsGroundStationAgentEndpoint")
         }
 
@@ -2472,7 +2499,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?
@@ -2490,11 +2517,13 @@ extension GroundStation {
         public let streamsKmsRole: String?
         /// Tags assigned to a mission profile.
         public let tags: [String: String]?
+        /// ARN of a telemetry sink Config.
+        public let telemetrySinkConfigArn: String?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
         @inlinable
-        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, trackingConfigArn: String? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileArn: String? = nil, missionProfileId: String? = nil, name: String? = nil, region: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, tags: [String: String]? = nil, telemetrySinkConfigArn: String? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
@@ -2506,6 +2535,7 @@ extension GroundStation {
             self.streamsKmsKey = streamsKmsKey
             self.streamsKmsRole = streamsKmsRole
             self.tags = tags
+            self.telemetrySinkConfigArn = telemetrySinkConfigArn
             self.trackingConfigArn = trackingConfigArn
         }
 
@@ -2521,6 +2551,7 @@ extension GroundStation {
             case streamsKmsKey = "streamsKmsKey"
             case streamsKmsRole = "streamsKmsRole"
             case tags = "tags"
+            case telemetrySinkConfigArn = "telemetrySinkConfigArn"
             case trackingConfigArn = "trackingConfigArn"
         }
     }
@@ -2650,6 +2681,33 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case parameterName = "parameterName"
+        }
+    }
+
+    public struct KinesisDataStreamData: AWSEncodableShape & AWSDecodableShape {
+        /// ARN of the Kinesis Data Stream to deliver telemetry to.
+        public let kinesisDataStreamArn: String
+        /// ARN of the IAM Role used by AWS Ground Station to deliver telemetry.
+        public let kinesisRoleArn: String
+
+        @inlinable
+        public init(kinesisDataStreamArn: String, kinesisRoleArn: String) {
+            self.kinesisDataStreamArn = kinesisDataStreamArn
+            self.kinesisRoleArn = kinesisRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kinesisDataStreamArn, name: "kinesisDataStreamArn", parent: name, max: 275)
+            try self.validate(self.kinesisDataStreamArn, name: "kinesisDataStreamArn", parent: name, min: 37)
+            try self.validate(self.kinesisDataStreamArn, name: "kinesisDataStreamArn", parent: name, pattern: "^arn:[a-z0-9-.]{1,63}:kinesis:[-a-z0-9]{1,50}:[0-9]{12}:stream/[a-zA-Z0-9_.-]{1,128}$")
+            try self.validate(self.kinesisRoleArn, name: "kinesisRoleArn", parent: name, max: 165)
+            try self.validate(self.kinesisRoleArn, name: "kinesisRoleArn", parent: name, min: 30)
+            try self.validate(self.kinesisRoleArn, name: "kinesisRoleArn", parent: name, pattern: "^arn:[a-z0-9-.]{1,63}:iam::[0-9]{12}:role/[\\w+=,.@-]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisDataStreamArn = "kinesisDataStreamArn"
+            case kinesisRoleArn = "kinesisRoleArn"
         }
     }
 
@@ -3370,6 +3428,9 @@ extension GroundStation {
             try self.validate(self.prefix, name: "prefix", parent: name, max: 900)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^([a-zA-Z0-9_\\-=/]|\\{satellite_id\\}|\\{config\\-name}|\\{s3\\-config-id}|\\{year\\}|\\{month\\}|\\{day\\}){1,900}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 165)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 30)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-.]{1,63}:iam::[0-9]{12}:role/[\\w+=,.@-]{1,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3440,6 +3501,12 @@ extension GroundStation {
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 165)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 30)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-.]{1,63}:iam::[0-9]{12}:role/[\\w+=,.@-]{1,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3622,6 +3689,28 @@ extension GroundStation {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TelemetrySinkConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the telemetry sink specified by the telemetrySinkType.
+        public let telemetrySinkData: TelemetrySinkData
+        /// The type of telemetry sink.
+        public let telemetrySinkType: TelemetrySinkType
+
+        @inlinable
+        public init(telemetrySinkData: TelemetrySinkData, telemetrySinkType: TelemetrySinkType) {
+            self.telemetrySinkData = telemetrySinkData
+            self.telemetrySinkType = telemetrySinkType
+        }
+
+        public func validate(name: String) throws {
+            try self.telemetrySinkData.validate(name: "\(name).telemetrySinkData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetrySinkData = "telemetrySinkData"
+            case telemetrySinkType = "telemetrySinkType"
+        }
     }
 
     public struct TimeAzEl: AWSEncodableShape {
@@ -3887,7 +3976,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
         public let contactPrePassDurationSeconds: Int?
-        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+        /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
         public let dataflowEdges: [[String]]?
         /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?
@@ -3899,11 +3988,13 @@ extension GroundStation {
         public let streamsKmsKey: KmsKey?
         /// Role to use for encrypting streams with KMS key.
         public let streamsKmsRole: String?
+        /// ARN of a telemetry sink Config.
+        public let telemetrySinkConfigArn: String?
         /// ARN of a tracking Config.
         public let trackingConfigArn: String?
 
         @inlinable
-        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileId: String, name: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, trackingConfigArn: String? = nil) {
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, dataflowEdges: [[String]]? = nil, minimumViableContactDurationSeconds: Int? = nil, missionProfileId: String, name: String? = nil, streamsKmsKey: KmsKey? = nil, streamsKmsRole: String? = nil, telemetrySinkConfigArn: String? = nil, trackingConfigArn: String? = nil) {
             self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
             self.dataflowEdges = dataflowEdges
@@ -3912,6 +4003,7 @@ extension GroundStation {
             self.name = name
             self.streamsKmsKey = streamsKmsKey
             self.streamsKmsRole = streamsKmsRole
+            self.telemetrySinkConfigArn = telemetrySinkConfigArn
             self.trackingConfigArn = trackingConfigArn
         }
 
@@ -3926,6 +4018,7 @@ extension GroundStation {
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.streamsKmsKey, forKey: .streamsKmsKey)
             try container.encodeIfPresent(self.streamsKmsRole, forKey: .streamsKmsRole)
+            try container.encodeIfPresent(self.telemetrySinkConfigArn, forKey: .telemetrySinkConfigArn)
             try container.encodeIfPresent(self.trackingConfigArn, forKey: .trackingConfigArn)
         }
 
@@ -3948,6 +4041,12 @@ extension GroundStation {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
             try self.streamsKmsKey?.validate(name: "\(name).streamsKmsKey")
+            try self.validate(self.streamsKmsRole, name: "streamsKmsRole", parent: name, max: 165)
+            try self.validate(self.streamsKmsRole, name: "streamsKmsRole", parent: name, min: 30)
+            try self.validate(self.streamsKmsRole, name: "streamsKmsRole", parent: name, pattern: "^arn:[a-z0-9-.]{1,63}:iam::[0-9]{12}:role/[\\w+=,.@-]{1,64}$")
+            try self.validate(self.telemetrySinkConfigArn, name: "telemetrySinkConfigArn", parent: name, max: 424)
+            try self.validate(self.telemetrySinkConfigArn, name: "telemetrySinkConfigArn", parent: name, min: 82)
+            try self.validate(self.telemetrySinkConfigArn, name: "telemetrySinkConfigArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:config/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?$")
             try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, max: 424)
             try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, min: 82)
             try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:config/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?$")
@@ -3961,6 +4060,7 @@ extension GroundStation {
             case name = "name"
             case streamsKmsKey = "streamsKmsKey"
             case streamsKmsRole = "streamsKmsRole"
+            case telemetrySinkConfigArn = "telemetrySinkConfigArn"
             case trackingConfigArn = "trackingConfigArn"
         }
     }
@@ -4136,6 +4236,24 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case azEl = "azEl"
+        }
+    }
+
+    public struct TelemetrySinkData: AWSEncodableShape & AWSDecodableShape {
+        /// Information about a telemetry sink of type KINESIS_DATA_STREAM.
+        public let kinesisDataStreamData: KinesisDataStreamData?
+
+        @inlinable
+        public init(kinesisDataStreamData: KinesisDataStreamData? = nil) {
+            self.kinesisDataStreamData = kinesisDataStreamData
+        }
+
+        public func validate(name: String) throws {
+            try self.kinesisDataStreamData?.validate(name: "\(name).kinesisDataStreamData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesisDataStreamData = "kinesisDataStreamData"
         }
     }
 

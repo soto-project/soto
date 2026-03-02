@@ -43,6 +43,17 @@ extension ARCRegionSwitch {
         public var description: String { return self.rawValue }
     }
 
+    public enum DocumentDbDefaultBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failover = "failover"
+        case switchoverOnly = "switchoverOnly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentDbUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failover = "failover"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Ec2AsgCapacityMonitoringApproach: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoscalingMaxInLast24Hours = "autoscalingMaxInLast24Hours"
         case sampledMaxInLast24Hours = "sampledMaxInLast24Hours"
@@ -71,17 +82,21 @@ extension ARCRegionSwitch {
     public enum ExecutionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activate = "activate"
         case deactivate = "deactivate"
+        case postRecovery = "postRecovery"
         public var description: String { return self.rawValue }
     }
 
     public enum ExecutionBlockType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aurora = "AuroraGlobalDatabase"
         case customActionLambda = "CustomActionLambda"
+        case documentdb = "DocumentDb"
         case ec2Asg = "EC2AutoScaling"
         case ecs = "ECSServiceScaling"
         case eksResourceScaling = "EKSResourceScaling"
         case executionApproval = "ManualApproval"
         case parallel = "Parallel"
+        case rdsCreateCrossRegionReplica = "RdsCreateCrossRegionReplica"
+        case rdsPromoteReadReplica = "RdsPromoteReadReplica"
         case regionSwitch = "ARCRegionSwitchPlan"
         case route53HealthCheck = "Route53HealthCheck"
         case routingControl = "ARCRoutingControl"
@@ -102,6 +117,7 @@ extension ARCRegionSwitch {
         case executionStarted = "executionStarted"
         case executionSucceeded = "executionSucceeded"
         case executionSuccessMonitoringApplicationHealth = "executionSuccessMonitoringApplicationHealth"
+        case planEvaluationWarning = "planEvaluationWarning"
         case stepCanceled = "stepCanceled"
         case stepExecutionBehaviorChangedToUngraceful = "stepExecutionBehaviorChangedToUngraceful"
         case stepFailed = "stepFailed"
@@ -138,6 +154,13 @@ extension ARCRegionSwitch {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailedReportErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configurationError = "configurationError"
+        case insufficientPermissions = "insufficientPermissions"
+        case invalidResource = "invalidResource"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GlobalAuroraDefaultBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failover = "failover"
         case switchoverOnly = "switchoverOnly"
@@ -162,13 +185,22 @@ extension ARCRegionSwitch {
 
     public enum RegionToRunIn: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activatingRegion = "activatingRegion"
+        case activeRegion = "activeRegion"
         case deactivatingRegion = "deactivatingRegion"
+        case inactiveRegion = "inactiveRegion"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceWarningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case resolved = "resolved"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Route53HealthCheckStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "healthy"
+        case unhealthy = "unhealthy"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -206,6 +238,7 @@ extension ARCRegionSwitch {
     public enum WorkflowTargetAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activate = "activate"
         case deactivate = "deactivate"
+        case postRecovery = "postRecovery"
         public var description: String { return self.rawValue }
     }
 
@@ -214,6 +247,7 @@ extension ARCRegionSwitch {
         case arcRoutingControlConfig(ArcRoutingControlConfiguration)
         /// An Amazon Web Services Lambda execution block.
         case customActionLambdaConfig(CustomActionLambdaConfiguration)
+        case documentDbConfig(DocumentDbConfiguration)
         /// An EC2 Auto Scaling group execution block.
         case ec2AsgCapacityIncreaseConfig(Ec2AsgCapacityIncreaseConfiguration)
         /// The capacity increase specified for the configuration.
@@ -226,6 +260,10 @@ extension ARCRegionSwitch {
         case globalAuroraConfig(GlobalAuroraConfiguration)
         /// A parallel configuration execution block.
         case parallelConfig(ParallelExecutionBlockConfiguration)
+        /// An Amazon RDS create cross-Region replica execution block.
+        case rdsCreateCrossRegionReadReplicaConfig(RdsCreateCrossRegionReplicaConfiguration)
+        /// An Amazon RDS promote read replica execution block.
+        case rdsPromoteReadReplicaConfig(RdsPromoteReadReplicaConfiguration)
         /// A Region switch plan execution block.
         case regionSwitchPlanConfig(RegionSwitchPlanConfiguration)
         /// The Amazon Route 53 health check configuration.
@@ -247,6 +285,9 @@ extension ARCRegionSwitch {
             case .customActionLambdaConfig:
                 let value = try container.decode(CustomActionLambdaConfiguration.self, forKey: .customActionLambdaConfig)
                 self = .customActionLambdaConfig(value)
+            case .documentDbConfig:
+                let value = try container.decode(DocumentDbConfiguration.self, forKey: .documentDbConfig)
+                self = .documentDbConfig(value)
             case .ec2AsgCapacityIncreaseConfig:
                 let value = try container.decode(Ec2AsgCapacityIncreaseConfiguration.self, forKey: .ec2AsgCapacityIncreaseConfig)
                 self = .ec2AsgCapacityIncreaseConfig(value)
@@ -265,6 +306,12 @@ extension ARCRegionSwitch {
             case .parallelConfig:
                 let value = try container.decode(ParallelExecutionBlockConfiguration.self, forKey: .parallelConfig)
                 self = .parallelConfig(value)
+            case .rdsCreateCrossRegionReadReplicaConfig:
+                let value = try container.decode(RdsCreateCrossRegionReplicaConfiguration.self, forKey: .rdsCreateCrossRegionReadReplicaConfig)
+                self = .rdsCreateCrossRegionReadReplicaConfig(value)
+            case .rdsPromoteReadReplicaConfig:
+                let value = try container.decode(RdsPromoteReadReplicaConfiguration.self, forKey: .rdsPromoteReadReplicaConfig)
+                self = .rdsPromoteReadReplicaConfig(value)
             case .regionSwitchPlanConfig:
                 let value = try container.decode(RegionSwitchPlanConfiguration.self, forKey: .regionSwitchPlanConfig)
                 self = .regionSwitchPlanConfig(value)
@@ -281,6 +328,8 @@ extension ARCRegionSwitch {
                 try container.encode(value, forKey: .arcRoutingControlConfig)
             case .customActionLambdaConfig(let value):
                 try container.encode(value, forKey: .customActionLambdaConfig)
+            case .documentDbConfig(let value):
+                try container.encode(value, forKey: .documentDbConfig)
             case .ec2AsgCapacityIncreaseConfig(let value):
                 try container.encode(value, forKey: .ec2AsgCapacityIncreaseConfig)
             case .ecsCapacityIncreaseConfig(let value):
@@ -293,6 +342,10 @@ extension ARCRegionSwitch {
                 try container.encode(value, forKey: .globalAuroraConfig)
             case .parallelConfig(let value):
                 try container.encode(value, forKey: .parallelConfig)
+            case .rdsCreateCrossRegionReadReplicaConfig(let value):
+                try container.encode(value, forKey: .rdsCreateCrossRegionReadReplicaConfig)
+            case .rdsPromoteReadReplicaConfig(let value):
+                try container.encode(value, forKey: .rdsPromoteReadReplicaConfig)
             case .regionSwitchPlanConfig(let value):
                 try container.encode(value, forKey: .regionSwitchPlanConfig)
             case .route53HealthCheckConfig(let value):
@@ -306,6 +359,8 @@ extension ARCRegionSwitch {
                 try value.validate(name: "\(name).arcRoutingControlConfig")
             case .customActionLambdaConfig(let value):
                 try value.validate(name: "\(name).customActionLambdaConfig")
+            case .documentDbConfig(let value):
+                try value.validate(name: "\(name).documentDbConfig")
             case .ec2AsgCapacityIncreaseConfig(let value):
                 try value.validate(name: "\(name).ec2AsgCapacityIncreaseConfig")
             case .ecsCapacityIncreaseConfig(let value):
@@ -316,6 +371,10 @@ extension ARCRegionSwitch {
                 try value.validate(name: "\(name).globalAuroraConfig")
             case .parallelConfig(let value):
                 try value.validate(name: "\(name).parallelConfig")
+            case .rdsCreateCrossRegionReadReplicaConfig(let value):
+                try value.validate(name: "\(name).rdsCreateCrossRegionReadReplicaConfig")
+            case .rdsPromoteReadReplicaConfig(let value):
+                try value.validate(name: "\(name).rdsPromoteReadReplicaConfig")
             case .regionSwitchPlanConfig(let value):
                 try value.validate(name: "\(name).regionSwitchPlanConfig")
             case .route53HealthCheckConfig(let value):
@@ -328,14 +387,48 @@ extension ARCRegionSwitch {
         private enum CodingKeys: String, CodingKey {
             case arcRoutingControlConfig = "arcRoutingControlConfig"
             case customActionLambdaConfig = "customActionLambdaConfig"
+            case documentDbConfig = "documentDbConfig"
             case ec2AsgCapacityIncreaseConfig = "ec2AsgCapacityIncreaseConfig"
             case ecsCapacityIncreaseConfig = "ecsCapacityIncreaseConfig"
             case eksResourceScalingConfig = "eksResourceScalingConfig"
             case executionApprovalConfig = "executionApprovalConfig"
             case globalAuroraConfig = "globalAuroraConfig"
             case parallelConfig = "parallelConfig"
+            case rdsCreateCrossRegionReadReplicaConfig = "rdsCreateCrossRegionReadReplicaConfig"
+            case rdsPromoteReadReplicaConfig = "rdsPromoteReadReplicaConfig"
             case regionSwitchPlanConfig = "regionSwitchPlanConfig"
             case route53HealthCheckConfig = "route53HealthCheckConfig"
+        }
+    }
+
+    public enum ReportOutput: AWSDecodableShape, Sendable {
+        /// The details about a failed report generation.
+        case failedReportOutput(FailedReportOutput)
+        /// Information about a report delivered to Amazon S3.
+        case s3ReportOutput(S3ReportOutput)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .failedReportOutput:
+                let value = try container.decode(FailedReportOutput.self, forKey: .failedReportOutput)
+                self = .failedReportOutput(value)
+            case .s3ReportOutput:
+                let value = try container.decode(S3ReportOutput.self, forKey: .s3ReportOutput)
+                self = .s3ReportOutput(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedReportOutput = "failedReportOutput"
+            case s3ReportOutput = "s3ReportOutput"
         }
     }
 
@@ -348,7 +441,7 @@ extension ARCRegionSwitch {
         public let comment: String?
         /// The timestamp when the plan execution was ended.
         public let endTime: Date?
-        /// The plan execution action. Valid values are Activate, to activate an Amazon Web Services Region, or Deactivate, to deactivate a Region.
+        /// The plan execution action. Valid values are activate, to activate an Amazon Web Services Region, or deactivate, to deactivate a Region.
         public let executionAction: ExecutionAction
         /// The execution identifier of a plan execution.
         public let executionId: String
@@ -356,10 +449,12 @@ extension ARCRegionSwitch {
         public let executionRegion: String
         /// The plan execution state. Provides the state of a plan execution, for example, In Progress or Paused by Operator.
         public let executionState: ExecutionState
-        /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+        /// The plan execution mode. Valid values are graceful, for graceful executions, or ungraceful, for ungraceful executions.
         public let mode: ExecutionMode
         /// The Amazon Resource Name (ARN) of the plan.
         public let planArn: String
+        /// The unique identifier of the most recent recovery execution. Required when starting a post-recovery execution.
+        public let recoveryExecutionId: String?
         /// The timestamp when the plan execution was started.
         public let startTime: Date
         /// The timestamp when the plan execution was last updated.
@@ -368,7 +463,7 @@ extension ARCRegionSwitch {
         public let version: String?
 
         @inlinable
-        public init(actualRecoveryTime: String? = nil, comment: String? = nil, endTime: Date? = nil, executionAction: ExecutionAction, executionId: String, executionRegion: String, executionState: ExecutionState, mode: ExecutionMode, planArn: String, startTime: Date, updatedAt: Date? = nil, version: String? = nil) {
+        public init(actualRecoveryTime: String? = nil, comment: String? = nil, endTime: Date? = nil, executionAction: ExecutionAction, executionId: String, executionRegion: String, executionState: ExecutionState, mode: ExecutionMode, planArn: String, recoveryExecutionId: String? = nil, startTime: Date, updatedAt: Date? = nil, version: String? = nil) {
             self.actualRecoveryTime = actualRecoveryTime
             self.comment = comment
             self.endTime = endTime
@@ -378,6 +473,7 @@ extension ARCRegionSwitch {
             self.executionState = executionState
             self.mode = mode
             self.planArn = planArn
+            self.recoveryExecutionId = recoveryExecutionId
             self.startTime = startTime
             self.updatedAt = updatedAt
             self.version = version
@@ -393,6 +489,7 @@ extension ARCRegionSwitch {
             case executionState = "executionState"
             case mode = "mode"
             case planArn = "planArn"
+            case recoveryExecutionId = "recoveryExecutionId"
             case startTime = "startTime"
             case updatedAt = "updatedAt"
             case version = "version"
@@ -560,7 +657,7 @@ extension ARCRegionSwitch {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:autoscaling:[a-z0-9-]+:\\d{12}:autoScalingGroup:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}:autoScalingGroupName/[\\S\\s]{1,255}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:autoscaling:[a-z0-9-]+:\\d{12}:autoScalingGroup:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}:autoScalingGroupName/[\\S\\s]{1,255}$")
             try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
         }
 
@@ -649,6 +746,7 @@ extension ARCRegionSwitch {
         public let recoveryTimeObjectiveMinutes: Int?
         /// An array that specifies the Amazon Web Services Regions for a Region switch plan. Specify two Regions.
         public let regions: [String]
+        public let reportConfiguration: ReportConfiguration?
         /// The tags to apply to the Region switch plan.
         public let tags: [String: String]?
         /// The triggers associated with a Region switch plan.
@@ -657,7 +755,7 @@ extension ARCRegionSwitch {
         public let workflows: [Workflow]
 
         @inlinable
-        public init(associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], tags: [String: String]? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
+        public init(associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], reportConfiguration: ReportConfiguration? = nil, tags: [String: String]? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
             self.associatedAlarms = associatedAlarms
             self.description = description
             self.executionRole = executionRole
@@ -666,6 +764,7 @@ extension ARCRegionSwitch {
             self.recoveryApproach = recoveryApproach
             self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
             self.regions = regions
+            self.reportConfiguration = reportConfiguration
             self.tags = tags
             self.triggers = triggers
             self.workflows = workflows
@@ -685,6 +784,7 @@ extension ARCRegionSwitch {
             }
             try self.validate(self.regions, name: "regions", parent: name, max: 2)
             try self.validate(self.regions, name: "regions", parent: name, min: 2)
+            try self.reportConfiguration?.validate(name: "\(name).reportConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -708,6 +808,7 @@ extension ARCRegionSwitch {
             case recoveryApproach = "recoveryApproach"
             case recoveryTimeObjectiveMinutes = "recoveryTimeObjectiveMinutes"
             case regions = "regions"
+            case reportConfiguration = "reportConfiguration"
             case tags = "tags"
             case triggers = "triggers"
             case workflows = "workflows"
@@ -731,7 +832,7 @@ extension ARCRegionSwitch {
     public struct CustomActionLambdaConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Web Services Lambda functions for the execution block.
         public let lambdas: [Lambdas]
-        /// The Amazon Web Services Region for the function to run in.
+        /// The Amazon Web Services Region for the function to run in. For recovery workflows use activatingRegion or deactivatingRegion. For post-recovery workflows, use activeRegion (the Region with customer traffic) or inactiveRegion (the Region with no customer traffic).
         public let regionToRun: RegionToRunIn
         /// The retry interval specified.
         public let retryIntervalMinutes: Float
@@ -786,6 +887,66 @@ extension ARCRegionSwitch {
 
     public struct DeletePlanResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DocumentDbConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The behavior for a global cluster, that is, only allow switchover or also allow failover.
+        public let behavior: DocumentDbDefaultBehavior
+        /// The cross account role for the configuration.
+        public let crossAccountRole: String?
+        /// The database cluster Amazon Resource Names (ARNs) for a DocumentDB global cluster.
+        public let databaseClusterArns: [String]
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The global cluster identifier for a DocumentDB global cluster.
+        public let globalClusterIdentifier: String
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+        /// The settings for ungraceful execution.
+        public let ungraceful: DocumentDbUngraceful?
+
+        @inlinable
+        public init(behavior: DocumentDbDefaultBehavior, crossAccountRole: String? = nil, databaseClusterArns: [String], externalId: String? = nil, globalClusterIdentifier: String, timeoutMinutes: Int? = nil, ungraceful: DocumentDbUngraceful? = nil) {
+            self.behavior = behavior
+            self.crossAccountRole = crossAccountRole
+            self.databaseClusterArns = databaseClusterArns
+            self.externalId = externalId
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.databaseClusterArns.forEach {
+                try validate($0, name: "databaseClusterArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:cluster:[a-zA-Z0-9][a-zA-Z0-9-_]{0,99}$")
+            }
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "behavior"
+            case crossAccountRole = "crossAccountRole"
+            case databaseClusterArns = "databaseClusterArns"
+            case externalId = "externalId"
+            case globalClusterIdentifier = "globalClusterIdentifier"
+            case timeoutMinutes = "timeoutMinutes"
+            case ungraceful = "ungraceful"
+        }
+    }
+
+    public struct DocumentDbUngraceful: AWSEncodableShape & AWSDecodableShape {
+        /// The settings for ungraceful execution.
+        public let ungraceful: DocumentDbUngracefulBehavior?
+
+        @inlinable
+        public init(ungraceful: DocumentDbUngracefulBehavior? = nil) {
+            self.ungraceful = ungraceful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ungraceful = "ungraceful"
+        }
     }
 
     public struct Ec2AsgCapacityIncreaseConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -1043,6 +1204,42 @@ extension ARCRegionSwitch {
         }
     }
 
+    public struct FailedReportOutput: AWSDecodableShape {
+        /// The error code for the failed report generation.
+        public let errorCode: FailedReportErrorCode?
+        /// The error message for the failed report generation.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(errorCode: FailedReportErrorCode? = nil, errorMessage: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public struct GeneratedReport: AWSDecodableShape {
+        /// The timestamp when the report was generated.
+        public let reportGenerationTime: Date?
+        /// The output location or cause of a failure in report generation.
+        public let reportOutput: ReportOutput?
+
+        @inlinable
+        public init(reportGenerationTime: Date? = nil, reportOutput: ReportOutput? = nil) {
+            self.reportGenerationTime = reportGenerationTime
+            self.reportOutput = reportOutput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportGenerationTime = "reportGenerationTime"
+            case reportOutput = "reportOutput"
+        }
+    }
+
     public struct GetPlanEvaluationStatusRequest: AWSEncodableShape {
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
@@ -1150,7 +1347,7 @@ extension ARCRegionSwitch {
         public let comment: String?
         /// The time (UTC) when the plan execution ended.
         public let endTime: Date?
-        /// The plan execution action. Valid values are Activate, to activate an Amazon Web Services Region, or Deactivate, to deactivate a Region.
+        /// The plan execution action. Valid values are activate, to activate an Amazon Web Services Region, or deactivate, to deactivate a Region.
         public let executionAction: ExecutionAction
         /// The execution identifier of a plan execution.
         public let executionId: String
@@ -1158,7 +1355,9 @@ extension ARCRegionSwitch {
         public let executionRegion: String
         /// The plan execution state. Provides the state of a plan execution, for example, In Progress or Paused by Operator.
         public let executionState: ExecutionState
-        /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+        /// Information about the location of a generated report, or the cause of its failure.
+        public let generatedReportDetails: [GeneratedReport]?
+        /// The plan execution mode. Valid values are graceful, for graceful executions, or ungraceful, for ungraceful executions.
         public let mode: ExecutionMode
         /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
         public let nextToken: String?
@@ -1166,6 +1365,8 @@ extension ARCRegionSwitch {
         public let plan: Plan?
         /// The Amazon Resource Name (ARN) of the plan.
         public let planArn: String
+        /// The unique identifier of the most recent recovery execution. Required when starting a post-recovery execution.
+        public let recoveryExecutionId: String?
         /// The time (UTC) when the plan execution started.
         public let startTime: Date
         /// The states of the steps in the plan execution.
@@ -1176,7 +1377,7 @@ extension ARCRegionSwitch {
         public let version: String?
 
         @inlinable
-        public init(actualRecoveryTime: String? = nil, comment: String? = nil, endTime: Date? = nil, executionAction: ExecutionAction, executionId: String, executionRegion: String, executionState: ExecutionState, mode: ExecutionMode, nextToken: String? = nil, plan: Plan? = nil, planArn: String, startTime: Date, stepStates: [StepState]? = nil, updatedAt: Date? = nil, version: String? = nil) {
+        public init(actualRecoveryTime: String? = nil, comment: String? = nil, endTime: Date? = nil, executionAction: ExecutionAction, executionId: String, executionRegion: String, executionState: ExecutionState, generatedReportDetails: [GeneratedReport]? = nil, mode: ExecutionMode, nextToken: String? = nil, plan: Plan? = nil, planArn: String, recoveryExecutionId: String? = nil, startTime: Date, stepStates: [StepState]? = nil, updatedAt: Date? = nil, version: String? = nil) {
             self.actualRecoveryTime = actualRecoveryTime
             self.comment = comment
             self.endTime = endTime
@@ -1184,10 +1385,12 @@ extension ARCRegionSwitch {
             self.executionId = executionId
             self.executionRegion = executionRegion
             self.executionState = executionState
+            self.generatedReportDetails = generatedReportDetails
             self.mode = mode
             self.nextToken = nextToken
             self.plan = plan
             self.planArn = planArn
+            self.recoveryExecutionId = recoveryExecutionId
             self.startTime = startTime
             self.stepStates = stepStates
             self.updatedAt = updatedAt
@@ -1202,10 +1405,12 @@ extension ARCRegionSwitch {
             case executionId = "executionId"
             case executionRegion = "executionRegion"
             case executionState = "executionState"
+            case generatedReportDetails = "generatedReportDetails"
             case mode = "mode"
             case nextToken = "nextToken"
             case plan = "plan"
             case planArn = "planArn"
+            case recoveryExecutionId = "recoveryExecutionId"
             case startTime = "startTime"
             case stepStates = "stepStates"
             case updatedAt = "updatedAt"
@@ -1306,6 +1511,12 @@ extension ARCRegionSwitch {
 
         public func validate(name: String) throws {
             try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.databaseClusterArns.forEach {
+                try validate($0, name: "databaseClusterArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:cluster:[A-Za-z][0-9A-Za-z-:._]*$")
+            }
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1607,6 +1818,66 @@ extension ARCRegionSwitch {
         }
     }
 
+    public struct ListRoute53HealthChecksInRegionRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
+        public let arn: String
+        /// The hosted zone ID for the health checks.
+        public let hostedZoneId: String?
+        /// The number of objects that you want to return with this call.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+        public let nextToken: String?
+        /// The record name for the health checks.
+        public let recordName: String?
+
+        @inlinable
+        public init(arn: String, hostedZoneId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, recordName: String? = nil) {
+            self.arn = arn
+            self.hostedZoneId = hostedZoneId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recordName = recordName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})$")
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.recordName, name: "recordName", parent: name, max: 1024)
+            try self.validate(self.recordName, name: "recordName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case hostedZoneId = "hostedZoneId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recordName = "recordName"
+        }
+    }
+
+    public struct ListRoute53HealthChecksInRegionResponse: AWSDecodableShape {
+        /// List of the health checks requested.
+        public let healthChecks: [Route53HealthCheck]?
+        /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(healthChecks: [Route53HealthCheck]? = nil, nextToken: String? = nil) {
+            self.healthChecks = healthChecks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthChecks = "healthChecks"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListRoute53HealthChecksRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Route 53 health check request.
         public let arn: String
@@ -1758,6 +2029,8 @@ extension ARCRegionSwitch {
         public let recoveryTimeObjectiveMinutes: Int?
         /// The Amazon Web Services Regions for a plan.
         public let regions: [String]
+        /// The report configuration for a plan.
+        public let reportConfiguration: ReportConfiguration?
         /// The triggers for a plan.
         public let triggers: [Trigger]?
         /// The timestamp when the plan was last updated.
@@ -1768,7 +2041,7 @@ extension ARCRegionSwitch {
         public let workflows: [Workflow]
 
         @inlinable
-        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, owner: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], triggers: [Trigger]? = nil, updatedAt: Date? = nil, version: String? = nil, workflows: [Workflow]) {
+        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, owner: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], reportConfiguration: ReportConfiguration? = nil, triggers: [Trigger]? = nil, updatedAt: Date? = nil, version: String? = nil, workflows: [Workflow]) {
             self.arn = arn
             self.associatedAlarms = associatedAlarms
             self.description = description
@@ -1779,6 +2052,7 @@ extension ARCRegionSwitch {
             self.recoveryApproach = recoveryApproach
             self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
             self.regions = regions
+            self.reportConfiguration = reportConfiguration
             self.triggers = triggers
             self.updatedAt = updatedAt
             self.version = version
@@ -1796,10 +2070,79 @@ extension ARCRegionSwitch {
             case recoveryApproach = "recoveryApproach"
             case recoveryTimeObjectiveMinutes = "recoveryTimeObjectiveMinutes"
             case regions = "regions"
+            case reportConfiguration = "reportConfiguration"
             case triggers = "triggers"
             case updatedAt = "updatedAt"
             case version = "version"
             case workflows = "workflows"
+        }
+    }
+
+    public struct RdsCreateCrossRegionReplicaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cross-account role for the configuration.
+        public let crossAccountRole: String?
+        /// A map of database instance ARNs for each Region in the plan.
+        public let dbInstanceArnMap: [String: String]
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+
+        @inlinable
+        public init(crossAccountRole: String? = nil, dbInstanceArnMap: [String: String], externalId: String? = nil, timeoutMinutes: Int? = nil) {
+            self.crossAccountRole = crossAccountRole
+            self.dbInstanceArnMap = dbInstanceArnMap
+            self.externalId = externalId
+            self.timeoutMinutes = timeoutMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.dbInstanceArnMap.forEach {
+                try validate($0.key, name: "dbInstanceArnMap.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "dbInstanceArnMap[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:db:[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountRole = "crossAccountRole"
+            case dbInstanceArnMap = "dbInstanceArnMap"
+            case externalId = "externalId"
+            case timeoutMinutes = "timeoutMinutes"
+        }
+    }
+
+    public struct RdsPromoteReadReplicaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cross-account role for the configuration.
+        public let crossAccountRole: String?
+        /// A map of database instance ARNs for each Region in the plan.
+        public let dbInstanceArnMap: [String: String]
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+
+        @inlinable
+        public init(crossAccountRole: String? = nil, dbInstanceArnMap: [String: String], externalId: String? = nil, timeoutMinutes: Int? = nil) {
+            self.crossAccountRole = crossAccountRole
+            self.dbInstanceArnMap = dbInstanceArnMap
+            self.externalId = externalId
+            self.timeoutMinutes = timeoutMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.dbInstanceArnMap.forEach {
+                try validate($0.key, name: "dbInstanceArnMap.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "dbInstanceArnMap[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:db:[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountRole = "crossAccountRole"
+            case dbInstanceArnMap = "dbInstanceArnMap"
+            case externalId = "externalId"
+            case timeoutMinutes = "timeoutMinutes"
         }
     }
 
@@ -1827,6 +2170,28 @@ extension ARCRegionSwitch {
             case arn = "arn"
             case crossAccountRole = "crossAccountRole"
             case externalId = "externalId"
+        }
+    }
+
+    public struct ReportConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The output configuration for the report.
+        public let reportOutput: [ReportOutputConfiguration]?
+
+        @inlinable
+        public init(reportOutput: [ReportOutputConfiguration]? = nil) {
+            self.reportOutput = reportOutput
+        }
+
+        public func validate(name: String) throws {
+            try self.reportOutput?.forEach {
+                try $0.validate(name: "\(name).reportOutput[]")
+            }
+            try self.validate(self.reportOutput, name: "reportOutput", parent: name, max: 1)
+            try self.validate(self.reportOutput, name: "reportOutput", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportOutput = "reportOutput"
         }
     }
 
@@ -1877,13 +2242,16 @@ extension ARCRegionSwitch {
         public let recordName: String
         /// The Amazon Route 53 Region.
         public let region: String
+        /// The Amazon Route 53 health check status.
+        public let status: Route53HealthCheckStatus?
 
         @inlinable
-        public init(healthCheckId: String? = nil, hostedZoneId: String, recordName: String, region: String) {
+        public init(healthCheckId: String? = nil, hostedZoneId: String, recordName: String, region: String, status: Route53HealthCheckStatus? = nil) {
             self.healthCheckId = healthCheckId
             self.hostedZoneId = hostedZoneId
             self.recordName = recordName
             self.region = region
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1891,6 +2259,7 @@ extension ARCRegionSwitch {
             case hostedZoneId = "hostedZoneId"
             case recordName = "recordName"
             case region = "region"
+            case status = "status"
         }
     }
 
@@ -1963,6 +2332,42 @@ extension ARCRegionSwitch {
         }
     }
 
+    public struct S3ReportOutput: AWSDecodableShape {
+        /// The S3 object key where the generated report is stored.
+        public let s3ObjectKey: String?
+
+        @inlinable
+        public init(s3ObjectKey: String? = nil) {
+            self.s3ObjectKey = s3ObjectKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ObjectKey = "s3ObjectKey"
+        }
+    }
+
+    public struct S3ReportOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services account ID that owns the S3 bucket. Required to ensure the bucket is still owned by the same expected owner at generation time.
+        public let bucketOwner: String?
+        /// The S3 bucket name and optional prefix where reports are stored. Format: bucket-name or bucket-name/prefix.
+        public let bucketPath: String?
+
+        @inlinable
+        public init(bucketOwner: String? = nil, bucketPath: String? = nil) {
+            self.bucketOwner = bucketOwner
+            self.bucketPath = bucketPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketOwner, name: "bucketOwner", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketOwner = "bucketOwner"
+            case bucketPath = "bucketPath"
+        }
+    }
+
     public struct Service: AWSEncodableShape & AWSDecodableShape {
         /// The cluster Amazon Resource Name (ARN) for a service.
         public let clusterArn: String?
@@ -1982,9 +2387,9 @@ extension ARCRegionSwitch {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws:ecs:[a-z0-9-]+:\\d{12}:cluster/[a-zA-Z0-9_-]{1,255}$")
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:ecs:[a-z0-9-]+:\\d{12}:cluster/[a-zA-Z0-9_-]{1,255}$")
             try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
-            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws:ecs:[a-z0-9-]+:\\d{12}:service/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]{1,255}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:ecs:[a-z0-9-]+:\\d{12}:service/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1996,32 +2401,36 @@ extension ARCRegionSwitch {
     }
 
     public struct StartPlanExecutionRequest: AWSEncodableShape {
-        /// The action to perform. Valid values are ACTIVATE (to shift traffic to the target Region) or DEACTIVATE (to shift traffic away from the target Region).
+        /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region).
         public let action: ExecutionAction
         /// An optional comment explaining why the plan execution is being started.
         public let comment: String?
         /// A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
         public let latestVersion: String?
-        /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+        /// The plan execution mode. Valid values are graceful, for starting the execution in graceful mode, or ungraceful, for starting the execution in ungraceful mode.
         public let mode: ExecutionMode?
         /// The Amazon Resource Name (ARN) of the plan to execute.
         public let planArn: String
+        /// The execution identifier of the recovery execution that ran in the opposite region post-recovery is ran in. Required when starting a post-recovery execution.
+        public let recoveryExecutionId: String?
         /// The Amazon Web Services Region to target with this execution. This is the Region that traffic will be shifted to or from, depending on the action.
         public let targetRegion: String
 
         @inlinable
-        public init(action: ExecutionAction, comment: String? = nil, latestVersion: String? = nil, mode: ExecutionMode? = nil, planArn: String, targetRegion: String) {
+        public init(action: ExecutionAction, comment: String? = nil, latestVersion: String? = nil, mode: ExecutionMode? = nil, planArn: String, recoveryExecutionId: String? = nil, targetRegion: String) {
             self.action = action
             self.comment = comment
             self.latestVersion = latestVersion
             self.mode = mode
             self.planArn = planArn
+            self.recoveryExecutionId = recoveryExecutionId
             self.targetRegion = targetRegion
         }
 
         public func validate(name: String) throws {
             try self.validate(self.comment, name: "comment", parent: name, max: 1024)
             try self.validate(self.planArn, name: "planArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})$")
+            try self.validate(self.recoveryExecutionId, name: "recoveryExecutionId", parent: name, pattern: "^[a-z]{2}(-[a-z]+)+-[0-9]+/[0-9a-fA-F]{16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2030,6 +2439,7 @@ extension ARCRegionSwitch {
             case latestVersion = "latestVersion"
             case mode = "mode"
             case planArn = "planArn"
+            case recoveryExecutionId = "recoveryExecutionId"
             case targetRegion = "targetRegion"
         }
     }
@@ -2157,7 +2567,7 @@ extension ARCRegionSwitch {
     }
 
     public struct Trigger: AWSEncodableShape & AWSDecodableShape {
-        /// The action to perform when the trigger fires. Valid values include ACTIVATE and DEACTIVATE.
+        /// The action to perform when the trigger fires. Valid values include activate and deactivate.
         public let action: WorkflowTargetAction
         /// The conditions that must be met for the trigger to fire.
         public let conditions: [TriggerCondition]
@@ -2195,7 +2605,7 @@ extension ARCRegionSwitch {
     public struct TriggerCondition: AWSEncodableShape & AWSDecodableShape {
         /// The name of the CloudWatch alarm associated with the condition.
         public let associatedAlarmName: String
-        /// The condition that must be met. Valid values include ALARM and OK.
+        /// The condition that must be met. Valid values include green and red.
         public let condition: AlarmCondition
 
         @inlinable
@@ -2326,18 +2736,21 @@ extension ARCRegionSwitch {
         public let executionRole: String
         /// The updated target recovery time objective (RTO) in minutes for the plan.
         public let recoveryTimeObjectiveMinutes: Int?
+        /// The updated report configuration for the plan.
+        public let reportConfiguration: ReportConfiguration?
         /// The updated conditions that can automatically trigger the execution of the plan.
         public let triggers: [Trigger]?
         /// The updated workflows for the Region switch plan.
         public let workflows: [Workflow]
 
         @inlinable
-        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, recoveryTimeObjectiveMinutes: Int? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
+        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, recoveryTimeObjectiveMinutes: Int? = nil, reportConfiguration: ReportConfiguration? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
             self.arn = arn
             self.associatedAlarms = associatedAlarms
             self.description = description
             self.executionRole = executionRole
             self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
+            self.reportConfiguration = reportConfiguration
             self.triggers = triggers
             self.workflows = workflows
         }
@@ -2348,6 +2761,7 @@ extension ARCRegionSwitch {
                 try $0.value.validate(name: "\(name).associatedAlarms[\"\($0.key)\"]")
             }
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.reportConfiguration?.validate(name: "\(name).reportConfiguration")
             try self.triggers?.forEach {
                 try $0.validate(name: "\(name).triggers[]")
             }
@@ -2362,6 +2776,7 @@ extension ARCRegionSwitch {
             case description = "description"
             case executionRole = "executionRole"
             case recoveryTimeObjectiveMinutes = "recoveryTimeObjectiveMinutes"
+            case reportConfiguration = "reportConfiguration"
             case triggers = "triggers"
             case workflows = "workflows"
         }
@@ -2386,7 +2801,7 @@ extension ARCRegionSwitch {
         public let steps: [Step]?
         /// The description of the workflow.
         public let workflowDescription: String?
-        /// The action that the workflow performs. Valid values include ACTIVATE and DEACTIVATE.
+        /// The action that the workflow performs. Valid values include activate and deactivate.
         public let workflowTargetAction: WorkflowTargetAction
         /// The Amazon Web Services Region that the workflow targets.
         public let workflowTargetRegion: String?
@@ -2411,6 +2826,24 @@ extension ARCRegionSwitch {
             case workflowDescription = "workflowDescription"
             case workflowTargetAction = "workflowTargetAction"
             case workflowTargetRegion = "workflowTargetRegion"
+        }
+    }
+
+    public struct ReportOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for delivering reports to an Amazon S3 bucket.
+        public let s3Configuration: S3ReportOutputConfiguration?
+
+        @inlinable
+        public init(s3Configuration: S3ReportOutputConfiguration? = nil) {
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Configuration = "s3Configuration"
         }
     }
 }

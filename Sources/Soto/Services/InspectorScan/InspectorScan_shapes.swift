@@ -34,6 +34,7 @@ extension InspectorScan {
     public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cycloneDx15 = "CYCLONE_DX_1_5"
         case inspector = "INSPECTOR"
+        case inspectorAlt = "INSPECTOR_ALT"
         public var description: String { return self.rawValue }
     }
 
@@ -79,7 +80,7 @@ extension InspectorScan {
     public struct ScanSbomRequest: AWSEncodableShape {
         /// The output format for the vulnerability report.
         public let outputFormat: OutputFormat?
-        /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format.
+        /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format. This format limits you to passing 2000 components before throwing a ValidException error.
         public let sbom: AWSDocument
 
         @inlinable

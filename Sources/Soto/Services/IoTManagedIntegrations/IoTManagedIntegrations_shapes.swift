@@ -50,6 +50,7 @@ extension IoTManagedIntegrations {
     public enum AuthMaterialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customProtocolQrBarCode = "CUSTOM_PROTOCOL_QR_BAR_CODE"
         case discoveredDevice = "DISCOVERED_DEVICE"
+        case preOnboardedCloud = "PRE_ONBOARDED_CLOUD"
         case wifiSetupQrBarCode = "WIFI_SETUP_QR_BAR_CODE"
         case zigbeeQrBarCode = "ZIGBEE_QR_BAR_CODE"
         case zwaveQrBarCode = "ZWAVE_QR_BAR_CODE"
@@ -127,6 +128,7 @@ extension IoTManagedIntegrations {
 
     public enum DiscoveryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloud = "CLOUD"
+        case controllerCapabilityRediscovery = "CONTROLLER_CAPABILITY_REDISCOVERY"
         case custom = "CUSTOM"
         case zigbee = "ZIGBEE"
         case zwave = "ZWAVE"
@@ -155,6 +157,7 @@ extension IoTManagedIntegrations {
         case deviceLifeCycle = "DEVICE_LIFE_CYCLE"
         case deviceOta = "DEVICE_OTA"
         case deviceState = "DEVICE_STATE"
+        case deviceWss = "DEVICE_WSS"
         public var description: String { return self.rawValue }
     }
 
@@ -169,6 +172,12 @@ extension IoTManagedIntegrations {
         case error = "ERROR"
         case info = "INFO"
         case warn = "WARN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedThingAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associated = "ASSOCIATED"
+        case preAssociated = "PRE_ASSOCIATED"
         public var description: String { return self.rawValue }
     }
 
@@ -206,6 +215,13 @@ extension IoTManagedIntegrations {
     public enum OtaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case continuous = "CONTINUOUS"
         case oneTime = "ONE_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case zigbee = "ZIGBEE"
+        case zwave = "ZWAVE"
         public var description: String { return self.rawValue }
     }
 
@@ -345,34 +361,74 @@ extension IoTManagedIntegrations {
     }
 
     public struct AuthConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization materials for General Authorization.
+        public let generalAuthorization: [AuthMaterial]?
         /// The OAuth configuration settings used for authentication with the third-party service.
         public let oAuth: OAuthConfig?
 
         @inlinable
-        public init(oAuth: OAuthConfig? = nil) {
+        public init(generalAuthorization: [AuthMaterial]? = nil, oAuth: OAuthConfig? = nil) {
+            self.generalAuthorization = generalAuthorization
             self.oAuth = oAuth
         }
 
         public func validate(name: String) throws {
+            try self.generalAuthorization?.forEach {
+                try $0.validate(name: "\(name).generalAuthorization[]")
+            }
+            try self.validate(self.generalAuthorization, name: "generalAuthorization", parent: name, max: 3)
             try self.oAuth?.validate(name: "\(name).oAuth")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case generalAuthorization = "GeneralAuthorization"
             case oAuth = "oAuth"
         }
     }
 
     public struct AuthConfigUpdate: AWSEncodableShape {
+        /// The General Authorization update information containing authorization materials to add or update in Kinesis Data Streams.
+        public let generalAuthorizationUpdate: GeneralAuthorizationUpdate?
         /// The updated OAuth configuration settings for the authentication configuration.
         public let oAuthUpdate: OAuthUpdate?
 
         @inlinable
-        public init(oAuthUpdate: OAuthUpdate? = nil) {
+        public init(generalAuthorizationUpdate: GeneralAuthorizationUpdate? = nil, oAuthUpdate: OAuthUpdate? = nil) {
+            self.generalAuthorizationUpdate = generalAuthorizationUpdate
             self.oAuthUpdate = oAuthUpdate
         }
 
+        public func validate(name: String) throws {
+            try self.generalAuthorizationUpdate?.validate(name: "\(name).generalAuthorizationUpdate")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case generalAuthorizationUpdate = "GeneralAuthorizationUpdate"
             case oAuthUpdate = "oAuthUpdate"
+        }
+    }
+
+    public struct AuthMaterial: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the authorization material.
+        public let authMaterialName: String
+        public let secretsManager: SecretsManager
+
+        @inlinable
+        public init(authMaterialName: String, secretsManager: SecretsManager) {
+            self.authMaterialName = authMaterialName
+            self.secretsManager = secretsManager
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authMaterialName, name: "authMaterialName", parent: name, max: 100)
+            try self.validate(self.authMaterialName, name: "authMaterialName", parent: name, min: 1)
+            try self.validate(self.authMaterialName, name: "authMaterialName", parent: name, pattern: "^[a-zA-Z0-9=_+/-]+$")
+            try self.secretsManager.validate(name: "\(name).secretsManager")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMaterialName = "AuthMaterialName"
+            case secretsManager = "SecretsManager"
         }
     }
 
@@ -762,16 +818,19 @@ extension IoTManagedIntegrations {
         public let connectorDestinationId: String
         /// A description of the account association request.
         public let description: String?
+        /// The General Authorization reference by authorization material name.
+        public let generalAuthorization: GeneralAuthorizationName?
         /// The name of the destination for the new account association.
         public let name: String?
         /// A set of key/value pairs that are used to manage the account association.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateAccountAssociationRequest.idempotencyToken(), connectorDestinationId: String, description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateAccountAssociationRequest.idempotencyToken(), connectorDestinationId: String, description: String? = nil, generalAuthorization: GeneralAuthorizationName? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.connectorDestinationId = connectorDestinationId
             self.description = description
+            self.generalAuthorization = generalAuthorization
             self.name = name
             self.tags = tags
         }
@@ -786,6 +845,7 @@ extension IoTManagedIntegrations {
             try self.validate(self.description, name: "description", parent: name, max: 4096)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+            try self.generalAuthorization?.validate(name: "\(name).generalAuthorization")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
@@ -802,6 +862,7 @@ extension IoTManagedIntegrations {
             case clientToken = "ClientToken"
             case connectorDestinationId = "ConnectorDestinationId"
             case description = "Description"
+            case generalAuthorization = "GeneralAuthorization"
             case name = "Name"
             case tags = "Tags"
         }
@@ -814,7 +875,7 @@ extension IoTManagedIntegrations {
         public let arn: String?
         /// The current state of the account association request.
         public let associationState: AssociationState
-        /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+        /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication. This field will be empty when using General Authorization flows that do not require OAuth.
         public let oAuthAuthorizationUrl: String
 
         @inlinable
@@ -894,7 +955,7 @@ extension IoTManagedIntegrations {
         /// The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
         public let authConfig: AuthConfig
         /// The authentication type used for the connector destination, which determines how credentials and access are managed.
-        public let authType: AuthType
+        public let authType: AuthType?
         /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
         public let clientToken: String?
         /// The identifier of the C2C connector.
@@ -904,10 +965,10 @@ extension IoTManagedIntegrations {
         /// The display name of the connector destination.
         public let name: String?
         /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
-        public let secretsManager: SecretsManager
+        public let secretsManager: SecretsManager?
 
         @inlinable
-        public init(authConfig: AuthConfig, authType: AuthType, clientToken: String? = CreateConnectorDestinationRequest.idempotencyToken(), cloudConnectorId: String, description: String? = nil, name: String? = nil, secretsManager: SecretsManager) {
+        public init(authConfig: AuthConfig, authType: AuthType? = nil, clientToken: String? = CreateConnectorDestinationRequest.idempotencyToken(), cloudConnectorId: String, description: String? = nil, name: String? = nil, secretsManager: SecretsManager? = nil) {
             self.authConfig = authConfig
             self.authType = authType
             self.clientToken = clientToken
@@ -931,7 +992,7 @@ extension IoTManagedIntegrations {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
-            try self.secretsManager.validate(name: "\(name).secretsManager")
+            try self.secretsManager?.validate(name: "\(name).secretsManager")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1156,7 +1217,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct CreateManagedThingRequest: AWSEncodableShape {
-        /// The authentication material defining the device connectivity setup requests. The authentication materials used are the device bar code.
+        /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code.
         public let authenticationMaterial: String
         /// The type of authentication material used for device connectivity setup requests.
         public let authenticationMaterialType: AuthMaterialType
@@ -1188,9 +1249,11 @@ extension IoTManagedIntegrations {
         public let serialNumber: String?
         /// A set of key/value pairs that are used to manage the managed thing.
         public let tags: [String: String]?
+        /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+        public let wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration?
 
         @inlinable
-        public init(authenticationMaterial: String, authenticationMaterialType: AuthMaterialType, brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, clientToken: String? = CreateManagedThingRequest.idempotencyToken(), credentialLockerId: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, role: Role, serialNumber: String? = nil, tags: [String: String]? = nil) {
+        public init(authenticationMaterial: String, authenticationMaterialType: AuthMaterialType, brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, clientToken: String? = CreateManagedThingRequest.idempotencyToken(), credentialLockerId: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, role: Role, serialNumber: String? = nil, tags: [String: String]? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
             self.authenticationMaterial = authenticationMaterial
             self.authenticationMaterialType = authenticationMaterialType
             self.brand = brand
@@ -1207,6 +1270,7 @@ extension IoTManagedIntegrations {
             self.role = role
             self.serialNumber = serialNumber
             self.tags = tags
+            self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1259,6 +1323,7 @@ extension IoTManagedIntegrations {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.wiFiSimpleSetupConfiguration?.validate(name: "\(name).wiFiSimpleSetupConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1278,6 +1343,7 @@ extension IoTManagedIntegrations {
             case role = "Role"
             case serialNumber = "SerialNumber"
             case tags = "Tags"
+            case wiFiSimpleSetupConfiguration = "WiFiSimpleSetupConfiguration"
         }
     }
 
@@ -1525,6 +1591,8 @@ extension IoTManagedIntegrations {
     public struct CreateProvisioningProfileRequest: AWSEncodableShape {
         /// The id of the certificate authority (CA) certificate.
         public let caCertificate: String?
+        /// The claim certificate.
+        public let claimCertificate: String?
         /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
         public let clientToken: String?
         /// The name of the provisioning template.
@@ -1535,8 +1603,9 @@ extension IoTManagedIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(caCertificate: String? = nil, clientToken: String? = CreateProvisioningProfileRequest.idempotencyToken(), name: String? = nil, provisioningType: ProvisioningType, tags: [String: String]? = nil) {
+        public init(caCertificate: String? = nil, claimCertificate: String? = nil, clientToken: String? = CreateProvisioningProfileRequest.idempotencyToken(), name: String? = nil, provisioningType: ProvisioningType, tags: [String: String]? = nil) {
             self.caCertificate = caCertificate
+            self.claimCertificate = claimCertificate
             self.clientToken = clientToken
             self.name = name
             self.provisioningType = provisioningType
@@ -1562,6 +1631,7 @@ extension IoTManagedIntegrations {
 
         private enum CodingKeys: String, CodingKey {
             case caCertificate = "CaCertificate"
+            case claimCertificate = "ClaimCertificate"
             case clientToken = "ClientToken"
             case name = "Name"
             case provisioningType = "ProvisioningType"
@@ -2134,6 +2204,55 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct GeneralAuthorizationName: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the authorization material.
+        public let authMaterialName: String?
+
+        @inlinable
+        public init(authMaterialName: String? = nil) {
+            self.authMaterialName = authMaterialName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.authMaterialName, name: "authMaterialName", parent: name, max: 100)
+            try self.validate(self.authMaterialName, name: "authMaterialName", parent: name, min: 1)
+            try self.validate(self.authMaterialName, name: "authMaterialName", parent: name, pattern: "^[a-zA-Z0-9=_+/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMaterialName = "AuthMaterialName"
+        }
+    }
+
+    public struct GeneralAuthorizationUpdate: AWSEncodableShape {
+        /// The authorization materials to add.
+        public let authMaterialsToAdd: [AuthMaterial]?
+        /// The authorization materials to update.
+        public let authMaterialsToUpdate: [AuthMaterial]?
+
+        @inlinable
+        public init(authMaterialsToAdd: [AuthMaterial]? = nil, authMaterialsToUpdate: [AuthMaterial]? = nil) {
+            self.authMaterialsToAdd = authMaterialsToAdd
+            self.authMaterialsToUpdate = authMaterialsToUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.authMaterialsToAdd?.forEach {
+                try $0.validate(name: "\(name).authMaterialsToAdd[]")
+            }
+            try self.validate(self.authMaterialsToAdd, name: "authMaterialsToAdd", parent: name, max: 3)
+            try self.authMaterialsToUpdate?.forEach {
+                try $0.validate(name: "\(name).authMaterialsToUpdate[]")
+            }
+            try self.validate(self.authMaterialsToUpdate, name: "authMaterialsToUpdate", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authMaterialsToAdd = "AuthMaterialsToAdd"
+            case authMaterialsToUpdate = "AuthMaterialsToUpdate"
+        }
+    }
+
     public struct GetAccountAssociationRequest: AWSEncodableShape {
         /// The unique identifier of the account association to retrieve.
         public let accountAssociationId: String
@@ -2171,21 +2290,24 @@ extension IoTManagedIntegrations {
         public let description: String?
         /// The error message explaining the current account association error.
         public let errorMessage: String?
+        /// The General Authorization reference by authorization material name.
+        public let generalAuthorization: GeneralAuthorizationName?
         /// The name of the account association.
         public let name: String?
-        /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+        /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication. This field will be empty when using General Authorization flows that do not require OAuth.
         public let oAuthAuthorizationUrl: String
         /// A set of key/value pairs that are used to manage the account association.
         public let tags: [String: String]?
 
         @inlinable
-        public init(accountAssociationId: String, arn: String? = nil, associationState: AssociationState, connectorDestinationId: String? = nil, description: String? = nil, errorMessage: String? = nil, name: String? = nil, oAuthAuthorizationUrl: String, tags: [String: String]? = nil) {
+        public init(accountAssociationId: String, arn: String? = nil, associationState: AssociationState, connectorDestinationId: String? = nil, description: String? = nil, errorMessage: String? = nil, generalAuthorization: GeneralAuthorizationName? = nil, name: String? = nil, oAuthAuthorizationUrl: String, tags: [String: String]? = nil) {
             self.accountAssociationId = accountAssociationId
             self.arn = arn
             self.associationState = associationState
             self.connectorDestinationId = connectorDestinationId
             self.description = description
             self.errorMessage = errorMessage
+            self.generalAuthorization = generalAuthorization
             self.name = name
             self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
             self.tags = tags
@@ -2198,6 +2320,7 @@ extension IoTManagedIntegrations {
             case connectorDestinationId = "ConnectorDestinationId"
             case description = "Description"
             case errorMessage = "ErrorMessage"
+            case generalAuthorization = "GeneralAuthorization"
             case name = "Name"
             case oAuthAuthorizationUrl = "OAuthAuthorizationUrl"
             case tags = "Tags"
@@ -2911,7 +3034,7 @@ extension IoTManagedIntegrations {
         public let owner: String?
         /// Id of the controller device used for the discovery job.
         public let parentControllerId: String?
-        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations.
+        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations. For more information, see Device Provisioning.
         public let provisioningStatus: ProvisioningStatus?
         /// The type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
         public let role: Role?
@@ -2923,9 +3046,11 @@ extension IoTManagedIntegrations {
         public let universalProductCode: String?
         /// The timestamp value of when the managed thing was last updated at.
         public let updatedAt: Date?
+        /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+        public let wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration?
 
         @inlinable
-        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, deviceSpecificKey: String? = nil, hubNetworkMode: HubNetworkMode? = nil, id: String? = nil, internationalArticleNumber: String? = nil, macAddress: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, universalProductCode: String? = nil, updatedAt: Date? = nil) {
+        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, deviceSpecificKey: String? = nil, hubNetworkMode: HubNetworkMode? = nil, id: String? = nil, internationalArticleNumber: String? = nil, macAddress: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, universalProductCode: String? = nil, updatedAt: Date? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
             self.activatedAt = activatedAt
             self.advertisedProductId = advertisedProductId
             self.arn = arn
@@ -2952,11 +3077,12 @@ extension IoTManagedIntegrations {
             self.tags = tags
             self.universalProductCode = universalProductCode
             self.updatedAt = updatedAt
+            self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
         }
 
         @available(*, deprecated, message: "Members connectorPolicyId have been deprecated")
         @inlinable
-        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, connectorPolicyId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, deviceSpecificKey: String? = nil, hubNetworkMode: HubNetworkMode? = nil, id: String? = nil, internationalArticleNumber: String? = nil, macAddress: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, universalProductCode: String? = nil, updatedAt: Date? = nil) {
+        public init(activatedAt: Date? = nil, advertisedProductId: String? = nil, arn: String? = nil, brand: String? = nil, classification: String? = nil, connectorDestinationId: String? = nil, connectorDeviceId: String? = nil, connectorPolicyId: String? = nil, createdAt: Date? = nil, credentialLockerId: String? = nil, deviceSpecificKey: String? = nil, hubNetworkMode: HubNetworkMode? = nil, id: String? = nil, internationalArticleNumber: String? = nil, macAddress: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, parentControllerId: String? = nil, provisioningStatus: ProvisioningStatus? = nil, role: Role? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, universalProductCode: String? = nil, updatedAt: Date? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
             self.activatedAt = activatedAt
             self.advertisedProductId = advertisedProductId
             self.arn = arn
@@ -2983,6 +3109,7 @@ extension IoTManagedIntegrations {
             self.tags = tags
             self.universalProductCode = universalProductCode
             self.updatedAt = updatedAt
+            self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3012,6 +3139,7 @@ extension IoTManagedIntegrations {
             case tags = "Tags"
             case universalProductCode = "UniversalProductCode"
             case updatedAt = "UpdatedAt"
+            case wiFiSimpleSetupConfiguration = "WiFiSimpleSetupConfiguration"
         }
     }
 
@@ -4023,7 +4151,7 @@ extension IoTManagedIntegrations {
         public let ownerFilter: String?
         /// Filter on a parent controller id for a managed thing.
         public let parentControllerIdentifierFilter: String?
-        /// Filter on the status of the device.
+        /// Filter on the status of the device. For more information, see Device Provisioning.
         public let provisioningStatusFilter: ProvisioningStatus?
         /// Filter on the type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
         public let roleFilter: Role?
@@ -4452,7 +4580,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The ARN of the resource for which to list tags.
+        /// The Amazon Resource Name (ARN) of the resource for which to list tags.
         public let resourceArn: String
 
         @inlinable
@@ -4492,17 +4620,21 @@ extension IoTManagedIntegrations {
     public struct ManagedThingAssociation: AWSDecodableShape {
         /// The identifier of the account association in the association.
         public let accountAssociationId: String?
+        /// The status of the registration between the managed thing and the account association. Indicates whether the device is pre-associated or fully associated with the account association.
+        public let managedThingAssociationStatus: ManagedThingAssociationStatus?
         /// The identifier of the managed thing in the association.
         public let managedThingId: String?
 
         @inlinable
-        public init(accountAssociationId: String? = nil, managedThingId: String? = nil) {
+        public init(accountAssociationId: String? = nil, managedThingAssociationStatus: ManagedThingAssociationStatus? = nil, managedThingId: String? = nil) {
             self.accountAssociationId = accountAssociationId
+            self.managedThingAssociationStatus = managedThingAssociationStatus
             self.managedThingId = managedThingId
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountAssociationId = "AccountAssociationId"
+            case managedThingAssociationStatus = "ManagedThingAssociationStatus"
             case managedThingId = "ManagedThingId"
         }
     }
@@ -4560,7 +4692,7 @@ extension IoTManagedIntegrations {
         public let owner: String?
         /// Id of the controller device used for the discovery job.
         public let parentControllerId: String?
-        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations.
+        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations. For more information, see Device Provisioning.
         public let provisioningStatus: ProvisioningStatus?
         /// The type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
         public let role: Role?
@@ -5930,7 +6062,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct StartAccountAssociationRefreshResponse: AWSDecodableShape {
-        /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process.
+        /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process. This field will be empty when using General Authorization flows that do not require OAuth.
         public let oAuthAuthorizationUrl: String
 
         @inlinable
@@ -5954,39 +6086,51 @@ extension IoTManagedIntegrations {
         public let clientToken: String?
         /// The id of the connector association.
         public let connectorAssociationIdentifier: String?
+        /// Used as a filter for PLA discoveries.
+        public let connectorDeviceIdList: [String]?
         /// The id of the end-user's IoT hub.
         public let controllerIdentifier: String?
         /// Additional protocol-specific details required for device discovery, which vary based on the discovery type.  For a DiscoveryType of CUSTOM, the string-to-string map must have a key value of Name set to a non-empty-string.
         public let customProtocolDetail: [String: String]?
         /// The discovery type supporting the type of device to be discovered in the device discovery task request.
         public let discoveryType: DiscoveryType
+        /// The unique id of the end device for capability rediscovery.  This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
+        public let endDeviceIdentifier: String?
+        /// The protocol type for capability rediscovery (ZWAVE, ZIGBEE, or CUSTOM).  This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
+        public let `protocol`: ProtocolType?
         /// A set of key/value pairs that are used to manage the device discovery request.
         public let tags: [String: String]?
 
         @inlinable
-        public init(accountAssociationId: String? = nil, authenticationMaterial: String? = nil, authenticationMaterialType: DiscoveryAuthMaterialType? = nil, clientToken: String? = nil, controllerIdentifier: String? = nil, customProtocolDetail: [String: String]? = nil, discoveryType: DiscoveryType) {
+        public init(accountAssociationId: String? = nil, authenticationMaterial: String? = nil, authenticationMaterialType: DiscoveryAuthMaterialType? = nil, clientToken: String? = nil, connectorDeviceIdList: [String]? = nil, controllerIdentifier: String? = nil, customProtocolDetail: [String: String]? = nil, discoveryType: DiscoveryType, endDeviceIdentifier: String? = nil, protocol: ProtocolType? = nil) {
             self.accountAssociationId = accountAssociationId
             self.authenticationMaterial = authenticationMaterial
             self.authenticationMaterialType = authenticationMaterialType
             self.clientToken = clientToken
             self.connectorAssociationIdentifier = nil
+            self.connectorDeviceIdList = connectorDeviceIdList
             self.controllerIdentifier = controllerIdentifier
             self.customProtocolDetail = customProtocolDetail
             self.discoveryType = discoveryType
+            self.endDeviceIdentifier = endDeviceIdentifier
+            self.`protocol` = `protocol`
             self.tags = nil
         }
 
         @available(*, deprecated, message: "Members connectorAssociationIdentifier, tags have been deprecated")
         @inlinable
-        public init(accountAssociationId: String? = nil, authenticationMaterial: String? = nil, authenticationMaterialType: DiscoveryAuthMaterialType? = nil, clientToken: String? = nil, connectorAssociationIdentifier: String? = nil, controllerIdentifier: String? = nil, customProtocolDetail: [String: String]? = nil, discoveryType: DiscoveryType, tags: [String: String]? = nil) {
+        public init(accountAssociationId: String? = nil, authenticationMaterial: String? = nil, authenticationMaterialType: DiscoveryAuthMaterialType? = nil, clientToken: String? = nil, connectorAssociationIdentifier: String? = nil, connectorDeviceIdList: [String]? = nil, controllerIdentifier: String? = nil, customProtocolDetail: [String: String]? = nil, discoveryType: DiscoveryType, endDeviceIdentifier: String? = nil, protocol: ProtocolType? = nil, tags: [String: String]? = nil) {
             self.accountAssociationId = accountAssociationId
             self.authenticationMaterial = authenticationMaterial
             self.authenticationMaterialType = authenticationMaterialType
             self.clientToken = clientToken
             self.connectorAssociationIdentifier = connectorAssociationIdentifier
+            self.connectorDeviceIdList = connectorDeviceIdList
             self.controllerIdentifier = controllerIdentifier
             self.customProtocolDetail = customProtocolDetail
             self.discoveryType = discoveryType
+            self.endDeviceIdentifier = endDeviceIdentifier
+            self.`protocol` = `protocol`
             self.tags = tags
         }
 
@@ -6003,6 +6147,12 @@ extension IoTManagedIntegrations {
             try self.validate(self.connectorAssociationIdentifier, name: "connectorAssociationIdentifier", parent: name, max: 64)
             try self.validate(self.connectorAssociationIdentifier, name: "connectorAssociationIdentifier", parent: name, min: 1)
             try self.validate(self.connectorAssociationIdentifier, name: "connectorAssociationIdentifier", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.connectorDeviceIdList?.forEach {
+                try validate($0, name: "connectorDeviceIdList[]", parent: name, max: 256)
+                try validate($0, name: "connectorDeviceIdList[]", parent: name, min: 1)
+                try validate($0, name: "connectorDeviceIdList[]", parent: name, pattern: "^[a-zA-Z0-9_.,@-]+$")
+            }
+            try self.validate(self.connectorDeviceIdList, name: "connectorDeviceIdList", parent: name, max: 100)
             try self.validate(self.controllerIdentifier, name: "controllerIdentifier", parent: name, max: 64)
             try self.validate(self.controllerIdentifier, name: "controllerIdentifier", parent: name, min: 1)
             try self.validate(self.controllerIdentifier, name: "controllerIdentifier", parent: name, pattern: "^[a-zA-Z0-9:_-]*$")
@@ -6015,6 +6165,9 @@ extension IoTManagedIntegrations {
                 try validate($0.value, name: "customProtocolDetail[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9 _.{}:\"-]+$")
             }
             try self.validate(self.customProtocolDetail, name: "customProtocolDetail", parent: name, max: 50)
+            try self.validate(self.endDeviceIdentifier, name: "endDeviceIdentifier", parent: name, max: 64)
+            try self.validate(self.endDeviceIdentifier, name: "endDeviceIdentifier", parent: name, min: 1)
+            try self.validate(self.endDeviceIdentifier, name: "endDeviceIdentifier", parent: name, pattern: "^[a-zA-Z0-9:_-]*$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -6030,9 +6183,12 @@ extension IoTManagedIntegrations {
             case authenticationMaterialType = "AuthenticationMaterialType"
             case clientToken = "ClientToken"
             case connectorAssociationIdentifier = "ConnectorAssociationIdentifier"
+            case connectorDeviceIdList = "ConnectorDeviceIdList"
             case controllerIdentifier = "ControllerIdentifier"
             case customProtocolDetail = "CustomProtocolDetail"
             case discoveryType = "DiscoveryType"
+            case endDeviceIdentifier = "EndDeviceIdentifier"
+            case `protocol` = "Protocol"
             case tags = "Tags"
         }
     }
@@ -6100,9 +6256,9 @@ extension IoTManagedIntegrations {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The ARN of the resource to which to add tags.
+        /// The Amazon Resource Name (ARN) of the resource to which to add tags.
         public let resourceArn: String
-        /// A set of key/value pairs that are used to manage the resource
+        /// A set of key/value pairs that are used to manage the resource.
         public let tags: [String: String]
 
         @inlinable
@@ -6187,7 +6343,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN of the resource to which to add tags.
+        /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
         public let resourceArn: String
         /// A list of tag keys to remove from the resource.
         public let tagKeys: [String]
@@ -6341,6 +6497,7 @@ extension IoTManagedIntegrations {
         }
 
         public func validate(name: String) throws {
+            try self.authConfig?.validate(name: "\(name).authConfig")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[0-9A-Za-z_\\- ]+$")
@@ -6470,9 +6627,11 @@ extension IoTManagedIntegrations {
         public let owner: String?
         /// The serial number of the device.
         public let serialNumber: String?
+        /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+        public let wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration?
 
         @inlinable
-        public init(brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, credentialLockerId: String? = nil, hubNetworkMode: HubNetworkMode? = nil, identifier: String, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, serialNumber: String? = nil) {
+        public init(brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, credentialLockerId: String? = nil, hubNetworkMode: HubNetworkMode? = nil, identifier: String, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, serialNumber: String? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
             self.brand = brand
             self.capabilities = capabilities
             self.capabilityReport = capabilityReport
@@ -6486,6 +6645,7 @@ extension IoTManagedIntegrations {
             self.name = name
             self.owner = owner
             self.serialNumber = serialNumber
+            self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -6504,6 +6664,7 @@ extension IoTManagedIntegrations {
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.owner, forKey: .owner)
             try container.encodeIfPresent(self.serialNumber, forKey: .serialNumber)
+            try container.encodeIfPresent(self.wiFiSimpleSetupConfiguration, forKey: .wiFiSimpleSetupConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -6546,6 +6707,7 @@ extension IoTManagedIntegrations {
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 128)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 1)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, pattern: "^[A-Za-z0-9-_ ]+$")
+            try self.wiFiSimpleSetupConfiguration?.validate(name: "\(name).wiFiSimpleSetupConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6561,6 +6723,7 @@ extension IoTManagedIntegrations {
             case name = "Name"
             case owner = "Owner"
             case serialNumber = "SerialNumber"
+            case wiFiSimpleSetupConfiguration = "WiFiSimpleSetupConfiguration"
         }
     }
 
@@ -6632,6 +6795,33 @@ extension IoTManagedIntegrations {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case taskConfigurationId = "TaskConfigurationId"
+        }
+    }
+
+    public struct WiFiSimpleSetupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the device can act as a provisionee in Wi-Fi Simple Setup, allowing it to be configured by other devices.
+        public let enableAsProvisionee: Bool?
+        /// Indicates whether the device can act as a provisioner in Wi-Fi Simple Setup, allowing it to configure other devices.
+        public let enableAsProvisioner: Bool?
+        /// The timeout duration in minutes for Wi-Fi Simple Setup. Valid range is 5 to 15 minutes.
+        public let timeoutInMinutes: Int?
+
+        @inlinable
+        public init(enableAsProvisionee: Bool? = nil, enableAsProvisioner: Bool? = nil, timeoutInMinutes: Int? = nil) {
+            self.enableAsProvisionee = enableAsProvisionee
+            self.enableAsProvisioner = enableAsProvisioner
+            self.timeoutInMinutes = timeoutInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 15)
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableAsProvisionee = "EnableAsProvisionee"
+            case enableAsProvisioner = "EnableAsProvisioner"
+            case timeoutInMinutes = "TimeoutInMinutes"
         }
     }
 }

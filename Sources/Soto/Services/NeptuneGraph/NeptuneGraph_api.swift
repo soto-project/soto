@@ -328,7 +328,7 @@ public struct NeptuneGraph: AWSService {
         return try await self.createGraphUsingImportTask(input, logger: logger)
     }
 
-    /// Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint.  VPC endpoint charges apply.
+    /// Create a private graph endpoint to allow private access to the graph from within a VPC. You can attach security groups to the private graph endpoint.  VPC endpoint charges apply.
     @Sendable
     @inlinable
     public func createPrivateGraphEndpoint(_ input: CreatePrivateGraphEndpointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePrivateGraphEndpointOutput {
@@ -341,13 +341,13 @@ public struct NeptuneGraph: AWSService {
             logger: logger
         )
     }
-    /// Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint.  VPC endpoint charges apply.
+    /// Create a private graph endpoint to allow private access to the graph from within a VPC. You can attach security groups to the private graph endpoint.  VPC endpoint charges apply.
     ///
     /// Parameters:
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
     ///   - subnetIds: Subnets in which private graph endpoint ENIs are created.
     ///   - vpcId:  The VPC in which the private graph endpoint needs to be created.
-    ///   - vpcSecurityGroupIds: Security groups to be attached to the private graph endpoint..
+    ///   - vpcSecurityGroupIds: Security groups to be attached to the private graph endpoint.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPrivateGraphEndpoint(
@@ -398,7 +398,7 @@ public struct NeptuneGraph: AWSService {
         return try await self.deleteGraph(input, logger: logger)
     }
 
-    /// Deletes the specifed graph snapshot.
+    /// Deletes the specified graph snapshot.
     @Sendable
     @inlinable
     public func deleteGraphSnapshot(_ input: DeleteGraphSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGraphSnapshotOutput {
@@ -411,7 +411,7 @@ public struct NeptuneGraph: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specifed graph snapshot.
+    /// Deletes the specified graph snapshot.
     ///
     /// Parameters:
     ///   - snapshotIdentifier: ID of the graph snapshot to be deleted.
@@ -1131,7 +1131,7 @@ public struct NeptuneGraph: AWSService {
     /// Parameters:
     ///   - blankNodeHandling: The method to handle blank nodes in the dataset. Currently, only convertToIri is supported, meaning blank nodes are converted to unique IRIs at load time. Must be provided when format is ntriples. For more information, see Handling RDF values.
     ///   - failOnError: If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
-    ///   - format: Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+    ///   - format: Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format.
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
     ///   - importOptions: 
     ///   - parquetType: The parquet type of the import task.

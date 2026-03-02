@@ -199,6 +199,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Av1BitDepth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case depth10 = "DEPTH_10"
+        case depth8 = "DEPTH_8"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Av1GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case frames = "FRAMES"
         case seconds = "SECONDS"
@@ -252,6 +258,12 @@ extension MediaLive {
     public enum Av1TemporalAq: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1TimecodeInsertionBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case metadataObu = "METADATA_OBU"
         public var description: String { return self.rawValue }
     }
 
@@ -497,6 +509,12 @@ extension MediaLive {
         case hlg2020 = "HLG_2020"
         case rec601 = "REC_601"
         case rec709 = "REC_709"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case caller = "CALLER"
+        case listener = "LISTENER"
         public var description: String { return self.rawValue }
     }
 
@@ -1601,6 +1619,7 @@ extension MediaLive {
         case sdi = "SDI"
         case smpte2110ReceiverGroup = "SMPTE_2110_RECEIVER_GROUP"
         case srtCaller = "SRT_CALLER"
+        case srtListener = "SRT_LISTENER"
         case tsFile = "TS_FILE"
         case udpPush = "UDP_PUSH"
         case urlPull = "URL_PULL"
@@ -1610,6 +1629,12 @@ extension MediaLive {
     public enum LastFrameClippingBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case excludeLastFrame = "EXCLUDE_LAST_FRAME"
         case includeLastFrame = "INCLUDE_LAST_FRAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LinkedChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case followingChannel = "FOLLOWING_CHANNEL"
+        case primaryChannel = "PRIMARY_CHANNEL"
         public var description: String { return self.rawValue }
     }
 
@@ -1967,6 +1992,12 @@ extension MediaLive {
     public enum PipelineId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pipeline0 = "PIPELINE_0"
         case pipeline1 = "PIPELINE_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineLockingMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sourceTimecode = "SOURCE_TIMECODE"
+        case videoAlignment = "VIDEO_ALIGNMENT"
         public var description: String { return self.rawValue }
     }
 
@@ -2385,6 +2416,7 @@ extension MediaLive {
 
     public enum VideoDescriptionScalingBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
+        case smartCrop = "SMART_CROP"
         case stretchToOutput = "STRETCH_TO_OUTPUT"
         public var description: String { return self.rawValue }
     }
@@ -2853,7 +2885,7 @@ extension MediaLive {
         public let algorithm: AudioNormalizationAlgorithm?
         /// When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.
         public let algorithmControl: AudioNormalizationAlgorithmControl?
-        /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm.  The CALM Act (1770-1) recommends a target of -24 LKFS. The EBU R-128 specification (1770-2) recommends a target of -23 LKFS.
+        /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm.  The CALM Act recommends a target of -24 LKFS. The EBU R-128 specification recommends a target of -23 LKFS.
         public let targetLkfs: Double?
 
         @inlinable
@@ -3077,6 +3109,8 @@ extension MediaLive {
         /// FIXED: the AFD value will be the value configured in the fixedAfd parameter.
         /// NONE: MediaLive won't write AFD into the video
         public let afdSignaling: AfdSignaling?
+        /// Specifies the bit depth for the output encode. Choose a value. Or leave the field empty to use the default, which is 8 bit.
+        public let bitDepth: Av1BitDepth?
         /// Average bitrate in bits/second. Required when the rate control mode is CBR. Not used for QVBR.
         public let bitrate: Int?
         /// The size of the buffer (HRD buffer model) in bits.
@@ -3138,10 +3172,15 @@ extension MediaLive {
         public let temporalAq: Av1TemporalAq?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
         public let timecodeBurninSettings: TimecodeBurninSettings?
+        /// Controls how MediaLive inserts timecodes into the video output encode.
+        /// DISABLED: Do not insert timecodes.
+        /// METADATA_OBU: Include timecodes. MediaLive inserts timecode metadata based on the timecode from the source specified in the Timecode Config property. The timecode metadata is a metadata OBU (Open Bitstream Unit) of type METADATA_TYPE_TIMECODE, in accordance with https://aomediacodec.github.io/av1-spec/#metadata-timecode-syntax.
+        public let timecodeInsertion: Av1TimecodeInsertionBehavior?
 
         @inlinable
-        public init(afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, spatialAq: Av1SpatialAq? = nil, temporalAq: Av1TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
+        public init(afdSignaling: AfdSignaling? = nil, bitDepth: Av1BitDepth? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, spatialAq: Av1SpatialAq? = nil, temporalAq: Av1TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil, timecodeInsertion: Av1TimecodeInsertionBehavior? = nil) {
             self.afdSignaling = afdSignaling
+            self.bitDepth = bitDepth
             self.bitrate = bitrate
             self.bufSize = bufSize
             self.colorSpaceSettings = colorSpaceSettings
@@ -3163,10 +3202,12 @@ extension MediaLive {
             self.spatialAq = spatialAq
             self.temporalAq = temporalAq
             self.timecodeBurninSettings = timecodeBurninSettings
+            self.timecodeInsertion = timecodeInsertion
         }
 
         private enum CodingKeys: String, CodingKey {
             case afdSignaling = "afdSignaling"
+            case bitDepth = "bitDepth"
             case bitrate = "bitrate"
             case bufSize = "bufSize"
             case colorSpaceSettings = "colorSpaceSettings"
@@ -3188,6 +3229,7 @@ extension MediaLive {
             case spatialAq = "spatialAq"
             case temporalAq = "temporalAq"
             case timecodeBurninSettings = "timecodeBurninSettings"
+            case timecodeInsertion = "timecodeInsertion"
         }
     }
 
@@ -3897,6 +3939,8 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// Requested engine version for this channel.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
@@ -3906,10 +3950,14 @@ extension MediaLive {
         public let encoderSettings: EncoderSettings?
         /// The unique id of the channel.
         public let id: String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: DescribeInferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public let linkedChannelSettings: DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -3929,18 +3977,21 @@ extension MediaLive {
         public let vpc: VpcOutputSettingsDescription?
 
         @inlinable
-        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inferenceSettings: DescribeInferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: DescribeLinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -3958,12 +4009,15 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case egressEndpoints = "egressEndpoints"
             case encoderSettings = "encoderSettings"
             case id = "id"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
@@ -4074,6 +4128,8 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// The engine version that you requested for this channel.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
@@ -4082,10 +4138,14 @@ extension MediaLive {
         public let egressEndpoints: [ChannelEgressEndpoint]?
         /// The unique id of the channel.
         public let id: String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: DescribeInferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public let linkedChannelSettings: DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -4105,17 +4165,20 @@ extension MediaLive {
         public let vpc: VpcOutputSettingsDescription?
 
         @inlinable
-        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, usedChannelEngineVersions: [ChannelEngineVersionResponse]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inferenceSettings: DescribeInferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: DescribeLinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, usedChannelEngineVersions: [ChannelEngineVersionResponse]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -4133,11 +4196,14 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case egressEndpoints = "egressEndpoints"
             case id = "id"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
@@ -4616,13 +4682,19 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// The desired engine version for this channel.
         public let channelEngineVersion: ChannelEngineVersionRequest?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         public let destinations: [OutputDestination]?
         public let dryRun: Bool?
         public let encoderSettings: EncoderSettings?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: InferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// The linked channel settings for the channel.
+        public let linkedChannelSettings: LinkedChannelSettings?
         /// The log level to write to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -4642,16 +4714,19 @@ extension MediaLive {
         public let vpc: VpcOutputSettings?
 
         @inlinable
-        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inferenceSettings: InferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: LinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.anywhereSettings = anywhereSettings
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.dryRun = dryRun
             self.encoderSettings = encoderSettings
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -4664,16 +4739,19 @@ extension MediaLive {
 
         @available(*, deprecated, message: "Members reserved have been deprecated")
         @inlinable
-        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inferenceSettings: InferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: LinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.anywhereSettings = anywhereSettings
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.dryRun = dryRun
             self.encoderSettings = encoderSettings
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -4689,11 +4767,14 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case dryRun = "dryRun"
             case encoderSettings = "encoderSettings"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
@@ -5881,6 +5962,8 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// Requested engine version for this channel.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
@@ -5890,10 +5973,14 @@ extension MediaLive {
         public let encoderSettings: EncoderSettings?
         /// The unique id of the channel.
         public let id: String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: DescribeInferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public let linkedChannelSettings: DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -5913,18 +6000,21 @@ extension MediaLive {
         public let vpc: VpcOutputSettingsDescription?
 
         @inlinable
-        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inferenceSettings: DescribeInferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: DescribeLinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -5942,12 +6032,15 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case egressEndpoints = "egressEndpoints"
             case encoderSettings = "encoderSettings"
             case id = "id"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
@@ -6745,6 +6838,8 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// Requested engine version for this channel.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
@@ -6754,10 +6849,14 @@ extension MediaLive {
         public let encoderSettings: EncoderSettings?
         /// The unique id of the channel.
         public let id: String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: DescribeInferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public let linkedChannelSettings: DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -6777,18 +6876,21 @@ extension MediaLive {
         public let vpc: VpcOutputSettingsDescription?
 
         @inlinable
-        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inferenceSettings: DescribeInferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: DescribeLinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -6806,12 +6908,15 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case egressEndpoints = "egressEndpoints"
             case encoderSettings = "encoderSettings"
             case id = "id"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
@@ -6922,6 +7027,38 @@ extension MediaLive {
             case name = "name"
             case networkSettings = "networkSettings"
             case state = "state"
+        }
+    }
+
+    public struct DescribeFollowerChannelSettings: AWSDecodableShape {
+        /// Specifies this as a follower channel
+        public let linkedChannelType: LinkedChannelType?
+        /// The ARN of the primary channel this channel follows
+        public let primaryChannelArn: String?
+
+        @inlinable
+        public init(linkedChannelType: LinkedChannelType? = nil, primaryChannelArn: String? = nil) {
+            self.linkedChannelType = linkedChannelType
+            self.primaryChannelArn = primaryChannelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedChannelType = "linkedChannelType"
+            case primaryChannelArn = "primaryChannelArn"
+        }
+    }
+
+    public struct DescribeInferenceSettings: AWSDecodableShape {
+        /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
+        public let feedArn: String?
+
+        @inlinable
+        public init(feedArn: String? = nil) {
+            self.feedArn = feedArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedArn = "feedArn"
         }
     }
 
@@ -7212,6 +7349,8 @@ extension MediaLive {
     public struct DescribeInputSecurityGroupResponse: AWSDecodableShape {
         /// Unique ARN of Input Security Group
         public let arn: String?
+        /// The list of channels currently using this Input Security Group as their channel security group.
+        public let channels: [String]?
         /// The Id of the Input Security Group
         public let id: String?
         /// The list of inputs currently using this Input Security Group.
@@ -7224,8 +7363,9 @@ extension MediaLive {
         public let whitelistRules: [InputWhitelistRule]?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, inputs: [String]? = nil, state: InputSecurityGroupState? = nil, tags: [String: String]? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
+        public init(arn: String? = nil, channels: [String]? = nil, id: String? = nil, inputs: [String]? = nil, state: InputSecurityGroupState? = nil, tags: [String: String]? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
             self.arn = arn
+            self.channels = channels
             self.id = id
             self.inputs = inputs
             self.state = state
@@ -7235,11 +7375,28 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case channels = "channels"
             case id = "id"
             case inputs = "inputs"
             case state = "state"
             case tags = "tags"
             case whitelistRules = "whitelistRules"
+        }
+    }
+
+    public struct DescribeLinkedChannelSettings: AWSDecodableShape {
+        public let followerChannelSettings: DescribeFollowerChannelSettings?
+        public let primaryChannelSettings: DescribePrimaryChannelSettings?
+
+        @inlinable
+        public init(followerChannelSettings: DescribeFollowerChannelSettings? = nil, primaryChannelSettings: DescribePrimaryChannelSettings? = nil) {
+            self.followerChannelSettings = followerChannelSettings
+            self.primaryChannelSettings = primaryChannelSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case followerChannelSettings = "followerChannelSettings"
+            case primaryChannelSettings = "primaryChannelSettings"
         }
     }
 
@@ -7661,6 +7818,24 @@ extension MediaLive {
         }
     }
 
+    public struct DescribePrimaryChannelSettings: AWSDecodableShape {
+        /// The ARNs of the following channels for this primary channel
+        public let followingChannelArns: [String]?
+        /// Specifies this as a primary channel
+        public let linkedChannelType: LinkedChannelType?
+
+        @inlinable
+        public init(followingChannelArns: [String]? = nil, linkedChannelType: LinkedChannelType? = nil) {
+            self.followingChannelArns = followingChannelArns
+            self.linkedChannelType = linkedChannelType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case followingChannelArns = "followingChannelArns"
+            case linkedChannelType = "linkedChannelType"
+        }
+    }
+
     public struct DescribeReservationRequest: AWSEncodableShape {
         /// Unique reservation ID, e.g. '1234567'
         public let reservationId: String
@@ -7875,6 +8050,20 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case thumbnailDetails = "thumbnailDetails"
+        }
+    }
+
+    public struct DisabledLockingSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optional. Only applies to CMAF Ingest Output Group and MediaPackage V2 Output Group. Enter a value here to use a custom epoch, instead of the standard epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
+        public let customEpoch: String?
+
+        @inlinable
+        public init(customEpoch: String? = nil) {
+            self.customEpoch = customEpoch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEpoch = "customEpoch"
         }
     }
 
@@ -8588,6 +8777,24 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case followPoint = "followPoint"
             case referenceActionName = "referenceActionName"
+        }
+    }
+
+    public struct FollowerChannelSettings: AWSEncodableShape {
+        /// Specifies this as a follower channel
+        public let linkedChannelType: LinkedChannelType?
+        /// The ARN of the primary channel to follow
+        public let primaryChannelArn: String?
+
+        @inlinable
+        public init(linkedChannelType: LinkedChannelType? = nil, primaryChannelArn: String? = nil) {
+            self.linkedChannelType = linkedChannelType
+            self.primaryChannelArn = primaryChannelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedChannelType = "linkedChannelType"
+            case primaryChannelArn = "primaryChannelArn"
         }
     }
 
@@ -10119,6 +10326,20 @@ extension MediaLive {
         public init() {}
     }
 
+    public struct InferenceSettings: AWSEncodableShape {
+        /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
+        public let feedArn: String?
+
+        @inlinable
+        public init(feedArn: String? = nil) {
+            self.feedArn = feedArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feedArn = "feedArn"
+        }
+    }
+
     public struct Input: AWSDecodableShape {
         /// The Unique ARN of the input (generated, immutable).
         public let arn: String?
@@ -10881,6 +11102,8 @@ extension MediaLive {
     public struct InputSecurityGroup: AWSDecodableShape {
         /// Unique ARN of Input Security Group
         public let arn: String?
+        /// The list of channels currently using this Input Security Group as their channel security group.
+        public let channels: [String]?
         /// The Id of the Input Security Group
         public let id: String?
         /// The list of inputs currently using this Input Security Group.
@@ -10893,8 +11116,9 @@ extension MediaLive {
         public let whitelistRules: [InputWhitelistRule]?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, inputs: [String]? = nil, state: InputSecurityGroupState? = nil, tags: [String: String]? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
+        public init(arn: String? = nil, channels: [String]? = nil, id: String? = nil, inputs: [String]? = nil, state: InputSecurityGroupState? = nil, tags: [String: String]? = nil, whitelistRules: [InputWhitelistRule]? = nil) {
             self.arn = arn
+            self.channels = channels
             self.id = id
             self.inputs = inputs
             self.state = state
@@ -10904,6 +11128,7 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case channels = "channels"
             case id = "id"
             case inputs = "inputs"
             case state = "state"
@@ -11215,6 +11440,22 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case staticKeySettings = "staticKeySettings"
+        }
+    }
+
+    public struct LinkedChannelSettings: AWSEncodableShape {
+        public let followerChannelSettings: FollowerChannelSettings?
+        public let primaryChannelSettings: PrimaryChannelSettings?
+
+        @inlinable
+        public init(followerChannelSettings: FollowerChannelSettings? = nil, primaryChannelSettings: PrimaryChannelSettings? = nil) {
+            self.followerChannelSettings = followerChannelSettings
+            self.primaryChannelSettings = primaryChannelSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case followerChannelSettings = "followerChannelSettings"
+            case primaryChannelSettings = "primaryChannelSettings"
         }
     }
 
@@ -12650,6 +12891,20 @@ extension MediaLive {
         }
     }
 
+    public struct MediaPackageAdditionalDestinations: AWSEncodableShape & AWSDecodableShape {
+        /// The destination location
+        public let destination: OutputLocationRef?
+
+        @inlinable
+        public init(destination: OutputLocationRef? = nil) {
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "destination"
+        }
+    }
+
     public struct MediaPackageGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// MediaPackage channel destination.
         public let destination: OutputLocationRef?
@@ -12669,24 +12924,32 @@ extension MediaLive {
     }
 
     public struct MediaPackageOutputDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Endpoint 1 or 2 of the channel in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public let channelEndpointId: String?
         /// Name of the channel group in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
         public let channelGroup: String?
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public let channelId: String?
         /// Name of the channel in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
         public let channelName: String?
+        /// Region the channel group and channel are located in for MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public let mediaPackageRegionName: String?
 
         @inlinable
-        public init(channelGroup: String? = nil, channelId: String? = nil, channelName: String? = nil) {
+        public init(channelEndpointId: String? = nil, channelGroup: String? = nil, channelId: String? = nil, channelName: String? = nil, mediaPackageRegionName: String? = nil) {
+            self.channelEndpointId = channelEndpointId
             self.channelGroup = channelGroup
             self.channelId = channelId
             self.channelName = channelName
+            self.mediaPackageRegionName = mediaPackageRegionName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case channelEndpointId = "channelEndpointId"
             case channelGroup = "channelGroup"
             case channelId = "channelId"
             case channelName = "channelName"
+            case mediaPackageRegionName = "mediaPackageRegionName"
         }
     }
 
@@ -12733,6 +12996,8 @@ extension MediaLive {
     }
 
     public struct MediaPackageV2GroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Optional an array of additional destinational HTTP destinations for the OutputGroup outputs
+        public let additionalDestinations: [MediaPackageAdditionalDestinations]?
         /// Mapping of up to 4 caption channels to caption languages.
         public let captionLanguageMappings: [CaptionLanguageMapping]?
         /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
@@ -12755,7 +13020,8 @@ extension MediaLive {
         public let timedMetadataPassthrough: CmafTimedMetadataPassthrough?
 
         @inlinable
-        public init(captionLanguageMappings: [CaptionLanguageMapping]? = nil, id3Behavior: CmafId3Behavior? = nil, klvBehavior: CmafKLVBehavior? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+        public init(additionalDestinations: [MediaPackageAdditionalDestinations]? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, id3Behavior: CmafId3Behavior? = nil, klvBehavior: CmafKLVBehavior? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+            self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
             self.id3Behavior = id3Behavior
             self.klvBehavior = klvBehavior
@@ -12769,6 +13035,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalDestinations = "additionalDestinations"
             case captionLanguageMappings = "captionLanguageMappings"
             case id3Behavior = "id3Behavior"
             case klvBehavior = "klvBehavior"
@@ -13898,19 +14165,23 @@ extension MediaLive {
         /// A uniform logical interface name to address in a MediaLive channel configuration.
         public let logicalInterfaceName: String?
         public let networkInterfaceMode: NetworkInterfaceMode?
+        /// The IP addresses associated with the physical interface on the node hardware.
+        public let physicalInterfaceIpAddresses: [String]?
         /// The name of the physical interface on the hardware that will be running Elemental anywhere.
         public let physicalInterfaceName: String?
 
         @inlinable
-        public init(logicalInterfaceName: String? = nil, networkInterfaceMode: NetworkInterfaceMode? = nil, physicalInterfaceName: String? = nil) {
+        public init(logicalInterfaceName: String? = nil, networkInterfaceMode: NetworkInterfaceMode? = nil, physicalInterfaceIpAddresses: [String]? = nil, physicalInterfaceName: String? = nil) {
             self.logicalInterfaceName = logicalInterfaceName
             self.networkInterfaceMode = networkInterfaceMode
+            self.physicalInterfaceIpAddresses = physicalInterfaceIpAddresses
             self.physicalInterfaceName = physicalInterfaceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case logicalInterfaceName = "logicalInterfaceName"
             case networkInterfaceMode = "networkInterfaceMode"
+            case physicalInterfaceIpAddresses = "physicalInterfaceIpAddresses"
             case physicalInterfaceName = "physicalInterfaceName"
         }
     }
@@ -14156,16 +14427,19 @@ extension MediaLive {
     }
 
     public struct OutputLockingSettings: AWSEncodableShape & AWSDecodableShape {
+        public let disabledLockingSettings: DisabledLockingSettings?
         public let epochLockingSettings: EpochLockingSettings?
         public let pipelineLockingSettings: PipelineLockingSettings?
 
         @inlinable
-        public init(epochLockingSettings: EpochLockingSettings? = nil, pipelineLockingSettings: PipelineLockingSettings? = nil) {
+        public init(disabledLockingSettings: DisabledLockingSettings? = nil, epochLockingSettings: EpochLockingSettings? = nil, pipelineLockingSettings: PipelineLockingSettings? = nil) {
+            self.disabledLockingSettings = disabledLockingSettings
             self.epochLockingSettings = epochLockingSettings
             self.pipelineLockingSettings = pipelineLockingSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case disabledLockingSettings = "disabledLockingSettings"
             case epochLockingSettings = "epochLockingSettings"
             case pipelineLockingSettings = "pipelineLockingSettings"
         }
@@ -14263,7 +14537,21 @@ extension MediaLive {
     }
 
     public struct PipelineLockingSettings: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// Optional. Only applies to CMAF Ingest Output Group and MediaPackage V2 Output Group Only. Enter a value here to use a custom epoch, instead of the standard epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
+        public let customEpoch: String?
+        /// The method to use to lock the video frames in the pipelines. sourceTimecode (default): Use the timecode in the source. videoAlignment: Lock frames that the encoder identifies as having matching content. If videoAlignment is selected, existing timecodes will not be used for any locking decisions.
+        public let pipelineLockingMethod: PipelineLockingMethod?
+
+        @inlinable
+        public init(customEpoch: String? = nil, pipelineLockingMethod: PipelineLockingMethod? = nil) {
+            self.customEpoch = customEpoch
+            self.pipelineLockingMethod = pipelineLockingMethod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEpoch = "customEpoch"
+            case pipelineLockingMethod = "pipelineLockingMethod"
+        }
     }
 
     public struct PipelinePauseStateSettings: AWSEncodableShape & AWSDecodableShape {
@@ -14277,6 +14565,20 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineId = "pipelineId"
+        }
+    }
+
+    public struct PrimaryChannelSettings: AWSEncodableShape {
+        /// Specifies this as a primary channel
+        public let linkedChannelType: LinkedChannelType?
+
+        @inlinable
+        public init(linkedChannelType: LinkedChannelType? = nil) {
+            self.linkedChannelType = linkedChannelType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedChannelType = "linkedChannelType"
         }
     }
 
@@ -14608,6 +14910,8 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// Requested engine version for this channel.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
@@ -14617,10 +14921,14 @@ extension MediaLive {
         public let encoderSettings: EncoderSettings?
         /// The unique id of the channel.
         public let id: String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: DescribeInferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public let linkedChannelSettings: DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -14642,18 +14950,21 @@ extension MediaLive {
         public let vpc: VpcOutputSettingsDescription?
 
         @inlinable
-        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, maintenanceStatus: String? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inferenceSettings: DescribeInferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: DescribeLinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, maintenanceStatus: String? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.maintenanceStatus = maintenanceStatus
@@ -14672,12 +14983,15 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case egressEndpoints = "egressEndpoints"
             case encoderSettings = "encoderSettings"
             case id = "id"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case maintenanceStatus = "maintenanceStatus"
@@ -15613,23 +15927,109 @@ extension MediaLive {
         }
     }
 
+    public struct SrtListenerDecryption: AWSDecodableShape {
+        /// The algorithm used to decrypt content.
+        public let algorithm: Algorithm?
+        /// The ARN for the secret in Secrets Manager that holds the passphrase for decryption.
+        public let passphraseSecretArn: String?
+
+        @inlinable
+        public init(algorithm: Algorithm? = nil, passphraseSecretArn: String? = nil) {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "algorithm"
+            case passphraseSecretArn = "passphraseSecretArn"
+        }
+    }
+
+    public struct SrtListenerDecryptionRequest: AWSEncodableShape {
+        /// Required. The decryption algorithm.
+        public let algorithm: Algorithm?
+        /// Required. The ARN for the secret in Secrets Manager that holds the passphrase.
+        public let passphraseSecretArn: String?
+
+        @inlinable
+        public init(algorithm: Algorithm? = nil, passphraseSecretArn: String? = nil) {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "algorithm"
+            case passphraseSecretArn = "passphraseSecretArn"
+        }
+    }
+
+    public struct SrtListenerSettings: AWSDecodableShape {
+        public let decryption: SrtListenerDecryption?
+        /// The preferred latency (in milliseconds) for implementing packet loss and recovery. Range 120-15000.
+        public let minimumLatency: Int?
+        /// The stream ID, if the upstream system uses this identifier.
+        public let streamId: String?
+
+        @inlinable
+        public init(decryption: SrtListenerDecryption? = nil, minimumLatency: Int? = nil, streamId: String? = nil) {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decryption = "decryption"
+            case minimumLatency = "minimumLatency"
+            case streamId = "streamId"
+        }
+    }
+
+    public struct SrtListenerSettingsRequest: AWSEncodableShape {
+        public let decryption: SrtListenerDecryptionRequest?
+        /// Required. The preferred latency in milliseconds for packet loss and recovery. Range 120-15000.
+        public let minimumLatency: Int?
+        /// Optional. The stream ID if the upstream system uses this identifier.
+        public let streamId: String?
+
+        @inlinable
+        public init(decryption: SrtListenerDecryptionRequest? = nil, minimumLatency: Int? = nil, streamId: String? = nil) {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.streamId = streamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decryption = "decryption"
+            case minimumLatency = "minimumLatency"
+            case streamId = "streamId"
+        }
+    }
+
     public struct SrtOutputDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the mode the output should use for connection establishment. CALLER mode requires URL, LISTENER mode requires port.
+        public let connectionMode: ConnectionMode?
         /// Arn used to extract the password from Secrets Manager
         public let encryptionPassphraseSecretArn: String?
+        /// Port number for listener mode connections (required when connectionMode is LISTENER, must not be provided when connectionMode is CALLER).
+        public let listenerPort: Int?
         /// Stream id for SRT destinations (URLs of type srt://)
         public let streamId: String?
         /// A URL specifying a destination
         public let url: String?
 
         @inlinable
-        public init(encryptionPassphraseSecretArn: String? = nil, streamId: String? = nil, url: String? = nil) {
+        public init(connectionMode: ConnectionMode? = nil, encryptionPassphraseSecretArn: String? = nil, listenerPort: Int? = nil, streamId: String? = nil, url: String? = nil) {
+            self.connectionMode = connectionMode
             self.encryptionPassphraseSecretArn = encryptionPassphraseSecretArn
+            self.listenerPort = listenerPort
             self.streamId = streamId
             self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionMode = "connectionMode"
             case encryptionPassphraseSecretArn = "encryptionPassphraseSecretArn"
+            case listenerPort = "listenerPort"
             case streamId = "streamId"
             case url = "url"
         }
@@ -15665,27 +16065,33 @@ extension MediaLive {
 
     public struct SrtSettings: AWSDecodableShape {
         public let srtCallerSources: [SrtCallerSource]?
+        public let srtListenerSettings: SrtListenerSettings?
 
         @inlinable
-        public init(srtCallerSources: [SrtCallerSource]? = nil) {
+        public init(srtCallerSources: [SrtCallerSource]? = nil, srtListenerSettings: SrtListenerSettings? = nil) {
             self.srtCallerSources = srtCallerSources
+            self.srtListenerSettings = srtListenerSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case srtCallerSources = "srtCallerSources"
+            case srtListenerSettings = "srtListenerSettings"
         }
     }
 
     public struct SrtSettingsRequest: AWSEncodableShape {
         public let srtCallerSources: [SrtCallerSourceRequest]?
+        public let srtListenerSettings: SrtListenerSettingsRequest?
 
         @inlinable
-        public init(srtCallerSources: [SrtCallerSourceRequest]? = nil) {
+        public init(srtCallerSources: [SrtCallerSourceRequest]? = nil, srtListenerSettings: SrtListenerSettingsRequest? = nil) {
             self.srtCallerSources = srtCallerSources
+            self.srtListenerSettings = srtListenerSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case srtCallerSources = "srtCallerSources"
+            case srtListenerSettings = "srtListenerSettings"
         }
     }
 
@@ -15735,6 +16141,8 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// Requested engine version for this channel.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
@@ -15744,10 +16152,14 @@ extension MediaLive {
         public let encoderSettings: EncoderSettings?
         /// The unique id of the channel.
         public let id: String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: DescribeInferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public let linkedChannelSettings: DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -15767,18 +16179,21 @@ extension MediaLive {
         public let vpc: VpcOutputSettingsDescription?
 
         @inlinable
-        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inferenceSettings: DescribeInferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: DescribeLinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -15796,12 +16211,15 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case egressEndpoints = "egressEndpoints"
             case encoderSettings = "encoderSettings"
             case id = "id"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
@@ -16441,6 +16859,8 @@ extension MediaLive {
         public let channelClass: ChannelClass?
         /// Requested engine version for this channel.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of destinations of the channel. For UDP outputs, there is one
         /// destination per output. For other types (HLS, for example), there is
         /// one destination per packager.
@@ -16450,10 +16870,14 @@ extension MediaLive {
         public let encoderSettings: EncoderSettings?
         /// The unique id of the channel.
         public let id: String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: DescribeInferenceSettings?
         /// List of input attachments for channel.
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public let linkedChannelSettings: DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -16473,18 +16897,21 @@ extension MediaLive {
         public let vpc: VpcOutputSettingsDescription?
 
         @inlinable
-        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(anywhereSettings: DescribeAnywhereSettings? = nil, arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inferenceSettings: DescribeInferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: DescribeLinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.anywhereSettings = anywhereSettings
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -16502,12 +16929,15 @@ extension MediaLive {
             case cdiInputSpecification = "cdiInputSpecification"
             case channelClass = "channelClass"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case egressEndpoints = "egressEndpoints"
             case encoderSettings = "encoderSettings"
             case id = "id"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
@@ -17107,14 +17537,20 @@ extension MediaLive {
         public let channelEngineVersion: ChannelEngineVersionRequest?
         /// channel ID
         public let channelId: String
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public let channelSecurityGroups: [String]?
         /// A list of output destinations for this channel.
         public let destinations: [OutputDestination]?
         public let dryRun: Bool?
         /// The encoder settings for this channel.
         public let encoderSettings: EncoderSettings?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public let inferenceSettings: InferenceSettings?
         public let inputAttachments: [InputAttachment]?
         /// Specification of network and file inputs for this channel
         public let inputSpecification: InputSpecification?
+        /// The linked channel settings for the channel.
+        public let linkedChannelSettings: LinkedChannelSettings?
         /// The log level to write to CloudWatch Logs.
         public let logLevel: LogLevel?
         /// Maintenance settings for this channel.
@@ -17125,16 +17561,19 @@ extension MediaLive {
         public let roleArn: String?
 
         @inlinable
-        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelId: String, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceUpdateSettings? = nil, name: String? = nil, roleArn: String? = nil) {
+        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelId: String, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inferenceSettings: InferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: LinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceUpdateSettings? = nil, name: String? = nil, roleArn: String? = nil) {
             self.anywhereSettings = anywhereSettings
             self.cdiInputSpecification = cdiInputSpecification
             self.channelEngineVersion = channelEngineVersion
             self.channelId = channelId
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.dryRun = dryRun
             self.encoderSettings = encoderSettings
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -17148,11 +17587,14 @@ extension MediaLive {
             try container.encodeIfPresent(self.cdiInputSpecification, forKey: .cdiInputSpecification)
             try container.encodeIfPresent(self.channelEngineVersion, forKey: .channelEngineVersion)
             request.encodePath(self.channelId, key: "ChannelId")
+            try container.encodeIfPresent(self.channelSecurityGroups, forKey: .channelSecurityGroups)
             try container.encodeIfPresent(self.destinations, forKey: .destinations)
             try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
             try container.encodeIfPresent(self.encoderSettings, forKey: .encoderSettings)
+            try container.encodeIfPresent(self.inferenceSettings, forKey: .inferenceSettings)
             try container.encodeIfPresent(self.inputAttachments, forKey: .inputAttachments)
             try container.encodeIfPresent(self.inputSpecification, forKey: .inputSpecification)
+            try container.encodeIfPresent(self.linkedChannelSettings, forKey: .linkedChannelSettings)
             try container.encodeIfPresent(self.logLevel, forKey: .logLevel)
             try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -17163,11 +17605,14 @@ extension MediaLive {
             case anywhereSettings = "anywhereSettings"
             case cdiInputSpecification = "cdiInputSpecification"
             case channelEngineVersion = "channelEngineVersion"
+            case channelSecurityGroups = "channelSecurityGroups"
             case destinations = "destinations"
             case dryRun = "dryRun"
             case encoderSettings = "encoderSettings"
+            case inferenceSettings = "inferenceSettings"
             case inputAttachments = "inputAttachments"
             case inputSpecification = "inputSpecification"
+            case linkedChannelSettings = "linkedChannelSettings"
             case logLevel = "logLevel"
             case maintenance = "maintenance"
             case name = "name"
