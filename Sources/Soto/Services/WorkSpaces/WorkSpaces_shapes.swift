@@ -348,6 +348,7 @@ extension WorkSpaces {
         case windowsServer2016 = "WINDOWS_SERVER_2016"
         case windowsServer2019 = "WINDOWS_SERVER_2019"
         case windowsServer2022 = "WINDOWS_SERVER_2022"
+        case windowsServer2025 = "WINDOWS_SERVER_2025"
         public var description: String { return self.rawValue }
     }
 

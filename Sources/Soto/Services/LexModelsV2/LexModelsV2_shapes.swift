@@ -42,6 +42,11 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalysisScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case botLocale = "BotLocale"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnalyticsBinByName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case conversationStartTime = "ConversationStartTime"
         case utteranceTimestamp = "UtteranceTimestamp"
@@ -266,6 +271,15 @@ extension LexModelsV2 {
         case creating = "Creating"
         case deleting = "Deleting"
         case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BotAnalyzerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "Available"
+        case failed = "Failed"
+        case processing = "Processing"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -551,6 +565,13 @@ extension LexModelsV2 {
     public enum ObfuscationSettingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultObfuscation = "DefaultObfuscation"
         case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Priority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "High"
+        case low = "Low"
+        case medium = "Medium"
         public var description: String { return self.rawValue }
     }
 
@@ -2179,6 +2200,54 @@ extension LexModelsV2 {
             case botAliasId = "botAliasId"
             case botId = "botId"
             case localeId = "localeId"
+        }
+    }
+
+    public struct BotAnalyzerHistorySummary: AWSDecodableShape {
+        /// The unique identifier for the analysis request.
+        public let botAnalyzerRequestId: String
+        /// The status of the historical analysis execution. Valid Values: Processing | Available | Failed | Stopping | Stopped
+        public let botAnalyzerStatus: BotAnalyzerStatus
+        /// The date and time when the analysis was initiated.
+        public let creationDateTime: Date?
+
+        @inlinable
+        public init(botAnalyzerRequestId: String, botAnalyzerStatus: BotAnalyzerStatus, creationDateTime: Date? = nil) {
+            self.botAnalyzerRequestId = botAnalyzerRequestId
+            self.botAnalyzerStatus = botAnalyzerStatus
+            self.creationDateTime = creationDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAnalyzerRequestId = "botAnalyzerRequestId"
+            case botAnalyzerStatus = "botAnalyzerStatus"
+            case creationDateTime = "creationDateTime"
+        }
+    }
+
+    public struct BotAnalyzerRecommendation: AWSDecodableShape {
+        /// A detailed description of the identified configuration issue.
+        public let issueDescription: String
+        /// The location information for the identified issue within the bot configuration.
+        public let issueLocation: IssueLocation
+        /// The priority level of the recommendation. Valid Values: High | Medium | Low
+        public let priority: Priority
+        /// The recommended solution to address the identified issue.
+        public let proposedFix: String
+
+        @inlinable
+        public init(issueDescription: String, issueLocation: IssueLocation, priority: Priority, proposedFix: String) {
+            self.issueDescription = issueDescription
+            self.issueLocation = issueLocation
+            self.priority = priority
+            self.proposedFix = proposedFix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issueDescription = "issueDescription"
+            case issueLocation = "issueLocation"
+            case priority = "priority"
+            case proposedFix = "proposedFix"
         }
     }
 
@@ -5000,6 +5069,41 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DeleteBotAnalyzerRecommendationRequest: AWSEncodableShape {
+        /// The unique identifier of the analysis request whose recommendations should be deleted.
+        public let botAnalyzerRequestId: String
+        /// The unique identifier of the bot.
+        public let botId: String
+
+        @inlinable
+        public init(botAnalyzerRequestId: String, botId: String) {
+            self.botAnalyzerRequestId = botAnalyzerRequestId
+            self.botId = botId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAnalyzerRequestId, key: "botAnalyzerRequestId")
+            request.encodePath(self.botId, key: "botId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, max: 36)
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, min: 36)
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteBotAnalyzerRecommendationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteBotLocaleRequest: AWSEncodableShape {
         /// The unique identifier of the bot that contains the locale.
         public let botId: String
@@ -5753,6 +5857,88 @@ extension LexModelsV2 {
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case parentBotNetworks = "parentBotNetworks"
             case sentimentAnalysisSettings = "sentimentAnalysisSettings"
+        }
+    }
+
+    public struct DescribeBotAnalyzerRecommendationRequest: AWSEncodableShape {
+        /// The unique identifier of the analysis request.
+        public let botAnalyzerRequestId: String
+        /// The unique identifier of the bot.
+        public let botId: String
+        /// The maximum number of recommendations to return in the response. The default is 5.
+        public let maxResults: Int?
+        /// If the response from a previous request was truncated, the nextToken value is used to retrieve the next page of recommendations.
+        public let nextToken: String?
+
+        @inlinable
+        public init(botAnalyzerRequestId: String, botId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.botAnalyzerRequestId = botAnalyzerRequestId
+            self.botId = botId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAnalyzerRequestId, key: "botAnalyzerRequestId")
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, max: 36)
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, min: 36)
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeBotAnalyzerRecommendationResponse: AWSDecodableShape {
+        /// A list of recommendations for optimizing your bot configuration. Each recommendation includes the issue location, priority, description, and proposed fix.
+        public let botAnalyzerRecommendationList: [BotAnalyzerRecommendation]?
+        /// The current status of the analysis. Valid Values: Processing | Available | Failed | Stopping | Stopped
+        public let botAnalyzerStatus: BotAnalyzerStatus?
+        /// The unique identifier of the bot.
+        public let botId: String?
+        /// The version of the bot that was analyzed.
+        public let botVersion: String?
+        /// The date and time when the analysis was initiated.
+        public let creationDateTime: Date?
+        /// The locale identifier of the bot locale that was analyzed.
+        public let localeId: String?
+        /// If the response is truncated, this token can be used in a subsequent request to retrieve the next page of recommendations.
+        public let nextToken: String?
+
+        @inlinable
+        public init(botAnalyzerRecommendationList: [BotAnalyzerRecommendation]? = nil, botAnalyzerStatus: BotAnalyzerStatus? = nil, botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, localeId: String? = nil, nextToken: String? = nil) {
+            self.botAnalyzerRecommendationList = botAnalyzerRecommendationList
+            self.botAnalyzerStatus = botAnalyzerStatus
+            self.botId = botId
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.localeId = localeId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAnalyzerRecommendationList = "botAnalyzerRecommendationList"
+            case botAnalyzerStatus = "botAnalyzerStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -8581,6 +8767,28 @@ extension LexModelsV2 {
         }
     }
 
+    public struct IssueLocation: AWSDecodableShape {
+        /// The locale identifier where the issue was found.
+        public let botLocale: String?
+        /// The intent identifier where the issue was found, if applicable.
+        public let intentId: String?
+        /// The slot identifier where the issue was found, if applicable.
+        public let slotId: String?
+
+        @inlinable
+        public init(botLocale: String? = nil, intentId: String? = nil, slotId: String? = nil) {
+            self.botLocale = botLocale
+            self.intentId = intentId
+            self.slotId = slotId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botLocale = "botLocale"
+            case intentId = "intentId"
+            case slotId = "slotId"
+        }
+    }
+
     public struct KendraConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the AMAZON.KendraSearchIntent intent to search. The index must be in the same account and Region as the Amazon Lex bot.
         public let kendraIndex: String
@@ -8908,6 +9116,86 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case botAliasSummaries = "botAliasSummaries"
             case botId = "botId"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBotAnalyzerHistoryRequest: AWSEncodableShape {
+        /// The unique identifier of the bot.
+        public let botId: String
+        /// The bot version to filter the history. If not specified, defaults to DRAFT.
+        public let botVersion: String?
+        /// The locale identifier to filter the history. If not specified, returns history for all locales.
+        public let localeId: String?
+        /// The maximum number of history entries to return in the response. The default is 10.
+        public let maxResults: Int?
+        /// If the response from a previous request was truncated, the nextToken value is used to retrieve the next page of history entries.
+        public let nextToken: String?
+
+        @inlinable
+        public init(botId: String, botVersion: String? = nil, localeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.botVersion, forKey: .botVersion)
+            try container.encodeIfPresent(self.localeId, forKey: .localeId)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBotAnalyzerHistoryResponse: AWSDecodableShape {
+        /// A list of historical analysis executions, ordered by creation date with the most recent first.
+        public let botAnalyzerHistoryList: [BotAnalyzerHistorySummary]?
+        /// The unique identifier of the bot.
+        public let botId: String?
+        /// The bot version used to filter the history.
+        public let botVersion: String?
+        /// The locale identifier used to filter the history.
+        public let localeId: String?
+        /// If the response is truncated, this token can be used in a subsequent request to retrieve the next page of history entries.
+        public let nextToken: String?
+
+        @inlinable
+        public init(botAnalyzerHistoryList: [BotAnalyzerHistorySummary]? = nil, botId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil) {
+            self.botAnalyzerHistoryList = botAnalyzerHistoryList
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAnalyzerHistoryList = "botAnalyzerHistoryList"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
             case nextToken = "nextToken"
         }
     }
@@ -12766,6 +13054,83 @@ extension LexModelsV2 {
         }
     }
 
+    public struct StartBotAnalyzerRequest: AWSEncodableShape {
+        /// The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale
+        public let analysisScope: AnalysisScope
+        /// The unique identifier of the bot to analyze.
+        public let botId: String
+        /// The version of the bot to analyze. Defaults to DRAFT if not specified.
+        public let botVersion: String?
+        /// The locale identifier for the bot locale to analyze. Required when analysisScope is BotLocale.
+        public let localeId: String?
+
+        @inlinable
+        public init(analysisScope: AnalysisScope, botId: String, botVersion: String? = nil, localeId: String? = nil) {
+            self.analysisScope = analysisScope
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analysisScope, forKey: .analysisScope)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.botVersion, forKey: .botVersion)
+            try container.encodeIfPresent(self.localeId, forKey: .localeId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisScope = "analysisScope"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+        }
+    }
+
+    public struct StartBotAnalyzerResponse: AWSDecodableShape {
+        /// A unique identifier for this analysis request. Use this identifier to check the status and retrieve results.
+        public let botAnalyzerRequestId: String?
+        /// The current status of the analysis. The initial status is Processing. Valid Values: Processing | Available | Failed | Stopping | Stopped
+        public let botAnalyzerStatus: BotAnalyzerStatus?
+        /// The unique identifier of the bot being analyzed.
+        public let botId: String?
+        /// The version of the bot being analyzed.
+        public let botVersion: String?
+        /// The date and time when the analysis was initiated.
+        public let creationDateTime: Date?
+        /// The locale identifier of the bot locale being analyzed.
+        public let localeId: String?
+
+        @inlinable
+        public init(botAnalyzerRequestId: String? = nil, botAnalyzerStatus: BotAnalyzerStatus? = nil, botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, localeId: String? = nil) {
+            self.botAnalyzerRequestId = botAnalyzerRequestId
+            self.botAnalyzerStatus = botAnalyzerStatus
+            self.botId = botId
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.localeId = localeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAnalyzerRequestId = "botAnalyzerRequestId"
+            case botAnalyzerStatus = "botAnalyzerStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case localeId = "localeId"
+        }
+    }
+
     public struct StartBotRecommendationRequest: AWSEncodableShape {
         /// The unique identifier of the bot containing the bot recommendation.
         public let botId: String
@@ -13210,6 +13575,67 @@ extension LexModelsV2 {
             case frequencyInSeconds = "frequencyInSeconds"
             case messageGroups = "messageGroups"
             case timeoutInSeconds = "timeoutInSeconds"
+        }
+    }
+
+    public struct StopBotAnalyzerRequest: AWSEncodableShape {
+        /// The unique identifier of the analysis request to stop.
+        public let botAnalyzerRequestId: String
+        /// The unique identifier of the bot.
+        public let botId: String
+
+        @inlinable
+        public init(botAnalyzerRequestId: String, botId: String) {
+            self.botAnalyzerRequestId = botAnalyzerRequestId
+            self.botId = botId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAnalyzerRequestId, key: "botAnalyzerRequestId")
+            request.encodePath(self.botId, key: "botId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, max: 36)
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, min: 36)
+            try self.validate(self.botAnalyzerRequestId, name: "botAnalyzerRequestId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopBotAnalyzerResponse: AWSDecodableShape {
+        /// The unique identifier of the analysis request.
+        public let botAnalyzerRequestId: String?
+        /// The updated status of the analysis. The status will be Stopping and will eventually transition to Stopped. Valid Values: Processing | Available | Failed | Stopping | Stopped
+        public let botAnalyzerStatus: BotAnalyzerStatus?
+        /// The unique identifier of the bot.
+        public let botId: String?
+        /// The version of the bot.
+        public let botVersion: String?
+        /// The locale identifier of the bot locale.
+        public let localeId: String?
+
+        @inlinable
+        public init(botAnalyzerRequestId: String? = nil, botAnalyzerStatus: BotAnalyzerStatus? = nil, botId: String? = nil, botVersion: String? = nil, localeId: String? = nil) {
+            self.botAnalyzerRequestId = botAnalyzerRequestId
+            self.botAnalyzerStatus = botAnalyzerStatus
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botAnalyzerRequestId = "botAnalyzerRequestId"
+            case botAnalyzerStatus = "botAnalyzerStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
         }
     }
 

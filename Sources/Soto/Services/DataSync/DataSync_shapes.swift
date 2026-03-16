@@ -500,11 +500,11 @@ extension DataSync {
         public let authenticationType: AzureBlobAuthenticationType
         /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
         public let blobType: AzureBlobType?
-        /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
         public let cmkSecretConfig: CmkSecretConfig?
         /// Specifies the URL of the Azure Blob Storage container involved in your transfer.
         public let containerUrl: String
-        /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.  If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
         public let sasConfiguration: AzureBlobSasConfiguration?
@@ -824,12 +824,16 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
+        /// Specifies configuration information for a DataSync-managed secret, which includes the password that DataSync uses to access a specific FSx Windows storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationFsxWindows request, you provide only the KMS key ARN. DataSync uses this KMS key together with the Password you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxWindows request. Do not provide both parameters for the same request.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the password for an FSx for Windows File Server storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxWindows request. Do not provide both parameters for the same request.
+        public let customSecretConfig: CustomSecretConfig?
         /// Specifies the name of the Windows domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
         public let domain: String?
         /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
         public let fsxFilesystemArn: String
         /// Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
-        public let password: String
+        public let password: String?
         /// Specifies the ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups that you specify must be able to communicate with your file system's security groups. For information about configuring security groups for file system access, see the  Amazon FSx for Windows File Server User Guide .  If you choose a security group that doesn't allow connections from within itself, do one of the following:   Configure the security group to allow it to communicate within itself.   Choose a different security group that can communicate with the mount target's security group.
         public let securityGroupArns: [String]
         /// Specifies a mount path for your file system using forward slashes. This is where DataSync reads or writes data (depending on if this is a source or destination location).
@@ -840,7 +844,9 @@ extension DataSync {
         public let user: String
 
         @inlinable
-        public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
+        public init(cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, domain: String? = nil, fsxFilesystemArn: String, password: String? = nil, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.domain = domain
             self.fsxFilesystemArn = fsxFilesystemArn
             self.password = password
@@ -851,6 +857,8 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
             try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, max: 128)
@@ -874,6 +882,8 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case domain = "Domain"
             case fsxFilesystemArn = "FsxFilesystemArn"
             case password = "Password"
@@ -905,6 +915,10 @@ extension DataSync {
         public let authenticationType: HdfsAuthenticationType
         /// The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
         public let blockSize: Int?
+        /// Specifies configuration information for a DataSync-managed secret, which includes the Kerberos keytab that DataSync uses to access a specific Hadoop Distributed File System (HDFS) storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationHdfs request, you provide only the KMS key ARN. DataSync uses this KMS key together with the KerberosKeytab you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with KerberosKeytab) or CustomSecretConfig (without KerberosKeytab) to provide credentials for a CreateLocationHdfs request. Do not provide both parameters for the same request.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the Kerberos keytab for the HDFS storage location is stored in binary, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with KerberosKeytab) or CustomSecretConfig (without KerberosKeytab) to provide credentials for a CreateLocationHdfs request. Do not provide both parameters for the same request.
+        public let customSecretConfig: CustomSecretConfig?
         /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.  If KERBEROS is specified for AuthenticationType, this parameter is required.
         public let kerberosKeytab: AWSBase64Data?
         /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
@@ -927,10 +941,12 @@ extension DataSync {
         public let tags: [TagListEntry]?
 
         @inlinable
-        public init(agentArns: [String], authenticationType: HdfsAuthenticationType, blockSize: Int? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, nameNodes: [HdfsNameNode], qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(agentArns: [String], authenticationType: HdfsAuthenticationType, blockSize: Int? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, nameNodes: [HdfsNameNode], qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
             self.blockSize = blockSize
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.kerberosKeytab = kerberosKeytab
             self.kerberosKrb5Conf = kerberosKrb5Conf
             self.kerberosPrincipal = kerberosPrincipal
@@ -952,6 +968,8 @@ extension DataSync {
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1073741824)
             try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1048576)
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
             try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131072)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
@@ -981,6 +999,8 @@ extension DataSync {
             case agentArns = "AgentArns"
             case authenticationType = "AuthenticationType"
             case blockSize = "BlockSize"
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case kerberosKeytab = "KerberosKeytab"
             case kerberosKrb5Conf = "KerberosKrb5Conf"
             case kerberosPrincipal = "KerberosPrincipal"
@@ -1071,9 +1091,9 @@ extension DataSync {
         public let agentArns: [String]?
         /// Specifies the name of the object storage bucket involved in the transfer.
         public let bucketName: String
-        /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
         public let cmkSecretConfig: CmkSecretConfig?
-        /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.  If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
         public let secretKey: String?
@@ -1235,9 +1255,9 @@ extension DataSync {
         public let agentArns: [String]
         /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
         public let authenticationType: SmbAuthenticationType?
-        /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
+        /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
         public let cmkSecretConfig: CmkSecretConfig?
-        /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
         public let dnsIpAddresses: [String]?
@@ -1636,7 +1656,7 @@ extension DataSync {
         public let cmkSecretConfig: CmkSecretConfig?
         /// The time that your Azure Blob Storage transfer location was created.
         public let creationTime: Date?
-        /// Describes configuration information for a customer-managed secret, such as an authentication token that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+        /// Describes configuration information for a customer-managed secret, such as an authentication token that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
         /// The ARN of your Azure Blob Storage transfer location.
         public let locationArn: String?
@@ -1899,34 +1919,46 @@ extension DataSync {
     }
 
     public struct DescribeLocationFsxWindowsResponse: AWSDecodableShape {
+        /// Describes configuration information for a DataSync-managed secret, such as a Password that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+        public let cmkSecretConfig: CmkSecretConfig?
         /// The time that the FSx for Windows File Server location was created.
         public let creationTime: Date?
+        /// Describes configuration information for a customer-managed secret, such as a Password that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+        public let customSecretConfig: CustomSecretConfig?
         /// The name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to.
         public let domain: String?
         /// The ARN of the FSx for Windows File Server location.
         public let locationArn: String?
         /// The uniform resource identifier (URI) of the FSx for Windows File Server location.
         public let locationUri: String?
+        /// Describes configuration information for a DataSync-managed secret, such as a Password that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
+        public let managedSecretConfig: ManagedSecretConfig?
         /// The ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. For information about configuring security groups for file system access, see the  Amazon FSx for Windows File Server User Guide .
         public let securityGroupArns: [String]?
         /// The user with the permissions to mount and access the FSx for Windows File Server file system.
         public let user: String?
 
         @inlinable
-        public init(creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
+        public init(cmkSecretConfig: CmkSecretConfig? = nil, creationTime: Date? = nil, customSecretConfig: CustomSecretConfig? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
+            self.cmkSecretConfig = cmkSecretConfig
             self.creationTime = creationTime
+            self.customSecretConfig = customSecretConfig
             self.domain = domain
             self.locationArn = locationArn
             self.locationUri = locationUri
+            self.managedSecretConfig = managedSecretConfig
             self.securityGroupArns = securityGroupArns
             self.user = user
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cmkSecretConfig = "CmkSecretConfig"
             case creationTime = "CreationTime"
+            case customSecretConfig = "CustomSecretConfig"
             case domain = "Domain"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
+            case managedSecretConfig = "ManagedSecretConfig"
             case securityGroupArns = "SecurityGroupArns"
             case user = "User"
         }
@@ -1958,8 +1990,12 @@ extension DataSync {
         public let authenticationType: HdfsAuthenticationType?
         /// The size of the data blocks to write into the HDFS cluster.
         public let blockSize: Int?
+        /// Describes configuration information for a DataSync-managed secret, such as a KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+        public let cmkSecretConfig: CmkSecretConfig?
         /// The time that the HDFS location was created.
         public let creationTime: Date?
+        /// Describes configuration information for a customer-managed secret, such as a KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+        public let customSecretConfig: CustomSecretConfig?
         /// The Kerberos principal with access to the files and folders on the HDFS cluster. This parameter is used if the AuthenticationType is defined as KERBEROS.
         public let kerberosPrincipal: String?
         ///  The URI of the HDFS cluster's Key Management Server (KMS).
@@ -1968,6 +2004,8 @@ extension DataSync {
         public let locationArn: String?
         /// The URI of the HDFS location.
         public let locationUri: String?
+        /// Describes configuration information for a DataSync-managed secret, such as a KerberosKeytab that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
+        public let managedSecretConfig: ManagedSecretConfig?
         /// The NameNode that manages the HDFS namespace.
         public let nameNodes: [HdfsNameNode]?
         /// The Quality of Protection (QOP) configuration, which specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the HDFS cluster.
@@ -1978,15 +2016,18 @@ extension DataSync {
         public let simpleUser: String?
 
         @inlinable
-        public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, creationTime: Date? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String? = nil, locationUri: String? = nil, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil) {
+        public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, cmkSecretConfig: CmkSecretConfig? = nil, creationTime: Date? = nil, customSecretConfig: CustomSecretConfig? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String? = nil, locationUri: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
             self.blockSize = blockSize
+            self.cmkSecretConfig = cmkSecretConfig
             self.creationTime = creationTime
+            self.customSecretConfig = customSecretConfig
             self.kerberosPrincipal = kerberosPrincipal
             self.kmsKeyProviderUri = kmsKeyProviderUri
             self.locationArn = locationArn
             self.locationUri = locationUri
+            self.managedSecretConfig = managedSecretConfig
             self.nameNodes = nameNodes
             self.qopConfiguration = qopConfiguration
             self.replicationFactor = replicationFactor
@@ -1997,11 +2038,14 @@ extension DataSync {
             case agentArns = "AgentArns"
             case authenticationType = "AuthenticationType"
             case blockSize = "BlockSize"
+            case cmkSecretConfig = "CmkSecretConfig"
             case creationTime = "CreationTime"
+            case customSecretConfig = "CustomSecretConfig"
             case kerberosPrincipal = "KerberosPrincipal"
             case kmsKeyProviderUri = "KmsKeyProviderUri"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
+            case managedSecretConfig = "ManagedSecretConfig"
             case nameNodes = "NameNodes"
             case qopConfiguration = "QopConfiguration"
             case replicationFactor = "ReplicationFactor"
@@ -2085,7 +2129,7 @@ extension DataSync {
         public let cmkSecretConfig: CmkSecretConfig?
         /// The time that the location was created.
         public let creationTime: Date?
-        /// Describes configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        /// Describes configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
         /// The ARN of the object storage system location.
         public let locationArn: String?
@@ -2210,7 +2254,7 @@ extension DataSync {
         public let cmkSecretConfig: CmkSecretConfig?
         /// The time that the SMB location was created.
         public let creationTime: Date?
-        /// Describes configuration information for a customer-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+        /// Describes configuration information for a customer-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
         /// The IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
         public let dnsIpAddresses: [String]?
@@ -2628,25 +2672,37 @@ extension DataSync {
     }
 
     public struct FsxProtocolSmb: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies configuration information for a DataSync-managed secret, which includes the password that DataSync uses to access a specific FSx for ONTAP storage location (using SMB), with a customer-managed KMS key. When you include this parameter as part of a CreateLocationFsxOntap request, you provide only the KMS key ARN. DataSync uses this KMS key together with the Password you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxOntap request. Do not provide both parameters for the same request.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the password for an FSx for ONTAP storage location (using SMB) is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxOntap request. Do not provide both parameters for the same request.
+        public let customSecretConfig: CustomSecretConfig?
         /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple domains in your environment, configuring this setting makes sure that DataSync connects to the right SVM. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
         public let domain: String?
+        /// Describes configuration information for a DataSync-managed secret, such as a Password that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.  Do not provide this for a CreateLocation request. ManagedSecretConfig is a ReadOnly property and is only be populated in the DescribeLocation response.
+        public let managedSecretConfig: ManagedSecretConfig?
         public let mountOptions: SmbMountOptions?
         /// Specifies the password of a user who has permission to access your SVM.
-        public let password: String
+        public let password: String?
         /// Specifies a user that can mount and access the files, folders, and metadata in your SVM. For information about choosing a user with the right level of access for your transfer, see Using the SMB protocol.
         public let user: String
 
         @inlinable
-        public init(domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, user: String) {
+        public init(cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, domain: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil, mountOptions: SmbMountOptions? = nil, password: String? = nil, user: String) {
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.domain = domain
+            self.managedSecretConfig = managedSecretConfig
             self.mountOptions = mountOptions
             self.password = password
             self.user = user
         }
 
         public func validate(name: String) throws {
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
+            try self.managedSecretConfig?.validate(name: "\(name).managedSecretConfig")
             try self.validate(self.password, name: "password", parent: name, max: 104)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
             try self.validate(self.user, name: "user", parent: name, max: 104)
@@ -2654,7 +2710,10 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case domain = "Domain"
+            case managedSecretConfig = "ManagedSecretConfig"
             case mountOptions = "MountOptions"
             case password = "Password"
             case user = "User"
@@ -2683,6 +2742,10 @@ extension DataSync {
     }
 
     public struct FsxUpdateProtocolSmb: AWSEncodableShape {
+        /// Specifies configuration information for a DataSync-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.
+        public let customSecretConfig: CustomSecretConfig?
         /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
         public let domain: String?
         public let mountOptions: SmbMountOptions?
@@ -2692,7 +2755,9 @@ extension DataSync {
         public let user: String?
 
         @inlinable
-        public init(domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String? = nil, user: String? = nil) {
+        public init(cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String? = nil, user: String? = nil) {
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.domain = domain
             self.mountOptions = mountOptions
             self.password = password
@@ -2700,6 +2765,8 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252})?$")
             try self.validate(self.password, name: "password", parent: name, max: 104)
@@ -2709,6 +2776,8 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case domain = "Domain"
             case mountOptions = "MountOptions"
             case password = "Password"
@@ -3066,13 +3135,18 @@ extension DataSync {
         }
     }
 
-    public struct ManagedSecretConfig: AWSDecodableShape {
+    public struct ManagedSecretConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the ARN for an Secrets Manager secret.
         public let secretArn: String?
 
         @inlinable
         public init(secretArn: String? = nil) {
             self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^(arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):secretsmanager:[a-z\\-0-9]+:[0-9]{12}:secret:.*|)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3972,7 +4046,7 @@ extension DataSync {
         public let blobType: AzureBlobType?
         /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
         public let cmkSecretConfig: CmkSecretConfig?
-        /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
         public let locationArn: String
@@ -4169,6 +4243,10 @@ extension DataSync {
     }
 
     public struct UpdateLocationFsxWindowsRequest: AWSEncodableShape {
+        /// Specifies configuration information for a DataSync-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+        public let customSecretConfig: CustomSecretConfig?
         /// Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
         public let domain: String?
         /// Specifies the ARN of the FSx for Windows File Server transfer location that you're updating.
@@ -4181,7 +4259,9 @@ extension DataSync {
         public let user: String?
 
         @inlinable
-        public init(domain: String? = nil, locationArn: String, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+        public init(cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, domain: String? = nil, locationArn: String, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.domain = domain
             self.locationArn = locationArn
             self.password = password
@@ -4190,6 +4270,8 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252})?$")
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
@@ -4203,6 +4285,8 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case domain = "Domain"
             case locationArn = "LocationArn"
             case password = "Password"
@@ -4222,6 +4306,10 @@ extension DataSync {
         public let authenticationType: HdfsAuthenticationType?
         /// The size of the data blocks to write into the HDFS cluster.
         public let blockSize: Int?
+        /// Specifies configuration information for a DataSync-managed secret, such as a KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed secret, such as a KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
+        public let customSecretConfig: CustomSecretConfig?
         /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.
         public let kerberosKeytab: AWSBase64Data?
         /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
@@ -4244,10 +4332,12 @@ extension DataSync {
         public let subdirectory: String?
 
         @inlinable
-        public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil) {
+        public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
             self.blockSize = blockSize
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.kerberosKeytab = kerberosKeytab
             self.kerberosKrb5Conf = kerberosKrb5Conf
             self.kerberosPrincipal = kerberosPrincipal
@@ -4269,6 +4359,8 @@ extension DataSync {
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1073741824)
             try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1048576)
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
             try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131072)
             try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
@@ -4296,6 +4388,8 @@ extension DataSync {
             case agentArns = "AgentArns"
             case authenticationType = "AuthenticationType"
             case blockSize = "BlockSize"
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case kerberosKeytab = "KerberosKeytab"
             case kerberosKrb5Conf = "KerberosKrb5Conf"
             case kerberosPrincipal = "KerberosPrincipal"
@@ -4362,7 +4456,7 @@ extension DataSync {
         public let agentArns: [String]?
         /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
         public let cmkSecretConfig: CmkSecretConfig?
-        /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the ARN of the object storage system location that you're updating.
         public let locationArn: String
@@ -4481,7 +4575,7 @@ extension DataSync {
         public let authenticationType: SmbAuthenticationType?
         /// Specifies configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
         public let cmkSecretConfig: CmkSecretConfig?
-        /// Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        /// Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
         public let dnsIpAddresses: [String]?

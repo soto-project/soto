@@ -30,6 +30,7 @@ extension BedrockAgentCoreControl {
         case python311 = "PYTHON_3_11"
         case python312 = "PYTHON_3_12"
         case python313 = "PYTHON_3_13"
+        case python314 = "PYTHON_3_14"
         public var description: String { return self.rawValue }
     }
 
@@ -111,6 +112,17 @@ extension BedrockAgentCoreControl {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case ready = "READY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fullContent = "FULL_CONTENT"
+        case metadataOnly = "METADATA_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case memoryRecords = "MEMORY_RECORDS"
         public var description: String { return self.rawValue }
     }
 
@@ -378,6 +390,7 @@ extension BedrockAgentCoreControl {
 
     public enum ServerProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case a2a = "A2A"
+        case agui = "AGUI"
         case http = "HTTP"
         case mcp = "MCP"
         public var description: String { return self.rawValue }
@@ -1238,6 +1251,56 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public enum PolicyDefinition: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Cedar policy definition within the policy definition structure. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can access), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained control. Cedar provides a formal policy language designed for authorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies.
+        case cedar(CedarPolicy)
+        /// The generated policy asset information within the policy definition structure. This contains information identifying a generated policy asset from the AI-powered policy generation process within the AgentCore Policy system. Each asset contains a Cedar policy statement generated from natural language input, along with associated metadata and analysis findings to help users evaluate and select the most appropriate policy option.
+        case policyGeneration(PolicyGenerationDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cedar:
+                let value = try container.decode(CedarPolicy.self, forKey: .cedar)
+                self = .cedar(value)
+            case .policyGeneration:
+                let value = try container.decode(PolicyGenerationDetails.self, forKey: .policyGeneration)
+                self = .policyGeneration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cedar(let value):
+                try container.encode(value, forKey: .cedar)
+            case .policyGeneration(let value):
+                try container.encode(value, forKey: .policyGeneration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .cedar(let value):
+                try value.validate(name: "\(name).cedar")
+            case .policyGeneration(let value):
+                try value.validate(name: "\(name).policyGeneration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cedar = "cedar"
+            case policyGeneration = "policyGeneration"
+        }
+    }
+
     public enum RatingScale: AWSEncodableShape & AWSDecodableShape, Sendable {
         ///  The categorical rating scale with named categories and definitions for qualitative evaluation.
         case categorical([CategoricalScaleDefinition])
@@ -1887,7 +1950,7 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.statement, name: "statement", parent: name, max: 153600)
+            try self.validate(self.statement, name: "statement", parent: name, max: 10000)
             try self.validate(self.statement, name: "statement", parent: name, min: 35)
         }
 
@@ -2048,6 +2111,24 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case containerUri = "containerUri"
+        }
+    }
+
+    public struct ContentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Level of detail for streamed content.
+        public let level: ContentLevel?
+        /// Type of content to stream.
+        public let type: ContentType
+
+        @inlinable
+        public init(level: ContentLevel? = nil, type: ContentType) {
+            self.level = level
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case level = "level"
+            case type = "type"
         }
     }
 
@@ -2980,11 +3061,13 @@ extension BedrockAgentCoreControl {
         public let memoryStrategies: [MemoryStrategyInput]?
         /// The name of the memory. The name must be unique within your account.
         public let name: String
+        /// Configuration for streaming memory record data to external resources.
+        public let streamDeliveryResources: StreamDeliveryResources?
         /// A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateMemoryInput.idempotencyToken(), description: String? = nil, encryptionKeyArn: String? = nil, eventExpiryDuration: Int, memoryExecutionRoleArn: String? = nil, memoryStrategies: [MemoryStrategyInput]? = nil, name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateMemoryInput.idempotencyToken(), description: String? = nil, encryptionKeyArn: String? = nil, eventExpiryDuration: Int, memoryExecutionRoleArn: String? = nil, memoryStrategies: [MemoryStrategyInput]? = nil, name: String, streamDeliveryResources: StreamDeliveryResources? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.encryptionKeyArn = encryptionKeyArn
@@ -2992,6 +3075,7 @@ extension BedrockAgentCoreControl {
             self.memoryExecutionRoleArn = memoryExecutionRoleArn
             self.memoryStrategies = memoryStrategies
             self.name = name
+            self.streamDeliveryResources = streamDeliveryResources
             self.tags = tags
         }
 
@@ -3005,6 +3089,7 @@ extension BedrockAgentCoreControl {
                 try $0.validate(name: "\(name).memoryStrategies[]")
             }
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$")
+            try self.streamDeliveryResources?.validate(name: "\(name).streamDeliveryResources")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3023,6 +3108,7 @@ extension BedrockAgentCoreControl {
             case memoryExecutionRoleArn = "memoryExecutionRoleArn"
             case memoryStrategies = "memoryStrategies"
             case name = "name"
+            case streamDeliveryResources = "streamDeliveryResources"
             case tags = "tags"
         }
     }
@@ -3227,14 +3313,20 @@ extension BedrockAgentCoreControl {
         public let clientToken: String?
         /// A human-readable description of the policy engine's purpose and scope (1-4,096 characters). This helps administrators understand the policy engine's role in the overall governance strategy. Document which Gateway this engine will be associated with, what types of tools or workflows it governs, and the team or service responsible for maintaining it. Clear descriptions are essential when managing multiple policy engines across different services or environments.
         public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public let encryptionKeyArn: String?
         /// The customer-assigned immutable name for the policy engine. This name identifies the policy engine and cannot be changed after creation.
         public let name: String
+        /// A map of tag keys and values to assign to an AgentCore Policy. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreatePolicyEngineRequest.idempotencyToken(), description: String? = nil, name: String) {
+        public init(clientToken: String? = CreatePolicyEngineRequest.idempotencyToken(), description: String? = nil, encryptionKeyArn: String? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -3243,15 +3335,28 @@ extension BedrockAgentCoreControl {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.validate(self.description, name: "description", parent: name, max: 4096)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
             try self.validate(self.name, name: "name", parent: name, max: 48)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case encryptionKeyArn = "encryptionKeyArn"
             case name = "name"
+            case tags = "tags"
         }
     }
 
@@ -3261,6 +3366,8 @@ extension BedrockAgentCoreControl {
         public var createdAt: Date
         /// A human-readable description of the policy engine's purpose.
         public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public let encryptionKeyArn: String?
         /// The customer-assigned name of the created policy engine. This matches the name provided in the request and serves as the human-readable identifier.
         public let name: String
         /// The Amazon Resource Name (ARN) of the created policy engine. This globally unique identifier can be used for cross-service references and IAM policy statements.
@@ -3276,9 +3383,10 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
+        public init(createdAt: Date, description: String? = nil, encryptionKeyArn: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.name = name
             self.policyEngineArn = policyEngineArn
             self.policyEngineId = policyEngineId
@@ -3290,6 +3398,7 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case description = "description"
+            case encryptionKeyArn = "encryptionKeyArn"
             case name = "name"
             case policyEngineArn = "policyEngineArn"
             case policyEngineId = "policyEngineId"
@@ -4248,6 +4357,8 @@ extension BedrockAgentCoreControl {
         public var createdAt: Date
         /// The human-readable description of the deleted policy engine.
         public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public let encryptionKeyArn: String?
         /// The customer-assigned name of the deleted policy engine.
         public let name: String
         /// The Amazon Resource Name (ARN) of the deleted policy engine. This globally unique identifier confirms which policy engine resource was successfully removed.
@@ -4263,9 +4374,10 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
+        public init(createdAt: Date, description: String? = nil, encryptionKeyArn: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.name = name
             self.policyEngineArn = policyEngineArn
             self.policyEngineId = policyEngineId
@@ -4277,6 +4389,7 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case description = "description"
+            case encryptionKeyArn = "encryptionKeyArn"
             case name = "name"
             case policyEngineArn = "policyEngineArn"
             case policyEngineId = "policyEngineId"
@@ -5079,6 +5192,8 @@ extension BedrockAgentCoreControl {
         public var lastUpdatedAt: Date
         /// The life cycle configuration for the AgentCore Runtime.
         public let lifecycleConfiguration: LifecycleConfiguration
+        /// Configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
+        public let metadataConfiguration: RuntimeMetadataConfiguration?
         /// The network configuration for the AgentCore Runtime.
         public let networkConfiguration: NetworkConfiguration
         public let protocolConfiguration: ProtocolConfiguration?
@@ -5092,7 +5207,7 @@ extension BedrockAgentCoreControl {
         public let workloadIdentityDetails: WorkloadIdentityDetails?
 
         @inlinable
-        public init(agentRuntimeArn: String, agentRuntimeArtifact: AgentRuntimeArtifact? = nil, agentRuntimeId: String, agentRuntimeName: String, agentRuntimeVersion: String, authorizerConfiguration: AuthorizerConfiguration? = nil, createdAt: Date, description: String? = nil, environmentVariables: [String: String]? = nil, failureReason: String? = nil, lastUpdatedAt: Date, lifecycleConfiguration: LifecycleConfiguration, networkConfiguration: NetworkConfiguration, protocolConfiguration: ProtocolConfiguration? = nil, requestHeaderConfiguration: RequestHeaderConfiguration? = nil, roleArn: String, status: AgentRuntimeStatus, workloadIdentityDetails: WorkloadIdentityDetails? = nil) {
+        public init(agentRuntimeArn: String, agentRuntimeArtifact: AgentRuntimeArtifact? = nil, agentRuntimeId: String, agentRuntimeName: String, agentRuntimeVersion: String, authorizerConfiguration: AuthorizerConfiguration? = nil, createdAt: Date, description: String? = nil, environmentVariables: [String: String]? = nil, failureReason: String? = nil, lastUpdatedAt: Date, lifecycleConfiguration: LifecycleConfiguration, metadataConfiguration: RuntimeMetadataConfiguration? = nil, networkConfiguration: NetworkConfiguration, protocolConfiguration: ProtocolConfiguration? = nil, requestHeaderConfiguration: RequestHeaderConfiguration? = nil, roleArn: String, status: AgentRuntimeStatus, workloadIdentityDetails: WorkloadIdentityDetails? = nil) {
             self.agentRuntimeArn = agentRuntimeArn
             self.agentRuntimeArtifact = agentRuntimeArtifact
             self.agentRuntimeId = agentRuntimeId
@@ -5105,6 +5220,7 @@ extension BedrockAgentCoreControl {
             self.failureReason = failureReason
             self.lastUpdatedAt = lastUpdatedAt
             self.lifecycleConfiguration = lifecycleConfiguration
+            self.metadataConfiguration = metadataConfiguration
             self.networkConfiguration = networkConfiguration
             self.protocolConfiguration = protocolConfiguration
             self.requestHeaderConfiguration = requestHeaderConfiguration
@@ -5126,6 +5242,7 @@ extension BedrockAgentCoreControl {
             case failureReason = "failureReason"
             case lastUpdatedAt = "lastUpdatedAt"
             case lifecycleConfiguration = "lifecycleConfiguration"
+            case metadataConfiguration = "metadataConfiguration"
             case networkConfiguration = "networkConfiguration"
             case protocolConfiguration = "protocolConfiguration"
             case requestHeaderConfiguration = "requestHeaderConfiguration"
@@ -5902,6 +6019,8 @@ extension BedrockAgentCoreControl {
         public var createdAt: Date
         /// The human-readable description of the policy engine's purpose and scope. This helps administrators understand the policy engine's role in governance.
         public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public let encryptionKeyArn: String?
         /// The customer-assigned name of the policy engine. This is the human-readable identifier that was specified when the policy engine was created.
         public let name: String
         /// The Amazon Resource Name (ARN) of the policy engine. This globally unique identifier can be used for cross-service references and IAM policy statements.
@@ -5917,9 +6036,10 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
+        public init(createdAt: Date, description: String? = nil, encryptionKeyArn: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.name = name
             self.policyEngineArn = policyEngineArn
             self.policyEngineId = policyEngineId
@@ -5931,6 +6051,7 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case description = "description"
+            case encryptionKeyArn = "encryptionKeyArn"
             case name = "name"
             case policyEngineArn = "policyEngineArn"
             case policyEngineId = "policyEngineId"
@@ -6458,6 +6579,28 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case payloadDeliveryBucketName = "payloadDeliveryBucketName"
             case topicArn = "topicArn"
+        }
+    }
+
+    public struct KinesisResource: AWSEncodableShape & AWSDecodableShape {
+        /// Content configurations for stream delivery.
+        public let contentConfigurations: [ContentConfiguration]
+        /// ARN of the Kinesis Data Stream.
+        public let dataStreamArn: String
+
+        @inlinable
+        public init(contentConfigurations: [ContentConfiguration], dataStreamArn: String) {
+            self.contentConfigurations = contentConfigurations
+            self.dataStreamArn = dataStreamArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataStreamArn, name: "dataStreamArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentConfigurations = "contentConfigurations"
+            case dataStreamArn = "dataStreamArn"
         }
     }
 
@@ -7580,11 +7723,13 @@ extension BedrockAgentCoreControl {
         public let status: MemoryStatus
         /// The list of memory strategies associated with this memory.
         public let strategies: [MemoryStrategy]?
+        /// Configuration for streaming memory record data to external resources.
+        public let streamDeliveryResources: StreamDeliveryResources?
         /// The timestamp when the memory was last updated.
         public let updatedAt: Date
 
         @inlinable
-        public init(arn: String, createdAt: Date, description: String? = nil, encryptionKeyArn: String? = nil, eventExpiryDuration: Int, failureReason: String? = nil, id: String, memoryExecutionRoleArn: String? = nil, name: String, status: MemoryStatus, strategies: [MemoryStrategy]? = nil, updatedAt: Date) {
+        public init(arn: String, createdAt: Date, description: String? = nil, encryptionKeyArn: String? = nil, eventExpiryDuration: Int, failureReason: String? = nil, id: String, memoryExecutionRoleArn: String? = nil, name: String, status: MemoryStatus, strategies: [MemoryStrategy]? = nil, streamDeliveryResources: StreamDeliveryResources? = nil, updatedAt: Date) {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
@@ -7596,6 +7741,7 @@ extension BedrockAgentCoreControl {
             self.name = name
             self.status = status
             self.strategies = strategies
+            self.streamDeliveryResources = streamDeliveryResources
             self.updatedAt = updatedAt
         }
 
@@ -7611,6 +7757,7 @@ extension BedrockAgentCoreControl {
             case name = "name"
             case status = "status"
             case strategies = "strategies"
+            case streamDeliveryResources = "streamDeliveryResources"
             case updatedAt = "updatedAt"
         }
     }
@@ -8242,6 +8389,8 @@ extension BedrockAgentCoreControl {
         public var createdAt: Date
         /// A human-readable description of the policy engine's purpose and scope. Limited to 4,096 characters, this helps administrators understand the policy engine's role in the overall governance strategy.
         public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public let encryptionKeyArn: String?
         /// The customer-assigned immutable name for the policy engine. This human-readable identifier must be unique within the account and cannot exceed 48 characters.
         public let name: String
         /// The Amazon Resource Name (ARN) of the policy engine. This globally unique identifier can be used for cross-service references and IAM policy statements.
@@ -8257,9 +8406,10 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
+        public init(createdAt: Date, description: String? = nil, encryptionKeyArn: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.name = name
             self.policyEngineArn = policyEngineArn
             self.policyEngineId = policyEngineId
@@ -8271,6 +8421,7 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case description = "description"
+            case encryptionKeyArn = "encryptionKeyArn"
             case name = "name"
             case policyEngineArn = "policyEngineArn"
             case policyEngineId = "policyEngineId"
@@ -8354,6 +8505,33 @@ extension BedrockAgentCoreControl {
             case findings = "findings"
             case policyGenerationAssetId = "policyGenerationAssetId"
             case rawTextFragment = "rawTextFragment"
+        }
+    }
+
+    public struct PolicyGenerationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier for this generated policy asset within the policy generation request.
+        public let policyGenerationAssetId: String
+        /// The unique identifier for this policy generation request.
+        public let policyGenerationId: String
+
+        @inlinable
+        public init(policyGenerationAssetId: String, policyGenerationId: String) {
+            self.policyGenerationAssetId = policyGenerationAssetId
+            self.policyGenerationId = policyGenerationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyGenerationAssetId, name: "policyGenerationAssetId", parent: name, max: 59)
+            try self.validate(self.policyGenerationAssetId, name: "policyGenerationAssetId", parent: name, min: 12)
+            try self.validate(self.policyGenerationAssetId, name: "policyGenerationAssetId", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}$")
+            try self.validate(self.policyGenerationId, name: "policyGenerationId", parent: name, max: 59)
+            try self.validate(self.policyGenerationId, name: "policyGenerationId", parent: name, min: 12)
+            try self.validate(self.policyGenerationId, name: "policyGenerationId", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyGenerationAssetId = "policyGenerationAssetId"
+            case policyGenerationId = "policyGenerationId"
         }
     }
 
@@ -8458,6 +8636,20 @@ extension BedrockAgentCoreControl {
             case filters = "filters"
             case samplingConfig = "samplingConfig"
             case sessionConfig = "sessionConfig"
+        }
+    }
+
+    public struct RuntimeMetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables MMDSv2 (microVM Metadata Service Version 2) requirement for the agent runtime. When set to true, the runtime microVM will only accept MMDSv2 requests.
+        public let requireMMDSV2: Bool
+
+        @inlinable
+        public init(requireMMDSV2: Bool) {
+            self.requireMMDSV2 = requireMMDSV2
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requireMMDSV2 = "requireMMDSV2"
         }
     }
 
@@ -9039,6 +9231,27 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct StreamDeliveryResources: AWSEncodableShape & AWSDecodableShape {
+        /// List of stream delivery resource configurations.
+        public let resources: [StreamDeliveryResource]
+
+        @inlinable
+        public init(resources: [StreamDeliveryResource]) {
+            self.resources = resources
+        }
+
+        public func validate(name: String) throws {
+            try self.resources.forEach {
+                try $0.validate(name: "\(name).resources[]")
+            }
+            try self.validate(self.resources, name: "resources", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resources = "resources"
+        }
+    }
+
     public struct SummaryConsolidationOverride: AWSDecodableShape {
         /// The text to append to the prompt for summary consolidation.
         public let appendToPrompt: String
@@ -9483,6 +9696,8 @@ extension BedrockAgentCoreControl {
         public let environmentVariables: [String: String]?
         /// The updated life cycle configuration for the AgentCore Runtime.
         public let lifecycleConfiguration: LifecycleConfiguration?
+        /// The updated configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
+        public let metadataConfiguration: RuntimeMetadataConfiguration?
         /// The updated network configuration for the AgentCore Runtime.
         public let networkConfiguration: NetworkConfiguration
         public let protocolConfiguration: ProtocolConfiguration?
@@ -9492,7 +9707,7 @@ extension BedrockAgentCoreControl {
         public let roleArn: String
 
         @inlinable
-        public init(agentRuntimeArtifact: AgentRuntimeArtifact, agentRuntimeId: String, authorizerConfiguration: AuthorizerConfiguration? = nil, clientToken: String? = UpdateAgentRuntimeRequest.idempotencyToken(), description: String? = nil, environmentVariables: [String: String]? = nil, lifecycleConfiguration: LifecycleConfiguration? = nil, networkConfiguration: NetworkConfiguration, protocolConfiguration: ProtocolConfiguration? = nil, requestHeaderConfiguration: RequestHeaderConfiguration? = nil, roleArn: String) {
+        public init(agentRuntimeArtifact: AgentRuntimeArtifact, agentRuntimeId: String, authorizerConfiguration: AuthorizerConfiguration? = nil, clientToken: String? = UpdateAgentRuntimeRequest.idempotencyToken(), description: String? = nil, environmentVariables: [String: String]? = nil, lifecycleConfiguration: LifecycleConfiguration? = nil, metadataConfiguration: RuntimeMetadataConfiguration? = nil, networkConfiguration: NetworkConfiguration, protocolConfiguration: ProtocolConfiguration? = nil, requestHeaderConfiguration: RequestHeaderConfiguration? = nil, roleArn: String) {
             self.agentRuntimeArtifact = agentRuntimeArtifact
             self.agentRuntimeId = agentRuntimeId
             self.authorizerConfiguration = authorizerConfiguration
@@ -9500,6 +9715,7 @@ extension BedrockAgentCoreControl {
             self.description = description
             self.environmentVariables = environmentVariables
             self.lifecycleConfiguration = lifecycleConfiguration
+            self.metadataConfiguration = metadataConfiguration
             self.networkConfiguration = networkConfiguration
             self.protocolConfiguration = protocolConfiguration
             self.requestHeaderConfiguration = requestHeaderConfiguration
@@ -9516,6 +9732,7 @@ extension BedrockAgentCoreControl {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
             try container.encodeIfPresent(self.lifecycleConfiguration, forKey: .lifecycleConfiguration)
+            try container.encodeIfPresent(self.metadataConfiguration, forKey: .metadataConfiguration)
             try container.encode(self.networkConfiguration, forKey: .networkConfiguration)
             try container.encodeIfPresent(self.protocolConfiguration, forKey: .protocolConfiguration)
             try container.encodeIfPresent(self.requestHeaderConfiguration, forKey: .requestHeaderConfiguration)
@@ -9551,6 +9768,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case environmentVariables = "environmentVariables"
             case lifecycleConfiguration = "lifecycleConfiguration"
+            case metadataConfiguration = "metadataConfiguration"
             case networkConfiguration = "networkConfiguration"
             case protocolConfiguration = "protocolConfiguration"
             case requestHeaderConfiguration = "requestHeaderConfiguration"
@@ -10045,15 +10263,18 @@ extension BedrockAgentCoreControl {
         public let memoryId: String
         /// The memory strategies to add, modify, or delete.
         public let memoryStrategies: ModifyMemoryStrategies?
+        /// Configuration for streaming memory record data to external resources.
+        public let streamDeliveryResources: StreamDeliveryResources?
 
         @inlinable
-        public init(clientToken: String? = UpdateMemoryInput.idempotencyToken(), description: String? = nil, eventExpiryDuration: Int? = nil, memoryExecutionRoleArn: String? = nil, memoryId: String, memoryStrategies: ModifyMemoryStrategies? = nil) {
+        public init(clientToken: String? = UpdateMemoryInput.idempotencyToken(), description: String? = nil, eventExpiryDuration: Int? = nil, memoryExecutionRoleArn: String? = nil, memoryId: String, memoryStrategies: ModifyMemoryStrategies? = nil, streamDeliveryResources: StreamDeliveryResources? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.eventExpiryDuration = eventExpiryDuration
             self.memoryExecutionRoleArn = memoryExecutionRoleArn
             self.memoryId = memoryId
             self.memoryStrategies = memoryStrategies
+            self.streamDeliveryResources = streamDeliveryResources
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -10065,6 +10286,7 @@ extension BedrockAgentCoreControl {
             try container.encodeIfPresent(self.memoryExecutionRoleArn, forKey: .memoryExecutionRoleArn)
             request.encodePath(self.memoryId, key: "memoryId")
             try container.encodeIfPresent(self.memoryStrategies, forKey: .memoryStrategies)
+            try container.encodeIfPresent(self.streamDeliveryResources, forKey: .streamDeliveryResources)
         }
 
         public func validate(name: String) throws {
@@ -10075,6 +10297,7 @@ extension BedrockAgentCoreControl {
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
             try self.memoryStrategies?.validate(name: "\(name).memoryStrategies")
+            try self.streamDeliveryResources?.validate(name: "\(name).streamDeliveryResources")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10083,6 +10306,7 @@ extension BedrockAgentCoreControl {
             case eventExpiryDuration = "eventExpiryDuration"
             case memoryExecutionRoleArn = "memoryExecutionRoleArn"
             case memoryStrategies = "memoryStrategies"
+            case streamDeliveryResources = "streamDeliveryResources"
         }
     }
 
@@ -10281,12 +10505,12 @@ extension BedrockAgentCoreControl {
 
     public struct UpdatePolicyEngineRequest: AWSEncodableShape {
         /// The new description for the policy engine.
-        public let description: String?
+        public let description: UpdatedDescription?
         /// The unique identifier of the policy engine to be updated.
         public let policyEngineId: String
 
         @inlinable
-        public init(description: String? = nil, policyEngineId: String) {
+        public init(description: UpdatedDescription? = nil, policyEngineId: String) {
             self.description = description
             self.policyEngineId = policyEngineId
         }
@@ -10299,8 +10523,7 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 4096)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.description?.validate(name: "\(name).description")
             try self.validate(self.policyEngineId, name: "policyEngineId", parent: name, max: 59)
             try self.validate(self.policyEngineId, name: "policyEngineId", parent: name, min: 12)
             try self.validate(self.policyEngineId, name: "policyEngineId", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}$")
@@ -10317,6 +10540,8 @@ extension BedrockAgentCoreControl {
         public var createdAt: Date
         /// The updated description of the policy engine.
         public let description: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
+        public let encryptionKeyArn: String?
         /// The name of the updated policy engine.
         public let name: String
         /// The ARN of the updated policy engine.
@@ -10332,9 +10557,10 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
+        public init(createdAt: Date, description: String? = nil, encryptionKeyArn: String? = nil, name: String, policyEngineArn: String, policyEngineId: String, status: PolicyEngineStatus, statusReasons: [String], updatedAt: Date) {
             self.createdAt = createdAt
             self.description = description
+            self.encryptionKeyArn = encryptionKeyArn
             self.name = name
             self.policyEngineArn = policyEngineArn
             self.policyEngineId = policyEngineId
@@ -10346,6 +10572,7 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case description = "description"
+            case encryptionKeyArn = "encryptionKeyArn"
             case name = "name"
             case policyEngineArn = "policyEngineArn"
             case policyEngineId = "policyEngineId"
@@ -10357,9 +10584,9 @@ extension BedrockAgentCoreControl {
 
     public struct UpdatePolicyRequest: AWSEncodableShape {
         /// The new Cedar policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
-        public let definition: PolicyDefinition
+        public let definition: PolicyDefinition?
         /// The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic.
-        public let description: String?
+        public let description: UpdatedDescription?
         /// The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct policy engine context.
         public let policyEngineId: String
         /// The unique identifier of the policy to be updated. This must be a valid policy ID that exists within the specified policy engine.
@@ -10368,7 +10595,7 @@ extension BedrockAgentCoreControl {
         public let validationMode: PolicyValidationMode?
 
         @inlinable
-        public init(definition: PolicyDefinition, description: String? = nil, policyEngineId: String, policyId: String, validationMode: PolicyValidationMode? = nil) {
+        public init(definition: PolicyDefinition? = nil, description: UpdatedDescription? = nil, policyEngineId: String, policyId: String, validationMode: PolicyValidationMode? = nil) {
             self.definition = definition
             self.description = description
             self.policyEngineId = policyEngineId
@@ -10379,7 +10606,7 @@ extension BedrockAgentCoreControl {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.definition, forKey: .definition)
+            try container.encodeIfPresent(self.definition, forKey: .definition)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.policyEngineId, key: "policyEngineId")
             request.encodePath(self.policyId, key: "policyId")
@@ -10387,9 +10614,8 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
-            try self.definition.validate(name: "\(name).definition")
-            try self.validate(self.description, name: "description", parent: name, max: 4096)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.definition?.validate(name: "\(name).definition")
+            try self.description?.validate(name: "\(name).description")
             try self.validate(self.policyEngineId, name: "policyEngineId", parent: name, max: 59)
             try self.validate(self.policyEngineId, name: "policyEngineId", parent: name, min: 12)
             try self.validate(self.policyEngineId, name: "policyEngineId", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}$")
@@ -10513,6 +10739,25 @@ extension BedrockAgentCoreControl {
             case lastUpdatedTime = "lastUpdatedTime"
             case name = "name"
             case workloadIdentityArn = "workloadIdentityArn"
+        }
+    }
+
+    public struct UpdatedDescription: AWSEncodableShape {
+        /// Represents an optional value that is used to update the human-readable description of the resource. If set to null, it will clear the current description of the resource.
+        public let optionalValue: String?
+
+        @inlinable
+        public init(optionalValue: String? = nil) {
+            self.optionalValue = optionalValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.optionalValue, name: "optionalValue", parent: name, max: 4096)
+            try self.validate(self.optionalValue, name: "optionalValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optionalValue = "optionalValue"
         }
     }
 
@@ -11010,24 +11255,6 @@ extension BedrockAgentCoreControl {
         }
     }
 
-    public struct PolicyDefinition: AWSEncodableShape & AWSDecodableShape {
-        /// The Cedar policy definition within the policy definition structure. This contains the Cedar policy statement that defines the authorization logic using Cedar's human-readable, analyzable policy language. Cedar policies specify principals (who can access), actions (what operations are allowed), resources (what can be accessed), and optional conditions for fine-grained control. Cedar provides a formal policy language designed for authorization with deterministic evaluation, making policies testable, reviewable, and auditable. All Cedar policies follow a default-deny model where actions are denied unless explicitly permitted, and forbid policies always override permit policies.
-        public let cedar: CedarPolicy?
-
-        @inlinable
-        public init(cedar: CedarPolicy? = nil) {
-            self.cedar = cedar
-        }
-
-        public func validate(name: String) throws {
-            try self.cedar?.validate(name: "\(name).cedar")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case cedar = "cedar"
-        }
-    }
-
     public struct RequestHeaderConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A list of HTTP request headers that are allowed to be passed through to the runtime.
         public let requestHeaderAllowlist: [String]?
@@ -11068,6 +11295,24 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+        }
+    }
+
+    public struct StreamDeliveryResource: AWSEncodableShape & AWSDecodableShape {
+        /// Kinesis Data Stream configuration.
+        public let kinesis: KinesisResource?
+
+        @inlinable
+        public init(kinesis: KinesisResource? = nil) {
+            self.kinesis = kinesis
+        }
+
+        public func validate(name: String) throws {
+            try self.kinesis?.validate(name: "\(name).kinesis")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesis = "kinesis"
         }
     }
 

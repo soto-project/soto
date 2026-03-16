@@ -164,10 +164,14 @@ extension ConnectCases {
     }
 
     public enum BooleanCondition: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Combines multiple conditions with AND operator. All conditions must be true for the compound condition to be true.
+        case andAll(CompoundCondition)
         /// Tests that operandOne is equal to operandTwo.
         case equalTo(BooleanOperands)
         /// Tests that operandOne is not equal to operandTwo.
         case notEqualTo(BooleanOperands)
+        /// Combines multiple conditions with OR operator. At least one condition must be true for the compound condition to be true.
+        case orAll(CompoundCondition)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -179,37 +183,53 @@ extension ConnectCases {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .andAll:
+                let value = try container.decode(CompoundCondition.self, forKey: .andAll)
+                self = .andAll(value)
             case .equalTo:
                 let value = try container.decode(BooleanOperands.self, forKey: .equalTo)
                 self = .equalTo(value)
             case .notEqualTo:
                 let value = try container.decode(BooleanOperands.self, forKey: .notEqualTo)
                 self = .notEqualTo(value)
+            case .orAll:
+                let value = try container.decode(CompoundCondition.self, forKey: .orAll)
+                self = .orAll(value)
             }
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .andAll(let value):
+                try container.encode(value, forKey: .andAll)
             case .equalTo(let value):
                 try container.encode(value, forKey: .equalTo)
             case .notEqualTo(let value):
                 try container.encode(value, forKey: .notEqualTo)
+            case .orAll(let value):
+                try container.encode(value, forKey: .orAll)
             }
         }
 
         public func validate(name: String) throws {
             switch self {
+            case .andAll(let value):
+                try value.validate(name: "\(name).andAll")
             case .equalTo(let value):
                 try value.validate(name: "\(name).equalTo")
             case .notEqualTo(let value):
                 try value.validate(name: "\(name).notEqualTo")
+            case .orAll(let value):
+                try value.validate(name: "\(name).orAll")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case andAll = "andAll"
             case equalTo = "equalTo"
             case notEqualTo = "notEqualTo"
+            case orAll = "orAll"
         }
     }
 
@@ -1202,6 +1222,27 @@ extension ConnectCases {
 
     public struct CommentFilter: AWSEncodableShape {
         public init() {}
+    }
+
+    public struct CompoundCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The list of conditions to combine using the logical operator.
+        public let conditions: [BooleanCondition]
+
+        @inlinable
+        public init(conditions: [BooleanCondition]) {
+            self.conditions = conditions
+        }
+
+        public func validate(name: String) throws {
+            try self.conditions.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+        }
     }
 
     public struct ConnectCaseContent: AWSDecodableShape {

@@ -531,6 +531,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - memoryExecutionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the memory to access Amazon Web Services services.
     ///   - memoryStrategies: The memory strategies to use for this memory. Strategies define how information is extracted, processed, and consolidated.
     ///   - name: The name of the memory. The name must be unique within your account.
+    ///   - streamDeliveryResources: Configuration for streaming memory record data to external resources.
     ///   - tags: A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
@@ -542,6 +543,7 @@ public struct BedrockAgentCoreControl: AWSService {
         memoryExecutionRoleArn: String? = nil,
         memoryStrategies: [MemoryStrategyInput]? = nil,
         name: String,
+        streamDeliveryResources: StreamDeliveryResources? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateMemoryOutput {
@@ -553,6 +555,7 @@ public struct BedrockAgentCoreControl: AWSService {
             memoryExecutionRoleArn: memoryExecutionRoleArn, 
             memoryStrategies: memoryStrategies, 
             name: name, 
+            streamDeliveryResources: streamDeliveryResources, 
             tags: tags
         )
         return try await self.createMemory(input, logger: logger)
@@ -711,19 +714,25 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy engine.
     ///   - description: A human-readable description of the policy engine's purpose and scope (1-4,096 characters). This helps administrators understand the policy engine's role in the overall governance strategy. Document which Gateway this engine will be associated with, what types of tools or workflows it governs, and the team or service responsible for maintaining it. Clear descriptions are essential when managing multiple policy engines across different services or environments.
+    ///   - encryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key used to encrypt the policy engine data.
     ///   - name: The customer-assigned immutable name for the policy engine. This name identifies the policy engine and cannot be changed after creation.
+    ///   - tags: A map of tag keys and values to assign to an AgentCore Policy. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPolicyEngine(
         clientToken: String? = CreatePolicyEngineRequest.idempotencyToken(),
         description: String? = nil,
+        encryptionKeyArn: String? = nil,
         name: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePolicyEngineResponse {
         let input = CreatePolicyEngineRequest(
             clientToken: clientToken, 
             description: description, 
-            name: name
+            encryptionKeyArn: encryptionKeyArn, 
+            name: name, 
+            tags: tags
         )
         return try await self.createPolicyEngine(input, logger: logger)
     }
@@ -2653,6 +2662,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - description: The updated description of the AgentCore Runtime.
     ///   - environmentVariables: Updated environment variables to set in the AgentCore Runtime environment.
     ///   - lifecycleConfiguration: The updated life cycle configuration for the AgentCore Runtime.
+    ///   - metadataConfiguration: The updated configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
     ///   - networkConfiguration: The updated network configuration for the AgentCore Runtime.
     ///   - protocolConfiguration: 
     ///   - requestHeaderConfiguration: The updated configuration for HTTP request headers that will be passed through to the runtime.
@@ -2667,6 +2677,7 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         environmentVariables: [String: String]? = nil,
         lifecycleConfiguration: LifecycleConfiguration? = nil,
+        metadataConfiguration: RuntimeMetadataConfiguration? = nil,
         networkConfiguration: NetworkConfiguration,
         protocolConfiguration: ProtocolConfiguration? = nil,
         requestHeaderConfiguration: RequestHeaderConfiguration? = nil,
@@ -2681,6 +2692,7 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             environmentVariables: environmentVariables, 
             lifecycleConfiguration: lifecycleConfiguration, 
+            metadataConfiguration: metadataConfiguration, 
             networkConfiguration: networkConfiguration, 
             protocolConfiguration: protocolConfiguration, 
             requestHeaderConfiguration: requestHeaderConfiguration, 
@@ -2934,6 +2946,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - memoryExecutionRoleArn: The ARN of the IAM role that provides permissions for the AgentCore Memory resource.
     ///   - memoryId: The unique identifier of the memory to update.
     ///   - memoryStrategies: The memory strategies to add, modify, or delete.
+    ///   - streamDeliveryResources: Configuration for streaming memory record data to external resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMemory(
@@ -2943,6 +2956,7 @@ public struct BedrockAgentCoreControl: AWSService {
         memoryExecutionRoleArn: String? = nil,
         memoryId: String,
         memoryStrategies: ModifyMemoryStrategies? = nil,
+        streamDeliveryResources: StreamDeliveryResources? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateMemoryOutput {
         let input = UpdateMemoryInput(
@@ -2951,7 +2965,8 @@ public struct BedrockAgentCoreControl: AWSService {
             eventExpiryDuration: eventExpiryDuration, 
             memoryExecutionRoleArn: memoryExecutionRoleArn, 
             memoryId: memoryId, 
-            memoryStrategies: memoryStrategies
+            memoryStrategies: memoryStrategies, 
+            streamDeliveryResources: streamDeliveryResources
         )
         return try await self.updateMemory(input, logger: logger)
     }
@@ -3048,7 +3063,7 @@ public struct BedrockAgentCoreControl: AWSService {
         try await self.client.execute(
             operation: "UpdatePolicy", 
             path: "/policy-engines/{policyEngineId}/policies/{policyId}", 
-            httpMethod: .PUT, 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -3065,8 +3080,8 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePolicy(
-        definition: PolicyDefinition,
-        description: String? = nil,
+        definition: PolicyDefinition? = nil,
+        description: UpdatedDescription? = nil,
         policyEngineId: String,
         policyId: String,
         validationMode: PolicyValidationMode? = nil,
@@ -3089,7 +3104,7 @@ public struct BedrockAgentCoreControl: AWSService {
         try await self.client.execute(
             operation: "UpdatePolicyEngine", 
             path: "/policy-engines/{policyEngineId}", 
-            httpMethod: .PUT, 
+            httpMethod: .PATCH, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -3103,7 +3118,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePolicyEngine(
-        description: String? = nil,
+        description: UpdatedDescription? = nil,
         policyEngineId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePolicyEngineResponse {
@@ -4055,7 +4070,7 @@ extension BedrockAgentCoreControl {
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "UPDATE_FAILED")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
             ],
-            minDelayTime: .seconds(2),
+            minDelayTime: .seconds(5),
             maxDelayTime: .seconds(120),
             command: self.getPolicy
         )
@@ -4140,7 +4155,7 @@ extension BedrockAgentCoreControl {
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "UPDATE_FAILED")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
             ],
-            minDelayTime: .seconds(2),
+            minDelayTime: .seconds(5),
             maxDelayTime: .seconds(120),
             command: self.getPolicyEngine
         )
@@ -4219,7 +4234,7 @@ extension BedrockAgentCoreControl {
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "GENERATE_FAILED")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
             ],
-            minDelayTime: .seconds(2),
+            minDelayTime: .seconds(5),
             maxDelayTime: .seconds(120),
             command: self.getPolicyGeneration
         )

@@ -221,6 +221,7 @@ extension ECR {
 
     public enum UpstreamRegistry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case azureContainerRegistry = "azure-container-registry"
+        case chainguard = "chainguard"
         case dockerHub = "docker-hub"
         case ecr = "ecr"
         case ecrPublic = "ecr-public"

@@ -189,7 +189,7 @@ extension BCMDataExports {
         public func validate(name: String) throws {
             try self.validate(self.exportArn, name: "exportArn", parent: name, max: 2048)
             try self.validate(self.exportArn, name: "exportArn", parent: name, min: 20)
-            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -308,10 +308,10 @@ extension BCMDataExports {
             try self.destinationConfigurations.validate(name: "\(name).destinationConfigurations")
             try self.validate(self.exportArn, name: "exportArn", parent: name, max: 2048)
             try self.validate(self.exportArn, name: "exportArn", parent: name, min: 20)
-            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z!\\-_.*\\'()]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z\\-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -347,11 +347,11 @@ extension BCMDataExports {
     }
 
     public struct ExportStatus: AWSDecodableShape {
-        /// The timestamp of when the export  was created.
+        /// The timestamp of when the export was created.
         public let createdAt: Date?
         /// The timestamp of when the export was last generated.
         public let lastRefreshedAt: Date?
-        /// The timestamp of when the export  was updated.
+        /// The timestamp of when the export was updated.
         public let lastUpdatedAt: Date?
         /// The status code for the request.
         public let statusCode: ExportStatusCode?
@@ -393,7 +393,7 @@ extension BCMDataExports {
             try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.exportArn, name: "exportArn", parent: name, max: 2048)
             try self.validate(self.exportArn, name: "exportArn", parent: name, min: 20)
-            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -436,7 +436,7 @@ extension BCMDataExports {
         public func validate(name: String) throws {
             try self.validate(self.exportArn, name: "exportArn", parent: name, max: 2048)
             try self.validate(self.exportArn, name: "exportArn", parent: name, min: 20)
-            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -480,7 +480,7 @@ extension BCMDataExports {
             try self.tableProperties?.forEach {
                 try validate($0.key, name: "tableProperties.key", parent: name, max: 1024)
                 try validate($0.key, name: "tableProperties.key", parent: name, pattern: "^[\\S\\s]*$")
-                try validate($0.value, name: "tableProperties[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "tableProperties[\"\($0.key)\"]", parent: name, max: 16384)
                 try validate($0.value, name: "tableProperties[\"\($0.key)\"]", parent: name, pattern: "^[\\S\\s]*$")
             }
         }
@@ -535,7 +535,8 @@ extension BCMDataExports {
         public func validate(name: String) throws {
             try self.validate(self.exportArn, name: "exportArn", parent: name, max: 2048)
             try self.validate(self.exportArn, name: "exportArn", parent: name, min: 20)
-            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
@@ -579,6 +580,7 @@ extension BCMDataExports {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
@@ -621,6 +623,7 @@ extension BCMDataExports {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
@@ -666,12 +669,13 @@ extension BCMDataExports {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -911,7 +915,7 @@ extension BCMDataExports {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
             try self.resourceTags.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
@@ -964,7 +968,7 @@ extension BCMDataExports {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
             try self.resourceTagKeys.forEach {
                 try validate($0, name: "resourceTagKeys[]", parent: name, max: 128)
                 try validate($0, name: "resourceTagKeys[]", parent: name, min: 1)
@@ -998,7 +1002,7 @@ extension BCMDataExports {
             try self.export.validate(name: "\(name).export")
             try self.validate(self.exportArn, name: "exportArn", parent: name, max: 2048)
             try self.validate(self.exportArn, name: "exportArn", parent: name, min: 20)
-            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[-a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.exportArn, name: "exportArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1066,6 +1070,7 @@ extension BCMDataExports {
 /// Error enum for BCMDataExports
 public struct BCMDataExportsErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -1091,6 +1096,8 @@ public struct BCMDataExportsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You don't have sufficient access to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An error on the server occurred during the processing of your request. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified Amazon Resource Name (ARN) in the request doesn't exist.

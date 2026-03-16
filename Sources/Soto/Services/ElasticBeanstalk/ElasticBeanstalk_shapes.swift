@@ -110,6 +110,7 @@ extension ElasticBeanstalk {
     }
 
     public enum EnvironmentInfoType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case analyze = "analyze"
         case bundle = "bundle"
         case tail = "tail"
         public var description: String { return self.rawValue }

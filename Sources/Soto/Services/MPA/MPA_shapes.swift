@@ -59,6 +59,13 @@ extension MPA {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApproverLastActivity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case baselined = "BASELINED"
+        case respondedToInvitation = "RESPONDED_TO_INVITATION"
+        case voted = "VOTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actionName = "ActionName"
         case approvalTeamName = "ApprovalTeamName"
@@ -158,6 +165,7 @@ extension MPA {
     }
 
     public enum SessionStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allApproversInSession = "ALL_APPROVERS_IN_SESSION"
         case configurationChanged = "CONFIGURATION_CHANGED"
         case expired = "EXPIRED"
         case rejected = "REJECTED"
@@ -546,8 +554,15 @@ extension MPA {
     public struct GetApprovalTeamResponseApprover: AWSDecodableShape {
         /// ID for the approver.
         public let approverId: String?
+        /// Last Activity performed by the approver.
+        public let lastActivity: ApproverLastActivity?
+        /// Timestamp when the approver last responded to an operation or invitation request.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastActivityTime: Date?
         /// Multi-factor authentication configuration for the approver
         public let mfaMethods: [MfaMethod]?
+        /// Amazon Resource Name (ARN) for the pending baseline session.
+        public let pendingBaselineSessionArn: String?
         /// ID for the user.
         public let primaryIdentityId: String?
         /// Amazon Resource Name (ARN) for the identity source. The identity source manages the user authentication for approvers.
@@ -559,9 +574,12 @@ extension MPA {
         public var responseTime: Date?
 
         @inlinable
-        public init(approverId: String? = nil, mfaMethods: [MfaMethod]? = nil, primaryIdentityId: String? = nil, primaryIdentitySourceArn: String? = nil, primaryIdentityStatus: IdentityStatus? = nil, responseTime: Date? = nil) {
+        public init(approverId: String? = nil, lastActivity: ApproverLastActivity? = nil, lastActivityTime: Date? = nil, mfaMethods: [MfaMethod]? = nil, pendingBaselineSessionArn: String? = nil, primaryIdentityId: String? = nil, primaryIdentitySourceArn: String? = nil, primaryIdentityStatus: IdentityStatus? = nil, responseTime: Date? = nil) {
             self.approverId = approverId
+            self.lastActivity = lastActivity
+            self.lastActivityTime = lastActivityTime
             self.mfaMethods = mfaMethods
+            self.pendingBaselineSessionArn = pendingBaselineSessionArn
             self.primaryIdentityId = primaryIdentityId
             self.primaryIdentitySourceArn = primaryIdentitySourceArn
             self.primaryIdentityStatus = primaryIdentityStatus
@@ -570,7 +588,10 @@ extension MPA {
 
         private enum CodingKeys: String, CodingKey {
             case approverId = "ApproverId"
+            case lastActivity = "LastActivity"
+            case lastActivityTime = "LastActivityTime"
             case mfaMethods = "MfaMethods"
+            case pendingBaselineSessionArn = "PendingBaselineSessionArn"
             case primaryIdentityId = "PrimaryIdentityId"
             case primaryIdentitySourceArn = "PrimaryIdentitySourceArn"
             case primaryIdentityStatus = "PrimaryIdentityStatus"
@@ -1790,6 +1811,55 @@ extension MPA {
         private enum CodingKeys: String, CodingKey {
             case deletionCompletionTime = "DeletionCompletionTime"
             case deletionStartTime = "DeletionStartTime"
+        }
+    }
+
+    public struct StartApprovalTeamBaselineRequest: AWSEncodableShape {
+        /// Array of approver IDs.
+        public let approverIds: [String]?
+        /// Amazon Resource Name (ARN) for the approval team.
+        public let arn: String
+
+        @inlinable
+        public init(approverIds: [String]? = nil, arn: String) {
+            self.approverIds = approverIds
+            self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.approverIds, forKey: .approverIds)
+            request.encodePath(self.arn, key: "Arn")
+        }
+
+        public func validate(name: String) throws {
+            try self.approverIds?.forEach {
+                try validate($0, name: "approverIds[]", parent: name, max: 100)
+                try validate($0, name: "approverIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.approverIds, name: "approverIds", parent: name, max: 20)
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approverIds = "ApproverIds"
+        }
+    }
+
+    public struct StartApprovalTeamBaselineResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) for the session.
+        public let baselineSessionArn: String?
+
+        @inlinable
+        public init(baselineSessionArn: String? = nil) {
+            self.baselineSessionArn = baselineSessionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baselineSessionArn = "BaselineSessionArn"
         }
     }
 

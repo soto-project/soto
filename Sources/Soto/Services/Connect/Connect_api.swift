@@ -555,6 +555,44 @@ public struct Connect: AWSService {
         return try await self.associatePhoneNumberContactFlow(input, logger: logger)
     }
 
+    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue.  Important things to know    You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50.   The email addresses must already exist in the Amazon Connect instance before they can be associated with a queue.   Agents will be able to select from these associated email addresses when handling email contacts in the queue.   For inbound email contacts, agents can select from email addresses associated with the queue where the contact was accepted.   For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
+    @Sendable
+    @inlinable
+    public func associateQueueEmailAddresses(_ input: AssociateQueueEmailAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "AssociateQueueEmailAddresses", 
+            path: "/queues/{InstanceId}/{QueueId}/associate-email-addresses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue.  Important things to know    You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50.   The email addresses must already exist in the Amazon Connect instance before they can be associated with a queue.   Agents will be able to select from these associated email addresses when handling email contacts in the queue.   For inbound email contacts, agents can select from email addresses associated with the queue where the contact was accepted.   For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - emailAddressesConfig: Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - queueId: The identifier for the queue.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateQueueEmailAddresses(
+        clientToken: String? = AssociateQueueEmailAddressesRequest.idempotencyToken(),
+        emailAddressesConfig: [EmailAddressConfig],
+        instanceId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = AssociateQueueEmailAddressesRequest(
+            clientToken: clientToken, 
+            emailAddressesConfig: emailAddressesConfig, 
+            instanceId: instanceId, 
+            queueId: queueId
+        )
+        return try await self.associateQueueEmailAddresses(input, logger: logger)
+    }
+
     /// Associates a set of quick connects with a queue.
     @Sendable
     @inlinable
@@ -1953,7 +1991,6 @@ public struct Connect: AWSService {
     ///   - content: The localized content of the notification. A map where keys are locale codes and values are the notification text in that locale. Content supports links. Maximum 250 characters per locale.
     ///   - expiresAt: The timestamp when the notification should expire and no longer be displayed to users. If not specified, defaults to one week from creation.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - predefinedNotificationId: 
     ///   - priority: The priority level of the notification. Valid values are HIGH and LOW. High priority notifications are displayed above low priority notifications.
     ///   - recipients: A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -1964,7 +2001,6 @@ public struct Connect: AWSService {
         content: [LocaleCode: String],
         expiresAt: Date? = nil,
         instanceId: String,
-        predefinedNotificationId: String? = nil,
         priority: ConfigurableNotificationPriority? = nil,
         recipients: [String],
         tags: [String: String]? = nil,
@@ -1975,7 +2011,6 @@ public struct Connect: AWSService {
             content: content, 
             expiresAt: expiresAt, 
             instanceId: instanceId, 
-            predefinedNotificationId: predefinedNotificationId, 
             priority: priority, 
             recipients: recipients, 
             tags: tags
@@ -2205,6 +2240,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - description: The description of the queue.
+    ///   - emailAddressesConfig: Configuration list containing the email addresses to associate with the queue during creation. Each configuration specifies an email address ID that agents can select when handling email contacts in this queue.
     ///   - hoursOfOperationId: The identifier for the hours of operation.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxContacts: The maximum number of contacts that can be in the queue before it is considered full.
@@ -2217,6 +2253,7 @@ public struct Connect: AWSService {
     @inlinable
     public func createQueue(
         description: String? = nil,
+        emailAddressesConfig: [EmailAddressConfig]? = nil,
         hoursOfOperationId: String,
         instanceId: String,
         maxContacts: Int? = nil,
@@ -2229,6 +2266,7 @@ public struct Connect: AWSService {
     ) async throws -> CreateQueueResponse {
         let input = CreateQueueRequest(
             description: description, 
+            emailAddressesConfig: emailAddressesConfig, 
             hoursOfOperationId: hoursOfOperationId, 
             instanceId: instanceId, 
             maxContacts: maxContacts, 
@@ -5615,6 +5653,44 @@ public struct Connect: AWSService {
         return try await self.disassociatePhoneNumberContactFlow(input, logger: logger)
     }
 
+    /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email contacts or initiating outbound email contacts in this queue.  Important things to know    Agents will no longer see these email addresses in their "From" address selection options for this queue.   The email addresses themselves are not deleted from the instance, only their availability for agent selection in this queue is removed.   Changes take effect immediately and will affect the agent experience in the Contact Control Panel (CCP).
+    @Sendable
+    @inlinable
+    public func disassociateQueueEmailAddresses(_ input: DisassociateQueueEmailAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DisassociateQueueEmailAddresses", 
+            path: "/queues/{InstanceId}/{QueueId}/disassociate-email-addresses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association between a set of email addresses and a queue. After disassociation, agents will no longer be able to select these email addresses as "From" addresses when replying to inbound email contacts or initiating outbound email contacts in this queue.  Important things to know    Agents will no longer see these email addresses in their "From" address selection options for this queue.   The email addresses themselves are not deleted from the instance, only their availability for agent selection in this queue is removed.   Changes take effect immediately and will affect the agent experience in the Contact Control Panel (CCP).
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - emailAddressesId: List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - queueId: The identifier for the queue.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateQueueEmailAddresses(
+        clientToken: String? = DisassociateQueueEmailAddressesRequest.idempotencyToken(),
+        emailAddressesId: [String],
+        instanceId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DisassociateQueueEmailAddressesRequest(
+            clientToken: clientToken, 
+            emailAddressesId: emailAddressesId, 
+            instanceId: instanceId, 
+            queueId: queueId
+        )
+        return try await self.disassociateQueueEmailAddresses(input, logger: logger)
+    }
+
     /// Disassociates a set of quick connects from a queue.
     @Sendable
     @inlinable
@@ -7944,6 +8020,44 @@ public struct Connect: AWSService {
             nextToken: nextToken
         )
         return try await self.listPrompts(input, logger: logger)
+    }
+
+    /// Lists all email addresses that are currently associated with a specific queue, providing details about which "From" email addresses agents can select when handling email contacts. This helps administrators manage agent email address options and understand the available choices for different brands and business units.  Important things to know    The response includes metadata about each email address available for agent selection, including whether it's configured as the default outbound email.   Agents can select from these email addresses when replying to inbound contacts or initiating outbound contacts in this queue.   The list includes both explicitly associated email addresses and any default outbound email address configured for the queue.   Results are paginated to handle queues with many associated email addresses (up to 50 per queue).
+    @Sendable
+    @inlinable
+    public func listQueueEmailAddresses(_ input: ListQueueEmailAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueueEmailAddressesResponse {
+        try await self.client.execute(
+            operation: "ListQueueEmailAddresses", 
+            path: "/queues/{InstanceId}/{QueueId}/email-addresses", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all email addresses that are currently associated with a specific queue, providing details about which "From" email addresses agents can select when handling email contacts. This helps administrators manage agent email address options and understand the available choices for different brands and business units.  Important things to know    The response includes metadata about each email address available for agent selection, including whether it's configured as the default outbound email.   Agents can select from these email addresses when replying to inbound contacts or initiating outbound contacts in this queue.   The list includes both explicitly associated email addresses and any default outbound email address configured for the queue.   Results are paginated to handle queues with many associated email addresses (up to 50 per queue).
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - queueId: The identifier for the queue.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listQueueEmailAddresses(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListQueueEmailAddressesResponse {
+        let input = ListQueueEmailAddressesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            queueId: queueId
+        )
+        return try await self.listQueueEmailAddresses(input, logger: logger)
     }
 
     /// Lists the quick connects associated with a queue.

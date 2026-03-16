@@ -336,6 +336,11 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum GraphEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lineageNode = "LINEAGE_NODE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GroupProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assigned = "ASSIGNED"
         case notAssigned = "NOT_ASSIGNED"
@@ -514,6 +519,17 @@ extension DataZone {
     public enum RejectRuleBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `in` = "IN"
+        case out = "OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lineage = "LINEAGE"
         public var description: String { return self.rawValue }
     }
 
@@ -1364,6 +1380,37 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case assetListing = "assetListing"
             case dataProductListing = "dataProductListing"
+        }
+    }
+
+    public enum MatchClause: AWSEncodableShape, Sendable {
+        /// The pattern describing the entities for the query to traverse.
+        case entityPattern(EntityPattern)
+        /// The pattern describing the query's relational traversal.
+        case relationPattern(RelationPattern)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .entityPattern(let value):
+                try container.encode(value, forKey: .entityPattern)
+            case .relationPattern(let value):
+                try container.encode(value, forKey: .relationPattern)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .entityPattern(let value):
+                try value.validate(name: "\(name).entityPattern")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityPattern = "entityPattern"
+            case relationPattern = "relationPattern"
         }
     }
 
@@ -2913,6 +2960,30 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case includeChildDomainUnits = "includeChildDomainUnits"
+        }
+    }
+
+    public struct AdditionalAttributes: AWSEncodableShape {
+        /// Names of forms on the query entity that can be requested in the response.
+        public let formNames: [String]?
+
+        @inlinable
+        public init(formNames: [String]? = nil) {
+            self.formNames = formNames
+        }
+
+        public func validate(name: String) throws {
+            try self.formNames?.forEach {
+                try validate($0, name: "formNames[]", parent: name, max: 128)
+                try validate($0, name: "formNames[]", parent: name, min: 1)
+                try validate($0, name: "formNames[]", parent: name, pattern: "^(?![0-9_])\\w+$|^_\\w*[a-zA-Z0-9]\\w*$")
+            }
+            try self.validate(self.formNames, name: "formNames", parent: name, max: 10)
+            try self.validate(self.formNames, name: "formNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formNames = "formNames"
         }
     }
 
@@ -9762,6 +9833,31 @@ extension DataZone {
         }
     }
 
+    public struct EntityPattern: AWSEncodableShape {
+        /// The type of entity to be matched during the graph query.
+        public let entityType: GraphEntityType
+        public let filters: FilterClause?
+        /// The identifier of the root entity to start traversal from during the graph query.
+        public let identifier: String
+
+        @inlinable
+        public init(entityType: GraphEntityType, filters: FilterClause? = nil, identifier: String) {
+            self.entityType = entityType
+            self.filters = filters
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityType = "entityType"
+            case filters = "filters"
+            case identifier = "identifier"
+        }
+    }
+
     public struct EnvironmentActionSummary: AWSDecodableShape {
         /// The environment action description.
         public let description: String?
@@ -14552,6 +14648,76 @@ extension DataZone {
         }
     }
 
+    public struct LineageNodeItem: AWSDecodableShape {
+        /// The timestamp at which the data lineage node was created.
+        public let createdAt: Date?
+        /// The user who created the data lineage node.
+        public let createdBy: String?
+        /// The description of the data lineage node.
+        public let description: String?
+        /// The ID of the domain of the data lineage node.
+        public let domainId: String
+        /// The IDs of the downstream data lineage nodes.
+        public let downstreamLineageNodeIds: [String]?
+        /// The event timestamp of the data lineage node.
+        public let eventTimestamp: Date?
+        /// The forms included in the additional attributes of a data lineage node.
+        public let formsOutput: [FormOutput]?
+        /// The ID of the data lineage node.
+        public let id: String
+        /// The name of the data lineage node.
+        public let name: String?
+        /// The alternate ID of the data lineage node.
+        public let sourceIdentifier: String?
+        /// The name of the type of the data lineage node.
+        public let typeName: String
+        /// The type of the revision of the data lineage node.
+        public let typeRevision: String?
+        /// The timestamp at which the data lineage node was updated.
+        public let updatedAt: Date?
+        /// The user who updated the data lineage node.
+        public let updatedBy: String?
+        /// The IDs of the upstream data lineage nodes.
+        public let upstreamLineageNodeIds: [String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, downstreamLineageNodeIds: [String]? = nil, eventTimestamp: Date? = nil, formsOutput: [FormOutput]? = nil, id: String, name: String? = nil, sourceIdentifier: String? = nil, typeName: String, typeRevision: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, upstreamLineageNodeIds: [String]? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.downstreamLineageNodeIds = downstreamLineageNodeIds
+            self.eventTimestamp = eventTimestamp
+            self.formsOutput = formsOutput
+            self.id = id
+            self.name = name
+            self.sourceIdentifier = sourceIdentifier
+            self.typeName = typeName
+            self.typeRevision = typeRevision
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.upstreamLineageNodeIds = upstreamLineageNodeIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case domainId = "domainId"
+            case downstreamLineageNodeIds = "downstreamLineageNodeIds"
+            case eventTimestamp = "eventTimestamp"
+            case formsOutput = "formsOutput"
+            case id = "id"
+            case name = "name"
+            case sourceIdentifier = "sourceIdentifier"
+            case typeName = "typeName"
+            case typeRevision = "typeRevision"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+            case upstreamLineageNodeIds = "upstreamLineageNodeIds"
+        }
+    }
+
     public struct LineageNodeReference: AWSDecodableShape {
         /// The event timestamp of the data lineage node.
         public let eventTimestamp: Date?
@@ -18318,6 +18484,75 @@ extension DataZone {
         }
     }
 
+    public struct QueryGraphInput: AWSEncodableShape {
+        /// Additional details on the queried entity that can be requested in the response.
+        public let additionalAttributes: AdditionalAttributes?
+        /// The identifier of the Amazon DataZone domain.
+        public let domainIdentifier: String
+        /// List of query match clauses.
+        public let match: [MatchClause]
+        /// The maximum number of entities to return in a single call to QueryGraph. When the number of entities to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to QueryGraph to list the next set of entities.
+        public let maxResults: Int?
+        /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to QueryGraph to list the next set of entities.
+        public let nextToken: String?
+
+        @inlinable
+        public init(additionalAttributes: AdditionalAttributes? = nil, domainIdentifier: String, match: [MatchClause], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.additionalAttributes = additionalAttributes
+            self.domainIdentifier = domainIdentifier
+            self.match = match
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalAttributes, forKey: .additionalAttributes)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.match, forKey: .match)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalAttributes?.validate(name: "\(name).additionalAttributes")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.match.forEach {
+                try $0.validate(name: "\(name).match[]")
+            }
+            try self.validate(self.match, name: "match", parent: name, max: 2)
+            try self.validate(self.match, name: "match", parent: name, min: 2)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAttributes = "additionalAttributes"
+            case match = "match"
+        }
+    }
+
+    public struct QueryGraphOutput: AWSDecodableShape {
+        /// The results of the QueryGraph action.
+        public let items: [ResultItem]?
+        /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to QueryGraph to list the next set of entities.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ResultItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct RecommendationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether automatic business name generation is to be enabled or not as part of the recommendation configuration.
         public let enableBusinessNameGeneration: Bool?
@@ -18814,6 +19049,28 @@ extension DataZone {
             case subscribedPrincipals = "subscribedPrincipals"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct RelationPattern: AWSEncodableShape {
+        /// The number of hops to query.
+        public let maxPathLength: Int?
+        /// The direction to query.
+        public let relationDirection: RelationDirection
+        /// The type of relation to query.
+        public let relationType: RelationType
+
+        @inlinable
+        public init(maxPathLength: Int? = nil, relationDirection: RelationDirection, relationType: RelationType) {
+            self.maxPathLength = maxPathLength
+            self.relationDirection = relationDirection
+            self.relationType = relationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxPathLength = "maxPathLength"
+            case relationDirection = "relationDirection"
+            case relationType = "relationType"
         }
     }
 
@@ -23912,6 +24169,20 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "cloudFormation"
+        }
+    }
+
+    public struct ResultItem: AWSDecodableShape {
+        /// Resulting data lineage node from the query.
+        public let lineageNode: LineageNodeItem?
+
+        @inlinable
+        public init(lineageNode: LineageNodeItem? = nil) {
+            self.lineageNode = lineageNode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineageNode = "lineageNode"
         }
     }
 

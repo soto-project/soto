@@ -47,6 +47,7 @@ extension Route53GlobalResolver {
 
     public enum DnsAdvancedProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dga = "DGA"
+        case dictionaryDga = "DICTIONARY_DGA"
         case dnsTunneling = "DNS_TUNNELING"
         public var description: String { return self.rawValue }
     }
@@ -87,6 +88,12 @@ extension Route53GlobalResolver {
     public enum FirewallRulesFailOpenType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalResolverIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "DUAL_STACK"
+        case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
 
@@ -286,7 +293,7 @@ extension Route53GlobalResolver {
         public let name: String
         /// An Amazon Resource Name (ARN) of the Route 53 Global Resolver the private hosted zone is associated to.
         public let resourceArn: String
-        /// Aggregate status for all the AWS Regions in which the Route 53 Global Resolver exists.
+        /// Aggregate status for all the Amazon Web Services Regions in which the Route 53 Global Resolver exists.
         public let status: HostedZoneAssociationStatus
         /// The date and time the private hosted zone association was modified.
         @CustomCoding<ISO8601DateCoder>
@@ -387,7 +394,7 @@ extension Route53GlobalResolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 256)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[-a-zA-Z0-9.]+$")
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[a-zA-Z0-9!\"#$%&'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~-]+$")
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
@@ -722,7 +729,7 @@ extension Route53GlobalResolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 256)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[-a-zA-Z0-9.]+$")
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[a-zA-Z0-9!\"#$%&'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~-]+$")
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, max: 256)
@@ -925,7 +932,7 @@ extension Route53GlobalResolver {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cidr, name: "cidr", parent: name, max: 42)
+            try self.validate(self.cidr, name: "cidr", parent: name, max: 43)
             try self.validate(self.cidr, name: "cidr", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
@@ -1409,7 +1416,7 @@ extension Route53GlobalResolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 256)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[-a-zA-Z0-9.]+$")
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[a-zA-Z0-9!\"#$%&'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~-]+$")
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
@@ -1533,19 +1540,22 @@ extension Route53GlobalResolver {
         public let clientToken: String?
         /// An optional description for the Route 53 Global Resolver instance. Maximum length of 1024 characters.
         public let description: String?
+        /// The IP address type for the Route 53 Global Resolver. Valid values are IPV4 (default) or DUAL_STACK for both IPv4 and IPv6 support.
+        public let ipAddressType: GlobalResolverIpAddressType?
         /// A descriptive name for the Route 53 Global Resolver instance. Maximum length of 64 characters.
         public let name: String
-        /// The AWS region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled.
+        /// The Amazon Web Services Region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled.
         public let observabilityRegion: String?
-        /// List of AWS regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these regions to provide global availability and low-latency DNS resolution.
+        /// List of Amazon Web Services Regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
         public let regions: [String]
         /// Tags to associate with the Route 53 Global Resolver. Tags are key-value pairs that help you organize and identify your resources.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateGlobalResolverInput.idempotencyToken(), description: String? = nil, name: String, observabilityRegion: String? = nil, regions: [String], tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateGlobalResolverInput.idempotencyToken(), description: String? = nil, ipAddressType: GlobalResolverIpAddressType? = nil, name: String, observabilityRegion: String? = nil, regions: [String], tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
+            self.ipAddressType = ipAddressType
             self.name = name
             self.observabilityRegion = observabilityRegion
             self.regions = regions
@@ -1577,6 +1587,7 @@ extension Route53GlobalResolver {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
             case regions = "regions"
@@ -1598,13 +1609,17 @@ extension Route53GlobalResolver {
         public let dnsName: String
         /// The unique identifier for the Route 53 Global Resolver.
         public let id: String
+        /// The IP address type configured for the Route 53 Global Resolver (IPV4 or DUAL_STACK).
+        public let ipAddressType: GlobalResolverIpAddressType?
         /// The global anycast IPv4 addresses associated with the Route 53 Global Resolver. DNS clients can send queries to these addresses from anywhere on the internet.
         public let ipv4Addresses: [String]
+        /// The global anycast IPv6 addresses associated with the Route 53 Global Resolver. This field is only populated when ipAddressType is DUAL_STACK. DNS clients can send queries to these addresses from anywhere on the internet.
+        public let ipv6Addresses: [String]?
         /// The name of the Route 53 Global Resolver.
         public let name: String
-        /// The AWS Region where observability data for the Route 53 Global Resolver is stored.
+        /// The Amazon Web Services Region where observability data for the Route 53 Global Resolver is stored.
         public let observabilityRegion: String?
-        /// The AWS Regions where the Route 53 Global Resolver is deployed and operational.
+        /// The Amazon Web Services Regions where the Route 53 Global Resolver is deployed and operational.
         public let regions: [String]
         /// The current status of the Route 53 Global Resolver. Possible values are CREATING (being provisioned), UPDATING (being modified), OPERATIONAL (ready to serve queries), or DELETING (being removed).
         public let status: CRResourceStatus
@@ -1613,14 +1628,16 @@ extension Route53GlobalResolver {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipv4Addresses: [String], name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
+        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipAddressType: GlobalResolverIpAddressType? = nil, ipv4Addresses: [String], ipv6Addresses: [String]? = nil, name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
             self.arn = arn
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
             self.dnsName = dnsName
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipv4Addresses = ipv4Addresses
+            self.ipv6Addresses = ipv6Addresses
             self.name = name
             self.observabilityRegion = observabilityRegion
             self.regions = regions
@@ -1635,7 +1652,9 @@ extension Route53GlobalResolver {
             case description = "description"
             case dnsName = "dnsName"
             case id = "id"
+            case ipAddressType = "ipAddressType"
             case ipv4Addresses = "ipv4Addresses"
+            case ipv6Addresses = "ipv6Addresses"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
             case regions = "regions"
@@ -2103,13 +2122,17 @@ extension Route53GlobalResolver {
         public let dnsName: String
         /// The unique identifier of the deleted Route 53 Global Resolver.
         public let id: String
+        /// The IP address type that was configured for the deleted Route 53 Global Resolver.
+        public let ipAddressType: GlobalResolverIpAddressType?
         /// The global anycast IPv4 addresses that were associated with the deleted Route 53 Global Resolver.
         public let ipv4Addresses: [String]
+        /// The global anycast IPv6 addresses that were associated with the deleted Route 53 Global Resolver.
+        public let ipv6Addresses: [String]?
         /// The name of the deleted Route 53 Global Resolver.
         public let name: String
-        /// The AWS Region where observability data for the deleted Route 53 Global Resolver was stored.
+        /// The Amazon Web Services Region where observability data for the deleted Route 53 Global Resolver was stored.
         public let observabilityRegion: String?
-        /// The AWS Regions where the deleted Route 53 Global Resolver was deployed and operational.
+        /// The Amazon Web Services Regions where the deleted Route 53 Global Resolver was deployed and operational.
         public let regions: [String]
         /// The final status of the deleted Route 53 Global Resolver.
         public let status: CRResourceStatus
@@ -2118,14 +2141,16 @@ extension Route53GlobalResolver {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipv4Addresses: [String], name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
+        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipAddressType: GlobalResolverIpAddressType? = nil, ipv4Addresses: [String], ipv6Addresses: [String]? = nil, name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
             self.arn = arn
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
             self.dnsName = dnsName
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipv4Addresses = ipv4Addresses
+            self.ipv6Addresses = ipv6Addresses
             self.name = name
             self.observabilityRegion = observabilityRegion
             self.regions = regions
@@ -2140,7 +2165,9 @@ extension Route53GlobalResolver {
             case description = "description"
             case dnsName = "dnsName"
             case id = "id"
+            case ipAddressType = "ipAddressType"
             case ipv4Addresses = "ipv4Addresses"
+            case ipv6Addresses = "ipv6Addresses"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
             case regions = "regions"
@@ -2878,7 +2905,7 @@ extension Route53GlobalResolver {
         public var createdAt: Date
         /// The description of the DNS Firewall rule.
         public let description: String?
-        /// The type of the DNS Firewall Advanced rule. Valid values are DGA and DNS_TUNNELING.
+        /// The type of the DNS Firewall Advanced rule. Valid values are DGA, DNS_TUNNELING, and DICTIONARY_DGA.
         public let dnsAdvancedProtection: DnsAdvancedProtection?
         /// The DNS view ID the DNS Firewall is associated with.
         public let dnsViewId: String
@@ -2978,13 +3005,17 @@ extension Route53GlobalResolver {
         public let dnsName: String
         /// The ID of the Global Resolver.
         public let id: String
+        /// The IP address type configured for the Global Resolver.
+        public let ipAddressType: GlobalResolverIpAddressType?
         /// List of anycast IPv4 addresses associated with the Global Resolver instance.
         public let ipv4Addresses: [String]
+        /// List of anycast IPv6 addresses associated with the Global Resolver instance. This field is only populated when ipAddressType is DUAL_STACK.
+        public let ipv6Addresses: [String]?
         /// The name of the Global Resolver.
         public let name: String
-        /// The AWS Regions in which the users' Global Resolver query resolution logs will be propagated.
+        /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
         public let observabilityRegion: String?
-        /// The AWS Regions in which the Global Resolver operate.
+        /// The Amazon Web Services Regions in which the Global Resolver operate.
         public let regions: [String]
         /// The operational status of the Global Resolver.
         public let status: CRResourceStatus
@@ -2993,14 +3024,16 @@ extension Route53GlobalResolver {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipv4Addresses: [String], name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
+        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipAddressType: GlobalResolverIpAddressType? = nil, ipv4Addresses: [String], ipv6Addresses: [String]? = nil, name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
             self.arn = arn
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
             self.dnsName = dnsName
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipv4Addresses = ipv4Addresses
+            self.ipv6Addresses = ipv6Addresses
             self.name = name
             self.observabilityRegion = observabilityRegion
             self.regions = regions
@@ -3015,7 +3048,9 @@ extension Route53GlobalResolver {
             case description = "description"
             case dnsName = "dnsName"
             case id = "id"
+            case ipAddressType = "ipAddressType"
             case ipv4Addresses = "ipv4Addresses"
+            case ipv6Addresses = "ipv6Addresses"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
             case regions = "regions"
@@ -3156,13 +3191,17 @@ extension Route53GlobalResolver {
         public let dnsName: String
         /// The unique identifier of the global resolver.
         public let id: String
+        /// The IP address type configured for the global resolver.
+        public let ipAddressType: GlobalResolverIpAddressType?
         /// The IPv4 addresses assigned to the global resolver.
         public let ipv4Addresses: [String]
+        /// The IPv6 addresses assigned to the global resolver. This field is only populated when ipAddressType is DUAL_STACK.
+        public let ipv6Addresses: [String]?
         /// The name of the global resolver.
         public let name: String
-        /// The AWS Region where observability data is collected for the global resolver.
+        /// The Amazon Web Services Region where observability data is collected for the global resolver.
         public let observabilityRegion: String?
-        /// The AWS Regions where the global resolver is deployed.
+        /// The Amazon Web Services Regions where the global resolver is deployed.
         public let regions: [String]
         /// The current status of the global resolver.
         public let status: CRResourceStatus
@@ -3171,14 +3210,16 @@ extension Route53GlobalResolver {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipv4Addresses: [String], name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
+        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipAddressType: GlobalResolverIpAddressType? = nil, ipv4Addresses: [String], ipv6Addresses: [String]? = nil, name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
             self.arn = arn
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
             self.dnsName = dnsName
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipv4Addresses = ipv4Addresses
+            self.ipv6Addresses = ipv6Addresses
             self.name = name
             self.observabilityRegion = observabilityRegion
             self.regions = regions
@@ -3193,7 +3234,9 @@ extension Route53GlobalResolver {
             case description = "description"
             case dnsName = "dnsName"
             case id = "id"
+            case ipAddressType = "ipAddressType"
             case ipv4Addresses = "ipv4Addresses"
+            case ipv6Addresses = "ipv6Addresses"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
             case regions = "regions"
@@ -3845,13 +3888,13 @@ extension Route53GlobalResolver {
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let message: String
-        /// The quota code recognized by the AWS Service Quotas service.
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public let quotaCode: String?
         /// The unique ID of the resource referenced in the failed request.
         public let resourceId: String?
         /// The resource type of the resource referenced in the failed request.
         public let resourceType: String
-        /// The code for the AWS service that owns the quota.
+        /// The code for the Amazon Web Services service that owns the quota.
         public let serviceCode: String?
 
         @inlinable
@@ -3910,11 +3953,11 @@ extension Route53GlobalResolver {
 
     public struct ThrottlingException: AWSErrorShape {
         public let message: String
-        /// The quota code recognized by the AWS Service Quotas service.
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
         public let quotaCode: String?
         /// Number of seconds in which the caller can retry the request.
         public let retryAfterSeconds: Int?
-        /// The code for the AWS service that owns the quota.
+        /// The code for the Amazon Web Services service that owns the quota.
         public let serviceCode: String?
 
         @inlinable
@@ -4009,7 +4052,7 @@ extension Route53GlobalResolver {
             try self.validate(self.accessSourceId, name: "accessSourceId", parent: name, max: 64)
             try self.validate(self.accessSourceId, name: "accessSourceId", parent: name, min: 1)
             try self.validate(self.accessSourceId, name: "accessSourceId", parent: name, pattern: "^[-.a-zA-Z0-9]+$")
-            try self.validate(self.cidr, name: "cidr", parent: name, max: 42)
+            try self.validate(self.cidr, name: "cidr", parent: name, max: 43)
             try self.validate(self.cidr, name: "cidr", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -4269,7 +4312,7 @@ extension Route53GlobalResolver {
             try self.domains.forEach {
                 try validate($0, name: "domains[]", parent: name, max: 256)
                 try validate($0, name: "domains[]", parent: name, min: 1)
-                try validate($0, name: "domains[]", parent: name, pattern: "^\\*?[-a-zA-Z0-9.]+$")
+                try validate($0, name: "domains[]", parent: name, pattern: "^\\*?[a-zA-Z0-9!\"#$%&'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~-]+$")
             }
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
@@ -4321,7 +4364,7 @@ extension Route53GlobalResolver {
         public let confidenceThreshold: ConfidenceThreshold?
         /// The description for the Firewall rule.
         public let description: String?
-        /// The type of the DNS Firewall Advanced rule. Valid values are DGA and DNS_TUNNELING.
+        /// The type of the DNS Firewall Advanced rule. Valid values are DGA, DNS_TUNNELING, and DICTIONARY_DGA.
         public let dnsAdvancedProtection: DnsAdvancedProtection?
         /// The ID of the DNS Firewall rule.
         public let firewallRuleId: String
@@ -4366,7 +4409,7 @@ extension Route53GlobalResolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 256)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[-a-zA-Z0-9.]+$")
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, pattern: "^\\*?[a-zA-Z0-9!\"#$%&'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~-]+$")
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
@@ -4416,7 +4459,7 @@ extension Route53GlobalResolver {
         public var createdAt: Date
         /// The description of the Firewall rule.
         public let description: String?
-        /// The type of the DNS Firewall Advanced rule. Valid values are DGA and DNS_TUNNELING.
+        /// The type of the DNS Firewall Advanced rule. Valid values are DGA, DNS_TUNNELING, and DICTIONARY_DGA.
         public let dnsAdvancedProtection: DnsAdvancedProtection?
         /// The ID of the DNS view the Firewall rule is associated with.
         public let dnsViewId: String
@@ -4483,15 +4526,18 @@ extension Route53GlobalResolver {
         public let description: String?
         /// The ID of the Global Resolver.
         public let globalResolverId: String
+        /// The IP address type for the Global Resolver. Valid values are IPV4 or DUAL_STACK for both IPv4 and IPv6 support.
+        public let ipAddressType: GlobalResolverIpAddressType?
         /// The name of the Global Resolver.
         public let name: String?
-        /// The AWS Regions in which the users' Global Resolver query resolution logs will be propagated.
+        /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
         public let observabilityRegion: String?
 
         @inlinable
-        public init(description: String? = nil, globalResolverId: String, name: String? = nil, observabilityRegion: String? = nil) {
+        public init(description: String? = nil, globalResolverId: String, ipAddressType: GlobalResolverIpAddressType? = nil, name: String? = nil, observabilityRegion: String? = nil) {
             self.description = description
             self.globalResolverId = globalResolverId
+            self.ipAddressType = ipAddressType
             self.name = name
             self.observabilityRegion = observabilityRegion
         }
@@ -4501,6 +4547,7 @@ extension Route53GlobalResolver {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.globalResolverId, key: "globalResolverId")
+            try container.encodeIfPresent(self.ipAddressType, forKey: .ipAddressType)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.observabilityRegion, forKey: .observabilityRegion)
         }
@@ -4519,6 +4566,7 @@ extension Route53GlobalResolver {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
         }
@@ -4538,13 +4586,17 @@ extension Route53GlobalResolver {
         public let dnsName: String
         /// The ID of the Global Resolver.
         public let id: String
+        /// The IP address type configured for the updated Global Resolver.
+        public let ipAddressType: GlobalResolverIpAddressType?
         /// List of anycast IPv4 addresses associated with the Global Resolver instance.
         public let ipv4Addresses: [String]
+        /// List of anycast IPv6 addresses associated with the updated Global Resolver instance. This field is only populated when ipAddressType is DUAL_STACK.
+        public let ipv6Addresses: [String]?
         /// Name of the Global Resolver.
         public let name: String
-        /// The AWS Regions in which the users' Global Resolver query resolution logs will be propagated.
+        /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
         public let observabilityRegion: String?
-        /// The AWS Regions in which the Global Resolver will operate.
+        /// The Amazon Web Services Regions in which the Global Resolver will operate.
         public let regions: [String]
         /// The operational status of the Global Resolver.
         public let status: CRResourceStatus
@@ -4553,14 +4605,16 @@ extension Route53GlobalResolver {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipv4Addresses: [String], name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
+        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnsName: String, id: String, ipAddressType: GlobalResolverIpAddressType? = nil, ipv4Addresses: [String], ipv6Addresses: [String]? = nil, name: String, observabilityRegion: String? = nil, regions: [String], status: CRResourceStatus, updatedAt: Date) {
             self.arn = arn
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
             self.dnsName = dnsName
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipv4Addresses = ipv4Addresses
+            self.ipv6Addresses = ipv6Addresses
             self.name = name
             self.observabilityRegion = observabilityRegion
             self.regions = regions
@@ -4575,7 +4629,9 @@ extension Route53GlobalResolver {
             case description = "description"
             case dnsName = "dnsName"
             case id = "id"
+            case ipAddressType = "ipAddressType"
             case ipv4Addresses = "ipv4Addresses"
+            case ipv6Addresses = "ipv6Addresses"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
             case regions = "regions"

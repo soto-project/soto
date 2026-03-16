@@ -349,6 +349,7 @@ extension EKS {
         case standard = "standard"
         case tier2Xl = "tier-2xl"
         case tier4Xl = "tier-4xl"
+        case tier8Xl = "tier-8xl"
         case tierXl = "tier-xl"
         public var description: String { return self.rawValue }
     }
@@ -1775,7 +1776,7 @@ extension EKS {
     }
 
     public struct ControlPlaneScalingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The control plane scaling tier configuration. Available options are standard, tier-xl, tier-2xl, or tier-4xl. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        /// The control plane scaling tier configuration. Available options are standard, tier-xl, tier-2xl, tier-4xl, or tier-8xl. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
         public let tier: ProvisionedControlPlaneTier?
 
         @inlinable

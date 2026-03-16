@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Route53GlobalResolver service.
 ///
-///  Amazon Route 53 Global Resolver is a global, internet-accessible DNS resolver that enables customers to resolve and forward traffic for both public and private domains while ensuring security and authenticity of queries over the internet. Route 53 Global Resolver supports DNS-over-port 53 (Do53), DNS-over-TLS (DoT), and DNS-over-HTTPS (DoH) protocols through global anycast IP addresses.
+/// Amazon Route 53 Global Resolver is a global, internet-accessible DNS resolver that enables customers to resolve and forward traffic for both public and private domains while ensuring security and authenticity of queries over the internet. Route 53 Global Resolver supports DNS-over-port 53 (Do53), DNS-over-TLS (DoT), and DNS-over-HTTPS (DoH) protocols through global anycast IP addresses.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
 public struct Route53GlobalResolver: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct Route53GlobalResolver: AWSService {
 
     // MARK: API Calls
 
-    /// Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally.
+    /// Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func associateHostedZone(_ input: AssociateHostedZoneInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateHostedZoneOutput {
@@ -91,7 +91,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally.
+    /// Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - hostedZoneId: The ID of the Route 53 private hosted zone to associate with the Route 53 Global Resolver resource.
@@ -113,7 +113,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.associateHostedZone(input, logger: logger)
     }
 
-    /// Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up multiple rules at once.
+    /// Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up multiple rules at once.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func batchCreateFirewallRule(_ input: BatchCreateFirewallRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateFirewallRuleOutput {
@@ -126,7 +126,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up multiple rules at once.
+    /// Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up multiple rules at once.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallRules: The BatchCreateFirewallRuleInputItem objects contain the information for each Firewall rule.
@@ -142,7 +142,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.batchCreateFirewallRule(input, logger: logger)
     }
 
-    /// Deletes multiple DNS firewall rules in a single operation. This is more efficient than deleting rules individually.
+    /// Deletes multiple DNS firewall rules in a single operation. This is more efficient than deleting rules individually.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func batchDeleteFirewallRule(_ input: BatchDeleteFirewallRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteFirewallRuleOutput {
@@ -155,7 +155,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes multiple DNS firewall rules in a single operation. This is more efficient than deleting rules individually.
+    /// Deletes multiple DNS firewall rules in a single operation. This is more efficient than deleting rules individually.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallRules: An array of the DNS Firewall IDs to be deleted.
@@ -171,7 +171,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.batchDeleteFirewallRule(input, logger: logger)
     }
 
-    /// Updates multiple DNS firewall rules in a single operation. This is more efficient than updating rules individually.
+    /// Updates multiple DNS firewall rules in a single operation. This is more efficient than updating rules individually.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func batchUpdateFirewallRule(_ input: BatchUpdateFirewallRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFirewallRuleOutput {
@@ -184,7 +184,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates multiple DNS firewall rules in a single operation. This is more efficient than updating rules individually.
+    /// Updates multiple DNS firewall rules in a single operation. This is more efficient than updating rules individually.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallRules: The DNS Firewall rule IDs to be updated.
@@ -200,7 +200,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.batchUpdateFirewallRule(input, logger: logger)
     }
 
-    /// Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols.
+    /// Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func createAccessSource(_ input: CreateAccessSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessSourceOutput {
@@ -213,7 +213,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols.
+    /// Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - cidr: The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver.
@@ -247,7 +247,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.createAccessSource(input, logger: logger)
     }
 
-    /// Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver.
+    /// Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func createAccessToken(_ input: CreateAccessTokenInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessTokenOutput {
@@ -260,7 +260,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver.
+    /// Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency. This means that making the same request multiple times with the same clientToken has the same result every time.
@@ -288,7 +288,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.createAccessToken(input, logger: logger)
     }
 
-    /// Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules.
+    /// Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func createDNSView(_ input: CreateDNSViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDNSViewOutput {
@@ -301,7 +301,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules.
+    /// Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - clientToken: A unique string that identifies the request and ensures idempotency.
@@ -338,7 +338,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.createDNSView(input, logger: logger)
     }
 
-    /// Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains.
+    /// Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func createFirewallDomainList(_ input: CreateFirewallDomainListInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallDomainListOutput {
@@ -351,7 +351,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains.
+    /// Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency. This means that making the same request multiple times with the same clientToken has the same result every time.
@@ -379,7 +379,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.createFirewallDomainList(input, logger: logger)
     }
 
-    /// Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections.
+    /// Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func createFirewallRule(_ input: CreateFirewallRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallRuleOutput {
@@ -392,7 +392,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections.
+    /// Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request and send metrics and logs to CloudWatch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
@@ -447,7 +447,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.createFirewallRule(input, logger: logger)
     }
 
-    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses.
+    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func createGlobalResolver(_ input: CreateGlobalResolverInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlobalResolverOutput {
@@ -460,20 +460,22 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses.
+    /// Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - clientToken: A unique string that identifies the request and ensures idempotency. If you make multiple requests with the same client token, only one Route 53 Global Resolver is created.
     ///   - description: An optional description for the Route 53 Global Resolver instance. Maximum length of 1024 characters.
+    ///   - ipAddressType: The IP address type for the Route 53 Global Resolver. Valid values are IPV4 (default) or DUAL_STACK for both IPv4 and IPv6 support.
     ///   - name: A descriptive name for the Route 53 Global Resolver instance. Maximum length of 64 characters.
-    ///   - observabilityRegion: The AWS region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled.
-    ///   - regions: List of AWS regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these regions to provide global availability and low-latency DNS resolution.
+    ///   - observabilityRegion: The Amazon Web Services Region where query resolution logs and metrics will be aggregated and delivered. If not specified, logging is not enabled.
+    ///   - regions: List of Amazon Web Services Regions where the Route 53 Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
     ///   - tags: Tags to associate with the Route 53 Global Resolver. Tags are key-value pairs that help you organize and identify your resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGlobalResolver(
         clientToken: String? = CreateGlobalResolverInput.idempotencyToken(),
         description: String? = nil,
+        ipAddressType: GlobalResolverIpAddressType? = nil,
         name: String,
         observabilityRegion: String? = nil,
         regions: [String],
@@ -483,6 +485,7 @@ public struct Route53GlobalResolver: AWSService {
         let input = CreateGlobalResolverInput(
             clientToken: clientToken, 
             description: description, 
+            ipAddressType: ipAddressType, 
             name: name, 
             observabilityRegion: observabilityRegion, 
             regions: regions, 
@@ -491,7 +494,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.createGlobalResolver(input, logger: logger)
     }
 
-    /// Deletes an access source. This operation cannot be undone.
+    /// Deletes an access source. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func deleteAccessSource(_ input: DeleteAccessSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccessSourceOutput {
@@ -504,7 +507,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes an access source. This operation cannot be undone.
+    /// Deletes an access source. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - accessSourceId: The unique identifier of the access source to delete.
@@ -520,7 +523,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.deleteAccessSource(input, logger: logger)
     }
 
-    /// Deletes an access token. This operation cannot be undone.
+    /// Deletes an access token. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func deleteAccessToken(_ input: DeleteAccessTokenInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccessTokenOutput {
@@ -533,7 +536,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes an access token. This operation cannot be undone.
+    /// Deletes an access token. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - accessTokenId: The unique identifier of the access token to delete.
@@ -549,7 +552,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.deleteAccessToken(input, logger: logger)
     }
 
-    /// Deletes a DNS view. This operation cannot be undone.
+    /// Deletes a DNS view. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func deleteDNSView(_ input: DeleteDNSViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDNSViewOutput {
@@ -562,7 +565,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes a DNS view. This operation cannot be undone.
+    /// Deletes a DNS view. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - dnsViewId: The unique identifier of the DNS view to delete.
@@ -578,7 +581,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.deleteDNSView(input, logger: logger)
     }
 
-    /// Deletes a firewall domain list. This operation cannot be undone.
+    /// Deletes a firewall domain list. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func deleteFirewallDomainList(_ input: DeleteFirewallDomainListInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallDomainListOutput {
@@ -591,7 +594,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes a firewall domain list. This operation cannot be undone.
+    /// Deletes a firewall domain list. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallDomainListId: The unique identifier of the firewall domain list to delete.
@@ -607,7 +610,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.deleteFirewallDomainList(input, logger: logger)
     }
 
-    /// Deletes a DNS firewall rule. This operation cannot be undone.
+    /// Deletes a DNS firewall rule. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func deleteFirewallRule(_ input: DeleteFirewallRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallRuleOutput {
@@ -620,7 +623,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes a DNS firewall rule. This operation cannot be undone.
+    /// Deletes a DNS firewall rule. This operation cannot be undone.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallRuleId: The unique identifier of the firewall rule to delete.
@@ -636,7 +639,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.deleteFirewallRule(input, logger: logger)
     }
 
-    /// Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted.
+    /// Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func deleteGlobalResolver(_ input: DeleteGlobalResolverInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlobalResolverOutput {
@@ -649,7 +652,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted.
+    /// Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - globalResolverId: The unique identifier of the Route 53 Global Resolver to delete.
@@ -665,7 +668,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.deleteGlobalResolver(input, logger: logger)
     }
 
-    /// Disables a DNS view, preventing it from serving DNS queries.
+    /// Disables a DNS view, preventing it from serving DNS queries.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func disableDNSView(_ input: DisableDNSViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDNSViewOutput {
@@ -678,7 +681,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Disables a DNS view, preventing it from serving DNS queries.
+    /// Disables a DNS view, preventing it from serving DNS queries.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - dnsViewId: The unique identifier of the DNS view to disable.
@@ -694,7 +697,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.disableDNSView(input, logger: logger)
     }
 
-    /// Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource.
+    /// Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func disassociateHostedZone(_ input: DisassociateHostedZoneInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateHostedZoneOutput {
@@ -707,7 +710,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource.
+    /// Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - hostedZoneId: The ID of the Route 53 private hosted zone to disassociate.
@@ -726,7 +729,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.disassociateHostedZone(input, logger: logger)
     }
 
-    /// Enables a disabled DNS view, allowing it to serve DNS queries again.
+    /// Enables a disabled DNS view, allowing it to serve DNS queries again.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func enableDNSView(_ input: EnableDNSViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDNSViewOutput {
@@ -739,7 +742,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Enables a disabled DNS view, allowing it to serve DNS queries again.
+    /// Enables a disabled DNS view, allowing it to serve DNS queries again.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - dnsViewId: The unique identifier of the DNS view to enable.
@@ -755,7 +758,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.enableDNSView(input, logger: logger)
     }
 
-    /// Retrieves information about an access source.
+    /// Retrieves information about an access source.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getAccessSource(_ input: GetAccessSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessSourceOutput {
@@ -768,7 +771,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about an access source.
+    /// Retrieves information about an access source.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - accessSourceId: The unique identifier of the access source to retrieve.
@@ -784,7 +787,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getAccessSource(input, logger: logger)
     }
 
-    /// Retrieves information about an access token.
+    /// Retrieves information about an access token.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getAccessToken(_ input: GetAccessTokenInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessTokenOutput {
@@ -797,7 +800,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about an access token.
+    /// Retrieves information about an access token.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - accessTokenId: ID of the token.
@@ -813,7 +816,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getAccessToken(input, logger: logger)
     }
 
-    /// Retrieves information about a DNS view.
+    /// Retrieves information about a DNS view.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getDNSView(_ input: GetDNSViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDNSViewOutput {
@@ -826,7 +829,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a DNS view.
+    /// Retrieves information about a DNS view.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - dnsViewId: The ID of the DNS view to retrieve information about.
@@ -842,7 +845,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getDNSView(input, logger: logger)
     }
 
-    /// Retrieves information about a firewall domain list.
+    /// Retrieves information about a firewall domain list.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getFirewallDomainList(_ input: GetFirewallDomainListInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallDomainListOutput {
@@ -855,7 +858,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a firewall domain list.
+    /// Retrieves information about a firewall domain list.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallDomainListId: ID of the domain list.
@@ -871,7 +874,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getFirewallDomainList(input, logger: logger)
     }
 
-    /// Retrieves information about a DNS firewall rule.
+    /// Retrieves information about a DNS firewall rule.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getFirewallRule(_ input: GetFirewallRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallRuleOutput {
@@ -884,7 +887,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a DNS firewall rule.
+    /// Retrieves information about a DNS firewall rule.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallRuleId: ID of the DNS Firewall rule.
@@ -900,7 +903,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getFirewallRule(input, logger: logger)
     }
 
-    /// Retrieves information about a Route 53 Global Resolver instance.
+    /// Retrieves information about a Route 53 Global Resolver instance.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getGlobalResolver(_ input: GetGlobalResolverInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlobalResolverOutput {
@@ -913,7 +916,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a Route 53 Global Resolver instance.
+    /// Retrieves information about a Route 53 Global Resolver instance.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - globalResolverId: The ID of the Route 53 Global Resolver to retrieve information about.
@@ -929,7 +932,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getGlobalResolver(input, logger: logger)
     }
 
-    /// Retrieves information about a hosted zone association.
+    /// Retrieves information about a hosted zone association.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getHostedZoneAssociation(_ input: GetHostedZoneAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneAssociationOutput {
@@ -942,7 +945,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a hosted zone association.
+    /// Retrieves information about a hosted zone association.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - hostedZoneAssociationId: ID of the private hosted zone association.
@@ -958,7 +961,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getHostedZoneAssociation(input, logger: logger)
     }
 
-    /// Retrieves information about an AWS-managed firewall domain list. Managed domain lists contain domains associated with malicious activity, content categories, or specific threats.
+    /// Retrieves information about an Amazon Web Services-managed firewall domain list. Managed domain lists contain domains associated with malicious activity, content categories, or specific threats.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func getManagedFirewallDomainList(_ input: GetManagedFirewallDomainListInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedFirewallDomainListOutput {
@@ -971,7 +974,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about an AWS-managed firewall domain list. Managed domain lists contain domains associated with malicious activity, content categories, or specific threats.
+    /// Retrieves information about an Amazon Web Services-managed firewall domain list. Managed domain lists contain domains associated with malicious activity, content categories, or specific threats.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - managedFirewallDomainListId: ID of the Managed Domain List.
@@ -987,7 +990,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.getManagedFirewallDomainList(input, logger: logger)
     }
 
-    /// Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line.
+    /// Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func importFirewallDomains(_ input: ImportFirewallDomainsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportFirewallDomainsOutput {
@@ -1000,7 +1003,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line.
+    /// Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - domainFileUrl: The fully qualified URL of the file in Amazon S3 that contains the list of domains to import. The file should contain one domain per line.
@@ -1022,7 +1025,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.importFirewallDomains(input, logger: logger)
     }
 
-    /// Lists all access sources with pagination support.
+    /// Lists all access sources with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listAccessSources(_ input: ListAccessSourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessSourcesOutput {
@@ -1035,7 +1038,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all access sources with pagination support.
+    /// Lists all access sources with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - filters: Values to filter the results.
@@ -1057,7 +1060,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listAccessSources(input, logger: logger)
     }
 
-    /// Lists all access tokens for a DNS view with pagination support.
+    /// Lists all access tokens for a DNS view with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listAccessTokens(_ input: ListAccessTokensInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessTokensOutput {
@@ -1070,7 +1073,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all access tokens for a DNS view with pagination support.
+    /// Lists all access tokens for a DNS view with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - dnsViewId: The ID of the DNS view to list the tokens for.
@@ -1095,7 +1098,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listAccessTokens(input, logger: logger)
     }
 
-    /// Lists all DNS views for a Route 53 Global Resolver with pagination support.
+    /// Lists all DNS views for a Route 53 Global Resolver with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listDNSViews(_ input: ListDNSViewsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDNSViewsOutput {
@@ -1108,7 +1111,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all DNS views for a Route 53 Global Resolver with pagination support.
+    /// Lists all DNS views for a Route 53 Global Resolver with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - globalResolverId: The Global Resolver ID.
@@ -1130,7 +1133,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listDNSViews(input, logger: logger)
     }
 
-    /// Lists all firewall domain lists for a Route 53 Global Resolver with pagination support.
+    /// Lists all firewall domain lists for a Route 53 Global Resolver with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listFirewallDomainLists(_ input: ListFirewallDomainListsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallDomainListsOutput {
@@ -1143,7 +1146,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all firewall domain lists for a Route 53 Global Resolver with pagination support.
+    /// Lists all firewall domain lists for a Route 53 Global Resolver with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - globalResolverId: The ID of the Global Resolver that contains the DNS view the domain lists are associated to.
@@ -1165,7 +1168,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listFirewallDomainLists(input, logger: logger)
     }
 
-    /// Lists all the domains in DNS Firewall domain list you have created.
+    /// Lists all the domains in DNS Firewall domain list you have created.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listFirewallDomains(_ input: ListFirewallDomainsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallDomainsOutput {
@@ -1178,7 +1181,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all the domains in DNS Firewall domain list you have created.
+    /// Lists all the domains in DNS Firewall domain list you have created.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - firewallDomainListId: ID of the DNS Firewall domain list.
@@ -1200,7 +1203,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listFirewallDomains(input, logger: logger)
     }
 
-    /// Lists all DNS firewall rules for a DNS view with pagination support.
+    /// Lists all DNS firewall rules for a DNS view with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listFirewallRules(_ input: ListFirewallRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallRulesOutput {
@@ -1213,7 +1216,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all DNS firewall rules for a DNS view with pagination support.
+    /// Lists all DNS firewall rules for a DNS view with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - dnsViewId: ID of the DNS view.
@@ -1238,7 +1241,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listFirewallRules(input, logger: logger)
     }
 
-    /// Lists all Route 53 Global Resolver instances in your account with pagination support.
+    /// Lists all Route 53 Global Resolver instances in your account with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listGlobalResolvers(_ input: ListGlobalResolversInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGlobalResolversOutput {
@@ -1251,7 +1254,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all Route 53 Global Resolver instances in your account with pagination support.
+    /// Lists all Route 53 Global Resolver instances in your account with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of Route 53 Global Resolver instances to return in the response. Valid range is 1-100.
@@ -1270,7 +1273,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listGlobalResolvers(input, logger: logger)
     }
 
-    /// Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.
+    /// Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listHostedZoneAssociations(_ input: ListHostedZoneAssociationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZoneAssociationsOutput {
@@ -1283,7 +1286,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.
+    /// Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to retrieve in a single call.
@@ -1305,7 +1308,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listHostedZoneAssociations(input, logger: logger)
     }
 
-    /// Returns a paginated list of the AWS Managed DNS Lists and the categories for DNS Firewall. The categories are either THREAT or CONTENT.
+    /// Returns a paginated list of the Amazon Web Services Managed DNS Lists and the categories for DNS Firewall. The categories are either THREAT or CONTENT.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listManagedFirewallDomainLists(_ input: ListManagedFirewallDomainListsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedFirewallDomainListsOutput {
@@ -1318,7 +1321,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of the AWS Managed DNS Lists and the categories for DNS Firewall. The categories are either THREAT or CONTENT.
+    /// Returns a paginated list of the Amazon Web Services Managed DNS Lists and the categories for DNS Firewall. The categories are either THREAT or CONTENT.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - managedFirewallDomainListType: The category of the Manage DNS list either THREAT or CONTENT.
@@ -1340,7 +1343,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listManagedFirewallDomainLists(input, logger: logger)
     }
 
-    /// Lists the tags associated with a Route 53 Global Resolver resource.
+    /// Lists the tags associated with a Route 53 Global Resolver resource.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1353,7 +1356,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Lists the tags associated with a Route 53 Global Resolver resource.
+    /// Lists the tags associated with a Route 53 Global Resolver resource.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - resourceArn: Amazon Resource Name (ARN) for the resource.
@@ -1369,7 +1372,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Adds or updates tags for a Route 53 Global Resolver resource. Tags are key-value pairs that help you organize and identify your resources.
+    /// Adds or updates tags for a Route 53 Global Resolver resource. Tags are key-value pairs that help you organize and identify your resources.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -1382,7 +1385,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Adds or updates tags for a Route 53 Global Resolver resource. Tags are key-value pairs that help you organize and identify your resources.
+    /// Adds or updates tags for a Route 53 Global Resolver resource. Tags are key-value pairs that help you organize and identify your resources.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - resourceArn: Amazon Resource Name (ARN) of the resource to be tagged.
@@ -1401,7 +1404,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes tags from a Route 53 Global Resolver resource.
+    /// Removes tags from a Route 53 Global Resolver resource.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1414,7 +1417,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Removes tags from a Route 53 Global Resolver resource.
+    /// Removes tags from a Route 53 Global Resolver resource.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - resourceArn: Amazon Resource Name (ARN) of the resource.
@@ -1433,7 +1436,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the configuration of an access source.
+    /// Updates the configuration of an access source.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func updateAccessSource(_ input: UpdateAccessSourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessSourceOutput {
@@ -1446,7 +1449,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of an access source.
+    /// Updates the configuration of an access source.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - accessSourceId: The unique identifier of the access source to update.
@@ -1474,7 +1477,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.updateAccessSource(input, logger: logger)
     }
 
-    /// Updates the configuration of an access token.
+    /// Updates the configuration of an access token.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func updateAccessToken(_ input: UpdateAccessTokenInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessTokenOutput {
@@ -1487,7 +1490,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of an access token.
+    /// Updates the configuration of an access token.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - accessTokenId: The ID of the token.
@@ -1506,7 +1509,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.updateAccessToken(input, logger: logger)
     }
 
-    /// Updates the configuration of a DNS view.
+    /// Updates the configuration of a DNS view.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func updateDNSView(_ input: UpdateDNSViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDNSViewOutput {
@@ -1519,7 +1522,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of a DNS view.
+    /// Updates the configuration of a DNS view.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - description: A description of the DNS view.
@@ -1550,7 +1553,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.updateDNSView(input, logger: logger)
     }
 
-    /// Updates a DNS Firewall domain list from an array of specified domains.
+    /// Updates a DNS Firewall domain list from an array of specified domains.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func updateFirewallDomains(_ input: UpdateFirewallDomainsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallDomainsOutput {
@@ -1563,7 +1566,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates a DNS Firewall domain list from an array of specified domains.
+    /// Updates a DNS Firewall domain list from an array of specified domains.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - domains: A list of the domains. You can add up to 1000 domains per request.
@@ -1585,7 +1588,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.updateFirewallDomains(input, logger: logger)
     }
 
-    /// Updates the configuration of a DNS firewall rule.
+    /// Updates the configuration of a DNS firewall rule.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func updateFirewallRule(_ input: UpdateFirewallRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallRuleOutput {
@@ -1598,7 +1601,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of a DNS firewall rule.
+    /// Updates the configuration of a DNS firewall rule.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule.
@@ -1609,7 +1612,7 @@ public struct Route53GlobalResolver: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency. This means that making the same request multiple times with the same clientToken has the same result every time.
     ///   - confidenceThreshold: The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule.
     ///   - description: The description for the Firewall rule.
-    ///   - dnsAdvancedProtection: The type of the DNS Firewall Advanced rule. Valid values are DGA and DNS_TUNNELING.
+    ///   - dnsAdvancedProtection: The type of the DNS Firewall Advanced rule. Valid values are DGA, DNS_TUNNELING, and DICTIONARY_DGA.
     ///   - firewallRuleId: The ID of the DNS Firewall rule.
     ///   - name: The name of the DNS Firewall rule.
     ///   - priority: The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting.
@@ -1647,7 +1650,7 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.updateFirewallRule(input, logger: logger)
     }
 
-    /// Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability region.
+    /// Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability Region.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func updateGlobalResolver(_ input: UpdateGlobalResolverInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlobalResolverOutput {
@@ -1660,18 +1663,20 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability region.
+    /// Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability Region.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - description: The description of the Global Resolver.
     ///   - globalResolverId: The ID of the Global Resolver.
+    ///   - ipAddressType: The IP address type for the Global Resolver. Valid values are IPV4 or DUAL_STACK for both IPv4 and IPv6 support.
     ///   - name: The name of the Global Resolver.
-    ///   - observabilityRegion: The AWS Regions in which the users' Global Resolver query resolution logs will be propagated.
+    ///   - observabilityRegion: The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGlobalResolver(
         description: String? = nil,
         globalResolverId: String,
+        ipAddressType: GlobalResolverIpAddressType? = nil,
         name: String? = nil,
         observabilityRegion: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1679,13 +1684,14 @@ public struct Route53GlobalResolver: AWSService {
         let input = UpdateGlobalResolverInput(
             description: description, 
             globalResolverId: globalResolverId, 
+            ipAddressType: ipAddressType, 
             name: name, 
             observabilityRegion: observabilityRegion
         )
         return try await self.updateGlobalResolver(input, logger: logger)
     }
 
-    /// Updates the configuration of a hosted zone association.
+    /// Updates the configuration of a hosted zone association.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func updateHostedZoneAssociation(_ input: UpdateHostedZoneAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHostedZoneAssociationOutput {
@@ -1698,7 +1704,7 @@ public struct Route53GlobalResolver: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of a hosted zone association.
+    /// Updates the configuration of a hosted zone association.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - hostedZoneAssociationId: The ID of the private hosted zone association.
