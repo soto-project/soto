@@ -262,20 +262,20 @@ extension PartnerCentralChannel {
     public enum SupportPlan: AWSEncodableShape, Sendable {
         /// Configuration for partner-led support plans.
         case partnerLedSupport(PartnerLedSupport)
-        /// Configuration for resold business support plans.
-        case resoldBusiness(ResoldBusiness)
         /// Configuration for resold enterprise support plans.
         case resoldEnterprise(ResoldEnterprise)
+        /// Configuration for resold unified operations support plans.
+        case resoldUnifiedOperations(ResoldUnifiedOperations)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case .partnerLedSupport(let value):
                 try container.encode(value, forKey: .partnerLedSupport)
-            case .resoldBusiness(let value):
-                try container.encode(value, forKey: .resoldBusiness)
             case .resoldEnterprise(let value):
                 try container.encode(value, forKey: .resoldEnterprise)
+            case .resoldUnifiedOperations(let value):
+                try container.encode(value, forKey: .resoldUnifiedOperations)
             }
         }
 
@@ -283,6 +283,8 @@ extension PartnerCentralChannel {
             switch self {
             case .resoldEnterprise(let value):
                 try value.validate(name: "\(name).resoldEnterprise")
+            case .resoldUnifiedOperations(let value):
+                try value.validate(name: "\(name).resoldUnifiedOperations")
             default:
                 break
             }
@@ -290,8 +292,8 @@ extension PartnerCentralChannel {
 
         private enum CodingKeys: String, CodingKey {
             case partnerLedSupport = "partnerLedSupport"
-            case resoldBusiness = "resoldBusiness"
             case resoldEnterprise = "resoldEnterprise"
+            case resoldUnifiedOperations = "resoldUnifiedOperations"
         }
     }
 
@@ -1553,24 +1555,38 @@ extension PartnerCentralChannel {
         }
     }
 
-    public struct ResoldBusiness: AWSEncodableShape {
-        /// The coverage level for resold business support.
-        public let coverage: Coverage
-
-        @inlinable
-        public init(coverage: Coverage) {
-            self.coverage = coverage
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case coverage = "coverage"
-        }
-    }
-
     public struct ResoldEnterprise: AWSEncodableShape {
         /// The AWS account ID to charge for the support plan.
         public let chargeAccountId: String?
         /// The coverage level for resold enterprise support.
+        public let coverage: Coverage
+        /// The location of the Technical Account Manager (TAM).
+        public let tamLocation: String
+
+        @inlinable
+        public init(chargeAccountId: String? = nil, coverage: Coverage, tamLocation: String) {
+            self.chargeAccountId = chargeAccountId
+            self.coverage = coverage
+            self.tamLocation = tamLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.chargeAccountId, name: "chargeAccountId", parent: name, max: 12)
+            try self.validate(self.chargeAccountId, name: "chargeAccountId", parent: name, min: 12)
+            try self.validate(self.chargeAccountId, name: "chargeAccountId", parent: name, pattern: "^[0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chargeAccountId = "chargeAccountId"
+            case coverage = "coverage"
+            case tamLocation = "tamLocation"
+        }
+    }
+
+    public struct ResoldUnifiedOperations: AWSEncodableShape {
+        /// The AWS account ID to charge for the support plan.
+        public let chargeAccountId: String?
+        /// The coverage level for resold unified operations support.
         public let coverage: Coverage
         /// The location of the Technical Account Manager (TAM).
         public let tamLocation: String

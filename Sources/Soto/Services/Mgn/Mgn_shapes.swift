@@ -40,6 +40,11 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalyzerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case reachabilityAnalyzer = "REACHABILITY_ANALYZER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case healthy = "HEALTHY"
@@ -65,6 +70,20 @@ extension Mgn {
         case cutover = "CUTOVER"
         case readyForCutover = "READY_FOR_CUTOVER"
         case readyForTest = "READY_FOR_TEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeGenerationOutputFormatStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CodeGenerationOutputFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cdkL1 = "CDK_L1"
+        case cdkL2 = "CDK_L2"
+        case lza = "LZA"
+        case terraform = "TERRAFORM"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +147,38 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sha256 = "SHA256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case analyze = "ANALYZE"
+        case codeGeneration = "CODE_GENERATION"
+        case deploy = "DEPLOY"
+        case deployedStacksDeletion = "DEPLOYED_STACKS_DELETION"
+        case mapping = "MAPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStageActivity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case analyze = "ANALYZE"
+        case codeGeneration = "CODE_GENERATION"
+        case deploy = "DEPLOY"
+        case deployedStacksDeletion = "DEPLOYED_STACKS_DELETION"
+        case mapping = "MAPPING"
+        case mappingUpdate = "MAPPING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
@@ -150,6 +201,15 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportFileEnrichmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
+        case succeededWithWarnings = "SUCCEEDED_WITH_WARNINGS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case pending = "PENDING"
@@ -169,6 +229,12 @@ extension Mgn {
     public enum InternetProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpAssignmentStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dynamic = "DYNAMIC"
+        case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
@@ -234,6 +300,67 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkMigrationAnalysisResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMigrationCodeGenerationArtifactSubType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
+        case nestedStack = "NESTED_STACK"
+        case stack = "STACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMigrationCodeGenerationArtifactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cdktfTypescript = "CDKTF_TYPESCRIPT"
+        case cdkL2Typescript = "CDK_L2_TYPESCRIPT"
+        case cdkTypescript = "CDK_TYPESCRIPT"
+        case cloudformationTemplate = "CLOUDFORMATION_TEMPLATE"
+        case terraformConfiguration = "TERRAFORM_CONFIGURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMigrationCodeGenerationSegmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case appliance = "APPLIANCE"
+        case network = "NETWORK"
+        case workload = "WORKLOAD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMigrationDeployedStackStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case createStarted = "CREATE_STARTED"
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteStarted = "DELETE_STARTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMigrationFailedResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMigrationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case started = "STARTED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkMigrationMapperSegmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case appliance = "APPLIANCE"
+        case workload = "WORKLOAD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PostLaunchActionExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -285,6 +412,23 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum SecurityGroupMappingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case map = "MAP"
+        case skip = "SKIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceEnvironment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ciscoAci = "CISCO_ACI"
+        case fortigateFirewall = "FORTIGATE_FIREWALL"
+        case logicalModel = "LOGICAL_MODEL"
+        case modelizeIt = "MODELIZE_IT"
+        case nsx = "NSX"
+        case paloAltoFirewall = "PALO_ALTO_FIREWALL"
+        case vsphere = "VSPHERE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SsmDocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automation = "AUTOMATION"
         case command = "COMMAND"
@@ -297,9 +441,21 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum TargetDeployment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case multiAccount = "MULTI_ACCOUNT"
+        case singleAccount = "SINGLE_ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetNetworkTopology: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hubAndSpoke = "HUB_AND_SPOKE"
+        case isolatedVpc = "ISOLATED_VPC"
         public var description: String { return self.rawValue }
     }
 
@@ -631,6 +787,42 @@ extension Mgn {
         }
     }
 
+    public struct Checksum: AWSDecodableShape {
+        /// The encryption algorithm used to generate the checksum.
+        public let encryptionAlgorithm: EncryptionAlgorithm?
+        /// The hash value of the checksum.
+        public let hash: String?
+
+        @inlinable
+        public init(encryptionAlgorithm: EncryptionAlgorithm? = nil, hash: String? = nil) {
+            self.encryptionAlgorithm = encryptionAlgorithm
+            self.hash = hash
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionAlgorithm = "encryptionAlgorithm"
+            case hash = "hash"
+        }
+    }
+
+    public struct CodeGenerationOutputFormatStatusDetails: AWSDecodableShape {
+        /// The status of the code generation for this output format.
+        public let status: CodeGenerationOutputFormatStatus?
+        /// A list of detailed status information for the code generation.
+        public let statusDetailList: String?
+
+        @inlinable
+        public init(status: CodeGenerationOutputFormatStatus? = nil, statusDetailList: String? = nil) {
+            self.status = status
+            self.statusDetailList = statusDetailList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case statusDetailList = "statusDetailList"
+        }
+    }
+
     public struct ConflictException: AWSErrorShape {
         public let code: String?
         /// Conflict Exception specific errors.
@@ -897,6 +1089,75 @@ extension Mgn {
         }
     }
 
+    public struct CreateNetworkMigrationDefinitionRequest: AWSEncodableShape {
+        /// A description of the network migration definition.
+        public let description: String?
+        /// The name of the network migration definition.
+        public let name: String
+        /// Scope tags for the network migration definition to control access and organization.
+        public let scopeTags: [String: String]?
+        /// A list of source configurations for the network migration.
+        public let sourceConfigurations: [SourceConfiguration]?
+        /// Tags to assign to the network migration definition.
+        public let tags: [String: String]?
+        /// The target deployment configuration for the migrated network.
+        public let targetDeployment: TargetDeployment?
+        /// The target network configuration including topology and CIDR ranges.
+        public let targetNetwork: TargetNetwork
+        /// The S3 configuration for storing the target network artifacts.
+        public let targetS3Configuration: TargetS3Configuration
+
+        @inlinable
+        public init(description: String? = nil, name: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork, targetS3Configuration: TargetS3Configuration) {
+            self.description = description
+            self.name = name
+            self.scopeTags = scopeTags
+            self.sourceConfigurations = sourceConfigurations
+            self.tags = tags
+            self.targetDeployment = targetDeployment
+            self.targetNetwork = targetNetwork
+            self.targetS3Configuration = targetS3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 600)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
+            try self.scopeTags?.forEach {
+                try validate($0.key, name: "scopeTags.key", parent: name, max: 128)
+                try validate($0.key, name: "scopeTags.key", parent: name, min: 1)
+                try validate($0.key, name: "scopeTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s+\\-=._:/@]*$")
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s+\\-=._:/@]*$")
+            }
+            try self.validate(self.scopeTags, name: "scopeTags", parent: name, max: 40)
+            try self.sourceConfigurations?.forEach {
+                try $0.validate(name: "\(name).sourceConfigurations[]")
+            }
+            try self.validate(self.sourceConfigurations, name: "sourceConfigurations", parent: name, max: 2)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.targetNetwork.validate(name: "\(name).targetNetwork")
+            try self.targetS3Configuration.validate(name: "\(name).targetS3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case scopeTags = "scopeTags"
+            case sourceConfigurations = "sourceConfigurations"
+            case tags = "tags"
+            case targetDeployment = "targetDeployment"
+            case targetNetwork = "targetNetwork"
+            case targetS3Configuration = "targetS3Configuration"
+        }
+    }
+
     public struct CreateReplicationConfigurationTemplateRequest: AWSEncodableShape {
         /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
         public let associateDefaultSecurityGroup: Bool
@@ -922,6 +1183,8 @@ extension Mgn {
         public let stagingAreaSubnetId: String
         /// Request to configure Staging Area tags during Replication Settings template creation.
         public let stagingAreaTags: [String: String]
+        /// Request to store snapshot on local zone during Replication Settings template creation.
+        public let storeSnapshotOnLocalZone: Bool?
         /// Request to configure tags during Replication Settings template creation.
         public let tags: [String: String]?
         /// Request to use Dedicated Replication Servers during Replication Settings template creation.
@@ -930,7 +1193,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], storeSnapshotOnLocalZone: Bool? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -943,6 +1206,7 @@ extension Mgn {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
@@ -986,6 +1250,7 @@ extension Mgn {
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case tags = "tags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
@@ -1267,6 +1532,30 @@ extension Mgn {
     }
 
     public struct DeleteLaunchConfigurationTemplateResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteNetworkMigrationDefinitionRequest: AWSEncodableShape {
+        /// The unique identifier of the network migration definition to delete.
+        public let networkMigrationDefinitionID: String
+
+        @inlinable
+        public init(networkMigrationDefinitionID: String) {
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+        }
+    }
+
+    public struct DeleteNetworkMigrationDefinitionResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1903,6 +2192,66 @@ extension Mgn {
         }
     }
 
+    public struct EnrichmentSourceS3Configuration: AWSEncodableShape {
+        /// The name of the S3 bucket containing the source import file.
+        public let s3Bucket: String
+        /// The AWS account ID of the S3 bucket owner.
+        public let s3BucketOwner: String
+        /// The S3 key (path) for the source import file.
+        public let s3Key: String
+
+        @inlinable
+        public init(s3Bucket: String, s3BucketOwner: String, s3Key: String) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]{1,255}$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^[^\\x00]{1,1024}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+            case s3Key = "s3Key"
+        }
+    }
+
+    public struct EnrichmentTargetS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the S3 bucket where the enriched import file will be stored.
+        public let s3Bucket: String
+        /// The AWS account ID of the target S3 bucket owner.
+        public let s3BucketOwner: String
+        /// The S3 key (path) where the enriched import file will be stored.
+        public let s3Key: String
+
+        @inlinable
+        public init(s3Bucket: String, s3BucketOwner: String, s3Key: String) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]{1,255}$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^[^\\x00]{1,1024}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+            case s3Key = "s3Key"
+        }
+    }
+
     public struct ErrorDetails: AWSDecodableShape {
         /// Error details code.
         public let code: String?
@@ -2091,6 +2440,81 @@ extension Mgn {
         }
     }
 
+    public struct GetNetworkMigrationDefinitionRequest: AWSEncodableShape {
+        /// The unique identifier of the network migration definition to retrieve.
+        public let networkMigrationDefinitionID: String
+
+        @inlinable
+        public init(networkMigrationDefinitionID: String) {
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+        }
+    }
+
+    public struct GetNetworkMigrationMapperSegmentConstructRequest: AWSEncodableShape {
+        /// The unique identifier of the construct within the segment.
+        public let constructID: String
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The unique identifier of the mapper segment.
+        public let segmentID: String
+
+        @inlinable
+        public init(constructID: String, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, segmentID: String) {
+            self.constructID = constructID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.segmentID = segmentID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.constructID, name: "constructID", parent: name, max: 36)
+            try self.validate(self.constructID, name: "constructID", parent: name, min: 36)
+            try self.validate(self.constructID, name: "constructID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.segmentID, name: "segmentID", parent: name, max: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, min: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constructID = "constructID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case segmentID = "segmentID"
+        }
+    }
+
+    public struct GetNetworkMigrationMapperSegmentConstructResponse: AWSDecodableShape {
+        /// The construct metadata including type, name, and configuration.
+        public let construct: NetworkMigrationMapperSegmentConstruct?
+
+        @inlinable
+        public init(construct: NetworkMigrationMapperSegmentConstruct? = nil) {
+            self.construct = construct
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case construct = "construct"
+        }
+    }
+
     public struct GetReplicationConfigurationRequest: AWSEncodableShape {
         /// Request to get Replication Configuration by Account ID.
         public let accountID: String?
@@ -2183,6 +2607,44 @@ extension Mgn {
             case rowNumber = "rowNumber"
             case sourceServerID = "sourceServerID"
             case waveID = "waveID"
+        }
+    }
+
+    public struct ImportFileEnrichment: AWSDecodableShape {
+        /// The checksum of the enriched file for integrity verification.
+        public let checksum: Checksum?
+        /// The timestamp when the enrichment job was created.
+        public let createdAt: Date?
+        /// The timestamp when the enrichment job completed or failed.
+        public let endedAt: Date?
+        /// The unique identifier of the import file enrichment job.
+        public let jobID: String?
+        /// The target S3 configuration for the enriched import file.
+        public let s3BucketTarget: EnrichmentTargetS3Configuration?
+        /// The current status of the import file enrichment job.
+        public let status: ImportFileEnrichmentStatus?
+        /// Detailed status information about the enrichment job.
+        public let statusDetails: String?
+
+        @inlinable
+        public init(checksum: Checksum? = nil, createdAt: Date? = nil, endedAt: Date? = nil, jobID: String? = nil, s3BucketTarget: EnrichmentTargetS3Configuration? = nil, status: ImportFileEnrichmentStatus? = nil, statusDetails: String? = nil) {
+            self.checksum = checksum
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.jobID = jobID
+            self.s3BucketTarget = s3BucketTarget
+            self.status = status
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case createdAt = "createdAt"
+            case endedAt = "endedAt"
+            case jobID = "jobID"
+            case s3BucketTarget = "s3BucketTarget"
+            case status = "status"
+            case statusDetails = "statusDetails"
         }
     }
 
@@ -3201,6 +3663,76 @@ extension Mgn {
         }
     }
 
+    public struct ListImportFileEnrichmentsFilters: AWSEncodableShape {
+        /// A list of job IDs to filter by.
+        public let jobIDs: [String]?
+
+        @inlinable
+        public init(jobIDs: [String]? = nil) {
+            self.jobIDs = jobIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIDs?.forEach {
+                try validate($0, name: "jobIDs[]", parent: name, max: 36)
+                try validate($0, name: "jobIDs[]", parent: name, min: 36)
+                try validate($0, name: "jobIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.jobIDs, name: "jobIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIDs = "jobIDs"
+        }
+    }
+
+    public struct ListImportFileEnrichmentsRequest: AWSEncodableShape {
+        /// Filters to apply when listing import file enrichment jobs.
+        public let filters: ListImportFileEnrichmentsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListImportFileEnrichmentsFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListImportFileEnrichmentsResponse: AWSDecodableShape {
+        /// A list of import file enrichment jobs.
+        public let items: [ImportFileEnrichment]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ImportFileEnrichment]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListImportsRequest: AWSEncodableShape {
         /// List imports request filters.
         public let filters: ListImportsRequestFilters?
@@ -3303,6 +3835,984 @@ extension Mgn {
 
         @inlinable
         public init(items: [ManagedAccount], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationAnalysesFilters: AWSEncodableShape {
+        /// A list of job IDs to filter by.
+        public let jobIDs: [String]?
+
+        @inlinable
+        public init(jobIDs: [String]? = nil) {
+            self.jobIDs = jobIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIDs?.forEach {
+                try validate($0, name: "jobIDs[]", parent: name, max: 36)
+                try validate($0, name: "jobIDs[]", parent: name, min: 36)
+                try validate($0, name: "jobIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.jobIDs, name: "jobIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIDs = "jobIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationAnalysesRequest: AWSEncodableShape {
+        /// Filters to apply when listing analysis jobs.
+        public let filters: ListNetworkMigrationAnalysesFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution to list analyses for.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationAnalysesFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationAnalysesResponse: AWSDecodableShape {
+        /// A list of network migration analysis job details.
+        public let items: [NetworkMigrationAnalysisJobDetails]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationAnalysisJobDetails]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationAnalysisResultsFilters: AWSEncodableShape {
+        /// A list of VPC IDs to filter results by.
+        public let vpcIDs: [String]?
+
+        @inlinable
+        public init(vpcIDs: [String]? = nil) {
+            self.vpcIDs = vpcIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcIDs?.forEach {
+                try validate($0, name: "vpcIDs[]", parent: name, pattern: "^vpc-([0-9a-f]){8}(([0-9a-f]){9})?$")
+            }
+            try self.validate(self.vpcIDs, name: "vpcIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcIDs = "vpcIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationAnalysisResultsRequest: AWSEncodableShape {
+        /// Filters to apply when listing analysis results, such as VPC IDs.
+        public let filters: ListNetworkMigrationAnalysisResultsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationAnalysisResultsFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationAnalysisResultsResponse: AWSDecodableShape {
+        /// A list of network migration analysis results.
+        public let items: [NetworkMigrationAnalysisResult]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationAnalysisResult]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationCodeGenerationSegmentsFilters: AWSEncodableShape {
+        /// A list of segment IDs to filter by.
+        public let segmentIDs: [String]?
+
+        @inlinable
+        public init(segmentIDs: [String]? = nil) {
+            self.segmentIDs = segmentIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.segmentIDs?.forEach {
+                try validate($0, name: "segmentIDs[]", parent: name, max: 36)
+                try validate($0, name: "segmentIDs[]", parent: name, min: 36)
+                try validate($0, name: "segmentIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.segmentIDs, name: "segmentIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentIDs = "segmentIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationCodeGenerationSegmentsRequest: AWSEncodableShape {
+        /// Filters to apply when listing code generation segments.
+        public let filters: ListNetworkMigrationCodeGenerationSegmentsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationCodeGenerationSegmentsFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationCodeGenerationSegmentsResponse: AWSDecodableShape {
+        /// A list of network migration code generation segments.
+        public let items: [NetworkMigrationCodeGenerationSegment]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationCodeGenerationSegment]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationCodeGenerationsFilters: AWSEncodableShape {
+        /// A list of job IDs to filter by.
+        public let jobIDs: [String]?
+
+        @inlinable
+        public init(jobIDs: [String]? = nil) {
+            self.jobIDs = jobIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIDs?.forEach {
+                try validate($0, name: "jobIDs[]", parent: name, max: 36)
+                try validate($0, name: "jobIDs[]", parent: name, min: 36)
+                try validate($0, name: "jobIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.jobIDs, name: "jobIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIDs = "jobIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationCodeGenerationsRequest: AWSEncodableShape {
+        /// Filters to apply when listing code generation jobs.
+        public let filters: ListNetworkMigrationCodeGenerationsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationCodeGenerationsFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationCodeGenerationsResponse: AWSDecodableShape {
+        /// A list of network migration code generation job details.
+        public let items: [NetworkMigrationCodeGenerationJobDetails]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationCodeGenerationJobDetails]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationDefinitionsRequest: AWSEncodableShape {
+        /// Filters to apply when listing network migration definitions.
+        public let filters: ListNetworkMigrationDefinitionsRequestFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationDefinitionsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationDefinitionsRequestFilters: AWSEncodableShape {
+        /// A list of definition IDs to filter by.
+        public let networkMigrationDefinitionIDs: [String]?
+
+        @inlinable
+        public init(networkMigrationDefinitionIDs: [String]? = nil) {
+            self.networkMigrationDefinitionIDs = networkMigrationDefinitionIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.networkMigrationDefinitionIDs?.forEach {
+                try validate($0, name: "networkMigrationDefinitionIDs[]", parent: name, max: 21)
+                try validate($0, name: "networkMigrationDefinitionIDs[]", parent: name, min: 21)
+                try validate($0, name: "networkMigrationDefinitionIDs[]", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            }
+            try self.validate(self.networkMigrationDefinitionIDs, name: "networkMigrationDefinitionIDs", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationDefinitionIDs = "networkMigrationDefinitionIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationDefinitionsResponse: AWSDecodableShape {
+        /// A list of network migration definition summaries.
+        public let items: [NetworkMigrationDefinitionSummary]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationDefinitionSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationDeployedStacksRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationDeployedStacksResponse: AWSDecodableShape {
+        /// A list of deployed stack details including status and resources.
+        public let items: [NetworkMigrationDeployedStackDetails]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationDeployedStackDetails]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationDeployerJobFilters: AWSEncodableShape {
+        /// A list of job IDs to filter by.
+        public let jobIDs: [String]?
+
+        @inlinable
+        public init(jobIDs: [String]? = nil) {
+            self.jobIDs = jobIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIDs?.forEach {
+                try validate($0, name: "jobIDs[]", parent: name, max: 36)
+                try validate($0, name: "jobIDs[]", parent: name, min: 36)
+                try validate($0, name: "jobIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.jobIDs, name: "jobIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIDs = "jobIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationDeployerJobResponse: AWSDecodableShape {
+        /// A list of deployer job details.
+        public let items: [NetworkMigrationDeployerJobDetails]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationDeployerJobDetails]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationDeploymentsRequest: AWSEncodableShape {
+        /// Filters to apply when listing deployment jobs.
+        public let filters: ListNetworkMigrationDeployerJobFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationDeployerJobFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationExecutionRequestFilters: AWSEncodableShape {
+        /// A list of execution IDs to filter by.
+        public let networkMigrationExecutionIDs: [String]?
+        /// A list of execution statuses to filter by.
+        public let networkMigrationExecutionStatuses: [ExecutionStatus]?
+
+        @inlinable
+        public init(networkMigrationExecutionIDs: [String]? = nil, networkMigrationExecutionStatuses: [ExecutionStatus]? = nil) {
+            self.networkMigrationExecutionIDs = networkMigrationExecutionIDs
+            self.networkMigrationExecutionStatuses = networkMigrationExecutionStatuses
+        }
+
+        public func validate(name: String) throws {
+            try self.networkMigrationExecutionIDs?.forEach {
+                try validate($0, name: "networkMigrationExecutionIDs[]", parent: name, max: 36)
+                try validate($0, name: "networkMigrationExecutionIDs[]", parent: name, min: 36)
+                try validate($0, name: "networkMigrationExecutionIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.networkMigrationExecutionIDs, name: "networkMigrationExecutionIDs", parent: name, max: 20)
+            try self.validate(self.networkMigrationExecutionStatuses, name: "networkMigrationExecutionStatuses", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationExecutionIDs = "networkMigrationExecutionIDs"
+            case networkMigrationExecutionStatuses = "networkMigrationExecutionStatuses"
+        }
+    }
+
+    public struct ListNetworkMigrationExecutionsRequest: AWSEncodableShape {
+        /// Filters to apply when listing executions, such as status or execution ID.
+        public let filters: ListNetworkMigrationExecutionRequestFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition to list executions for.
+        public let networkMigrationDefinitionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationExecutionRequestFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationExecutionsResponse: AWSDecodableShape {
+        /// A list of network migration execution details.
+        public let items: [NetworkMigrationExecution]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationExecution]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationMapperSegmentConstructsFilters: AWSEncodableShape {
+        /// A list of construct IDs to filter by.
+        public let constructIDs: [String]?
+        /// A list of construct types to filter by.
+        public let constructTypes: [String]?
+
+        @inlinable
+        public init(constructIDs: [String]? = nil, constructTypes: [String]? = nil) {
+            self.constructIDs = constructIDs
+            self.constructTypes = constructTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.constructIDs?.forEach {
+                try validate($0, name: "constructIDs[]", parent: name, max: 36)
+                try validate($0, name: "constructIDs[]", parent: name, min: 36)
+                try validate($0, name: "constructIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.constructIDs, name: "constructIDs", parent: name, max: 10)
+            try self.constructTypes?.forEach {
+                try validate($0, name: "constructTypes[]", parent: name, max: 24)
+                try validate($0, name: "constructTypes[]", parent: name, pattern: "^AWS::([A-Z\\d]){2,10}::[a-zA-Z\\d]{2,30}$")
+            }
+            try self.validate(self.constructTypes, name: "constructTypes", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constructIDs = "constructIDs"
+            case constructTypes = "constructTypes"
+        }
+    }
+
+    public struct ListNetworkMigrationMapperSegmentConstructsRequest: AWSEncodableShape {
+        /// Filters to apply when listing constructs, such as construct type or ID.
+        public let filters: ListNetworkMigrationMapperSegmentConstructsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The unique identifier of the segment to list constructs for.
+        public let segmentID: String
+
+        @inlinable
+        public init(filters: ListNetworkMigrationMapperSegmentConstructsFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil, segmentID: String) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+            self.segmentID = segmentID
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, max: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, min: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+            case segmentID = "segmentID"
+        }
+    }
+
+    public struct ListNetworkMigrationMapperSegmentConstructsResponse: AWSDecodableShape {
+        /// A list of mapper segment constructs.
+        public let items: [NetworkMigrationMapperSegmentConstruct]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationMapperSegmentConstruct]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationMapperSegmentsFilters: AWSEncodableShape {
+        /// A list of segment IDs to filter by.
+        public let segmentIDs: [String]?
+
+        @inlinable
+        public init(segmentIDs: [String]? = nil) {
+            self.segmentIDs = segmentIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.segmentIDs?.forEach {
+                try validate($0, name: "segmentIDs[]", parent: name, max: 36)
+                try validate($0, name: "segmentIDs[]", parent: name, min: 36)
+                try validate($0, name: "segmentIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.segmentIDs, name: "segmentIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentIDs = "segmentIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationMapperSegmentsRequest: AWSEncodableShape {
+        /// Filters to apply when listing segments.
+        public let filters: ListNetworkMigrationMapperSegmentsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationMapperSegmentsFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationMapperSegmentsResponse: AWSDecodableShape {
+        /// A list of mapper segments.
+        public let items: [NetworkMigrationMapperSegment]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationMapperSegment]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationMappingUpdatesFilters: AWSEncodableShape {
+        /// A list of job IDs to filter by.
+        public let jobIDs: [String]?
+
+        @inlinable
+        public init(jobIDs: [String]? = nil) {
+            self.jobIDs = jobIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIDs?.forEach {
+                try validate($0, name: "jobIDs[]", parent: name, max: 36)
+                try validate($0, name: "jobIDs[]", parent: name, min: 36)
+                try validate($0, name: "jobIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.jobIDs, name: "jobIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIDs = "jobIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationMappingUpdatesRequest: AWSEncodableShape {
+        /// Filters to apply when listing mapping update jobs.
+        public let filters: ListNetworkMigrationMappingUpdatesFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationMappingUpdatesFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationMappingUpdatesResponse: AWSDecodableShape {
+        /// A list of mapping update job details.
+        public let items: [NetworkMigrationMappingUpdateJobDetails]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationMappingUpdateJobDetails]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationMappingsFilters: AWSEncodableShape {
+        /// A list of job IDs to filter by.
+        public let jobIDs: [String]?
+
+        @inlinable
+        public init(jobIDs: [String]? = nil) {
+            self.jobIDs = jobIDs
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIDs?.forEach {
+                try validate($0, name: "jobIDs[]", parent: name, max: 36)
+                try validate($0, name: "jobIDs[]", parent: name, min: 36)
+                try validate($0, name: "jobIDs[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.jobIDs, name: "jobIDs", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIDs = "jobIDs"
+        }
+    }
+
+    public struct ListNetworkMigrationMappingsRequest: AWSEncodableShape {
+        /// Filters to apply when listing mapping jobs.
+        public let filters: ListNetworkMigrationMappingsFilters?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: ListNetworkMigrationMappingsFilters? = nil, maxResults: Int? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListNetworkMigrationMappingsResponse: AWSDecodableShape {
+        /// A list of network migration mapping job details.
+        public let items: [NetworkMigrationMappingJobDetails]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [NetworkMigrationMappingJobDetails]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -3606,6 +5116,664 @@ extension Mgn {
             case ips = "ips"
             case isPrimary = "isPrimary"
             case macAddress = "macAddress"
+        }
+    }
+
+    public struct NetworkMigrationAnalysisJobDetails: AWSDecodableShape {
+        /// The timestamp when the job was created.
+        public let createdAt: Date?
+        /// The timestamp when the job completed or failed.
+        public let endedAt: Date?
+        /// The unique identifier of the analysis job.
+        public let jobID: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The current status of the analysis job.
+        public let status: NetworkMigrationJobStatus?
+        /// Detailed status information about the job.
+        public let statusDetails: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, endedAt: Date? = nil, jobID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, status: NetworkMigrationJobStatus? = nil, statusDetails: String? = nil) {
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.jobID = jobID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.status = status
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case endedAt = "endedAt"
+            case jobID = "jobID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case status = "status"
+            case statusDetails = "statusDetails"
+        }
+    }
+
+    public struct NetworkMigrationAnalysisResult: AWSDecodableShape {
+        /// The detailed analysis findings and recommendations.
+        public let analysisResult: String?
+        /// The type of analyzer that generated this result.
+        public let analyzerType: AnalyzerType?
+        /// The unique identifier of the analysis job that generated this result.
+        public let jobID: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The source resource that was analyzed.
+        public let source: NetworkMigrationAnalysisResultSource?
+        /// The status of the analysis result.
+        public let status: NetworkMigrationAnalysisResultStatus?
+        /// The target resource in the analysis.
+        public let target: NetworkMigrationAnalysisResultTarget?
+
+        @inlinable
+        public init(analysisResult: String? = nil, analyzerType: AnalyzerType? = nil, jobID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, source: NetworkMigrationAnalysisResultSource? = nil, status: NetworkMigrationAnalysisResultStatus? = nil, target: NetworkMigrationAnalysisResultTarget? = nil) {
+            self.analysisResult = analysisResult
+            self.analyzerType = analyzerType
+            self.jobID = jobID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.source = source
+            self.status = status
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisResult = "analysisResult"
+            case analyzerType = "analyzerType"
+            case jobID = "jobID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case source = "source"
+            case status = "status"
+            case target = "target"
+        }
+    }
+
+    public struct NetworkMigrationAnalysisResultSource: AWSDecodableShape {
+        /// The subnet ID of the source resource.
+        public let subnetID: String?
+        /// The VPC ID of the source resource.
+        public let vpcID: String?
+
+        @inlinable
+        public init(subnetID: String? = nil, vpcID: String? = nil) {
+            self.subnetID = subnetID
+            self.vpcID = vpcID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetID = "subnetID"
+            case vpcID = "vpcID"
+        }
+    }
+
+    public struct NetworkMigrationAnalysisResultTarget: AWSDecodableShape {
+        /// The subnet ID of the target resource.
+        public let subnetID: String?
+        /// The VPC ID of the target resource.
+        public let vpcID: String?
+
+        @inlinable
+        public init(subnetID: String? = nil, vpcID: String? = nil) {
+            self.subnetID = subnetID
+            self.vpcID = vpcID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetID = "subnetID"
+            case vpcID = "vpcID"
+        }
+    }
+
+    public struct NetworkMigrationCodeGenerationArtifact: AWSDecodableShape {
+        /// The unique identifier of the artifact.
+        public let artifactID: String?
+        /// The sub-type of the artifact for further classification.
+        public let artifactSubType: NetworkMigrationCodeGenerationArtifactSubType?
+        /// The type of the artifact, such as CLOUDFORMATION_TEMPLATE or TERRAFORM_MODULE.
+        public let artifactType: NetworkMigrationCodeGenerationArtifactType?
+        /// The checksum of the artifact for integrity verification.
+        public let checksum: Checksum?
+        /// The timestamp when the artifact was created.
+        public let createdAt: Date?
+        /// The logical identifier for the artifact.
+        public let logicalID: String?
+        /// The S3 location where the artifact is stored.
+        public let outputS3Configuration: S3Configuration?
+
+        @inlinable
+        public init(artifactID: String? = nil, artifactSubType: NetworkMigrationCodeGenerationArtifactSubType? = nil, artifactType: NetworkMigrationCodeGenerationArtifactType? = nil, checksum: Checksum? = nil, createdAt: Date? = nil, logicalID: String? = nil, outputS3Configuration: S3Configuration? = nil) {
+            self.artifactID = artifactID
+            self.artifactSubType = artifactSubType
+            self.artifactType = artifactType
+            self.checksum = checksum
+            self.createdAt = createdAt
+            self.logicalID = logicalID
+            self.outputS3Configuration = outputS3Configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactID = "artifactID"
+            case artifactSubType = "artifactSubType"
+            case artifactType = "artifactType"
+            case checksum = "checksum"
+            case createdAt = "createdAt"
+            case logicalID = "logicalID"
+            case outputS3Configuration = "outputS3Configuration"
+        }
+    }
+
+    public struct NetworkMigrationCodeGenerationJobDetails: AWSDecodableShape {
+        /// A map of output format types to their status details.
+        public let codeGenerationOutputFormatStatusDetailsMap: [CodeGenerationOutputFormatType: CodeGenerationOutputFormatStatusDetails]?
+        /// The timestamp when the job was created.
+        public let createdAt: Date?
+        /// The timestamp when the job completed or failed.
+        public let endedAt: Date?
+        /// The unique identifier of the code generation job.
+        public let jobID: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The current status of the code generation job.
+        public let status: NetworkMigrationJobStatus?
+        /// Detailed status information about the job.
+        public let statusDetails: String?
+
+        @inlinable
+        public init(codeGenerationOutputFormatStatusDetailsMap: [CodeGenerationOutputFormatType: CodeGenerationOutputFormatStatusDetails]? = nil, createdAt: Date? = nil, endedAt: Date? = nil, jobID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, status: NetworkMigrationJobStatus? = nil, statusDetails: String? = nil) {
+            self.codeGenerationOutputFormatStatusDetailsMap = codeGenerationOutputFormatStatusDetailsMap
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.jobID = jobID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.status = status
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeGenerationOutputFormatStatusDetailsMap = "codeGenerationOutputFormatStatusDetailsMap"
+            case createdAt = "createdAt"
+            case endedAt = "endedAt"
+            case jobID = "jobID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case status = "status"
+            case statusDetails = "statusDetails"
+        }
+    }
+
+    public struct NetworkMigrationCodeGenerationSegment: AWSDecodableShape {
+        /// A list of artifacts generated for this segment.
+        public let artifacts: [NetworkMigrationCodeGenerationArtifact]?
+        /// The timestamp when the segment was created.
+        public let createdAt: Date?
+        /// The unique identifier of the code generation job.
+        public let jobID: String?
+        /// The logical identifier for the segment.
+        public let logicalID: String?
+        /// The ID of the mapper segment that this code generation segment was created from.
+        public let mapperSegmentID: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The unique identifier of the segment.
+        public let segmentID: String?
+        /// The type of the segment.
+        public let segmentType: NetworkMigrationCodeGenerationSegmentType?
+
+        @inlinable
+        public init(artifacts: [NetworkMigrationCodeGenerationArtifact]? = nil, createdAt: Date? = nil, jobID: String? = nil, logicalID: String? = nil, mapperSegmentID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, segmentID: String? = nil, segmentType: NetworkMigrationCodeGenerationSegmentType? = nil) {
+            self.artifacts = artifacts
+            self.createdAt = createdAt
+            self.jobID = jobID
+            self.logicalID = logicalID
+            self.mapperSegmentID = mapperSegmentID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.segmentID = segmentID
+            self.segmentType = segmentType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifacts = "artifacts"
+            case createdAt = "createdAt"
+            case jobID = "jobID"
+            case logicalID = "logicalID"
+            case mapperSegmentID = "mapperSegmentID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case segmentID = "segmentID"
+            case segmentType = "segmentType"
+        }
+    }
+
+    public struct NetworkMigrationDefinition: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the network migration definition.
+        public let arn: String?
+        /// The timestamp when the network migration definition was created.
+        public let createdAt: Date?
+        /// A description of the network migration definition.
+        public let description: String?
+        /// The name of the network migration definition.
+        public let name: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// Scope tags for the network migration definition.
+        public let scopeTags: [String: String]?
+        /// A list of source configurations for the network migration.
+        public let sourceConfigurations: [SourceConfiguration]?
+        /// Tags assigned to the network migration definition.
+        public let tags: [String: String]?
+        /// The target deployment configuration for the migrated network.
+        public let targetDeployment: TargetDeployment?
+        /// The target network configuration including topology and CIDR ranges.
+        public let targetNetwork: TargetNetwork?
+        /// The S3 configuration for storing the target network artifacts.
+        public let targetS3Configuration: TargetS3Configuration?
+        /// The timestamp when the network migration definition was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, name: String? = nil, networkMigrationDefinitionID: String? = nil, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork? = nil, targetS3Configuration: TargetS3Configuration? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.scopeTags = scopeTags
+            self.sourceConfigurations = sourceConfigurations
+            self.tags = tags
+            self.targetDeployment = targetDeployment
+            self.targetNetwork = targetNetwork
+            self.targetS3Configuration = targetS3Configuration
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case name = "name"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case scopeTags = "scopeTags"
+            case sourceConfigurations = "sourceConfigurations"
+            case tags = "tags"
+            case targetDeployment = "targetDeployment"
+            case targetNetwork = "targetNetwork"
+            case targetS3Configuration = "targetS3Configuration"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct NetworkMigrationDefinitionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the network migration definition.
+        public let arn: String?
+        /// The name of the network migration definition.
+        public let name: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// Scope tags for the network migration definition.
+        public let scopeTags: [String: String]?
+        /// The source environment configuration.
+        public let sourceEnvironment: SourceEnvironment?
+        /// Tags assigned to the network migration definition.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil, networkMigrationDefinitionID: String? = nil, scopeTags: [String: String]? = nil, sourceEnvironment: SourceEnvironment? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.name = name
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.scopeTags = scopeTags
+            self.sourceEnvironment = sourceEnvironment
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case scopeTags = "scopeTags"
+            case sourceEnvironment = "sourceEnvironment"
+            case tags = "tags"
+        }
+    }
+
+    public struct NetworkMigrationDeployedStackDetails: AWSDecodableShape {
+        /// A list of resources that failed to deploy.
+        public let failedResources: [NetworkMigrationFailedResourceDetails]?
+        /// The ID of the segment that this stack was deployed for.
+        public let segmentID: String?
+        /// The logical ID of the stack.
+        public let stackLogicalID: String?
+        /// The physical ID of the CloudFormation stack.
+        public let stackPhysicalID: String?
+        /// The current status of the deployed stack.
+        public let status: NetworkMigrationDeployedStackStatus?
+        /// The target AWS account where the stack was deployed.
+        public let targetAccount: String?
+
+        @inlinable
+        public init(failedResources: [NetworkMigrationFailedResourceDetails]? = nil, segmentID: String? = nil, stackLogicalID: String? = nil, stackPhysicalID: String? = nil, status: NetworkMigrationDeployedStackStatus? = nil, targetAccount: String? = nil) {
+            self.failedResources = failedResources
+            self.segmentID = segmentID
+            self.stackLogicalID = stackLogicalID
+            self.stackPhysicalID = stackPhysicalID
+            self.status = status
+            self.targetAccount = targetAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedResources = "failedResources"
+            case segmentID = "segmentID"
+            case stackLogicalID = "stackLogicalID"
+            case stackPhysicalID = "stackPhysicalID"
+            case status = "status"
+            case targetAccount = "targetAccount"
+        }
+    }
+
+    public struct NetworkMigrationDeployerJobDetails: AWSDecodableShape {
+        /// The timestamp when the job was created.
+        public let createdAt: Date?
+        /// The timestamp when the job completed or failed.
+        public let endedAt: Date?
+        /// The unique identifier of the deployer job.
+        public let jobID: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The current status of the deployer job.
+        public let status: NetworkMigrationJobStatus?
+        /// Detailed status information about the job.
+        public let statusDetails: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, endedAt: Date? = nil, jobID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, status: NetworkMigrationJobStatus? = nil, statusDetails: String? = nil) {
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.jobID = jobID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.status = status
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case endedAt = "endedAt"
+            case jobID = "jobID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case status = "status"
+            case statusDetails = "statusDetails"
+        }
+    }
+
+    public struct NetworkMigrationExecution: AWSDecodableShape {
+        /// The current activity being performed in the execution.
+        public let activity: ExecutionStageActivity?
+        /// The timestamp when the execution was created.
+        public let createdAt: Date?
+        /// The unique identifier of the network migration definition used by this execution.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the execution.
+        public let networkMigrationExecutionID: String?
+        /// The current stage of the execution in the migration workflow.
+        public let stage: ExecutionStage?
+        /// The current status of the execution.
+        public let status: ExecutionStatus?
+        /// Tags assigned to the execution.
+        public let tags: [String: String]?
+        /// The timestamp when the execution was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(activity: ExecutionStageActivity? = nil, createdAt: Date? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, stage: ExecutionStage? = nil, status: ExecutionStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+            self.activity = activity
+            self.createdAt = createdAt
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.stage = stage
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activity = "activity"
+            case createdAt = "createdAt"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case stage = "stage"
+            case status = "status"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct NetworkMigrationFailedResourceDetails: AWSDecodableShape {
+        /// The logical ID of the failed resource.
+        public let logicalID: String?
+        /// The status of the failed resource.
+        public let status: NetworkMigrationFailedResourceStatus?
+        /// The reason why the resource failed.
+        public let statusReason: String?
+
+        @inlinable
+        public init(logicalID: String? = nil, status: NetworkMigrationFailedResourceStatus? = nil, statusReason: String? = nil) {
+            self.logicalID = logicalID
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalID = "logicalID"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct NetworkMigrationMapperSegment: AWSDecodableShape {
+        /// The checksum of the segment data for integrity verification.
+        public let checksum: Checksum?
+        /// The timestamp when the segment was created.
+        public let createdAt: Date?
+        /// A description of the segment.
+        public let description: String?
+        /// The unique identifier of the job that created this segment.
+        public let jobID: String?
+        /// The logical identifier for the segment in the infrastructure code.
+        public let logicalID: String?
+        /// The name of the segment.
+        public let name: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The S3 location where segment artifacts are stored.
+        public let outputS3Configuration: S3Configuration?
+        /// A list of other segments that this segment depends on or references.
+        public let referencedSegments: [String]?
+        /// Scope tags for the segment.
+        public let scopeTags: [String: String]?
+        /// The unique identifier of the segment.
+        public let segmentID: String?
+        /// The type of the segment, such as VPC, subnet, or security group.
+        public let segmentType: NetworkMigrationMapperSegmentType?
+        /// The target AWS account where this segment will be deployed.
+        public let targetAccount: String?
+        /// The timestamp when the segment was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(checksum: Checksum? = nil, createdAt: Date? = nil, description: String? = nil, jobID: String? = nil, logicalID: String? = nil, name: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, outputS3Configuration: S3Configuration? = nil, referencedSegments: [String]? = nil, scopeTags: [String: String]? = nil, segmentID: String? = nil, segmentType: NetworkMigrationMapperSegmentType? = nil, targetAccount: String? = nil, updatedAt: Date? = nil) {
+            self.checksum = checksum
+            self.createdAt = createdAt
+            self.description = description
+            self.jobID = jobID
+            self.logicalID = logicalID
+            self.name = name
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.outputS3Configuration = outputS3Configuration
+            self.referencedSegments = referencedSegments
+            self.scopeTags = scopeTags
+            self.segmentID = segmentID
+            self.segmentType = segmentType
+            self.targetAccount = targetAccount
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case createdAt = "createdAt"
+            case description = "description"
+            case jobID = "jobID"
+            case logicalID = "logicalID"
+            case name = "name"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case outputS3Configuration = "outputS3Configuration"
+            case referencedSegments = "referencedSegments"
+            case scopeTags = "scopeTags"
+            case segmentID = "segmentID"
+            case segmentType = "segmentType"
+            case targetAccount = "targetAccount"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct NetworkMigrationMapperSegmentConstruct: AWSDecodableShape {
+        /// The unique identifier of the construct.
+        public let constructID: String?
+        /// The type of the construct, such as VPC, subnet, security group, or route table.
+        public let constructType: String?
+        /// The timestamp when the construct was created.
+        public let createdAt: Date?
+        /// A description of the construct.
+        public let description: String?
+        /// The logical identifier for the construct in the infrastructure code.
+        public let logicalID: String?
+        /// The name of the construct.
+        public let name: String?
+        /// The properties and configuration of the construct.
+        public let properties: [String: String]?
+        /// The timestamp when the construct was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(constructID: String? = nil, constructType: String? = nil, createdAt: Date? = nil, description: String? = nil, logicalID: String? = nil, name: String? = nil, properties: [String: String]? = nil, updatedAt: Date? = nil) {
+            self.constructID = constructID
+            self.constructType = constructType
+            self.createdAt = createdAt
+            self.description = description
+            self.logicalID = logicalID
+            self.name = name
+            self.properties = properties
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constructID = "constructID"
+            case constructType = "constructType"
+            case createdAt = "createdAt"
+            case description = "description"
+            case logicalID = "logicalID"
+            case name = "name"
+            case properties = "properties"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct NetworkMigrationMappingJobDetails: AWSDecodableShape {
+        /// The timestamp when the job was created.
+        public let createdAt: Date?
+        /// The timestamp when the job completed or failed.
+        public let endedAt: Date?
+        /// The unique identifier of the mapping job.
+        public let jobID: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The current status of the mapping job.
+        public let status: NetworkMigrationJobStatus?
+        /// Detailed status information about the job.
+        public let statusDetails: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, endedAt: Date? = nil, jobID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, status: NetworkMigrationJobStatus? = nil, statusDetails: String? = nil) {
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.jobID = jobID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.status = status
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case endedAt = "endedAt"
+            case jobID = "jobID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case status = "status"
+            case statusDetails = "statusDetails"
+        }
+    }
+
+    public struct NetworkMigrationMappingUpdateJobDetails: AWSDecodableShape {
+        /// The timestamp when the job was created.
+        public let createdAt: Date?
+        /// The timestamp when the job completed or failed.
+        public let endedAt: Date?
+        /// The unique identifier of the mapping update job.
+        public let jobID: String?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String?
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String?
+        /// The current status of the mapping update job.
+        public let status: NetworkMigrationJobStatus?
+        /// Detailed status information about the job.
+        public let statusDetails: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, endedAt: Date? = nil, jobID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, status: NetworkMigrationJobStatus? = nil, statusDetails: String? = nil) {
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.jobID = jobID
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.status = status
+            self.statusDetails = statusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case endedAt = "endedAt"
+            case jobID = "jobID"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case status = "status"
+            case statusDetails = "statusDetails"
         }
     }
 
@@ -4037,13 +6205,15 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Replication Configuration Staging Area tags.
         public let stagingAreaTags: [String: String]?
+        /// Replication Configuration store snapshot on local zone.
+        public let storeSnapshotOnLocalZone: Bool?
         /// Replication Configuration use Dedicated Replication Server.
         public let useDedicatedReplicationServer: Bool?
         /// Replication Configuration use Fips Endpoint.
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -4059,6 +6229,7 @@ extension Mgn {
             self.sourceServerID = sourceServerID
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
         }
@@ -4079,6 +6250,7 @@ extension Mgn {
             case sourceServerID = "sourceServerID"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
         }
@@ -4149,6 +6321,8 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Replication Configuration template Staging Area Tags.
         public let stagingAreaTags: [String: String]?
+        /// Replication Configuration template store snapshot on local zone.
+        public let storeSnapshotOnLocalZone: Bool?
         /// Replication Configuration template Tags.
         public let tags: [String: String]?
         /// Replication Configuration template use Dedicated Replication Server.
@@ -4157,7 +6331,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -4172,6 +6346,7 @@ extension Mgn {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
@@ -4192,6 +6367,7 @@ extension Mgn {
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case tags = "tags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
@@ -4306,6 +6482,28 @@ extension Mgn {
         }
     }
 
+    public struct S3Configuration: AWSDecodableShape {
+        /// The name of the S3 bucket.
+        public let s3Bucket: String?
+        /// The AWS account ID of the S3 bucket owner.
+        public let s3BucketOwner: String?
+        /// The S3 key (path) for the object.
+        public let s3Key: String?
+
+        @inlinable
+        public init(s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Key: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+            case s3Key = "s3Key"
+        }
+    }
+
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let code: String?
         public let message: String?
@@ -4339,6 +6537,28 @@ extension Mgn {
             case resourceId = "resourceId"
             case resourceType = "resourceType"
             case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The source environment type.
+        public let sourceEnvironment: SourceEnvironment
+        /// The S3 configuration for the source data.
+        public let sourceS3Configuration: SourceS3Configuration
+
+        @inlinable
+        public init(sourceEnvironment: SourceEnvironment, sourceS3Configuration: SourceS3Configuration) {
+            self.sourceEnvironment = sourceEnvironment
+            self.sourceS3Configuration = sourceS3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceS3Configuration.validate(name: "\(name).sourceS3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceEnvironment = "sourceEnvironment"
+            case sourceS3Configuration = "sourceS3Configuration"
         }
     }
 
@@ -4381,6 +6601,36 @@ extension Mgn {
             case os = "os"
             case ramBytes = "ramBytes"
             case recommendedInstanceType = "recommendedInstanceType"
+        }
+    }
+
+    public struct SourceS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the S3 bucket containing source data.
+        public let s3Bucket: String
+        /// The AWS account ID of the S3 bucket owner.
+        public let s3BucketOwner: String
+        /// The S3 key (path) for the source data.
+        public let s3Key: String
+
+        @inlinable
+        public init(s3Bucket: String, s3BucketOwner: String, s3Key: String) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]{1,255}$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^[^\\x00]{1,1024}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+            case s3Key = "s3Key"
         }
     }
 
@@ -4745,6 +6995,52 @@ extension Mgn {
         }
     }
 
+    public struct StartImportFileEnrichmentRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The IP assignment strategy to use when enriching the import file. Can be STATIC or DYNAMIC.
+        public let ipAssignmentStrategy: IpAssignmentStrategy?
+        /// The S3 configuration specifying the source location of the import file to be enriched.
+        public let s3BucketSource: EnrichmentSourceS3Configuration
+        /// The S3 configuration specifying the target location where the enriched import file will be stored.
+        public let s3BucketTarget: EnrichmentTargetS3Configuration
+
+        @inlinable
+        public init(clientToken: String? = StartImportFileEnrichmentRequest.idempotencyToken(), ipAssignmentStrategy: IpAssignmentStrategy? = nil, s3BucketSource: EnrichmentSourceS3Configuration, s3BucketTarget: EnrichmentTargetS3Configuration) {
+            self.clientToken = clientToken
+            self.ipAssignmentStrategy = ipAssignmentStrategy
+            self.s3BucketSource = s3BucketSource
+            self.s3BucketTarget = s3BucketTarget
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.s3BucketSource.validate(name: "\(name).s3BucketSource")
+            try self.s3BucketTarget.validate(name: "\(name).s3BucketTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case ipAssignmentStrategy = "ipAssignmentStrategy"
+            case s3BucketSource = "s3BucketSource"
+            case s3BucketTarget = "s3BucketTarget"
+        }
+    }
+
+    public struct StartImportFileEnrichmentResponse: AWSDecodableShape {
+        /// The unique identifier of the import file enrichment job that was started.
+        public let jobID: String?
+
+        @inlinable
+        public init(jobID: String? = nil) {
+            self.jobID = jobID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobID = "jobID"
+        }
+    }
+
     public struct StartImportRequest: AWSEncodableShape {
         /// Start import request client token.
         public let clientToken: String?
@@ -4788,6 +7084,313 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case importTask = "importTask"
+        }
+    }
+
+    public struct StartNetworkMigrationAnalysisRequest: AWSEncodableShape {
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution to analyze.
+        public let networkMigrationExecutionID: String
+
+        @inlinable
+        public init(networkMigrationDefinitionID: String, networkMigrationExecutionID: String) {
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+        }
+    }
+
+    public struct StartNetworkMigrationAnalysisResponse: AWSDecodableShape {
+        /// The unique identifier of the analysis job that was started.
+        public let jobID: String?
+
+        @inlinable
+        public init(jobID: String? = nil) {
+            self.jobID = jobID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobID = "jobID"
+        }
+    }
+
+    public struct StartNetworkMigrationCodeGenerationRequest: AWSEncodableShape {
+        /// The output format types for code generation, such as CloudFormation or Terraform.
+        public let codeGenerationOutputFormatTypes: [CodeGenerationOutputFormatType]?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+
+        @inlinable
+        public init(codeGenerationOutputFormatTypes: [CodeGenerationOutputFormatType]? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String) {
+            self.codeGenerationOutputFormatTypes = codeGenerationOutputFormatTypes
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.codeGenerationOutputFormatTypes, name: "codeGenerationOutputFormatTypes", parent: name, max: 10)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeGenerationOutputFormatTypes = "codeGenerationOutputFormatTypes"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+        }
+    }
+
+    public struct StartNetworkMigrationCodeGenerationResponse: AWSDecodableShape {
+        /// The unique identifier of the code generation job that was started.
+        public let jobID: String?
+
+        @inlinable
+        public init(jobID: String? = nil) {
+            self.jobID = jobID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobID = "jobID"
+        }
+    }
+
+    public struct StartNetworkMigrationDeployerJobResponse: AWSDecodableShape {
+        /// The unique identifier of the deployer job that was started.
+        public let jobID: String?
+
+        @inlinable
+        public init(jobID: String? = nil) {
+            self.jobID = jobID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobID = "jobID"
+        }
+    }
+
+    public struct StartNetworkMigrationDeploymentRequest: AWSEncodableShape {
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+
+        @inlinable
+        public init(networkMigrationDefinitionID: String, networkMigrationExecutionID: String) {
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+        }
+    }
+
+    public struct StartNetworkMigrationMappingRequest: AWSEncodableShape {
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The security group mapping strategy to use.
+        public let securityGroupMappingStrategy: SecurityGroupMappingStrategy?
+
+        @inlinable
+        public init(networkMigrationDefinitionID: String, networkMigrationExecutionID: String, securityGroupMappingStrategy: SecurityGroupMappingStrategy? = nil) {
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.securityGroupMappingStrategy = securityGroupMappingStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case securityGroupMappingStrategy = "securityGroupMappingStrategy"
+        }
+    }
+
+    public struct StartNetworkMigrationMappingResponse: AWSDecodableShape {
+        /// The unique identifier of the mapping job that was started.
+        public let jobID: String?
+
+        @inlinable
+        public init(jobID: String? = nil) {
+            self.jobID = jobID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobID = "jobID"
+        }
+    }
+
+    public struct StartNetworkMigrationMappingUpdateConstruct: AWSEncodableShape {
+        /// The ID of the construct to update.
+        public let constructID: String
+        /// The type of the construct.
+        public let constructType: String
+        /// The operation to perform on the construct.
+        public let operation: OperationUnion?
+        /// The ID of the segment containing the construct.
+        public let segmentID: String
+
+        @inlinable
+        public init(constructID: String, constructType: String, operation: OperationUnion? = nil, segmentID: String) {
+            self.constructID = constructID
+            self.constructType = constructType
+            self.operation = operation
+            self.segmentID = segmentID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.constructID, name: "constructID", parent: name, max: 36)
+            try self.validate(self.constructID, name: "constructID", parent: name, min: 36)
+            try self.validate(self.constructID, name: "constructID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.constructType, name: "constructType", parent: name, max: 24)
+            try self.validate(self.constructType, name: "constructType", parent: name, pattern: "^AWS::([A-Z\\d]){2,10}::[a-zA-Z\\d]{2,30}$")
+            try self.operation?.validate(name: "\(name).operation")
+            try self.validate(self.segmentID, name: "segmentID", parent: name, max: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, min: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constructID = "constructID"
+            case constructType = "constructType"
+            case operation = "operation"
+            case segmentID = "segmentID"
+        }
+    }
+
+    public struct StartNetworkMigrationMappingUpdateRequest: AWSEncodableShape {
+        /// A list of construct updates to apply.
+        public let constructs: [StartNetworkMigrationMappingUpdateConstruct]?
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// A list of segment updates to apply.
+        public let segments: [StartNetworkMigrationMappingUpdateSegment]?
+
+        @inlinable
+        public init(constructs: [StartNetworkMigrationMappingUpdateConstruct]? = nil, networkMigrationDefinitionID: String, networkMigrationExecutionID: String, segments: [StartNetworkMigrationMappingUpdateSegment]? = nil) {
+            self.constructs = constructs
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.segments = segments
+        }
+
+        public func validate(name: String) throws {
+            try self.constructs?.forEach {
+                try $0.validate(name: "\(name).constructs[]")
+            }
+            try self.validate(self.constructs, name: "constructs", parent: name, max: 100)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.segments?.forEach {
+                try $0.validate(name: "\(name).segments[]")
+            }
+            try self.validate(self.segments, name: "segments", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constructs = "constructs"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case segments = "segments"
+        }
+    }
+
+    public struct StartNetworkMigrationMappingUpdateResponse: AWSDecodableShape {
+        /// The unique identifier of the mapping update job that was started.
+        public let jobID: String?
+
+        @inlinable
+        public init(jobID: String? = nil) {
+            self.jobID = jobID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobID = "jobID"
+        }
+    }
+
+    public struct StartNetworkMigrationMappingUpdateSegment: AWSEncodableShape {
+        /// The updated scope tags for the segment.
+        public let scopeTags: [String: String]?
+        /// The ID of the segment to update.
+        public let segmentID: String
+        /// The updated target AWS account for the segment.
+        public let targetAccount: String?
+
+        @inlinable
+        public init(scopeTags: [String: String]? = nil, segmentID: String, targetAccount: String? = nil) {
+            self.scopeTags = scopeTags
+            self.segmentID = segmentID
+            self.targetAccount = targetAccount
+        }
+
+        public func validate(name: String) throws {
+            try self.scopeTags?.forEach {
+                try validate($0.key, name: "scopeTags.key", parent: name, max: 128)
+                try validate($0.key, name: "scopeTags.key", parent: name, min: 1)
+                try validate($0.key, name: "scopeTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s+\\-=._:/@]*$")
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s+\\-=._:/@]*$")
+            }
+            try self.validate(self.scopeTags, name: "scopeTags", parent: name, max: 40)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, max: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, min: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.targetAccount, name: "targetAccount", parent: name, max: 12)
+            try self.validate(self.targetAccount, name: "targetAccount", parent: name, min: 12)
+            try self.validate(self.targetAccount, name: "targetAccount", parent: name, pattern: "[0-9]{12,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopeTags = "scopeTags"
+            case segmentID = "segmentID"
+            case targetAccount = "targetAccount"
         }
     }
 
@@ -4930,6 +7533,132 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct TargetNetwork: AWSEncodableShape & AWSDecodableShape {
+        /// The CIDR block for inbound traffic in the target network.
+        public let inboundCidr: String?
+        /// The CIDR block for inspection traffic in the target network.
+        public let inspectionCidr: String?
+        /// The CIDR block for outbound traffic in the target network.
+        public let outboundCidr: String?
+        /// The network topology type for the target environment.
+        public let topology: TargetNetworkTopology
+
+        @inlinable
+        public init(inboundCidr: String? = nil, inspectionCidr: String? = nil, outboundCidr: String? = nil, topology: TargetNetworkTopology) {
+            self.inboundCidr = inboundCidr
+            self.inspectionCidr = inspectionCidr
+            self.outboundCidr = outboundCidr
+            self.topology = topology
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inboundCidr, name: "inboundCidr", parent: name, max: 18)
+            try self.validate(self.inboundCidr, name: "inboundCidr", parent: name, min: 9)
+            try self.validate(self.inboundCidr, name: "inboundCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+            try self.validate(self.inspectionCidr, name: "inspectionCidr", parent: name, max: 18)
+            try self.validate(self.inspectionCidr, name: "inspectionCidr", parent: name, min: 9)
+            try self.validate(self.inspectionCidr, name: "inspectionCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+            try self.validate(self.outboundCidr, name: "outboundCidr", parent: name, max: 18)
+            try self.validate(self.outboundCidr, name: "outboundCidr", parent: name, min: 9)
+            try self.validate(self.outboundCidr, name: "outboundCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboundCidr = "inboundCidr"
+            case inspectionCidr = "inspectionCidr"
+            case outboundCidr = "outboundCidr"
+            case topology = "topology"
+        }
+    }
+
+    public struct TargetNetworkUpdate: AWSEncodableShape {
+        /// The updated CIDR block for inbound traffic.
+        public let inboundCidr: String?
+        /// The updated CIDR block for inspection traffic.
+        public let inspectionCidr: String?
+        /// The updated CIDR block for outbound traffic.
+        public let outboundCidr: String?
+        /// The updated network topology type.
+        public let topology: TargetNetworkTopology?
+
+        @inlinable
+        public init(inboundCidr: String? = nil, inspectionCidr: String? = nil, outboundCidr: String? = nil, topology: TargetNetworkTopology? = nil) {
+            self.inboundCidr = inboundCidr
+            self.inspectionCidr = inspectionCidr
+            self.outboundCidr = outboundCidr
+            self.topology = topology
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inboundCidr, name: "inboundCidr", parent: name, max: 18)
+            try self.validate(self.inboundCidr, name: "inboundCidr", parent: name, min: 9)
+            try self.validate(self.inboundCidr, name: "inboundCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+            try self.validate(self.inspectionCidr, name: "inspectionCidr", parent: name, max: 18)
+            try self.validate(self.inspectionCidr, name: "inspectionCidr", parent: name, min: 9)
+            try self.validate(self.inspectionCidr, name: "inspectionCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+            try self.validate(self.outboundCidr, name: "outboundCidr", parent: name, max: 18)
+            try self.validate(self.outboundCidr, name: "outboundCidr", parent: name, min: 9)
+            try self.validate(self.outboundCidr, name: "outboundCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inboundCidr = "inboundCidr"
+            case inspectionCidr = "inspectionCidr"
+            case outboundCidr = "outboundCidr"
+            case topology = "topology"
+        }
+    }
+
+    public struct TargetS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the S3 bucket for target artifacts.
+        public let s3Bucket: String
+        /// The AWS account ID of the S3 bucket owner.
+        public let s3BucketOwner: String
+
+        @inlinable
+        public init(s3Bucket: String, s3BucketOwner: String) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]{1,255}$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
+        }
+    }
+
+    public struct TargetS3ConfigurationUpdate: AWSEncodableShape {
+        /// The updated name of the S3 bucket.
+        public let s3Bucket: String?
+        /// The updated AWS account ID of the S3 bucket owner.
+        public let s3BucketOwner: String?
+
+        @inlinable
+        public init(s3Bucket: String? = nil, s3BucketOwner: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-zA-Z0-9.\\-_]{1,255}$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "s3Bucket"
+            case s3BucketOwner = "s3BucketOwner"
         }
     }
 
@@ -5432,6 +8161,141 @@ extension Mgn {
         }
     }
 
+    public struct UpdateNetworkMigrationDefinitionRequest: AWSEncodableShape {
+        /// The updated description of the network migration definition.
+        public let description: String?
+        /// The updated name of the network migration definition.
+        public let name: String?
+        /// The unique identifier of the network migration definition to update.
+        public let networkMigrationDefinitionID: String
+        /// The updated scope tags for the network migration definition.
+        public let scopeTags: [String: String]?
+        /// The updated list of source configurations.
+        public let sourceConfigurations: [SourceConfiguration]?
+        /// The updated target deployment configuration.
+        public let targetDeployment: TargetDeployment?
+        /// The updated target network configuration.
+        public let targetNetwork: TargetNetworkUpdate?
+        /// The updated S3 configuration for storing the target network artifacts.
+        public let targetS3Configuration: TargetS3ConfigurationUpdate?
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, networkMigrationDefinitionID: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetworkUpdate? = nil, targetS3Configuration: TargetS3ConfigurationUpdate? = nil) {
+            self.description = description
+            self.name = name
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.scopeTags = scopeTags
+            self.sourceConfigurations = sourceConfigurations
+            self.targetDeployment = targetDeployment
+            self.targetNetwork = targetNetwork
+            self.targetS3Configuration = targetS3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 600)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.scopeTags?.forEach {
+                try validate($0.key, name: "scopeTags.key", parent: name, max: 128)
+                try validate($0.key, name: "scopeTags.key", parent: name, min: 1)
+                try validate($0.key, name: "scopeTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s+\\-=._:/@]*$")
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s+\\-=._:/@]*$")
+            }
+            try self.validate(self.scopeTags, name: "scopeTags", parent: name, max: 40)
+            try self.sourceConfigurations?.forEach {
+                try $0.validate(name: "\(name).sourceConfigurations[]")
+            }
+            try self.validate(self.sourceConfigurations, name: "sourceConfigurations", parent: name, max: 2)
+            try self.targetNetwork?.validate(name: "\(name).targetNetwork")
+            try self.targetS3Configuration?.validate(name: "\(name).targetS3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case scopeTags = "scopeTags"
+            case sourceConfigurations = "sourceConfigurations"
+            case targetDeployment = "targetDeployment"
+            case targetNetwork = "targetNetwork"
+            case targetS3Configuration = "targetS3Configuration"
+        }
+    }
+
+    public struct UpdateNetworkMigrationMapperSegmentRequest: AWSEncodableShape {
+        /// The unique identifier of the network migration definition.
+        public let networkMigrationDefinitionID: String
+        /// The unique identifier of the network migration execution.
+        public let networkMigrationExecutionID: String
+        /// The updated scope tags for the segment.
+        public let scopeTags: [String: String]?
+        /// The unique identifier of the segment to update.
+        public let segmentID: String
+
+        @inlinable
+        public init(networkMigrationDefinitionID: String, networkMigrationExecutionID: String, scopeTags: [String: String]? = nil, segmentID: String) {
+            self.networkMigrationDefinitionID = networkMigrationDefinitionID
+            self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.scopeTags = scopeTags
+            self.segmentID = segmentID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, max: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, min: 21)
+            try self.validate(self.networkMigrationDefinitionID, name: "networkMigrationDefinitionID", parent: name, pattern: "^nmd-[0-9a-zA-Z]{17}$")
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, max: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, min: 36)
+            try self.validate(self.networkMigrationExecutionID, name: "networkMigrationExecutionID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.scopeTags?.forEach {
+                try validate($0.key, name: "scopeTags.key", parent: name, max: 128)
+                try validate($0.key, name: "scopeTags.key", parent: name, min: 1)
+                try validate($0.key, name: "scopeTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s+\\-=._:/@]*$")
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "scopeTags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s+\\-=._:/@]*$")
+            }
+            try self.validate(self.scopeTags, name: "scopeTags", parent: name, max: 40)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, max: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, min: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkMigrationDefinitionID = "networkMigrationDefinitionID"
+            case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case scopeTags = "scopeTags"
+            case segmentID = "segmentID"
+        }
+    }
+
+    public struct UpdateOperation: AWSEncodableShape {
+        /// The properties to update on the construct.
+        public let properties: [String: String]?
+
+        @inlinable
+        public init(properties: [String: String]? = nil) {
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 24)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 65536)
+            }
+            try self.validate(self.properties, name: "properties", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties = "properties"
+        }
+    }
+
     public struct UpdateReplicationConfigurationRequest: AWSEncodableShape {
         /// Update replication configuration Account ID request.
         public let accountID: String?
@@ -5465,13 +8329,15 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Update replication configuration Staging Area Tags request.
         public let stagingAreaTags: [String: String]?
+        /// Update replication configuration store snapshot on local zone.
+        public let storeSnapshotOnLocalZone: Bool?
         /// Update replication configuration use dedicated Replication Server request.
         public let useDedicatedReplicationServer: Bool?
         /// Update replication configuration use Fips Endpoint.
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.accountID = accountID
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -5488,6 +8354,7 @@ extension Mgn {
             self.sourceServerID = sourceServerID
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
         }
@@ -5540,6 +8407,7 @@ extension Mgn {
             case sourceServerID = "sourceServerID"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
         }
@@ -5574,13 +8442,15 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Update replication configuration template Staging Area Tags request.
         public let stagingAreaTags: [String: String]?
+        /// Update replication configuration template store snapshot on local zone request.
+        public let storeSnapshotOnLocalZone: Bool?
         /// Update replication configuration template use dedicated Replication Server request.
         public let useDedicatedReplicationServer: Bool?
         /// Update replication configuration template use Fips Endpoint request.
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -5595,6 +8465,7 @@ extension Mgn {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
         }
@@ -5639,6 +8510,7 @@ extension Mgn {
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
         }
@@ -5904,6 +8776,24 @@ extension Mgn {
             case progressStatus = "progressStatus"
             case replicationStartedDateTime = "replicationStartedDateTime"
             case totalApplications = "totalApplications"
+        }
+    }
+
+    public struct OperationUnion: AWSEncodableShape {
+        /// An update operation to modify construct properties.
+        public let update: UpdateOperation?
+
+        @inlinable
+        public init(update: UpdateOperation? = nil) {
+            self.update = update
+        }
+
+        public func validate(name: String) throws {
+            try self.update?.validate(name: "\(name).update")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update = "update"
         }
     }
 

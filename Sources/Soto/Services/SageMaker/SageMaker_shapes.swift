@@ -2493,6 +2493,7 @@ extension SageMaker {
     }
 
     public enum ProductionVariantInferenceAmiVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case al2023Gpu41 = "al2023-ami-sagemaker-inference-gpu-4-1"
         case al2Gpu2 = "al2-ami-sagemaker-inference-gpu-2"
         case al2Gpu21 = "al2-ami-sagemaker-inference-gpu-2-1"
         case al2Gpu31 = "al2-ami-sagemaker-inference-gpu-3-1"
@@ -2614,6 +2615,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG7E12Xlarge = "ml.g7e.12xlarge"
+        case mlG7E24Xlarge = "ml.g7e.24xlarge"
+        case mlG7E2Xlarge = "ml.g7e.2xlarge"
+        case mlG7E48Xlarge = "ml.g7e.48xlarge"
+        case mlG7E4Xlarge = "ml.g7e.4xlarge"
+        case mlG7E8Xlarge = "ml.g7e.8xlarge"
         case mlInf124Xlarge = "ml.inf1.24xlarge"
         case mlInf12Xlarge = "ml.inf1.2xlarge"
         case mlInf16Xlarge = "ml.inf1.6xlarge"
@@ -2694,6 +2701,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6B30048Xlarge = "ml.p6-b300.48xlarge"
         case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -12265,6 +12273,10 @@ extension SageMaker {
         public let mlflowVersion: String?
         /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Amazon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow.
         public let roleArn: String?
+        /// Expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage. Defaults to caller's account ID if not provided.
+        public let s3BucketOwnerAccountId: String?
+        /// Enable Amazon S3 Ownership checks when interacting with Amazon S3 buckets from a SageMaker Managed MLflow Tracking Server. Defaults to True if not provided.
+        public let s3BucketOwnerVerification: Bool?
         /// Tags consisting of key-value pairs used to manage metadata for the tracking server.
         public let tags: [Tag]?
         /// A unique string identifying the tracking server name. This string is part of the tracking server ARN.
@@ -12275,11 +12287,13 @@ extension SageMaker {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, s3BucketOwnerAccountId: String? = nil, s3BucketOwnerVerification: Bool? = nil, tags: [Tag]? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
             self.mlflowVersion = mlflowVersion
             self.roleArn = roleArn
+            self.s3BucketOwnerAccountId = s3BucketOwnerAccountId
+            self.s3BucketOwnerVerification = s3BucketOwnerVerification
             self.tags = tags
             self.trackingServerName = trackingServerName
             self.trackingServerSize = trackingServerSize
@@ -12294,6 +12308,9 @@ extension SageMaker {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.s3BucketOwnerAccountId, name: "s3BucketOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.s3BucketOwnerAccountId, name: "s3BucketOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.s3BucketOwnerAccountId, name: "s3BucketOwnerAccountId", parent: name, pattern: "^\\d+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -12310,6 +12327,8 @@ extension SageMaker {
             case automaticModelRegistration = "AutomaticModelRegistration"
             case mlflowVersion = "MlflowVersion"
             case roleArn = "RoleArn"
+            case s3BucketOwnerAccountId = "S3BucketOwnerAccountId"
+            case s3BucketOwnerVerification = "S3BucketOwnerVerification"
             case tags = "Tags"
             case trackingServerName = "TrackingServerName"
             case trackingServerSize = "TrackingServerSize"
@@ -20316,6 +20335,10 @@ extension SageMaker {
         public let mlflowVersion: String?
         /// The Amazon Resource Name (ARN) for an IAM role in your account that the described MLflow Tracking Server uses to access the artifact store in Amazon S3.
         public let roleArn: String?
+        /// Expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage.
+        public let s3BucketOwnerAccountId: String?
+        /// Whether Amazon S3 Bucket Ownership checks are enabled whenever the tracking server interacts with Amazon Amazon S3.
+        public let s3BucketOwnerVerification: Bool?
         /// The ARN of the described tracking server.
         public let trackingServerArn: String?
         ///  The current maintenance status of the described MLflow Tracking Server.
@@ -20332,7 +20355,7 @@ extension SageMaker {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, trackingServerArn: String? = nil, trackingServerMaintenanceStatus: TrackingServerMaintenanceStatus? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, trackingServerStatus: TrackingServerStatus? = nil, trackingServerUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, s3BucketOwnerAccountId: String? = nil, s3BucketOwnerVerification: Bool? = nil, trackingServerArn: String? = nil, trackingServerMaintenanceStatus: TrackingServerMaintenanceStatus? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, trackingServerStatus: TrackingServerStatus? = nil, trackingServerUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
             self.createdBy = createdBy
@@ -20342,6 +20365,8 @@ extension SageMaker {
             self.lastModifiedTime = lastModifiedTime
             self.mlflowVersion = mlflowVersion
             self.roleArn = roleArn
+            self.s3BucketOwnerAccountId = s3BucketOwnerAccountId
+            self.s3BucketOwnerVerification = s3BucketOwnerVerification
             self.trackingServerArn = trackingServerArn
             self.trackingServerMaintenanceStatus = trackingServerMaintenanceStatus
             self.trackingServerName = trackingServerName
@@ -20361,6 +20386,8 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case mlflowVersion = "MlflowVersion"
             case roleArn = "RoleArn"
+            case s3BucketOwnerAccountId = "S3BucketOwnerAccountId"
+            case s3BucketOwnerVerification = "S3BucketOwnerVerification"
             case trackingServerArn = "TrackingServerArn"
             case trackingServerMaintenanceStatus = "TrackingServerMaintenanceStatus"
             case trackingServerName = "TrackingServerName"
@@ -22340,6 +22367,56 @@ extension SageMaker {
             case tuningJobArn = "TuningJobArn"
             case vpcConfig = "VpcConfig"
             case warmPoolStatus = "WarmPoolStatus"
+        }
+    }
+
+    public struct DescribeTrainingPlanExtensionHistoryRequest: AWSEncodableShape {
+        /// The maximum number of extensions to return in the response.
+        public let maxResults: Int?
+        /// A token to continue pagination if more results are available.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN); of the training plan to retrieve extension history for.
+        public let trainingPlanArn: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, trainingPlanArn: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.trainingPlanArn = trainingPlanArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, max: 2048)
+            try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, min: 50)
+            try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-plan/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case trainingPlanArn = "TrainingPlanArn"
+        }
+    }
+
+    public struct DescribeTrainingPlanExtensionHistoryResponse: AWSDecodableShape {
+        /// A token to continue pagination if more results are available.
+        public let nextToken: String?
+        /// A list of extensions for the specified training plan.
+        public let trainingPlanExtensions: [TrainingPlanExtension]?
+
+        @inlinable
+        public init(nextToken: String? = nil, trainingPlanExtensions: [TrainingPlanExtension]? = nil) {
+            self.nextToken = nextToken
+            self.trainingPlanExtensions = trainingPlanExtensions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trainingPlanExtensions = "TrainingPlanExtensions"
         }
     }
 
@@ -24729,6 +24806,34 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case clarifyExplainerConfig = "ClarifyExplainerConfig"
+        }
+    }
+
+    public struct ExtendTrainingPlanRequest: AWSEncodableShape {
+        /// The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the response of the SearchTrainingPlanOfferings API.
+        public let trainingPlanExtensionOfferingId: String?
+
+        @inlinable
+        public init(trainingPlanExtensionOfferingId: String? = nil) {
+            self.trainingPlanExtensionOfferingId = trainingPlanExtensionOfferingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingPlanExtensionOfferingId = "TrainingPlanExtensionOfferingId"
+        }
+    }
+
+    public struct ExtendTrainingPlanResponse: AWSDecodableShape {
+        /// The list of extensions for the training plan, including the newly created extension.
+        public let trainingPlanExtensions: [TrainingPlanExtension]?
+
+        @inlinable
+        public init(trainingPlanExtensions: [TrainingPlanExtension]? = nil) {
+            self.trainingPlanExtensions = trainingPlanExtensions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingPlanExtensions = "TrainingPlanExtensions"
         }
     }
 
@@ -39746,7 +39851,7 @@ extension SageMaker {
         public let coreDumpConfig: ProductionVariantCoreDumpConfig?
         ///  You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
         public let enableSSMAccess: Bool?
-        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2    al2-ami-sagemaker-inference-gpu-2-1    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-gpu-3-1    Accelerator: GPU   NVIDIA driver version: 550   CUDA version: 12.4   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-neuron-2    Accelerator: Inferentia2 and Trainium   Neuron driver version: 2.19
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2    al2-ami-sagemaker-inference-gpu-2-1    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-gpu-3-1    Accelerator: GPU   NVIDIA driver version: 550   CUDA version: 12.4   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2023-ami-sagemaker-inference-gpu-4-1    Accelerator: GPU   NVIDIA driver version: 580   CUDA version: 13.0   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-neuron-2    Accelerator: Inferentia2 and Trainium   Neuron driver version: 2.19
         public let inferenceAmiVersion: ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public let initialInstanceCount: Int?
@@ -41416,6 +41521,10 @@ extension SageMaker {
         public let durationMinutes: Int64?
         /// The end time of the reserved capacity offering.
         public let endTime: Date?
+        /// The end time of the extension for the reserved capacity offering.
+        public let extensionEndTime: Date?
+        /// The start time of the extension for the reserved capacity offering.
+        public let extensionStartTime: Date?
         /// The number of instances in the reserved capacity offering.
         public let instanceCount: Int?
         /// The instance type for the reserved capacity offering.
@@ -41430,11 +41539,13 @@ extension SageMaker {
         public let ultraServerType: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, reservedCapacityType: ReservedCapacityType? = nil, startTime: Date? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil) {
+        public init(availabilityZone: String? = nil, durationHours: Int64? = nil, durationMinutes: Int64? = nil, endTime: Date? = nil, extensionEndTime: Date? = nil, extensionStartTime: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, reservedCapacityType: ReservedCapacityType? = nil, startTime: Date? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil) {
             self.availabilityZone = availabilityZone
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
             self.endTime = endTime
+            self.extensionEndTime = extensionEndTime
+            self.extensionStartTime = extensionStartTime
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.reservedCapacityType = reservedCapacityType
@@ -41448,6 +41559,8 @@ extension SageMaker {
             case durationHours = "DurationHours"
             case durationMinutes = "DurationMinutes"
             case endTime = "EndTime"
+            case extensionEndTime = "ExtensionEndTime"
+            case extensionStartTime = "ExtensionStartTime"
             case instanceCount = "InstanceCount"
             case instanceType = "InstanceType"
             case reservedCapacityType = "ReservedCapacityType"
@@ -42419,19 +42532,22 @@ extension SageMaker {
         public let startTimeAfter: Date?
         /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
         public let targetResources: [SageMakerResourceName]?
+        /// The Amazon Resource Name (ARN); of an existing training plan to search for extension offerings. When specified, the API returns extension offerings that can be used to extend the specified training plan.
+        public let trainingPlanArn: String?
         /// The number of UltraServers to search for.
         public let ultraServerCount: Int?
         /// The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
         public let ultraServerType: String?
 
         @inlinable
-        public init(durationHours: Int64? = nil, endTimeBefore: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, startTimeAfter: Date? = nil, targetResources: [SageMakerResourceName]? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil) {
+        public init(durationHours: Int64? = nil, endTimeBefore: Date? = nil, instanceCount: Int? = nil, instanceType: ReservedCapacityInstanceType? = nil, startTimeAfter: Date? = nil, targetResources: [SageMakerResourceName]? = nil, trainingPlanArn: String? = nil, ultraServerCount: Int? = nil, ultraServerType: String? = nil) {
             self.durationHours = durationHours
             self.endTimeBefore = endTimeBefore
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.startTimeAfter = startTimeAfter
             self.targetResources = targetResources
+            self.trainingPlanArn = trainingPlanArn
             self.ultraServerCount = ultraServerCount
             self.ultraServerType = ultraServerType
         }
@@ -42455,21 +42571,26 @@ extension SageMaker {
             case instanceType = "InstanceType"
             case startTimeAfter = "StartTimeAfter"
             case targetResources = "TargetResources"
+            case trainingPlanArn = "TrainingPlanArn"
             case ultraServerCount = "UltraServerCount"
             case ultraServerType = "UltraServerType"
         }
     }
 
     public struct SearchTrainingPlanOfferingsResponse: AWSDecodableShape {
+        /// A list of extension offerings available for the specified training plan. These offerings can be used with the  ExtendTrainingPlan  API to extend an existing training plan.
+        public let trainingPlanExtensionOfferings: [TrainingPlanExtensionOffering]?
         /// A list of training plan offerings that match the search criteria.
         public let trainingPlanOfferings: [TrainingPlanOffering]?
 
         @inlinable
-        public init(trainingPlanOfferings: [TrainingPlanOffering]? = nil) {
+        public init(trainingPlanExtensionOfferings: [TrainingPlanExtensionOffering]? = nil, trainingPlanOfferings: [TrainingPlanOffering]? = nil) {
+            self.trainingPlanExtensionOfferings = trainingPlanExtensionOfferings
             self.trainingPlanOfferings = trainingPlanOfferings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case trainingPlanExtensionOfferings = "TrainingPlanExtensionOfferings"
             case trainingPlanOfferings = "TrainingPlanOfferings"
         }
     }
@@ -45025,6 +45146,98 @@ extension SageMaker {
             case trainingJobStatus = "TrainingJobStatus"
             case trainingPlanArn = "TrainingPlanArn"
             case warmPoolStatus = "WarmPoolStatus"
+        }
+    }
+
+    public struct TrainingPlanExtension: AWSDecodableShape {
+        /// The Availability Zone of the extension.
+        public let availabilityZone: String?
+        /// The Availability Zone ID of the extension.
+        public let availabilityZoneId: String?
+        /// The currency code for the upfront fee (e.g., USD).
+        public let currencyCode: String?
+        /// The duration of the extension in hours.
+        public let durationHours: Int?
+        /// The end date of the extension period.
+        public let endDate: Date?
+        /// The timestamp when the extension was created.
+        public let extendedAt: Date?
+        /// The payment processing status of the extension.
+        public let paymentStatus: String?
+        /// The start date of the extension period.
+        public let startDate: Date?
+        /// The current status of the extension (e.g., Pending, Active, Scheduled, Failed, Expired).
+        public let status: String?
+        /// The unique identifier of the extension offering that was used to create this extension.
+        public let trainingPlanExtensionOfferingId: String?
+        /// The upfront fee for the extension.
+        public let upfrontFee: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, currencyCode: String? = nil, durationHours: Int? = nil, endDate: Date? = nil, extendedAt: Date? = nil, paymentStatus: String? = nil, startDate: Date? = nil, status: String? = nil, trainingPlanExtensionOfferingId: String? = nil, upfrontFee: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.currencyCode = currencyCode
+            self.durationHours = durationHours
+            self.endDate = endDate
+            self.extendedAt = extendedAt
+            self.paymentStatus = paymentStatus
+            self.startDate = startDate
+            self.status = status
+            self.trainingPlanExtensionOfferingId = trainingPlanExtensionOfferingId
+            self.upfrontFee = upfrontFee
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
+            case currencyCode = "CurrencyCode"
+            case durationHours = "DurationHours"
+            case endDate = "EndDate"
+            case extendedAt = "ExtendedAt"
+            case paymentStatus = "PaymentStatus"
+            case startDate = "StartDate"
+            case status = "Status"
+            case trainingPlanExtensionOfferingId = "TrainingPlanExtensionOfferingId"
+            case upfrontFee = "UpfrontFee"
+        }
+    }
+
+    public struct TrainingPlanExtensionOffering: AWSDecodableShape {
+        /// The Availability Zone for this extension offering.
+        public let availabilityZone: String?
+        /// The currency code for the upfront fee (e.g., USD).
+        public let currencyCode: String?
+        /// The duration of this extension offering in hours.
+        public let durationHours: Int?
+        /// The end date of this extension offering.
+        public let endDate: Date?
+        /// The start date of this extension offering.
+        public let startDate: Date?
+        /// The unique identifier for this extension offering.
+        public let trainingPlanExtensionOfferingId: String?
+        /// The upfront fee for this extension offering.
+        public let upfrontFee: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, currencyCode: String? = nil, durationHours: Int? = nil, endDate: Date? = nil, startDate: Date? = nil, trainingPlanExtensionOfferingId: String? = nil, upfrontFee: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.currencyCode = currencyCode
+            self.durationHours = durationHours
+            self.endDate = endDate
+            self.startDate = startDate
+            self.trainingPlanExtensionOfferingId = trainingPlanExtensionOfferingId
+            self.upfrontFee = upfrontFee
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case currencyCode = "CurrencyCode"
+            case durationHours = "DurationHours"
+            case endDate = "EndDate"
+            case startDate = "StartDate"
+            case trainingPlanExtensionOfferingId = "TrainingPlanExtensionOfferingId"
+            case upfrontFee = "UpfrontFee"
         }
     }
 
@@ -47884,6 +48097,10 @@ extension SageMaker {
         public let artifactStoreUri: String?
         /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True. To disable automatic model registration, set this value to False. If not specified, AutomaticModelRegistration defaults to False
         public let automaticModelRegistration: Bool?
+        /// The new expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage.
+        public let s3BucketOwnerAccountId: String?
+        /// Whether to enable or disable Amazon S3 Bucket Owenrship Verifaction whenever the MLflow Tracking Server interacts with Amazon Amazon S3.
+        public let s3BucketOwnerVerification: Bool?
         /// The name of the MLflow Tracking Server to update.
         public let trackingServerName: String?
         /// The new size for the MLflow Tracking Server.
@@ -47892,9 +48109,11 @@ extension SageMaker {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, s3BucketOwnerAccountId: String? = nil, s3BucketOwnerVerification: Bool? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
+            self.s3BucketOwnerAccountId = s3BucketOwnerAccountId
+            self.s3BucketOwnerVerification = s3BucketOwnerVerification
             self.trackingServerName = trackingServerName
             self.trackingServerSize = trackingServerSize
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
@@ -47903,6 +48122,9 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.artifactStoreUri, name: "artifactStoreUri", parent: name, max: 1024)
             try self.validate(self.artifactStoreUri, name: "artifactStoreUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.validate(self.s3BucketOwnerAccountId, name: "s3BucketOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.s3BucketOwnerAccountId, name: "s3BucketOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.s3BucketOwnerAccountId, name: "s3BucketOwnerAccountId", parent: name, pattern: "^\\d+$")
             try self.validate(self.trackingServerName, name: "trackingServerName", parent: name, max: 256)
             try self.validate(self.trackingServerName, name: "trackingServerName", parent: name, min: 1)
             try self.validate(self.trackingServerName, name: "trackingServerName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
@@ -47913,6 +48135,8 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case artifactStoreUri = "ArtifactStoreUri"
             case automaticModelRegistration = "AutomaticModelRegistration"
+            case s3BucketOwnerAccountId = "S3BucketOwnerAccountId"
+            case s3BucketOwnerVerification = "S3BucketOwnerVerification"
             case trackingServerName = "TrackingServerName"
             case trackingServerSize = "TrackingServerSize"
             case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"

@@ -339,8 +339,18 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecommenderFilterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecommenderRecipeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case frequentlyPairedItems = "frequently-paired-items"
+        case personalizedRanking = "personalized-ranking"
         case popularItems = "popular-items"
         case recommendedForYou = "recommended-for-you"
         case similarItems = "similar-items"
@@ -2511,6 +2521,83 @@ extension CustomerProfiles {
         }
     }
 
+    public struct CreateRecommenderFilterRequest: AWSEncodableShape {
+        /// A description of the recommender filter.
+        public let description: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The filter expression that defines which items to include or exclude from recommendations.
+        public let recommenderFilterExpression: String
+        /// The name of the recommender filter. The name must be unique within the domain.
+        public let recommenderFilterName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, domainName: String, recommenderFilterExpression: String, recommenderFilterName: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.domainName = domainName
+            self.recommenderFilterExpression = recommenderFilterExpression
+            self.recommenderFilterName = recommenderFilterName
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.recommenderFilterExpression, forKey: .recommenderFilterExpression)
+            request.encodePath(self.recommenderFilterName, key: "RecommenderFilterName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderFilterExpression, name: "recommenderFilterExpression", parent: name, max: 2500)
+            try self.validate(self.recommenderFilterExpression, name: "recommenderFilterExpression", parent: name, min: 1)
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, max: 63)
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, min: 1)
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case recommenderFilterExpression = "RecommenderFilterExpression"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRecommenderFilterResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the recommender filter.
+        public let recommenderFilterArn: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(recommenderFilterArn: String, tags: [String: String]? = nil) {
+            self.recommenderFilterArn = recommenderFilterArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderFilterArn = "RecommenderFilterArn"
+            case tags = "Tags"
+        }
+    }
+
     public struct CreateRecommenderRequest: AWSEncodableShape {
         /// The description of the domain object type.
         public let description: String?
@@ -3452,6 +3539,51 @@ extension CustomerProfiles {
         }
     }
 
+    public struct DeleteRecommenderFilterRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the recommender filter to delete.
+        public let recommenderFilterName: String
+
+        @inlinable
+        public init(domainName: String, recommenderFilterName: String) {
+            self.domainName = domainName
+            self.recommenderFilterName = recommenderFilterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderFilterName, key: "RecommenderFilterName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, max: 63)
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, min: 1)
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRecommenderFilterResponse: AWSDecodableShape {
+        /// A message that indicates the delete request is done.
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct DeleteRecommenderRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -3781,20 +3913,26 @@ extension CustomerProfiles {
         public let eventType: String
         /// The minimum value threshold that an event must meet to be considered valid.
         public let eventValueThreshold: Double?
+        /// The weight of the event type. A higher weight means higher importance of the event type for the created solution.
+        public let eventWeight: Double?
 
         @inlinable
-        public init(eventType: String, eventValueThreshold: Double? = nil) {
+        public init(eventType: String, eventValueThreshold: Double? = nil, eventWeight: Double? = nil) {
             self.eventType = eventType
             self.eventValueThreshold = eventValueThreshold
+            self.eventWeight = eventWeight
         }
 
         public func validate(name: String) throws {
             try self.validate(self.eventType, name: "eventType", parent: name, max: 256)
+            try self.validate(self.eventWeight, name: "eventWeight", parent: name, max: 1.0)
+            try self.validate(self.eventWeight, name: "eventWeight", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventType = "EventType"
             case eventValueThreshold = "EventValueThreshold"
+            case eventWeight = "EventWeight"
         }
     }
 
@@ -5553,37 +5691,58 @@ extension CustomerProfiles {
     }
 
     public struct GetProfileRecommendationsRequest: AWSEncodableShape {
+        /// A list of item IDs to rank for the user. Use this when you want to re-rank a specific set of items rather than getting recommendations from the full item catalog. Required for personalized-ranking use cases.
+        public let candidateIds: [String]?
         /// The contextual metadata used to provide dynamic runtime information to tailor recommendations.
         public let context: [String: String]?
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of recommendations to return. The default value is 10.
         public let maxResults: Int?
+        /// Configuration for including item metadata in the recommendation response. Use this to specify which metadata columns to return alongside recommended items.
+        public let metadataConfig: MetadataConfig?
         /// The unique identifier of the profile for which to retrieve recommendations.
         public let profileId: String
+        /// A list of filters to apply to the returned recommendations. Filters define criteria for including or excluding items from the recommendation results.
+        public let recommenderFilters: [RecommenderFilter]?
         /// The unique name of the recommender.
         public let recommenderName: String
+        /// A list of promotional filters to apply to the recommendations. Promotional filters allow you to promote specific items within a configurable subset of recommendation results.
+        public let recommenderPromotionalFilters: [RecommenderPromotionalFilter]?
 
         @inlinable
-        public init(context: [String: String]? = nil, domainName: String, maxResults: Int? = nil, profileId: String, recommenderName: String) {
+        public init(candidateIds: [String]? = nil, context: [String: String]? = nil, domainName: String, maxResults: Int? = nil, metadataConfig: MetadataConfig? = nil, profileId: String, recommenderFilters: [RecommenderFilter]? = nil, recommenderName: String, recommenderPromotionalFilters: [RecommenderPromotionalFilter]? = nil) {
+            self.candidateIds = candidateIds
             self.context = context
             self.domainName = domainName
             self.maxResults = maxResults
+            self.metadataConfig = metadataConfig
             self.profileId = profileId
+            self.recommenderFilters = recommenderFilters
             self.recommenderName = recommenderName
+            self.recommenderPromotionalFilters = recommenderPromotionalFilters
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.candidateIds, forKey: .candidateIds)
             try container.encodeIfPresent(self.context, forKey: .context)
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.metadataConfig, forKey: .metadataConfig)
             request.encodePath(self.profileId, key: "ProfileId")
+            try container.encodeIfPresent(self.recommenderFilters, forKey: .recommenderFilters)
             try container.encode(self.recommenderName, forKey: .recommenderName)
+            try container.encodeIfPresent(self.recommenderPromotionalFilters, forKey: .recommenderPromotionalFilters)
         }
 
         public func validate(name: String) throws {
+            try self.candidateIds?.forEach {
+                try validate($0, name: "candidateIds[]", parent: name, max: 255)
+                try validate($0, name: "candidateIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.candidateIds, name: "candidateIds", parent: name, max: 50)
             try self.context?.forEach {
                 try validate($0.key, name: "context.key", parent: name, max: 64)
                 try validate($0.key, name: "context.key", parent: name, min: 1)
@@ -5594,18 +5753,31 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.metadataConfig?.validate(name: "\(name).metadataConfig")
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+            try self.recommenderFilters?.forEach {
+                try $0.validate(name: "\(name).recommenderFilters[]")
+            }
+            try self.validate(self.recommenderFilters, name: "recommenderFilters", parent: name, max: 1)
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.recommenderPromotionalFilters?.forEach {
+                try $0.validate(name: "\(name).recommenderPromotionalFilters[]")
+            }
+            try self.validate(self.recommenderPromotionalFilters, name: "recommenderPromotionalFilters", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case candidateIds = "CandidateIds"
             case context = "Context"
             case maxResults = "MaxResults"
+            case metadataConfig = "MetadataConfig"
+            case recommenderFilters = "RecommenderFilters"
             case recommenderName = "RecommenderName"
+            case recommenderPromotionalFilters = "RecommenderPromotionalFilters"
         }
     }
 
@@ -5620,6 +5792,75 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case recommendations = "Recommendations"
+        }
+    }
+
+    public struct GetRecommenderFilterRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the recommender filter to retrieve.
+        public let recommenderFilterName: String
+
+        @inlinable
+        public init(domainName: String, recommenderFilterName: String) {
+            self.domainName = domainName
+            self.recommenderFilterName = recommenderFilterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderFilterName, key: "RecommenderFilterName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, max: 63)
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, min: 1)
+            try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRecommenderFilterResponse: AWSDecodableShape {
+        /// The timestamp of when the recommender filter was created.
+        public let createdAt: Date
+        /// The description of the recommender filter.
+        public let description: String?
+        /// If the recommender filter failed, provides the reason for the failure.
+        public let failureReason: String?
+        /// The filter expression that defines which items to include or exclude from recommendations.
+        public let recommenderFilterExpression: String
+        /// The name of the recommender filter.
+        public let recommenderFilterName: String
+        /// The status of the recommender filter.
+        public let status: RecommenderFilterStatus
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, failureReason: String? = nil, recommenderFilterExpression: String, recommenderFilterName: String, status: RecommenderFilterStatus, tags: [String: String]) {
+            self.createdAt = createdAt
+            self.description = description
+            self.failureReason = failureReason
+            self.recommenderFilterExpression = recommenderFilterExpression
+            self.recommenderFilterName = recommenderFilterName
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case failureReason = "FailureReason"
+            case recommenderFilterExpression = "RecommenderFilterExpression"
+            case recommenderFilterName = "RecommenderFilterName"
+            case status = "Status"
+            case tags = "Tags"
         }
     }
 
@@ -6461,6 +6702,25 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case datetimeTypeFieldName = "DatetimeTypeFieldName"
+        }
+    }
+
+    public struct InferenceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum provisioned transactions per second (TPS) that the recommender supports. The default value is 1. A high MinProvisionedTPS will increase your cost.
+        public let minProvisionedTPS: Int?
+
+        @inlinable
+        public init(minProvisionedTPS: Int? = nil) {
+            self.minProvisionedTPS = minProvisionedTPS
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, max: 500)
+            try self.validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minProvisionedTPS = "MinProvisionedTPS"
         }
     }
 
@@ -7784,6 +8044,60 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListRecommenderFiltersRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of recommender filters to return in the response. The default value is 100.
+        public let maxResults: Int?
+        /// A token received from a previous ListRecommenderFilters call to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRecommenderFiltersResponse: AWSDecodableShape {
+        /// A token to retrieve the next page of results. Null if there are no more results to retrieve.
+        public let nextToken: String?
+        /// A list of recommender filters and their properties in the specified domain.
+        public let recommenderFilters: [RecommenderFilterSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, recommenderFilters: [RecommenderFilterSummary]? = nil) {
+            self.nextToken = nextToken
+            self.recommenderFilters = recommenderFilters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommenderFilters = "RecommenderFilters"
+        }
+    }
+
     public struct ListRecommenderRecipesRequest: AWSEncodableShape {
         /// The maximum number of recommender recipes to return in the response. The default value is 100.
         public let maxResults: Int?
@@ -8374,6 +8688,29 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+        }
+    }
+
+    public struct MetadataConfig: AWSEncodableShape {
+        /// A list of metadata column names from your Items dataset to include in the recommendation response.
+        public let metadataColumns: [String]?
+
+        @inlinable
+        public init(metadataColumns: [String]? = nil) {
+            self.metadataColumns = metadataColumns
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataColumns?.forEach {
+                try validate($0, name: "metadataColumns[]", parent: name, max: 150)
+                try validate($0, name: "metadataColumns[]", parent: name, min: 1)
+            }
+            try self.validate(self.metadataColumns, name: "metadataColumns", parent: name, max: 10)
+            try self.validate(self.metadataColumns, name: "metadataColumns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataColumns = "MetadataColumns"
         }
     }
 
@@ -9579,25 +9916,141 @@ extension CustomerProfiles {
 
     public struct RecommenderConfig: AWSEncodableShape & AWSDecodableShape {
         /// Configuration settings for how the recommender processes and uses events.
-        public let eventsConfig: EventsConfig
+        public let eventsConfig: EventsConfig?
+        /// Configuration settings for how the recommender handles inference requests.
+        public let inferenceConfig: InferenceConfig?
         /// How often the recommender should retrain its model with new data.
         public let trainingFrequency: Int?
 
         @inlinable
-        public init(eventsConfig: EventsConfig, trainingFrequency: Int? = nil) {
+        public init(eventsConfig: EventsConfig? = nil, inferenceConfig: InferenceConfig? = nil, trainingFrequency: Int? = nil) {
             self.eventsConfig = eventsConfig
+            self.inferenceConfig = inferenceConfig
             self.trainingFrequency = trainingFrequency
         }
 
         public func validate(name: String) throws {
-            try self.eventsConfig.validate(name: "\(name).eventsConfig")
-            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, max: 7)
-            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, min: 7)
+            try self.eventsConfig?.validate(name: "\(name).eventsConfig")
+            try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
+            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, max: 30)
+            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventsConfig = "EventsConfig"
+            case inferenceConfig = "InferenceConfig"
             case trainingFrequency = "TrainingFrequency"
+        }
+    }
+
+    public struct RecommenderFilter: AWSEncodableShape {
+        /// The name of the recommender filter to apply.
+        public let name: String?
+        /// The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.
+        public let values: [String: String]?
+
+        @inlinable
+        public init(name: String? = nil, values: [String: String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.values?.forEach {
+                try validate($0.key, name: "values.key", parent: name, max: 50)
+                try validate($0.key, name: "values.key", parent: name, pattern: "^[A-Za-z0-9_]+$")
+                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct RecommenderFilterSummary: AWSDecodableShape {
+        /// The timestamp when the recommender filter was created.
+        public let createdAt: Date?
+        /// A description of the recommender filter's purpose and characteristics.
+        public let description: String?
+        /// If the recommender filter is in a failed state, provides the reason for the failure.
+        public let failureReason: String?
+        /// The filter expression that defines which items to include or exclude from recommendations.
+        public let recommenderFilterExpression: String?
+        /// The name of the recommender filter.
+        public let recommenderFilterName: String?
+        /// The current operational status of the recommender filter.
+        public let status: RecommenderFilterStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, recommenderFilterExpression: String? = nil, recommenderFilterName: String? = nil, status: RecommenderFilterStatus? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.failureReason = failureReason
+            self.recommenderFilterExpression = recommenderFilterExpression
+            self.recommenderFilterName = recommenderFilterName
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case failureReason = "FailureReason"
+            case recommenderFilterExpression = "RecommenderFilterExpression"
+            case recommenderFilterName = "RecommenderFilterName"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct RecommenderPromotionalFilter: AWSEncodableShape {
+        /// The name of the recommender filter to use for the promotion.
+        public let name: String?
+        /// The percentage of recommended items to apply the promotion to.
+        public let percentPromotedItems: Int?
+        /// The name of the promotion.
+        public let promotionName: String?
+        /// The values to use when promoting items. For each placeholder parameter in your promotion's filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.
+        public let values: [String: String]?
+
+        @inlinable
+        public init(name: String? = nil, percentPromotedItems: Int? = nil, promotionName: String? = nil, values: [String: String]? = nil) {
+            self.name = name
+            self.percentPromotedItems = percentPromotedItems
+            self.promotionName = promotionName
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.percentPromotedItems, name: "percentPromotedItems", parent: name, max: 100)
+            try self.validate(self.percentPromotedItems, name: "percentPromotedItems", parent: name, min: 1)
+            try self.validate(self.promotionName, name: "promotionName", parent: name, max: 64)
+            try self.validate(self.promotionName, name: "promotionName", parent: name, min: 1)
+            try self.validate(self.promotionName, name: "promotionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.values?.forEach {
+                try validate($0.key, name: "values.key", parent: name, max: 50)
+                try validate($0.key, name: "values.key", parent: name, pattern: "^[A-Za-z0-9_]+$")
+                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, max: 1000)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case percentPromotedItems = "PercentPromotedItems"
+            case promotionName = "PromotionName"
+            case values = "Values"
         }
     }
 

@@ -2168,6 +2168,8 @@ public struct SageMaker: AWSService {
     ///   - automaticModelRegistration: Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True. To disable automatic model registration, set this value to False. If not specified, AutomaticModelRegistration defaults to False.
     ///   - mlflowVersion: The version of MLflow that the tracking server uses. To see which MLflow versions are available to use, see How it works.
     ///   - roleArn: The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Amazon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see Set up IAM permissions for MLflow.
+    ///   - s3BucketOwnerAccountId: Expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage. Defaults to caller's account ID if not provided.
+    ///   - s3BucketOwnerVerification: Enable Amazon S3 Ownership checks when interacting with Amazon S3 buckets from a SageMaker Managed MLflow Tracking Server. Defaults to True if not provided.
     ///   - tags: Tags consisting of key-value pairs used to manage metadata for the tracking server.
     ///   - trackingServerName: A unique string identifying the tracking server name. This string is part of the tracking server ARN.
     ///   - trackingServerSize: The size of the tracking server you want to create. You can choose between "Small", "Medium", and "Large". The default MLflow Tracking Server configuration size is "Small". You can choose a size depending on the projected use of the tracking server such as the volume of data logged, number of users, and frequency of use.  We recommend using a small tracking server for teams of up to 25 users, a medium tracking server for teams of up to 50 users, and a large tracking server for teams of up to 100 users.
@@ -2179,6 +2181,8 @@ public struct SageMaker: AWSService {
         automaticModelRegistration: Bool? = nil,
         mlflowVersion: String? = nil,
         roleArn: String? = nil,
+        s3BucketOwnerAccountId: String? = nil,
+        s3BucketOwnerVerification: Bool? = nil,
         tags: [Tag]? = nil,
         trackingServerName: String? = nil,
         trackingServerSize: TrackingServerSize? = nil,
@@ -2190,6 +2194,8 @@ public struct SageMaker: AWSService {
             automaticModelRegistration: automaticModelRegistration, 
             mlflowVersion: mlflowVersion, 
             roleArn: roleArn, 
+            s3BucketOwnerAccountId: s3BucketOwnerAccountId, 
+            s3BucketOwnerVerification: s3BucketOwnerVerification, 
             tags: tags, 
             trackingServerName: trackingServerName, 
             trackingServerSize: trackingServerSize, 
@@ -7471,6 +7477,41 @@ public struct SageMaker: AWSService {
         return try await self.describeTrainingPlan(input, logger: logger)
     }
 
+    /// Retrieves the extension history for a specified training plan. The response includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information.
+    @Sendable
+    @inlinable
+    public func describeTrainingPlanExtensionHistory(_ input: DescribeTrainingPlanExtensionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrainingPlanExtensionHistoryResponse {
+        try await self.client.execute(
+            operation: "DescribeTrainingPlanExtensionHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the extension history for a specified training plan. The response includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of extensions to return in the response.
+    ///   - nextToken: A token to continue pagination if more results are available.
+    ///   - trainingPlanArn: The Amazon Resource Name (ARN); of the training plan to retrieve extension history for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTrainingPlanExtensionHistory(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        trainingPlanArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTrainingPlanExtensionHistoryResponse {
+        let input = DescribeTrainingPlanExtensionHistoryRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            trainingPlanArn: trainingPlanArn
+        )
+        return try await self.describeTrainingPlanExtensionHistory(input, logger: logger)
+    }
+
     /// Returns information about a transform job.
     @Sendable
     @inlinable
@@ -7765,6 +7806,35 @@ public struct SageMaker: AWSService {
         let input = EnableSagemakerServicecatalogPortfolioInput(
         )
         return try await self.enableSagemakerServicecatalogPortfolio(input, logger: logger)
+    }
+
+    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the  SearchTrainingPlanOfferings  API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the  DescribeTrainingPlanExtensionHistory  API.
+    @Sendable
+    @inlinable
+    public func extendTrainingPlan(_ input: ExtendTrainingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtendTrainingPlanResponse {
+        try await self.client.execute(
+            operation: "ExtendTrainingPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads. To find available extension offerings, use the  SearchTrainingPlanOfferings  API with the TrainingPlanArn parameter. To view the history of extensions for a training plan, use the  DescribeTrainingPlanExtensionHistory  API.
+    ///
+    /// Parameters:
+    ///   - trainingPlanExtensionOfferingId: The unique identifier of the extension offering to purchase. You can retrieve this ID from the TrainingPlanExtensionOfferings in the response of the SearchTrainingPlanOfferings API.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func extendTrainingPlan(
+        trainingPlanExtensionOfferingId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExtendTrainingPlanResponse {
+        let input = ExtendTrainingPlanRequest(
+            trainingPlanExtensionOfferingId: trainingPlanExtensionOfferingId
+        )
+        return try await self.extendTrainingPlan(input, logger: logger)
     }
 
     /// Describes a fleet.
@@ -12503,6 +12573,7 @@ public struct SageMaker: AWSService {
     ///   - instanceType: The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
     ///   - startTimeAfter: A filter to search for training plan offerings with a start time after a specified date.
     ///   - targetResources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
+    ///   - trainingPlanArn: The Amazon Resource Name (ARN); of an existing training plan to search for extension offerings. When specified, the API returns extension offerings that can be used to extend the specified training plan.
     ///   - ultraServerCount: The number of UltraServers to search for.
     ///   - ultraServerType: The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
     ///   - logger: Logger use during operation
@@ -12514,6 +12585,7 @@ public struct SageMaker: AWSService {
         instanceType: ReservedCapacityInstanceType? = nil,
         startTimeAfter: Date? = nil,
         targetResources: [SageMakerResourceName]? = nil,
+        trainingPlanArn: String? = nil,
         ultraServerCount: Int? = nil,
         ultraServerType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -12525,6 +12597,7 @@ public struct SageMaker: AWSService {
             instanceType: instanceType, 
             startTimeAfter: startTimeAfter, 
             targetResources: targetResources, 
+            trainingPlanArn: trainingPlanArn, 
             ultraServerCount: ultraServerCount, 
             ultraServerType: ultraServerType
         )
@@ -14403,6 +14476,8 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - artifactStoreUri: The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow Tracking Server.
     ///   - automaticModelRegistration: Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True. To disable automatic model registration, set this value to False. If not specified, AutomaticModelRegistration defaults to False
+    ///   - s3BucketOwnerAccountId: The new expected Amazon Web Services account ID that owns the Amazon S3 bucket for artifact storage.
+    ///   - s3BucketOwnerVerification: Whether to enable or disable Amazon S3 Bucket Owenrship Verifaction whenever the MLflow Tracking Server interacts with Amazon Amazon S3.
     ///   - trackingServerName: The name of the MLflow Tracking Server to update.
     ///   - trackingServerSize: The new size for the MLflow Tracking Server.
     ///   - weeklyMaintenanceWindowStart: The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30.
@@ -14411,6 +14486,8 @@ public struct SageMaker: AWSService {
     public func updateMlflowTrackingServer(
         artifactStoreUri: String? = nil,
         automaticModelRegistration: Bool? = nil,
+        s3BucketOwnerAccountId: String? = nil,
+        s3BucketOwnerVerification: Bool? = nil,
         trackingServerName: String? = nil,
         trackingServerSize: TrackingServerSize? = nil,
         weeklyMaintenanceWindowStart: String? = nil,
@@ -14419,6 +14496,8 @@ public struct SageMaker: AWSService {
         let input = UpdateMlflowTrackingServerRequest(
             artifactStoreUri: artifactStoreUri, 
             automaticModelRegistration: automaticModelRegistration, 
+            s3BucketOwnerAccountId: s3BucketOwnerAccountId, 
+            s3BucketOwnerVerification: s3BucketOwnerVerification, 
             trackingServerName: trackingServerName, 
             trackingServerSize: trackingServerSize, 
             weeklyMaintenanceWindowStart: weeklyMaintenanceWindowStart
@@ -15267,6 +15346,43 @@ extension SageMaker {
             maxResults: maxResults
         )
         return self.createHubContentPresignedUrlsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeTrainingPlanExtensionHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeTrainingPlanExtensionHistoryPaginator(
+        _ input: DescribeTrainingPlanExtensionHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeTrainingPlanExtensionHistoryRequest, DescribeTrainingPlanExtensionHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.describeTrainingPlanExtensionHistory,
+            inputKey: \DescribeTrainingPlanExtensionHistoryRequest.nextToken,
+            outputKey: \DescribeTrainingPlanExtensionHistoryResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeTrainingPlanExtensionHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of extensions to return in the response.
+    ///   - trainingPlanArn: The Amazon Resource Name (ARN); of the training plan to retrieve extension history for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeTrainingPlanExtensionHistoryPaginator(
+        maxResults: Int? = nil,
+        trainingPlanArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeTrainingPlanExtensionHistoryRequest, DescribeTrainingPlanExtensionHistoryResponse> {
+        let input = DescribeTrainingPlanExtensionHistoryRequest(
+            maxResults: maxResults, 
+            trainingPlanArn: trainingPlanArn
+        )
+        return self.describeTrainingPlanExtensionHistoryPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listActions(_:logger:)``.
@@ -19607,6 +19723,17 @@ extension SageMaker.CreateHubContentPresignedUrlsRequest: AWSPaginateToken {
             hubName: self.hubName,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SageMaker.DescribeTrainingPlanExtensionHistoryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.DescribeTrainingPlanExtensionHistoryRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            trainingPlanArn: self.trainingPlanArn
         )
     }
 }

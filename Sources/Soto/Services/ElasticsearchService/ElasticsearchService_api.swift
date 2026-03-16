@@ -336,6 +336,7 @@ public struct ElasticsearchService: AWSService {
     ///   - advancedSecurityOptions: Specifies advanced security options.
     ///   - autoTuneOptions: Specifies Auto-Tune options.
     ///   - cognitoOptions: Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
+    ///   - deploymentStrategyOptions: Specifies the deployment strategy options.
     ///   - domainEndpointOptions: Options to specify configuration that will be applied to the domain endpoint.
     ///   - domainName: The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a lowercase letter and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
     ///   - ebsOptions: Options to enable, disable and specify the type and size of EBS storage volumes.
@@ -355,6 +356,7 @@ public struct ElasticsearchService: AWSService {
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: AutoTuneOptionsInput? = nil,
         cognitoOptions: CognitoOptions? = nil,
+        deploymentStrategyOptions: DeploymentStrategyOptions? = nil,
         domainEndpointOptions: DomainEndpointOptions? = nil,
         domainName: String,
         ebsOptions: EBSOptions? = nil,
@@ -374,6 +376,7 @@ public struct ElasticsearchService: AWSService {
             advancedSecurityOptions: advancedSecurityOptions, 
             autoTuneOptions: autoTuneOptions, 
             cognitoOptions: cognitoOptions, 
+            deploymentStrategyOptions: deploymentStrategyOptions, 
             domainEndpointOptions: domainEndpointOptions, 
             domainName: domainName, 
             ebsOptions: ebsOptions, 
@@ -1677,6 +1680,7 @@ public struct ElasticsearchService: AWSService {
     ///   - advancedSecurityOptions: Specifies advanced security options.
     ///   - autoTuneOptions: Specifies Auto-Tune options.
     ///   - cognitoOptions: Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
+    ///   - deploymentStrategyOptions: Specifies the deployment strategy options.
     ///   - domainEndpointOptions: Options to specify configuration that will be applied to the domain endpoint.
     ///   - domainName: The name of the Elasticsearch domain that you are updating.
     ///   - dryRun:  This flag, when set to True, specifies whether the UpdateElasticsearchDomain request should return the results of validation checks without actually applying the change. This flag, when set to True, specifies the deployment mechanism through which the update shall be applied on the domain. This will not actually perform the Update.
@@ -1695,6 +1699,7 @@ public struct ElasticsearchService: AWSService {
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
         autoTuneOptions: AutoTuneOptions? = nil,
         cognitoOptions: CognitoOptions? = nil,
+        deploymentStrategyOptions: DeploymentStrategyOptions? = nil,
         domainEndpointOptions: DomainEndpointOptions? = nil,
         domainName: String,
         dryRun: Bool? = nil,
@@ -1713,6 +1718,7 @@ public struct ElasticsearchService: AWSService {
             advancedSecurityOptions: advancedSecurityOptions, 
             autoTuneOptions: autoTuneOptions, 
             cognitoOptions: cognitoOptions, 
+            deploymentStrategyOptions: deploymentStrategyOptions, 
             domainEndpointOptions: domainEndpointOptions, 
             domainName: domainName, 
             dryRun: dryRun, 

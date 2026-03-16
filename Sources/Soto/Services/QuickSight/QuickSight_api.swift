@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS QuickSight service.
 ///
-/// Amazon Quick Suite API Reference Amazon Quick Sight is a fully managed, serverless business intelligence service for the Amazon Web Services Cloud that makes it easy to extend data and insights to every user in your organization. This API reference contains documentation for a programming interface that you can use to manage Amazon Quick Sight.
+/// Amazon Quick API Reference Amazon Quick Sight is a fully managed, serverless business intelligence service for the Amazon Web Services Cloud that makes it easy to extend data and insights to every user in your organization. This API reference contains documentation for a programming interface that you can use to manage Amazon Quick Sight.
 public struct QuickSight: AWSService {
     // MARK: Member variables
 
@@ -438,7 +438,7 @@ public struct QuickSight: AWSService {
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
     ///   - brandDefinition: The definition of the brand.
-    ///   - brandId: The ID of the Quick Suite brand.
+    ///   - brandId: The ID of the Quick brand.
     ///   - tags: A map of the key-value pairs that are assigned to the brand.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1589,7 +1589,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Quick Suite brand.
+    ///   - brandId: The ID of the Quick brand.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteBrand(
@@ -2897,7 +2897,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Quick Suite brand.
+    ///   - brandId: The ID of the Quick brand.
     ///   - versionId: The ID of the specific version. The default value is the latest version.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2961,7 +2961,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Quick Suite brand.
+    ///   - brandId: The ID of the Quick brand.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeBrandPublishedVersion(
@@ -3895,7 +3895,7 @@ public struct QuickSight: AWSService {
         return try await self.describeRoleCustomPermission(input, logger: logger)
     }
 
-    /// Describes the self-upgrade configuration for a Quick Suite account.
+    /// Describes the self-upgrade configuration for a Quick account.
     @Sendable
     @inlinable
     public func describeSelfUpgradeConfiguration(_ input: DescribeSelfUpgradeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSelfUpgradeConfigurationResponse {
@@ -3908,11 +3908,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes the self-upgrade configuration for a Quick Suite account.
+    /// Describes the self-upgrade configuration for a Quick account.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration.
-    ///   - namespace: The Quick Suite namespace that you want to describe the Quick Suite self-upgrade configuration for.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration.
+    ///   - namespace: The Quick namespace that you want to describe the Quick self-upgrade configuration for.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeSelfUpgradeConfiguration(
@@ -4382,7 +4382,7 @@ public struct QuickSight: AWSService {
         return try await self.describeVPCConnection(input, logger: logger)
     }
 
-    /// Generates an embed URL that you can use to embed an Amazon Quick Suite dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick Suite.   For more information, see Embedded Analytics in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Suite Developer Portal.
+    /// Generates an embed URL that you can use to embed an Amazon Quick dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick.   For more information, see Embedded Analytics in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Developer Portal.
     @Sendable
     @inlinable
     public func generateEmbedUrlForAnonymousUser(_ input: GenerateEmbedUrlForAnonymousUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForAnonymousUserResponse {
@@ -4395,16 +4395,16 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates an embed URL that you can use to embed an Amazon Quick Suite dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick Suite.   For more information, see Embedded Analytics in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Suite Developer Portal.
+    /// Generates an embed URL that you can use to embed an Amazon Quick dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick.   For more information, see Embedded Analytics in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Developer Portal.
     ///
     /// Parameters:
     ///   - allowedDomains: The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     ///   - authorizedResourceArns: The Amazon Resource Names (ARNs) for the Quick Sight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
     ///   - awsAccountId: The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
     ///   - experienceConfiguration: The configuration of the experience that you are embedding.
-    ///   - namespace: The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon Quick Suite custom namespace, set this to default.
+    ///   - namespace: The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon Quick custom namespace, set this to default.
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
-    ///   - sessionTags: Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser,   Treat SessionTags as security credentials. Do not expose SessionTags to end users or client-side code.   Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify.   Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants.   Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access.   Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tags in the Amazon Quick Suite User Guide.
+    ///   - sessionTags: Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser,   Treat SessionTags as security credentials. Do not expose SessionTags to end users or client-side code.   Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify.   Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants.   Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access.   Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tags in the Amazon Quick User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func generateEmbedUrlForAnonymousUser(
@@ -4429,7 +4429,7 @@ public struct QuickSight: AWSService {
         return try await self.generateEmbedUrlForAnonymousUser(input, logger: logger)
     }
 
-    /// Generates an embed URL that you can use to embed an Amazon Quick Suite experience in your website. This action can be used for any type of user registered in an Amazon Quick Suite account. Before you use this action, make sure that you have configured the relevant Amazon Quick Suite resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick Suite.   For more information, see Embedded Analytics in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Suite Developer Portal.
+    /// Generates an embed URL that you can use to embed an Amazon Quick experience in your website. This action can be used for any type of user registered in an Amazon Quick account. Before you use this action, make sure that you have configured the relevant Amazon Quick resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick.   For more information, see Embedded Analytics in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Developer Portal.
     @Sendable
     @inlinable
     public func generateEmbedUrlForRegisteredUser(_ input: GenerateEmbedUrlForRegisteredUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForRegisteredUserResponse {
@@ -4442,12 +4442,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates an embed URL that you can use to embed an Amazon Quick Suite experience in your website. This action can be used for any type of user registered in an Amazon Quick Suite account. Before you use this action, make sure that you have configured the relevant Amazon Quick Suite resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick Suite.   For more information, see Embedded Analytics in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Suite Developer Portal.
+    /// Generates an embed URL that you can use to embed an Amazon Quick experience in your website. This action can be used for any type of user registered in an Amazon Quick account. Before you use this action, make sure that you have configured the relevant Amazon Quick resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon Quick.   For more information, see Embedded Analytics in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Developer Portal.
     ///
     /// Parameters:
     ///   - allowedDomains: The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     ///   - awsAccountId: The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
-    ///   - experienceConfiguration: The experience that you want to embed. For registered users, you can embed Quick Suite dashboards, Amazon Quick Sight visuals, the Amazon Quick Sight Q search bar, the Amazon Quick Sight Generative Q&A experience, or the entire Amazon Quick Sight console.
+    ///   - experienceConfiguration: The experience that you want to embed. For registered users, you can embed Quick dashboards, Amazon Quick Sight visuals, the Amazon Quick Sight Q search bar, the Amazon Quick Sight Generative Q&A experience, or the entire Amazon Quick Sight console.
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
     ///   - userArn: The Amazon Resource Name for the registered user.
     ///   - logger: Logger use during operation
@@ -4508,7 +4508,7 @@ public struct QuickSight: AWSService {
         return try await self.generateEmbedUrlForRegisteredUserWithIdentity(input, logger: logger)
     }
 
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Quick Suite.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Suite Developer Portal.
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Quick.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Developer Portal.
     @Sendable
     @inlinable
     public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardEmbedUrlResponse {
@@ -4521,10 +4521,10 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Quick Suite.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Suite Developer Portal.
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Quick.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon Quick User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Developer Portal.
     ///
     /// Parameters:
-    ///   - additionalDashboardIds: A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick Suite or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+    ///   - additionalDashboardIds: A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
     ///   - awsAccountId: The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
     ///   - dashboardId: The ID for the dashboard, also added to the Identity and Access Management (IAM) policy.
     ///   - identityType: The authentication method that the user uses to sign in.
@@ -4533,7 +4533,7 @@ public struct QuickSight: AWSService {
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be 15-600 minutes.
     ///   - statePersistenceEnabled: Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
     ///   - undoRedoDisabled: Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
-    ///   - userArn: The Amazon Quick Suite user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon Quick Suite users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
+    ///   - userArn: The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon Quick users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDashboardEmbedUrl(
@@ -4666,7 +4666,7 @@ public struct QuickSight: AWSService {
         return try await self.getIdentityContext(input, logger: logger)
     }
 
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick Suite User Guide:    Embedding Analytics     Customizing Access to the Amazon Quick Suite Console
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick User Guide:    Embedding Analytics     Customizing Access to the Amazon Quick Console
     @Sendable
     @inlinable
     public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEmbedUrlResponse {
@@ -4679,13 +4679,13 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick Suite User Guide:    Embedding Analytics     Customizing Access to the Amazon Quick Suite Console
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick User Guide:    Embedding Analytics     Customizing Access to the Amazon Quick Console
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account associated with your Amazon Quick Sight subscription.
     ///   - entryPoint: The URL you use to access the embedded session. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId - where DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard    /analyses/AnalysisId - where AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis
     ///   - sessionLifetimeInMinutes: How many minutes the session is valid. The session lifetime must be 15-600 minutes.
-    ///   - userArn: The Amazon Quick Suite user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon Quick Suite users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
+    ///   - userArn: The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon Quick users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
     ///   - logger: Logger use during operation
     @inlinable
     public func getSessionEmbedUrl(
@@ -5565,7 +5565,7 @@ public struct QuickSight: AWSService {
         return try await self.listRoleMemberships(input, logger: logger)
     }
 
-    /// Lists all self-upgrade requests for a Quick Suite account.
+    /// Lists all self-upgrade requests for a Quick account.
     @Sendable
     @inlinable
     public func listSelfUpgrades(_ input: ListSelfUpgradesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSelfUpgradesResponse {
@@ -5578,12 +5578,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Lists all self-upgrade requests for a Quick Suite account.
+    /// Lists all self-upgrade requests for a Quick account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the self-upgrade requests.
     ///   - maxResults: The maximum number of results to return.
-    ///   - namespace: The Quick Suite namespace for the self-upgrade requests.
+    ///   - namespace: The Quick namespace for the self-upgrade requests.
     ///   - nextToken: The token for the next set of results, or null if there are no more results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6072,7 +6072,7 @@ public struct QuickSight: AWSService {
         return try await self.listVPCConnections(input, logger: logger)
     }
 
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick Suite with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Quick Suite resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Quick resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
     @Sendable
     @inlinable
     public func predictQAResults(_ input: PredictQAResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PredictQAResultsResponse {
@@ -6085,7 +6085,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick Suite with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Quick Suite resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Quick with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Quick resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that the user wants to execute Predict QA results in.
@@ -6559,7 +6559,7 @@ public struct QuickSight: AWSService {
         return try await self.searchGroups(input, logger: logger)
     }
 
-    /// Searches for any Q topic that exists in an Quick Suite account.
+    /// Searches for any Q topic that exists in an Quick account.
     @Sendable
     @inlinable
     public func searchTopics(_ input: SearchTopicsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTopicsResponse {
@@ -6572,7 +6572,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Searches for any Q topic that exists in an Quick Suite account.
+    /// Searches for any Q topic that exists in an Quick account.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to find.
@@ -7145,7 +7145,7 @@ public struct QuickSight: AWSService {
         return try await self.updateAnalysisPermissions(input, logger: logger)
     }
 
-    /// Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
+    /// Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center.
     @Sendable
     @inlinable
     public func updateApplicationWithTokenExchangeGrant(_ input: UpdateApplicationWithTokenExchangeGrantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationWithTokenExchangeGrantResponse {
@@ -7158,11 +7158,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
+    /// Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account to be updated with a token exchange grant.
-    ///   - namespace: The namespace of the Quick Suite application.
+    ///   - namespace: The namespace of the Quick application.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplicationWithTokenExchangeGrant(
@@ -7195,7 +7195,7 @@ public struct QuickSight: AWSService {
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
     ///   - brandDefinition: The definition of the brand.
-    ///   - brandId: The ID of the Quick Suite brand.
+    ///   - brandId: The ID of the Quick brand.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBrand(
@@ -7261,7 +7261,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that owns the brand.
-    ///   - brandId: The ID of the Quick Suite brand.
+    ///   - brandId: The ID of the Quick brand.
     ///   - versionId: The ID of the published version.
     ///   - logger: Logger use during operation
     @inlinable
@@ -8048,7 +8048,7 @@ public struct QuickSight: AWSService {
         return try await self.updateKeyRegistration(input, logger: logger)
     }
 
-    ///  This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:   Dashboards can be shared publicly   This setting affects your entire Amazon Web Services account and all Quick Sight users    Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured.  Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see Using Quick Suite with IAM in the Amazon Quick Sight User Guide.
+    ///  This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:   Dashboards can be shared publicly   This setting affects your entire Amazon Web Services account and all Quick Sight users    Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured.  Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see Using Quick with IAM in the Amazon Quick Sight User Guide.
     @Sendable
     @inlinable
     public func updatePublicSharingSettings(_ input: UpdatePublicSharingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublicSharingSettingsResponse {
@@ -8061,11 +8061,11 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    ///  This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:   Dashboards can be shared publicly   This setting affects your entire Amazon Web Services account and all Quick Sight users    Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured.  Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see Using Quick Suite with IAM in the Amazon Quick Sight User Guide.
+    ///  This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:   Dashboards can be shared publicly   This setting affects your entire Amazon Web Services account and all Quick Sight users    Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured.  Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see Using Quick with IAM in the Amazon Quick Sight User Guide.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID associated with your Amazon Quick Sight subscription.
-    ///   - publicSharingEnabled: A Boolean value that indicates whether public sharing is turned on for an Quick Suite account.
+    ///   - publicSharingEnabled: A Boolean value that indicates whether public sharing is turned on for an Quick account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePublicSharingSettings(
@@ -8249,7 +8249,7 @@ public struct QuickSight: AWSService {
         return try await self.updateSPICECapacityConfiguration(input, logger: logger)
     }
 
-    /// Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
+    /// Updates a self-upgrade request for a Quick user by approving, denying, or verifying the request.
     @Sendable
     @inlinable
     public func updateSelfUpgrade(_ input: UpdateSelfUpgradeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSelfUpgradeResponse {
@@ -8262,12 +8262,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
+    /// Updates a self-upgrade request for a Quick user by approving, denying, or verifying the request.
     ///
     /// Parameters:
     ///   - action: The action to perform on the self-upgrade request. Valid values are APPROVE, DENY, or VERIFY.
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the self-upgrade request.
-    ///   - namespace: The Quick Suite namespace for the self-upgrade request.
+    ///   - namespace: The Quick namespace for the self-upgrade request.
     ///   - upgradeRequestId: The ID of the self-upgrade request to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -8287,7 +8287,7 @@ public struct QuickSight: AWSService {
         return try await self.updateSelfUpgrade(input, logger: logger)
     }
 
-    /// Updates the self-upgrade configuration for a Quick Suite account.
+    /// Updates the self-upgrade configuration for a Quick account.
     @Sendable
     @inlinable
     public func updateSelfUpgradeConfiguration(_ input: UpdateSelfUpgradeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSelfUpgradeConfigurationResponse {
@@ -8300,12 +8300,12 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates the self-upgrade configuration for a Quick Suite account.
+    /// Updates the self-upgrade configuration for a Quick account.
     ///
     /// Parameters:
-    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration that you want to update.
-    ///   - namespace: The Quick Suite namespace that you want to update the Quick Suite self-upgrade configuration for.
-    ///   - selfUpgradeStatus: The self-upgrade status that you want to set for the Quick Suite account.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration that you want to update.
+    ///   - namespace: The Quick namespace that you want to update the Quick self-upgrade configuration for.
+    ///   - selfUpgradeStatus: The self-upgrade status that you want to set for the Quick account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSelfUpgradeConfiguration(

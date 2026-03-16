@@ -3156,7 +3156,7 @@ extension IVSRealTime {
             try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
             try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
             try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
-            try self.validate(self.reconnectWindowSeconds, name: "reconnectWindowSeconds", parent: name, max: 60)
+            try self.validate(self.reconnectWindowSeconds, name: "reconnectWindowSeconds", parent: name, max: 300)
             try self.validate(self.reconnectWindowSeconds, name: "reconnectWindowSeconds", parent: name, min: 0)
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, max: 128)
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, min: 1)

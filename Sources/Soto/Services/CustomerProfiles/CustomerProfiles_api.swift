@@ -631,6 +631,47 @@ public struct CustomerProfiles: AWSService {
         return try await self.createRecommender(input, logger: logger)
     }
 
+    /// Creates a recommender filter. A recommender filter specifies which items to include or exclude from recommendations.
+    @Sendable
+    @inlinable
+    public func createRecommenderFilter(_ input: CreateRecommenderFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecommenderFilterResponse {
+        try await self.client.execute(
+            operation: "CreateRecommenderFilter", 
+            path: "/domains/{DomainName}/recommender-filters/{RecommenderFilterName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a recommender filter. A recommender filter specifies which items to include or exclude from recommendations.
+    ///
+    /// Parameters:
+    ///   - description: A description of the recommender filter.
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderFilterExpression: The filter expression that defines which items to include or exclude from recommendations.
+    ///   - recommenderFilterName: The name of the recommender filter. The name must be unique within the domain.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRecommenderFilter(
+        description: String? = nil,
+        domainName: String,
+        recommenderFilterExpression: String,
+        recommenderFilterName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRecommenderFilterResponse {
+        let input = CreateRecommenderFilterRequest(
+            description: description, 
+            domainName: domainName, 
+            recommenderFilterExpression: recommenderFilterExpression, 
+            recommenderFilterName: recommenderFilterName, 
+            tags: tags
+        )
+        return try await self.createRecommenderFilter(input, logger: logger)
+    }
+
     /// Creates a segment definition associated to the given domain.
     @Sendable
     @inlinable
@@ -1189,6 +1230,38 @@ public struct CustomerProfiles: AWSService {
             recommenderName: recommenderName
         )
         return try await self.deleteRecommender(input, logger: logger)
+    }
+
+    /// Deletes a recommender filter from a domain.
+    @Sendable
+    @inlinable
+    public func deleteRecommenderFilter(_ input: DeleteRecommenderFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecommenderFilterResponse {
+        try await self.client.execute(
+            operation: "DeleteRecommenderFilter", 
+            path: "/domains/{DomainName}/recommender-filters/{RecommenderFilterName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a recommender filter from a domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderFilterName: The name of the recommender filter to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRecommenderFilter(
+        domainName: String,
+        recommenderFilterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRecommenderFilterResponse {
+        let input = DeleteRecommenderFilterRequest(
+            domainName: domainName, 
+            recommenderFilterName: recommenderFilterName
+        )
+        return try await self.deleteRecommenderFilter(input, logger: logger)
     }
 
     /// Deletes a segment definition from the domain.
@@ -1805,27 +1878,39 @@ public struct CustomerProfiles: AWSService {
     /// Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations
     ///
     /// Parameters:
+    ///   - candidateIds: A list of item IDs to rank for the user. Use this when you want to re-rank a specific set of items rather than getting recommendations from the full item catalog. Required for personalized-ranking use cases.
     ///   - context: The contextual metadata used to provide dynamic runtime information to tailor recommendations.
     ///   - domainName: The unique name of the domain.
     ///   - maxResults: The maximum number of recommendations to return. The default value is 10.
+    ///   - metadataConfig: Configuration for including item metadata in the recommendation response. Use this to specify which metadata columns to return alongside recommended items.
     ///   - profileId: The unique identifier of the profile for which to retrieve recommendations.
+    ///   - recommenderFilters: A list of filters to apply to the returned recommendations. Filters define criteria for including or excluding items from the recommendation results.
     ///   - recommenderName: The unique name of the recommender.
+    ///   - recommenderPromotionalFilters: A list of promotional filters to apply to the recommendations. Promotional filters allow you to promote specific items within a configurable subset of recommendation results.
     ///   - logger: Logger use during operation
     @inlinable
     public func getProfileRecommendations(
+        candidateIds: [String]? = nil,
         context: [String: String]? = nil,
         domainName: String,
         maxResults: Int? = nil,
+        metadataConfig: MetadataConfig? = nil,
         profileId: String,
+        recommenderFilters: [RecommenderFilter]? = nil,
         recommenderName: String,
+        recommenderPromotionalFilters: [RecommenderPromotionalFilter]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetProfileRecommendationsResponse {
         let input = GetProfileRecommendationsRequest(
+            candidateIds: candidateIds, 
             context: context, 
             domainName: domainName, 
             maxResults: maxResults, 
+            metadataConfig: metadataConfig, 
             profileId: profileId, 
-            recommenderName: recommenderName
+            recommenderFilters: recommenderFilters, 
+            recommenderName: recommenderName, 
+            recommenderPromotionalFilters: recommenderPromotionalFilters
         )
         return try await self.getProfileRecommendations(input, logger: logger)
     }
@@ -1863,6 +1948,38 @@ public struct CustomerProfiles: AWSService {
             trainingMetricsCount: trainingMetricsCount
         )
         return try await self.getRecommender(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific recommender filter in a domain.
+    @Sendable
+    @inlinable
+    public func getRecommenderFilter(_ input: GetRecommenderFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommenderFilterResponse {
+        try await self.client.execute(
+            operation: "GetRecommenderFilter", 
+            path: "/domains/{DomainName}/recommender-filters/{RecommenderFilterName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific recommender filter in a domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderFilterName: The name of the recommender filter to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecommenderFilter(
+        domainName: String,
+        recommenderFilterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecommenderFilterResponse {
+        let input = GetRecommenderFilterRequest(
+            domainName: domainName, 
+            recommenderFilterName: recommenderFilterName
+        )
+        return try await self.getRecommenderFilter(input, logger: logger)
     }
 
     /// Gets a segment definition from the domain.
@@ -2800,6 +2917,41 @@ public struct CustomerProfiles: AWSService {
             profileId: profileId
         )
         return try await self.listProfileObjects(input, logger: logger)
+    }
+
+    /// Returns a list of recommender filters in the specified domain.
+    @Sendable
+    @inlinable
+    public func listRecommenderFilters(_ input: ListRecommenderFiltersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommenderFiltersResponse {
+        try await self.client.execute(
+            operation: "ListRecommenderFilters", 
+            path: "/domains/{DomainName}/recommender-filters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of recommender filters in the specified domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of recommender filters to return in the response. The default value is 100.
+    ///   - nextToken: A token received from a previous ListRecommenderFilters call to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecommenderFilters(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecommenderFiltersResponse {
+        let input = ListRecommenderFiltersRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRecommenderFilters(input, logger: logger)
     }
 
     /// Returns a list of available recommender recipes that can be used to create recommenders.
@@ -4102,6 +4254,43 @@ extension CustomerProfiles {
         return self.listObjectTypeAttributesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRecommenderFilters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommenderFiltersPaginator(
+        _ input: ListRecommenderFiltersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommenderFiltersRequest, ListRecommenderFiltersResponse> {
+        return .init(
+            input: input,
+            command: self.listRecommenderFilters,
+            inputKey: \ListRecommenderFiltersRequest.nextToken,
+            outputKey: \ListRecommenderFiltersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecommenderFilters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of recommender filters to return in the response. The default value is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommenderFiltersPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecommenderFiltersRequest, ListRecommenderFiltersResponse> {
+        let input = ListRecommenderFiltersRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listRecommenderFiltersPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRecommenderRecipes(_:logger:)``.
     ///
     /// - Parameters:
@@ -4351,6 +4540,17 @@ extension CustomerProfiles.ListObjectTypeAttributesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             objectTypeName: self.objectTypeName
+        )
+    }
+}
+
+extension CustomerProfiles.ListRecommenderFiltersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListRecommenderFiltersRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

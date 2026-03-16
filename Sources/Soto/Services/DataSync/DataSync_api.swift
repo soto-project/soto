@@ -236,9 +236,9 @@ public struct DataSync: AWSService {
     ///   - agentArns: (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see Using multiple agents for your transfer.  Make sure you configure this parameter correctly when you first create your storage location. You cannot add or remove agents from a storage location after you create it.
     ///   - authenticationType: Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
     ///   - blobType: Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
-    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     ///   - containerUrl: Specifies the URL of the Azure Blob Storage container involved in your transfer.
-    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     ///   - sasConfiguration: Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.  If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
     ///   - subdirectory: Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
@@ -455,6 +455,8 @@ public struct DataSync: AWSService {
     /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Windows File Server file systems.
     ///
     /// Parameters:
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the password that DataSync uses to access a specific FSx Windows storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationFsxWindows request, you provide only the KMS key ARN. DataSync uses this KMS key together with the Password you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxWindows request. Do not provide both parameters for the same request.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the password for an FSx for Windows File Server storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with Password) or CustomSecretConfig (without Password) to provide credentials for a CreateLocationFsxWindows request. Do not provide both parameters for the same request.
     ///   - domain: Specifies the name of the Windows domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     ///   - fsxFilesystemArn: Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
     ///   - password: Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
@@ -465,9 +467,11 @@ public struct DataSync: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createLocationFsxWindows(
+        cmkSecretConfig: CmkSecretConfig? = nil,
+        customSecretConfig: CustomSecretConfig? = nil,
         domain: String? = nil,
         fsxFilesystemArn: String,
-        password: String,
+        password: String? = nil,
         securityGroupArns: [String],
         subdirectory: String? = nil,
         tags: [TagListEntry]? = nil,
@@ -475,6 +479,8 @@ public struct DataSync: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLocationFsxWindowsResponse {
         let input = CreateLocationFsxWindowsRequest(
+            cmkSecretConfig: cmkSecretConfig, 
+            customSecretConfig: customSecretConfig, 
             domain: domain, 
             fsxFilesystemArn: fsxFilesystemArn, 
             password: password, 
@@ -505,6 +511,8 @@ public struct DataSync: AWSService {
     ///   - agentArns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
     ///   - authenticationType: The type of authentication used to determine the identity of the user.
     ///   - blockSize: The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the Kerberos keytab that DataSync uses to access a specific Hadoop Distributed File System (HDFS) storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationHdfs request, you provide only the KMS key ARN. DataSync uses this KMS key together with the KerberosKeytab you specify for to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with KerberosKeytab) or CustomSecretConfig (without KerberosKeytab) to provide credentials for a CreateLocationHdfs request. Do not provide both parameters for the same request.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the Kerberos keytab for the HDFS storage location is stored in binary, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with KerberosKeytab) or CustomSecretConfig (without KerberosKeytab) to provide credentials for a CreateLocationHdfs request. Do not provide both parameters for the same request.
     ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.  If KERBEROS is specified for AuthenticationType, this parameter is required.
     ///   - kerberosKrb5Conf: The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
     ///   - kerberosPrincipal: The Kerberos principal with access to the files and folders on the HDFS cluster.   If KERBEROS is specified for AuthenticationType, this parameter is required.
@@ -521,6 +529,8 @@ public struct DataSync: AWSService {
         agentArns: [String],
         authenticationType: HdfsAuthenticationType,
         blockSize: Int? = nil,
+        cmkSecretConfig: CmkSecretConfig? = nil,
+        customSecretConfig: CustomSecretConfig? = nil,
         kerberosKeytab: AWSBase64Data? = nil,
         kerberosKrb5Conf: AWSBase64Data? = nil,
         kerberosPrincipal: String? = nil,
@@ -537,6 +547,8 @@ public struct DataSync: AWSService {
             agentArns: agentArns, 
             authenticationType: authenticationType, 
             blockSize: blockSize, 
+            cmkSecretConfig: cmkSecretConfig, 
+            customSecretConfig: customSecretConfig, 
             kerberosKeytab: kerberosKeytab, 
             kerberosKrb5Conf: kerberosKrb5Conf, 
             kerberosPrincipal: kerberosPrincipal, 
@@ -611,8 +623,8 @@ public struct DataSync: AWSService {
     ///   - accessKey: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
     ///   - agentArns: (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter.  Make sure you configure this parameter correctly when you first create your storage location. You cannot add or remove agents from a storage location after you create it.
     ///   - bucketName: Specifies the name of the object storage bucket involved in the transfer.
-    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
-    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     ///   - secretKey: Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.  If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
     ///   - serverCertificate: Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS.
     ///   - serverHostname: Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to.
@@ -716,8 +728,8 @@ public struct DataSync: AWSService {
     /// Parameters:
     ///   - agentArns: Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     ///   - authenticationType: Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
-    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
-    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. For more information, see  Using a service-managed secret encrypted with a custom KMS key.  You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see  Using a secret that you manage.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
     ///   - dnsIpAddresses: Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     ///   - domain: Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
@@ -1660,7 +1672,7 @@ public struct DataSync: AWSService {
     ///   - authenticationType: Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
     ///   - blobType: Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
     ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
-    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     ///   - locationArn: Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
     ///   - sasConfiguration: Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.
     ///   - subdirectory: Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
@@ -1851,6 +1863,8 @@ public struct DataSync: AWSService {
     /// Modifies the following configuration parameters of the Amazon FSx for Windows File Server transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Windows File Server.
     ///
     /// Parameters:
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as a Password or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     ///   - domain: Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     ///   - locationArn: Specifies the ARN of the FSx for Windows File Server transfer location that you're updating.
     ///   - password: Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
@@ -1859,6 +1873,8 @@ public struct DataSync: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLocationFsxWindows(
+        cmkSecretConfig: CmkSecretConfig? = nil,
+        customSecretConfig: CustomSecretConfig? = nil,
         domain: String? = nil,
         locationArn: String,
         password: String? = nil,
@@ -1867,6 +1883,8 @@ public struct DataSync: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLocationFsxWindowsResponse {
         let input = UpdateLocationFsxWindowsRequest(
+            cmkSecretConfig: cmkSecretConfig, 
+            customSecretConfig: customSecretConfig, 
             domain: domain, 
             locationArn: locationArn, 
             password: password, 
@@ -1895,6 +1913,8 @@ public struct DataSync: AWSService {
     ///   - agentArns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
     ///   - authenticationType: The type of authentication used to determine the identity of the user.
     ///   - blockSize: The size of the data blocks to write into the HDFS cluster.
+    ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, such as a KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as a KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     ///   - kerberosKeytab: The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address.
     ///   - kerberosKrb5Conf: The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
     ///   - kerberosPrincipal: The Kerberos principal with access to the files and folders on the HDFS cluster.
@@ -1911,6 +1931,8 @@ public struct DataSync: AWSService {
         agentArns: [String]? = nil,
         authenticationType: HdfsAuthenticationType? = nil,
         blockSize: Int? = nil,
+        cmkSecretConfig: CmkSecretConfig? = nil,
+        customSecretConfig: CustomSecretConfig? = nil,
         kerberosKeytab: AWSBase64Data? = nil,
         kerberosKrb5Conf: AWSBase64Data? = nil,
         kerberosPrincipal: String? = nil,
@@ -1927,6 +1949,8 @@ public struct DataSync: AWSService {
             agentArns: agentArns, 
             authenticationType: authenticationType, 
             blockSize: blockSize, 
+            cmkSecretConfig: cmkSecretConfig, 
+            customSecretConfig: customSecretConfig, 
             kerberosKeytab: kerberosKeytab, 
             kerberosKrb5Conf: kerberosKrb5Conf, 
             kerberosPrincipal: kerberosPrincipal, 
@@ -2001,7 +2025,7 @@ public struct DataSync: AWSService {
     ///   - accessKey: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
     ///   - agentArns: (Optional) Specifies the Amazon Resource Names (ARNs) of the DataSync agents that can connect with your object storage system. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter.  You cannot add or remove agents from a storage location after you initially create it.
     ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
-    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     ///   - locationArn: Specifies the ARN of the object storage system location that you're updating.
     ///   - secretKey: Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.  If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
     ///   - serverCertificate: Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
@@ -2098,7 +2122,7 @@ public struct DataSync: AWSService {
     ///   - agentArns: Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
     ///   - authenticationType: Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
     ///   - cmkSecretConfig: Specifies configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
-    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    ///   - customSecretConfig: Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     ///   - dnsIpAddresses: Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     ///   - domain: Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.

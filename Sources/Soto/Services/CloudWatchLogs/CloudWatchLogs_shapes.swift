@@ -5215,6 +5215,8 @@ extension CloudWatchLogs {
     public struct LogGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the log group. This version of the ARN includes a trailing :* after the log group name.  Use this version to refer to the ARN in IAM policies when specifying permissions for most API actions. The exception is when specifying permissions for TagResource, UntagResource, and ListTagsForResource. The permissions for those three actions require the ARN version that doesn't include a trailing :*.
         public let arn: String?
+        /// Indicates whether bearer token authentication is enabled for this log group. When enabled, bearer token authentication is allowed on operations until it is explicitly disabled.
+        public let bearerTokenAuthenticationEnabled: Bool?
         /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         /// Displays whether this log group has a protection policy, or whether it had one in the past. For more information, see PutDataProtectionPolicy.
@@ -5238,8 +5240,9 @@ extension CloudWatchLogs {
         public let storedBytes: Int64?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, deletionProtectionEnabled: Bool? = nil, inheritedProperties: [InheritedProperty]? = nil, kmsKeyId: String? = nil, logGroupArn: String? = nil, logGroupClass: LogGroupClass? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
+        public init(arn: String? = nil, bearerTokenAuthenticationEnabled: Bool? = nil, creationTime: Int64? = nil, dataProtectionStatus: DataProtectionStatus? = nil, deletionProtectionEnabled: Bool? = nil, inheritedProperties: [InheritedProperty]? = nil, kmsKeyId: String? = nil, logGroupArn: String? = nil, logGroupClass: LogGroupClass? = nil, logGroupName: String? = nil, metricFilterCount: Int? = nil, retentionInDays: Int? = nil, storedBytes: Int64? = nil) {
             self.arn = arn
+            self.bearerTokenAuthenticationEnabled = bearerTokenAuthenticationEnabled
             self.creationTime = creationTime
             self.dataProtectionStatus = dataProtectionStatus
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -5255,6 +5258,7 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case bearerTokenAuthenticationEnabled = "bearerTokenAuthenticationEnabled"
             case creationTime = "creationTime"
             case dataProtectionStatus = "dataProtectionStatus"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
@@ -6258,6 +6262,30 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct PutBearerTokenAuthenticationRequest: AWSEncodableShape {
+        /// Whether to enable bearer token authentication. Type: Boolean Required: Yes
+        public let bearerTokenAuthenticationEnabled: Bool
+        /// The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+  Required: Yes
+        public let logGroupIdentifier: String
+
+        @inlinable
+        public init(bearerTokenAuthenticationEnabled: Bool, logGroupIdentifier: String) {
+            self.bearerTokenAuthenticationEnabled = bearerTokenAuthenticationEnabled
+            self.logGroupIdentifier = logGroupIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bearerTokenAuthenticationEnabled = "bearerTokenAuthenticationEnabled"
+            case logGroupIdentifier = "logGroupIdentifier"
+        }
+    }
+
     public struct PutDataProtectionPolicyRequest: AWSEncodableShape {
         /// Specify either the log group name or log group ARN.
         public let logGroupIdentifier: String
@@ -6563,7 +6591,7 @@ extension CloudWatchLogs {
             try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
             try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
             try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 51200)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
         }
 
@@ -6865,7 +6893,7 @@ extension CloudWatchLogs {
 
         public func validate(name: String) throws {
             try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, min: 1)
-            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 5120)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 51200)
             try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
         }
 

@@ -1793,24 +1793,29 @@ extension Bedrock {
         public let guardrailVersion: String
         /// Whether to honor or ignore input tags at runtime.
         public let inputTags: InputTags
+        /// Model-specific information for the enforced guardrail configuration. If not present, the configuration is enforced on all models
+        public let modelEnforcement: ModelEnforcement?
 
         @inlinable
-        public init(guardrailIdentifier: String, guardrailVersion: String, inputTags: InputTags) {
+        public init(guardrailIdentifier: String, guardrailVersion: String, inputTags: InputTags, modelEnforcement: ModelEnforcement? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.inputTags = inputTags
+            self.modelEnforcement = modelEnforcement
         }
 
         public func validate(name: String) throws {
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
             try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^[1-9][0-9]{0,7}$")
+            try self.modelEnforcement?.validate(name: "\(name).modelEnforcement")
         }
 
         private enum CodingKeys: String, CodingKey {
             case guardrailIdentifier = "guardrailIdentifier"
             case guardrailVersion = "guardrailVersion"
             case inputTags = "inputTags"
+            case modelEnforcement = "modelEnforcement"
         }
     }
 
@@ -1830,6 +1835,8 @@ extension Bedrock {
         public let guardrailVersion: String?
         /// Whether to honor or ignore input tags at runtime.
         public let inputTags: InputTags?
+        /// Model-specific information for the enforced guardrail configuration.
+        public let modelEnforcement: ModelEnforcement?
         /// Configuration owner type.
         public let owner: ConfigurationOwner?
         /// Timestamp.
@@ -1839,7 +1846,7 @@ extension Bedrock {
         public let updatedBy: String?
 
         @inlinable
-        public init(configId: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, guardrailArn: String? = nil, guardrailId: String? = nil, guardrailVersion: String? = nil, inputTags: InputTags? = nil, owner: ConfigurationOwner? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(configId: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, guardrailArn: String? = nil, guardrailId: String? = nil, guardrailVersion: String? = nil, inputTags: InputTags? = nil, modelEnforcement: ModelEnforcement? = nil, owner: ConfigurationOwner? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.configId = configId
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1847,6 +1854,7 @@ extension Bedrock {
             self.guardrailId = guardrailId
             self.guardrailVersion = guardrailVersion
             self.inputTags = inputTags
+            self.modelEnforcement = modelEnforcement
             self.owner = owner
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -1860,6 +1868,7 @@ extension Bedrock {
             case guardrailId = "guardrailId"
             case guardrailVersion = "guardrailVersion"
             case inputTags = "inputTags"
+            case modelEnforcement = "modelEnforcement"
             case owner = "owner"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
@@ -11096,6 +11105,34 @@ extension Bedrock {
             case lastModifiedTime = "lastModifiedTime"
             case status = "status"
             case statusDetails = "statusDetails"
+        }
+    }
+
+    public struct ModelEnforcement: AWSEncodableShape & AWSDecodableShape {
+        /// Models to exclude from enforcement of the guardrail.
+        public let excludedModels: [String]
+        /// Models to enforce the guardrail on.
+        public let includedModels: [String]
+
+        @inlinable
+        public init(excludedModels: [String], includedModels: [String]) {
+            self.excludedModels = excludedModels
+            self.includedModels = includedModels
+        }
+
+        public func validate(name: String) throws {
+            try self.excludedModels.forEach {
+                try validate($0, name: "excludedModels[]", parent: name, pattern: "^([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}){0,1}$")
+            }
+            try self.includedModels.forEach {
+                try validate($0, name: "includedModels[]", parent: name, pattern: "^(ALL|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}){0,1})$")
+            }
+            try self.validate(self.includedModels, name: "includedModels", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludedModels = "excludedModels"
+            case includedModels = "includedModels"
         }
     }
 

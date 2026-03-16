@@ -267,6 +267,7 @@ extension GuardDuty {
         case cryptominingProcess = "CRYPTOMINING_PROCESS"
         case highRiskApi = "HIGH_RISK_API"
         case maliciousDomain = "MALICIOUS_DOMAIN"
+        case maliciousFile = "MALICIOUS_FILE"
         case maliciousIp = "MALICIOUS_IP"
         case maliciousProcess = "MALICIOUS_PROCESS"
         case suspiciousNetwork = "SUSPICIOUS_NETWORK"

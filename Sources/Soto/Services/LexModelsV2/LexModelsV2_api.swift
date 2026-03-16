@@ -891,6 +891,38 @@ public struct LexModelsV2: AWSService {
         return try await self.deleteBotAlias(input, logger: logger)
     }
 
+    /// Permanently deletes the recommendations and analysis results for a specific bot analysis request. This operation is provided for GDPR compliance and cannot be undone. After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a ResourceNotFoundException.
+    @Sendable
+    @inlinable
+    public func deleteBotAnalyzerRecommendation(_ input: DeleteBotAnalyzerRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBotAnalyzerRecommendationResponse {
+        try await self.client.execute(
+            operation: "DeleteBotAnalyzerRecommendation", 
+            path: "/bots/{botId}/botanalyzer/{botAnalyzerRequestId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Permanently deletes the recommendations and analysis results for a specific bot analysis request. This operation is provided for GDPR compliance and cannot be undone. After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a ResourceNotFoundException.
+    ///
+    /// Parameters:
+    ///   - botAnalyzerRequestId: The unique identifier of the analysis request whose recommendations should be deleted.
+    ///   - botId: The unique identifier of the bot.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBotAnalyzerRecommendation(
+        botAnalyzerRequestId: String,
+        botId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteBotAnalyzerRecommendationResponse {
+        let input = DeleteBotAnalyzerRecommendationRequest(
+            botAnalyzerRequestId: botAnalyzerRequestId, 
+            botId: botId
+        )
+        return try await self.deleteBotAnalyzerRecommendation(input, logger: logger)
+    }
+
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
     @Sendable
     @inlinable
@@ -1396,6 +1428,44 @@ public struct LexModelsV2: AWSService {
             botId: botId
         )
         return try await self.describeBotAlias(input, logger: logger)
+    }
+
+    /// Retrieves the analysis results and recommendations for bot optimization. The analysis must be in Available status before recommendations can be retrieved. Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix.
+    @Sendable
+    @inlinable
+    public func describeBotAnalyzerRecommendation(_ input: DescribeBotAnalyzerRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBotAnalyzerRecommendationResponse {
+        try await self.client.execute(
+            operation: "DescribeBotAnalyzerRecommendation", 
+            path: "/bots/{botId}/botanalyzer/describe/{botAnalyzerRequestId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the analysis results and recommendations for bot optimization. The analysis must be in Available status before recommendations can be retrieved. Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix.
+    ///
+    /// Parameters:
+    ///   - botAnalyzerRequestId: The unique identifier of the analysis request.
+    ///   - botId: The unique identifier of the bot.
+    ///   - maxResults: The maximum number of recommendations to return in the response. The default is 5.
+    ///   - nextToken: If the response from a previous request was truncated, the nextToken value is used to retrieve the next page of recommendations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeBotAnalyzerRecommendation(
+        botAnalyzerRequestId: String,
+        botId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeBotAnalyzerRecommendationResponse {
+        let input = DescribeBotAnalyzerRecommendationRequest(
+            botAnalyzerRequestId: botAnalyzerRequestId, 
+            botId: botId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeBotAnalyzerRecommendation(input, logger: logger)
     }
 
     /// Describes the settings that a bot has for a specific locale.
@@ -2119,6 +2189,47 @@ public struct LexModelsV2: AWSService {
             nextToken: nextToken
         )
         return try await self.listBotAliases(input, logger: logger)
+    }
+
+    /// Retrieves a list of historical bot analysis executions for a specific bot. You can filter the results by locale and bot version. The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes.
+    @Sendable
+    @inlinable
+    public func listBotAnalyzerHistory(_ input: ListBotAnalyzerHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotAnalyzerHistoryResponse {
+        try await self.client.execute(
+            operation: "ListBotAnalyzerHistory", 
+            path: "/bots/{botId}/botanalyzer/history", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of historical bot analysis executions for a specific bot. You can filter the results by locale and bot version. The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes.
+    ///
+    /// Parameters:
+    ///   - botId: The unique identifier of the bot.
+    ///   - botVersion: The bot version to filter the history. If not specified, defaults to DRAFT.
+    ///   - localeId: The locale identifier to filter the history. If not specified, returns history for all locales.
+    ///   - maxResults: The maximum number of history entries to return in the response. The default is 10.
+    ///   - nextToken: If the response from a previous request was truncated, the nextToken value is used to retrieve the next page of history entries.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBotAnalyzerHistory(
+        botId: String,
+        botVersion: String? = nil,
+        localeId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBotAnalyzerHistoryResponse {
+        let input = ListBotAnalyzerHistoryRequest(
+            botId: botId, 
+            botVersion: botVersion, 
+            localeId: localeId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listBotAnalyzerHistory(input, logger: logger)
     }
 
     /// Gets a list of locales for the specified bot.
@@ -3367,6 +3478,44 @@ public struct LexModelsV2: AWSService {
         return try await self.searchAssociatedTranscripts(input, logger: logger)
     }
 
+    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improvements based on AWS best practices. The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization.
+    @Sendable
+    @inlinable
+    public func startBotAnalyzer(_ input: StartBotAnalyzerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBotAnalyzerResponse {
+        try await self.client.execute(
+            operation: "StartBotAnalyzer", 
+            path: "/bots/{botId}/botanalyzer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improvements based on AWS best practices. The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization.
+    ///
+    /// Parameters:
+    ///   - analysisScope: The scope of analysis to perform. Currently only BotLocale scope is supported. Valid Values: BotLocale
+    ///   - botId: The unique identifier of the bot to analyze.
+    ///   - botVersion: The version of the bot to analyze. Defaults to DRAFT if not specified.
+    ///   - localeId: The locale identifier for the bot locale to analyze. Required when analysisScope is BotLocale.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startBotAnalyzer(
+        analysisScope: AnalysisScope,
+        botId: String,
+        botVersion: String? = nil,
+        localeId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartBotAnalyzerResponse {
+        let input = StartBotAnalyzerRequest(
+            analysisScope: analysisScope, 
+            botId: botId, 
+            botVersion: botVersion, 
+            localeId: localeId
+        )
+        return try await self.startBotAnalyzer(input, logger: logger)
+    }
+
     /// Use this to provide your transcript data, and to start the bot recommendation process.
     @Sendable
     @inlinable
@@ -3564,6 +3713,38 @@ public struct LexModelsV2: AWSService {
             testSetTags: testSetTags
         )
         return try await self.startTestSetGeneration(input, logger: logger)
+    }
+
+    /// Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated.
+    @Sendable
+    @inlinable
+    public func stopBotAnalyzer(_ input: StopBotAnalyzerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopBotAnalyzerResponse {
+        try await self.client.execute(
+            operation: "StopBotAnalyzer", 
+            path: "/bots/{botId}/botanalyzer/{botAnalyzerRequestId}/stop", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated.
+    ///
+    /// Parameters:
+    ///   - botAnalyzerRequestId: The unique identifier of the analysis request to stop.
+    ///   - botId: The unique identifier of the bot.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopBotAnalyzer(
+        botAnalyzerRequestId: String,
+        botId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopBotAnalyzerResponse {
+        let input = StopBotAnalyzerRequest(
+            botAnalyzerRequestId: botAnalyzerRequestId, 
+            botId: botId
+        )
+        return try await self.stopBotAnalyzer(input, logger: logger)
     }
 
     /// Stop an already running Bot Recommendation request.
@@ -4191,6 +4372,46 @@ extension LexModelsV2 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LexModelsV2 {
+    /// Return PaginatorSequence for operation ``describeBotAnalyzerRecommendation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeBotAnalyzerRecommendationPaginator(
+        _ input: DescribeBotAnalyzerRecommendationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeBotAnalyzerRecommendationRequest, DescribeBotAnalyzerRecommendationResponse> {
+        return .init(
+            input: input,
+            command: self.describeBotAnalyzerRecommendation,
+            inputKey: \DescribeBotAnalyzerRecommendationRequest.nextToken,
+            outputKey: \DescribeBotAnalyzerRecommendationResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeBotAnalyzerRecommendation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - botAnalyzerRequestId: The unique identifier of the analysis request.
+    ///   - botId: The unique identifier of the bot.
+    ///   - maxResults: The maximum number of recommendations to return in the response. The default is 5.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeBotAnalyzerRecommendationPaginator(
+        botAnalyzerRequestId: String,
+        botId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeBotAnalyzerRecommendationRequest, DescribeBotAnalyzerRecommendationResponse> {
+        let input = DescribeBotAnalyzerRecommendationRequest(
+            botAnalyzerRequestId: botAnalyzerRequestId, 
+            botId: botId, 
+            maxResults: maxResults
+        )
+        return self.describeBotAnalyzerRecommendationPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAggregatedUtterances(_:logger:)``.
     ///
     /// - Parameters:
@@ -4321,6 +4542,49 @@ extension LexModelsV2 {
             maxResults: maxResults
         )
         return self.listBotAliasesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBotAnalyzerHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBotAnalyzerHistoryPaginator(
+        _ input: ListBotAnalyzerHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBotAnalyzerHistoryRequest, ListBotAnalyzerHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.listBotAnalyzerHistory,
+            inputKey: \ListBotAnalyzerHistoryRequest.nextToken,
+            outputKey: \ListBotAnalyzerHistoryResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBotAnalyzerHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - botId: The unique identifier of the bot.
+    ///   - botVersion: The bot version to filter the history. If not specified, defaults to DRAFT.
+    ///   - localeId: The locale identifier to filter the history. If not specified, returns history for all locales.
+    ///   - maxResults: The maximum number of history entries to return in the response. The default is 10.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBotAnalyzerHistoryPaginator(
+        botId: String,
+        botVersion: String? = nil,
+        localeId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBotAnalyzerHistoryRequest, ListBotAnalyzerHistoryResponse> {
+        let input = ListBotAnalyzerHistoryRequest(
+            botId: botId, 
+            botVersion: botVersion, 
+            localeId: localeId, 
+            maxResults: maxResults
+        )
+        return self.listBotAnalyzerHistoryPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listBotLocales(_:logger:)``.
@@ -5471,6 +5735,18 @@ extension LexModelsV2 {
     }
 }
 
+extension LexModelsV2.DescribeBotAnalyzerRecommendationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.DescribeBotAnalyzerRecommendationRequest {
+        return .init(
+            botAnalyzerRequestId: self.botAnalyzerRequestId,
+            botId: self.botId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension LexModelsV2.ListAggregatedUtterancesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> LexModelsV2.ListAggregatedUtterancesRequest {
@@ -5505,6 +5781,19 @@ extension LexModelsV2.ListBotAliasesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotAliasesRequest {
         return .init(
             botId: self.botId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension LexModelsV2.ListBotAnalyzerHistoryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotAnalyzerHistoryRequest {
+        return .init(
+            botId: self.botId,
+            botVersion: self.botVersion,
+            localeId: self.localeId,
             maxResults: self.maxResults,
             nextToken: token
         )
