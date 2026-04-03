@@ -705,15 +705,11 @@ extension _DynamoDBDecoder {
         case .iso8601:
             let string = try self.unbox(attribute, as: String.self)
             let date: Date?
-            #if compiler(<6.0)
-            date = _iso8601DateFormatter.date(from: string)
-            #else
             if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
                 date = try? Date(string, strategy: .iso8601)
             } else {
                 date = _iso8601DateFormatter.date(from: string)
             }
-            #endif
             guard let date else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(codingPath: self.codingPath, debugDescription: "Expected date string to be ISO8601-formatted.")
