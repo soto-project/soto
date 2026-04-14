@@ -19,7 +19,7 @@ env:
   AWS_DISABLE_LOCALSTACK : "false"
   AWS_ENABLE_LOGGING : "true"
   AWS_LOG_LEVEL: "debug"
-  STRICT_CONCURRENCY: "true"
+  LOCALSTACK_AUTH_TOKEN : ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
 
 jobs:
   macos:
