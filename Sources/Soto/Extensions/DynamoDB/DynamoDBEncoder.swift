@@ -63,7 +63,9 @@ public class DynamoDBEncoder {
     public func encode(_ value: some Encodable) throws -> [String: DynamoDB.AttributeValue] {
         let encoder = _DynamoDBEncoder(options: options)
         try value.encode(to: encoder)
-        return try encoder.storage.collapse()
+        return try encoder.storage.collapse { _, second in
+            throw EncodingError.invalidValue(value, .init(codingPath: [], debugDescription: "Encoding generated duplicate top-level keys"))
+        }
     }
 }
 
@@ -155,10 +157,15 @@ private struct _EncoderStorage {
         self.containers.removeLast()
     }
 
-    func collapse() throws -> [String: DynamoDB.AttributeValue] {
-        assert(self.containers.count == 1)
-        guard case .m(let values) = self.containers.first?.attribute else { throw DynamoDBEncoderError.topLevelArray }
-        return values
+    func collapse(
+        _ onDuplicate: (DynamoDB.AttributeValue, DynamoDB.AttributeValue) throws -> DynamoDB.AttributeValue
+    ) throws -> [String: DynamoDB.AttributeValue] {
+        var map: [String: DynamoDB.AttributeValue] = [:]
+        for container in self.containers {
+            guard case .m(let values) = container.attribute else { throw DynamoDBEncoderError.topLevelArray }
+            try map.merge(values, uniquingKeysWith: onDuplicate)
+        }
+        return map
     }
 }
 
