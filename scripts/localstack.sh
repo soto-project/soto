@@ -30,7 +30,7 @@ get_container_id()
 start()
 {
     if [ -z "$CONTAINER_ID" ]; then
-        docker run -d -p 4566-4597:4566-4597 -p 8080:8080 localstack/localstack
+        docker run -d -p 4566-4597:4566-4597 -p 8080:8080 -e LOCALSTACK_AUTH_TOKEN="$LOCALSTACK_AUTH_TOKEN" localstack/localstack
     else
         echo "Localstack is already running"
     fi
@@ -39,7 +39,7 @@ start()
 run()
 {
     if [ -z "$CONTAINER_ID" ]; then
-        docker run -p 4566-4597:4566-4597 -p 8080:8080 localstack/localstack
+        docker run -p 4566-4597:4566-4597 -p 8080:8080 -e LOCALSTACK_AUTH_TOKEN="$LOCALSTACK_AUTH_TOKEN" localstack/localstack
     else
         echo "Localstack is already running"
     fi

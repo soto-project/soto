@@ -291,4 +291,87 @@ final class DynamoDBCoderTests: XCTestCase {
             )
         )
     }
+
+    func testFlatContainer() {
+        struct Header: Codable {
+            let id: String
+            let createdAt: String
+        }
+
+        struct Body: Codable {
+            let title: String
+        }
+
+        /// Composite type that flattens its sub-values into a single keyed container
+        /// by letting each sub-value request its own keyed container on the shared encoder.
+        struct Document: Codable {
+            let header: Header
+            let body: Body
+
+            init(from decoder: any Decoder) throws {
+                self.header = try .init(from: decoder)
+                self.body = try .init(from: decoder)
+            }
+
+            func encode(to encoder: Encoder) throws {
+                // Sub-values share the same encoder; their fields should merge.
+                try header.encode(to: encoder)
+                try body.encode(to: encoder)
+            }
+        }
+
+        XCTAssertNoThrow(
+            try self.testDecodeEncode(
+                [
+                    "id": .s("abc"),
+                    "createdAt": .s("2026-04-11"),
+                    "title": .s("hello"),
+                ],
+                type: Document.self
+            )
+        )
+    }
+
+    func testFlatContainerDuplicateError() {
+        struct Header: Codable {
+            let id: String
+            let title: String
+        }
+
+        struct Body: Codable {
+            let title: String
+        }
+
+        /// Composite type that flattens its sub-values into a single keyed container
+        /// by letting each sub-value request its own keyed container on the shared encoder.
+        struct Document: Codable {
+            init(header: Header, body: Body) {
+                self.header = header
+                self.body = body
+            }
+
+            let header: Header
+            let body: Body
+
+            init(from decoder: any Decoder) throws {
+                self.header = try .init(from: decoder)
+                self.body = try .init(from: decoder)
+            }
+
+            func encode(to encoder: Encoder) throws {
+                // Sub-values share the same encoder; their fields should merge.
+                try header.encode(to: encoder)
+                try body.encode(to: encoder)
+            }
+        }
+
+        XCTAssertThrowsError(
+            try DynamoDBEncoder().encode(
+                Document(
+                    header: .init(id: "234-45-sdf", title: "hello"),
+                    body: .init(title: "hello")
+                )
+            )
+        )
+    }
 }

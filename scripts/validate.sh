@@ -39,7 +39,7 @@ printf "\033[0;32mokay.\033[0m\n"
 
 printf "=> Checking format... "
 FIRST_OUT="$(git status --porcelain)"
-git ls-files '*.swift' | grep -v "Sources/Soto/Services" | xargs swift format format --parallel --in-place
+git ls-files '*.swift' | grep -v "Sources/Soto/Services" | grep -v "scripts/" | xargs swift format format --parallel --in-place
 git diff --exit-code '*.swift'
 
 SECOND_OUT="$(git status --porcelain)"
