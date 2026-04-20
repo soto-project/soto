@@ -512,15 +512,11 @@ extension _DynamoDBEncoder {
         case .secondsSince1970:
             return .n(date.timeIntervalSince1970.description)
         case .iso8601:
-            #if compiler(<6.0)
-            return .s(_iso8601DateFormatter.string(from: date))
-            #else
             if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
                 return .s(date.formatted(.iso8601))
             } else {
                 return .s(_iso8601DateFormatter.string(from: date))
             }
-            #endif
         case .custom(let closure):
             return closure(date, self)
         }

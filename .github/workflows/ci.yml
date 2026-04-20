@@ -35,12 +35,14 @@ jobs:
     strategy:
       matrix:
         image:
-          - swift:6.0
           - swift:6.1
           - swift:6.2
+          - swift:6.3
     services:
       localstack:
         image: localstack/localstack
+        env: 
+          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
     container:
       image: ${{ matrix.image }}
       env:
