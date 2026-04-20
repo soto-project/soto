@@ -126,6 +126,12 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "Default"
+        case capacityOptimized = "CapacityOptimized"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case engineVersion = "EngineVersion"
         case packageID = "PackageID"
@@ -851,6 +857,8 @@ extension OpenSearch {
     }
 
     public struct AddDirectQueryDataSourceRequest: AWSEncodableShape {
+        ///  An optional IAM access policy document that defines the permissions for accessing the data source. The policy document must be in valid JSON format and follow IAM policy syntax.
+        public let dataSourceAccessPolicy: String?
         ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
         public let dataSourceName: String
         ///  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
@@ -862,7 +870,8 @@ extension OpenSearch {
         public let tagList: [Tag]?
 
         @inlinable
-        public init(dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String], tagList: [Tag]? = nil) {
+        public init(dataSourceAccessPolicy: String? = nil, dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String], tagList: [Tag]? = nil) {
+            self.dataSourceAccessPolicy = dataSourceAccessPolicy
             self.dataSourceName = dataSourceName
             self.dataSourceType = dataSourceType
             self.description = description
@@ -871,6 +880,8 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSourceAccessPolicy, name: "dataSourceAccessPolicy", parent: name, max: 102400)
+            try self.validate(self.dataSourceAccessPolicy, name: "dataSourceAccessPolicy", parent: name, pattern: ".*")
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 80)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 3)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[a-z][a-z0-9_]+$")
@@ -888,6 +899,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSourceAccessPolicy = "DataSourceAccessPolicy"
             case dataSourceName = "DataSourceName"
             case dataSourceType = "DataSourceType"
             case description = "Description"
@@ -2073,6 +2085,8 @@ extension OpenSearch {
         public let clusterConfig: ClusterConfig?
         /// Key-value pairs to configure Amazon Cognito authentication. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
         public let cognitoOptions: CognitoOptions?
+        /// Specifies the deployment strategy options for the domain.
+        public let deploymentStrategyOptions: DeploymentStrategyOptions?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
         /// Name of the OpenSearch Service domain to create. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
@@ -2103,7 +2117,7 @@ extension OpenSearch {
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -2111,6 +2125,7 @@ extension OpenSearch {
             self.autoTuneOptions = autoTuneOptions
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
             self.ebsOptions = ebsOptions
@@ -2159,6 +2174,7 @@ extension OpenSearch {
             case autoTuneOptions = "AutoTuneOptions"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"
             case ebsOptions = "EBSOptions"
@@ -2447,11 +2463,14 @@ extension OpenSearch {
         public let dataSourceArn: String?
         /// Detailed description of a data source.
         public let dataSourceDescription: String?
+        /// The ARN of the IAM role to be used for cross account/region data source association.
+        public let iamRoleForDataSourceArn: String?
 
         @inlinable
-        public init(dataSourceArn: String? = nil, dataSourceDescription: String? = nil) {
+        public init(dataSourceArn: String? = nil, dataSourceDescription: String? = nil, iamRoleForDataSourceArn: String? = nil) {
             self.dataSourceArn = dataSourceArn
             self.dataSourceDescription = dataSourceDescription
+            self.iamRoleForDataSourceArn = iamRoleForDataSourceArn
         }
 
         public func validate(name: String) throws {
@@ -2460,11 +2479,15 @@ extension OpenSearch {
             try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, pattern: ".*")
             try self.validate(self.dataSourceDescription, name: "dataSourceDescription", parent: name, max: 1000)
             try self.validate(self.dataSourceDescription, name: "dataSourceDescription", parent: name, pattern: "^([a-zA-Z0-9_])*[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
+            try self.validate(self.iamRoleForDataSourceArn, name: "iamRoleForDataSourceArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleForDataSourceArn, name: "iamRoleForDataSourceArn", parent: name, min: 20)
+            try self.validate(self.iamRoleForDataSourceArn, name: "iamRoleForDataSourceArn", parent: name, pattern: "^arn:(aws|aws\\-cn|aws\\-us\\-gov|aws\\-iso|aws\\-iso\\-b):iam::[0-9]+:role\\/")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceArn = "dataSourceArn"
             case dataSourceDescription = "dataSourceDescription"
+            case iamRoleForDataSourceArn = "iamRoleForDataSourceArn"
         }
     }
 
@@ -2818,6 +2841,38 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case vpcEndpointSummary = "VpcEndpointSummary"
+        }
+    }
+
+    public struct DeploymentStrategyOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the deployment strategy for the domain. Valid values are Default and CapacityOptimized.
+        public let deploymentStrategy: DeploymentStrategy
+
+        @inlinable
+        public init(deploymentStrategy: DeploymentStrategy) {
+            self.deploymentStrategy = deploymentStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentStrategy = "DeploymentStrategy"
+        }
+    }
+
+    public struct DeploymentStrategyOptionsStatus: AWSDecodableShape {
+        /// Deployment strategy options for the domain.
+        public let options: DeploymentStrategyOptions
+        /// The current status of the deployment strategy options for the domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: DeploymentStrategyOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 
@@ -3701,6 +3756,8 @@ extension OpenSearch {
         public let clusterConfig: ClusterConfigStatus?
         /// Container for Amazon Cognito options for the domain.
         public let cognitoOptions: CognitoOptionsStatus?
+        /// Specifies DeploymentStrategyOptions for the domain.
+        public let deploymentStrategyOptions: DeploymentStrategyOptionsStatus?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
         /// Container for EBS options configured for the domain.
@@ -3729,7 +3786,7 @@ extension OpenSearch {
         public let vpcOptions: VPCDerivedInfoStatus?
 
         @inlinable
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, identityCenterOptions: IdentityCenterOptionsStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, deploymentStrategyOptions: DeploymentStrategyOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, identityCenterOptions: IdentityCenterOptionsStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3738,6 +3795,7 @@ extension OpenSearch {
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -3762,6 +3820,7 @@ extension OpenSearch {
             case changeProgressDetails = "ChangeProgressDetails"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
@@ -4032,6 +4091,8 @@ extension OpenSearch {
         public let created: Bool?
         /// Deletion status of an OpenSearch Service domain. True if domain deletion is complete. False if domain deletion is still in progress. Once deletion is complete, the status of the domain is no longer returned.
         public let deleted: Bool?
+        /// The current status of the domain's deployment strategy options.
+        public let deploymentStrategyOptions: DeploymentStrategyOptions?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
         /// The dual stack hosted zone ID for the domain.
@@ -4080,7 +4141,7 @@ extension OpenSearch {
         public let vpcOptions: VPCDerivedInfo?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -4092,6 +4153,7 @@ extension OpenSearch {
             self.cognitoOptions = cognitoOptions
             self.created = created
             self.deleted = deleted
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainEndpointV2HostedZoneId = domainEndpointV2HostedZoneId
             self.domainId = domainId
@@ -4129,6 +4191,7 @@ extension OpenSearch {
             case cognitoOptions = "CognitoOptions"
             case created = "Created"
             case deleted = "Deleted"
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainEndpointV2HostedZoneId = "DomainEndpointV2HostedZoneId"
             case domainId = "DomainId"
@@ -4590,6 +4653,8 @@ extension OpenSearch {
     }
 
     public struct GetDirectQueryDataSourceResponse: AWSDecodableShape {
+        ///  The IAM access policy document that defines the permissions for accessing the direct query data source. Returns the current policy configuration in JSON format, or null if no custom policy is configured.
+        public let dataSourceAccessPolicy: String?
         ///  The unique, system-generated identifier that represents the data source.
         public let dataSourceArn: String?
         ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
@@ -4602,7 +4667,8 @@ extension OpenSearch {
         public let openSearchArns: [String]?
 
         @inlinable
-        public init(dataSourceArn: String? = nil, dataSourceName: String? = nil, dataSourceType: DirectQueryDataSourceType? = nil, description: String? = nil, openSearchArns: [String]? = nil) {
+        public init(dataSourceAccessPolicy: String? = nil, dataSourceArn: String? = nil, dataSourceName: String? = nil, dataSourceType: DirectQueryDataSourceType? = nil, description: String? = nil, openSearchArns: [String]? = nil) {
+            self.dataSourceAccessPolicy = dataSourceAccessPolicy
             self.dataSourceArn = dataSourceArn
             self.dataSourceName = dataSourceName
             self.dataSourceType = dataSourceType
@@ -4611,6 +4677,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSourceAccessPolicy = "DataSourceAccessPolicy"
             case dataSourceArn = "DataSourceArn"
             case dataSourceName = "DataSourceName"
             case dataSourceType = "DataSourceType"
@@ -7562,6 +7629,8 @@ extension OpenSearch {
     }
 
     public struct UpdateDirectQueryDataSourceRequest: AWSEncodableShape {
+        ///  An optional IAM access policy document that defines the updated permissions for accessing the direct query data source. The policy document must be in valid JSON format and follow IAM policy syntax. If not specified, the existing access policy if present remains unchanged.
+        public let dataSourceAccessPolicy: String?
         ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
         public let dataSourceName: String
         ///  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
@@ -7572,7 +7641,8 @@ extension OpenSearch {
         public let openSearchArns: [String]
 
         @inlinable
-        public init(dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String]) {
+        public init(dataSourceAccessPolicy: String? = nil, dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String]) {
+            self.dataSourceAccessPolicy = dataSourceAccessPolicy
             self.dataSourceName = dataSourceName
             self.dataSourceType = dataSourceType
             self.description = description
@@ -7582,6 +7652,7 @@ extension OpenSearch {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataSourceAccessPolicy, forKey: .dataSourceAccessPolicy)
             request.encodePath(self.dataSourceName, key: "DataSourceName")
             try container.encode(self.dataSourceType, forKey: .dataSourceType)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -7589,6 +7660,8 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSourceAccessPolicy, name: "dataSourceAccessPolicy", parent: name, max: 102400)
+            try self.validate(self.dataSourceAccessPolicy, name: "dataSourceAccessPolicy", parent: name, pattern: ".*")
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 80)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 3)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "^[a-z][a-z0-9_]+$")
@@ -7603,6 +7676,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSourceAccessPolicy = "DataSourceAccessPolicy"
             case dataSourceType = "DataSourceType"
             case description = "Description"
             case openSearchArns = "OpenSearchArns"
@@ -7638,6 +7712,8 @@ extension OpenSearch {
         public let clusterConfig: ClusterConfig?
         /// Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
         public let cognitoOptions: CognitoOptions?
+        /// Specifies the deployment strategy options for the domain.
+        public let deploymentStrategyOptions: DeploymentStrategyOptions?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public let domainEndpointOptions: DomainEndpointOptions?
         /// The name of the domain that you're updating.
@@ -7667,7 +7743,7 @@ extension OpenSearch {
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -7675,6 +7751,7 @@ extension OpenSearch {
             self.autoTuneOptions = autoTuneOptions
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
+            self.deploymentStrategyOptions = deploymentStrategyOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
             self.dryRun = dryRun
@@ -7701,6 +7778,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.autoTuneOptions, forKey: .autoTuneOptions)
             try container.encodeIfPresent(self.clusterConfig, forKey: .clusterConfig)
             try container.encodeIfPresent(self.cognitoOptions, forKey: .cognitoOptions)
+            try container.encodeIfPresent(self.deploymentStrategyOptions, forKey: .deploymentStrategyOptions)
             try container.encodeIfPresent(self.domainEndpointOptions, forKey: .domainEndpointOptions)
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
@@ -7743,6 +7821,7 @@ extension OpenSearch {
             case autoTuneOptions = "AutoTuneOptions"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
+            case deploymentStrategyOptions = "DeploymentStrategyOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case dryRun = "DryRun"
             case dryRunMode = "DryRunMode"

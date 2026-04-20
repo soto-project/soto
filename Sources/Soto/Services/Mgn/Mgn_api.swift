@@ -409,6 +409,56 @@ public struct Mgn: AWSService {
         return try await self.createLaunchConfigurationTemplate(input, logger: logger)
     }
 
+    /// Creates a new network migration definition that specifies the source and target network configuration for a migration.
+    @Sendable
+    @inlinable
+    public func createNetworkMigrationDefinition(_ input: CreateNetworkMigrationDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> NetworkMigrationDefinition {
+        try await self.client.execute(
+            operation: "CreateNetworkMigrationDefinition", 
+            path: "/network-migration/CreateNetworkMigrationDefinition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new network migration definition that specifies the source and target network configuration for a migration.
+    ///
+    /// Parameters:
+    ///   - description: A description of the network migration definition.
+    ///   - name: The name of the network migration definition.
+    ///   - scopeTags: Scope tags for the network migration definition to control access and organization.
+    ///   - sourceConfigurations: A list of source configurations for the network migration.
+    ///   - tags: Tags to assign to the network migration definition.
+    ///   - targetDeployment: The target deployment configuration for the migrated network.
+    ///   - targetNetwork: The target network configuration including topology and CIDR ranges.
+    ///   - targetS3Configuration: The S3 configuration for storing the target network artifacts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createNetworkMigrationDefinition(
+        description: String? = nil,
+        name: String,
+        scopeTags: [String: String]? = nil,
+        sourceConfigurations: [SourceConfiguration]? = nil,
+        tags: [String: String]? = nil,
+        targetDeployment: TargetDeployment? = nil,
+        targetNetwork: TargetNetwork,
+        targetS3Configuration: TargetS3Configuration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> NetworkMigrationDefinition {
+        let input = CreateNetworkMigrationDefinitionRequest(
+            description: description, 
+            name: name, 
+            scopeTags: scopeTags, 
+            sourceConfigurations: sourceConfigurations, 
+            tags: tags, 
+            targetDeployment: targetDeployment, 
+            targetNetwork: targetNetwork, 
+            targetS3Configuration: targetS3Configuration
+        )
+        return try await self.createNetworkMigrationDefinition(input, logger: logger)
+    }
+
     /// Creates a new ReplicationConfigurationTemplate.
     @Sendable
     @inlinable
@@ -437,6 +487,7 @@ public struct Mgn: AWSService {
     ///   - replicationServersSecurityGroupsIDs: Request to configure the Replication Server Security group ID during Replication Settings template creation.
     ///   - stagingAreaSubnetId: Request to configure the Staging Area subnet ID during Replication Settings template creation.
     ///   - stagingAreaTags: Request to configure Staging Area tags during Replication Settings template creation.
+    ///   - storeSnapshotOnLocalZone: Request to store snapshot on local zone during Replication Settings template creation.
     ///   - tags: Request to configure tags during Replication Settings template creation.
     ///   - useDedicatedReplicationServer: Request to use Dedicated Replication Servers during Replication Settings template creation.
     ///   - useFipsEndpoint: Request to use Fips Endpoint during Replication Settings template creation.
@@ -455,6 +506,7 @@ public struct Mgn: AWSService {
         replicationServersSecurityGroupsIDs: [String],
         stagingAreaSubnetId: String,
         stagingAreaTags: [String: String],
+        storeSnapshotOnLocalZone: Bool? = nil,
         tags: [String: String]? = nil,
         useDedicatedReplicationServer: Bool,
         useFipsEndpoint: Bool? = nil,
@@ -473,6 +525,7 @@ public struct Mgn: AWSService {
             replicationServersSecurityGroupsIDs: replicationServersSecurityGroupsIDs, 
             stagingAreaSubnetId: stagingAreaSubnetId, 
             stagingAreaTags: stagingAreaTags, 
+            storeSnapshotOnLocalZone: storeSnapshotOnLocalZone, 
             tags: tags, 
             useDedicatedReplicationServer: useDedicatedReplicationServer, 
             useFipsEndpoint: useFipsEndpoint
@@ -638,6 +691,35 @@ public struct Mgn: AWSService {
             launchConfigurationTemplateID: launchConfigurationTemplateID
         )
         return try await self.deleteLaunchConfigurationTemplate(input, logger: logger)
+    }
+
+    /// Deletes a network migration definition. This operation removes the migration definition and all associated metadata.
+    @Sendable
+    @inlinable
+    public func deleteNetworkMigrationDefinition(_ input: DeleteNetworkMigrationDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkMigrationDefinitionResponse {
+        try await self.client.execute(
+            operation: "DeleteNetworkMigrationDefinition", 
+            path: "/network-migration/DeleteNetworkMigrationDefinition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a network migration definition. This operation removes the migration definition and all associated metadata.
+    ///
+    /// Parameters:
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteNetworkMigrationDefinition(
+        networkMigrationDefinitionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteNetworkMigrationDefinitionResponse {
+        let input = DeleteNetworkMigrationDefinitionRequest(
+            networkMigrationDefinitionID: networkMigrationDefinitionID
+        )
+        return try await self.deleteNetworkMigrationDefinition(input, logger: logger)
     }
 
     /// Deletes a single Replication Configuration Template by ID
@@ -1144,6 +1226,73 @@ public struct Mgn: AWSService {
         return try await self.getLaunchConfiguration(input, logger: logger)
     }
 
+    /// Retrieves the details of a network migration definition including source and target configurations.
+    @Sendable
+    @inlinable
+    public func getNetworkMigrationDefinition(_ input: GetNetworkMigrationDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> NetworkMigrationDefinition {
+        try await self.client.execute(
+            operation: "GetNetworkMigrationDefinition", 
+            path: "/network-migration/GetNetworkMigrationDefinition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of a network migration definition including source and target configurations.
+    ///
+    /// Parameters:
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getNetworkMigrationDefinition(
+        networkMigrationDefinitionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> NetworkMigrationDefinition {
+        let input = GetNetworkMigrationDefinitionRequest(
+            networkMigrationDefinitionID: networkMigrationDefinitionID
+        )
+        return try await self.getNetworkMigrationDefinition(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific construct within a mapper segment, including its properties and configuration data.
+    @Sendable
+    @inlinable
+    public func getNetworkMigrationMapperSegmentConstruct(_ input: GetNetworkMigrationMapperSegmentConstructRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkMigrationMapperSegmentConstructResponse {
+        try await self.client.execute(
+            operation: "GetNetworkMigrationMapperSegmentConstruct", 
+            path: "/network-migration/GetNetworkMigrationMapperSegmentConstruct", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific construct within a mapper segment, including its properties and configuration data.
+    ///
+    /// Parameters:
+    ///   - constructID: The unique identifier of the construct within the segment.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - segmentID: The unique identifier of the mapper segment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getNetworkMigrationMapperSegmentConstruct(
+        constructID: String,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        segmentID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetNetworkMigrationMapperSegmentConstructResponse {
+        let input = GetNetworkMigrationMapperSegmentConstructRequest(
+            constructID: constructID, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            segmentID: segmentID
+        )
+        return try await self.getNetworkMigrationMapperSegmentConstruct(input, logger: logger)
+    }
+
     /// Lists all ReplicationConfigurations, filtered by Source Server ID.
     @Sendable
     @inlinable
@@ -1380,6 +1529,41 @@ public struct Mgn: AWSService {
         return try await self.listImportErrors(input, logger: logger)
     }
 
+    /// Lists import file enrichment jobs with optional filtering by job IDs.
+    @Sendable
+    @inlinable
+    public func listImportFileEnrichments(_ input: ListImportFileEnrichmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportFileEnrichmentsResponse {
+        try await self.client.execute(
+            operation: "ListImportFileEnrichments", 
+            path: "/network-migration/ListImportFileEnrichments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists import file enrichment jobs with optional filtering by job IDs.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing import file enrichment jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listImportFileEnrichments(
+        filters: ListImportFileEnrichmentsFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListImportFileEnrichmentsResponse {
+        let input = ListImportFileEnrichmentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listImportFileEnrichments(input, logger: logger)
+    }
+
     /// List imports.
     @Sendable
     @inlinable
@@ -1445,6 +1629,489 @@ public struct Mgn: AWSService {
             nextToken: nextToken
         )
         return try await self.listManagedAccounts(input, logger: logger)
+    }
+
+    /// Lists network migration analysis jobs for a specified execution. Returns information about analysis job status and results.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationAnalyses(_ input: ListNetworkMigrationAnalysesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationAnalysesResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationAnalyses", 
+            path: "/network-migration/ListNetworkMigrationAnalyses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists network migration analysis jobs for a specified execution. Returns information about analysis job status and results.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing analysis jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution to list analyses for.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationAnalyses(
+        filters: ListNetworkMigrationAnalysesFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationAnalysesResponse {
+        let input = ListNetworkMigrationAnalysesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationAnalyses(input, logger: logger)
+    }
+
+    /// Lists the results of network migration analyses, showing connectivity and compatibility findings for migrated resources.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationAnalysisResults(_ input: ListNetworkMigrationAnalysisResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationAnalysisResultsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationAnalysisResults", 
+            path: "/network-migration/ListNetworkMigrationAnalysisResults", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the results of network migration analyses, showing connectivity and compatibility findings for migrated resources.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing analysis results, such as VPC IDs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationAnalysisResults(
+        filters: ListNetworkMigrationAnalysisResultsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationAnalysisResultsResponse {
+        let input = ListNetworkMigrationAnalysisResultsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationAnalysisResults(input, logger: logger)
+    }
+
+    /// Lists code generation segments, which represent individual infrastructure components generated as code templates.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationCodeGenerationSegments(_ input: ListNetworkMigrationCodeGenerationSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationCodeGenerationSegmentsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationCodeGenerationSegments", 
+            path: "/network-migration/ListNetworkMigrationCodeGenerationSegments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists code generation segments, which represent individual infrastructure components generated as code templates.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing code generation segments.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationCodeGenerationSegments(
+        filters: ListNetworkMigrationCodeGenerationSegmentsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationCodeGenerationSegmentsResponse {
+        let input = ListNetworkMigrationCodeGenerationSegmentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationCodeGenerationSegments(input, logger: logger)
+    }
+
+    /// Lists network migration code generation jobs, which convert network mappings into infrastructure-as-code templates.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationCodeGenerations(_ input: ListNetworkMigrationCodeGenerationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationCodeGenerationsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationCodeGenerations", 
+            path: "/network-migration/ListNetworkMigrationCodeGenerations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists network migration code generation jobs, which convert network mappings into infrastructure-as-code templates.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing code generation jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationCodeGenerations(
+        filters: ListNetworkMigrationCodeGenerationsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationCodeGenerationsResponse {
+        let input = ListNetworkMigrationCodeGenerationsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationCodeGenerations(input, logger: logger)
+    }
+
+    /// Lists all network migration definitions in the account, with optional filtering.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationDefinitions(_ input: ListNetworkMigrationDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationDefinitionsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationDefinitions", 
+            path: "/network-migration/ListNetworkMigrationDefinitions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all network migration definitions in the account, with optional filtering.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing network migration definitions.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationDefinitions(
+        filters: ListNetworkMigrationDefinitionsRequestFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationDefinitionsResponse {
+        let input = ListNetworkMigrationDefinitionsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationDefinitions(input, logger: logger)
+    }
+
+    /// Lists CloudFormation stacks that have been deployed as part of the network migration.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationDeployedStacks(_ input: ListNetworkMigrationDeployedStacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationDeployedStacksResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationDeployedStacks", 
+            path: "/network-migration/ListNetworkMigrationDeployedStacks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists CloudFormation stacks that have been deployed as part of the network migration.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationDeployedStacks(
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationDeployedStacksResponse {
+        let input = ListNetworkMigrationDeployedStacksRequest(
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationDeployedStacks(input, logger: logger)
+    }
+
+    /// Lists network migration deployment jobs and their current status.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationDeployments(_ input: ListNetworkMigrationDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationDeployerJobResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationDeployments", 
+            path: "/network-migration/ListNetworkMigrationDeployments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists network migration deployment jobs and their current status.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing deployment jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationDeployments(
+        filters: ListNetworkMigrationDeployerJobFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationDeployerJobResponse {
+        let input = ListNetworkMigrationDeploymentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationDeployments(input, logger: logger)
+    }
+
+    /// Lists network migration execution instances for a given definition, showing the status and progress of each execution.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationExecutions(_ input: ListNetworkMigrationExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationExecutions", 
+            path: "/network-migration/ListNetworkMigrationExecutions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists network migration execution instances for a given definition, showing the status and progress of each execution.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing executions, such as status or execution ID.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition to list executions for.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationExecutions(
+        filters: ListNetworkMigrationExecutionRequestFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationExecutionsResponse {
+        let input = ListNetworkMigrationExecutionsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationExecutions(input, logger: logger)
+    }
+
+    /// Lists constructs within a mapper segment, representing individual infrastructure components like VPCs, subnets, or security groups.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationMapperSegmentConstructs(_ input: ListNetworkMigrationMapperSegmentConstructsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationMapperSegmentConstructsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationMapperSegmentConstructs", 
+            path: "/network-migration/ListNetworkMigrationMapperSegmentConstructs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists constructs within a mapper segment, representing individual infrastructure components like VPCs, subnets, or security groups.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing constructs, such as construct type or ID.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - segmentID: The unique identifier of the segment to list constructs for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationMapperSegmentConstructs(
+        filters: ListNetworkMigrationMapperSegmentConstructsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        segmentID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationMapperSegmentConstructsResponse {
+        let input = ListNetworkMigrationMapperSegmentConstructsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken, 
+            segmentID: segmentID
+        )
+        return try await self.listNetworkMigrationMapperSegmentConstructs(input, logger: logger)
+    }
+
+    /// Lists mapper segments, which represent logical groupings of network resources to be migrated together.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationMapperSegments(_ input: ListNetworkMigrationMapperSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationMapperSegmentsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationMapperSegments", 
+            path: "/network-migration/ListNetworkMigrationMapperSegments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists mapper segments, which represent logical groupings of network resources to be migrated together.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing segments.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationMapperSegments(
+        filters: ListNetworkMigrationMapperSegmentsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationMapperSegmentsResponse {
+        let input = ListNetworkMigrationMapperSegmentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationMapperSegments(input, logger: logger)
+    }
+
+    /// Lists mapping update jobs, which apply customer modifications to the generated network mappings.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationMappingUpdates(_ input: ListNetworkMigrationMappingUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationMappingUpdatesResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationMappingUpdates", 
+            path: "/network-migration/ListNetworkMigrationMappingUpdates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists mapping update jobs, which apply customer modifications to the generated network mappings.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing mapping update jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationMappingUpdates(
+        filters: ListNetworkMigrationMappingUpdatesFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationMappingUpdatesResponse {
+        let input = ListNetworkMigrationMappingUpdatesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationMappingUpdates(input, logger: logger)
+    }
+
+    /// Lists network migration mapping jobs, which analyze and create relationships between source and target network resources.
+    @Sendable
+    @inlinable
+    public func listNetworkMigrationMappings(_ input: ListNetworkMigrationMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkMigrationMappingsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkMigrationMappings", 
+            path: "/network-migration/ListNetworkMigrationMappings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists network migration mapping jobs, which analyze and create relationships between source and target network resources.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to apply when listing mapping jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkMigrationMappings(
+        filters: ListNetworkMigrationMappingsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkMigrationMappingsResponse {
+        let input = ListNetworkMigrationMappingsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            nextToken: nextToken
+        )
+        return try await self.listNetworkMigrationMappings(input, logger: logger)
     }
 
     /// List source server post migration custom actions.
@@ -2032,6 +2699,216 @@ public struct Mgn: AWSService {
         return try await self.startImport(input, logger: logger)
     }
 
+    /// Starts an import file enrichment job to process and enrich network migration import files with additional metadata and IP assignment strategies.
+    @Sendable
+    @inlinable
+    public func startImportFileEnrichment(_ input: StartImportFileEnrichmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportFileEnrichmentResponse {
+        try await self.client.execute(
+            operation: "StartImportFileEnrichment", 
+            path: "/network-migration/StartImportFileEnrichment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an import file enrichment job to process and enrich network migration import files with additional metadata and IP assignment strategies.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - ipAssignmentStrategy: The IP assignment strategy to use when enriching the import file. Can be STATIC or DYNAMIC.
+    ///   - s3BucketSource: The S3 configuration specifying the source location of the import file to be enriched.
+    ///   - s3BucketTarget: The S3 configuration specifying the target location where the enriched import file will be stored.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startImportFileEnrichment(
+        clientToken: String? = StartImportFileEnrichmentRequest.idempotencyToken(),
+        ipAssignmentStrategy: IpAssignmentStrategy? = nil,
+        s3BucketSource: EnrichmentSourceS3Configuration,
+        s3BucketTarget: EnrichmentTargetS3Configuration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartImportFileEnrichmentResponse {
+        let input = StartImportFileEnrichmentRequest(
+            clientToken: clientToken, 
+            ipAssignmentStrategy: ipAssignmentStrategy, 
+            s3BucketSource: s3BucketSource, 
+            s3BucketTarget: s3BucketTarget
+        )
+        return try await self.startImportFileEnrichment(input, logger: logger)
+    }
+
+    /// Starts a network migration analysis job to evaluate connectivity and compatibility of the migration mappings.
+    @Sendable
+    @inlinable
+    public func startNetworkMigrationAnalysis(_ input: StartNetworkMigrationAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNetworkMigrationAnalysisResponse {
+        try await self.client.execute(
+            operation: "StartNetworkMigrationAnalysis", 
+            path: "/network-migration/StartNetworkMigrationAnalysis", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a network migration analysis job to evaluate connectivity and compatibility of the migration mappings.
+    ///
+    /// Parameters:
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution to analyze.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNetworkMigrationAnalysis(
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNetworkMigrationAnalysisResponse {
+        let input = StartNetworkMigrationAnalysisRequest(
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return try await self.startNetworkMigrationAnalysis(input, logger: logger)
+    }
+
+    /// Starts a code generation job to convert network migration mappings into infrastructure-as-code templates.
+    @Sendable
+    @inlinable
+    public func startNetworkMigrationCodeGeneration(_ input: StartNetworkMigrationCodeGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNetworkMigrationCodeGenerationResponse {
+        try await self.client.execute(
+            operation: "StartNetworkMigrationCodeGeneration", 
+            path: "/network-migration/StartNetworkMigrationCodeGeneration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a code generation job to convert network migration mappings into infrastructure-as-code templates.
+    ///
+    /// Parameters:
+    ///   - codeGenerationOutputFormatTypes: The output format types for code generation, such as CloudFormation or Terraform.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNetworkMigrationCodeGeneration(
+        codeGenerationOutputFormatTypes: [CodeGenerationOutputFormatType]? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNetworkMigrationCodeGenerationResponse {
+        let input = StartNetworkMigrationCodeGenerationRequest(
+            codeGenerationOutputFormatTypes: codeGenerationOutputFormatTypes, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return try await self.startNetworkMigrationCodeGeneration(input, logger: logger)
+    }
+
+    /// Starts a deployment job to create the target network infrastructure based on the generated code templates.
+    @Sendable
+    @inlinable
+    public func startNetworkMigrationDeployment(_ input: StartNetworkMigrationDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNetworkMigrationDeployerJobResponse {
+        try await self.client.execute(
+            operation: "StartNetworkMigrationDeployment", 
+            path: "/network-migration/StartNetworkMigrationDeployment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a deployment job to create the target network infrastructure based on the generated code templates.
+    ///
+    /// Parameters:
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNetworkMigrationDeployment(
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNetworkMigrationDeployerJobResponse {
+        let input = StartNetworkMigrationDeploymentRequest(
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return try await self.startNetworkMigrationDeployment(input, logger: logger)
+    }
+
+    /// Starts the network migration mapping process for a given network migration execution.
+    @Sendable
+    @inlinable
+    public func startNetworkMigrationMapping(_ input: StartNetworkMigrationMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNetworkMigrationMappingResponse {
+        try await self.client.execute(
+            operation: "StartNetworkMigrationMapping", 
+            path: "/network-migration/StartNetworkMigrationMapping", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts the network migration mapping process for a given network migration execution.
+    ///
+    /// Parameters:
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - securityGroupMappingStrategy: The security group mapping strategy to use.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNetworkMigrationMapping(
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        securityGroupMappingStrategy: SecurityGroupMappingStrategy? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNetworkMigrationMappingResponse {
+        let input = StartNetworkMigrationMappingRequest(
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            securityGroupMappingStrategy: securityGroupMappingStrategy
+        )
+        return try await self.startNetworkMigrationMapping(input, logger: logger)
+    }
+
+    /// Starts a job to apply customer modifications to network migration mappings, such as changing properties.
+    @Sendable
+    @inlinable
+    public func startNetworkMigrationMappingUpdate(_ input: StartNetworkMigrationMappingUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNetworkMigrationMappingUpdateResponse {
+        try await self.client.execute(
+            operation: "StartNetworkMigrationMappingUpdate", 
+            path: "/network-migration/StartNetworkMigrationMappingUpdate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a job to apply customer modifications to network migration mappings, such as changing properties.
+    ///
+    /// Parameters:
+    ///   - constructs: A list of construct updates to apply.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - segments: A list of segment updates to apply.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNetworkMigrationMappingUpdate(
+        constructs: [StartNetworkMigrationMappingUpdateConstruct]? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        segments: [StartNetworkMigrationMappingUpdateSegment]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNetworkMigrationMappingUpdateResponse {
+        let input = StartNetworkMigrationMappingUpdateRequest(
+            constructs: constructs, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            segments: segments
+        )
+        return try await self.startNetworkMigrationMappingUpdate(input, logger: logger)
+    }
+
     /// Start replication for source server irrespective of its replication type.
     @Sendable
     @inlinable
@@ -2503,6 +3380,94 @@ public struct Mgn: AWSService {
         return try await self.updateLaunchConfigurationTemplate(input, logger: logger)
     }
 
+    /// Updates an existing network migration definition with new source or target configurations.
+    @Sendable
+    @inlinable
+    public func updateNetworkMigrationDefinition(_ input: UpdateNetworkMigrationDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> NetworkMigrationDefinition {
+        try await self.client.execute(
+            operation: "UpdateNetworkMigrationDefinition", 
+            path: "/network-migration/UpdateNetworkMigrationDefinition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing network migration definition with new source or target configurations.
+    ///
+    /// Parameters:
+    ///   - description: The updated description of the network migration definition.
+    ///   - name: The updated name of the network migration definition.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition to update.
+    ///   - scopeTags: The updated scope tags for the network migration definition.
+    ///   - sourceConfigurations: The updated list of source configurations.
+    ///   - targetDeployment: The updated target deployment configuration.
+    ///   - targetNetwork: The updated target network configuration.
+    ///   - targetS3Configuration: The updated S3 configuration for storing the target network artifacts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateNetworkMigrationDefinition(
+        description: String? = nil,
+        name: String? = nil,
+        networkMigrationDefinitionID: String,
+        scopeTags: [String: String]? = nil,
+        sourceConfigurations: [SourceConfiguration]? = nil,
+        targetDeployment: TargetDeployment? = nil,
+        targetNetwork: TargetNetworkUpdate? = nil,
+        targetS3Configuration: TargetS3ConfigurationUpdate? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> NetworkMigrationDefinition {
+        let input = UpdateNetworkMigrationDefinitionRequest(
+            description: description, 
+            name: name, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            scopeTags: scopeTags, 
+            sourceConfigurations: sourceConfigurations, 
+            targetDeployment: targetDeployment, 
+            targetNetwork: targetNetwork, 
+            targetS3Configuration: targetS3Configuration
+        )
+        return try await self.updateNetworkMigrationDefinition(input, logger: logger)
+    }
+
+    /// Updates a mapper segment's configuration, such as changing its scope tags.
+    @Sendable
+    @inlinable
+    public func updateNetworkMigrationMapperSegment(_ input: UpdateNetworkMigrationMapperSegmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> NetworkMigrationMapperSegment {
+        try await self.client.execute(
+            operation: "UpdateNetworkMigrationMapperSegment", 
+            path: "/network-migration/UpdateNetworkMigrationMapperSegment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a mapper segment's configuration, such as changing its scope tags.
+    ///
+    /// Parameters:
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - scopeTags: The updated scope tags for the segment.
+    ///   - segmentID: The unique identifier of the segment to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateNetworkMigrationMapperSegment(
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        scopeTags: [String: String]? = nil,
+        segmentID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> NetworkMigrationMapperSegment {
+        let input = UpdateNetworkMigrationMapperSegmentRequest(
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            scopeTags: scopeTags, 
+            segmentID: segmentID
+        )
+        return try await self.updateNetworkMigrationMapperSegment(input, logger: logger)
+    }
+
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID.
     @Sendable
     @inlinable
@@ -2535,6 +3500,7 @@ public struct Mgn: AWSService {
     ///   - sourceServerID: Update replication configuration Source Server ID request.
     ///   - stagingAreaSubnetId: Update replication configuration Staging Area subnet request.
     ///   - stagingAreaTags: Update replication configuration Staging Area Tags request.
+    ///   - storeSnapshotOnLocalZone: Update replication configuration store snapshot on local zone.
     ///   - useDedicatedReplicationServer: Update replication configuration use dedicated Replication Server request.
     ///   - useFipsEndpoint: Update replication configuration use Fips Endpoint.
     ///   - logger: Logger use during operation
@@ -2556,6 +3522,7 @@ public struct Mgn: AWSService {
         sourceServerID: String,
         stagingAreaSubnetId: String? = nil,
         stagingAreaTags: [String: String]? = nil,
+        storeSnapshotOnLocalZone: Bool? = nil,
         useDedicatedReplicationServer: Bool? = nil,
         useFipsEndpoint: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2577,6 +3544,7 @@ public struct Mgn: AWSService {
             sourceServerID: sourceServerID, 
             stagingAreaSubnetId: stagingAreaSubnetId, 
             stagingAreaTags: stagingAreaTags, 
+            storeSnapshotOnLocalZone: storeSnapshotOnLocalZone, 
             useDedicatedReplicationServer: useDedicatedReplicationServer, 
             useFipsEndpoint: useFipsEndpoint
         )
@@ -2613,6 +3581,7 @@ public struct Mgn: AWSService {
     ///   - replicationServersSecurityGroupsIDs: Update replication configuration template Replication Server Security groups IDs request.
     ///   - stagingAreaSubnetId: Update replication configuration template Staging Area subnet ID request.
     ///   - stagingAreaTags: Update replication configuration template Staging Area Tags request.
+    ///   - storeSnapshotOnLocalZone: Update replication configuration template store snapshot on local zone request.
     ///   - useDedicatedReplicationServer: Update replication configuration template use dedicated Replication Server request.
     ///   - useFipsEndpoint: Update replication configuration template use Fips Endpoint request.
     ///   - logger: Logger use during operation
@@ -2632,6 +3601,7 @@ public struct Mgn: AWSService {
         replicationServersSecurityGroupsIDs: [String]? = nil,
         stagingAreaSubnetId: String? = nil,
         stagingAreaTags: [String: String]? = nil,
+        storeSnapshotOnLocalZone: Bool? = nil,
         useDedicatedReplicationServer: Bool? = nil,
         useFipsEndpoint: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2651,6 +3621,7 @@ public struct Mgn: AWSService {
             replicationServersSecurityGroupsIDs: replicationServersSecurityGroupsIDs, 
             stagingAreaSubnetId: stagingAreaSubnetId, 
             stagingAreaTags: stagingAreaTags, 
+            storeSnapshotOnLocalZone: storeSnapshotOnLocalZone, 
             useDedicatedReplicationServer: useDedicatedReplicationServer, 
             useFipsEndpoint: useFipsEndpoint
         )
@@ -3195,6 +4166,43 @@ extension Mgn {
         return self.listImportErrorsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listImportFileEnrichments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listImportFileEnrichmentsPaginator(
+        _ input: ListImportFileEnrichmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListImportFileEnrichmentsRequest, ListImportFileEnrichmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listImportFileEnrichments,
+            inputKey: \ListImportFileEnrichmentsRequest.nextToken,
+            outputKey: \ListImportFileEnrichmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listImportFileEnrichments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing import file enrichment jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listImportFileEnrichmentsPaginator(
+        filters: ListImportFileEnrichmentsFilters? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListImportFileEnrichmentsRequest, ListImportFileEnrichmentsResponse> {
+        let input = ListImportFileEnrichmentsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listImportFileEnrichmentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listImports(_:logger:)``.
     ///
     /// - Parameters:
@@ -3264,6 +4272,513 @@ extension Mgn {
             maxResults: maxResults
         )
         return self.listManagedAccountsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationAnalyses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationAnalysesPaginator(
+        _ input: ListNetworkMigrationAnalysesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationAnalysesRequest, ListNetworkMigrationAnalysesResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationAnalyses,
+            inputKey: \ListNetworkMigrationAnalysesRequest.nextToken,
+            outputKey: \ListNetworkMigrationAnalysesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationAnalyses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing analysis jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution to list analyses for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationAnalysesPaginator(
+        filters: ListNetworkMigrationAnalysesFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationAnalysesRequest, ListNetworkMigrationAnalysesResponse> {
+        let input = ListNetworkMigrationAnalysesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationAnalysesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationAnalysisResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationAnalysisResultsPaginator(
+        _ input: ListNetworkMigrationAnalysisResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationAnalysisResultsRequest, ListNetworkMigrationAnalysisResultsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationAnalysisResults,
+            inputKey: \ListNetworkMigrationAnalysisResultsRequest.nextToken,
+            outputKey: \ListNetworkMigrationAnalysisResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationAnalysisResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing analysis results, such as VPC IDs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationAnalysisResultsPaginator(
+        filters: ListNetworkMigrationAnalysisResultsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationAnalysisResultsRequest, ListNetworkMigrationAnalysisResultsResponse> {
+        let input = ListNetworkMigrationAnalysisResultsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationAnalysisResultsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationCodeGenerationSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationCodeGenerationSegmentsPaginator(
+        _ input: ListNetworkMigrationCodeGenerationSegmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationCodeGenerationSegmentsRequest, ListNetworkMigrationCodeGenerationSegmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationCodeGenerationSegments,
+            inputKey: \ListNetworkMigrationCodeGenerationSegmentsRequest.nextToken,
+            outputKey: \ListNetworkMigrationCodeGenerationSegmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationCodeGenerationSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing code generation segments.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationCodeGenerationSegmentsPaginator(
+        filters: ListNetworkMigrationCodeGenerationSegmentsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationCodeGenerationSegmentsRequest, ListNetworkMigrationCodeGenerationSegmentsResponse> {
+        let input = ListNetworkMigrationCodeGenerationSegmentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationCodeGenerationSegmentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationCodeGenerations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationCodeGenerationsPaginator(
+        _ input: ListNetworkMigrationCodeGenerationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationCodeGenerationsRequest, ListNetworkMigrationCodeGenerationsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationCodeGenerations,
+            inputKey: \ListNetworkMigrationCodeGenerationsRequest.nextToken,
+            outputKey: \ListNetworkMigrationCodeGenerationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationCodeGenerations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing code generation jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationCodeGenerationsPaginator(
+        filters: ListNetworkMigrationCodeGenerationsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationCodeGenerationsRequest, ListNetworkMigrationCodeGenerationsResponse> {
+        let input = ListNetworkMigrationCodeGenerationsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationCodeGenerationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationDefinitionsPaginator(
+        _ input: ListNetworkMigrationDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationDefinitionsRequest, ListNetworkMigrationDefinitionsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationDefinitions,
+            inputKey: \ListNetworkMigrationDefinitionsRequest.nextToken,
+            outputKey: \ListNetworkMigrationDefinitionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing network migration definitions.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationDefinitionsPaginator(
+        filters: ListNetworkMigrationDefinitionsRequestFilters? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationDefinitionsRequest, ListNetworkMigrationDefinitionsResponse> {
+        let input = ListNetworkMigrationDefinitionsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listNetworkMigrationDefinitionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationDeployedStacks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationDeployedStacksPaginator(
+        _ input: ListNetworkMigrationDeployedStacksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationDeployedStacksRequest, ListNetworkMigrationDeployedStacksResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationDeployedStacks,
+            inputKey: \ListNetworkMigrationDeployedStacksRequest.nextToken,
+            outputKey: \ListNetworkMigrationDeployedStacksResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationDeployedStacks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationDeployedStacksPaginator(
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationDeployedStacksRequest, ListNetworkMigrationDeployedStacksResponse> {
+        let input = ListNetworkMigrationDeployedStacksRequest(
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationDeployedStacksPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationDeploymentsPaginator(
+        _ input: ListNetworkMigrationDeploymentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationDeploymentsRequest, ListNetworkMigrationDeployerJobResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationDeployments,
+            inputKey: \ListNetworkMigrationDeploymentsRequest.nextToken,
+            outputKey: \ListNetworkMigrationDeployerJobResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing deployment jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationDeploymentsPaginator(
+        filters: ListNetworkMigrationDeployerJobFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationDeploymentsRequest, ListNetworkMigrationDeployerJobResponse> {
+        let input = ListNetworkMigrationDeploymentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationDeploymentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationExecutionsPaginator(
+        _ input: ListNetworkMigrationExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationExecutionsRequest, ListNetworkMigrationExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationExecutions,
+            inputKey: \ListNetworkMigrationExecutionsRequest.nextToken,
+            outputKey: \ListNetworkMigrationExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing executions, such as status or execution ID.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition to list executions for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationExecutionsPaginator(
+        filters: ListNetworkMigrationExecutionRequestFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationExecutionsRequest, ListNetworkMigrationExecutionsResponse> {
+        let input = ListNetworkMigrationExecutionsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID
+        )
+        return self.listNetworkMigrationExecutionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMapperSegmentConstructs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMapperSegmentConstructsPaginator(
+        _ input: ListNetworkMigrationMapperSegmentConstructsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMapperSegmentConstructsRequest, ListNetworkMigrationMapperSegmentConstructsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationMapperSegmentConstructs,
+            inputKey: \ListNetworkMigrationMapperSegmentConstructsRequest.nextToken,
+            outputKey: \ListNetworkMigrationMapperSegmentConstructsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMapperSegmentConstructs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing constructs, such as construct type or ID.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - segmentID: The unique identifier of the segment to list constructs for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMapperSegmentConstructsPaginator(
+        filters: ListNetworkMigrationMapperSegmentConstructsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        segmentID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMapperSegmentConstructsRequest, ListNetworkMigrationMapperSegmentConstructsResponse> {
+        let input = ListNetworkMigrationMapperSegmentConstructsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID, 
+            segmentID: segmentID
+        )
+        return self.listNetworkMigrationMapperSegmentConstructsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMapperSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMapperSegmentsPaginator(
+        _ input: ListNetworkMigrationMapperSegmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMapperSegmentsRequest, ListNetworkMigrationMapperSegmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationMapperSegments,
+            inputKey: \ListNetworkMigrationMapperSegmentsRequest.nextToken,
+            outputKey: \ListNetworkMigrationMapperSegmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMapperSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing segments.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMapperSegmentsPaginator(
+        filters: ListNetworkMigrationMapperSegmentsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMapperSegmentsRequest, ListNetworkMigrationMapperSegmentsResponse> {
+        let input = ListNetworkMigrationMapperSegmentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationMapperSegmentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMappingUpdates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMappingUpdatesPaginator(
+        _ input: ListNetworkMigrationMappingUpdatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMappingUpdatesRequest, ListNetworkMigrationMappingUpdatesResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationMappingUpdates,
+            inputKey: \ListNetworkMigrationMappingUpdatesRequest.nextToken,
+            outputKey: \ListNetworkMigrationMappingUpdatesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMappingUpdates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing mapping update jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMappingUpdatesPaginator(
+        filters: ListNetworkMigrationMappingUpdatesFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMappingUpdatesRequest, ListNetworkMigrationMappingUpdatesResponse> {
+        let input = ListNetworkMigrationMappingUpdatesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationMappingUpdatesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMappings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMappingsPaginator(
+        _ input: ListNetworkMigrationMappingsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMappingsRequest, ListNetworkMigrationMappingsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkMigrationMappings,
+            inputKey: \ListNetworkMigrationMappingsRequest.nextToken,
+            outputKey: \ListNetworkMigrationMappingsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkMigrationMappings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters to apply when listing mapping jobs.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition.
+    ///   - networkMigrationExecutionID: The unique identifier of the network migration execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkMigrationMappingsPaginator(
+        filters: ListNetworkMigrationMappingsFilters? = nil,
+        maxResults: Int? = nil,
+        networkMigrationDefinitionID: String,
+        networkMigrationExecutionID: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkMigrationMappingsRequest, ListNetworkMigrationMappingsResponse> {
+        let input = ListNetworkMigrationMappingsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            networkMigrationDefinitionID: networkMigrationDefinitionID, 
+            networkMigrationExecutionID: networkMigrationExecutionID
+        )
+        return self.listNetworkMigrationMappingsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSourceServerActions(_:logger:)``.
@@ -3514,6 +5029,17 @@ extension Mgn.ListImportErrorsRequest: AWSPaginateToken {
     }
 }
 
+extension Mgn.ListImportFileEnrichmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListImportFileEnrichmentsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Mgn.ListImportsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Mgn.ListImportsRequest {
@@ -3530,6 +5056,159 @@ extension Mgn.ListManagedAccountsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Mgn.ListManagedAccountsRequest {
         return .init(
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationAnalysesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationAnalysesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationAnalysisResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationAnalysisResultsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationCodeGenerationSegmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationCodeGenerationSegmentsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationCodeGenerationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationCodeGenerationsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationDefinitionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationDefinitionsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationDeployedStacksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationDeployedStacksRequest {
+        return .init(
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationDeploymentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationDeploymentsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationExecutionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationExecutionsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationMapperSegmentConstructsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationMapperSegmentConstructsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token,
+            segmentID: self.segmentID
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationMapperSegmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationMapperSegmentsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationMappingUpdatesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationMappingUpdatesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
+            nextToken: token
+        )
+    }
+}
+
+extension Mgn.ListNetworkMigrationMappingsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Mgn.ListNetworkMigrationMappingsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkMigrationDefinitionID: self.networkMigrationDefinitionID,
+            networkMigrationExecutionID: self.networkMigrationExecutionID,
             nextToken: token
         )
     }

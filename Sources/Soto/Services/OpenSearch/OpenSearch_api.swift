@@ -212,6 +212,7 @@ public struct OpenSearch: AWSService {
     ///  Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data.
     ///
     /// Parameters:
+    ///   - dataSourceAccessPolicy:  An optional IAM access policy document that defines the permissions for accessing the data source. The policy document must be in valid JSON format and follow IAM policy syntax.
     ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
     ///   - description:  An optional text field for providing additional context and details about the data source.
@@ -220,6 +221,7 @@ public struct OpenSearch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func addDirectQueryDataSource(
+        dataSourceAccessPolicy: String? = nil,
         dataSourceName: String,
         dataSourceType: DirectQueryDataSourceType,
         description: String? = nil,
@@ -228,6 +230,7 @@ public struct OpenSearch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AddDirectQueryDataSourceResponse {
         let input = AddDirectQueryDataSourceRequest(
+            dataSourceAccessPolicy: dataSourceAccessPolicy, 
             dataSourceName: dataSourceName, 
             dataSourceType: dataSourceType, 
             description: description, 
@@ -505,6 +508,7 @@ public struct OpenSearch: AWSService {
     ///   - autoTuneOptions: Options for Auto-Tune.
     ///   - clusterConfig: Container for the cluster configuration of a domain.
     ///   - cognitoOptions: Key-value pairs to configure Amazon Cognito authentication. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
+    ///   - deploymentStrategyOptions: Specifies the deployment strategy options for the domain.
     ///   - domainEndpointOptions: Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
     ///   - domainName: Name of the OpenSearch Service domain to create. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
     ///   - ebsOptions: Container for the parameters required to enable EBS-based storage for an OpenSearch Service domain.
@@ -529,6 +533,7 @@ public struct OpenSearch: AWSService {
         autoTuneOptions: AutoTuneOptionsInput? = nil,
         clusterConfig: ClusterConfig? = nil,
         cognitoOptions: CognitoOptions? = nil,
+        deploymentStrategyOptions: DeploymentStrategyOptions? = nil,
         domainEndpointOptions: DomainEndpointOptions? = nil,
         domainName: String,
         ebsOptions: EBSOptions? = nil,
@@ -553,6 +558,7 @@ public struct OpenSearch: AWSService {
             autoTuneOptions: autoTuneOptions, 
             clusterConfig: clusterConfig, 
             cognitoOptions: cognitoOptions, 
+            deploymentStrategyOptions: deploymentStrategyOptions, 
             domainEndpointOptions: domainEndpointOptions, 
             domainName: domainName, 
             ebsOptions: ebsOptions, 
@@ -2648,6 +2654,7 @@ public struct OpenSearch: AWSService {
     ///  Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service.
     ///
     /// Parameters:
+    ///   - dataSourceAccessPolicy:  An optional IAM access policy document that defines the updated permissions for accessing the direct query data source. The policy document must be in valid JSON format and follow IAM policy syntax. If not specified, the existing access policy if present remains unchanged.
     ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
     ///   - description:  An optional text field for providing additional context and details about the data source.
@@ -2655,6 +2662,7 @@ public struct OpenSearch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDirectQueryDataSource(
+        dataSourceAccessPolicy: String? = nil,
         dataSourceName: String,
         dataSourceType: DirectQueryDataSourceType,
         description: String? = nil,
@@ -2662,6 +2670,7 @@ public struct OpenSearch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDirectQueryDataSourceResponse {
         let input = UpdateDirectQueryDataSourceRequest(
+            dataSourceAccessPolicy: dataSourceAccessPolicy, 
             dataSourceName: dataSourceName, 
             dataSourceType: dataSourceType, 
             description: description, 
@@ -2693,6 +2702,7 @@ public struct OpenSearch: AWSService {
     ///   - autoTuneOptions: Options for Auto-Tune.
     ///   - clusterConfig: Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
     ///   - cognitoOptions: Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
+    ///   - deploymentStrategyOptions: Specifies the deployment strategy options for the domain.
     ///   - domainEndpointOptions: Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
     ///   - domainName: The name of the domain that you're updating.
     ///   - dryRun: This flag, when set to True, specifies whether the UpdateDomain request should return the results of a dry run analysis without actually applying the change. A dry run determines what type of deployment the update will cause.
@@ -2717,6 +2727,7 @@ public struct OpenSearch: AWSService {
         autoTuneOptions: AutoTuneOptions? = nil,
         clusterConfig: ClusterConfig? = nil,
         cognitoOptions: CognitoOptions? = nil,
+        deploymentStrategyOptions: DeploymentStrategyOptions? = nil,
         domainEndpointOptions: DomainEndpointOptions? = nil,
         domainName: String,
         dryRun: Bool? = nil,
@@ -2741,6 +2752,7 @@ public struct OpenSearch: AWSService {
             autoTuneOptions: autoTuneOptions, 
             clusterConfig: clusterConfig, 
             cognitoOptions: cognitoOptions, 
+            deploymentStrategyOptions: deploymentStrategyOptions, 
             domainEndpointOptions: domainEndpointOptions, 
             domainName: domainName, 
             dryRun: dryRun, 

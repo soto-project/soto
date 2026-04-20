@@ -8870,6 +8870,12 @@ extension EC2 {
     }
 
     public struct CapacityAllocation: AWSDecodableShape {
+        public struct _AllocationMetadataEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Additional metadata associated with the capacity allocation. Each entry contains a key-value pair providing context
+        /// 			about the allocation.
+        @OptionalCustomCoding<EC2ArrayCoder<_AllocationMetadataEncoding, CapacityAllocationMetadataEntry>>
+        public var allocationMetadata: [CapacityAllocationMetadataEntry]?
         /// The usage type. used indicates that the instance capacity is in use by
         /// 			instances that are running in the Capacity Reservation.
         public let allocationType: AllocationType?
@@ -8879,14 +8885,34 @@ extension EC2 {
         public let count: Int?
 
         @inlinable
-        public init(allocationType: AllocationType? = nil, count: Int? = nil) {
+        public init(allocationMetadata: [CapacityAllocationMetadataEntry]? = nil, allocationType: AllocationType? = nil, count: Int? = nil) {
+            self.allocationMetadata = allocationMetadata
             self.allocationType = allocationType
             self.count = count
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationMetadata = "allocationMetadataList"
             case allocationType = "allocationType"
             case count = "count"
+        }
+    }
+
+    public struct CapacityAllocationMetadataEntry: AWSDecodableShape {
+        /// The key of the metadata entry.
+        public let key: String?
+        /// The value of the metadata entry.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 

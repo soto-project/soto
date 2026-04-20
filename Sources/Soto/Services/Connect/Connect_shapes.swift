@@ -1484,6 +1484,7 @@ extension Connect {
     }
 
     public enum TestCaseEntryPointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case chat = "CHAT"
         case voiceCall = "VOICE_CALL"
         public var description: String { return self.rawValue }
     }
@@ -3336,6 +3337,50 @@ extension Connect {
         }
     }
 
+    public struct AssociateQueueEmailAddressesRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes.
+        public let emailAddressesConfig: [EmailAddressConfig]
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String
+
+        @inlinable
+        public init(clientToken: String? = AssociateQueueEmailAddressesRequest.idempotencyToken(), emailAddressesConfig: [EmailAddressConfig], instanceId: String, queueId: String) {
+            self.clientToken = clientToken
+            self.emailAddressesConfig = emailAddressesConfig
+            self.instanceId = instanceId
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.emailAddressesConfig, forKey: .emailAddressesConfig)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.queueId, key: "QueueId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.emailAddressesConfig.forEach {
+                try $0.validate(name: "\(name).emailAddressesConfig[]")
+            }
+            try self.validate(self.emailAddressesConfig, name: "emailAddressesConfig", parent: name, max: 50)
+            try self.validate(self.emailAddressesConfig, name: "emailAddressesConfig", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case emailAddressesConfig = "EmailAddressesConfig"
+        }
+    }
+
     public struct AssociateQueueQuickConnectsRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -4948,6 +4993,24 @@ extension Connect {
             case totalBotMessageLengthInChars = "TotalBotMessageLengthInChars"
             case totalBotMessages = "TotalBotMessages"
             case totalMessages = "TotalMessages"
+        }
+    }
+
+    public struct ChatEntryPointParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The flow identifier for the test.
+        public let flowId: String?
+
+        @inlinable
+        public init(flowId: String? = nil) {
+            self.flowId = flowId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowId = "FlowId"
         }
     }
 
@@ -7649,6 +7712,19 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
+        public init(clientToken: String? = CreateNotificationRequest.idempotencyToken(), content: [LocaleCode: String], expiresAt: Date? = nil, instanceId: String, priority: ConfigurableNotificationPriority? = nil, recipients: [String], tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.content = content
+            self.expiresAt = expiresAt
+            self.instanceId = instanceId
+            self.predefinedNotificationId = nil
+            self.priority = priority
+            self.recipients = recipients
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members predefinedNotificationId have been deprecated")
+        @inlinable
         public init(clientToken: String? = CreateNotificationRequest.idempotencyToken(), content: [LocaleCode: String], expiresAt: Date? = nil, instanceId: String, predefinedNotificationId: String? = nil, priority: ConfigurableNotificationPriority? = nil, recipients: [String], tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.content = content
@@ -8039,6 +8115,8 @@ extension Connect {
     public struct CreateQueueRequest: AWSEncodableShape {
         /// The description of the queue.
         public let description: String?
+        /// Configuration list containing the email addresses to associate with the queue during creation. Each configuration specifies an email address ID that agents can select when handling email contacts in this queue.
+        public let emailAddressesConfig: [EmailAddressConfig]?
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -8057,8 +8135,9 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, hoursOfOperationId: String, instanceId: String, maxContacts: Int? = nil, name: String, outboundCallerConfig: OutboundCallerConfig? = nil, outboundEmailConfig: OutboundEmailConfig? = nil, quickConnectIds: [String]? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, emailAddressesConfig: [EmailAddressConfig]? = nil, hoursOfOperationId: String, instanceId: String, maxContacts: Int? = nil, name: String, outboundCallerConfig: OutboundCallerConfig? = nil, outboundEmailConfig: OutboundEmailConfig? = nil, quickConnectIds: [String]? = nil, tags: [String: String]? = nil) {
             self.description = description
+            self.emailAddressesConfig = emailAddressesConfig
             self.hoursOfOperationId = hoursOfOperationId
             self.instanceId = instanceId
             self.maxContacts = maxContacts
@@ -8073,6 +8152,7 @@ extension Connect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.emailAddressesConfig, forKey: .emailAddressesConfig)
             try container.encode(self.hoursOfOperationId, forKey: .hoursOfOperationId)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.maxContacts, forKey: .maxContacts)
@@ -8086,6 +8166,11 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.emailAddressesConfig?.forEach {
+                try $0.validate(name: "\(name).emailAddressesConfig[]")
+            }
+            try self.validate(self.emailAddressesConfig, name: "emailAddressesConfig", parent: name, max: 50)
+            try self.validate(self.emailAddressesConfig, name: "emailAddressesConfig", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.maxContacts, name: "maxContacts", parent: name, min: 0)
@@ -8107,6 +8192,7 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case emailAddressesConfig = "EmailAddressesConfig"
             case hoursOfOperationId = "HoursOfOperationId"
             case maxContacts = "MaxContacts"
             case name = "Name"
@@ -13306,6 +13392,51 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DisassociateQueueEmailAddressesRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue.
+        public let emailAddressesId: [String]
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String
+
+        @inlinable
+        public init(clientToken: String? = DisassociateQueueEmailAddressesRequest.idempotencyToken(), emailAddressesId: [String], instanceId: String, queueId: String) {
+            self.clientToken = clientToken
+            self.emailAddressesId = emailAddressesId
+            self.instanceId = instanceId
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.emailAddressesId, forKey: .emailAddressesId)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.queueId, key: "QueueId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.emailAddressesId.forEach {
+                try validate($0, name: "emailAddressesId[]", parent: name, max: 500)
+                try validate($0, name: "emailAddressesId[]", parent: name, min: 1)
+            }
+            try self.validate(self.emailAddressesId, name: "emailAddressesId", parent: name, max: 50)
+            try self.validate(self.emailAddressesId, name: "emailAddressesId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case emailAddressesId = "EmailAddressesId"
+        }
+    }
+
     public struct DisassociateQueueQuickConnectsRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -13730,6 +13861,25 @@ extension Connect {
         }
     }
 
+    public struct EmailAddressConfig: AWSEncodableShape {
+        /// The identifier of the email address that should be associated with the queue. This email address must already exist in the Amazon Connect instance and will be used to route incoming email contacts to the specified queue.
+        public let emailAddressId: String
+
+        @inlinable
+        public init(emailAddressId: String) {
+            self.emailAddressId = emailAddressId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, max: 500)
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddressId = "EmailAddressId"
+        }
+    }
+
     public struct EmailAddressInfo: AWSEncodableShape {
         /// The display name of email address.
         public let displayName: String?
@@ -13820,6 +13970,28 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case tagFilter = "TagFilter"
+        }
+    }
+
+    public struct EmailAddressSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the email address associated with the queue.
+        public let arn: String?
+        /// The unique identifier of the email address associated with the queue.
+        public let id: String?
+        /// Indicates whether this email address is configured as the default outbound email address for the queue. When set to true, this email address is used as the default sender for outbound email contacts from this queue.
+        public let isDefaultOutboundEmail: Bool?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, isDefaultOutboundEmail: Bool? = nil) {
+            self.arn = arn
+            self.id = id
+            self.isDefaultOutboundEmail = isDefaultOutboundEmail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case isDefaultOutboundEmail = "IsDefaultOutboundEmail"
         }
     }
 
@@ -20569,6 +20741,70 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case promptSummaryList = "PromptSummaryList"
+        }
+    }
+
+    public struct ListQueueEmailAddressesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The identifier for the queue.
+        public let queueId: String
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.queueId, key: "QueueId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQueueEmailAddressesResponse: AWSDecodableShape {
+        /// List of email address summary information for all email addresses associated with the queue. Each item contains the email address identifier, ARN, and configuration details.
+        public let emailAddressMetadataList: [EmailAddressSummary]?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when this resource was last modified.
+        public let lastModifiedTime: Date?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(emailAddressMetadataList: [EmailAddressSummary]? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil) {
+            self.emailAddressMetadataList = emailAddressMetadataList
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddressMetadataList = "EmailAddressMetadataList"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case nextToken = "NextToken"
         }
     }
 
@@ -30516,22 +30752,27 @@ extension Connect {
     }
 
     public struct TestCaseEntryPoint: AWSEncodableShape & AWSDecodableShape {
+        /// Parameters for chat entry point.
+        public let chatEntryPointParameters: ChatEntryPointParameters?
         /// The type of entry point.
         public let type: TestCaseEntryPointType?
         /// Parameters for voice call entry point.
         public let voiceCallEntryPointParameters: VoiceCallEntryPointParameters?
 
         @inlinable
-        public init(type: TestCaseEntryPointType? = nil, voiceCallEntryPointParameters: VoiceCallEntryPointParameters? = nil) {
+        public init(chatEntryPointParameters: ChatEntryPointParameters? = nil, type: TestCaseEntryPointType? = nil, voiceCallEntryPointParameters: VoiceCallEntryPointParameters? = nil) {
+            self.chatEntryPointParameters = chatEntryPointParameters
             self.type = type
             self.voiceCallEntryPointParameters = voiceCallEntryPointParameters
         }
 
         public func validate(name: String) throws {
+            try self.chatEntryPointParameters?.validate(name: "\(name).chatEntryPointParameters")
             try self.voiceCallEntryPointParameters?.validate(name: "\(name).voiceCallEntryPointParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case chatEntryPointParameters = "ChatEntryPointParameters"
             case type = "Type"
             case voiceCallEntryPointParameters = "VoiceCallEntryPointParameters"
         }

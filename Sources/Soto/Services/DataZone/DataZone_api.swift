@@ -5724,6 +5724,47 @@ public struct DataZone: AWSService {
         return try await self.putEnvironmentBlueprintConfiguration(input, logger: logger)
     }
 
+    /// Queries entities in the graph store.
+    @Sendable
+    @inlinable
+    public func queryGraph(_ input: QueryGraphInput, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryGraphOutput {
+        try await self.client.execute(
+            operation: "QueryGraph", 
+            path: "/v2/domains/{domainIdentifier}/graph/query", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Queries entities in the graph store.
+    ///
+    /// Parameters:
+    ///   - additionalAttributes: Additional details on the queried entity that can be requested in the response.
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
+    ///   - match: List of query match clauses.
+    ///   - maxResults: The maximum number of entities to return in a single call to QueryGraph. When the number of entities to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to QueryGraph to list the next set of entities.
+    ///   - nextToken: When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to QueryGraph to list the next set of entities.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func queryGraph(
+        additionalAttributes: AdditionalAttributes? = nil,
+        domainIdentifier: String,
+        match: [MatchClause],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> QueryGraphOutput {
+        let input = QueryGraphInput(
+            additionalAttributes: additionalAttributes, 
+            domainIdentifier: domainIdentifier, 
+            match: match, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.queryGraph(input, logger: logger)
+    }
+
     /// Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
     @Sendable
     @inlinable
@@ -8773,6 +8814,49 @@ extension DataZone {
         return self.listTimeSeriesDataPointsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``queryGraph(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func queryGraphPaginator(
+        _ input: QueryGraphInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<QueryGraphInput, QueryGraphOutput> {
+        return .init(
+            input: input,
+            command: self.queryGraph,
+            inputKey: \QueryGraphInput.nextToken,
+            outputKey: \QueryGraphOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``queryGraph(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - additionalAttributes: Additional details on the queried entity that can be requested in the response.
+    ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
+    ///   - match: List of query match clauses.
+    ///   - maxResults: The maximum number of entities to return in a single call to QueryGraph. When the number of entities to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to QueryGraph to list the next set of entities.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func queryGraphPaginator(
+        additionalAttributes: AdditionalAttributes? = nil,
+        domainIdentifier: String,
+        match: [MatchClause],
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<QueryGraphInput, QueryGraphOutput> {
+        let input = QueryGraphInput(
+            additionalAttributes: additionalAttributes, 
+            domainIdentifier: domainIdentifier, 
+            match: match, 
+            maxResults: maxResults
+        )
+        return self.queryGraphPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``search(_:logger:)``.
     ///
     /// - Parameters:
@@ -9482,6 +9566,19 @@ extension DataZone.ListTimeSeriesDataPointsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             startedAt: self.startedAt
+        )
+    }
+}
+
+extension DataZone.QueryGraphInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.QueryGraphInput {
+        return .init(
+            additionalAttributes: self.additionalAttributes,
+            domainIdentifier: self.domainIdentifier,
+            match: self.match,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

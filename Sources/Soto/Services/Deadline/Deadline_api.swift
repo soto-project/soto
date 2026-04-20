@@ -582,6 +582,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
+    ///   - costScaleFactor: The cost scale factor to apply on the farm.
     ///   - description: The description of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - displayName: The display name of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - kmsKeyArn: The ARN of the KMS key to use on the farm.
@@ -590,6 +591,7 @@ public struct Deadline: AWSService {
     @inlinable
     public func createFarm(
         clientToken: String? = CreateFarmRequest.idempotencyToken(),
+        costScaleFactor: Float? = nil,
         description: String? = nil,
         displayName: String,
         kmsKeyArn: String? = nil,
@@ -598,6 +600,7 @@ public struct Deadline: AWSService {
     ) async throws -> CreateFarmResponse {
         let input = CreateFarmRequest(
             clientToken: clientToken, 
+            costScaleFactor: costScaleFactor, 
             description: description, 
             displayName: displayName, 
             kmsKeyArn: kmsKeyArn, 
@@ -3941,18 +3944,21 @@ public struct Deadline: AWSService {
     /// Updates a farm.
     ///
     /// Parameters:
+    ///   - costScaleFactor: The cost scale factor of the farm to update.
     ///   - description: The description of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - displayName: The display name of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - farmId: The farm ID to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFarm(
+        costScaleFactor: Float? = nil,
         description: String? = nil,
         displayName: String? = nil,
         farmId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateFarmResponse {
         let input = UpdateFarmRequest(
+            costScaleFactor: costScaleFactor, 
             description: description, 
             displayName: displayName, 
             farmId: farmId

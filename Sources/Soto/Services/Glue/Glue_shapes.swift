@@ -2529,24 +2529,29 @@ extension Glue {
     }
 
     public struct BatchGetPartitionRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partitions reside.
         public let databaseName: String
         /// A list of partition values identifying the partitions to retrieve.
         public let partitionsToGet: [PartitionValueList]
+        public let querySessionContext: QuerySessionContext?
         /// The name of the partitions' table.
         public let tableName: String
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, partitionsToGet: [PartitionValueList], tableName: String) {
+        public init(auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, partitionsToGet: [PartitionValueList], querySessionContext: QuerySessionContext? = nil, tableName: String) {
+            self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.partitionsToGet = partitionsToGet
+            self.querySessionContext = querySessionContext
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -2557,15 +2562,18 @@ extension Glue {
                 try $0.validate(name: "\(name).partitionsToGet[]")
             }
             try self.validate(self.partitionsToGet, name: "partitionsToGet", parent: name, max: 1000)
+            try self.querySessionContext?.validate(name: "\(name).querySessionContext")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case partitionsToGet = "PartitionsToGet"
+            case querySessionContext = "QuerySessionContext"
             case tableName = "TableName"
         }
     }

@@ -37,6 +37,7 @@ extension GameLiftStreams {
     public enum ApplicationStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "accessDenied"
         case internalError = "internalError"
+        case sourceModified = "sourceModified"
         public var description: String { return self.rawValue }
     }
 
@@ -67,11 +68,15 @@ extension GameLiftStreams {
         case gen5nHigh = "gen5n_high"
         case gen5nUltra = "gen5n_ultra"
         case gen5nWin2022 = "gen5n_win2022"
+        case gen6ePro = "gen6e_pro"
+        case gen6eProWin2022 = "gen6e_pro_win2022"
         case gen6nHigh = "gen6n_high"
         case gen6nMedium = "gen6n_medium"
+        case gen6nMediumWin2022 = "gen6n_medium_win2022"
         case gen6nPro = "gen6n_pro"
         case gen6nProWin2022 = "gen6n_pro_win2022"
         case gen6nSmall = "gen6n_small"
+        case gen6nSmallWin2022 = "gen6n_small_win2022"
         case gen6nUltra = "gen6n_ultra"
         case gen6nUltraWin2022 = "gen6n_ultra_win2022"
         public var description: String { return self.rawValue }
@@ -1327,24 +1332,28 @@ extension GameLiftStreams {
         public let onDemandCapacity: Int?
         /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
         public let targetIdleCapacity: Int?
+        /// Configuration for connecting the stream group to resources in your Amazon VPC using AWS Transit Gateway. This setting is optional. If specified, Amazon GameLift Streams creates a Transit Gateway to enable private network connectivity between the service VPC and your VPC. The VPC ID cannot be changed after the stream group is created, but you can update the CIDR blocks by calling UpdateStreamGroup.
+        public let vpcTransitConfiguration: VpcTransitConfiguration?
 
         @inlinable
-        public init(alwaysOnCapacity: Int? = nil, locationName: String, maximumCapacity: Int? = nil, targetIdleCapacity: Int? = nil) {
+        public init(alwaysOnCapacity: Int? = nil, locationName: String, maximumCapacity: Int? = nil, targetIdleCapacity: Int? = nil, vpcTransitConfiguration: VpcTransitConfiguration? = nil) {
             self.alwaysOnCapacity = alwaysOnCapacity
             self.locationName = locationName
             self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = nil
             self.targetIdleCapacity = targetIdleCapacity
+            self.vpcTransitConfiguration = vpcTransitConfiguration
         }
 
         @available(*, deprecated, message: "Members onDemandCapacity have been deprecated")
         @inlinable
-        public init(alwaysOnCapacity: Int? = nil, locationName: String, maximumCapacity: Int? = nil, onDemandCapacity: Int? = nil, targetIdleCapacity: Int? = nil) {
+        public init(alwaysOnCapacity: Int? = nil, locationName: String, maximumCapacity: Int? = nil, onDemandCapacity: Int? = nil, targetIdleCapacity: Int? = nil, vpcTransitConfiguration: VpcTransitConfiguration? = nil) {
             self.alwaysOnCapacity = alwaysOnCapacity
             self.locationName = locationName
             self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
             self.targetIdleCapacity = targetIdleCapacity
+            self.vpcTransitConfiguration = vpcTransitConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1355,6 +1364,7 @@ extension GameLiftStreams {
             try self.validate(self.maximumCapacity, name: "maximumCapacity", parent: name, min: 0)
             try self.validate(self.onDemandCapacity, name: "onDemandCapacity", parent: name, min: 0)
             try self.validate(self.targetIdleCapacity, name: "targetIdleCapacity", parent: name, min: 0)
+            try self.vpcTransitConfiguration?.validate(name: "\(name).vpcTransitConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1363,6 +1373,7 @@ extension GameLiftStreams {
             case maximumCapacity = "MaximumCapacity"
             case onDemandCapacity = "OnDemandCapacity"
             case targetIdleCapacity = "TargetIdleCapacity"
+            case vpcTransitConfiguration = "VpcTransitConfiguration"
         }
     }
 
@@ -1373,6 +1384,8 @@ extension GameLiftStreams {
         public let alwaysOnCapacity: Int?
         /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's ability to respond immediately to new stream requests with near-instant startup time.
         public let idleCapacity: Int?
+        /// The CIDR block of the service VPC for this location. Add this CIDR block to your VPC route table to enable traffic routing through the Transit Gateway.
+        public let internalVpcIpv4CidrBlock: String?
         ///  A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
         public let locationName: String?
         /// This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
@@ -1385,30 +1398,36 @@ extension GameLiftStreams {
         public let status: StreamGroupLocationStatus?
         /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
         public let targetIdleCapacity: Int?
+        /// The VPC transit configuration for this location, including the Transit Gateway details needed to complete the VPC attachment setup.
+        public let vpcTransitConfiguration: VpcTransitConfigurationResponse?
 
         @inlinable
-        public init(allocatedCapacity: Int? = nil, alwaysOnCapacity: Int? = nil, idleCapacity: Int? = nil, locationName: String? = nil, maximumCapacity: Int? = nil, onDemandCapacity: Int? = nil, requestedCapacity: Int? = nil, status: StreamGroupLocationStatus? = nil, targetIdleCapacity: Int? = nil) {
+        public init(allocatedCapacity: Int? = nil, alwaysOnCapacity: Int? = nil, idleCapacity: Int? = nil, internalVpcIpv4CidrBlock: String? = nil, locationName: String? = nil, maximumCapacity: Int? = nil, onDemandCapacity: Int? = nil, requestedCapacity: Int? = nil, status: StreamGroupLocationStatus? = nil, targetIdleCapacity: Int? = nil, vpcTransitConfiguration: VpcTransitConfigurationResponse? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.alwaysOnCapacity = alwaysOnCapacity
             self.idleCapacity = idleCapacity
+            self.internalVpcIpv4CidrBlock = internalVpcIpv4CidrBlock
             self.locationName = locationName
             self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
             self.requestedCapacity = requestedCapacity
             self.status = status
             self.targetIdleCapacity = targetIdleCapacity
+            self.vpcTransitConfiguration = vpcTransitConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case allocatedCapacity = "AllocatedCapacity"
             case alwaysOnCapacity = "AlwaysOnCapacity"
             case idleCapacity = "IdleCapacity"
+            case internalVpcIpv4CidrBlock = "InternalVpcIpv4CidrBlock"
             case locationName = "LocationName"
             case maximumCapacity = "MaximumCapacity"
             case onDemandCapacity = "OnDemandCapacity"
             case requestedCapacity = "RequestedCapacity"
             case status = "Status"
             case targetIdleCapacity = "TargetIdleCapacity"
+            case vpcTransitConfiguration = "VpcTransitConfiguration"
         }
     }
 
@@ -2126,6 +2145,60 @@ extension GameLiftStreams {
             case status = "Status"
             case statusReason = "StatusReason"
             case streamClass = "StreamClass"
+        }
+    }
+
+    public struct VpcTransitConfiguration: AWSEncodableShape {
+        /// A list of IPv4 CIDR blocks in your VPC that you want the stream group to be able to access. You can specify up to 5 CIDR blocks. The CIDR blocks must be valid subsets of the VPC's CIDR blocks and cannot overlap with the service VPC CIDR block.
+        public let ipv4CidrBlocks: [String]
+        /// The ID of the Amazon VPC that you want to connect to the stream group. The VPC must be in the same Amazon Web Services account as the stream group. This value cannot be changed after the stream group is created.
+        public let vpcId: String
+
+        @inlinable
+        public init(ipv4CidrBlocks: [String], vpcId: String) {
+            self.ipv4CidrBlocks = ipv4CidrBlocks
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.ipv4CidrBlocks.forEach {
+                try validate($0, name: "ipv4CidrBlocks[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[1-2][0-9]|3[0-2])$")
+            }
+            try self.validate(self.ipv4CidrBlocks, name: "ipv4CidrBlocks", parent: name, max: 5)
+            try self.validate(self.ipv4CidrBlocks, name: "ipv4CidrBlocks", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 32)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv4CidrBlocks = "Ipv4CidrBlocks"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct VpcTransitConfigurationResponse: AWSDecodableShape {
+        /// The IPv4 CIDR blocks in your VPC that the stream group can access.
+        public let ipv4CidrBlocks: [String]?
+        /// The ID of the Transit Gateway that Amazon GameLift Streams created for this VPC connection. Use this ID when creating your VPC attachment.
+        public let transitGatewayId: String?
+        /// The ARN of the AWS Resource Access Manager resource share for the Transit Gateway. You must accept this resource share before you can create a VPC attachment.
+        public let transitGatewayResourceShareArn: String?
+        /// The ID of the Amazon VPC that is connected to the stream group.
+        public let vpcId: String?
+
+        @inlinable
+        public init(ipv4CidrBlocks: [String]? = nil, transitGatewayId: String? = nil, transitGatewayResourceShareArn: String? = nil, vpcId: String? = nil) {
+            self.ipv4CidrBlocks = ipv4CidrBlocks
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayResourceShareArn = transitGatewayResourceShareArn
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv4CidrBlocks = "Ipv4CidrBlocks"
+            case transitGatewayId = "TransitGatewayId"
+            case transitGatewayResourceShareArn = "TransitGatewayResourceShareArn"
+            case vpcId = "VpcId"
         }
     }
 }

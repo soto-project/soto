@@ -121,6 +121,7 @@ public struct Transcribe: AWSService {
         ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "fips.transcribe.ca-central-1.amazonaws.com",
+            "eu-central-2": "fips.transcribe.eu-central-2.amazonaws.com",
             "us-east-1": "fips.transcribe.us-east-1.amazonaws.com",
             "us-east-2": "fips.transcribe.us-east-2.amazonaws.com",
             "us-gov-east-1": "fips.transcribe.us-gov-east-1.amazonaws.com",

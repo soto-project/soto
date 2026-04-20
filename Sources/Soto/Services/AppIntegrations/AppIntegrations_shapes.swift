@@ -768,7 +768,7 @@ extension AppIntegrations {
         public func validate(name: String) throws {
             try self.validate(self.source, name: "source", parent: name, max: 256)
             try self.validate(self.source, name: "source", parent: name, min: 1)
-            try self.validate(self.source, name: "source", parent: name, pattern: "^aws\\.partner\\/.*$")
+            try self.validate(self.source, name: "source", parent: name, pattern: "^(aws\\.(partner\\/.*|cases|cases\\-test))|Pipe\\s.[a-zA-Z0-9\\/\\._\\-]+$|app\\-integrations\\.webhooks\\/[a-zA-Z0-9\\-_.\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -3091,7 +3091,7 @@ extension QuickSight {
     }
 
     public struct AccountInfo: AWSDecodableShape {
-        /// The account name that you provided for the Amazon Quick Sight subscription in your Amazon Web Services account. You create this name when you sign up for Quick Suite. It's unique over all of Amazon Web Services, and it appears only when users sign in.
+        /// The account name that you provided for the Amazon Quick Sight subscription in your Amazon Web Services account. You create this name when you sign up for Quick. It's unique over all of Amazon Web Services, and it appears only when users sign in.
         public let accountName: String?
         /// The status of your account subscription.
         public let accountSubscriptionStatus: String?
@@ -3133,7 +3133,7 @@ extension QuickSight {
         public let edition: Edition?
         /// The main notification email for your Quick Sight subscription.
         public let notificationEmail: String?
-        /// A Boolean value that indicates whether public sharing is turned on for an Quick Suite account. For more information about turning on public sharing, see UpdatePublicSharingSettings.
+        /// A Boolean value that indicates whether public sharing is turned on for an Quick account. For more information about turning on public sharing, see UpdatePublicSharingSettings.
         public let publicSharingEnabled: Bool?
         /// A boolean value that determines whether or not an Quick Sight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubsctiption request. A False value will allow the ccount to be deleted.
         public let terminationProtectionEnabled: Bool?
@@ -7396,7 +7396,7 @@ extension QuickSight {
     public struct BrandDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the brand.
         public let arn: String?
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String
         /// The status of the brand.
         public let brandStatus: BrandStatus?
@@ -7460,7 +7460,7 @@ extension QuickSight {
     public struct BrandSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the brand.
         public let arn: String?
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String?
         /// The name of the brand.
         public let brandName: String?
@@ -7666,6 +7666,8 @@ extension QuickSight {
         public let amazonSThreeAction: CapabilityState?
         /// The ability to perform analysis-related actions.
         public let analysis: CapabilityState?
+        /// The ability to review and approve sharing requests of Flows.
+        public let approveFlowShareRequests: CapabilityState?
         /// The ability to perform actions using Asana connectors.
         public let asanaAction: CapabilityState?
         /// The ability to perform automate-related actions.
@@ -7674,6 +7676,8 @@ extension QuickSight {
         public let bambooHRAction: CapabilityState?
         /// The ability to perform actions using Box Agent connectors.
         public let boxAgentAction: CapabilityState?
+        /// The ability to Build Calculation with AI
+        public let buildCalculatedFieldWithQ: CapabilityState?
         /// The ability to perform actions using Canva Agent connectors.
         public let canvaAgentAction: CapabilityState?
         /// The ability to perform chat-related actions.
@@ -7782,12 +7786,16 @@ extension QuickSight {
         public let createAndUpdateZendeskAction: CapabilityState?
         /// The ability to create chat agents.
         public let createChatAgents: CapabilityState?
+        /// The ability to Create Executive Summary
+        public let createDashboardExecutiveSummaryWithQ: CapabilityState?
         /// The ability to create shared folders.
         public let createSharedFolders: CapabilityState?
         /// The ability to create a SPICE dataset.
         public let createSPICEDataset: CapabilityState?
         /// The ability to perform dashboard-related actions.
         public let dashboard: CapabilityState?
+        /// The ability to Edit Visual with AI
+        public let editVisualWithQ: CapabilityState?
         /// The ability to export to CSV files from the UI.
         public let exportToCsv: CapabilityState?
         /// The ability to export to CSV files in scheduled email reports.
@@ -7800,6 +7808,8 @@ extension QuickSight {
         public let exportToPdf: CapabilityState?
         /// The ability to export to PDF files in scheduled email reports.
         public let exportToPdfInScheduledReports: CapabilityState?
+        /// The ability to perform Extension-related actions.
+        public let `extension`: CapabilityState?
         /// The ability to perform actions using FactSet connectors.
         public let factSetAction: CapabilityState?
         /// The ability to perform flow-related actions.
@@ -7824,6 +7834,8 @@ extension QuickSight {
         public let knowledgeBase: CapabilityState?
         /// The ability to perform actions using Linear connectors.
         public let linearAction: CapabilityState?
+        /// The ability to create, update, delete and view shared folders (both restricted and unrestricted), ability to add any asset to shared folders, and ability to share the folders.  Note: This does not prevent inheriting access to assets that others share with them through folder membership.
+        public let manageSharedFolders: CapabilityState?
         /// The ability to perform actions using Model Context Protocol connectors.
         public let mcpAction: CapabilityState?
         /// The ability to perform actions using Monday connectors.
@@ -7978,6 +7990,8 @@ extension QuickSight {
         public let subscribeDashboardEmailReports: CapabilityState?
         /// The ability to perform actions using Textract connectors.
         public let textractAction: CapabilityState?
+        /// The ability to perform Topic-related actions.
+        public let topic: CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research.
         /// 	          Web search queries will be processed securely in an Amazon Web Services region us-east-1.
         public let useAgentWebSearch: CapabilityState?
@@ -8075,7 +8089,7 @@ extension QuickSight {
         public let zendeskAction: CapabilityState?
 
         @inlinable
-        public init(action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, amazonBedrockARSAction: CapabilityState? = nil, amazonBedrockFSAction: CapabilityState? = nil, amazonBedrockKRSAction: CapabilityState? = nil, amazonSThreeAction: CapabilityState? = nil, analysis: CapabilityState? = nil, asanaAction: CapabilityState? = nil, automate: CapabilityState? = nil, bambooHRAction: CapabilityState? = nil, boxAgentAction: CapabilityState? = nil, canvaAgentAction: CapabilityState? = nil, chatAgent: CapabilityState? = nil, comprehendAction: CapabilityState? = nil, comprehendMedicalAction: CapabilityState? = nil, confluenceAction: CapabilityState? = nil, createAndUpdateAmazonBedrockARSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockFSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockKRSAction: CapabilityState? = nil, createAndUpdateAmazonSThreeAction: CapabilityState? = nil, createAndUpdateAsanaAction: CapabilityState? = nil, createAndUpdateBambooHRAction: CapabilityState? = nil, createAndUpdateBoxAgentAction: CapabilityState? = nil, createAndUpdateCanvaAgentAction: CapabilityState? = nil, createAndUpdateComprehendAction: CapabilityState? = nil, createAndUpdateComprehendMedicalAction: CapabilityState? = nil, createAndUpdateConfluenceAction: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateFactSetAction: CapabilityState? = nil, createAndUpdateGenericHTTPAction: CapabilityState? = nil, createAndUpdateGithubAction: CapabilityState? = nil, createAndUpdateGoogleCalendarAction: CapabilityState? = nil, createAndUpdateHubspotAction: CapabilityState? = nil, createAndUpdateHuggingFaceAction: CapabilityState? = nil, createAndUpdateIntercomAction: CapabilityState? = nil, createAndUpdateJiraAction: CapabilityState? = nil, createAndUpdateLinearAction: CapabilityState? = nil, createAndUpdateMCPAction: CapabilityState? = nil, createAndUpdateMondayAction: CapabilityState? = nil, createAndUpdateMSExchangeAction: CapabilityState? = nil, createAndUpdateMSTeamsAction: CapabilityState? = nil, createAndUpdateNewRelicAction: CapabilityState? = nil, createAndUpdateNotionAction: CapabilityState? = nil, createAndUpdateOneDriveAction: CapabilityState? = nil, createAndUpdateOpenAPIAction: CapabilityState? = nil, createAndUpdatePagerDutyAction: CapabilityState? = nil, createAndUpdateSalesforceAction: CapabilityState? = nil, createAndUpdateSandPGlobalEnergyAction: CapabilityState? = nil, createAndUpdateSandPGMIAction: CapabilityState? = nil, createAndUpdateSAPBillOfMaterialAction: CapabilityState? = nil, createAndUpdateSAPBusinessPartnerAction: CapabilityState? = nil, createAndUpdateSAPMaterialStockAction: CapabilityState? = nil, createAndUpdateSAPPhysicalInventoryAction: CapabilityState? = nil, createAndUpdateSAPProductMasterDataAction: CapabilityState? = nil, createAndUpdateServiceNowAction: CapabilityState? = nil, createAndUpdateSharePointAction: CapabilityState? = nil, createAndUpdateSlackAction: CapabilityState? = nil, createAndUpdateSmartsheetAction: CapabilityState? = nil, createAndUpdateTextractAction: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createAndUpdateZendeskAction: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, factSetAction: CapabilityState? = nil, flow: CapabilityState? = nil, genericHTTPAction: CapabilityState? = nil, githubAction: CapabilityState? = nil, googleCalendarAction: CapabilityState? = nil, hubspotAction: CapabilityState? = nil, huggingFaceAction: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, intercomAction: CapabilityState? = nil, jiraAction: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, linearAction: CapabilityState? = nil, mcpAction: CapabilityState? = nil, mondayAction: CapabilityState? = nil, msExchangeAction: CapabilityState? = nil, msTeamsAction: CapabilityState? = nil, newRelicAction: CapabilityState? = nil, notionAction: CapabilityState? = nil, oneDriveAction: CapabilityState? = nil, openAPIAction: CapabilityState? = nil, pagerDutyAction: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, salesforceAction: CapabilityState? = nil, sandPGlobalEnergyAction: CapabilityState? = nil, sandPGMIAction: CapabilityState? = nil, sapBillOfMaterialAction: CapabilityState? = nil, sapBusinessPartnerAction: CapabilityState? = nil, sapMaterialStockAction: CapabilityState? = nil, sapPhysicalInventoryAction: CapabilityState? = nil, sapProductMasterDataAction: CapabilityState? = nil, selfUpgradeUserRole: CapabilityState? = nil, serviceNowAction: CapabilityState? = nil, shareAmazonBedrockARSAction: CapabilityState? = nil, shareAmazonBedrockFSAction: CapabilityState? = nil, shareAmazonBedrockKRSAction: CapabilityState? = nil, shareAmazonSThreeAction: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareAsanaAction: CapabilityState? = nil, shareBambooHRAction: CapabilityState? = nil, shareBoxAgentAction: CapabilityState? = nil, shareCanvaAgentAction: CapabilityState? = nil, shareComprehendAction: CapabilityState? = nil, shareComprehendMedicalAction: CapabilityState? = nil, shareConfluenceAction: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, shareFactSetAction: CapabilityState? = nil, shareGenericHTTPAction: CapabilityState? = nil, shareGithubAction: CapabilityState? = nil, shareGoogleCalendarAction: CapabilityState? = nil, shareHubspotAction: CapabilityState? = nil, shareHuggingFaceAction: CapabilityState? = nil, shareIntercomAction: CapabilityState? = nil, shareJiraAction: CapabilityState? = nil, shareLinearAction: CapabilityState? = nil, shareMCPAction: CapabilityState? = nil, shareMondayAction: CapabilityState? = nil, shareMSExchangeAction: CapabilityState? = nil, shareMSTeamsAction: CapabilityState? = nil, shareNewRelicAction: CapabilityState? = nil, shareNotionAction: CapabilityState? = nil, shareOneDriveAction: CapabilityState? = nil, shareOpenAPIAction: CapabilityState? = nil, sharePagerDutyAction: CapabilityState? = nil, sharePointAction: CapabilityState? = nil, shareSalesforceAction: CapabilityState? = nil, shareSandPGlobalEnergyAction: CapabilityState? = nil, shareSandPGMIAction: CapabilityState? = nil, shareSAPBillOfMaterialAction: CapabilityState? = nil, shareSAPBusinessPartnerAction: CapabilityState? = nil, shareSAPMaterialStockAction: CapabilityState? = nil, shareSAPPhysicalInventoryAction: CapabilityState? = nil, shareSAPProductMasterDataAction: CapabilityState? = nil, shareServiceNowAction: CapabilityState? = nil, shareSharePointAction: CapabilityState? = nil, shareSlackAction: CapabilityState? = nil, shareSmartsheetAction: CapabilityState? = nil, shareTextractAction: CapabilityState? = nil, shareZendeskAction: CapabilityState? = nil, slackAction: CapabilityState? = nil, smartsheetAction: CapabilityState? = nil, space: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, textractAction: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useAmazonBedrockARSAction: CapabilityState? = nil, useAmazonBedrockFSAction: CapabilityState? = nil, useAmazonBedrockKRSAction: CapabilityState? = nil, useAmazonSThreeAction: CapabilityState? = nil, useAsanaAction: CapabilityState? = nil, useBambooHRAction: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, useBoxAgentAction: CapabilityState? = nil, useCanvaAgentAction: CapabilityState? = nil, useComprehendAction: CapabilityState? = nil, useComprehendMedicalAction: CapabilityState? = nil, useConfluenceAction: CapabilityState? = nil, useFactSetAction: CapabilityState? = nil, useGenericHTTPAction: CapabilityState? = nil, useGithubAction: CapabilityState? = nil, useGoogleCalendarAction: CapabilityState? = nil, useHubspotAction: CapabilityState? = nil, useHuggingFaceAction: CapabilityState? = nil, useIntercomAction: CapabilityState? = nil, useJiraAction: CapabilityState? = nil, useLinearAction: CapabilityState? = nil, useMCPAction: CapabilityState? = nil, useMondayAction: CapabilityState? = nil, useMSExchangeAction: CapabilityState? = nil, useMSTeamsAction: CapabilityState? = nil, useNewRelicAction: CapabilityState? = nil, useNotionAction: CapabilityState? = nil, useOneDriveAction: CapabilityState? = nil, useOpenAPIAction: CapabilityState? = nil, usePagerDutyAction: CapabilityState? = nil, useSalesforceAction: CapabilityState? = nil, useSandPGlobalEnergyAction: CapabilityState? = nil, useSandPGMIAction: CapabilityState? = nil, useSAPBillOfMaterialAction: CapabilityState? = nil, useSAPBusinessPartnerAction: CapabilityState? = nil, useSAPMaterialStockAction: CapabilityState? = nil, useSAPPhysicalInventoryAction: CapabilityState? = nil, useSAPProductMasterDataAction: CapabilityState? = nil, useServiceNowAction: CapabilityState? = nil, useSharePointAction: CapabilityState? = nil, useSlackAction: CapabilityState? = nil, useSmartsheetAction: CapabilityState? = nil, useTextractAction: CapabilityState? = nil, useZendeskAction: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil, zendeskAction: CapabilityState? = nil) {
+        public init(action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, amazonBedrockARSAction: CapabilityState? = nil, amazonBedrockFSAction: CapabilityState? = nil, amazonBedrockKRSAction: CapabilityState? = nil, amazonSThreeAction: CapabilityState? = nil, analysis: CapabilityState? = nil, approveFlowShareRequests: CapabilityState? = nil, asanaAction: CapabilityState? = nil, automate: CapabilityState? = nil, bambooHRAction: CapabilityState? = nil, boxAgentAction: CapabilityState? = nil, buildCalculatedFieldWithQ: CapabilityState? = nil, canvaAgentAction: CapabilityState? = nil, chatAgent: CapabilityState? = nil, comprehendAction: CapabilityState? = nil, comprehendMedicalAction: CapabilityState? = nil, confluenceAction: CapabilityState? = nil, createAndUpdateAmazonBedrockARSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockFSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockKRSAction: CapabilityState? = nil, createAndUpdateAmazonSThreeAction: CapabilityState? = nil, createAndUpdateAsanaAction: CapabilityState? = nil, createAndUpdateBambooHRAction: CapabilityState? = nil, createAndUpdateBoxAgentAction: CapabilityState? = nil, createAndUpdateCanvaAgentAction: CapabilityState? = nil, createAndUpdateComprehendAction: CapabilityState? = nil, createAndUpdateComprehendMedicalAction: CapabilityState? = nil, createAndUpdateConfluenceAction: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateFactSetAction: CapabilityState? = nil, createAndUpdateGenericHTTPAction: CapabilityState? = nil, createAndUpdateGithubAction: CapabilityState? = nil, createAndUpdateGoogleCalendarAction: CapabilityState? = nil, createAndUpdateHubspotAction: CapabilityState? = nil, createAndUpdateHuggingFaceAction: CapabilityState? = nil, createAndUpdateIntercomAction: CapabilityState? = nil, createAndUpdateJiraAction: CapabilityState? = nil, createAndUpdateLinearAction: CapabilityState? = nil, createAndUpdateMCPAction: CapabilityState? = nil, createAndUpdateMondayAction: CapabilityState? = nil, createAndUpdateMSExchangeAction: CapabilityState? = nil, createAndUpdateMSTeamsAction: CapabilityState? = nil, createAndUpdateNewRelicAction: CapabilityState? = nil, createAndUpdateNotionAction: CapabilityState? = nil, createAndUpdateOneDriveAction: CapabilityState? = nil, createAndUpdateOpenAPIAction: CapabilityState? = nil, createAndUpdatePagerDutyAction: CapabilityState? = nil, createAndUpdateSalesforceAction: CapabilityState? = nil, createAndUpdateSandPGlobalEnergyAction: CapabilityState? = nil, createAndUpdateSandPGMIAction: CapabilityState? = nil, createAndUpdateSAPBillOfMaterialAction: CapabilityState? = nil, createAndUpdateSAPBusinessPartnerAction: CapabilityState? = nil, createAndUpdateSAPMaterialStockAction: CapabilityState? = nil, createAndUpdateSAPPhysicalInventoryAction: CapabilityState? = nil, createAndUpdateSAPProductMasterDataAction: CapabilityState? = nil, createAndUpdateServiceNowAction: CapabilityState? = nil, createAndUpdateSharePointAction: CapabilityState? = nil, createAndUpdateSlackAction: CapabilityState? = nil, createAndUpdateSmartsheetAction: CapabilityState? = nil, createAndUpdateTextractAction: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createAndUpdateZendeskAction: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createDashboardExecutiveSummaryWithQ: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, editVisualWithQ: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, extension: CapabilityState? = nil, factSetAction: CapabilityState? = nil, flow: CapabilityState? = nil, genericHTTPAction: CapabilityState? = nil, githubAction: CapabilityState? = nil, googleCalendarAction: CapabilityState? = nil, hubspotAction: CapabilityState? = nil, huggingFaceAction: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, intercomAction: CapabilityState? = nil, jiraAction: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, linearAction: CapabilityState? = nil, manageSharedFolders: CapabilityState? = nil, mcpAction: CapabilityState? = nil, mondayAction: CapabilityState? = nil, msExchangeAction: CapabilityState? = nil, msTeamsAction: CapabilityState? = nil, newRelicAction: CapabilityState? = nil, notionAction: CapabilityState? = nil, oneDriveAction: CapabilityState? = nil, openAPIAction: CapabilityState? = nil, pagerDutyAction: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, salesforceAction: CapabilityState? = nil, sandPGlobalEnergyAction: CapabilityState? = nil, sandPGMIAction: CapabilityState? = nil, sapBillOfMaterialAction: CapabilityState? = nil, sapBusinessPartnerAction: CapabilityState? = nil, sapMaterialStockAction: CapabilityState? = nil, sapPhysicalInventoryAction: CapabilityState? = nil, sapProductMasterDataAction: CapabilityState? = nil, selfUpgradeUserRole: CapabilityState? = nil, serviceNowAction: CapabilityState? = nil, shareAmazonBedrockARSAction: CapabilityState? = nil, shareAmazonBedrockFSAction: CapabilityState? = nil, shareAmazonBedrockKRSAction: CapabilityState? = nil, shareAmazonSThreeAction: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareAsanaAction: CapabilityState? = nil, shareBambooHRAction: CapabilityState? = nil, shareBoxAgentAction: CapabilityState? = nil, shareCanvaAgentAction: CapabilityState? = nil, shareComprehendAction: CapabilityState? = nil, shareComprehendMedicalAction: CapabilityState? = nil, shareConfluenceAction: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, shareFactSetAction: CapabilityState? = nil, shareGenericHTTPAction: CapabilityState? = nil, shareGithubAction: CapabilityState? = nil, shareGoogleCalendarAction: CapabilityState? = nil, shareHubspotAction: CapabilityState? = nil, shareHuggingFaceAction: CapabilityState? = nil, shareIntercomAction: CapabilityState? = nil, shareJiraAction: CapabilityState? = nil, shareLinearAction: CapabilityState? = nil, shareMCPAction: CapabilityState? = nil, shareMondayAction: CapabilityState? = nil, shareMSExchangeAction: CapabilityState? = nil, shareMSTeamsAction: CapabilityState? = nil, shareNewRelicAction: CapabilityState? = nil, shareNotionAction: CapabilityState? = nil, shareOneDriveAction: CapabilityState? = nil, shareOpenAPIAction: CapabilityState? = nil, sharePagerDutyAction: CapabilityState? = nil, sharePointAction: CapabilityState? = nil, shareSalesforceAction: CapabilityState? = nil, shareSandPGlobalEnergyAction: CapabilityState? = nil, shareSandPGMIAction: CapabilityState? = nil, shareSAPBillOfMaterialAction: CapabilityState? = nil, shareSAPBusinessPartnerAction: CapabilityState? = nil, shareSAPMaterialStockAction: CapabilityState? = nil, shareSAPPhysicalInventoryAction: CapabilityState? = nil, shareSAPProductMasterDataAction: CapabilityState? = nil, shareServiceNowAction: CapabilityState? = nil, shareSharePointAction: CapabilityState? = nil, shareSlackAction: CapabilityState? = nil, shareSmartsheetAction: CapabilityState? = nil, shareTextractAction: CapabilityState? = nil, shareZendeskAction: CapabilityState? = nil, slackAction: CapabilityState? = nil, smartsheetAction: CapabilityState? = nil, space: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, textractAction: CapabilityState? = nil, topic: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useAmazonBedrockARSAction: CapabilityState? = nil, useAmazonBedrockFSAction: CapabilityState? = nil, useAmazonBedrockKRSAction: CapabilityState? = nil, useAmazonSThreeAction: CapabilityState? = nil, useAsanaAction: CapabilityState? = nil, useBambooHRAction: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, useBoxAgentAction: CapabilityState? = nil, useCanvaAgentAction: CapabilityState? = nil, useComprehendAction: CapabilityState? = nil, useComprehendMedicalAction: CapabilityState? = nil, useConfluenceAction: CapabilityState? = nil, useFactSetAction: CapabilityState? = nil, useGenericHTTPAction: CapabilityState? = nil, useGithubAction: CapabilityState? = nil, useGoogleCalendarAction: CapabilityState? = nil, useHubspotAction: CapabilityState? = nil, useHuggingFaceAction: CapabilityState? = nil, useIntercomAction: CapabilityState? = nil, useJiraAction: CapabilityState? = nil, useLinearAction: CapabilityState? = nil, useMCPAction: CapabilityState? = nil, useMondayAction: CapabilityState? = nil, useMSExchangeAction: CapabilityState? = nil, useMSTeamsAction: CapabilityState? = nil, useNewRelicAction: CapabilityState? = nil, useNotionAction: CapabilityState? = nil, useOneDriveAction: CapabilityState? = nil, useOpenAPIAction: CapabilityState? = nil, usePagerDutyAction: CapabilityState? = nil, useSalesforceAction: CapabilityState? = nil, useSandPGlobalEnergyAction: CapabilityState? = nil, useSandPGMIAction: CapabilityState? = nil, useSAPBillOfMaterialAction: CapabilityState? = nil, useSAPBusinessPartnerAction: CapabilityState? = nil, useSAPMaterialStockAction: CapabilityState? = nil, useSAPPhysicalInventoryAction: CapabilityState? = nil, useSAPProductMasterDataAction: CapabilityState? = nil, useServiceNowAction: CapabilityState? = nil, useSharePointAction: CapabilityState? = nil, useSlackAction: CapabilityState? = nil, useSmartsheetAction: CapabilityState? = nil, useTextractAction: CapabilityState? = nil, useZendeskAction: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil, zendeskAction: CapabilityState? = nil) {
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.amazonBedrockARSAction = amazonBedrockARSAction
@@ -8083,10 +8097,12 @@ extension QuickSight {
             self.amazonBedrockKRSAction = amazonBedrockKRSAction
             self.amazonSThreeAction = amazonSThreeAction
             self.analysis = analysis
+            self.approveFlowShareRequests = approveFlowShareRequests
             self.asanaAction = asanaAction
             self.automate = automate
             self.bambooHRAction = bambooHRAction
             self.boxAgentAction = boxAgentAction
+            self.buildCalculatedFieldWithQ = buildCalculatedFieldWithQ
             self.canvaAgentAction = canvaAgentAction
             self.chatAgent = chatAgent
             self.comprehendAction = comprehendAction
@@ -8141,15 +8157,18 @@ extension QuickSight {
             self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
             self.createAndUpdateZendeskAction = createAndUpdateZendeskAction
             self.createChatAgents = createChatAgents
+            self.createDashboardExecutiveSummaryWithQ = createDashboardExecutiveSummaryWithQ
             self.createSharedFolders = createSharedFolders
             self.createSPICEDataset = createSPICEDataset
             self.dashboard = dashboard
+            self.editVisualWithQ = editVisualWithQ
             self.exportToCsv = exportToCsv
             self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
             self.exportToExcel = exportToExcel
             self.exportToExcelInScheduledReports = exportToExcelInScheduledReports
             self.exportToPdf = exportToPdf
             self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
+            self.`extension` = `extension`
             self.factSetAction = factSetAction
             self.flow = flow
             self.genericHTTPAction = genericHTTPAction
@@ -8162,6 +8181,7 @@ extension QuickSight {
             self.jiraAction = jiraAction
             self.knowledgeBase = knowledgeBase
             self.linearAction = linearAction
+            self.manageSharedFolders = manageSharedFolders
             self.mcpAction = mcpAction
             self.mondayAction = mondayAction
             self.msExchangeAction = msExchangeAction
@@ -8239,6 +8259,7 @@ extension QuickSight {
             self.space = space
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
             self.textractAction = textractAction
+            self.topic = topic
             self.useAgentWebSearch = useAgentWebSearch
             self.useAmazonBedrockARSAction = useAmazonBedrockARSAction
             self.useAmazonBedrockFSAction = useAmazonBedrockFSAction
@@ -8296,10 +8317,12 @@ extension QuickSight {
             case amazonBedrockKRSAction = "AmazonBedrockKRSAction"
             case amazonSThreeAction = "AmazonSThreeAction"
             case analysis = "Analysis"
+            case approveFlowShareRequests = "ApproveFlowShareRequests"
             case asanaAction = "AsanaAction"
             case automate = "Automate"
             case bambooHRAction = "BambooHRAction"
             case boxAgentAction = "BoxAgentAction"
+            case buildCalculatedFieldWithQ = "BuildCalculatedFieldWithQ"
             case canvaAgentAction = "CanvaAgentAction"
             case chatAgent = "ChatAgent"
             case comprehendAction = "ComprehendAction"
@@ -8354,15 +8377,18 @@ extension QuickSight {
             case createAndUpdateThresholdAlerts = "CreateAndUpdateThresholdAlerts"
             case createAndUpdateZendeskAction = "CreateAndUpdateZendeskAction"
             case createChatAgents = "CreateChatAgents"
+            case createDashboardExecutiveSummaryWithQ = "CreateDashboardExecutiveSummaryWithQ"
             case createSharedFolders = "CreateSharedFolders"
             case createSPICEDataset = "CreateSPICEDataset"
             case dashboard = "Dashboard"
+            case editVisualWithQ = "EditVisualWithQ"
             case exportToCsv = "ExportToCsv"
             case exportToCsvInScheduledReports = "ExportToCsvInScheduledReports"
             case exportToExcel = "ExportToExcel"
             case exportToExcelInScheduledReports = "ExportToExcelInScheduledReports"
             case exportToPdf = "ExportToPdf"
             case exportToPdfInScheduledReports = "ExportToPdfInScheduledReports"
+            case `extension` = "Extension"
             case factSetAction = "FactSetAction"
             case flow = "Flow"
             case genericHTTPAction = "GenericHTTPAction"
@@ -8375,6 +8401,7 @@ extension QuickSight {
             case jiraAction = "JiraAction"
             case knowledgeBase = "KnowledgeBase"
             case linearAction = "LinearAction"
+            case manageSharedFolders = "ManageSharedFolders"
             case mcpAction = "MCPAction"
             case mondayAction = "MondayAction"
             case msExchangeAction = "MSExchangeAction"
@@ -8452,6 +8479,7 @@ extension QuickSight {
             case space = "Space"
             case subscribeDashboardEmailReports = "SubscribeDashboardEmailReports"
             case textractAction = "TextractAction"
+            case topic = "Topic"
             case useAgentWebSearch = "UseAgentWebSearch"
             case useAmazonBedrockARSAction = "UseAmazonBedrockARSAction"
             case useAmazonBedrockFSAction = "UseAmazonBedrockFSAction"
@@ -10703,7 +10731,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The definition of the brand.
         public let brandDefinition: BrandDefinition?
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String
         /// A map of the key-value pairs that are assigned to the brand.
         public let tags: [Tag]?
@@ -13945,9 +13973,9 @@ extension QuickSight {
     }
 
     public struct DashboardVisualId: AWSEncodableShape {
-        /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Quick Suite console. You can also get the DashboardId with a ListDashboards API operation.
+        /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Quick console. You can also get the DashboardId with a ListDashboards API operation.
         public let dashboardId: String
-        /// The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Quick Suite console.
+        /// The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Quick console.
         public let sheetId: String
         /// The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon Quick Sight console.
         public let visualId: String
@@ -16856,7 +16884,7 @@ extension QuickSight {
     public struct DeleteBrandRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String
 
         @inlinable
@@ -18705,7 +18733,7 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSettingsResponse: AWSDecodableShape {
-        /// The Amazon Quick Sight settings for this Amazon Web Services account. This information includes the edition of Amazon Quick Sight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon Quick Sight subscription.  In the Quick Sight console, the Amazon Quick Sight subscription is sometimes referred to as a Quick Sight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon Quick Sight service for your Amazon Web Services account. The edition that you subscribe to applies to Quick Suite in every Amazon Web Services Region where you use it.
+        /// The Amazon Quick Sight settings for this Amazon Web Services account. This information includes the edition of Amazon Quick Sight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon Quick Sight subscription.  In the Quick Sight console, the Amazon Quick Sight subscription is sometimes referred to as a Quick Sight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon Quick Sight service for your Amazon Web Services account. The edition that you subscribe to applies to Quick in every Amazon Web Services Region where you use it.
         public let accountSettings: AccountSettings?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -19441,7 +19469,7 @@ extension QuickSight {
     public struct DescribeBrandPublishedVersionRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String
 
         @inlinable
@@ -19494,7 +19522,7 @@ extension QuickSight {
     public struct DescribeBrandRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String
         /// The ID of the specific version. The default value is the latest version.
         public let versionId: String?
@@ -21386,9 +21414,9 @@ extension QuickSight {
     }
 
     public struct DescribeSelfUpgradeConfigurationRequest: AWSEncodableShape {
-        /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration.
+        /// The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration.
         public let awsAccountId: String
-        /// The Quick Suite namespace that you want to describe the Quick Suite self-upgrade configuration for.
+        /// The Quick namespace that you want to describe the Quick self-upgrade configuration for.
         public let namespace: String
 
         @inlinable
@@ -21418,7 +21446,7 @@ extension QuickSight {
     public struct DescribeSelfUpgradeConfigurationResponse: AWSDecodableShape {
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The self-upgrade configuration for the Quick Suite account.
+        /// The self-upgrade configuration for the Quick account.
         public let selfUpgradeConfiguration: SelfUpgradeConfiguration?
         /// The HTTP status of the request.
         public let status: Int?
@@ -25256,11 +25284,11 @@ extension QuickSight {
         public let awsAccountId: String
         /// The configuration of the experience that you are embedding.
         public let experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration
-        /// The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon Quick Suite custom namespace, set this to default.
+        /// The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon Quick custom namespace, set this to default.
         public let namespace: String
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
-        /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser,   Treat SessionTags as security credentials. Do not expose SessionTags to end users or client-side code.   Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify.   Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants.   Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access.   Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tags in the Amazon Quick Suite User Guide.
+        /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser,   Treat SessionTags as security credentials. Do not expose SessionTags to end users or client-side code.   Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify.   Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants.   Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access.   Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tags in the Amazon Quick User Guide.
         public let sessionTags: [SessionTag]?
 
         @inlinable
@@ -25313,7 +25341,7 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForAnonymousUserResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) to use for the anonymous Amazon Quick Suite user.
+        /// The Amazon Resource Name (ARN) to use for the anonymous Amazon Quick user.
         public let anonymousUserArn: String
         /// The embed URL for the dashboard.
         public let embedUrl: String
@@ -25351,7 +25379,7 @@ extension QuickSight {
         public let allowedDomains: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The experience that you want to embed. For registered users, you can embed Quick Suite dashboards, Amazon Quick Sight visuals, the Amazon Quick Sight Q search bar, the Amazon Quick Sight Generative Q&A experience, or the entire Amazon Quick Sight console.
+        /// The experience that you want to embed. For registered users, you can embed Quick dashboards, Amazon Quick Sight visuals, the Amazon Quick Sight Q search bar, the Amazon Quick Sight Generative Q&A experience, or the entire Amazon Quick Sight console.
         public let experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
@@ -26674,7 +26702,7 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlRequest: AWSEncodableShape {
-        /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick Suite or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+        /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
         public let additionalDashboardIds: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
@@ -26692,7 +26720,7 @@ extension QuickSight {
         public let statePersistenceEnabled: Bool?
         /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
         public let undoRedoDisabled: Bool?
-        /// The Amazon Quick Suite user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon Quick Suite users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
+        /// The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon Quick users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
         @inlinable
@@ -27020,7 +27048,7 @@ extension QuickSight {
         public let entryPoint: String?
         /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
         public let sessionLifetimeInMinutes: Int64?
-        /// The Amazon Quick Suite user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon Quick Suite users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
+        /// The Amazon Quick user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon Quick users in your account (readers, authors, or admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
         public let userArn: String?
 
         @inlinable
@@ -27054,7 +27082,7 @@ extension QuickSight {
     }
 
     public struct GetSessionEmbedUrlResponse: AWSDecodableShape {
-        /// A single-use URL that you can put into your server-side web page to embed your Quick Suite session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
+        /// A single-use URL that you can put into your server-side web page to embed your Quick session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
         public let embedUrl: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -31730,7 +31758,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
-        /// The Quick Suite namespace for the self-upgrade requests.
+        /// The Quick namespace for the self-upgrade requests.
         public let namespace: String
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -34873,7 +34901,7 @@ extension QuickSight {
     public struct Permission: AWSEncodableShape & AWSDecodableShape {
         /// A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner:   quicksight:PublishFlow   quicksight:GetFlow   quicksight:UpdateFlowPermissions   quicksight:GetFlowSession   quicksight:StartFlowSession   quicksight:StopFlowSession   quicksight:UpdateFlowSession   quicksight:UnpublishFlow   quicksight:GetFlowStages   quicksight:DeleteFlow   quicksight:DescribeFlowPermissions   quicksight:UpdateFlow   quicksight:CreatePresignedUrl   The following are the list of values to set a principal as a flow viewer:   quicksight:GetFlow   quicksight:UpdateFlowSession   quicksight:StartFlowSession   quicksight:StopFlowSession   quicksight:GetFlowSession   quicksight:CreatePresignedUrl   quicksight:GetFlowStages
         public let actions: [String]
-        /// The Amazon Resource Name (ARN) of the principal.  This can be an Amazon Quick Suite user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions.
+        /// The Amazon Resource Name (ARN) of the principal.  This can be an Amazon Quick user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions.
         public let principal: String
 
         @inlinable
@@ -37732,7 +37760,7 @@ extension QuickSight {
         public let qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration?
         /// The configuration details for embedding the Quick chat agent.
         public let quickChat: RegisteredUserQuickChatEmbeddingConfiguration?
-        /// The configuration details for providing each Amazon Quick Sight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon Quick Sight Console in the Amazon Quick Suite User Guide. Use  GenerateEmbedUrlForRegisteredUser where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon Quick Sight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick Suite User Guide:    Embedding the Full Functionality of the Amazon Quick Sight Console for Authenticated Users     Customizing Access to the Amazon Quick Suite Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Suite Developer Portal.
+        /// The configuration details for providing each Amazon Quick Sight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon Quick Sight Console in the Amazon Quick User Guide. Use  GenerateEmbedUrlForRegisteredUser where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon Quick Sight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick User Guide:    Embedding the Full Functionality of the Amazon Quick Sight Console for Authenticated Users     Customizing Access to the Amazon Quick Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon Quick Developer Portal.
         public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
 
         @inlinable
@@ -37764,7 +37792,7 @@ extension QuickSight {
     }
 
     public struct RegisteredUserGenerativeQnAEmbeddingConfiguration: AWSEncodableShape {
-        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Quick Suite application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
+        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Quick application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
         public let initialTopicId: String?
 
         @inlinable
@@ -38566,8 +38594,7 @@ extension QuickSight {
                 try validate($0, name: "targetVisuals[]", parent: name, min: 1)
                 try validate($0, name: "targetVisuals[]", parent: name, pattern: "^[\\w\\-]+$")
             }
-            try self.validate(self.targetVisuals, name: "targetVisuals", parent: name, max: 50)
-            try self.validate(self.targetVisuals, name: "targetVisuals", parent: name, min: 1)
+            try self.validate(self.targetVisuals, name: "targetVisuals", parent: name, max: 75)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -39957,7 +39984,7 @@ extension QuickSight {
             try self.sheetVisualScopingConfigurations?.forEach {
                 try $0.validate(name: "\(name).sheetVisualScopingConfigurations[]")
             }
-            try self.validate(self.sheetVisualScopingConfigurations, name: "sheetVisualScopingConfigurations", parent: name, max: 50)
+            try self.validate(self.sheetVisualScopingConfigurations, name: "sheetVisualScopingConfigurations", parent: name, max: 75)
             try self.validate(self.sheetVisualScopingConfigurations, name: "sheetVisualScopingConfigurations", parent: name, min: 1)
         }
 
@@ -39967,7 +39994,7 @@ extension QuickSight {
     }
 
     public struct SelfUpgradeConfiguration: AWSDecodableShape {
-        /// Status set for the self-upgrade configuration for the Quick Suite account. It can contain the following values:    AUTO_APPROVAL: All the self-upgrade requests will be auto approved.    ADMIN_APPROVAL: All the self-upgrade requests will require admin approval.
+        /// Status set for the self-upgrade configuration for the Quick account. It can contain the following values:    AUTO_APPROVAL: All the self-upgrade requests will be auto approved.    ADMIN_APPROVAL: All the self-upgrade requests will require admin approval.
         public let selfUpgradeStatus: SelfUpgradeStatus?
 
         @inlinable
@@ -40426,7 +40453,7 @@ extension QuickSight {
         public let images: [SheetImage]?
         /// Layouts define how the components of a sheet are arranged. For more information, see Types of layout in the Amazon Quick Suite User Guide.
         public let layouts: [Layout]?
-        /// The name of the sheet. This name is displayed on the sheet's tab in the Quick Suite console.
+        /// The name of the sheet. This name is displayed on the sheet's tab in the Quick console.
         public let name: String?
         /// The list of parameter controls that are on a sheet. For more information, see Using a Control with a Parameter in Amazon Quick Sight in the Amazon Quick Suite User Guide.
         public let parameterControls: [ParameterControl]?
@@ -40496,7 +40523,7 @@ extension QuickSight {
             try self.visuals?.forEach {
                 try $0.validate(name: "\(name).visuals[]")
             }
-            try self.validate(self.visuals, name: "visuals", parent: name, max: 50)
+            try self.validate(self.visuals, name: "visuals", parent: name, max: 75)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -40844,7 +40871,7 @@ extension QuickSight {
                 try validate($0, name: "visualIds[]", parent: name, min: 1)
                 try validate($0, name: "visualIds[]", parent: name, pattern: "^[\\w\\-]+$")
             }
-            try self.validate(self.visualIds, name: "visualIds", parent: name, max: 50)
+            try self.validate(self.visualIds, name: "visualIds", parent: name, max: 75)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -41040,7 +41067,7 @@ extension QuickSight {
     }
 
     public struct SnapshotAnonymousUser: AWSEncodableShape {
-        /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon Quick Sight, see Using Row-Level Security (RLS) with Tagsin the Amazon Quick Suite User Guide.
+        /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon Quick Sight, see Using Row-Level Security (RLS) with Tagsin the Amazon Quick User Guide.
         public let rowLevelPermissionTags: [SessionTag]?
 
         @inlinable
@@ -47063,7 +47090,7 @@ extension QuickSight {
     public struct UpdateApplicationWithTokenExchangeGrantRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account to be updated with a token exchange grant.
         public let awsAccountId: String
-        /// The namespace of the Quick Suite application.
+        /// The namespace of the Quick application.
         public let namespace: String
 
         @inlinable
@@ -47165,7 +47192,7 @@ extension QuickSight {
     public struct UpdateBrandPublishedVersionRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that owns the brand.
         public let awsAccountId: String
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String
         /// The ID of the published version.
         public let versionId: String
@@ -47225,7 +47252,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The definition of the brand.
         public let brandDefinition: BrandDefinition?
-        /// The ID of the Quick Suite brand.
+        /// The ID of the Quick brand.
         public let brandId: String
 
         @inlinable
@@ -48954,7 +48981,7 @@ extension QuickSight {
     public struct UpdatePublicSharingSettingsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID associated with your Amazon Quick Sight subscription.
         public let awsAccountId: String
-        /// A Boolean value that indicates whether public sharing is turned on for an Quick Suite account.
+        /// A Boolean value that indicates whether public sharing is turned on for an Quick account.
         public let publicSharingEnabled: Bool?
 
         @inlinable
@@ -49308,11 +49335,11 @@ extension QuickSight {
     }
 
     public struct UpdateSelfUpgradeConfigurationRequest: AWSEncodableShape {
-        /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration that you want to update.
+        /// The ID of the Amazon Web Services account that contains the Quick self-upgrade configuration that you want to update.
         public let awsAccountId: String
-        /// The Quick Suite namespace that you want to update the Quick Suite self-upgrade configuration for.
+        /// The Quick namespace that you want to update the Quick self-upgrade configuration for.
         public let namespace: String
-        /// The self-upgrade status that you want to set for the Quick Suite account.
+        /// The self-upgrade status that you want to set for the Quick account.
         public let selfUpgradeStatus: SelfUpgradeStatus
 
         @inlinable
@@ -49372,7 +49399,7 @@ extension QuickSight {
         public let action: SelfUpgradeAdminAction
         /// The ID of the Amazon Web Services account that contains the self-upgrade request.
         public let awsAccountId: String
-        /// The Quick Suite namespace for the self-upgrade request.
+        /// The Quick namespace for the self-upgrade request.
         public let namespace: String
         /// The ID of the self-upgrade request to update.
         public let upgradeRequestId: String

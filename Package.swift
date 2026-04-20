@@ -131,6 +131,7 @@ let package = Package(
         .library(name: "SotoConnectCampaignsV2", targets: ["SotoConnectCampaignsV2"]),
         .library(name: "SotoConnectCases", targets: ["SotoConnectCases"]),
         .library(name: "SotoConnectContactLens", targets: ["SotoConnectContactLens"]),
+        .library(name: "SotoConnectHealth", targets: ["SotoConnectHealth"]),
         .library(name: "SotoConnectParticipant", targets: ["SotoConnectParticipant"]),
         .library(name: "SotoControlCatalog", targets: ["SotoControlCatalog"]),
         .library(name: "SotoControlTower", targets: ["SotoControlTower"]),
@@ -406,6 +407,7 @@ let package = Package(
         .library(name: "SotoSignerData", targets: ["SotoSignerData"]),
         .library(name: "SotoSignin", targets: ["SotoSignin"]),
         .library(name: "SotoSimSpaceWeaver", targets: ["SotoSimSpaceWeaver"]),
+        .library(name: "SotoSimpleDBv2", targets: ["SotoSimpleDBv2"]),
         .library(name: "SotoSnowDeviceManagement", targets: ["SotoSnowDeviceManagement"]),
         .library(name: "SotoSnowball", targets: ["SotoSnowball"]),
         .library(name: "SotoSocialMessaging", targets: ["SotoSocialMessaging"]),
@@ -1064,6 +1066,12 @@ let package = Package(
             name: "SotoConnectContactLens",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/ConnectContactLens",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoConnectHealth",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/ConnectHealth",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -2714,6 +2722,12 @@ let package = Package(
             name: "SotoSimSpaceWeaver",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/SimSpaceWeaver",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoSimpleDBv2",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/SimpleDBv2",
             swiftSettings: swiftSettings
         ),
         .target(

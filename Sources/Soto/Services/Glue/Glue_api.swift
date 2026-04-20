@@ -517,23 +517,29 @@ public struct Glue: AWSService {
     /// Retrieves partitions in a batch request.
     ///
     /// Parameters:
+    ///   - auditContext: 
     ///   - catalogId: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the catalog database where the partitions reside.
     ///   - partitionsToGet: A list of partition values identifying the partitions to retrieve.
+    ///   - querySessionContext: 
     ///   - tableName: The name of the partitions' table.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchGetPartition(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         partitionsToGet: [PartitionValueList],
+        querySessionContext: QuerySessionContext? = nil,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BatchGetPartitionResponse {
         let input = BatchGetPartitionRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             partitionsToGet: partitionsToGet, 
+            querySessionContext: querySessionContext, 
             tableName: tableName
         )
         return try await self.batchGetPartition(input, logger: logger)

@@ -4961,7 +4961,7 @@ extension SESv2 {
     public struct MessageHeader: AWSEncodableShape {
         /// The name of the message header. The message header name has to meet the following criteria:   Can contain any printable ASCII character (33 - 126) except for colon (:).   Can contain no more than 126 characters.
         public let name: String
-        /// The value of the message header. The message header value has to meet the following criteria:   Can contain any printable ASCII character.   Can contain no more than 870 characters.
+        /// The value of the message header. The message header value has to meet the following criteria:   Can contain any printable ASCII character.   Can contain no more than 995 characters.   The combined length of the header name and value must not exceed 996 characters.
         public let value: String
 
         @inlinable
@@ -4974,7 +4974,7 @@ extension SESv2 {
             try self.validate(self.name, name: "name", parent: name, max: 126)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[!-9;-@A-~]+$")
-            try self.validate(self.value, name: "value", parent: name, max: 870)
+            try self.validate(self.value, name: "value", parent: name, max: 995)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[ -~]*$")
         }

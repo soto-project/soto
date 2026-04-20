@@ -905,6 +905,12 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public enum GameServerIpProtocolSupported: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "DUAL_STACK"
+        case iPv4 = "IPv4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GameServerProtectionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullProtection = "FULL_PROTECTION"
         case noProtection = "NO_PROTECTION"
@@ -1025,6 +1031,19 @@ extension GameLift {
     public enum PlacementFallbackStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultAfterSinglePass = "DEFAULT_AFTER_SINGLE_PASS"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlayerGatewayMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlayerGatewayStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -1594,11 +1613,13 @@ extension GameLift {
         public let perInstanceContainerGroupDefinitionArn: String?
         /// The name of the fleet's per-instance container group definition.
         public let perInstanceContainerGroupDefinitionName: String?
+        /// Indicates whether player gateway is enabled for this container fleet. Player gateway provides benefits such as DDoS protection with negligible impact to latency. If ENABLED or REQUIRED, game clients can use player gateway to connect with the game server. If DISABLED, game clients cannot use player gateway. Instead, they have to directly connect to the game server.
+        public let playerGatewayMode: PlayerGatewayMode?
         /// The current status of the container fleet.    PENDING -- A new container fleet has been requested.    CREATING -- A new container fleet resource is being created.     CREATED -- A new container fleet resource has been created. No fleet instances have been deployed.    ACTIVATING -- New container fleet instances are being deployed.    ACTIVE -- The container fleet has been deployed and is ready to host game sessions.    UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
         public let status: ContainerFleetStatus?
 
         @inlinable
-        public init(billingType: ContainerFleetBillingType? = nil, creationTime: Date? = nil, deploymentDetails: DeploymentDetails? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetRoleArn: String? = nil, gameServerContainerGroupDefinitionArn: String? = nil, gameServerContainerGroupDefinitionName: String? = nil, gameServerContainerGroupsPerInstance: Int? = nil, gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy? = nil, instanceConnectionPortRange: ConnectionPortRange? = nil, instanceInboundPermissions: [IpPermission]? = nil, instanceType: String? = nil, locationAttributes: [ContainerFleetLocationAttributes]? = nil, logConfiguration: LogConfiguration? = nil, maximumGameServerContainerGroupsPerInstance: Int? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, perInstanceContainerGroupDefinitionArn: String? = nil, perInstanceContainerGroupDefinitionName: String? = nil, status: ContainerFleetStatus? = nil) {
+        public init(billingType: ContainerFleetBillingType? = nil, creationTime: Date? = nil, deploymentDetails: DeploymentDetails? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetRoleArn: String? = nil, gameServerContainerGroupDefinitionArn: String? = nil, gameServerContainerGroupDefinitionName: String? = nil, gameServerContainerGroupsPerInstance: Int? = nil, gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy? = nil, instanceConnectionPortRange: ConnectionPortRange? = nil, instanceInboundPermissions: [IpPermission]? = nil, instanceType: String? = nil, locationAttributes: [ContainerFleetLocationAttributes]? = nil, logConfiguration: LogConfiguration? = nil, maximumGameServerContainerGroupsPerInstance: Int? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, perInstanceContainerGroupDefinitionArn: String? = nil, perInstanceContainerGroupDefinitionName: String? = nil, playerGatewayMode: PlayerGatewayMode? = nil, status: ContainerFleetStatus? = nil) {
             self.billingType = billingType
             self.creationTime = creationTime
             self.deploymentDetails = deploymentDetails
@@ -1620,6 +1641,7 @@ extension GameLift {
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.perInstanceContainerGroupDefinitionArn = perInstanceContainerGroupDefinitionArn
             self.perInstanceContainerGroupDefinitionName = perInstanceContainerGroupDefinitionName
+            self.playerGatewayMode = playerGatewayMode
             self.status = status
         }
 
@@ -1645,6 +1667,7 @@ extension GameLift {
             case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
             case perInstanceContainerGroupDefinitionArn = "PerInstanceContainerGroupDefinitionArn"
             case perInstanceContainerGroupDefinitionName = "PerInstanceContainerGroupDefinitionName"
+            case playerGatewayMode = "PlayerGatewayMode"
             case status = "Status"
         }
     }
@@ -1652,17 +1675,21 @@ extension GameLift {
     public struct ContainerFleetLocationAttributes: AWSDecodableShape {
         /// A location identifier.
         public let location: String?
+        /// The current status of player gateway in this location for this container fleet. Note, even if a container fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see Amazon GameLift Servers service locations. Possible values include:    ENABLED -- Player gateway is available for this container fleet location.    DISABLED -- Player gateway is not available for this container fleet location.
+        public let playerGatewayStatus: PlayerGatewayStatus?
         /// The status of fleet activity in the location.     PENDING -- A new container fleet has been requested.    CREATING -- A new container fleet resource is being created.     CREATED -- A new container fleet resource has been created. No fleet instances have been deployed.    ACTIVATING -- New container fleet instances are being deployed.    ACTIVE -- The container fleet has been deployed and is ready to host game sessions.    UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
         public let status: ContainerFleetLocationStatus?
 
         @inlinable
-        public init(location: String? = nil, status: ContainerFleetLocationStatus? = nil) {
+        public init(location: String? = nil, playerGatewayStatus: PlayerGatewayStatus? = nil, status: ContainerFleetLocationStatus? = nil) {
             self.location = location
+            self.playerGatewayStatus = playerGatewayStatus
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case location = "Location"
+            case playerGatewayStatus = "PlayerGatewayStatus"
             case status = "Status"
         }
     }
@@ -2030,11 +2057,13 @@ extension GameLift {
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number.  Create a container group definition by calling  https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html.  This operation creates a  https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html resource.
         public let perInstanceContainerGroupDefinitionName: String?
+        /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traﬃc before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy.  How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls GetPlayerConnectionDetails to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see DDoS protection with Amazon GameLift Servers player gateway. Possible values include:    DISABLED (default) -- Game clients connect to the game server endpoint. Use this when you do not intend to integrate your game with player gateway.    ENABLED -- Player gateway is available in fleet locations where it is supported. Your game backend can call GetPlayerConnectionDetails to obtain a player gateway token and endpoints for game clients.    REQUIRED -- Player gateway is available in fleet locations where it is supported, and the fleet can only use locations that support this feature. Attempting to add a remote location to your fleet which does not support player gateway will result in an InvalidRequestException.
+        public let playerGatewayMode: PlayerGatewayMode?
         /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
 
         @inlinable
-        public init(billingType: ContainerFleetBillingType? = nil, description: String? = nil, fleetRoleArn: String? = nil, gameServerContainerGroupDefinitionName: String? = nil, gameServerContainerGroupsPerInstance: Int? = nil, gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy? = nil, instanceConnectionPortRange: ConnectionPortRange? = nil, instanceInboundPermissions: [IpPermission]? = nil, instanceType: String? = nil, locations: [LocationConfiguration]? = nil, logConfiguration: LogConfiguration? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, perInstanceContainerGroupDefinitionName: String? = nil, tags: [Tag]? = nil) {
+        public init(billingType: ContainerFleetBillingType? = nil, description: String? = nil, fleetRoleArn: String? = nil, gameServerContainerGroupDefinitionName: String? = nil, gameServerContainerGroupsPerInstance: Int? = nil, gameSessionCreationLimitPolicy: GameSessionCreationLimitPolicy? = nil, instanceConnectionPortRange: ConnectionPortRange? = nil, instanceInboundPermissions: [IpPermission]? = nil, instanceType: String? = nil, locations: [LocationConfiguration]? = nil, logConfiguration: LogConfiguration? = nil, metricGroups: [String]? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, perInstanceContainerGroupDefinitionName: String? = nil, playerGatewayMode: PlayerGatewayMode? = nil, tags: [Tag]? = nil) {
             self.billingType = billingType
             self.description = description
             self.fleetRoleArn = fleetRoleArn
@@ -2049,6 +2078,7 @@ extension GameLift {
             self.metricGroups = metricGroups
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.perInstanceContainerGroupDefinitionName = perInstanceContainerGroupDefinitionName
+            self.playerGatewayMode = playerGatewayMode
             self.tags = tags
         }
 
@@ -2106,6 +2136,7 @@ extension GameLift {
             case metricGroups = "MetricGroups"
             case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
             case perInstanceContainerGroupDefinitionName = "PerInstanceContainerGroupDefinitionName"
+            case playerGatewayMode = "PlayerGatewayMode"
             case tags = "Tags"
         }
     }
@@ -2240,6 +2271,10 @@ extension GameLift {
         public let peerVpcAwsAccountId: String?
         /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the  VPC Dashboard in the Amazon Web Services Management Console.  Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets.
         public let peerVpcId: String?
+        /// Configuration settings for player gateway. Use this to specify advanced options for how player gateway handles connections.
+        public let playerGatewayConfiguration: PlayerGatewayConfiguration?
+        /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traﬃc before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy. Note, player gateway is only available for fleets using server SDK 5.x or later game server builds.  How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls GetPlayerConnectionDetails to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see DDoS protection with Amazon GameLift Servers player gateway. Possible values include:    DISABLED (default) -- Game clients connect to the game server endpoint. Use this when you do not intend to integrate your game with player gateway.    ENABLED -- Player gateway is available in fleet locations where it is supported. Your game backend can call GetPlayerConnectionDetails to obtain a player gateway token and endpoints for game clients.    REQUIRED -- Player gateway is available in fleet locations where it is supported, and the fleet can only use locations that support this feature. Attempting to add a remote location to your fleet which does not support player gateway will result in an InvalidRequestException.
+        public let playerGatewayMode: PlayerGatewayMode?
         /// A policy that limits the number of game sessions that an individual player can create on instances in this fleet within a specified span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         /// Instructions for how to launch and run server processes on the fleet. Set runtime configuration for managed EC2 fleets. For an Anywhere fleets, set this parameter only if the fleet is running the Amazon GameLift Servers Agent. The runtime configuration defines one or more server process configurations. Each server process identifies a game executable or Realtime script file and the number of processes to run concurrently.   This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
@@ -2254,7 +2289,7 @@ extension GameLift {
         public let tags: [Tag]?
 
         @inlinable
-        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, description: String? = nil, ec2InboundPermissions: [IpPermission]? = nil, ec2InstanceType: EC2InstanceType? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
+        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, description: String? = nil, ec2InboundPermissions: [IpPermission]? = nil, ec2InstanceType: EC2InstanceType? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, playerGatewayConfiguration: PlayerGatewayConfiguration? = nil, playerGatewayMode: PlayerGatewayMode? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildId = buildId
             self.certificateConfiguration = certificateConfiguration
@@ -2272,6 +2307,8 @@ extension GameLift {
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.peerVpcAwsAccountId = peerVpcAwsAccountId
             self.peerVpcId = peerVpcId
+            self.playerGatewayConfiguration = playerGatewayConfiguration
+            self.playerGatewayMode = playerGatewayMode
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.runtimeConfiguration = runtimeConfiguration
             self.scriptId = scriptId
@@ -2343,6 +2380,8 @@ extension GameLift {
             case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
             case peerVpcAwsAccountId = "PeerVpcAwsAccountId"
             case peerVpcId = "PeerVpcId"
+            case playerGatewayConfiguration = "PlayerGatewayConfiguration"
+            case playerGatewayMode = "PlayerGatewayMode"
             case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
             case runtimeConfiguration = "RuntimeConfiguration"
             case scriptId = "ScriptId"
@@ -2525,7 +2564,7 @@ extension GameLift {
         public let creatorId: String?
         /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
         public let fleetId: String?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see Create a game session with custom properties.                       Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see Create a game session with custom properties.                         Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
@@ -2751,7 +2790,7 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.    Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
@@ -5328,6 +5367,10 @@ extension GameLift {
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
+        /// Configuration settings for player gateway on this fleet.
+        public let playerGatewayConfiguration: PlayerGatewayConfiguration?
+        /// Indicates whether player gateway is enabled for this fleet. Player gateway provides benefits such as DDoS protection with negligible impact to latency. If ENABLED or REQUIRED, game clients can use player gateway to connect with the game server. If DISABLED, game clients cannot use player gateway. Instead, they have to directly connect to the game server.
+        public let playerGatewayMode: PlayerGatewayMode?
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         ///  The Amazon Resource Name (ARN) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public let scriptArn: String?
@@ -5345,7 +5388,7 @@ extension GameLift {
         public let terminationTime: Date?
 
         @inlinable
-        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildArn: String? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, creationTime: Date? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptArn: String? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: Date? = nil) {
+        public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildArn: String? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, creationTime: Date? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, playerGatewayConfiguration: PlayerGatewayConfiguration? = nil, playerGatewayMode: PlayerGatewayMode? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptArn: String? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: Date? = nil) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildArn = buildArn
             self.buildId = buildId
@@ -5364,6 +5407,8 @@ extension GameLift {
             self.name = name
             self.newGameSessionProtectionPolicy = newGameSessionProtectionPolicy
             self.operatingSystem = operatingSystem
+            self.playerGatewayConfiguration = playerGatewayConfiguration
+            self.playerGatewayMode = playerGatewayMode
             self.resourceCreationLimitPolicy = resourceCreationLimitPolicy
             self.scriptArn = scriptArn
             self.scriptId = scriptId
@@ -5393,6 +5438,8 @@ extension GameLift {
             case name = "Name"
             case newGameSessionProtectionPolicy = "NewGameSessionProtectionPolicy"
             case operatingSystem = "OperatingSystem"
+            case playerGatewayConfiguration = "PlayerGatewayConfiguration"
+            case playerGatewayMode = "PlayerGatewayMode"
             case resourceCreationLimitPolicy = "ResourceCreationLimitPolicy"
             case scriptArn = "ScriptArn"
             case scriptId = "ScriptId"
@@ -5527,7 +5574,7 @@ extension GameLift {
     }
 
     public struct GameProperty: AWSEncodableShape & AWSDecodableShape {
-        /// The game property identifier.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// The game property identifier.    Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let key: String?
         /// The game property value.
         public let value: String?
@@ -5856,7 +5903,7 @@ extension GameLift {
         public let fleetArn: String?
         /// A unique identifier for the fleet that the game session is running on.
         public let fleetId: String?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.    Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
@@ -5872,6 +5919,8 @@ extension GameLift {
         public let maximumPlayerSessionCount: Int?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
+        /// Indicates whether player gateway is available for use for this game session. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see Amazon GameLift Servers service locations. Possible values include:    ENABLED -- Player gateway is available for routing player connections for this game session.    DISABLED -- Player gateway is not available for this game session.
+        public let playerGatewayStatus: PlayerGatewayStatus?
         /// Indicates whether the game session is accepting new players.
         public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
         /// The port number for the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number.
@@ -5884,7 +5933,7 @@ extension GameLift {
         public let terminationTime: Date?
 
         @inlinable
-        public init(creationTime: Date? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, location: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: Date? = nil) {
+        public init(creationTime: Date? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, location: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerGatewayStatus: PlayerGatewayStatus? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: Date? = nil) {
             self.creationTime = creationTime
             self.creatorId = creatorId
             self.currentPlayerSessionCount = currentPlayerSessionCount
@@ -5899,6 +5948,7 @@ extension GameLift {
             self.matchmakerData = matchmakerData
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.name = name
+            self.playerGatewayStatus = playerGatewayStatus
             self.playerSessionCreationPolicy = playerSessionCreationPolicy
             self.port = port
             self.status = status
@@ -5921,6 +5971,7 @@ extension GameLift {
             case matchmakerData = "MatchmakerData"
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
             case name = "Name"
+            case playerGatewayStatus = "PlayerGatewayStatus"
             case playerSessionCreationPolicy = "PlayerSessionCreationPolicy"
             case port = "Port"
             case status = "Status"
@@ -5938,15 +5989,18 @@ extension GameLift {
         public let ipAddress: String?
         /// A collection of player session IDs, one for each player ID that was included in the original matchmaking request.
         public let matchedPlayerSessions: [MatchedPlayerSession]?
+        /// The current status of player gateway for the game session. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see supported locations. Possible values include:    ENABLED -- Player gateway is available for this game session.    DISABLED -- Player gateway is not available for this game session.
+        public let playerGatewayStatus: PlayerGatewayStatus?
         /// The port number for the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number.
         public let port: Int?
 
         @inlinable
-        public init(dnsName: String? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, port: Int? = nil) {
+        public init(dnsName: String? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, playerGatewayStatus: PlayerGatewayStatus? = nil, port: Int? = nil) {
             self.dnsName = dnsName
             self.gameSessionArn = gameSessionArn
             self.ipAddress = ipAddress
             self.matchedPlayerSessions = matchedPlayerSessions
+            self.playerGatewayStatus = playerGatewayStatus
             self.port = port
         }
 
@@ -5955,6 +6009,7 @@ extension GameLift {
             case gameSessionArn = "GameSessionArn"
             case ipAddress = "IpAddress"
             case matchedPlayerSessions = "MatchedPlayerSessions"
+            case playerGatewayStatus = "PlayerGatewayStatus"
             case port = "Port"
         }
     }
@@ -6005,7 +6060,7 @@ extension GameLift {
         public let dnsName: String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public let endTime: Date?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.    Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
         public let gameSessionArn: String?
@@ -6029,6 +6084,8 @@ extension GameLift {
         public let placedPlayerSessions: [PlacedPlayerSession]?
         /// A unique identifier for a game session placement.
         public let placementId: String?
+        /// The current status of player gateway for the game session placement. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see Amazon GameLift Servers service locations. Possible values include:    ENABLED -- Player gateway is available for this game session placement.    DISABLED -- Player gateway is not available for this game session placement.
+        public let playerGatewayStatus: PlayerGatewayStatus?
         /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions.
         public let playerLatencies: [PlayerLatency]?
         /// The port number for the game session. To connect to a Amazon GameLift Servers game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
@@ -6041,7 +6098,7 @@ extension GameLift {
         public let status: GameSessionPlacementState?
 
         @inlinable
-        public init(dnsName: String? = nil, endTime: Date? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int? = nil, priorityConfigurationOverride: PriorityConfigurationOverride? = nil, startTime: Date? = nil, status: GameSessionPlacementState? = nil) {
+        public init(dnsName: String? = nil, endTime: Date? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerGatewayStatus: PlayerGatewayStatus? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int? = nil, priorityConfigurationOverride: PriorityConfigurationOverride? = nil, startTime: Date? = nil, status: GameSessionPlacementState? = nil) {
             self.dnsName = dnsName
             self.endTime = endTime
             self.gameProperties = gameProperties
@@ -6056,6 +6113,7 @@ extension GameLift {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.placedPlayerSessions = placedPlayerSessions
             self.placementId = placementId
+            self.playerGatewayStatus = playerGatewayStatus
             self.playerLatencies = playerLatencies
             self.port = port
             self.priorityConfigurationOverride = priorityConfigurationOverride
@@ -6078,6 +6136,7 @@ extension GameLift {
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
             case placedPlayerSessions = "PlacedPlayerSessions"
             case placementId = "PlacementId"
+            case playerGatewayStatus = "PlayerGatewayStatus"
             case playerLatencies = "PlayerLatencies"
             case port = "Port"
             case priorityConfigurationOverride = "PriorityConfigurationOverride"
@@ -6348,6 +6407,54 @@ extension GameLift {
 
         private enum CodingKeys: String, CodingKey {
             case instanceAccess = "InstanceAccess"
+        }
+    }
+
+    public struct GetPlayerConnectionDetailsInput: AWSEncodableShape {
+        /// A unique identifier for the game session for which to retrieve player connection details.
+        public let gameSessionId: String?
+        /// List of unique identifiers for players. Connection details are returned for each player in this list.
+        public let playerIds: [String]?
+
+        @inlinable
+        public init(gameSessionId: String? = nil, playerIds: [String]? = nil) {
+            self.gameSessionId = gameSessionId
+            self.playerIds = playerIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
+            try self.playerIds?.forEach {
+                try validate($0, name: "playerIds[]", parent: name, max: 1024)
+                try validate($0, name: "playerIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.playerIds, name: "playerIds", parent: name, max: 25)
+            try self.validate(self.playerIds, name: "playerIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case playerIds = "PlayerIds"
+        }
+    }
+
+    public struct GetPlayerConnectionDetailsOutput: AWSDecodableShape {
+        /// A unique identifier for the game session for which the player connection details were retrieved.
+        public let gameSessionId: String?
+        /// A collection of player connection detail objects, one for each requested player.
+        public let playerConnectionDetails: [PlayerConnectionDetail]?
+
+        @inlinable
+        public init(gameSessionId: String? = nil, playerConnectionDetails: [PlayerConnectionDetail]? = nil) {
+            self.gameSessionId = gameSessionId
+            self.playerConnectionDetails = playerConnectionDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case playerConnectionDetails = "PlayerConnectionDetails"
         }
     }
 
@@ -7235,17 +7342,21 @@ extension GameLift {
     public struct LocationState: AWSDecodableShape {
         /// The fleet location, expressed as an Amazon Web Services Region code such as us-west-2.
         public let location: String?
+        /// The current status of player gateway in this location for this fleet. Note, even if a fleet has PlayerGatewayMode configured as ENABLED, player gateway might not be available in a specific location. For more information about locations where player gateway is supported, see Amazon GameLift Servers service locations. Possible values include:    ENABLED -- Player gateway is available for this fleet location.    DISABLED -- Player gateway is not available for this fleet location.
+        public let playerGatewayStatus: PlayerGatewayStatus?
         /// The life-cycle status of a fleet location.
         public let status: FleetStatus?
 
         @inlinable
-        public init(location: String? = nil, status: FleetStatus? = nil) {
+        public init(location: String? = nil, playerGatewayStatus: PlayerGatewayStatus? = nil, status: FleetStatus? = nil) {
             self.location = location
+            self.playerGatewayStatus = playerGatewayStatus
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case location = "Location"
+            case playerGatewayStatus = "PlayerGatewayStatus"
             case status = "Status"
         }
     }
@@ -7353,7 +7464,7 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.    Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?
@@ -7563,6 +7674,64 @@ extension GameLift {
             case playerAttributes = "PlayerAttributes"
             case playerId = "PlayerId"
             case team = "Team"
+        }
+    }
+
+    public struct PlayerConnectionDetail: AWSDecodableShape {
+        /// List of connection endpoints for the game client. Your game client uses these IP address(es) and port(s) to connect to the game session. When player gateway is enabled, these are relay endpoints with benefits such as DDoS protection. When disabled, this is the game server endpoint.
+        public let endpoints: [PlayerConnectionEndpoint]?
+        /// When player gateway is enabled, this is the timestamp indicating when player gateway token expires. Your game backend should call GetPlayerConnectionDetails to retrieve fresh connection information for your game clients before this time. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").  This value is empty when player gateway is disabled.
+        public let expiration: Date?
+        /// Access token that your game client must prepend to all traffic sent through player gateway. Player gateway verifies identity and authorizes connection based on this token. This value is empty when player gateway is disabled.
+        public let playerGatewayToken: String?
+        /// A unique identifier for a player associated with this connection.
+        public let playerId: String?
+
+        @inlinable
+        public init(endpoints: [PlayerConnectionEndpoint]? = nil, expiration: Date? = nil, playerGatewayToken: String? = nil, playerId: String? = nil) {
+            self.endpoints = endpoints
+            self.expiration = expiration
+            self.playerGatewayToken = playerGatewayToken
+            self.playerId = playerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "Endpoints"
+            case expiration = "Expiration"
+            case playerGatewayToken = "PlayerGatewayToken"
+            case playerId = "PlayerId"
+        }
+    }
+
+    public struct PlayerConnectionEndpoint: AWSDecodableShape {
+        /// IP address for connecting to the game session. When player gateway is enabled, this is a player gateway IP address. When player gateway is disabled, this is the game server IP address.
+        public let ipAddress: String?
+        /// Port number for connecting to the game session. When player gateway is enabled, this is a player gateway port. When player gateway is disabled, this is the game server port.
+        public let port: Int?
+
+        @inlinable
+        public init(ipAddress: String? = nil, port: Int? = nil) {
+            self.ipAddress = ipAddress
+            self.port = port
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case port = "Port"
+        }
+    }
+
+    public struct PlayerGatewayConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IP protocol that your game servers support for player connections through player gateway. If the value is set to IPv4, GameLift will install and execute a lightweight IP translation software on fleet instances to receive and transform incoming IPv6 traffic to IPv4. If the value is set to DUAL_STACK, the lightweight IP translation software will not be installed on fleet instances. DUAL_STACK provides slightly better performance than IPv4.
+        public let gameServerIpProtocolSupported: GameServerIpProtocolSupported?
+
+        @inlinable
+        public init(gameServerIpProtocolSupported: GameServerIpProtocolSupported? = nil) {
+            self.gameServerIpProtocolSupported = gameServerIpProtocolSupported
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameServerIpProtocolSupported = "GameServerIpProtocolSupported"
         }
     }
 
@@ -8434,7 +8603,7 @@ extension GameLift {
     public struct StartGameSessionPlacementInput: AWSEncodableShape {
         /// Set of information on each player to create a player session for.
         public let desiredPlayerSessions: [DesiredPlayerSession]?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.    Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session.
         public let gameSessionData: String?
@@ -9671,7 +9840,7 @@ extension GameLift {
     }
 
     public struct UpdateGameSessionInput: AWSEncodableShape {
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see Update the value of a game property.   Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see Update the value of a game property.     Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// A unique identifier for the game session to update.
         public let gameSessionId: String?
@@ -9823,7 +9992,7 @@ extension GameLift {
         public let description: String?
         /// Indicates whether this matchmaking configuration is being used with Amazon GameLift Servers hosting or as a standalone matchmaking solution.     STANDALONE - FlexMatch forms matches and returns match information, including players and team assignments, in a  MatchmakingSucceeded event.    WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public let flexMatchMode: FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.  Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.    Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.   If you use SearchGameSessions API, there is a limit of 500 game property keys across all game sessions and all fleets per region. If the limit is exceeded, there will potentially be game session entries missing from SearchGameSessions API results.
         public let gameProperties: [GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see Start a game session. This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
         public let gameSessionData: String?

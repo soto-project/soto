@@ -6543,7 +6543,7 @@ extension ConfigService {
             }
             try self.validate(self.debugLogDeliveryAccounts, name: "debugLogDeliveryAccounts", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.validate(self.inputParameters, name: "inputParameters", parent: name, max: 2048)
+            try self.validate(self.inputParameters, name: "inputParameters", parent: name, max: 1024)
             try self.validate(self.inputParameters, name: "inputParameters", parent: name, min: 1)
             try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, max: 64)
             try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, min: 1)
@@ -6673,7 +6673,7 @@ extension ConfigService {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.validate(self.inputParameters, name: "inputParameters", parent: name, max: 2048)
+            try self.validate(self.inputParameters, name: "inputParameters", parent: name, max: 1024)
             try self.validate(self.inputParameters, name: "inputParameters", parent: name, min: 1)
             try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, max: 256)
             try self.validate(self.lambdaFunctionArn, name: "lambdaFunctionArn", parent: name, min: 1)
@@ -6740,7 +6740,7 @@ extension ConfigService {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 256)
-            try self.validate(self.inputParameters, name: "inputParameters", parent: name, max: 2048)
+            try self.validate(self.inputParameters, name: "inputParameters", parent: name, max: 1024)
             try self.validate(self.inputParameters, name: "inputParameters", parent: name, min: 1)
             try self.validate(self.resourceIdScope, name: "resourceIdScope", parent: name, max: 768)
             try self.validate(self.resourceIdScope, name: "resourceIdScope", parent: name, min: 1)

@@ -220,6 +220,7 @@ extension APIGateway {
         case securityPolicyTLS122018EDGE = "SecurityPolicy_TLS12_2018_EDGE"
         case securityPolicyTLS12PFS2025EDGE = "SecurityPolicy_TLS12_PFS_2025_EDGE"
         case securityPolicyTLS1312202106 = "SecurityPolicy_TLS13_1_2_2021_06"
+        case securityPolicyTLS1312FIPSPFSPQ202509 = "SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09"
         case securityPolicyTLS1312FIPSPQ202509 = "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09"
         case securityPolicyTLS1312PFSPQ202509 = "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09"
         case securityPolicyTLS1312PQ202509 = "SecurityPolicy_TLS13_1_2_PQ_2025_09"

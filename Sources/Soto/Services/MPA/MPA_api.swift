@@ -666,6 +666,38 @@ public struct MPA: AWSService {
         return try await self.startActiveApprovalTeamDeletion(input, logger: logger)
     }
 
+    /// Starts a baseline session for specified approvers on an ACTIVE approval team.
+    @Sendable
+    @inlinable
+    public func startApprovalTeamBaseline(_ input: StartApprovalTeamBaselineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartApprovalTeamBaselineResponse {
+        try await self.client.execute(
+            operation: "StartApprovalTeamBaseline", 
+            path: "/approval-teams/{Arn}/baseline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a baseline session for specified approvers on an ACTIVE approval team.
+    ///
+    /// Parameters:
+    ///   - approverIds: Array of approver IDs.
+    ///   - arn: Amazon Resource Name (ARN) for the approval team.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startApprovalTeamBaseline(
+        approverIds: [String]? = nil,
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartApprovalTeamBaselineResponse {
+        let input = StartApprovalTeamBaselineRequest(
+            approverIds: approverIds, 
+            arn: arn
+        )
+        return try await self.startApprovalTeamBaseline(input, logger: logger)
+    }
+
     /// Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
     @Sendable
     @inlinable

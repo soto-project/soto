@@ -140,6 +140,37 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum Ac4BitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completeMain = "COMPLETE_MAIN"
+        case emergency = "EMERGENCY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac4CodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codingMode20 = "CODING_MODE_2_0"
+        case codingMode32Lfe = "CODING_MODE_3_2_LFE"
+        case codingMode514 = "CODING_MODE_5_1_4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac4DynamicRangeCompressionDrcProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case filmLight = "FILM_LIGHT"
+        case filmStandard = "FILM_STANDARD"
+        case musicLight = "MUSIC_LIGHT"
+        case musicStandard = "MUSIC_STANDARD"
+        case none = "NONE"
+        case speech = "SPEECH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ac4StereoDownmix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dpl2 = "DPL2"
+        case loRo = "LO_RO"
+        case ltRt = "LT_RT"
+        case notIndicated = "NOT_INDICATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccelerationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -240,6 +271,7 @@ extension MediaConvert {
     public enum AudioCodec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aac = "AAC"
         case ac3 = "AC3"
+        case ac4 = "AC4"
         case aiff = "AIFF"
         case eac3 = "EAC3"
         case eac3Atmos = "EAC3_ATMOS"
@@ -612,6 +644,7 @@ extension MediaConvert {
     public enum CmafIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followCustom = "FOLLOW_CUSTOM"
         case followIframe = "FOLLOW_IFRAME"
+        case followSegmentation = "FOLLOW_SEGMENTATION"
         public var description: String { return self.rawValue }
     }
 
@@ -789,6 +822,7 @@ extension MediaConvert {
         case prores = "PRORES"
         case qtrle = "QTRLE"
         case theora = "THEORA"
+        case uncompressed = "UNCOMPRESSED"
         case unknown = "UNKNOWN"
         case vfw = "VFW"
         case vorbis = "VORBIS"
@@ -906,6 +940,7 @@ extension MediaConvert {
     public enum DashIsoIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followCustom = "FOLLOW_CUSTOM"
         case followIframe = "FOLLOW_IFRAME"
+        case followSegmentation = "FOLLOW_SEGMENTATION"
         public var description: String { return self.rawValue }
     }
 
@@ -1346,6 +1381,7 @@ extension MediaConvert {
     }
 
     public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case avi = "avi"
         case matroska = "matroska"
         case mp4 = "mp4"
         case mxf = "mxf"
@@ -1846,6 +1882,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum HlsClearLead: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HlsClientCache: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -1900,6 +1942,7 @@ extension MediaConvert {
     public enum HlsIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case followCustom = "FOLLOW_CUSTOM"
         case followIframe = "FOLLOW_IFRAME"
+        case followSegmentation = "FOLLOW_SEGMENTATION"
         public var description: String { return self.rawValue }
     }
 
@@ -3672,6 +3715,75 @@ extension MediaConvert {
         }
     }
 
+    public struct Ac4Settings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the average bitrate in bits per second. Leave blank to use the default bitrate for the coding mode you select according to ETSI TS 103 190. Valid bitrates for coding mode 2.0 (stereo): 192000, 256000, or 320000. Valid bitrates for coding mode 5.1 (3/2 with LFE): 512000. Valid bitrates for coding mode 5.1.4 (immersive): 512000, 768000, or 1024000.
+        public let bitrate: Int?
+        /// Specify the bitstream mode for the AC-4 stream that the encoder emits. For more information about the AC-4 bitstream mode, see ETSI TS 103 190. Maps to dlb_paec_ac4_bed_classifier in the encoder implementation. - COMPLETE_MAIN: Complete Main (standard mix) - EMERGENCY: Stereo Emergency content
+        public let bitstreamMode: Ac4BitstreamMode?
+        /// Dolby AC-4 coding mode. Determines number of channels. Maps to dlb_paec_ac4_bed_channel_config in the encoder implementation. - CODING_MODE_2_0: 2.0 (stereo) - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_20   - CODING_MODE_3_2_LFE: 5.1 surround - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_51 - CODING_MODE_5_1_4: 5.1.4 immersive - maps to DLB_PAEC_AC4_BED_CHANNEL_CONFIG_514
+        public let codingMode: Ac4CodingMode?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public let dynamicRangeCompressionFlatPanelTv: Ac4DynamicRangeCompressionDrcProfile?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public let dynamicRangeCompressionHomeTheater: Ac4DynamicRangeCompressionDrcProfile?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public let dynamicRangeCompressionPortableHeadphones: Ac4DynamicRangeCompressionDrcProfile?
+        /// Choose the Dolby AC-4 dynamic range control (DRC) profile that MediaConvert uses when encoding the metadata in the Dolby AC-4 stream for the specified decoder mode. For information about the Dolby AC-4 DRC profiles, see the Dolby AC-4 specification.
+        public let dynamicRangeCompressionPortableSpeakers: Ac4DynamicRangeCompressionDrcProfile?
+        /// Specify a value for the following Dolby AC-4 setting: Left only/Right only center mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left only/Right only center.
+        public let loRoCenterMixLevel: Double?
+        /// Specify a value for the following Dolby AC-4 setting: Left only/Right only surround mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left only/Right only surround.
+        public let loRoSurroundMixLevel: Double?
+        /// Specify a value for the following Dolby AC-4 setting: Left total/Right total center mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left total/Right total center.
+        public let ltRtCenterMixLevel: Double?
+        /// Specify a value for the following Dolby AC-4 setting: Left total/Right total surround mix. MediaConvert uses this value for downmixing. How the service uses this value depends on the value that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -infinity. The value -infinity mutes the channel. This setting applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you choose a different value for Coding mode, the service ignores Left total/Right total surround.
+        public let ltRtSurroundMixLevel: Double?
+        /// This value is always 48000. It represents the sample rate in Hz.
+        public let sampleRate: Int?
+        /// Choose the preferred stereo downmix method. This setting tells the decoder how to downmix multi-channel audio to stereo during playback.
+        public let stereoDownmix: Ac4StereoDownmix?
+
+        @inlinable
+        public init(bitrate: Int? = nil, bitstreamMode: Ac4BitstreamMode? = nil, codingMode: Ac4CodingMode? = nil, dynamicRangeCompressionFlatPanelTv: Ac4DynamicRangeCompressionDrcProfile? = nil, dynamicRangeCompressionHomeTheater: Ac4DynamicRangeCompressionDrcProfile? = nil, dynamicRangeCompressionPortableHeadphones: Ac4DynamicRangeCompressionDrcProfile? = nil, dynamicRangeCompressionPortableSpeakers: Ac4DynamicRangeCompressionDrcProfile? = nil, loRoCenterMixLevel: Double? = nil, loRoSurroundMixLevel: Double? = nil, ltRtCenterMixLevel: Double? = nil, ltRtSurroundMixLevel: Double? = nil, sampleRate: Int? = nil, stereoDownmix: Ac4StereoDownmix? = nil) {
+            self.bitrate = bitrate
+            self.bitstreamMode = bitstreamMode
+            self.codingMode = codingMode
+            self.dynamicRangeCompressionFlatPanelTv = dynamicRangeCompressionFlatPanelTv
+            self.dynamicRangeCompressionHomeTheater = dynamicRangeCompressionHomeTheater
+            self.dynamicRangeCompressionPortableHeadphones = dynamicRangeCompressionPortableHeadphones
+            self.dynamicRangeCompressionPortableSpeakers = dynamicRangeCompressionPortableSpeakers
+            self.loRoCenterMixLevel = loRoCenterMixLevel
+            self.loRoSurroundMixLevel = loRoSurroundMixLevel
+            self.ltRtCenterMixLevel = ltRtCenterMixLevel
+            self.ltRtSurroundMixLevel = ltRtSurroundMixLevel
+            self.sampleRate = sampleRate
+            self.stereoDownmix = stereoDownmix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1024000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 192000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 48000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dynamicRangeCompressionFlatPanelTv = "dynamicRangeCompressionFlatPanelTv"
+            case dynamicRangeCompressionHomeTheater = "dynamicRangeCompressionHomeTheater"
+            case dynamicRangeCompressionPortableHeadphones = "dynamicRangeCompressionPortableHeadphones"
+            case dynamicRangeCompressionPortableSpeakers = "dynamicRangeCompressionPortableSpeakers"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case sampleRate = "sampleRate"
+            case stereoDownmix = "stereoDownmix"
+        }
+    }
+
     public struct AccelerationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the conditions when the service will run your job with accelerated transcoding.
         public let mode: AccelerationMode?
@@ -3832,6 +3944,8 @@ extension MediaConvert {
         public let aacSettings: AacSettings?
         /// Required when you set Codec to the value AC3.
         public let ac3Settings: Ac3Settings?
+        /// Required when you set Codec to the value AC4.
+        public let ac4Settings: Ac4Settings?
         /// Required when you set Codec to the value AIFF.
         public let aiffSettings: AiffSettings?
         /// Choose the audio codec for this output. Note that the option Dolby Digital passthrough applies only to Dolby Digital and Dolby Digital Plus audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
@@ -3854,9 +3968,10 @@ extension MediaConvert {
         public let wavSettings: WavSettings?
 
         @inlinable
-        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, flacSettings: FlacSettings? = nil, mp2Settings: Mp2Settings? = nil, mp3Settings: Mp3Settings? = nil, opusSettings: OpusSettings? = nil, vorbisSettings: VorbisSettings? = nil, wavSettings: WavSettings? = nil) {
+        public init(aacSettings: AacSettings? = nil, ac3Settings: Ac3Settings? = nil, ac4Settings: Ac4Settings? = nil, aiffSettings: AiffSettings? = nil, codec: AudioCodec? = nil, eac3AtmosSettings: Eac3AtmosSettings? = nil, eac3Settings: Eac3Settings? = nil, flacSettings: FlacSettings? = nil, mp2Settings: Mp2Settings? = nil, mp3Settings: Mp3Settings? = nil, opusSettings: OpusSettings? = nil, vorbisSettings: VorbisSettings? = nil, wavSettings: WavSettings? = nil) {
             self.aacSettings = aacSettings
             self.ac3Settings = ac3Settings
+            self.ac4Settings = ac4Settings
             self.aiffSettings = aiffSettings
             self.codec = codec
             self.eac3AtmosSettings = eac3AtmosSettings
@@ -3872,6 +3987,7 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try self.aacSettings?.validate(name: "\(name).aacSettings")
             try self.ac3Settings?.validate(name: "\(name).ac3Settings")
+            try self.ac4Settings?.validate(name: "\(name).ac4Settings")
             try self.aiffSettings?.validate(name: "\(name).aiffSettings")
             try self.eac3AtmosSettings?.validate(name: "\(name).eac3AtmosSettings")
             try self.eac3Settings?.validate(name: "\(name).eac3Settings")
@@ -3886,6 +4002,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case aacSettings = "aacSettings"
             case ac3Settings = "ac3Settings"
+            case ac4Settings = "ac4Settings"
             case aiffSettings = "aiffSettings"
             case codec = "codec"
             case eac3AtmosSettings = "eac3AtmosSettings"
@@ -4966,6 +5083,8 @@ extension MediaConvert {
     }
 
     public struct CmafEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264 and H.265 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
+        public let clearLead: HlsClearLead?
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
         /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
@@ -4980,7 +5099,8 @@ extension MediaConvert {
         public let type: CmafKeyProviderType?
 
         @inlinable
-        public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionType? = nil, initializationVectorInManifest: CmafInitializationVectorInManifest? = nil, spekeKeyProvider: SpekeKeyProviderCmaf? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: CmafKeyProviderType? = nil) {
+        public init(clearLead: HlsClearLead? = nil, constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionType? = nil, initializationVectorInManifest: CmafInitializationVectorInManifest? = nil, spekeKeyProvider: SpekeKeyProviderCmaf? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: CmafKeyProviderType? = nil) {
+            self.clearLead = clearLead
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.initializationVectorInManifest = initializationVectorInManifest
@@ -4998,6 +5118,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clearLead = "clearLead"
             case constantInitializationVector = "constantInitializationVector"
             case encryptionMethod = "encryptionMethod"
             case initializationVectorInManifest = "initializationVectorInManifest"
@@ -5148,7 +5269,7 @@ extension MediaConvert {
     }
 
     public struct CmafImageBasedTrickPlaySettings: AWSEncodableShape & AWSDecodableShape {
-        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
         public let intervalCadence: CmafIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
         public let thumbnailHeight: Int?
@@ -5450,7 +5571,7 @@ extension MediaConvert {
     public struct Container: AWSDecodableShape {
         /// The total duration of your media file, in seconds.
         public let duration: Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF or Wave. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, or AVI. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public let format: Format?
         /// Details about each track (video, audio, or data) in the media file.
         public let tracks: [Track]?
@@ -5972,7 +6093,7 @@ extension MediaConvert {
     }
 
     public struct DashIsoImageBasedTrickPlaySettings: AWSEncodableShape & AWSDecodableShape {
-        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
         public let intervalCadence: DashIsoIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
         public let thumbnailHeight: Int?
@@ -8281,7 +8402,7 @@ extension MediaConvert {
     }
 
     public struct HlsImageBasedTrickPlaySettings: AWSEncodableShape & AWSDecodableShape {
-        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval.
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
         public let intervalCadence: HlsIntervalCadence?
         /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
         public let thumbnailHeight: Int?
@@ -9191,7 +9312,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
@@ -9345,7 +9466,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?

@@ -1290,7 +1290,7 @@ extension IAM {
     }
 
     public struct CreateServiceSpecificCredentialRequest: AWSEncodableShape {
-        /// The number of days until the service specific credential expires. This field is only valid for Bedrock API keys and must be a positive integer. When not specified, the credential will not expire.
+        /// The number of days until the service specific credential expires. This field is only valid for Bedrock and CloudWatch Logs API keys and must be a positive integer. When not specified, the credential will not expire.
         public let credentialAgeDays: Int?
         /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
         public let serviceName: String
@@ -7080,11 +7080,11 @@ extension IAM {
     public struct ServiceSpecificCredential: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
         public let createDate: Date
-        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys and CloudWatch Logs API keys that were created with an expiration period.
         public let expirationDate: Date?
-        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
         public let serviceCredentialAlias: String?
-        /// For Bedrock API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
         public let serviceCredentialSecret: String?
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
@@ -7130,9 +7130,9 @@ extension IAM {
     public struct ServiceSpecificCredentialMetadata: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
         public let createDate: Date
-        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys and CloudWatch Logs API keys that were created with an expiration period.
         public let expirationDate: Date?
-        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        /// For Bedrock API keys and CloudWatch Logs API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
         public let serviceCredentialAlias: String?
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String

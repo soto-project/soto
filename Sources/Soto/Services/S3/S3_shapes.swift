@@ -106,6 +106,12 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public enum BucketNamespace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountRegional = "account-regional"
+        case global = "global"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BucketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case directory = "Directory"
         public var description: String { return self.rawValue }
@@ -1957,6 +1963,8 @@ extension S3 {
         public let acl: BucketCannedACL?
         /// The name of the bucket to create.  General purpose buckets - For information about bucket naming restrictions, see Bucket naming rules in the Amazon S3 User Guide.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
+        /// Specifies the namespace where you want to create your general purpose bucket. When you create a general purpose bucket, you can choose to create a bucket in the shared global namespace or you can choose to create a bucket in your account regional namespace. Your account regional namespace is a subdivision of the global namespace that only your account can create buckets in. For more information on bucket namespaces, see Namespaces for general purpose buckets. General purpose buckets in your account regional namespace must follow a specific naming convention. These buckets consist of a bucket name prefix that you create, and a suffix that contains your 12-digit Amazon Web Services Account ID, the Amazon Web Services Region code, and ends with -an. Bucket names must follow the format bucket-name-prefix-accountId-region-an (for example, amzn-s3-demo-bucket-111122223333-us-west-2-an). For information about bucket naming restrictions, see Account regional namespace naming rules in the Amazon S3 User Guide.  This functionality is not supported for directory buckets.
+        public let bucketNamespace: BucketNamespace?
         /// The configuration information for the bucket.
         public let createBucketConfiguration: CreateBucketConfiguration?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.  This functionality is not supported for directory buckets.
@@ -1974,9 +1982,10 @@ extension S3 {
         public let objectOwnership: ObjectOwnership?
 
         @inlinable
-        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, objectOwnership: ObjectOwnership? = nil) {
+        public init(acl: BucketCannedACL? = nil, bucket: String, bucketNamespace: BucketNamespace? = nil, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, objectOwnership: ObjectOwnership? = nil) {
             self.acl = acl
             self.bucket = bucket
+            self.bucketNamespace = bucketNamespace
             self.createBucketConfiguration = createBucketConfiguration
             self.grantFullControl = grantFullControl
             self.grantRead = grantRead
@@ -1992,6 +2001,7 @@ extension S3 {
             var container = encoder.singleValueContainer()
             request.encodeHeader(self.acl, key: "x-amz-acl")
             request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.bucketNamespace, key: "x-amz-bucket-namespace")
             try container.encode(self.createBucketConfiguration)
             request.encodeHeader(self.grantFullControl, key: "x-amz-grant-full-control")
             request.encodeHeader(self.grantRead, key: "x-amz-grant-read")
@@ -2274,7 +2284,7 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default, Amazon S3 encrypts data with SSE-S3.  For more information, see Protecting data with server-side encryption in the Amazon S3 User Guide.  S3 access points for Amazon FSx  - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
         public let serverSideEncryption: ServerSideEncryption?
-        /// Specifies the mode of the session that will be created, either ReadWrite or ReadOnly. By default, a ReadWrite session is created. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject, HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
+        /// Specifies the mode of the session that will be created, either ReadWrite or  ReadOnly. If no session mode is specified, the default behavior attempts to create  a session with the maximum allowable privilege. It will first attempt to create a  ReadWrite session, and if that is not allowed by permissions, it will attempt to create a  ReadOnly session. If neither session type is allowed, the request will return an Access Denied error. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject, HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
         public let sessionMode: SessionMode?
         /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object.  General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
         public let ssekmsEncryptionContext: String?

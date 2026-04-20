@@ -2157,6 +2157,8 @@ extension Deadline {
     public struct CreateFarmRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
+        /// The cost scale factor to apply on the farm.
+        public let costScaleFactor: Float?
         /// The description of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
         /// The display name of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
@@ -2167,8 +2169,9 @@ extension Deadline {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateFarmRequest.idempotencyToken(), description: String? = nil, displayName: String, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateFarmRequest.idempotencyToken(), costScaleFactor: Float? = nil, description: String? = nil, displayName: String, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.costScaleFactor = costScaleFactor
             self.description = description
             self.displayName = displayName
             self.kmsKeyArn = kmsKeyArn
@@ -2179,6 +2182,7 @@ extension Deadline {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.costScaleFactor, forKey: .costScaleFactor)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encode(self.displayName, forKey: .displayName)
             try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
@@ -2188,6 +2192,8 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.costScaleFactor, name: "costScaleFactor", parent: name, max: 100.0)
+            try self.validate(self.costScaleFactor, name: "costScaleFactor", parent: name, min: 0.0)
             try self.validate(self.description, name: "description", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
@@ -2195,6 +2201,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case costScaleFactor = "costScaleFactor"
             case description = "description"
             case displayName = "displayName"
             case kmsKeyArn = "kmsKeyArn"
@@ -4341,6 +4348,8 @@ extension Deadline {
     }
 
     public struct GetFarmResponse: AWSDecodableShape {
+        /// The cost scale factor applied on the farm.
+        public let costScaleFactor: Float
         /// The date and time the resource was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -4361,7 +4370,8 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, kmsKeyArn: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(costScaleFactor: Float, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, kmsKeyArn: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.costScaleFactor = costScaleFactor
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -4373,6 +4383,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case costScaleFactor = "costScaleFactor"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case description = "description"
@@ -10386,6 +10397,8 @@ extension Deadline {
     }
 
     public struct UpdateFarmRequest: AWSEncodableShape {
+        /// The cost scale factor of the farm to update.
+        public let costScaleFactor: Float?
         /// The description of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
         /// The display name of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
@@ -10394,7 +10407,8 @@ extension Deadline {
         public let farmId: String
 
         @inlinable
-        public init(description: String? = nil, displayName: String? = nil, farmId: String) {
+        public init(costScaleFactor: Float? = nil, description: String? = nil, displayName: String? = nil, farmId: String) {
+            self.costScaleFactor = costScaleFactor
             self.description = description
             self.displayName = displayName
             self.farmId = farmId
@@ -10403,12 +10417,15 @@ extension Deadline {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.costScaleFactor, forKey: .costScaleFactor)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             request.encodePath(self.farmId, key: "farmId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.costScaleFactor, name: "costScaleFactor", parent: name, max: 100.0)
+            try self.validate(self.costScaleFactor, name: "costScaleFactor", parent: name, min: 0.0)
             try self.validate(self.description, name: "description", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
@@ -10416,6 +10433,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case costScaleFactor = "costScaleFactor"
             case description = "description"
             case displayName = "displayName"
         }
