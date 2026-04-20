@@ -20,7 +20,6 @@ env:
   AWS_ENABLE_LOGGING : "true"
   AWS_LOG_LEVEL: "debug"
   STRICT_CONCURRENCY: "true"
-  LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
 
 jobs:
   macos:
@@ -43,7 +42,7 @@ jobs:
       localstack:
         image: localstack/localstack
         env: 
-          LOCALSTACK_AUTH_TOKEN: sec
+          LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
     container:
       image: ${{ matrix.image }}
       env:
