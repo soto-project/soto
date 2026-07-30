@@ -2,11 +2,11 @@
 
 ## Supported Versions
 
-Currently we support versions 4.x.x and 5.x.x of Soto. These will receive security updates as and when needed.
+Currently we support versions 6 and later of Soto. These will receive security updates as and when needed.
 
 ## Reporting a Vulnerability
 
-If you believe you have found a security vulnerability in Soto please do not post this in a public forum, do not create a GitHub Issue. Instead you should email [security@soto.codes](mailto:security@soto.codes) with details of the issue.
+If you believe you have found a security vulnerability in Soto please do not post this in a public forum, do not create a GitHub Issue. Instead you should submit a security advisory via [GitHub](https://github.com/soto-project/soto/security/advisories/new) with details of the issue.
 
 #### What happens next?
 
