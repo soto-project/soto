@@ -256,7 +256,7 @@ extension OSIS {
             try self.logPublishingOptions?.validate(name: "\(name).logPublishingOptions")
             try self.validate(self.maxUnits, name: "maxUnits", parent: name, min: 1)
             try self.validate(self.minUnits, name: "minUnits", parent: name, min: 1)
-            try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 24000)
+            try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 100000)
             try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 28)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 3)
@@ -1436,7 +1436,7 @@ extension OSIS {
             try self.logPublishingOptions?.validate(name: "\(name).logPublishingOptions")
             try self.validate(self.maxUnits, name: "maxUnits", parent: name, min: 1)
             try self.validate(self.minUnits, name: "minUnits", parent: name, min: 1)
-            try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 24000)
+            try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 100000)
             try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, min: 1)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 28)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 3)
@@ -1481,7 +1481,7 @@ extension OSIS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 24000)
+            try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, max: 100000)
             try self.validate(self.pipelineConfigurationBody, name: "pipelineConfigurationBody", parent: name, min: 1)
         }
 
@@ -1535,7 +1535,7 @@ extension OSIS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(3[0-2]|[12]?[0-9])$")
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/24$")
         }
 
         private enum CodingKeys: String, CodingKey {

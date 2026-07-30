@@ -99,6 +99,7 @@ extension ConnectCampaignsV2 {
         case campaignOrchestration = "Campaign-Orchestration"
         case campaignSMS = "Campaign-SMS"
         case campaignTelephony = "Campaign-Telephony"
+        case campaignWebnotification = "Campaign-WebNotification"
         case campaignWhatsapp = "Campaign-WhatsApp"
         public var description: String { return self.rawValue }
     }
@@ -155,6 +156,12 @@ extension ConnectCampaignsV2 {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LocalTimeZoneDetectionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allAvailable = "ALL_AVAILABLE"
+        case primaryOnly = "PRIMARY_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -492,6 +499,7 @@ extension ConnectCampaignsV2 {
         public let communicationTimeConfig: CommunicationTimeConfig?
         public let connectCampaignFlowArn: String?
         public let connectInstanceId: String
+        public let entryLimitsConfig: EntryLimitsConfig?
         public let id: String
         public let name: String
         public let schedule: Schedule?
@@ -500,13 +508,14 @@ extension ConnectCampaignsV2 {
         public let type: ExternalCampaignType?
 
         @inlinable
-        public init(arn: String, channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, id: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
+        public init(arn: String, channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, entryLimitsConfig: EntryLimitsConfig? = nil, id: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
             self.arn = arn
             self.channelSubtypeConfig = channelSubtypeConfig
             self.communicationLimitsOverride = communicationLimitsOverride
             self.communicationTimeConfig = communicationTimeConfig
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
+            self.entryLimitsConfig = entryLimitsConfig
             self.id = id
             self.name = name
             self.schedule = schedule
@@ -522,6 +531,7 @@ extension ConnectCampaignsV2 {
             case communicationTimeConfig = "communicationTimeConfig"
             case connectCampaignFlowArn = "connectCampaignFlowArn"
             case connectInstanceId = "connectInstanceId"
+            case entryLimitsConfig = "entryLimitsConfig"
             case id = "id"
             case name = "name"
             case schedule = "schedule"
@@ -553,17 +563,19 @@ extension ConnectCampaignsV2 {
         public let channelSubtypes: [ChannelSubtype]
         public let connectCampaignFlowArn: String?
         public let connectInstanceId: String
+        public let entryLimitsConfig: EntryLimitsConfig?
         public let id: String
         public let name: String
         public let schedule: Schedule?
         public let type: ExternalCampaignType?
 
         @inlinable
-        public init(arn: String, channelSubtypes: [ChannelSubtype], connectCampaignFlowArn: String? = nil, connectInstanceId: String, id: String, name: String, schedule: Schedule? = nil, type: ExternalCampaignType? = nil) {
+        public init(arn: String, channelSubtypes: [ChannelSubtype], connectCampaignFlowArn: String? = nil, connectInstanceId: String, entryLimitsConfig: EntryLimitsConfig? = nil, id: String, name: String, schedule: Schedule? = nil, type: ExternalCampaignType? = nil) {
             self.arn = arn
             self.channelSubtypes = channelSubtypes
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
+            self.entryLimitsConfig = entryLimitsConfig
             self.id = id
             self.name = name
             self.schedule = schedule
@@ -575,10 +587,28 @@ extension ConnectCampaignsV2 {
             case channelSubtypes = "channelSubtypes"
             case connectCampaignFlowArn = "connectCampaignFlowArn"
             case connectInstanceId = "connectInstanceId"
+            case entryLimitsConfig = "entryLimitsConfig"
             case id = "id"
             case name = "name"
             case schedule = "schedule"
             case type = "type"
+        }
+    }
+
+    public struct ChannelContext: AWSEncodableShape {
+        public let webNotificationContext: WebNotificationContext?
+
+        @inlinable
+        public init(webNotificationContext: WebNotificationContext? = nil) {
+            self.webNotificationContext = webNotificationContext
+        }
+
+        public func validate(name: String) throws {
+            try self.webNotificationContext?.validate(name: "\(name).webNotificationContext")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webNotificationContext = "webNotificationContext"
         }
     }
 
@@ -713,6 +743,7 @@ extension ConnectCampaignsV2 {
         public let communicationTimeConfig: CommunicationTimeConfig?
         public let connectCampaignFlowArn: String?
         public let connectInstanceId: String
+        public let entryLimitsConfig: EntryLimitsConfig?
         public let name: String
         public let schedule: Schedule?
         public let source: Source?
@@ -720,12 +751,13 @@ extension ConnectCampaignsV2 {
         public let type: ExternalCampaignType?
 
         @inlinable
-        public init(channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
+        public init(channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, entryLimitsConfig: EntryLimitsConfig? = nil, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
             self.channelSubtypeConfig = channelSubtypeConfig
             self.communicationLimitsOverride = communicationLimitsOverride
             self.communicationTimeConfig = communicationTimeConfig
             self.connectCampaignFlowArn = connectCampaignFlowArn
             self.connectInstanceId = connectInstanceId
+            self.entryLimitsConfig = entryLimitsConfig
             self.name = name
             self.schedule = schedule
             self.source = source
@@ -743,6 +775,7 @@ extension ConnectCampaignsV2 {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
+            try self.entryLimitsConfig?.validate(name: "\(name).entryLimitsConfig")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.schedule?.validate(name: "\(name).schedule")
@@ -761,6 +794,7 @@ extension ConnectCampaignsV2 {
             case communicationTimeConfig = "communicationTimeConfig"
             case connectCampaignFlowArn = "connectCampaignFlowArn"
             case connectInstanceId = "connectInstanceId"
+            case entryLimitsConfig = "entryLimitsConfig"
             case name = "name"
             case schedule = "schedule"
             case source = "source"
@@ -915,6 +949,29 @@ extension ConnectCampaignsV2 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.config, key: "config")
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCampaignEntryLimitsRequest: AWSEncodableShape {
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.id, key: "id")
         }
 
@@ -1181,6 +1238,29 @@ extension ConnectCampaignsV2 {
         }
     }
 
+    public struct EntryLimitsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of times a participant can enter the campaign. A value of 0 indicates unlimited entries. Values of 1 or greater specify the exact number of entries allowed.
+        public let maxEntryCount: Int
+        /// Minimum time interval that must pass before a participant can enter the campaign again.
+        public let minEntryInterval: String
+
+        @inlinable
+        public init(maxEntryCount: Int, minEntryInterval: String) {
+            self.maxEntryCount = maxEntryCount
+            self.minEntryInterval = minEntryInterval
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minEntryInterval, name: "minEntryInterval", parent: name, max: 50)
+            try self.validate(self.minEntryInterval, name: "minEntryInterval", parent: name, pattern: "^P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxEntryCount = "maxEntryCount"
+            case minEntryInterval = "minEntryInterval"
+        }
+    }
+
     public struct EventTrigger: AWSEncodableShape & AWSDecodableShape {
         public let customerProfilesDomainArn: String?
 
@@ -1197,6 +1277,27 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case customerProfilesDomainArn = "customerProfilesDomainArn"
+        }
+    }
+
+    public struct EventTriggerContext: AWSEncodableShape {
+        public let channelContext: ChannelContext?
+        public let sourceEvent: String?
+
+        @inlinable
+        public init(channelContext: ChannelContext? = nil, sourceEvent: String? = nil) {
+            self.channelContext = channelContext
+            self.sourceEvent = sourceEvent
+        }
+
+        public func validate(name: String) throws {
+            try self.channelContext?.validate(name: "\(name).channelContext")
+            try self.validate(self.sourceEvent, name: "sourceEvent", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelContext = "channelContext"
+            case sourceEvent = "sourceEvent"
         }
     }
 
@@ -1762,11 +1863,13 @@ extension ConnectCampaignsV2 {
     public struct LocalTimeZoneConfig: AWSEncodableShape & AWSDecodableShape {
         public let defaultTimeZone: String?
         public let localTimeZoneDetection: [LocalTimeZoneDetectionType]?
+        public let localTimeZoneDetectionScope: LocalTimeZoneDetectionScope?
 
         @inlinable
-        public init(defaultTimeZone: String? = nil, localTimeZoneDetection: [LocalTimeZoneDetectionType]? = nil) {
+        public init(defaultTimeZone: String? = nil, localTimeZoneDetection: [LocalTimeZoneDetectionType]? = nil, localTimeZoneDetectionScope: LocalTimeZoneDetectionScope? = nil) {
             self.defaultTimeZone = defaultTimeZone
             self.localTimeZoneDetection = localTimeZoneDetection
+            self.localTimeZoneDetectionScope = localTimeZoneDetectionScope
         }
 
         public func validate(name: String) throws {
@@ -1777,6 +1880,7 @@ extension ConnectCampaignsV2 {
         private enum CodingKeys: String, CodingKey {
             case defaultTimeZone = "defaultTimeZone"
             case localTimeZoneDetection = "localTimeZoneDetection"
+            case localTimeZoneDetectionScope = "localTimeZoneDetectionScope"
         }
     }
 
@@ -1874,13 +1978,15 @@ extension ConnectCampaignsV2 {
 
     public struct ProfileOutboundRequest: AWSEncodableShape {
         public let clientToken: String
+        public let eventTriggerContext: EventTriggerContext?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expirationTime: Date?
         public let profileId: String
 
         @inlinable
-        public init(clientToken: String, expirationTime: Date? = nil, profileId: String) {
+        public init(clientToken: String, eventTriggerContext: EventTriggerContext? = nil, expirationTime: Date? = nil, profileId: String) {
             self.clientToken = clientToken
+            self.eventTriggerContext = eventTriggerContext
             self.expirationTime = expirationTime
             self.profileId = profileId
         }
@@ -1888,11 +1994,13 @@ extension ConnectCampaignsV2 {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 200)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.eventTriggerContext?.validate(name: "\(name).eventTriggerContext")
             try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case eventTriggerContext = "eventTriggerContext"
             case expirationTime = "expirationTime"
             case profileId = "profileId"
         }
@@ -2799,6 +2907,35 @@ extension ConnectCampaignsV2 {
         }
     }
 
+    public struct UpdateCampaignEntryLimitsRequest: AWSEncodableShape {
+        public let entryLimitsConfig: EntryLimitsConfig
+        public let id: String
+
+        @inlinable
+        public init(entryLimitsConfig: EntryLimitsConfig, id: String) {
+            self.entryLimitsConfig = entryLimitsConfig
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.entryLimitsConfig, forKey: .entryLimitsConfig)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.entryLimitsConfig.validate(name: "\(name).entryLimitsConfig")
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entryLimitsConfig = "entryLimitsConfig"
+        }
+    }
+
     public struct UpdateCampaignFlowAssociationRequest: AWSEncodableShape {
         public let connectCampaignFlowArn: String
         public let id: String
@@ -2937,6 +3074,29 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct WebNotificationContext: AWSEncodableShape {
+        public let browserId: String?
+        public let sessionId: String?
+
+        @inlinable
+        public init(browserId: String? = nil, sessionId: String? = nil) {
+            self.browserId = browserId
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.browserId, name: "browserId", parent: name, max: 36)
+            try self.validate(self.browserId, name: "browserId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case browserId = "browserId"
+            case sessionId = "sessionId"
         }
     }
 

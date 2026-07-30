@@ -487,6 +487,7 @@ public struct Mgn: AWSService {
     ///   - replicationServersSecurityGroupsIDs: Request to configure the Replication Server Security group ID during Replication Settings template creation.
     ///   - stagingAreaSubnetId: Request to configure the Staging Area subnet ID during Replication Settings template creation.
     ///   - stagingAreaTags: Request to configure Staging Area tags during Replication Settings template creation.
+    ///   - storageConfiguration: Request to configure storage during Replication Settings template creation.
     ///   - storeSnapshotOnLocalZone: Request to store snapshot on local zone during Replication Settings template creation.
     ///   - tags: Request to configure tags during Replication Settings template creation.
     ///   - useDedicatedReplicationServer: Request to use Dedicated Replication Servers during Replication Settings template creation.
@@ -506,6 +507,7 @@ public struct Mgn: AWSService {
         replicationServersSecurityGroupsIDs: [String],
         stagingAreaSubnetId: String,
         stagingAreaTags: [String: String],
+        storageConfiguration: StorageConfiguration? = nil,
         storeSnapshotOnLocalZone: Bool? = nil,
         tags: [String: String]? = nil,
         useDedicatedReplicationServer: Bool,
@@ -525,6 +527,7 @@ public struct Mgn: AWSService {
             replicationServersSecurityGroupsIDs: replicationServersSecurityGroupsIDs, 
             stagingAreaSubnetId: stagingAreaSubnetId, 
             stagingAreaTags: stagingAreaTags, 
+            storageConfiguration: storageConfiguration, 
             storeSnapshotOnLocalZone: storeSnapshotOnLocalZone, 
             tags: tags, 
             useDedicatedReplicationServer: useDedicatedReplicationServer, 
@@ -3500,6 +3503,7 @@ public struct Mgn: AWSService {
     ///   - sourceServerID: Update replication configuration Source Server ID request.
     ///   - stagingAreaSubnetId: Update replication configuration Staging Area subnet request.
     ///   - stagingAreaTags: Update replication configuration Staging Area Tags request.
+    ///   - storageConfiguration: Update replication configuration storage configuration.
     ///   - storeSnapshotOnLocalZone: Update replication configuration store snapshot on local zone.
     ///   - useDedicatedReplicationServer: Update replication configuration use dedicated Replication Server request.
     ///   - useFipsEndpoint: Update replication configuration use Fips Endpoint.
@@ -3522,6 +3526,7 @@ public struct Mgn: AWSService {
         sourceServerID: String,
         stagingAreaSubnetId: String? = nil,
         stagingAreaTags: [String: String]? = nil,
+        storageConfiguration: StorageConfiguration? = nil,
         storeSnapshotOnLocalZone: Bool? = nil,
         useDedicatedReplicationServer: Bool? = nil,
         useFipsEndpoint: Bool? = nil,
@@ -3544,6 +3549,7 @@ public struct Mgn: AWSService {
             sourceServerID: sourceServerID, 
             stagingAreaSubnetId: stagingAreaSubnetId, 
             stagingAreaTags: stagingAreaTags, 
+            storageConfiguration: storageConfiguration, 
             storeSnapshotOnLocalZone: storeSnapshotOnLocalZone, 
             useDedicatedReplicationServer: useDedicatedReplicationServer, 
             useFipsEndpoint: useFipsEndpoint
@@ -3581,6 +3587,7 @@ public struct Mgn: AWSService {
     ///   - replicationServersSecurityGroupsIDs: Update replication configuration template Replication Server Security groups IDs request.
     ///   - stagingAreaSubnetId: Update replication configuration template Staging Area subnet ID request.
     ///   - stagingAreaTags: Update replication configuration template Staging Area Tags request.
+    ///   - storageConfiguration: Update replication configuration template storage configuration request.
     ///   - storeSnapshotOnLocalZone: Update replication configuration template store snapshot on local zone request.
     ///   - useDedicatedReplicationServer: Update replication configuration template use dedicated Replication Server request.
     ///   - useFipsEndpoint: Update replication configuration template use Fips Endpoint request.
@@ -3601,6 +3608,7 @@ public struct Mgn: AWSService {
         replicationServersSecurityGroupsIDs: [String]? = nil,
         stagingAreaSubnetId: String? = nil,
         stagingAreaTags: [String: String]? = nil,
+        storageConfiguration: StorageConfiguration? = nil,
         storeSnapshotOnLocalZone: Bool? = nil,
         useDedicatedReplicationServer: Bool? = nil,
         useFipsEndpoint: Bool? = nil,
@@ -3621,6 +3629,7 @@ public struct Mgn: AWSService {
             replicationServersSecurityGroupsIDs: replicationServersSecurityGroupsIDs, 
             stagingAreaSubnetId: stagingAreaSubnetId, 
             stagingAreaTags: stagingAreaTags, 
+            storageConfiguration: storageConfiguration, 
             storeSnapshotOnLocalZone: storeSnapshotOnLocalZone, 
             useDedicatedReplicationServer: useDedicatedReplicationServer, 
             useFipsEndpoint: useFipsEndpoint
@@ -3646,19 +3655,28 @@ public struct Mgn: AWSService {
     /// Parameters:
     ///   - accountID: Update Source Server request account ID.
     ///   - connectorAction: Update Source Server request connector action.
+    ///   - fqdnForActionFramework: Update Source Server request FQDN for action framework.
+    ///   - platform: Update Source Server request platform operating system.
     ///   - sourceServerID: Update Source Server request source server ID.
+    ///   - userProvidedID: Update Source Server request user provided ID.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSourceServer(
         accountID: String? = nil,
         connectorAction: SourceServerConnectorAction? = nil,
+        fqdnForActionFramework: String? = nil,
+        platform: String? = nil,
         sourceServerID: String,
+        userProvidedID: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SourceServer {
         let input = UpdateSourceServerRequest(
             accountID: accountID, 
             connectorAction: connectorAction, 
-            sourceServerID: sourceServerID
+            fqdnForActionFramework: fqdnForActionFramework, 
+            platform: platform, 
+            sourceServerID: sourceServerID, 
+            userProvidedID: userProvidedID
         )
         return try await self.updateSourceServer(input, logger: logger)
     }

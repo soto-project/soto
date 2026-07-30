@@ -287,6 +287,7 @@ public struct MailManager: AWSService {
     ///   - networkConfiguration: Specifies the network configuration for the ingress point. This allows you to create an IPv4-only, Dual-Stack, or PrivateLink type of ingress point. If not specified, the default network type is IPv4-only.
     ///   - ruleSetId: The identifier of an existing rule set that you attach to an ingress endpoint resource.
     ///   - tags: The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    ///   - tlsPolicy: The Transport Layer Security (TLS) policy for the ingress point. The FIPS value is only valid in US and Canada regions.
     ///   - trafficPolicyId: The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
     ///   - type: The type of the ingress endpoint to create.
     ///   - logger: Logger use during operation
@@ -298,6 +299,7 @@ public struct MailManager: AWSService {
         networkConfiguration: NetworkConfiguration? = nil,
         ruleSetId: String,
         tags: [Tag]? = nil,
+        tlsPolicy: TlsPolicy? = nil,
         trafficPolicyId: String,
         type: IngressPointType,
         logger: Logger = AWSClient.loggingDisabled        
@@ -309,6 +311,7 @@ public struct MailManager: AWSService {
             networkConfiguration: networkConfiguration, 
             ruleSetId: ruleSetId, 
             tags: tags, 
+            tlsPolicy: tlsPolicy, 
             trafficPolicyId: trafficPolicyId, 
             type: type
         )
@@ -1011,14 +1014,17 @@ public struct MailManager: AWSService {
     /// Fetch ingress endpoint resource attributes.
     ///
     /// Parameters:
+    ///   - includeTrustStoreContents: Whether to include the trust store contents in the response. Use INCLUDE to retrieve trust store certificate and CRL contents.
     ///   - ingressPointId: The identifier of an ingress endpoint.
     ///   - logger: Logger use during operation
     @inlinable
     public func getIngressPoint(
+        includeTrustStoreContents: TrustStoreResponseOption? = nil,
         ingressPointId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetIngressPointResponse {
         let input = GetIngressPointRequest(
+            includeTrustStoreContents: includeTrustStoreContents, 
             ingressPointId: ingressPointId
         )
         return try await self.getIngressPoint(input, logger: logger)
@@ -1927,6 +1933,7 @@ public struct MailManager: AWSService {
     ///   - ingressPointName: A user friendly name for the ingress endpoint resource.
     ///   - ruleSetId: The identifier of an existing rule set that you attach to an ingress endpoint resource.
     ///   - statusToUpdate: The update status of an ingress endpoint.
+    ///   - tlsPolicy: The Transport Layer Security (TLS) policy for the ingress point. Valid values are REQUIRED, OPTIONAL. Only ingress endpoints using REQUIRED or OPTIONAL as TlsPolicy can be updated.
     ///   - trafficPolicyId: The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1936,6 +1943,7 @@ public struct MailManager: AWSService {
         ingressPointName: String? = nil,
         ruleSetId: String? = nil,
         statusToUpdate: IngressPointStatusToUpdate? = nil,
+        tlsPolicy: TlsPolicy? = nil,
         trafficPolicyId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateIngressPointResponse {
@@ -1945,6 +1953,7 @@ public struct MailManager: AWSService {
             ingressPointName: ingressPointName, 
             ruleSetId: ruleSetId, 
             statusToUpdate: statusToUpdate, 
+            tlsPolicy: tlsPolicy, 
             trafficPolicyId: trafficPolicyId
         )
         return try await self.updateIngressPoint(input, logger: logger)

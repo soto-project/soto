@@ -44,8 +44,15 @@ extension PartnerCentralAccount {
         case incompatibleIdentityVerificationStatus = "INCOMPATIBLE_IDENTITY_VERIFICATION_STATUS"
         case incompatibleKnowYourBusinessStatus = "INCOMPATIBLE_KNOW_YOUR_BUSINESS_STATUS"
         case incompatibleLegalName = "INCOMPATIBLE_LEGAL_NAME"
+        case incompatiblePrimaryPartner = "INCOMPATIBLE_PRIMARY_PARTNER"
+        case incompatibleSubsidiaryConnection = "INCOMPATIBLE_SUBSIDIARY_CONNECTION"
+        case ineligibleAccountTier = "INELIGIBLE_ACCOUNT_TIER"
         case invalidAccountLinkingStatus = "INVALID_ACCOUNT_LINKING_STATUS"
         case invalidAccountState = "INVALID_ACCOUNT_STATE"
+        case missingActiveSubsidiaryConnection = "MISSING_ACTIVE_SUBSIDIARY_CONNECTION"
+        case qualificationsAssociationExists = "QUALIFICATIONS_ASSOCIATION_EXISTS"
+        case qualificationsAssociationLimitExceeded = "QUALIFICATIONS_ASSOCIATION_LIMIT_EXCEEDED"
+        case qualificationsAssociationNotFound = "QUALIFICATIONS_ASSOCIATION_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -61,6 +68,7 @@ extension PartnerCentralAccount {
         case incompatibleConnectionState = "INCOMPATIBLE_CONNECTION_STATE"
         case incompatiblePartnerProfileTaskState = "INCOMPATIBLE_PARTNER_PROFILE_TASK_STATE"
         case incompatibleProfileState = "INCOMPATIBLE_PROFILE_STATE"
+        case incompatibleQualificationsAssociationTaskState = "INCOMPATIBLE_QUALIFICATIONS_ASSOCIATION_TASK_STATE"
         case verificationAlreadyInProgress = "VERIFICATION_ALREADY_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
@@ -181,6 +189,24 @@ extension PartnerCentralAccount {
         public var description: String { return self.rawValue }
     }
 
+    public enum QualificationsAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associated = "ASSOCIATED"
+        case notAssociated = "NOT_ASSOCIATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QualificationsAssociationTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QualificationsDisassociationTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectionInvitationNotFound = "CONNECTION_INVITATION_NOT_FOUND"
         case connectionNotFound = "CONNECTION_NOT_FOUND"
@@ -188,6 +214,8 @@ extension PartnerCentralAccount {
         case partnerNotFound = "PARTNER_NOT_FOUND"
         case partnerProfileNotFound = "PARTNER_PROFILE_NOT_FOUND"
         case partnerProfileTaskNotFound = "PARTNER_PROFILE_TASK_NOT_FOUND"
+        case qualificationsAssociationTaskNotFound = "QUALIFICATIONS_ASSOCIATION_TASK_NOT_FOUND"
+        case qualificationsDisassociationTaskNotFound = "QUALIFICATIONS_DISASSOCIATION_TASK_NOT_FOUND"
         case receiverProfileNotFound = "RECEIVER_PROFILE_NOT_FOUND"
         case senderProfileNotFound = "SENDER_PROFILE_NOT_FOUND"
         case verificationNotFound = "VERIFICATION_NOT_FOUND"
@@ -195,8 +223,13 @@ extension PartnerCentralAccount {
     }
 
     public enum ServiceQuotaExceededExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case limitExceededNumberOfActiveConnection = "LIMIT_EXCEEDED_NUMBER_OF_ACTIVE_CONNECTION"
+        case limitExceededNumberOfConnectionInvitationPerDay = "LIMIT_EXCEEDED_NUMBER_OF_CONNECTION_INVITATION_PER_DAY"
         case limitExceededNumberOfDomain = "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN"
         case limitExceededNumberOfEmail = "LIMIT_EXCEEDED_NUMBER_OF_EMAIL"
+        case limitExceededNumberOfOpenConnectionInvitation = "LIMIT_EXCEEDED_NUMBER_OF_OPEN_CONNECTION_INVITATION"
+        case limitExceededNumberOfProfileUpdatePerDay = "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_UPDATE_PER_DAY"
+        case limitExceededNumberOfProfileVisibilityUpdatePerDay = "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_VISIBILITY_UPDATE_PER_DAY"
         public var description: String { return self.rawValue }
     }
 
@@ -585,14 +618,23 @@ extension PartnerCentralAccount {
     public struct BusinessVerificationResponse: AWSDecodableShape {
         /// The business verification details that were processed and verified, potentially including additional information discovered during the verification process.
         public let businessVerificationDetails: BusinessVerificationDetails
+        /// A secure URL where the registrant can complete additional verification steps, such as document upload or identity confirmation through a third-party verification service.
+        public let completionUrl: String?
+        /// The timestamp when the completion URL expires and is no longer valid for accessing the verification workflow.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completionUrlExpiresAt: Date?
 
         @inlinable
-        public init(businessVerificationDetails: BusinessVerificationDetails) {
+        public init(businessVerificationDetails: BusinessVerificationDetails, completionUrl: String? = nil, completionUrlExpiresAt: Date? = nil) {
             self.businessVerificationDetails = businessVerificationDetails
+            self.completionUrl = completionUrl
+            self.completionUrlExpiresAt = completionUrlExpiresAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case businessVerificationDetails = "BusinessVerificationDetails"
+            case completionUrl = "CompletionUrl"
+            case completionUrlExpiresAt = "CompletionUrlExpiresAt"
         }
     }
 
@@ -1102,7 +1144,7 @@ extension PartnerCentralAccount {
             try self.validate(self.email, name: "email", parent: name, pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
             try self.validate(self.message, name: "message", parent: name, max: 80)
             try self.validate(self.message, name: "message", parent: name, min: 1)
-            try self.validate(self.message, name: "message", parent: name, pattern: "^[\\u0020-\\u007E\\u00A0-\\uD7FF\\uE000-\\uFFFD]+$")
+            try self.validate(self.message, name: "message", parent: name, pattern: "^[\\u0020-\\u007E\\u00A0-\\uD7FF\\uE000-\\uFFFD\\n]+$")
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\u007E\\u00A0-\\uD7FF\\uE000-\\uFFFD]+$")
@@ -1841,6 +1883,214 @@ extension PartnerCentralAccount {
         }
     }
 
+    public struct GetQualificationsAssociationDetailsRequest: AWSEncodableShape {
+        /// The catalog in which to look up the qualifications association. Valid values: AWS, Sandbox.
+        public let catalog: String
+        /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+        public let identifier: String
+
+        @inlinable
+        public init(catalog: String, identifier: String) {
+            self.catalog = catalog
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 200)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct GetQualificationsAssociationDetailsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+        public let arn: String
+        /// The list of all partner profile and account identifiers currently associated under the primary partner. This field is null when the status is NOT_ASSOCIATED.
+        public let associatedPartners: [QualificationsAssociationPartner]?
+        /// The catalog identifier echoed from the request.
+        public let catalog: String
+        /// Your unique partner identifier in the AWS Partner Network.
+        public let id: String
+        /// The primary partner's profile and account identifiers. This field is null when the status is NOT_ASSOCIATED.
+        public let primaryPartner: QualificationsAssociationPartner?
+        /// The current qualifications association status. Valid values: ASSOCIATED (the partner is associated with a primary), NOT_ASSOCIATED (the partner has no active association).
+        public let status: QualificationsAssociationStatus
+        /// The timestamp when the qualifications association was last updated, in ISO 8601 format. This field is null when the status is NOT_ASSOCIATED.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(arn: String, associatedPartners: [QualificationsAssociationPartner]? = nil, catalog: String, id: String, primaryPartner: QualificationsAssociationPartner? = nil, status: QualificationsAssociationStatus, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.associatedPartners = associatedPartners
+            self.catalog = catalog
+            self.id = id
+            self.primaryPartner = primaryPartner
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case associatedPartners = "AssociatedPartners"
+            case catalog = "Catalog"
+            case id = "Id"
+            case primaryPartner = "PrimaryPartner"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetQualificationsAssociationTaskRequest: AWSEncodableShape {
+        /// The catalog in which to look up the qualifications association task. Valid values: AWS, Sandbox.
+        public let catalog: String
+        /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+        public let identifier: String
+
+        @inlinable
+        public init(catalog: String, identifier: String) {
+            self.catalog = catalog
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 200)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct GetQualificationsAssociationTaskResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+        public let arn: String
+        /// The catalog identifier echoed from the request.
+        public let catalog: String
+        /// The timestamp when the qualifications association task ended, in ISO 8601 format. This field is present only when the status is SUCCEEDED.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// Your unique partner identifier in the AWS Partner Network.
+        public let id: String
+        /// The primary partner's profile and account identifiers that the task is associating qualifications with.
+        public let primaryPartner: QualificationsAssociationPartner
+        /// The timestamp when the qualifications association task started, in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedAt: Date
+        /// The current status of the qualifications association task. Valid values: IN_PROGRESS, SUCCEEDED.
+        public let status: QualificationsAssociationTaskStatus
+        /// The unique identifier of the qualifications association task, in the format pqatask-[a-z2-7]{13}.
+        public let taskId: String
+
+        @inlinable
+        public init(arn: String, catalog: String, endedAt: Date? = nil, id: String, primaryPartner: QualificationsAssociationPartner, startedAt: Date, status: QualificationsAssociationTaskStatus, taskId: String) {
+            self.arn = arn
+            self.catalog = catalog
+            self.endedAt = endedAt
+            self.id = id
+            self.primaryPartner = primaryPartner
+            self.startedAt = startedAt
+            self.status = status
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case catalog = "Catalog"
+            case endedAt = "EndedAt"
+            case id = "Id"
+            case primaryPartner = "PrimaryPartner"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct GetQualificationsDisassociationTaskRequest: AWSEncodableShape {
+        /// The catalog in which to look up the qualifications disassociation task. Valid values: AWS, Sandbox.
+        public let catalog: String
+        /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+        public let identifier: String
+
+        @inlinable
+        public init(catalog: String, identifier: String) {
+            self.catalog = catalog
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 200)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct GetQualificationsDisassociationTaskResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+        public let arn: String
+        /// The primary partner's profile and account identifiers that the task is disassociating qualifications from.
+        public let associatedPartner: QualificationsAssociationPartner
+        /// The catalog identifier echoed from the request.
+        public let catalog: String
+        /// The timestamp when the qualifications disassociation task ended, in ISO 8601 format. This field is present only when the status is SUCCEEDED.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// Your unique partner identifier in the AWS Partner Network.
+        public let id: String
+        /// The timestamp when the qualifications disassociation task started, in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedAt: Date
+        /// The current status of the qualifications disassociation task. Valid values: IN_PROGRESS, SUCCEEDED.
+        public let status: QualificationsDisassociationTaskStatus
+        /// The unique identifier of the qualifications disassociation task, in the format pqdtask-[a-z2-7]{13}.
+        public let taskId: String
+
+        @inlinable
+        public init(arn: String, associatedPartner: QualificationsAssociationPartner, catalog: String, endedAt: Date? = nil, id: String, startedAt: Date, status: QualificationsDisassociationTaskStatus, taskId: String) {
+            self.arn = arn
+            self.associatedPartner = associatedPartner
+            self.catalog = catalog
+            self.endedAt = endedAt
+            self.id = id
+            self.startedAt = startedAt
+            self.status = status
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case associatedPartner = "AssociatedPartner"
+            case catalog = "Catalog"
+            case endedAt = "EndedAt"
+            case id = "Id"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case taskId = "TaskId"
+        }
+    }
+
     public struct GetVerificationRequest: AWSEncodableShape {
         /// The type of verification to retrieve information for. Valid values include business verification for company registration details and registrant verification for individual identity confirmation.
         public let verificationType: VerificationType
@@ -1888,6 +2138,33 @@ extension PartnerCentralAccount {
             case verificationStatus = "VerificationStatus"
             case verificationStatusReason = "VerificationStatusReason"
             case verificationType = "VerificationType"
+        }
+    }
+
+    public struct Headquarters: AWSEncodableShape & AWSDecodableShape {
+        /// The ISO 3166-1 alpha-2 country code of the partner's headquarters. For example, US, BR, or DE.
+        public let countryCode: String
+        /// The subdivision portion of the ISO 3166-2 code for the partner's headquarters (for example, SP from BR-SP, NSW from AU-NSW, or 13 from JP-13).
+        public let subdivisionCode: String
+
+        @inlinable
+        public init(countryCode: String, subdivisionCode: String) {
+            self.countryCode = countryCode
+            self.subdivisionCode = subdivisionCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.countryCode, name: "countryCode", parent: name, max: 2)
+            try self.validate(self.countryCode, name: "countryCode", parent: name, min: 2)
+            try self.validate(self.countryCode, name: "countryCode", parent: name, pattern: "^[A-Z]{2}$")
+            try self.validate(self.subdivisionCode, name: "subdivisionCode", parent: name, max: 3)
+            try self.validate(self.subdivisionCode, name: "subdivisionCode", parent: name, min: 1)
+            try self.validate(self.subdivisionCode, name: "subdivisionCode", parent: name, pattern: "^[A-Z0-9]{1,3}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryCode = "CountryCode"
+            case subdivisionCode = "SubdivisionCode"
         }
     }
 
@@ -2183,6 +2460,8 @@ extension PartnerCentralAccount {
         public let description: String
         /// The public display name for the partner organization.
         public let displayName: String
+        /// The ISO 3166 country and subdivision codes for the partner's headquarters location. If no headquarters location is set, this field is not included in the response.
+        public let headquarters: Headquarters?
         /// The industry segments or verticals that the partner serves.
         public let industrySegments: [IndustrySegment]
         /// A list of localized content versions for different languages and regions.
@@ -2199,9 +2478,10 @@ extension PartnerCentralAccount {
         public let websiteUrl: String
 
         @inlinable
-        public init(description: String, displayName: String, industrySegments: [IndustrySegment], localizedContents: [LocalizedContent]? = nil, logoUrl: String, primarySolutionType: PrimarySolutionType, profileId: String? = nil, translationSourceLocale: String, websiteUrl: String) {
+        public init(description: String, displayName: String, headquarters: Headquarters? = nil, industrySegments: [IndustrySegment], localizedContents: [LocalizedContent]? = nil, logoUrl: String, primarySolutionType: PrimarySolutionType, profileId: String? = nil, translationSourceLocale: String, websiteUrl: String) {
             self.description = description
             self.displayName = displayName
+            self.headquarters = headquarters
             self.industrySegments = industrySegments
             self.localizedContents = localizedContents
             self.logoUrl = logoUrl
@@ -2214,6 +2494,7 @@ extension PartnerCentralAccount {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case displayName = "DisplayName"
+            case headquarters = "Headquarters"
             case industrySegments = "IndustrySegments"
             case localizedContents = "LocalizedContents"
             case logoUrl = "LogoUrl"
@@ -2396,6 +2677,31 @@ extension PartnerCentralAccount {
             case id = "Id"
             case profileId = "ProfileId"
             case visibility = "Visibility"
+        }
+    }
+
+    public struct QualificationsAssociationPartner: AWSEncodableShape & AWSDecodableShape {
+        /// The 12-digit AWS account ID linked to the partner profile. Required in requests if ProfileId is not provided.
+        public let accountId: String?
+        /// The unique identifier for the partner profile, in the format pprofile-*. Required in requests if AccountId is not provided.
+        public let profileId: String?
+
+        @inlinable
+        public init(accountId: String? = nil, profileId: String? = nil) {
+            self.accountId = accountId
+            self.profileId = profileId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 50)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^pprofile-[A-Za-z0-9]{13}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case profileId = "ProfileId"
         }
     }
 
@@ -2697,6 +3003,162 @@ extension PartnerCentralAccount {
         }
     }
 
+    public struct StartQualificationsAssociationTaskRequest: AWSEncodableShape {
+        /// The catalog in which to perform the qualifications association. Valid values: AWS, Sandbox.
+        public let catalog: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+        public let identifier: String
+        /// The primary (acquiring) partner's profile and account identifier to associate qualifications with. You must provide at least one of ProfileId or AccountId. You cannot specify yourself as the primary partner.
+        public let primaryPartner: QualificationsAssociationPartner
+
+        @inlinable
+        public init(catalog: String, clientToken: String? = StartQualificationsAssociationTaskRequest.idempotencyToken(), identifier: String, primaryPartner: QualificationsAssociationPartner) {
+            self.catalog = catalog
+            self.clientToken = clientToken
+            self.identifier = identifier
+            self.primaryPartner = primaryPartner
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 200)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})$")
+            try self.primaryPartner.validate(name: "\(name).primaryPartner")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case clientToken = "ClientToken"
+            case identifier = "Identifier"
+            case primaryPartner = "PrimaryPartner"
+        }
+    }
+
+    public struct StartQualificationsAssociationTaskResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+        public let arn: String
+        /// The catalog identifier echoed from the request.
+        public let catalog: String
+        /// Your unique partner identifier in the AWS Partner Network.
+        public let id: String
+        /// The resolved primary partner's profile and account identifiers, including both ProfileId and AccountId.
+        public let primaryPartner: QualificationsAssociationPartner
+        /// The timestamp when the qualifications association task started, in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedAt: Date
+        /// The current status of the qualifications association task. The initial value is IN_PROGRESS.
+        public let status: QualificationsAssociationTaskStatus
+        /// The unique identifier of the started qualifications association task, in the format pqatask-[a-z2-7]{13}.
+        public let taskId: String
+
+        @inlinable
+        public init(arn: String, catalog: String, id: String, primaryPartner: QualificationsAssociationPartner, startedAt: Date, status: QualificationsAssociationTaskStatus, taskId: String) {
+            self.arn = arn
+            self.catalog = catalog
+            self.id = id
+            self.primaryPartner = primaryPartner
+            self.startedAt = startedAt
+            self.status = status
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case catalog = "Catalog"
+            case id = "Id"
+            case primaryPartner = "PrimaryPartner"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct StartQualificationsDisassociationTaskRequest: AWSEncodableShape {
+        /// The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must provide at least one of ProfileId or AccountId. The specified partner must match your current primary association.
+        public let associatedPartner: QualificationsAssociationPartner
+        /// The catalog in which to perform the qualifications disassociation. Valid values: AWS, Sandbox.
+        public let catalog: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+        public let identifier: String
+
+        @inlinable
+        public init(associatedPartner: QualificationsAssociationPartner, catalog: String, clientToken: String? = StartQualificationsDisassociationTaskRequest.idempotencyToken(), identifier: String) {
+            self.associatedPartner = associatedPartner
+            self.catalog = catalog
+            self.clientToken = clientToken
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.associatedPartner.validate(name: "\(name).associatedPartner")
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 200)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedPartner = "AssociatedPartner"
+            case catalog = "Catalog"
+            case clientToken = "ClientToken"
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct StartQualificationsDisassociationTaskResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies your partner resource.
+        public let arn: String
+        /// The resolved primary partner's profile and account identifiers that the task is disassociating qualifications from.
+        public let associatedPartner: QualificationsAssociationPartner
+        /// The catalog identifier echoed from the request.
+        public let catalog: String
+        /// Your unique partner identifier in the AWS Partner Network.
+        public let id: String
+        /// The timestamp when the qualifications disassociation task started, in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedAt: Date
+        /// The current status of the qualifications disassociation task. The initial value is IN_PROGRESS.
+        public let status: QualificationsDisassociationTaskStatus
+        /// The unique identifier of the started qualifications disassociation task, in the format pqdtask-[a-z2-7]{13}.
+        public let taskId: String
+
+        @inlinable
+        public init(arn: String, associatedPartner: QualificationsAssociationPartner, catalog: String, id: String, startedAt: Date, status: QualificationsDisassociationTaskStatus, taskId: String) {
+            self.arn = arn
+            self.associatedPartner = associatedPartner
+            self.catalog = catalog
+            self.id = id
+            self.startedAt = startedAt
+            self.status = status
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case associatedPartner = "AssociatedPartner"
+            case catalog = "Catalog"
+            case id = "Id"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case taskId = "TaskId"
+        }
+    }
+
     public struct StartVerificationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This prevents duplicate verification processes from being started accidentally.
         public let clientToken: String?
@@ -2819,6 +3281,8 @@ extension PartnerCentralAccount {
         public let description: String
         /// The updated display name for the partner profile.
         public let displayName: String
+        /// The ISO 3166 country and subdivision codes for the partner's headquarters location. If you omit this field, the service retains the existing headquarters value.
+        public let headquarters: Headquarters?
         /// The updated industry segments for the partner profile.
         public let industrySegments: [IndustrySegment]
         /// The updated localized content for the partner profile.
@@ -2833,9 +3297,10 @@ extension PartnerCentralAccount {
         public let websiteUrl: String
 
         @inlinable
-        public init(description: String, displayName: String, industrySegments: [IndustrySegment], localizedContents: [LocalizedContent]? = nil, logoUrl: String, primarySolutionType: PrimarySolutionType, translationSourceLocale: String, websiteUrl: String) {
+        public init(description: String, displayName: String, headquarters: Headquarters? = nil, industrySegments: [IndustrySegment], localizedContents: [LocalizedContent]? = nil, logoUrl: String, primarySolutionType: PrimarySolutionType, translationSourceLocale: String, websiteUrl: String) {
             self.description = description
             self.displayName = displayName
+            self.headquarters = headquarters
             self.industrySegments = industrySegments
             self.localizedContents = localizedContents
             self.logoUrl = logoUrl
@@ -2851,6 +3316,7 @@ extension PartnerCentralAccount {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 80)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[\\u0020-\\u007E\\u00A0-\\uD7FF\\uE000-\\uFFFD]+$")
+            try self.headquarters?.validate(name: "\(name).headquarters")
             try self.validate(self.industrySegments, name: "industrySegments", parent: name, max: 3)
             try self.validate(self.industrySegments, name: "industrySegments", parent: name, min: 1)
             try self.localizedContents?.forEach {
@@ -2869,6 +3335,7 @@ extension PartnerCentralAccount {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case displayName = "DisplayName"
+            case headquarters = "Headquarters"
             case industrySegments = "IndustrySegments"
             case localizedContents = "LocalizedContents"
             case logoUrl = "LogoUrl"

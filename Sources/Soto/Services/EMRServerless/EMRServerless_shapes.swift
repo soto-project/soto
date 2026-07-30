@@ -61,6 +61,23 @@ extension EMRServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case session = "SESSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case busy = "BUSY"
+        case failed = "FAILED"
+        case idle = "IDLE"
+        case started = "STARTED"
+        case starting = "STARTING"
+        case submitted = "SUBMITTED"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobDriver: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The job driver parameters specified for Hive.
         case hive(Hive)
@@ -837,6 +854,161 @@ extension EMRServerless {
         }
     }
 
+    public struct GetResourceDashboardRequest: AWSEncodableShape {
+        /// The ID of the application that the resource belongs to.
+        public let applicationId: String
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The type of resource to access the dashboard for. Currently, only Session is supported.
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(applicationId: String, resourceId: String, resourceType: ResourceType) {
+            self.applicationId = applicationId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.resourceId, key: "resourceId")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 64)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourceDashboardResponse: AWSDecodableShape {
+        /// A URL to the resource dashboard. For an active resource, this URL opens the live application UI. For a terminated resource, this URL opens the persistent application UI. This value is not included in the response if the URL is not available.
+        public let url: String?
+
+        @inlinable
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "url"
+        }
+    }
+
+    public struct GetSessionEndpointRequest: AWSEncodableShape {
+        /// The ID of the application that the session belongs to.
+        public let applicationId: String
+        /// The ID of the session.
+        public let sessionId: String
+
+        @inlinable
+        public init(applicationId: String, sessionId: String) {
+            self.applicationId = applicationId
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.sessionId, key: "sessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 64)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSessionEndpointResponse: AWSDecodableShape {
+        /// The output contains the ID of the application.
+        public let applicationId: String
+        /// The authentication token for connecting to the session endpoint. Call GetSessionEndpoint again to obtain a new token before it expires.
+        public let authToken: String
+        /// The expiration time of the authentication token.
+        public let authTokenExpiresAt: Date
+        /// The endpoint URL for connecting to the session.
+        public let endpoint: String
+        /// The output contains the ID of the session.
+        public let sessionId: String
+
+        @inlinable
+        public init(applicationId: String, authToken: String, authTokenExpiresAt: Date, endpoint: String, sessionId: String) {
+            self.applicationId = applicationId
+            self.authToken = authToken
+            self.authTokenExpiresAt = authTokenExpiresAt
+            self.endpoint = endpoint
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case authToken = "authToken"
+            case authTokenExpiresAt = "authTokenExpiresAt"
+            case endpoint = "endpoint"
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct GetSessionRequest: AWSEncodableShape {
+        /// The ID of the application that the session belongs to.
+        public let applicationId: String
+        /// The ID of the session.
+        public let sessionId: String
+
+        @inlinable
+        public init(applicationId: String, sessionId: String) {
+            self.applicationId = applicationId
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.sessionId, key: "sessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 64)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSessionResponse: AWSDecodableShape {
+        /// The output displays information about the session.
+        public let session: Session
+
+        @inlinable
+        public init(session: Session) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session = "session"
+        }
+    }
+
     public struct Hive: AWSEncodableShape & AWSDecodableShape {
         /// The query file for the Hive job run.
         public let initQueryFile: String?
@@ -918,29 +1090,36 @@ extension EMRServerless {
     }
 
     public struct ImageConfiguration: AWSDecodableShape {
+        /// Boolean value indicating if the digest resolution is application level or workload level. If true, a custom image URI is resolved at application start time and all workloads submitted will use that image digest. If false, the custom image URI is resolved at the workload submission time.
+        public let applicationLevelDigestResolution: Bool?
         /// The image URI.
         public let imageUri: String
         /// The SHA256 digest of the image URI. This indicates which specific image the application is configured for. The image digest doesn't exist until an application has started.
         public let resolvedImageDigest: String?
 
         @inlinable
-        public init(imageUri: String, resolvedImageDigest: String? = nil) {
+        public init(applicationLevelDigestResolution: Bool? = nil, imageUri: String, resolvedImageDigest: String? = nil) {
+            self.applicationLevelDigestResolution = applicationLevelDigestResolution
             self.imageUri = imageUri
             self.resolvedImageDigest = resolvedImageDigest
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationLevelDigestResolution = "applicationLevelDigestResolution"
             case imageUri = "imageUri"
             case resolvedImageDigest = "resolvedImageDigest"
         }
     }
 
     public struct ImageConfigurationInput: AWSEncodableShape {
+        /// Boolean value indicating if the digest resolution is application level or workload level. If true, a custom image URI is resolved at application start time and all workloads submitted will use that image digest. If false, the custom image URI is resolved at the workload submission time.
+        public let applicationLevelDigestResolution: Bool?
         /// The URI of an image in the Amazon ECR registry. This field is required when you create a new application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
         public let imageUri: String?
 
         @inlinable
-        public init(imageUri: String? = nil) {
+        public init(applicationLevelDigestResolution: Bool? = nil, imageUri: String? = nil) {
+            self.applicationLevelDigestResolution = applicationLevelDigestResolution
             self.imageUri = imageUri
         }
 
@@ -951,6 +1130,7 @@ extension EMRServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationLevelDigestResolution = "applicationLevelDigestResolution"
             case imageUri = "imageUri"
         }
     }
@@ -982,17 +1162,21 @@ extension EMRServerless {
     public struct InteractiveConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Enables an Apache Livy endpoint that you can connect to and run interactive jobs.
         public let livyEndpointEnabled: Bool?
+        /// Enables interactive sessions on the application. When set to true, you can start interactive sessions using the StartSession operation.
+        public let sessionEnabled: Bool?
         /// Enables you to connect an application to Amazon EMR Studio to run interactive workloads in a notebook.
         public let studioEnabled: Bool?
 
         @inlinable
-        public init(livyEndpointEnabled: Bool? = nil, studioEnabled: Bool? = nil) {
+        public init(livyEndpointEnabled: Bool? = nil, sessionEnabled: Bool? = nil, studioEnabled: Bool? = nil) {
             self.livyEndpointEnabled = livyEndpointEnabled
+            self.sessionEnabled = sessionEnabled
             self.studioEnabled = studioEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case livyEndpointEnabled = "livyEndpointEnabled"
+            case sessionEnabled = "sessionEnabled"
             case studioEnabled = "studioEnabled"
         }
     }
@@ -1037,6 +1221,7 @@ extension EMRServerless {
         public let executionRole: String
         /// Returns the job run timeout value from the StartJobRun call. If no timeout was specified, then it returns the default timeout of 720 minutes.
         public let executionTimeoutMinutes: Int64?
+        public let imageConfiguration: ImageConfiguration?
         /// The job driver for the job run.
         public let jobDriver: JobDriver
         /// The ID of the job run.
@@ -1066,9 +1251,11 @@ extension EMRServerless {
         public let totalResourceUtilization: TotalResourceUtilization?
         /// The date and time when the job run was updated.
         public let updatedAt: Date
+        /// The specification applied to each worker type. Includes the JobRun-level ImageConfiguration when the applicationLevelDigestResolution is false for the application.
+        public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
         @inlinable
-        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, endedAt: Date? = nil, executionIamPolicy: JobRunExecutionIamPolicy? = nil, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, queuedDurationMilliseconds: Int64? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, startedAt: Date? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
+        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, endedAt: Date? = nil, executionIamPolicy: JobRunExecutionIamPolicy? = nil, executionRole: String, executionTimeoutMinutes: Int64? = nil, imageConfiguration: ImageConfiguration? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, queuedDurationMilliseconds: Int64? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, startedAt: Date? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.arn = arn
             self.attempt = attempt
@@ -1082,6 +1269,7 @@ extension EMRServerless {
             self.executionIamPolicy = executionIamPolicy
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
+            self.imageConfiguration = imageConfiguration
             self.jobDriver = jobDriver
             self.jobRunId = jobRunId
             self.mode = mode
@@ -1097,6 +1285,7 @@ extension EMRServerless {
             self.totalExecutionDurationSeconds = totalExecutionDurationSeconds
             self.totalResourceUtilization = totalResourceUtilization
             self.updatedAt = updatedAt
+            self.workerTypeSpecifications = workerTypeSpecifications
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1113,6 +1302,7 @@ extension EMRServerless {
             case executionIamPolicy = "executionIamPolicy"
             case executionRole = "executionRole"
             case executionTimeoutMinutes = "executionTimeoutMinutes"
+            case imageConfiguration = "imageConfiguration"
             case jobDriver = "jobDriver"
             case jobRunId = "jobRunId"
             case mode = "mode"
@@ -1128,6 +1318,7 @@ extension EMRServerless {
             case totalExecutionDurationSeconds = "totalExecutionDurationSeconds"
             case totalResourceUtilization = "totalResourceUtilization"
             case updatedAt = "updatedAt"
+            case workerTypeSpecifications = "workerTypeSpecifications"
         }
     }
 
@@ -1487,6 +1678,73 @@ extension EMRServerless {
         }
     }
 
+    public struct ListSessionsRequest: AWSEncodableShape {
+        /// The ID of the application to list sessions for.
+        public let applicationId: String
+        /// The lower bound of the option to filter by creation date and time.
+        public let createdAtAfter: Date?
+        /// The upper bound of the option to filter by creation date and time.
+        public let createdAtBefore: Date?
+        /// The maximum number of sessions to return in each page of results.
+        public let maxResults: Int?
+        /// The token for the next set of session results.
+        public let nextToken: String?
+        /// An optional filter for session states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
+        public let states: [SessionState]?
+
+        @inlinable
+        public init(applicationId: String, createdAtAfter: Date? = nil, createdAtBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, states: [SessionState]? = nil) {
+            self.applicationId = applicationId
+            self.createdAtAfter = createdAtAfter
+            self.createdAtBefore = createdAtBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.states = states
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.createdAtAfter, key: "createdAtAfter")
+            request.encodeQuery(self.createdAtBefore, key: "createdAtBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.states, key: "states")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9_=-]+$")
+            try self.validate(self.states, name: "states", parent: name, max: 8)
+            try self.validate(self.states, name: "states", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSessionsResponse: AWSDecodableShape {
+        /// The output displays the token for the next set of session results. This is required for pagination and is available as a response of the previous request.
+        public let nextToken: String?
+        /// The output lists information about the specified sessions.
+        public let sessions: [SessionSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, sessions: [SessionSummary]) {
+            self.nextToken = nextToken
+            self.sessions = sessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sessions = "sessions"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon EMR Serverless applications and job runs.
         public let resourceArn: String
@@ -1758,6 +2016,175 @@ extension EMRServerless {
         }
     }
 
+    public struct Session: AWSDecodableShape {
+        /// The ID of the application that the session belongs to.
+        public let applicationId: String
+        /// The Amazon Resource Name (ARN) of the session.
+        public let arn: String
+        /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed for the session. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
+        public let billedResourceUtilization: ResourceUtilization?
+        /// The configuration overrides for the session, including runtime configuration properties.
+        public let configurationOverrides: SessionConfigurationOverrides?
+        /// The date and time that the session was created.
+        public let createdAt: Date
+        /// The IAM principal that created the session.
+        public let createdBy: String
+        /// The date and time that the session was terminated or failed.
+        public let endedAt: Date?
+        /// The Amazon Resource Name (ARN) of the execution role for the session.
+        public let executionRoleArn: String
+        /// The date and time that the session became idle.
+        public let idleSince: Date?
+        /// The idle timeout in minutes for the session. After the session remains idle for this duration, it is automatically terminated.
+        public let idleTimeoutMinutes: Int64?
+        /// The optional name of the session.
+        public let name: String?
+        /// The network configuration for customer VPC connectivity for the session.
+        public let networkConfiguration: NetworkConfiguration?
+        /// The Amazon EMR release label associated with the session.
+        public let releaseLabel: String
+        /// The ID of the session.
+        public let sessionId: String
+        /// The date and time that the session moved to a running state.
+        public let startedAt: Date?
+        /// The state of the session.
+        public let state: SessionState
+        /// Additional details about the current state of the session.
+        public let stateDetails: String
+        /// The tags assigned to the session.
+        public let tags: [String: String]?
+        /// The total execution duration of the session in seconds.
+        public let totalExecutionDurationSeconds: Int64?
+        /// The aggregate vCPU, memory, and storage resources used from the time the session starts to execute, until the time the session terminates, rounded up to the nearest second.
+        public let totalResourceUtilization: TotalResourceUtilization?
+        /// The date and time that the session was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(applicationId: String, arn: String, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: SessionConfigurationOverrides? = nil, createdAt: Date, createdBy: String, endedAt: Date? = nil, executionRoleArn: String, idleSince: Date? = nil, idleTimeoutMinutes: Int64? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, sessionId: String, startedAt: Date? = nil, state: SessionState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int64? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.billedResourceUtilization = billedResourceUtilization
+            self.configurationOverrides = configurationOverrides
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.endedAt = endedAt
+            self.executionRoleArn = executionRoleArn
+            self.idleSince = idleSince
+            self.idleTimeoutMinutes = idleTimeoutMinutes
+            self.name = name
+            self.networkConfiguration = networkConfiguration
+            self.releaseLabel = releaseLabel
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.state = state
+            self.stateDetails = stateDetails
+            self.tags = tags
+            self.totalExecutionDurationSeconds = totalExecutionDurationSeconds
+            self.totalResourceUtilization = totalResourceUtilization
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case billedResourceUtilization = "billedResourceUtilization"
+            case configurationOverrides = "configurationOverrides"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case endedAt = "endedAt"
+            case executionRoleArn = "executionRoleArn"
+            case idleSince = "idleSince"
+            case idleTimeoutMinutes = "idleTimeoutMinutes"
+            case name = "name"
+            case networkConfiguration = "networkConfiguration"
+            case releaseLabel = "releaseLabel"
+            case sessionId = "sessionId"
+            case startedAt = "startedAt"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case tags = "tags"
+            case totalExecutionDurationSeconds = "totalExecutionDurationSeconds"
+            case totalResourceUtilization = "totalResourceUtilization"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct SessionConfigurationOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// The runtime configuration for the session. Contains Spark configuration properties specified at session creation time.
+        public let runtimeConfiguration: [Configuration]?
+
+        @inlinable
+        public init(runtimeConfiguration: [Configuration]? = nil) {
+            self.runtimeConfiguration = runtimeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.runtimeConfiguration?.forEach {
+                try $0.validate(name: "\(name).runtimeConfiguration[]")
+            }
+            try self.validate(self.runtimeConfiguration, name: "runtimeConfiguration", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeConfiguration = "runtimeConfiguration"
+        }
+    }
+
+    public struct SessionSummary: AWSDecodableShape {
+        /// The ID of the application that the session belongs to.
+        public let applicationId: String
+        /// The Amazon Resource Name (ARN) of the session.
+        public let arn: String
+        /// The date and time that the session was created.
+        public let createdAt: Date
+        /// The IAM principal that created the session.
+        public let createdBy: String
+        /// The Amazon Resource Name (ARN) of the execution role for the session.
+        public let executionRoleArn: String
+        /// The optional name of the session.
+        public let name: String?
+        /// The Amazon EMR release label associated with the session.
+        public let releaseLabel: String
+        /// The ID of the session.
+        public let sessionId: String
+        /// The state of the session.
+        public let state: SessionState
+        /// Additional details about the current state of the session.
+        public let stateDetails: String
+        /// The date and time that the session was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(applicationId: String, arn: String, createdAt: Date, createdBy: String, executionRoleArn: String, name: String? = nil, releaseLabel: String, sessionId: String, state: SessionState, stateDetails: String, updatedAt: Date) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.executionRoleArn = executionRoleArn
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.sessionId = sessionId
+            self.state = state
+            self.stateDetails = stateDetails
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case executionRoleArn = "executionRoleArn"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case sessionId = "sessionId"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct SparkSubmit: AWSEncodableShape & AWSDecodableShape {
         /// The entry point for the Spark submit job run.
         public let entryPoint: String
@@ -1777,10 +2204,6 @@ extension EMRServerless {
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 4096)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: ".*\\S.*")
-            try self.entryPointArguments?.forEach {
-                try validate($0, name: "entryPointArguments[]", parent: name, min: 1)
-                try validate($0, name: "entryPointArguments[]", parent: name, pattern: ".*\\S.*")
-            }
             try self.validate(self.entryPointArguments, name: "entryPointArguments", parent: name, max: 1024)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, max: 102400)
             try self.validate(self.sparkSubmitParameters, name: "sparkSubmitParameters", parent: name, min: 1)
@@ -1942,6 +2365,103 @@ extension EMRServerless {
         }
     }
 
+    public struct StartSessionRequest: AWSEncodableShape {
+        /// The ID of the application on which to start the session.
+        public let applicationId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the successful response without performing the operation again.
+        public let clientToken: String
+        /// The configuration overrides for the session. Only runtime configuration overrides are supported.
+        public let configurationOverrides: SessionConfigurationOverrides?
+        /// The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution.
+        public let executionRoleArn: String
+        /// The idle timeout in minutes for the session. After the session remains idle for this duration, Amazon EMR Serverless automatically terminates it.
+        public let idleTimeoutMinutes: Int64?
+        /// The optional name for the session.
+        public let name: String?
+        /// The tags to assign to the session.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(applicationId: String, clientToken: String = StartSessionRequest.idempotencyToken(), configurationOverrides: SessionConfigurationOverrides? = nil, executionRoleArn: String, idleTimeoutMinutes: Int64? = nil, name: String? = nil, tags: [String: String]? = nil) {
+            self.applicationId = applicationId
+            self.clientToken = clientToken
+            self.configurationOverrides = configurationOverrides
+            self.executionRoleArn = executionRoleArn
+            self.idleTimeoutMinutes = idleTimeoutMinutes
+            self.name = name
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.configurationOverrides, forKey: .configurationOverrides)
+            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.idleTimeoutMinutes, forKey: .idleTimeoutMinutes)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
+            try self.configurationOverrides?.validate(name: "\(name).configurationOverrides")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
+            try self.validate(self.idleTimeoutMinutes, name: "idleTimeoutMinutes", parent: name, max: 1000000)
+            try self.validate(self.idleTimeoutMinutes, name: "idleTimeoutMinutes", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[A-Za-z0-9 /_.:=+@-]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 /_.:=+@-]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case executionRoleArn = "executionRoleArn"
+            case idleTimeoutMinutes = "idleTimeoutMinutes"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartSessionResponse: AWSDecodableShape {
+        /// The output contains the application ID on which the session was started.
+        public let applicationId: String
+        /// The output contains the ARN of the session.
+        public let arn: String
+        /// The output contains the ID of the session.
+        public let sessionId: String
+
+        @inlinable
+        public init(applicationId: String, arn: String, sessionId: String) {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case arn = "arn"
+            case sessionId = "sessionId"
+        }
+    }
+
     public struct StopApplicationRequest: AWSEncodableShape {
         /// The ID of the application to stop.
         public let applicationId: String
@@ -2010,6 +2530,55 @@ extension EMRServerless {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TerminateSessionRequest: AWSEncodableShape {
+        /// The ID of the application that the session belongs to.
+        public let applicationId: String
+        /// The ID of the session to terminate.
+        public let sessionId: String
+
+        @inlinable
+        public init(applicationId: String, sessionId: String) {
+            self.applicationId = applicationId
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.sessionId, key: "sessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-z]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 64)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct TerminateSessionResponse: AWSDecodableShape {
+        /// The output contains the application ID on which the session was terminated.
+        public let applicationId: String
+        /// The output contains the ID of the terminated session.
+        public let sessionId: String
+
+        @inlinable
+        public init(applicationId: String, sessionId: String) {
+            self.applicationId = applicationId
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case sessionId = "sessionId"
+        }
     }
 
     public struct TotalResourceUtilization: AWSDecodableShape {

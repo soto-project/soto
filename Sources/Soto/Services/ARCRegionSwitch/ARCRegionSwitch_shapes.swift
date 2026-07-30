@@ -79,6 +79,12 @@ extension ARCRegionSwitch {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventSourceMappingAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case enable = "enable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExecutionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activate = "activate"
         case deactivate = "deactivate"
@@ -88,12 +94,16 @@ extension ARCRegionSwitch {
 
     public enum ExecutionBlockType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aurora = "AuroraGlobalDatabase"
+        case auroraProvisionedScaling = "AuroraProvisionedScaling"
+        case auroraServerlessScaling = "AuroraServerlessScaling"
         case customActionLambda = "CustomActionLambda"
         case documentdb = "DocumentDb"
         case ec2Asg = "EC2AutoScaling"
         case ecs = "ECSServiceScaling"
         case eksResourceScaling = "EKSResourceScaling"
         case executionApproval = "ManualApproval"
+        case lambdaEventSourceMapping = "LambdaEventSourceMapping"
+        case neptune = "NeptuneGlobalDatabase"
         case parallel = "Parallel"
         case rdsCreateCrossRegionReplica = "RdsCreateCrossRegionReplica"
         case rdsPromoteReadReplica = "RdsPromoteReadReplica"
@@ -172,8 +182,24 @@ extension ARCRegionSwitch {
         public var description: String { return self.rawValue }
     }
 
+    public enum LambdaEventSourceMappingUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case skip = "skip"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LambdaUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case skip = "skip"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NeptuneDefaultBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failover = "failover"
+        case switchoverOnly = "switchoverOnly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NeptuneUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failover = "failover"
         public var description: String { return self.rawValue }
     }
 
@@ -245,6 +271,10 @@ extension ARCRegionSwitch {
     public enum ExecutionBlockConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An ARC routing control execution block.
         case arcRoutingControlConfig(ArcRoutingControlConfiguration)
+        /// An Aurora provisioned cluster scaling execution block.
+        case auroraProvisionedScalingConfig(AuroraProvisionedScalingConfiguration)
+        /// An Aurora Serverless scaling execution block.
+        case auroraServerlessScalingConfig(AuroraServerlessScalingConfiguration)
         /// An Amazon Web Services Lambda execution block.
         case customActionLambdaConfig(CustomActionLambdaConfiguration)
         case documentDbConfig(DocumentDbConfiguration)
@@ -258,6 +288,10 @@ extension ARCRegionSwitch {
         case executionApprovalConfig(ExecutionApprovalConfiguration)
         /// An Aurora Global Database execution block.
         case globalAuroraConfig(GlobalAuroraConfiguration)
+        /// A Lambda event source mapping execution block.
+        case lambdaEventSourceMappingConfig(LambdaEventSourceMappingConfiguration)
+        /// A Neptune global database execution block.
+        case neptuneGlobalDatabaseConfig(NeptuneGlobalDatabaseConfiguration)
         /// A parallel configuration execution block.
         case parallelConfig(ParallelExecutionBlockConfiguration)
         /// An Amazon RDS create cross-Region replica execution block.
@@ -282,6 +316,12 @@ extension ARCRegionSwitch {
             case .arcRoutingControlConfig:
                 let value = try container.decode(ArcRoutingControlConfiguration.self, forKey: .arcRoutingControlConfig)
                 self = .arcRoutingControlConfig(value)
+            case .auroraProvisionedScalingConfig:
+                let value = try container.decode(AuroraProvisionedScalingConfiguration.self, forKey: .auroraProvisionedScalingConfig)
+                self = .auroraProvisionedScalingConfig(value)
+            case .auroraServerlessScalingConfig:
+                let value = try container.decode(AuroraServerlessScalingConfiguration.self, forKey: .auroraServerlessScalingConfig)
+                self = .auroraServerlessScalingConfig(value)
             case .customActionLambdaConfig:
                 let value = try container.decode(CustomActionLambdaConfiguration.self, forKey: .customActionLambdaConfig)
                 self = .customActionLambdaConfig(value)
@@ -303,6 +343,12 @@ extension ARCRegionSwitch {
             case .globalAuroraConfig:
                 let value = try container.decode(GlobalAuroraConfiguration.self, forKey: .globalAuroraConfig)
                 self = .globalAuroraConfig(value)
+            case .lambdaEventSourceMappingConfig:
+                let value = try container.decode(LambdaEventSourceMappingConfiguration.self, forKey: .lambdaEventSourceMappingConfig)
+                self = .lambdaEventSourceMappingConfig(value)
+            case .neptuneGlobalDatabaseConfig:
+                let value = try container.decode(NeptuneGlobalDatabaseConfiguration.self, forKey: .neptuneGlobalDatabaseConfig)
+                self = .neptuneGlobalDatabaseConfig(value)
             case .parallelConfig:
                 let value = try container.decode(ParallelExecutionBlockConfiguration.self, forKey: .parallelConfig)
                 self = .parallelConfig(value)
@@ -326,6 +372,10 @@ extension ARCRegionSwitch {
             switch self {
             case .arcRoutingControlConfig(let value):
                 try container.encode(value, forKey: .arcRoutingControlConfig)
+            case .auroraProvisionedScalingConfig(let value):
+                try container.encode(value, forKey: .auroraProvisionedScalingConfig)
+            case .auroraServerlessScalingConfig(let value):
+                try container.encode(value, forKey: .auroraServerlessScalingConfig)
             case .customActionLambdaConfig(let value):
                 try container.encode(value, forKey: .customActionLambdaConfig)
             case .documentDbConfig(let value):
@@ -340,6 +390,10 @@ extension ARCRegionSwitch {
                 try container.encode(value, forKey: .executionApprovalConfig)
             case .globalAuroraConfig(let value):
                 try container.encode(value, forKey: .globalAuroraConfig)
+            case .lambdaEventSourceMappingConfig(let value):
+                try container.encode(value, forKey: .lambdaEventSourceMappingConfig)
+            case .neptuneGlobalDatabaseConfig(let value):
+                try container.encode(value, forKey: .neptuneGlobalDatabaseConfig)
             case .parallelConfig(let value):
                 try container.encode(value, forKey: .parallelConfig)
             case .rdsCreateCrossRegionReadReplicaConfig(let value):
@@ -357,6 +411,10 @@ extension ARCRegionSwitch {
             switch self {
             case .arcRoutingControlConfig(let value):
                 try value.validate(name: "\(name).arcRoutingControlConfig")
+            case .auroraProvisionedScalingConfig(let value):
+                try value.validate(name: "\(name).auroraProvisionedScalingConfig")
+            case .auroraServerlessScalingConfig(let value):
+                try value.validate(name: "\(name).auroraServerlessScalingConfig")
             case .customActionLambdaConfig(let value):
                 try value.validate(name: "\(name).customActionLambdaConfig")
             case .documentDbConfig(let value):
@@ -369,6 +427,10 @@ extension ARCRegionSwitch {
                 try value.validate(name: "\(name).eksResourceScalingConfig")
             case .globalAuroraConfig(let value):
                 try value.validate(name: "\(name).globalAuroraConfig")
+            case .lambdaEventSourceMappingConfig(let value):
+                try value.validate(name: "\(name).lambdaEventSourceMappingConfig")
+            case .neptuneGlobalDatabaseConfig(let value):
+                try value.validate(name: "\(name).neptuneGlobalDatabaseConfig")
             case .parallelConfig(let value):
                 try value.validate(name: "\(name).parallelConfig")
             case .rdsCreateCrossRegionReadReplicaConfig(let value):
@@ -386,6 +448,8 @@ extension ARCRegionSwitch {
 
         private enum CodingKeys: String, CodingKey {
             case arcRoutingControlConfig = "arcRoutingControlConfig"
+            case auroraProvisionedScalingConfig = "auroraProvisionedScalingConfig"
+            case auroraServerlessScalingConfig = "auroraServerlessScalingConfig"
             case customActionLambdaConfig = "customActionLambdaConfig"
             case documentDbConfig = "documentDbConfig"
             case ec2AsgCapacityIncreaseConfig = "ec2AsgCapacityIncreaseConfig"
@@ -393,6 +457,8 @@ extension ARCRegionSwitch {
             case eksResourceScalingConfig = "eksResourceScalingConfig"
             case executionApprovalConfig = "executionApprovalConfig"
             case globalAuroraConfig = "globalAuroraConfig"
+            case lambdaEventSourceMappingConfig = "lambdaEventSourceMappingConfig"
+            case neptuneGlobalDatabaseConfig = "neptuneGlobalDatabaseConfig"
             case parallelConfig = "parallelConfig"
             case rdsCreateCrossRegionReadReplicaConfig = "rdsCreateCrossRegionReadReplicaConfig"
             case rdsPromoteReadReplicaConfig = "rdsPromoteReadReplicaConfig"
@@ -698,6 +764,106 @@ extension ARCRegionSwitch {
         }
     }
 
+    public struct AuroraProvisionedScalingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cross account role for the configuration.
+        public let crossAccountRole: String?
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The global cluster identifier for a global database.
+        public let globalClusterIdentifier: String
+        /// Per-Region configuration that maps each Region to the Aurora database instance ARN for scaling.
+        public let instanceArns: [String: String]
+        /// Per-Region configuration that maps each Region to the Aurora database cluster ARN for scaling.
+        public let regionDatabaseClusterArns: [String: String]
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+
+        @inlinable
+        public init(crossAccountRole: String? = nil, externalId: String? = nil, globalClusterIdentifier: String, instanceArns: [String: String], regionDatabaseClusterArns: [String: String], timeoutMinutes: Int? = nil) {
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.instanceArns = instanceArns
+            self.regionDatabaseClusterArns = regionDatabaseClusterArns
+            self.timeoutMinutes = timeoutMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+            try self.instanceArns.forEach {
+                try validate($0.key, name: "instanceArns.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "instanceArns[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:db:[A-Za-z][0-9A-Za-z-]{0,62}$")
+            }
+            try self.validate(self.instanceArns, name: "instanceArns", parent: name, max: 2)
+            try self.validate(self.instanceArns, name: "instanceArns", parent: name, min: 1)
+            try self.regionDatabaseClusterArns.forEach {
+                try validate($0.key, name: "regionDatabaseClusterArns.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "regionDatabaseClusterArns[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:cluster:[A-Za-z][0-9A-Za-z-:._]*$")
+            }
+            try self.validate(self.regionDatabaseClusterArns, name: "regionDatabaseClusterArns", parent: name, max: 2)
+            try self.validate(self.regionDatabaseClusterArns, name: "regionDatabaseClusterArns", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountRole = "crossAccountRole"
+            case externalId = "externalId"
+            case globalClusterIdentifier = "globalClusterIdentifier"
+            case instanceArns = "instanceArns"
+            case regionDatabaseClusterArns = "regionDatabaseClusterArns"
+            case timeoutMinutes = "timeoutMinutes"
+        }
+    }
+
+    public struct AuroraServerlessScalingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cross account role for the configuration.
+        public let crossAccountRole: String?
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The global cluster identifier for a global database.
+        public let globalClusterIdentifier: String
+        /// Per-Region configuration that maps each Region to the Aurora database cluster ARN for scaling.
+        public let regionDatabaseClusterArns: [String: String]
+        /// The target capacity percentage for Aurora Serverless scaling.
+        public let targetPercent: Int?
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+
+        @inlinable
+        public init(crossAccountRole: String? = nil, externalId: String? = nil, globalClusterIdentifier: String, regionDatabaseClusterArns: [String: String], targetPercent: Int? = nil, timeoutMinutes: Int? = nil) {
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.regionDatabaseClusterArns = regionDatabaseClusterArns
+            self.targetPercent = targetPercent
+            self.timeoutMinutes = timeoutMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-:._]*$")
+            try self.regionDatabaseClusterArns.forEach {
+                try validate($0.key, name: "regionDatabaseClusterArns.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "regionDatabaseClusterArns[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:cluster:[A-Za-z][0-9A-Za-z-:._]*$")
+            }
+            try self.validate(self.regionDatabaseClusterArns, name: "regionDatabaseClusterArns", parent: name, max: 2)
+            try self.validate(self.regionDatabaseClusterArns, name: "regionDatabaseClusterArns", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountRole = "crossAccountRole"
+            case externalId = "externalId"
+            case globalClusterIdentifier = "globalClusterIdentifier"
+            case regionDatabaseClusterArns = "regionDatabaseClusterArns"
+            case targetPercent = "targetPercent"
+            case timeoutMinutes = "timeoutMinutes"
+        }
+    }
+
     public struct CancelPlanExecutionRequest: AWSEncodableShape {
         /// A comment that you can enter about canceling a plan execution step.
         public let comment: String?
@@ -727,6 +893,27 @@ extension ARCRegionSwitch {
 
     public struct CancelPlanExecutionResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the resource involved in the client token conflict.
+        public let resourceId: String?
+        /// The type of the resource involved in the client token conflict.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
     }
 
     public struct CreatePlanRequest: AWSEncodableShape {
@@ -954,7 +1141,7 @@ extension ARCRegionSwitch {
         public let asgs: [Asg]
         /// The monitoring approach that you specify EC2 Auto Scaling groups for the configuration.
         public let capacityMonitoringApproach: Ec2AsgCapacityMonitoringApproach?
-        /// The target percentage that you specify for EC2 Auto Scaling groups.
+        /// The target percentage that you specify for EC2 Auto Scaling groups. The default is 100.
         public let targetPercent: Int?
         /// The timeout value specified for the configuration.
         public let timeoutMinutes: Int?
@@ -1006,7 +1193,7 @@ extension ARCRegionSwitch {
         public let capacityMonitoringApproach: EcsCapacityMonitoringApproach?
         /// The services specified for the configuration.
         public let services: [Service]
-        /// The target percentage specified for the configuration.
+        /// The target percentage specified for the configuration. The default is 100.
         public let targetPercent: Int?
         /// The timeout value specified for the configuration.
         public let timeoutMinutes: Int?
@@ -1089,7 +1276,7 @@ extension ARCRegionSwitch {
         public let kubernetesResourceType: KubernetesResourceType
         /// The scaling resources for the configuration.
         public let scalingResources: [[String: [String: KubernetesScalingResource]]]?
-        /// The target percentage for the configuration.
+        /// The target percentage for the configuration. The default is 100.
         public let targetPercent: Int?
         /// The timeout value specified for the configuration.
         public let timeoutMinutes: Int?
@@ -1137,6 +1324,33 @@ extension ARCRegionSwitch {
 
         private enum CodingKeys: String, CodingKey {
             case minimumSuccessPercentage = "minimumSuccessPercentage"
+        }
+    }
+
+    public struct EventSourceMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda event source mapping.
+        public let arn: String
+        /// The cross account role for the configuration.
+        public let crossAccountRole: String?
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+
+        @inlinable
+        public init(arn: String, crossAccountRole: String? = nil, externalId: String? = nil) {
+            self.arn = arn
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:lambda:[a-z0-9-]+:\\d{12}:event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case crossAccountRole = "crossAccountRole"
+            case externalId = "externalId"
         }
     }
 
@@ -1588,6 +1802,55 @@ extension ARCRegionSwitch {
         }
     }
 
+    public struct LambdaEventSourceMappingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The action to take - whether to enable or disable an event source mapping.
+        public let action: EventSourceMappingAction
+        /// Per-region configuration for which Lambda event source mapping to enable or disable when activating or deactivating a region.
+        public let regionEventSourceMappings: [String: EventSourceMapping]
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+        /// The settings for ungraceful execution.
+        public let ungraceful: LambdaEventSourceMappingUngraceful?
+
+        @inlinable
+        public init(action: EventSourceMappingAction, regionEventSourceMappings: [String: EventSourceMapping], timeoutMinutes: Int? = nil, ungraceful: LambdaEventSourceMappingUngraceful? = nil) {
+            self.action = action
+            self.regionEventSourceMappings = regionEventSourceMappings
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+
+        public func validate(name: String) throws {
+            try self.regionEventSourceMappings.forEach {
+                try validate($0.key, name: "regionEventSourceMappings.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try $0.value.validate(name: "\(name).regionEventSourceMappings[\"\($0.key)\"]")
+            }
+            try self.validate(self.regionEventSourceMappings, name: "regionEventSourceMappings", parent: name, max: 2)
+            try self.validate(self.regionEventSourceMappings, name: "regionEventSourceMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case regionEventSourceMappings = "regionEventSourceMappings"
+            case timeoutMinutes = "timeoutMinutes"
+            case ungraceful = "ungraceful"
+        }
+    }
+
+    public struct LambdaEventSourceMappingUngraceful: AWSEncodableShape & AWSDecodableShape {
+        /// Set to skip to skip executing this event source mapping step during an ungraceful execution.
+        public let behavior: LambdaEventSourceMappingUngracefulBehavior?
+
+        @inlinable
+        public init(behavior: LambdaEventSourceMappingUngracefulBehavior? = nil) {
+            self.behavior = behavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "behavior"
+        }
+    }
+
     public struct LambdaUngraceful: AWSEncodableShape & AWSDecodableShape {
         /// The ungraceful behavior for a Lambda function, which must be set to skip.
         public let behavior: LambdaUngracefulBehavior?
@@ -1823,7 +2086,7 @@ extension ARCRegionSwitch {
         public let arn: String
         /// The hosted zone ID for the health checks.
         public let hostedZoneId: String?
-        /// The number of objects that you want to return with this call.
+        /// The maximum number of results to return in the response.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
         public let nextToken: String?
@@ -1863,7 +2126,7 @@ extension ARCRegionSwitch {
     public struct ListRoute53HealthChecksInRegionResponse: AWSDecodableShape {
         /// List of the health checks requested.
         public let healthChecks: [Route53HealthCheck]?
-        /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+        /// A pagination token. A response may contain no results while still including a nextToken. Continue paginating until nextToken is null to retrieve all results.
         public let nextToken: String?
 
         @inlinable
@@ -1883,7 +2146,7 @@ extension ARCRegionSwitch {
         public let arn: String
         /// The hosted zone ID for the health checks.
         public let hostedZoneId: String?
-        /// The number of objects that you want to return with this call.
+        /// The maximum number of results to return in the response.
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
         public let nextToken: String?
@@ -1923,7 +2186,7 @@ extension ARCRegionSwitch {
     public struct ListRoute53HealthChecksResponse: AWSDecodableShape {
         /// List of the health checks requested.
         public let healthChecks: [Route53HealthCheck]?
-        /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+        /// A pagination token. A response may contain no results while still including a nextToken. Continue paginating until nextToken is null to retrieve all results.
         public let nextToken: String?
 
         @inlinable
@@ -1985,6 +2248,71 @@ extension ARCRegionSwitch {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case name = "name"
+        }
+    }
+
+    public struct NeptuneGlobalDatabaseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The behavior for a global database, that is, only allow switchover or also allow failover.
+        public let behavior: NeptuneDefaultBehavior
+        /// The cross account role for the configuration.
+        public let crossAccountRole: String?
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The global cluster identifier for a Neptune global database.
+        public let globalClusterIdentifier: String
+        /// The database cluster Amazon Resource Names (ARNs) for a Neptune global database.
+        public let regionDatabaseClusterArns: [String: String]
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+        /// The settings for ungraceful execution.
+        public let ungraceful: NeptuneUngraceful?
+
+        @inlinable
+        public init(behavior: NeptuneDefaultBehavior, crossAccountRole: String? = nil, externalId: String? = nil, globalClusterIdentifier: String, regionDatabaseClusterArns: [String: String], timeoutMinutes: Int? = nil, ungraceful: NeptuneUngraceful? = nil) {
+            self.behavior = behavior
+            self.crossAccountRole = crossAccountRole
+            self.externalId = externalId
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.regionDatabaseClusterArns = regionDatabaseClusterArns
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 63)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "^[A-Za-z][0-9A-Za-z-]*$")
+            try self.regionDatabaseClusterArns.forEach {
+                try validate($0.key, name: "regionDatabaseClusterArns.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "regionDatabaseClusterArns[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:cluster:[A-Za-z][0-9A-Za-z-]{0,62}$")
+            }
+            try self.validate(self.regionDatabaseClusterArns, name: "regionDatabaseClusterArns", parent: name, max: 2)
+            try self.validate(self.regionDatabaseClusterArns, name: "regionDatabaseClusterArns", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "behavior"
+            case crossAccountRole = "crossAccountRole"
+            case externalId = "externalId"
+            case globalClusterIdentifier = "globalClusterIdentifier"
+            case regionDatabaseClusterArns = "regionDatabaseClusterArns"
+            case timeoutMinutes = "timeoutMinutes"
+            case ungraceful = "ungraceful"
+        }
+    }
+
+    public struct NeptuneUngraceful: AWSEncodableShape & AWSDecodableShape {
+        /// The settings for ungraceful execution.
+        public let ungraceful: NeptuneUngracefulBehavior?
+
+        @inlinable
+        public init(ungraceful: NeptuneUngracefulBehavior? = nil) {
+            self.ungraceful = ungraceful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ungraceful = "ungraceful"
         }
     }
 
@@ -2403,6 +2731,8 @@ extension ARCRegionSwitch {
     public struct StartPlanExecutionRequest: AWSEncodableShape {
         /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region).
         public let action: ExecutionAction
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request and returns the result of the original successful request. If you don't provide a client token, the service automatically generates one. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// An optional comment explaining why the plan execution is being started.
         public let comment: String?
         /// A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
@@ -2417,8 +2747,9 @@ extension ARCRegionSwitch {
         public let targetRegion: String
 
         @inlinable
-        public init(action: ExecutionAction, comment: String? = nil, latestVersion: String? = nil, mode: ExecutionMode? = nil, planArn: String, recoveryExecutionId: String? = nil, targetRegion: String) {
+        public init(action: ExecutionAction, clientToken: String? = StartPlanExecutionRequest.idempotencyToken(), comment: String? = nil, latestVersion: String? = nil, mode: ExecutionMode? = nil, planArn: String, recoveryExecutionId: String? = nil, targetRegion: String) {
             self.action = action
+            self.clientToken = clientToken
             self.comment = comment
             self.latestVersion = latestVersion
             self.mode = mode
@@ -2435,6 +2766,7 @@ extension ARCRegionSwitch {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case clientToken = "clientToken"
             case comment = "comment"
             case latestVersion = "latestVersion"
             case mode = "mode"
@@ -2854,6 +3186,7 @@ extension ARCRegionSwitch {
 public struct ARCRegionSwitchErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case illegalArgumentException = "IllegalArgumentException"
         case illegalStateException = "IllegalStateException"
         case internalServerException = "InternalServerException"
@@ -2880,6 +3213,8 @@ public struct ARCRegionSwitchErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action. HTTP Status Code: 403
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The client token was already used with different request parameters. A client token must map to the same parameters for every request. To retry this operation, provide a new client token.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The request processing has an invalid argument.
     public static var illegalArgumentException: Self { .init(.illegalArgumentException) }
     /// The operation failed because the current state of the resource doesn't allow the operation to proceed. HTTP Status Code: 400
@@ -2888,6 +3223,12 @@ public struct ARCRegionSwitchErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified resource was not found. HTTP Status Code: 404
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension ARCRegionSwitchErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": ARCRegionSwitch.ConflictException.self
+    ]
 }
 
 extension ARCRegionSwitchErrorType: Equatable {

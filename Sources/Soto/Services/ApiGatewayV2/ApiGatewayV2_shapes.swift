@@ -115,6 +115,8 @@ extension ApiGatewayV2 {
     }
 
     public enum PublishStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disableFailed = "DISABLE_FAILED"
+        case disableInProgress = "DISABLE_IN_PROGRESS"
         case disabled = "DISABLED"
         case publishFailed = "PUBLISH_FAILED"
         case publishInProgress = "PUBLISH_IN_PROGRESS"

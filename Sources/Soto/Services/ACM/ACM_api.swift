@@ -99,7 +99,7 @@ public struct ACM: AWSService {
 
     // MARK: API Calls
 
-    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.  You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see Tagging ACM certificates.  To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
+    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.   This action applies only to the certificate resource type. For all other ACM resource types, use TagResource instead.  You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see Tagging ACM certificates.  To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
     @Sendable
     @inlinable
     public func addTagsToCertificate(_ input: AddTagsToCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -112,7 +112,7 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.  You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see Tagging ACM certificates.  To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
+    /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair.   This action applies only to the certificate resource type. For all other ACM resource types, use TagResource instead.  You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see Tagging ACM certificates.  To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
     ///
     /// Parameters:
     ///   - certificateArn: String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
@@ -131,7 +131,220 @@ public struct ACM: AWSService {
         return try await self.addTagsToCertificate(input, logger: logger)
     }
 
-    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate no longer appears in the list that can be displayed by calling the ListCertificates action or be retrieved by calling the GetCertificate action. The certificate will not be available for use by Amazon Web Services services integrated with ACM.   You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, the certificate association must first be removed.
+    /// Creates a domain validation for an ACME endpoint. Domain validations authorize the endpoint to issue certificates for specified domain names. You configure prevalidation to prove domain ownership.
+    @Sendable
+    @inlinable
+    public func createAcmeDomainValidation(_ input: CreateAcmeDomainValidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAcmeDomainValidationResponse {
+        try await self.client.execute(
+            operation: "CreateAcmeDomainValidation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a domain validation for an ACME endpoint. Domain validations authorize the endpoint to issue certificates for specified domain names. You configure prevalidation to prove domain ownership.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - domainName: The domain name to validate.
+    ///   - idempotencyToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - prevalidationOptions: The prevalidation options for the domain.
+    ///   - tags: One or more tags to associate with the domain validation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAcmeDomainValidation(
+        acmeEndpointArn: String,
+        domainName: String,
+        idempotencyToken: String? = CreateAcmeDomainValidationRequest.idempotencyToken(),
+        prevalidationOptions: PrevalidationOptions,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAcmeDomainValidationResponse {
+        let input = CreateAcmeDomainValidationRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            domainName: domainName, 
+            idempotencyToken: idempotencyToken, 
+            prevalidationOptions: prevalidationOptions, 
+            tags: tags
+        )
+        return try await self.createAcmeDomainValidation(input, logger: logger)
+    }
+
+    /// Creates an ACME endpoint, which is a managed ACME server with a unique endpoint URL. After creation, ACME clients can use the endpoint URL to automate certificate issuance using the ACME protocol.
+    @Sendable
+    @inlinable
+    public func createAcmeEndpoint(_ input: CreateAcmeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAcmeEndpointResponse {
+        try await self.client.execute(
+            operation: "CreateAcmeEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an ACME endpoint, which is a managed ACME server with a unique endpoint URL. After creation, ACME clients can use the endpoint URL to automate certificate issuance using the ACME protocol.
+    ///
+    /// Parameters:
+    ///   - authorizationBehavior: The authorization behavior for the ACME endpoint.
+    ///   - certificateAuthority: The type of certificate authority to use for issuing certificates through this ACME endpoint.
+    ///   - certificateTags: Tags to apply to certificates issued through this ACME endpoint.
+    ///   - contact: Specifies whether ACME clients must provide contact information during account registration.
+    ///   - idempotencyToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - tags: One or more tags to associate with the ACME endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAcmeEndpoint(
+        authorizationBehavior: AcmeAuthorizationBehavior,
+        certificateAuthority: CertificateAuthority,
+        certificateTags: [Tag]? = nil,
+        contact: AcmeContact? = nil,
+        idempotencyToken: String? = CreateAcmeEndpointRequest.idempotencyToken(),
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAcmeEndpointResponse {
+        let input = CreateAcmeEndpointRequest(
+            authorizationBehavior: authorizationBehavior, 
+            certificateAuthority: certificateAuthority, 
+            certificateTags: certificateTags, 
+            contact: contact, 
+            idempotencyToken: idempotencyToken, 
+            tags: tags
+        )
+        return try await self.createAcmeEndpoint(input, logger: logger)
+    }
+
+    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an account with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform.
+    @Sendable
+    @inlinable
+    public func createAcmeExternalAccountBinding(_ input: CreateAcmeExternalAccountBindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAcmeExternalAccountBindingResponse {
+        try await self.client.execute(
+            operation: "CreateAcmeExternalAccountBinding", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an external account binding (EAB) for an ACME endpoint. An EAB provides credentials that authorize an ACME client to register an account with the endpoint. Each EAB is associated with an IAM role that controls what certificate operations the ACME client can perform.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - expiration: The expiration configuration for the external account binding.
+    ///   - idempotencyToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding.
+    ///   - tags: One or more tags to associate with the external account binding.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAcmeExternalAccountBinding(
+        acmeEndpointArn: String,
+        expiration: Expiration? = nil,
+        idempotencyToken: String? = CreateAcmeExternalAccountBindingRequest.idempotencyToken(),
+        roleArn: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAcmeExternalAccountBindingResponse {
+        let input = CreateAcmeExternalAccountBindingRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            expiration: expiration, 
+            idempotencyToken: idempotencyToken, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createAcmeExternalAccountBinding(input, logger: logger)
+    }
+
+    /// Deletes a domain validation. After deletion, the ACME endpoint can no longer issue certificates for the associated domain.
+    @Sendable
+    @inlinable
+    public func deleteAcmeDomainValidation(_ input: DeleteAcmeDomainValidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAcmeDomainValidation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a domain validation. After deletion, the ACME endpoint can no longer issue certificates for the associated domain.
+    ///
+    /// Parameters:
+    ///   - acmeDomainValidationArn: The Amazon Resource Name (ARN) of the ACME domain validation to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAcmeDomainValidation(
+        acmeDomainValidationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAcmeDomainValidationRequest(
+            acmeDomainValidationArn: acmeDomainValidationArn
+        )
+        return try await self.deleteAcmeDomainValidation(input, logger: logger)
+    }
+
+    /// Deletes an ACME endpoint. After deletion, the endpoint URL is no longer accessible and ACME clients cannot issue certificates through it. Any existing external account bindings and domain validations associated with the endpoint are also deleted.
+    @Sendable
+    @inlinable
+    public func deleteAcmeEndpoint(_ input: DeleteAcmeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAcmeEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an ACME endpoint. After deletion, the endpoint URL is no longer accessible and ACME clients cannot issue certificates through it. Any existing external account bindings and domain validations associated with the endpoint are also deleted.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAcmeEndpoint(
+        acmeEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAcmeEndpointRequest(
+            acmeEndpointArn: acmeEndpointArn
+        )
+        return try await self.deleteAcmeEndpoint(input, logger: logger)
+    }
+
+    /// Deletes an external account binding. Previously fetched credentials for this binding will no longer be usable for account registration. A deleted binding cannot be recovered.
+    @Sendable
+    @inlinable
+    public func deleteAcmeExternalAccountBinding(_ input: DeleteAcmeExternalAccountBindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAcmeExternalAccountBinding", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an external account binding. Previously fetched credentials for this binding will no longer be usable for account registration. A deleted binding cannot be recovered.
+    ///
+    /// Parameters:
+    ///   - acmeExternalAccountBindingArn: The Amazon Resource Name (ARN) of the ACME external account binding to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAcmeExternalAccountBinding(
+        acmeExternalAccountBindingArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAcmeExternalAccountBindingRequest(
+            acmeExternalAccountBindingArn: acmeExternalAccountBindingArn
+        )
+        return try await self.deleteAcmeExternalAccountBinding(input, logger: logger)
+    }
+
+    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate is not available for use by Amazon Web Services services integrated with ACM. Deleting a certificate is eventually consistent. The may be a short delay before the certificate no longer appears in the list that can be displayed by calling the ListCertificates action or be retrieved by calling the GetCertificate action.  You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, you must first remove the certificate association using the console or the CLI for the associated service. Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see  Deleting Your Private CA in the Private Certificate Authority User Guide. You cannot delete a certificate with a CertificateKeyPairOrigin of ACME. ACM automatically deletes these certificates 1 year after they expire.  Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see Deleting your private CA in the Amazon Web Services Private Certificate Authority User Guide.
     @Sendable
     @inlinable
     public func deleteCertificate(_ input: DeleteCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -144,7 +357,7 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate no longer appears in the list that can be displayed by calling the ListCertificates action or be retrieved by calling the GetCertificate action. The certificate will not be available for use by Amazon Web Services services integrated with ACM.   You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, the certificate association must first be removed.
+    /// Deletes a certificate and its associated private key. If this action succeeds, the certificate is not available for use by Amazon Web Services services integrated with ACM. Deleting a certificate is eventually consistent. The may be a short delay before the certificate no longer appears in the list that can be displayed by calling the ListCertificates action or be retrieved by calling the GetCertificate action.  You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, you must first remove the certificate association using the console or the CLI for the associated service. Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see  Deleting Your Private CA in the Private Certificate Authority User Guide. You cannot delete a certificate with a CertificateKeyPairOrigin of ACME. ACM automatically deletes these certificates 1 year after they expire.  Deleting a certificate issued by a private certificate authority (CA) has no effect on the CA. You will continue to be charged for the CA until it is deleted. For more information, see Deleting your private CA in the Amazon Web Services Private Certificate Authority User Guide.
     ///
     /// Parameters:
     ///   - certificateArn: String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
@@ -158,6 +371,125 @@ public struct ACM: AWSService {
             certificateArn: certificateArn
         )
         return try await self.deleteCertificate(input, logger: logger)
+    }
+
+    /// Returns detailed metadata about the specified ACME account, including its status, public key thumbprint, and associated external account binding.
+    @Sendable
+    @inlinable
+    public func describeAcmeAccount(_ input: DescribeAcmeAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcmeAccountResponse {
+        try await self.client.execute(
+            operation: "DescribeAcmeAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed metadata about the specified ACME account, including its status, public key thumbprint, and associated external account binding.
+    ///
+    /// Parameters:
+    ///   - accountUrl: The URL of the ACME account.
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAcmeAccount(
+        accountUrl: String,
+        acmeEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAcmeAccountResponse {
+        let input = DescribeAcmeAccountRequest(
+            accountUrl: accountUrl, 
+            acmeEndpointArn: acmeEndpointArn
+        )
+        return try await self.describeAcmeAccount(input, logger: logger)
+    }
+
+    /// Returns detailed metadata about the specified domain validation, including its status, domain scope, and DNS resource records required for validation.
+    @Sendable
+    @inlinable
+    public func describeAcmeDomainValidation(_ input: DescribeAcmeDomainValidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcmeDomainValidationResponse {
+        try await self.client.execute(
+            operation: "DescribeAcmeDomainValidation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed metadata about the specified domain validation, including its status, domain scope, and DNS resource records required for validation.
+    ///
+    /// Parameters:
+    ///   - acmeDomainValidationArn: The Amazon Resource Name (ARN) of the ACME domain validation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAcmeDomainValidation(
+        acmeDomainValidationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAcmeDomainValidationResponse {
+        let input = DescribeAcmeDomainValidationRequest(
+            acmeDomainValidationArn: acmeDomainValidationArn
+        )
+        return try await self.describeAcmeDomainValidation(input, logger: logger)
+    }
+
+    /// Returns detailed metadata about the specified ACME endpoint, including its status, URL, authorization behavior, and certificate authority configuration.
+    @Sendable
+    @inlinable
+    public func describeAcmeEndpoint(_ input: DescribeAcmeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcmeEndpointResponse {
+        try await self.client.execute(
+            operation: "DescribeAcmeEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed metadata about the specified ACME endpoint, including its status, URL, authorization behavior, and certificate authority configuration.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAcmeEndpoint(
+        acmeEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAcmeEndpointResponse {
+        let input = DescribeAcmeEndpointRequest(
+            acmeEndpointArn: acmeEndpointArn
+        )
+        return try await self.describeAcmeEndpoint(input, logger: logger)
+    }
+
+    /// Returns detailed metadata about the specified external account binding, including the associated IAM role, expiration time, and usage history.
+    @Sendable
+    @inlinable
+    public func describeAcmeExternalAccountBinding(_ input: DescribeAcmeExternalAccountBindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcmeExternalAccountBindingResponse {
+        try await self.client.execute(
+            operation: "DescribeAcmeExternalAccountBinding", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed metadata about the specified external account binding, including the associated IAM role, expiration time, and usage history.
+    ///
+    /// Parameters:
+    ///   - acmeExternalAccountBindingArn: The Amazon Resource Name (ARN) of the ACME external account binding.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAcmeExternalAccountBinding(
+        acmeExternalAccountBindingArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAcmeExternalAccountBindingResponse {
+        let input = DescribeAcmeExternalAccountBindingRequest(
+            acmeExternalAccountBindingArn: acmeExternalAccountBindingArn
+        )
+        return try await self.describeAcmeExternalAccountBinding(input, logger: logger)
     }
 
     /// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate action, there is a delay of several seconds before you can retrieve information about it.
@@ -189,7 +521,7 @@ public struct ACM: AWSService {
         return try await self.describeCertificate(input, logger: logger)
     }
 
-    /// Exports a private certificate issued by a private certificate authority (CA) or public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it.  For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.
+    /// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it.  For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.  ACM public certificates created prior to June 17, 2025 cannot be exported.
     @Sendable
     @inlinable
     public func exportCertificate(_ input: ExportCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportCertificateResponse {
@@ -202,7 +534,7 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Exports a private certificate issued by a private certificate authority (CA) or public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it.  For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.
+    /// Exports a private certificate issued by a private certificate authority (CA) or a public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it.  For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.  ACM public certificates created prior to June 17, 2025 cannot be exported.
     ///
     /// Parameters:
     ///   - certificateArn: An Amazon Resource Name (ARN) of the issued certificate. This must be of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
@@ -232,6 +564,35 @@ public struct ACM: AWSService {
             serviceConfig: self.config, 
             logger: logger
         )
+    }
+
+    /// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account registration to bind to the endpoint.
+    @Sendable
+    @inlinable
+    public func getAcmeExternalAccountBindingCredentials(_ input: GetAcmeExternalAccountBindingCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAcmeExternalAccountBindingCredentialsResponse {
+        try await self.client.execute(
+            operation: "GetAcmeExternalAccountBindingCredentials", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the key ID and MAC key credentials for an external account binding. These credentials are used by ACME clients during account registration to bind to the endpoint.
+    ///
+    /// Parameters:
+    ///   - acmeExternalAccountBindingArn: The Amazon Resource Name (ARN) of the ACME external account binding.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAcmeExternalAccountBindingCredentials(
+        acmeExternalAccountBindingArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAcmeExternalAccountBindingCredentialsResponse {
+        let input = GetAcmeExternalAccountBindingCredentialsRequest(
+            acmeExternalAccountBindingArn: acmeExternalAccountBindingArn
+        )
+        return try await self.getAcmeExternalAccountBindingCredentials(input, logger: logger)
     }
 
     /// Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM RequestCertificate action, or a certificate imported into ACM using the ImportCertificate action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields.
@@ -304,7 +665,144 @@ public struct ACM: AWSService {
         return try await self.importCertificate(input, logger: logger)
     }
 
-    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.
+    /// Retrieves a list of ACME accounts registered with the specified ACME endpoint. ACME accounts are created when clients use external account binding credentials to register.
+    @Sendable
+    @inlinable
+    public func listAcmeAccounts(_ input: ListAcmeAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAcmeAccountsResponse {
+        try await self.client.execute(
+            operation: "ListAcmeAccounts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of ACME accounts registered with the specified ACME endpoint. ACME accounts are created when clients use external account binding credentials to register.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: A token for pagination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAcmeAccounts(
+        acmeEndpointArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAcmeAccountsResponse {
+        let input = ListAcmeAccountsRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAcmeAccounts(input, logger: logger)
+    }
+
+    /// Retrieves a list of domain validations for the specified ACME endpoint.
+    @Sendable
+    @inlinable
+    public func listAcmeDomainValidations(_ input: ListAcmeDomainValidationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAcmeDomainValidationsResponse {
+        try await self.client.execute(
+            operation: "ListAcmeDomainValidations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of domain validations for the specified ACME endpoint.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: A token for pagination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAcmeDomainValidations(
+        acmeEndpointArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAcmeDomainValidationsResponse {
+        let input = ListAcmeDomainValidationsRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAcmeDomainValidations(input, logger: logger)
+    }
+
+    /// Retrieves a list of ACME endpoints in your account. Use this operation to view all configured ACME endpoints and their current status.
+    @Sendable
+    @inlinable
+    public func listAcmeEndpoints(_ input: ListAcmeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAcmeEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListAcmeEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of ACME endpoints in your account. Use this operation to view all configured ACME endpoints and their current status.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: A token for pagination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAcmeEndpoints(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAcmeEndpointsResponse {
+        let input = ListAcmeEndpointsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAcmeEndpoints(input, logger: logger)
+    }
+
+    /// Retrieves a list of external account bindings for the specified ACME endpoint.
+    @Sendable
+    @inlinable
+    public func listAcmeExternalAccountBindings(_ input: ListAcmeExternalAccountBindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAcmeExternalAccountBindingsResponse {
+        try await self.client.execute(
+            operation: "ListAcmeExternalAccountBindings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of external account bindings for the specified ACME endpoint.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: A token for pagination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAcmeExternalAccountBindings(
+        acmeEndpointArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAcmeExternalAccountBindingsResponse {
+        let input = ListAcmeExternalAccountBindingsRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAcmeExternalAccountBindings(input, logger: logger)
+    }
+
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.  By default, this action does not return certificates with a CertificateKeyPairOrigin of ACME. To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter.
     @Sendable
     @inlinable
     public func listCertificates(_ input: ListCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificatesResponse {
@@ -317,9 +815,10 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.
+    /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.  By default, this action does not return certificates with a CertificateKeyPairOrigin of ACME. To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter.
     ///
     /// Parameters:
+    ///   - certificateKeyPairOrigins: Filter the certificate list by certificate key pair origin. Specify one or more CertificateKeyPairOrigin values. Default filtering returns only certificates with key pair origin of AWS_MANAGED and CUSTOMER_PROVIDED.
     ///   - certificateStatuses: Filter the certificate list by status value.
     ///   - includes: Filter the certificate list. For more information, see the Filters structure.
     ///   - maxItems: Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
@@ -329,6 +828,7 @@ public struct ACM: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listCertificates(
+        certificateKeyPairOrigins: [CertificateKeyPairOrigin]? = nil,
         certificateStatuses: [CertificateStatus]? = nil,
         includes: Filters? = nil,
         maxItems: Int? = nil,
@@ -338,6 +838,7 @@ public struct ACM: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListCertificatesResponse {
         let input = ListCertificatesRequest(
+            certificateKeyPairOrigins: certificateKeyPairOrigins, 
             certificateStatuses: certificateStatuses, 
             includes: includes, 
             maxItems: maxItems, 
@@ -348,7 +849,7 @@ public struct ACM: AWSService {
         return try await self.listCertificates(input, logger: logger)
     }
 
-    /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.
+    /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.   This action applies only to the certificate resource type. For all other ACM resource types, use ListTagsForResource instead.
     @Sendable
     @inlinable
     public func listTagsForCertificate(_ input: ListTagsForCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForCertificateResponse {
@@ -361,7 +862,7 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.
+    /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.   This action applies only to the certificate resource type. For all other ACM resource types, use ListTagsForResource instead.
     ///
     /// Parameters:
     ///   - certificateArn: String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
@@ -375,6 +876,35 @@ public struct ACM: AWSService {
             certificateArn: certificateArn
         )
         return try await self.listTagsForCertificate(input, logger: logger)
+    }
+
+    /// Lists the tags associated with an ACM resource.  Use this action for all ACM resource types except the certificate resource type. For certificate resources, use ListTagsForCertificate instead.  To add one or more tags, use the TagResource action. To remove one or more tags, use the UntagResource action.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the tags associated with an ACM resource.  Use this action for all ACM resource types except the certificate resource type. For certificate resources, use ListTagsForCertificate instead.  To add one or more tags, use the TagResource action. To remove one or more tags, use the UntagResource action.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the ACM resource for which to list tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
     }
 
     /// Adds or modifies account-level configurations in ACM.  The supported configuration option is DaysBeforeExpiry. This option specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
@@ -409,7 +939,7 @@ public struct ACM: AWSService {
         return try await self.putAccountConfiguration(input, logger: logger)
     }
 
-    /// Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.  To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
+    /// Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.   This action applies only to the certificate resource type. For all other ACM resource types, use UntagResource instead.  To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
     @Sendable
     @inlinable
     public func removeTagsFromCertificate(_ input: RemoveTagsFromCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -422,7 +952,7 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.  To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
+    /// Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value.   This action applies only to the certificate resource type. For all other ACM resource types, use UntagResource instead.  To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
     ///
     /// Parameters:
     ///   - certificateArn: String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
@@ -492,7 +1022,7 @@ public struct ACM: AWSService {
     ///   - idempotencyToken: Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
     ///   - keyAlgorithm: Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certificate. For more information about selecting an algorithm, see Key algorithms.  Algorithms supported for an ACM certificate request include:     RSA_2048     EC_prime256v1     EC_secp384r1    Other listed algorithms are for imported certificates only.    When you request a private PKI certificate signed by a CA from Amazon Web Services Private CA, the specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key.  Default: RSA_2048
     ///   - managedBy: Identifies the Amazon Web Services service that manages the certificate issued by ACM.
-    ///   - options: You can use this parameter to specify whether to add the certificate to a certificate transparency log and export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging. You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see Certificate Manager exportable public certificate.
+    ///   - options: You can use this parameter to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging. You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see Certificate Manager exportable public certificate.
     ///   - subjectAlternativeNames: Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas.  The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
     ///   - tags: One or more resource tags to associate with the certificate.
     ///   - validationMethod: The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email. We recommend that you use DNS validation.
@@ -544,7 +1074,7 @@ public struct ACM: AWSService {
     /// Parameters:
     ///   - certificateArn: String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:   arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012
     ///   - domain: The fully qualified domain name (FQDN) of the certificate that needs to be validated.
-    ///   - validationDomain: The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com
+    ///   - validationDomain: The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com
     ///   - logger: Logger use during operation
     @inlinable
     public func resendValidationEmail(
@@ -561,7 +1091,68 @@ public struct ACM: AWSService {
         return try await self.resendValidationEmail(input, logger: logger)
     }
 
-    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.
+    /// Revokes an ACME account, preventing it from requesting or revoking certificates. This operation is irreversible.
+    @Sendable
+    @inlinable
+    public func revokeAcmeAccount(_ input: RevokeAcmeAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "RevokeAcmeAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Revokes an ACME account, preventing it from requesting or revoking certificates. This operation is irreversible.
+    ///
+    /// Parameters:
+    ///   - accountUrl: The URL of the ACME account to revoke.
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func revokeAcmeAccount(
+        accountUrl: String,
+        acmeEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = RevokeAcmeAccountRequest(
+            accountUrl: accountUrl, 
+            acmeEndpointArn: acmeEndpointArn
+        )
+        return try await self.revokeAcmeAccount(input, logger: logger)
+    }
+
+    /// Revokes an external account binding, preventing new ACME accounts from being registered using this binding. Existing ACME accounts that were previously registered using the binding are not affected and must be revoked separately.
+    @Sendable
+    @inlinable
+    public func revokeAcmeExternalAccountBinding(_ input: RevokeAcmeExternalAccountBindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "RevokeAcmeExternalAccountBinding", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Revokes an external account binding, preventing new ACME accounts from being registered using this binding. Existing ACME accounts that were previously registered using the binding are not affected and must be revoked separately.
+    ///
+    /// Parameters:
+    ///   - acmeExternalAccountBindingArn: The Amazon Resource Name (ARN) of the ACME external account binding to revoke.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func revokeAcmeExternalAccountBinding(
+        acmeExternalAccountBindingArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = RevokeAcmeExternalAccountBindingRequest(
+            acmeExternalAccountBindingArn: acmeExternalAccountBindingArn
+        )
+        return try await self.revokeAcmeExternalAccountBinding(input, logger: logger)
+    }
+
+    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.  Once a certificate is revoked, you cannot reuse the certificate. Revoking a certificate is permanent.
     @Sendable
     @inlinable
     public func revokeCertificate(_ input: RevokeCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeCertificateResponse {
@@ -574,7 +1165,7 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.
+    /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.  Once a certificate is revoked, you cannot reuse the certificate. Revoking a certificate is permanent.
     ///
     /// Parameters:
     ///   - certificateArn: The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form:   arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
@@ -593,7 +1184,182 @@ public struct ACM: AWSService {
         return try await self.revokeCertificate(input, logger: logger)
     }
 
-    /// Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see  Opting Out of Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
+    /// Retrieves a list of certificates matching search criteria. You can filter certificates by X.509 attributes and ACM specific properties like certificate status, type and renewal eligibility. This operation provides more flexible filtering than ListCertificates by supporting complex filter statements.
+    @Sendable
+    @inlinable
+    public func searchCertificates(_ input: SearchCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchCertificatesResponse {
+        try await self.client.execute(
+            operation: "SearchCertificates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of certificates matching search criteria. You can filter certificates by X.509 attributes and ACM specific properties like certificate status, type and renewal eligibility. This operation provides more flexible filtering than ListCertificates by supporting complex filter statements.
+    ///
+    /// Parameters:
+    ///   - filterStatement: A filter statement that defines the search criteria. You can combine multiple filters using AND, OR, and NOT logical operators to create complex queries.
+    ///   - maxResults: The maximum number of results to return in the response. Default is 100.
+    ///   - nextToken: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
+    ///   - sortBy: Specifies the field to sort results by. Valid values are CREATED_AT, NOT_AFTER, STATUS, RENEWAL_STATUS, EXPORTED, IN_USE, NOT_BEFORE, KEY_ALGORITHM, TYPE, CERTIFICATE_ARN, COMMON_NAME, REVOKED_AT, RENEWAL_ELIGIBILITY, ISSUED_AT, MANAGED_BY, EXPORT_OPTION, VALIDATION_METHOD, and IMPORTED_AT.
+    ///   - sortOrder: Specifies the order of sorted results. Valid values are ASCENDING or DESCENDING.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchCertificates(
+        filterStatement: CertificateFilterStatement? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortBy: SearchCertificatesSortBy? = nil,
+        sortOrder: SearchCertificatesSortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchCertificatesResponse {
+        let input = SearchCertificatesRequest(
+            filterStatement: filterStatement, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return try await self.searchCertificates(input, logger: logger)
+    }
+
+    /// Adds one or more tags to an ACM resource. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value.  Use this action for all ACM resource types except the certificate resource type. For certificate resources, use AddTagsToCertificate instead.  To remove one or more tags, use the UntagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds one or more tags to an ACM resource. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value.  Use this action for all ACM resource types except the certificate resource type. For certificate resources, use AddTagsToCertificate instead.  To remove one or more tags, use the UntagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the ACM resource to which the tag is to be applied.
+    ///   - tags: The key-value pair that defines the tag to apply.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [Tag],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Removes one or more tags from an ACM resource.  Use this action for all ACM resource types except the certificate resource type. For certificate resources, use RemoveTagsFromCertificate instead.  To add one or more tags, use the TagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes one or more tags from an ACM resource.  Use this action for all ACM resource types except the certificate resource type. For certificate resources, use RemoveTagsFromCertificate instead.  To add one or more tags, use the TagResource action. To view all of the tags that have been applied to a resource, use the ListTagsForResource action.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the ACM resource from which the tag is to be removed.
+    ///   - tagKeys: The key of each tag to remove.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates the prevalidation configuration of an existing domain validation.
+    @Sendable
+    @inlinable
+    public func updateAcmeDomainValidation(_ input: UpdateAcmeDomainValidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateAcmeDomainValidation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the prevalidation configuration of an existing domain validation.
+    ///
+    /// Parameters:
+    ///   - acmeDomainValidationArn: The Amazon Resource Name (ARN) of the ACME domain validation to update.
+    ///   - prevalidationOptions: The updated prevalidation options.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAcmeDomainValidation(
+        acmeDomainValidationArn: String,
+        prevalidationOptions: PrevalidationOptions? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateAcmeDomainValidationRequest(
+            acmeDomainValidationArn: acmeDomainValidationArn, 
+            prevalidationOptions: prevalidationOptions
+        )
+        return try await self.updateAcmeDomainValidation(input, logger: logger)
+    }
+
+    /// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate authority settings.
+    @Sendable
+    @inlinable
+    public func updateAcmeEndpoint(_ input: UpdateAcmeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateAcmeEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing ACME endpoint. You can change the authorization behavior, contact requirement, or certificate authority settings.
+    ///
+    /// Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint to update.
+    ///   - authorizationBehavior: The updated authorization behavior.
+    ///   - certificateAuthority: The updated certificate authority configuration.
+    ///   - contact: The updated contact requirement.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAcmeEndpoint(
+        acmeEndpointArn: String,
+        authorizationBehavior: AcmeAuthorizationBehavior? = nil,
+        certificateAuthority: CertificateAuthority? = nil,
+        contact: AcmeContact? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateAcmeEndpointRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            authorizationBehavior: authorizationBehavior, 
+            certificateAuthority: certificateAuthority, 
+            contact: contact
+        )
+        return try await self.updateAcmeEndpoint(input, logger: logger)
+    }
+
+    /// Updates a certificate. You can use this function to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. For more information, see Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
     @Sendable
     @inlinable
     public func updateCertificateOptions(_ input: UpdateCertificateOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -606,11 +1372,11 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see  Opting Out of Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
+    /// Updates a certificate. You can use this function to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. For more information, see Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
     ///
     /// Parameters:
     ///   - certificateArn: ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
-    ///   - options: Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log or export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
+    ///   - options: Use to update the options for your certificate. Currently, you can specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCertificateOptions(
@@ -639,6 +1405,151 @@ extension ACM {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ACM {
+    /// Return PaginatorSequence for operation ``listAcmeAccounts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeAccountsPaginator(
+        _ input: ListAcmeAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAcmeAccountsRequest, ListAcmeAccountsResponse> {
+        return .init(
+            input: input,
+            command: self.listAcmeAccounts,
+            inputKey: \ListAcmeAccountsRequest.nextToken,
+            outputKey: \ListAcmeAccountsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAcmeAccounts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeAccountsPaginator(
+        acmeEndpointArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAcmeAccountsRequest, ListAcmeAccountsResponse> {
+        let input = ListAcmeAccountsRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            maxResults: maxResults
+        )
+        return self.listAcmeAccountsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAcmeDomainValidations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeDomainValidationsPaginator(
+        _ input: ListAcmeDomainValidationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAcmeDomainValidationsRequest, ListAcmeDomainValidationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAcmeDomainValidations,
+            inputKey: \ListAcmeDomainValidationsRequest.nextToken,
+            outputKey: \ListAcmeDomainValidationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAcmeDomainValidations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeDomainValidationsPaginator(
+        acmeEndpointArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAcmeDomainValidationsRequest, ListAcmeDomainValidationsResponse> {
+        let input = ListAcmeDomainValidationsRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            maxResults: maxResults
+        )
+        return self.listAcmeDomainValidationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAcmeEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeEndpointsPaginator(
+        _ input: ListAcmeEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAcmeEndpointsRequest, ListAcmeEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listAcmeEndpoints,
+            inputKey: \ListAcmeEndpointsRequest.nextToken,
+            outputKey: \ListAcmeEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAcmeEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeEndpointsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAcmeEndpointsRequest, ListAcmeEndpointsResponse> {
+        let input = ListAcmeEndpointsRequest(
+            maxResults: maxResults
+        )
+        return self.listAcmeEndpointsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAcmeExternalAccountBindings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeExternalAccountBindingsPaginator(
+        _ input: ListAcmeExternalAccountBindingsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAcmeExternalAccountBindingsRequest, ListAcmeExternalAccountBindingsResponse> {
+        return .init(
+            input: input,
+            command: self.listAcmeExternalAccountBindings,
+            inputKey: \ListAcmeExternalAccountBindingsRequest.nextToken,
+            outputKey: \ListAcmeExternalAccountBindingsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAcmeExternalAccountBindings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAcmeExternalAccountBindingsPaginator(
+        acmeEndpointArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAcmeExternalAccountBindingsRequest, ListAcmeExternalAccountBindingsResponse> {
+        let input = ListAcmeExternalAccountBindingsRequest(
+            acmeEndpointArn: acmeEndpointArn, 
+            maxResults: maxResults
+        )
+        return self.listAcmeExternalAccountBindingsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCertificates(_:logger:)``.
     ///
     /// - Parameters:
@@ -660,6 +1571,7 @@ extension ACM {
     /// Return PaginatorSequence for operation ``listCertificates(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - certificateKeyPairOrigins: Filter the certificate list by certificate key pair origin. Specify one or more CertificateKeyPairOrigin values. Default filtering returns only certificates with key pair origin of AWS_MANAGED and CUSTOMER_PROVIDED.
     ///   - certificateStatuses: Filter the certificate list by status value.
     ///   - includes: Filter the certificate list. For more information, see the Filters structure.
     ///   - maxItems: Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
@@ -668,6 +1580,7 @@ extension ACM {
     ///   - logger: Logger used for logging
     @inlinable
     public func listCertificatesPaginator(
+        certificateKeyPairOrigins: [CertificateKeyPairOrigin]? = nil,
         certificateStatuses: [CertificateStatus]? = nil,
         includes: Filters? = nil,
         maxItems: Int? = nil,
@@ -676,6 +1589,7 @@ extension ACM {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCertificatesRequest, ListCertificatesResponse> {
         let input = ListCertificatesRequest(
+            certificateKeyPairOrigins: certificateKeyPairOrigins, 
             certificateStatuses: certificateStatuses, 
             includes: includes, 
             maxItems: maxItems, 
@@ -684,15 +1598,115 @@ extension ACM {
         )
         return self.listCertificatesPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``searchCertificates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchCertificatesPaginator(
+        _ input: SearchCertificatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchCertificatesRequest, SearchCertificatesResponse> {
+        return .init(
+            input: input,
+            command: self.searchCertificates,
+            inputKey: \SearchCertificatesRequest.nextToken,
+            outputKey: \SearchCertificatesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchCertificates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterStatement: A filter statement that defines the search criteria. You can combine multiple filters using AND, OR, and NOT logical operators to create complex queries.
+    ///   - maxResults: The maximum number of results to return in the response. Default is 100.
+    ///   - sortBy: Specifies the field to sort results by. Valid values are CREATED_AT, NOT_AFTER, STATUS, RENEWAL_STATUS, EXPORTED, IN_USE, NOT_BEFORE, KEY_ALGORITHM, TYPE, CERTIFICATE_ARN, COMMON_NAME, REVOKED_AT, RENEWAL_ELIGIBILITY, ISSUED_AT, MANAGED_BY, EXPORT_OPTION, VALIDATION_METHOD, and IMPORTED_AT.
+    ///   - sortOrder: Specifies the order of sorted results. Valid values are ASCENDING or DESCENDING.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchCertificatesPaginator(
+        filterStatement: CertificateFilterStatement? = nil,
+        maxResults: Int? = nil,
+        sortBy: SearchCertificatesSortBy? = nil,
+        sortOrder: SearchCertificatesSortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchCertificatesRequest, SearchCertificatesResponse> {
+        let input = SearchCertificatesRequest(
+            filterStatement: filterStatement, 
+            maxResults: maxResults, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return self.searchCertificatesPaginator(input, logger: logger)
+    }
+}
+
+extension ACM.ListAcmeAccountsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ACM.ListAcmeAccountsRequest {
+        return .init(
+            acmeEndpointArn: self.acmeEndpointArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ACM.ListAcmeDomainValidationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ACM.ListAcmeDomainValidationsRequest {
+        return .init(
+            acmeEndpointArn: self.acmeEndpointArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ACM.ListAcmeEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ACM.ListAcmeEndpointsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ACM.ListAcmeExternalAccountBindingsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ACM.ListAcmeExternalAccountBindingsRequest {
+        return .init(
+            acmeEndpointArn: self.acmeEndpointArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
 }
 
 extension ACM.ListCertificatesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ACM.ListCertificatesRequest {
         return .init(
+            certificateKeyPairOrigins: self.certificateKeyPairOrigins,
             certificateStatuses: self.certificateStatuses,
             includes: self.includes,
             maxItems: self.maxItems,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension ACM.SearchCertificatesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ACM.SearchCertificatesRequest {
+        return .init(
+            filterStatement: self.filterStatement,
+            maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
@@ -704,6 +1718,160 @@ extension ACM.ListCertificatesRequest: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ACM {
+    /// Waiter for operation ``describeAcmeDomainValidation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeDomainValidationDeleted(
+        _ input: DescribeAcmeDomainValidationRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeAcmeDomainValidationRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("acmeDomainValidation.status", expected: "DELETING")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(300),
+            command: self.describeAcmeDomainValidation
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeAcmeDomainValidation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmeDomainValidationArn: The Amazon Resource Name (ARN) of the ACME domain validation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeDomainValidationDeleted(
+        acmeDomainValidationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeAcmeDomainValidationRequest(
+            acmeDomainValidationArn: acmeDomainValidationArn
+        )
+        try await self.waitUntilAcmeDomainValidationDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeAcmeDomainValidation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeDomainValidationValidated(
+        _ input: DescribeAcmeDomainValidationRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeAcmeDomainValidationRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("acmeDomainValidation.status", expected: "VALID")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("acmeDomainValidation.status", expected: "INVALID")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("acmeDomainValidation.status", expected: "VALIDATING")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(300),
+            command: self.describeAcmeDomainValidation
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeAcmeDomainValidation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmeDomainValidationArn: The Amazon Resource Name (ARN) of the ACME domain validation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeDomainValidationValidated(
+        acmeDomainValidationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeAcmeDomainValidationRequest(
+            acmeDomainValidationArn: acmeDomainValidationArn
+        )
+        try await self.waitUntilAcmeDomainValidationValidated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeAcmeEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeEndpointActive(
+        _ input: DescribeAcmeEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeAcmeEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("acmeEndpoint.status", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("acmeEndpoint.status", expected: "FAILED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("acmeEndpoint.status", expected: "CREATING")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(300),
+            command: self.describeAcmeEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeAcmeEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeEndpointActive(
+        acmeEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeAcmeEndpointRequest(
+            acmeEndpointArn: acmeEndpointArn
+        )
+        try await self.waitUntilAcmeEndpointActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeAcmeEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeEndpointDeleted(
+        _ input: DescribeAcmeEndpointRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeAcmeEndpointRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("acmeEndpoint.status", expected: "DELETING")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(300),
+            command: self.describeAcmeEndpoint
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeAcmeEndpoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmeEndpointArn: The Amazon Resource Name (ARN) of the ACME endpoint.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAcmeEndpointDeleted(
+        acmeEndpointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeAcmeEndpointRequest(
+            acmeEndpointArn: acmeEndpointArn
+        )
+        try await self.waitUntilAcmeEndpointDeleted(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeCertificate(_:logger:)``.
     ///
     /// - Parameters:

@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CloudWatch service.
 ///
-/// Amazon CloudWatch monitors your Amazon Web Services (Amazon Web Services) resources and the applications you run on Amazon Web Services in real time. You can use CloudWatch to collect and track metrics, which are the variables you want to measure for your resources and applications. CloudWatch alarms send notifications or automatically change the resources you are monitoring based on rules that you define. For example, you can monitor the CPU usage and disk reads and writes of your Amazon EC2 instances. Then, use this data to determine whether you should launch additional instances to handle increased load. You can also use this data to stop under-used instances to save money. In addition to monitoring the built-in metrics that come with Amazon Web Services, you can monitor your own custom metrics. With CloudWatch, you gain system-wide visibility into resource utilization, application performance, and operational health.
+/// Amazon CloudWatch enables you to publish, monitor, and manage various metrics, as well as configure alarm actions based on data from metrics. This guide provides detailed information about CloudWatch actions, data types, parameters, and errors. For more information about CloudWatch features, see Amazon CloudWatch and the Amazon CloudWatch User Guide. For information about the metrics that other Amazon Web Services products send to CloudWatch, see the Amazon CloudWatch Metrics and Dimensions Reference in the Amazon CloudWatch User Guide. Use the following links to get started using the CloudWatch Query API: : An alphabetical list of all CloudWatch actions. : An alphabetical list of all CloudWatch data types.  CommonParameters: Parameters that all Query actions can use.  CommonErrors: Client and server errors that all actions can return.  Regions and Endpoints: Supported regions and endpoints for all Amazon Web Services products. Alternatively, you can use one of the Amazon Web Services SDKs to access CloudWatch using an API tailored to your programming language or platform. Developers in the Amazon Web Services developer community also provide their own libraries, which you can find at the following Amazon Web Services developer centers:  Java Developer Center   JavaScript Developer Center   Amazon Web Services Mobile Services   PHP Developer Center   Python Developer Center   Ruby Developer Center   Windows and .NET Developer Center
 public struct CloudWatch: AWSService {
     // MARK: Member variables
 
@@ -59,9 +59,10 @@ public struct CloudWatch: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
+            amzTarget: "GraniteServiceVersion20100801",
             serviceName: "CloudWatch",
             serviceIdentifier: "monitoring",
-            serviceProtocol: .query,
+            serviceProtocol: .json(version: "1.0"),
             apiVersion: "2010-08-01",
             endpoint: endpoint,
             variantEndpoints: Self.variantEndpoints,
@@ -90,6 +91,38 @@ public struct CloudWatch: AWSService {
     ]}
 
     // MARK: API Calls
+
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. To replace a key, the caller must have kms:Decrypt permission on both the current key and the new key. The KMS key that you specify must meet all of the following requirements:   It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.   It must be enabled and not pending deletion.   Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.   The calling principal must have kms:Decrypt permission on the key.   It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.   It must be in the same Amazon Web Services Region as the dataset.   Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is run on the current key first, and only then on the new key. If any of these checks fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the key. For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    @Sendable
+    @inlinable
+    public func associateDatasetKmsKey(_ input: AssociateDatasetKmsKeyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDatasetKmsKeyOutput {
+        try await self.client.execute(
+            operation: "AssociateDatasetKmsKey", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. To replace a key, the caller must have kms:Decrypt permission on both the current key and the new key. The KMS key that you specify must meet all of the following requirements:   It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.   It must be enabled and not pending deletion.   Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.   The calling principal must have kms:Decrypt permission on the key.   It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.   It must be in the same Amazon Web Services Region as the dataset.   Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is run on the current key first, and only then on the new key. If any of these checks fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the key. For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    ///
+    /// Parameters:
+    ///   - datasetIdentifier: Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    ///   - kmsKeyArn: Specifies the Amazon Resource Name (ARN) of the customer managed KMS key to associate with the dataset. The key must be a symmetric encryption KMS key (SYMMETRIC_DEFAULT) in the same Amazon Web Services Region as the dataset. The ARN must be in the format arn:aws:kms:Region:account-id:key/key-id . Key IDs, aliases, and alias ARNs are not accepted. For more information about KMS key ARNs, see Key ARN in the Amazon Web Services Key Management Service Developer Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateDatasetKmsKey(
+        datasetIdentifier: String? = nil,
+        kmsKeyArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateDatasetKmsKeyOutput {
+        let input = AssociateDatasetKmsKeyInput(
+            datasetIdentifier: datasetIdentifier, 
+            kmsKeyArn: kmsKeyArn
+        )
+        return try await self.associateDatasetKmsKey(input, logger: logger)
+    }
 
     /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error.  Permissions  To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource.
     @Sendable
@@ -120,7 +153,7 @@ public struct CloudWatch: AWSService {
         return try await self.deleteAlarmMuteRule(input, logger: logger)
     }
 
-    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the DescribeAlarms operation after using DeleteAlarms.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
+    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. Log alarms cannot be batch deleted. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the DescribeAlarms operation after using DeleteAlarms.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
     @Sendable
     @inlinable
     public func deleteAlarms(_ input: DeleteAlarmsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -133,7 +166,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the DescribeAlarms operation after using DeleteAlarms.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
+    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. Log alarms cannot be batch deleted. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the DescribeAlarms operation after using DeleteAlarms.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
     ///
     /// Parameters:
     ///   - alarmNames: The alarms to be deleted. Do not enclose the alarm names in quote marks.
@@ -165,23 +198,26 @@ public struct CloudWatch: AWSService {
     ///  Deletes the specified anomaly detection model from your account. For more information about how to delete an anomaly detection model, see Deleting an anomaly detection model in the CloudWatch User Guide.
     ///
     /// Parameters:
+    ///   - anomalyDetectorId: Specifies the unique identifier of the anomaly detector to delete. If you specify this parameter, you do not need to specify a metric to identify the detector.
     ///   - metricMathAnomalyDetector: The metric math anomaly detector to be deleted. When using MetricMathAnomalyDetector, you cannot include following parameters in the same operation:    Dimensions,    MetricName     Namespace     Stat    the SingleMetricAnomalyDetector parameters of DeleteAnomalyDetectorInput    Instead, specify the metric math anomaly detector attributes as part of the MetricMathAnomalyDetector property.
     ///   - singleMetricAnomalyDetector: A single metric anomaly detector to be deleted. When using SingleMetricAnomalyDetector, you cannot include the following parameters in the same operation:    Dimensions,    MetricName     Namespace     Stat    the MetricMathAnomalyDetector parameters of DeleteAnomalyDetectorInput    Instead, specify the single metric anomaly detector attributes as part of the SingleMetricAnomalyDetector property.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAnomalyDetector(
+        anomalyDetectorId: String? = nil,
         metricMathAnomalyDetector: MetricMathAnomalyDetector? = nil,
         singleMetricAnomalyDetector: SingleMetricAnomalyDetector? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteAnomalyDetectorOutput {
         let input = DeleteAnomalyDetectorInput(
+            anomalyDetectorId: anomalyDetectorId, 
             metricMathAnomalyDetector: metricMathAnomalyDetector, 
             singleMetricAnomalyDetector: singleMetricAnomalyDetector
         )
         return try await self.deleteAnomalyDetector(input, logger: logger)
     }
 
-    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, no dashboards are deleted.
+    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the operation attempts to delete as many dashboards as possible.
     @Sendable
     @inlinable
     public func deleteDashboards(_ input: DeleteDashboardsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDashboardsOutput {
@@ -194,7 +230,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, no dashboards are deleted.
+    /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, the operation attempts to delete as many dashboards as possible.
     ///
     /// Parameters:
     ///   - dashboardNames: The dashboards to be deleted. This parameter is required.
@@ -318,7 +354,7 @@ public struct CloudWatch: AWSService {
     /// Parameters:
     ///   - alarmContributorId: The unique identifier of a specific alarm contributor to filter the alarm history results.
     ///   - alarmName: The name of the alarm.
-    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
+    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned.
     ///   - endDate: The ending date to retrieve alarm history.
     ///   - historyItemType: The type of alarm histories to retrieve.
     ///   - maxRecords: The maximum number of alarm history records to retrieve.
@@ -372,7 +408,7 @@ public struct CloudWatch: AWSService {
     ///   - actionPrefix: Use this parameter to filter the results of the operation to only those alarms that use a certain alarm action. For example, you could specify the ARN of an SNS topic to find all alarms that send notifications to that topic.
     ///   - alarmNamePrefix: An alarm name prefix. If you specify this parameter, you receive information about all alarms that have names that start with this prefix. If this parameter is specified, you cannot specify AlarmNames.
     ///   - alarmNames: The names of the alarms to retrieve information about.
-    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms, even if composite alarms exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms.
+    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms or log alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms or log alarms, even if they exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms or log alarms. If you specify LogAlarms, the operation returns only a list of log alarms, and does not return any metric alarms or composite alarms.
     ///   - childrenOfAlarmName: If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
     ///   - maxRecords: The maximum number of alarm descriptions to retrieve.
     ///   - nextToken: The token returned by a previous call to indicate that there is more data available.
@@ -469,6 +505,7 @@ public struct CloudWatch: AWSService {
     /// Lists the anomaly detection models that you have created in your account. For single metric anomaly detectors, you can list all of the models in your account or filter the results to only the models that are related to a certain namespace, metric name, or metric dimension. For metric math anomaly detectors, you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your account.
     ///
     /// Parameters:
+    ///   - anomalyDetectorIds: Specifies the unique identifiers of the anomaly detectors to describe. You can specify up to 50 identifiers. If you specify this parameter, you cannot also specify the Namespace, MetricName, Dimensions, or AnomalyDetectorTypes metric filters.
     ///   - anomalyDetectorTypes: The anomaly detector types to request when using DescribeAnomalyDetectorsInput. If empty, defaults to SINGLE_METRIC.
     ///   - dimensions: Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
     ///   - maxResults: The maximum number of results to return in one operation. The maximum value that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -478,6 +515,7 @@ public struct CloudWatch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAnomalyDetectors(
+        anomalyDetectorIds: [String]? = nil,
         anomalyDetectorTypes: [AnomalyDetectorType]? = nil,
         dimensions: [Dimension]? = nil,
         maxResults: Int? = nil,
@@ -487,6 +525,7 @@ public struct CloudWatch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeAnomalyDetectorsOutput {
         let input = DescribeAnomalyDetectorsInput(
+            anomalyDetectorIds: anomalyDetectorIds, 
             anomalyDetectorTypes: anomalyDetectorTypes, 
             dimensions: dimensions, 
             maxResults: maxResults, 
@@ -585,6 +624,35 @@ public struct CloudWatch: AWSService {
             ruleNames: ruleNames
         )
         return try await self.disableInsightRules(input, logger: logger)
+    }
+
+    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the key as part of this operation. This verifies that the caller is authorized to use the currently associated key. The caller must have kms:Decrypt permission on the currently associated key, and the key must be enabled and accessible. If the key has been disabled or scheduled for deletion, you must first re-enable or restore it before you can disassociate it from the dataset.  Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data may still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted.  For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    @Sendable
+    @inlinable
+    public func disassociateDatasetKmsKey(_ input: DisassociateDatasetKmsKeyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDatasetKmsKeyOutput {
+        try await self.client.execute(
+            operation: "DisassociateDatasetKmsKey", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the key as part of this operation. This verifies that the caller is authorized to use the currently associated key. The caller must have kms:Decrypt permission on the currently associated key, and the key must be enabled and accessible. If the key has been disabled or scheduled for deletion, you must first re-enable or restore it before you can disassociate it from the dataset.  Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data may still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted.  For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    ///
+    /// Parameters:
+    ///   - datasetIdentifier: Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateDatasetKmsKey(
+        datasetIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateDatasetKmsKeyOutput {
+        let input = DisassociateDatasetKmsKeyInput(
+            datasetIdentifier: datasetIdentifier
+        )
+        return try await self.disassociateDatasetKmsKey(input, logger: logger)
     }
 
     /// Enables the actions for the specified alarms.
@@ -701,6 +769,35 @@ public struct CloudWatch: AWSService {
             dashboardName: dashboardName
         )
         return try await self.getDashboard(input, logger: logger)
+    }
+
+    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you can call GetDataset for it without first creating it. If no customer managed KMS key has been associated with the dataset, the response omits the KmsKeyArn field, indicating that data is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. To associate a customer managed KMS key with a dataset, use AssociateDatasetKmsKey. To remove the association, use DisassociateDatasetKmsKey.
+    @Sendable
+    @inlinable
+    public func getDataset(_ input: GetDatasetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDatasetOutput {
+        try await self.client.execute(
+            operation: "GetDataset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you can call GetDataset for it without first creating it. If no customer managed KMS key has been associated with the dataset, the response omits the KmsKeyArn field, indicating that data is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. To associate a customer managed KMS key with a dataset, use AssociateDatasetKmsKey. To remove the association, use DisassociateDatasetKmsKey.
+    ///
+    /// Parameters:
+    ///   - datasetIdentifier: Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataset(
+        datasetIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDatasetOutput {
+        let input = GetDatasetInput(
+            datasetIdentifier: datasetIdentifier
+        )
+        return try await self.getDataset(input, logger: logger)
     }
 
     /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of contributors to the log group. You can also optionally return one or more statistics about each data point in the time series. These statistics can include the following:    UniqueContributors -- the number of unique contributors for each data point.    MaxContributorValue -- the value of the top contributor for each data point. The identity of the contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.
@@ -896,7 +993,7 @@ public struct CloudWatch: AWSService {
     ///
     /// Parameters:
     ///   - metricWidget: A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see GetMetricWidgetImage: Metric Widget Structure and Syntax. If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
-    ///   - outputFormat: The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:  >         iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...             6f0d4192-4d42-11e8-82c1-f539a07e0e3b        The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an Amazon Web Services SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG  image.
+    ///   - outputFormat: The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:  >         iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...             6f0d4192-4d42-11e8-82c1-f539a07e0e3b        The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an Amazon Web Services SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG image.
     ///   - logger: Logger use during operation
     @inlinable
     public func getMetricWidgetImage(
@@ -909,6 +1006,32 @@ public struct CloudWatch: AWSService {
             outputFormat: outputFormat
         )
         return try await self.getMetricWidgetImage(input, logger: logger)
+    }
+
+    /// Returns the current status of vended metric enrichment for the account, including whether CloudWatch vended metrics are enriched with resource ARN and resource tag labels and queryable using PromQL. For the list of supported resources, see Supported Amazon Web Services infrastructure metrics.
+    @Sendable
+    @inlinable
+    public func getOTelEnrichment(_ input: GetOTelEnrichmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOTelEnrichmentOutput {
+        try await self.client.execute(
+            operation: "GetOTelEnrichment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the current status of vended metric enrichment for the account, including whether CloudWatch vended metrics are enriched with resource ARN and resource tag labels and queryable using PromQL. For the list of supported resources, see Supported Amazon Web Services infrastructure metrics.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getOTelEnrichment(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetOTelEnrichmentOutput {
+        let input = GetOTelEnrichmentInput(
+        )
+        return try await self.getOTelEnrichment(input, logger: logger)
     }
 
     /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules targeting a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in multiple calls.  Permissions  To list mute rules, you need the cloudwatch:ListAlarmMuteRules permission.
@@ -1095,7 +1218,7 @@ public struct CloudWatch: AWSService {
         return try await self.listMetrics(input, logger: logger)
     }
 
-    /// Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor Insights rules support tagging.
+    /// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
@@ -1108,10 +1231,10 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor Insights rules support tagging.
+    /// Displays the tags associated with a CloudWatch resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging.
     ///
     /// Parameters:
-    ///   - resourceARN: The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+    ///   - resourceARN: The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   The ARN format of a dashboard is arn:aws:cloudwatch::account-id:dashboard/dashboard-name   The ARN format of a metric stream is arn:aws:cloudwatch:Region:account-id:metric-stream/metric-stream-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -1124,7 +1247,7 @@ public struct CloudWatch: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by name. If you specify a rule name that already exists, this operation updates the existing rule with the new configuration.  Permissions  To create or update a mute rule, you must have the cloudwatch:PutAlarmMuteRule permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets. For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting cloudwatch:PutAlarmMuteRule on the alarm mute rule resource (arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute:*), and another statement granting cloudwatch:PutAlarmMuteRule on the targeted alarm resources (arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm and arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm). You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as Team=TeamA.
+    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by name. If you specify a rule name that already exists, this operation updates the existing rule with the new configuration.  Permissions  To create or update a mute rule, you must have the cloudwatch:PutAlarmMuteRule permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets. For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting cloudwatch:PutAlarmMuteRule on the alarm mute rule resource (arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute-rule:*), and another statement granting cloudwatch:PutAlarmMuteRule on the targeted alarm resources (arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm and arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm). You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as Team=TeamA.
     @Sendable
     @inlinable
     public func putAlarmMuteRule(_ input: PutAlarmMuteRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1137,15 +1260,15 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by name. If you specify a rule name that already exists, this operation updates the existing rule with the new configuration.  Permissions  To create or update a mute rule, you must have the cloudwatch:PutAlarmMuteRule permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets. For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting cloudwatch:PutAlarmMuteRule on the alarm mute rule resource (arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute:*), and another statement granting cloudwatch:PutAlarmMuteRule on the targeted alarm resources (arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm and arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm). You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as Team=TeamA.
+    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by name. If you specify a rule name that already exists, this operation updates the existing rule with the new configuration.  Permissions  To create or update a mute rule, you must have the cloudwatch:PutAlarmMuteRule permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets. For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting cloudwatch:PutAlarmMuteRule on the alarm mute rule resource (arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute-rule:*), and another statement granting cloudwatch:PutAlarmMuteRule on the targeted alarm resources (arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm and arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm). You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as Team=TeamA.
     ///
     /// Parameters:
     ///   - description: A description of the alarm mute rule that helps you identify its purpose.
-    ///   - expireDate: The date and time when the mute rule expires and is no longer evaluated. After this time, the rule status becomes EXPIRED and will no longer mute the targeted alarms. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    ///   - expireDate: The date and time when the mute rule expires and is no longer evaluated, specified as a timestamp in ISO 8601 format (for example, 2026-12-31T23:59:59Z). After this time, the rule status becomes EXPIRED and will no longer mute the targeted alarms.
     ///   - muteTargets: Specifies which alarms this rule applies to.
     ///   - name: The name of the alarm mute rule. This name must be unique within your Amazon Web Services account and region.
     ///   - rule: The configuration that defines when and how long alarms should be muted.
-    ///   - startDate: The date and time after which the mute rule takes effect. If not specified, the mute rule takes effect immediately upon creation and the mutes are applied as per the schedule expression. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    ///   - startDate: The date and time after which the mute rule takes effect, specified as a timestamp in ISO 8601 format (for example, 2026-04-15T08:00:00Z). If not specified, the mute rule takes effect immediately upon creation and the mutes are applied as per the schedule expression.
     ///   - tags: A list of key-value pairs to associate with the alarm mute rule. You can use tags to categorize and manage your mute rules.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1286,16 +1409,19 @@ public struct CloudWatch: AWSService {
     /// Parameters:
     ///   - dashboardBody: The detailed information about the dashboard in JSON format, including the widgets to include and their location on the dashboard. This parameter is required. For more information about the syntax, see Dashboard Body Structure and Syntax.
     ///   - dashboardName: The name of the dashboard. If a dashboard with this name already exists, this call modifies that dashboard, replacing its current contents. Otherwise, a new dashboard is created. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, "-", and "_". This parameter is required.
+    ///   - tags: A list of key-value pairs to associate with the dashboard. You can associate as many as 50 tags with a dashboard. Tags can help you organize and categorize your dashboards. You can also use them to scope user permissions by granting a user permission to access or change only dashboards with certain tag values. You can use this parameter only when creating a new dashboard. If you specify Tags when updating an existing dashboard, the tag updates are ignored. To add or update tags on an existing dashboard, use TagResource. To remove tags, use UntagResource.
     ///   - logger: Logger use during operation
     @inlinable
     public func putDashboard(
         dashboardBody: String? = nil,
         dashboardName: String? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutDashboardOutput {
         let input = PutDashboardInput(
             dashboardBody: dashboardBody, 
-            dashboardName: dashboardName
+            dashboardName: dashboardName, 
+            tags: tags
         )
         return try await self.putDashboard(input, logger: logger)
     }
@@ -1316,7 +1442,7 @@ public struct CloudWatch: AWSService {
     /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see Using Contributor Insights to Analyze High-Cardinality Data. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available.
     ///
     /// Parameters:
-    ///   - applyOnTransformedLogs: Specify true to have this rule evaluate log events after they have been transformed by   Log transformation. If you specify true, then the log events in log groups that have transformers will  be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false   If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors.
+    ///   - applyOnTransformedLogs: Specify true to have this rule evaluate log events after they have been transformed by Log transformation. If you specify true, then the log events in log groups that have transformers will be evaluated by Contributor Insights after being transformed. Log groups that don't have transformers will still have their original log events evaluated by Contributor Insights. The default is false   If a log group has a transformer, and transformation fails for some log events, those log events won't be evaluated by Contributor Insights. For information about investigating log transformation failures, see Transformation metrics and errors.
     ///   - ruleDefinition: The definition of the rule, as a JSON object. For details on the valid syntax, see Contributor Insights Rule Syntax.
     ///   - ruleName: A unique name for the rule.
     ///   - ruleState: The state of the rule. Valid values are ENABLED and DISABLED.
@@ -1339,6 +1465,77 @@ public struct CloudWatch: AWSService {
             tags: tags
         )
         return try await self.putInsightRule(input, logger: logger)
+    }
+
+    /// Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state. When you create a log alarm, the operation creates a service-managed CloudWatch Logs scheduled query that runs the query string you provide on the schedule you configure. Each scheduled query execution returns one or more aggregated values determined by the AggregationExpression, and each aggregated value is compared against the alarm Threshold to determine the alarm state. The alarm uses M-out-of-N evaluation: if QueryResultsToAlarm out of the most recent QueryResultsToEvaluate query results breach the threshold, the alarm transitions to ALARM. Log alarms support the alarm states (OK, ALARM, INSUFFICIENT_DATA). Configure transition actions using OKActions, AlarmActions, and InsufficientDataActions. If you call this operation with the name of an existing log alarm, the operation replaces the previous configuration of that alarm.  Permissions  To create or update a log alarm, you must have the cloudwatch:PutLogAlarm permission. The IAM role specified in ScheduledQueryRoleARN must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set ActionLogLineCount, the role specified in ActionLogLineRoleArn must grant permission to retrieve log events for inclusion in alarm notifications.
+    @Sendable
+    @inlinable
+    public func putLogAlarm(_ input: PutLogAlarmInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutLogAlarm", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state. When you create a log alarm, the operation creates a service-managed CloudWatch Logs scheduled query that runs the query string you provide on the schedule you configure. Each scheduled query execution returns one or more aggregated values determined by the AggregationExpression, and each aggregated value is compared against the alarm Threshold to determine the alarm state. The alarm uses M-out-of-N evaluation: if QueryResultsToAlarm out of the most recent QueryResultsToEvaluate query results breach the threshold, the alarm transitions to ALARM. Log alarms support the alarm states (OK, ALARM, INSUFFICIENT_DATA). Configure transition actions using OKActions, AlarmActions, and InsufficientDataActions. If you call this operation with the name of an existing log alarm, the operation replaces the previous configuration of that alarm.  Permissions  To create or update a log alarm, you must have the cloudwatch:PutLogAlarm permission. The IAM role specified in ScheduledQueryRoleARN must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set ActionLogLineCount, the role specified in ActionLogLineRoleArn must grant permission to retrieve log events for inclusion in alarm notifications.
+    ///
+    /// Parameters:
+    ///   - actionLogLineCount: The number of log lines from the most recent scheduled query execution to include in alarm action notifications. Valid range is 0 through 50. The default is 0, which means no log lines are included.
+    ///   - actionLogLineRoleArn: The Amazon Resource Name (ARN) of an IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Required when ActionLogLineCount is greater than 0.
+    ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state. The default is true.
+    ///   - alarmActions: The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values:  Amazon SNS actions:   arn:aws:sns:region:account-id:sns-topic-name    Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      Systems Manager actions:   arn:aws:ssm:region:account-id:opsitem:severity
+    ///   - alarmDescription: The description for the alarm.
+    ///   - alarmName: The name for the alarm. This name must be unique within the Amazon Web Services account and Region.
+    ///   - comparisonOperator: The arithmetic operation to use when comparing the aggregated query result and the threshold. The aggregated query result is used as the first operand. Valid values are GreaterThanThreshold, GreaterThanOrEqualToThreshold, LessThanThreshold, and LessThanOrEqualToThreshold.
+    ///   - insufficientDataActions: The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values:  Amazon SNS actions:   arn:aws:sns:region:account-id:sns-topic-name    Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    ///   - okActions: The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values:  Amazon SNS actions:   arn:aws:sns:region:account-id:sns-topic-name    Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    ///   - queryResultsToAlarm: The number of query results, out of the most recent QueryResultsToEvaluate results, that must breach the threshold to trigger the alarm to transition to ALARM (the M in M-of-N evaluation). Must be less than or equal to QueryResultsToEvaluate.
+    ///   - queryResultsToEvaluate: The number of most recent scheduled query results to evaluate against the threshold (the N in M-of-N evaluation). Valid range is 1 through 100.
+    ///   - scheduledQueryConfiguration: The configuration of the underlying CloudWatch Logs scheduled query that this alarm evaluates, including the query string, log groups, schedule, and aggregation expression.
+    ///   - tags: A list of key-value pairs to associate with the alarm. You can use tags to categorize and manage your alarms.
+    ///   - threshold: The value to compare with the aggregated query result.
+    ///   - treatMissingData: Sets how this alarm is to handle missing data points. Valid values are breaching, notBreaching, ignore, and missing. If this parameter is omitted, the default behavior of missing is used.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putLogAlarm(
+        actionLogLineCount: Int? = nil,
+        actionLogLineRoleArn: String? = nil,
+        actionsEnabled: Bool? = nil,
+        alarmActions: [String]? = nil,
+        alarmDescription: String? = nil,
+        alarmName: String? = nil,
+        comparisonOperator: ComparisonOperator? = nil,
+        insufficientDataActions: [String]? = nil,
+        okActions: [String]? = nil,
+        queryResultsToAlarm: Int? = nil,
+        queryResultsToEvaluate: Int? = nil,
+        scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil,
+        tags: [Tag]? = nil,
+        threshold: Double? = nil,
+        treatMissingData: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutLogAlarmInput(
+            actionLogLineCount: actionLogLineCount, 
+            actionLogLineRoleArn: actionLogLineRoleArn, 
+            actionsEnabled: actionsEnabled, 
+            alarmActions: alarmActions, 
+            alarmDescription: alarmDescription, 
+            alarmName: alarmName, 
+            comparisonOperator: comparisonOperator, 
+            insufficientDataActions: insufficientDataActions, 
+            okActions: okActions, 
+            queryResultsToAlarm: queryResultsToAlarm, 
+            queryResultsToEvaluate: queryResultsToEvaluate, 
+            scheduledQueryConfiguration: scheduledQueryConfiguration, 
+            tags: tags, 
+            threshold: threshold, 
+            treatMissingData: treatMissingData
+        )
+        return try await self.putLogAlarm(input, logger: logger)
     }
 
     ///  Creates a managed Contributor Insights rule for a specified Amazon Web Services resource. When you enable a managed rule, you create a Contributor Insights rule that collects data from Amazon Web Services services. You cannot edit these rules with PutInsightRule. The rules can be enabled, disabled, and deleted using EnableInsightRules, DisableInsightRules, and DeleteInsightRules. If a previously created managed rule is currently disabled, a subsequent call to this API will re-enable it. Use ListManagedInsightRules to describe all available rules.
@@ -1370,7 +1567,7 @@ public struct CloudWatch: AWSService {
         return try await self.putManagedInsightRules(input, logger: logger)
     }
 
-    /// Creates or updates an alarm and associates it with the specified metric, metric math expression, anomaly detection model, or Metrics Insights query. For more information about using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries. Alarms based on anomaly detection models cannot have Auto Scaling actions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The iam:CreateServiceLinkedRole permissions to create an alarm with Systems Manager OpsItem or response plan actions.   The first time you create an alarm in the Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another account. To create a cross-account alarm that watches a metric in a different account, you must have completed the following pre-requisites:   The account where the metrics are located (the sharing account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create it using the instructions in Set up a sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role must grant access to the ID of the account where you are creating the alarm.    The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in  Cross-account cross-Region CloudWatch console.
+    /// Creates or updates an alarm and associates it with the specified metric, metric math expression, anomaly detection model, Metrics Insights query, or PromQL query. For more information about using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries. Alarms based on anomaly detection models cannot have Auto Scaling actions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. For PromQL alarms, the alarm state is instead immediately set to OK. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The iam:CreateServiceLinkedRole permissions to create an alarm with Systems Manager OpsItem or response plan actions.   The first time you create an alarm in the Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another account. To create a cross-account alarm that watches a metric in a different account, you must have completed the following pre-requisites:   The account where the metrics are located (the sharing account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create it using the instructions in Set up a sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role must grant access to the ID of the account where you are creating the alarm.    The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in  Cross-account cross-Region CloudWatch console.
     @Sendable
     @inlinable
     public func putMetricAlarm(_ input: PutMetricAlarmInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1383,7 +1580,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates an alarm and associates it with the specified metric, metric math expression, anomaly detection model, or Metrics Insights query. For more information about using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries. Alarms based on anomaly detection models cannot have Auto Scaling actions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The iam:CreateServiceLinkedRole permissions to create an alarm with Systems Manager OpsItem or response plan actions.   The first time you create an alarm in the Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another account. To create a cross-account alarm that watches a metric in a different account, you must have completed the following pre-requisites:   The account where the metrics are located (the sharing account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create it using the instructions in Set up a sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role must grant access to the ID of the account where you are creating the alarm.    The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in  Cross-account cross-Region CloudWatch console.
+    /// Creates or updates an alarm and associates it with the specified metric, metric math expression, anomaly detection model, Metrics Insights query, or PromQL query. For more information about using a Metrics Insights query for an alarm, see Create alarms on Metrics Insights queries. Alarms based on anomaly detection models cannot have Auto Scaling actions. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. For PromQL alarms, the alarm state is instead immediately set to OK. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The iam:CreateServiceLinkedRole permissions to create an alarm with Systems Manager OpsItem or response plan actions.   The first time you create an alarm in the Amazon Web Services Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on metrics in the current account, or in another account. To create a cross-account alarm that watches a metric in a different account, you must have completed the following pre-requisites:   The account where the metrics are located (the sharing account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create it using the instructions in Set up a sharing account in  Cross-account cross-Region CloudWatch console. The policy for that role must grant access to the ID of the account where you are creating the alarm.    The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in  Cross-account cross-Region CloudWatch console.
     ///
     /// Parameters:
     ///   - actionsEnabled: Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
@@ -1394,11 +1591,14 @@ public struct CloudWatch: AWSService {
     ///   - datapointsToAlarm: The number of data points that must be breaching to trigger the alarm. This is used only if you are setting an "M out of N" alarm. In that case, this value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User Guide.
     ///   - dimensions: The dimensions for the metric specified in MetricName.
     ///   - evaluateLowSampleCountPercentile:  Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid Values: evaluate | ignore
+    ///   - evaluationCriteria: The evaluation criteria for the alarm. For each PutMetricAlarm operation, you must specify either MetricName, a Metrics array, or an EvaluationCriteria. If you use the EvaluationCriteria parameter, you cannot include the Namespace, MetricName, Dimensions, Period, Unit, Statistic, ExtendedStatistic, Metrics, Threshold, ComparisonOperator, ThresholdMetricId, EvaluationPeriods, or DatapointsToAlarm parameters of PutMetricAlarm in the same operation. Instead, all evaluation parameters are defined within this structure. For an example of how to use this parameter, see the PromQL alarm example on this page.
+    ///   - evaluationInterval: The frequency, in seconds, at which the alarm is evaluated. Valid values are 10, 20, 30, and any multiple of 60. This parameter is required for alarms that use EvaluationCriteria, and cannot be specified for alarms configured with MetricName or Metrics.
     ///   - evaluationPeriods: The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N.
+    ///   - evaluationWindow: The evaluation window that the alarm uses to select the range of metric data that it evaluates. Specify either a sliding window or a wall clock window. If you omit this parameter, the alarm uses a sliding window. A sliding window advances each time the alarm is evaluated, forming a rolling time window. A wall clock window aligns the evaluated range to fixed clock boundaries, such as the top of the hour or the start of the day. You can use EvaluationWindow with any type of metric alarm except alarms that are based on a PromQL query. For more information, see Alarm evaluation windows in the CloudWatch User Guide.
     ///   - extendedStatistic: The extended statistic for the metric specified in MetricName. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:    p90     tm90     tc90     ts90     wm90     IQM     PR(n:m) where n and m are values of the metric    TC(X%:X%) where X is between 10 and 90 inclusive.    TM(X%:X%) where X is between 10 and 90 inclusive.    TS(X%:X%) where X is between 10 and 90 inclusive.    WM(X%:X%) where X is between 10 and 90 inclusive.   For more information about these extended statistics, see CloudWatch statistics definitions.
     ///   - insufficientDataActions: The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
-    ///   - metricName: The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Namespace, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
-    ///   - metrics: An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnData to true for this object in the array. For more information, see MetricDataQuery. If you use the Metrics parameter, you cannot include the Namespace, MetricName, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
+    ///   - metricName: The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName, a Metrics array, or an EvaluationCriteria. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Namespace, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
+    ///   - metrics: An array of MetricDataQuery structures that enable you to create an alarm based on the result of a metric math expression. For each PutMetricAlarm operation, you must specify either MetricName, a Metrics array, or an EvaluationCriteria. Each item in the Metrics array either retrieves a metric or performs a math expression. One item in the Metrics array is the expression that the alarm watches. You designate this expression by setting ReturnData to true for this object in the array. For more information, see MetricDataQuery. If you use the Metrics parameter, you cannot include the Namespace, MetricName, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation. Instead, you retrieve the metrics you are using in your math expression as part of the Metrics array.
     ///   - namespace: The namespace for the metric associated specified in MetricName.
     ///   - okActions: The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     ///   - period: The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 20, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10, 20, or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10, 20, or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10, 20, or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see Amazon CloudWatch Pricing. An alarm's total current evaluation period can be no longer than seven days, so Period multiplied by EvaluationPeriods can't be more than 604,800 seconds. For alarms with a period of less than one hour (3,600 seconds), the total evaluation period can't be longer than one day (86,400 seconds).
@@ -1406,7 +1606,7 @@ public struct CloudWatch: AWSService {
     ///   - tags: A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. To be able to associate tags with the alarm when you create the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use TagResource or UntagResource. To use this field to set tags for an alarm when you create it, you must be signed on with both the cloudwatch:PutMetricAlarm and cloudwatch:TagResource permissions.
     ///   - threshold: The value against which the specified statistic is compared. This parameter is required for alarms based on static thresholds, but should not be used for alarms based on anomaly detection models.
     ///   - thresholdMetricId: If this is an alarm based on an anomaly detection model, make this value match the ID of the ANOMALY_DETECTION_BAND function. For an example of how to use this parameter, see the Anomaly Detection Model Alarm example on this page. If your alarm uses this parameter, it cannot have Auto Scaling actions.
-    ///   - treatMissingData:  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing   Alarms that evaluate metrics in the AWS/DynamoDB namespace always ignore missing data even if you choose a different option for TreatMissingData. When an AWS/DynamoDB metric has missing data, alarms that evaluate that metric remain in their current state.
+    ///   - treatMissingData:  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing   Alarms that evaluate metrics in the AWS/DynamoDB namespace always ignore missing data even if you choose a different option for TreatMissingData. When an AWS/DynamoDB metric has missing data, alarms that evaluate that metric remain in their current state.   This parameter is not applicable to PromQL alarms.
     ///   - unit: The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1419,7 +1619,10 @@ public struct CloudWatch: AWSService {
         datapointsToAlarm: Int? = nil,
         dimensions: [Dimension]? = nil,
         evaluateLowSampleCountPercentile: String? = nil,
+        evaluationCriteria: EvaluationCriteria? = nil,
+        evaluationInterval: Int? = nil,
         evaluationPeriods: Int? = nil,
+        evaluationWindow: EvaluationWindow? = nil,
         extendedStatistic: String? = nil,
         insufficientDataActions: [String]? = nil,
         metricName: String? = nil,
@@ -1444,7 +1647,10 @@ public struct CloudWatch: AWSService {
             datapointsToAlarm: datapointsToAlarm, 
             dimensions: dimensions, 
             evaluateLowSampleCountPercentile: evaluateLowSampleCountPercentile, 
+            evaluationCriteria: evaluationCriteria, 
+            evaluationInterval: evaluationInterval, 
             evaluationPeriods: evaluationPeriods, 
+            evaluationWindow: evaluationWindow, 
             extendedStatistic: extendedStatistic, 
             insufficientDataActions: insufficientDataActions, 
             metricName: metricName, 
@@ -1462,7 +1668,7 @@ public struct CloudWatch: AWSService {
         return try await self.putMetricAlarm(input, logger: logger)
     }
 
-    /// Publishes metric data to Amazon CloudWatch. CloudWatch associates the data with the specified metric. If the specified metric does not exist, CloudWatch creates the metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to ListMetrics. You can publish metrics with associated entity data (so that related telemetry can be found and viewed together), or publish metric data by itself. To send entity data with your metrics, use the EntityMetricData parameter. To send metrics without entity data, use the MetricData parameter. The EntityMetricData structure includes MetricData structures for the metric data. You can publish either individual values in the Value field, or arrays of values and the number of times each value occurred during the period by using the Values and Counts fields in the MetricData structure. Using the Values and Counts method enables you to publish up to 150 values per metric with one PutMetricData request, and supports retrieving percentile statistics on this data. Each PutMetricData request is limited to 1 MB in size for HTTP POST requests. You can send a payload compressed by gzip. Each request is also limited to no more than 1000 different metrics (across both the MetricData and  EntityMetricData properties). Although the Value parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported. You can use up to 30 dimensions per metric to further clarify what data the metric collects. Each dimension consists of a Name and Value pair. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide. You specify the time stamp to be associated with each data point. You can specify time stamps that are as much as two weeks before the current date, and as much as 2 hours after the current day and time. Data points with time stamps from 24 hours ago or longer can take at least 48 hours to become available for GetMetricData or GetMetricStatistics from the time they are submitted. Data points with time stamps between 3 and 24 hours ago can take as much as 2 hours to become available for GetMetricData or GetMetricStatistics. CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you can only retrieve percentile statistics for this data if one of the following conditions is true:   The SampleCount value of the statistic set is 1 and Min, Max, and Sum are all equal.   The Min and Max are equal, and Sum is equal to Min multiplied by SampleCount.
+    /// Publishes metric data to Amazon CloudWatch. CloudWatch associates the data with the specified metric. If the specified metric does not exist, CloudWatch creates the metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to ListMetrics. You can publish metrics with associated entity data (so that related telemetry can be found and viewed together), or publish metric data by itself. To send entity data with your metrics, use the EntityMetricData parameter. To send metrics without entity data, use the MetricData parameter. The EntityMetricData structure includes MetricData structures for the metric data. You can publish either individual values in the Value field, or arrays of values and the number of times each value occurred during the period by using the Values and Counts fields in the MetricData structure. Using the Values and Counts method enables you to publish up to 150 values per metric with one PutMetricData request, and supports retrieving percentile statistics on this data. Each PutMetricData request is limited to 1 MB in size for HTTP POST requests. You can send a payload compressed by gzip. Each request is also limited to no more than 1000 different metrics (across both the MetricData and EntityMetricData properties). Although the Value parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported. You can use up to 30 dimensions per metric to further clarify what data the metric collects. Each dimension consists of a Name and Value pair. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide. You specify the time stamp to be associated with each data point. You can specify time stamps that are as much as two weeks before the current date, and as much as 2 hours after the current day and time. Data points with time stamps from 24 hours ago or longer can take at least 48 hours to become available for GetMetricData or GetMetricStatistics from the time they are submitted. Data points with time stamps between 3 and 24 hours ago can take as much as 2 hours to become available for GetMetricData or GetMetricStatistics. CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you can only retrieve percentile statistics for this data if one of the following conditions is true:   The SampleCount value of the statistic set is 1 and Min, Max, and Sum are all equal.   The Min and Max are equal, and Sum is equal to Min multiplied by SampleCount.
     @Sendable
     @inlinable
     public func putMetricData(_ input: PutMetricDataInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1475,13 +1681,13 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Publishes metric data to Amazon CloudWatch. CloudWatch associates the data with the specified metric. If the specified metric does not exist, CloudWatch creates the metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to ListMetrics. You can publish metrics with associated entity data (so that related telemetry can be found and viewed together), or publish metric data by itself. To send entity data with your metrics, use the EntityMetricData parameter. To send metrics without entity data, use the MetricData parameter. The EntityMetricData structure includes MetricData structures for the metric data. You can publish either individual values in the Value field, or arrays of values and the number of times each value occurred during the period by using the Values and Counts fields in the MetricData structure. Using the Values and Counts method enables you to publish up to 150 values per metric with one PutMetricData request, and supports retrieving percentile statistics on this data. Each PutMetricData request is limited to 1 MB in size for HTTP POST requests. You can send a payload compressed by gzip. Each request is also limited to no more than 1000 different metrics (across both the MetricData and  EntityMetricData properties). Although the Value parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported. You can use up to 30 dimensions per metric to further clarify what data the metric collects. Each dimension consists of a Name and Value pair. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide. You specify the time stamp to be associated with each data point. You can specify time stamps that are as much as two weeks before the current date, and as much as 2 hours after the current day and time. Data points with time stamps from 24 hours ago or longer can take at least 48 hours to become available for GetMetricData or GetMetricStatistics from the time they are submitted. Data points with time stamps between 3 and 24 hours ago can take as much as 2 hours to become available for GetMetricData or GetMetricStatistics. CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you can only retrieve percentile statistics for this data if one of the following conditions is true:   The SampleCount value of the statistic set is 1 and Min, Max, and Sum are all equal.   The Min and Max are equal, and Sum is equal to Min multiplied by SampleCount.
+    /// Publishes metric data to Amazon CloudWatch. CloudWatch associates the data with the specified metric. If the specified metric does not exist, CloudWatch creates the metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to ListMetrics. You can publish metrics with associated entity data (so that related telemetry can be found and viewed together), or publish metric data by itself. To send entity data with your metrics, use the EntityMetricData parameter. To send metrics without entity data, use the MetricData parameter. The EntityMetricData structure includes MetricData structures for the metric data. You can publish either individual values in the Value field, or arrays of values and the number of times each value occurred during the period by using the Values and Counts fields in the MetricData structure. Using the Values and Counts method enables you to publish up to 150 values per metric with one PutMetricData request, and supports retrieving percentile statistics on this data. Each PutMetricData request is limited to 1 MB in size for HTTP POST requests. You can send a payload compressed by gzip. Each request is also limited to no more than 1000 different metrics (across both the MetricData and EntityMetricData properties). Although the Value parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported. You can use up to 30 dimensions per metric to further clarify what data the metric collects. Each dimension consists of a Name and Value pair. For more information about specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide. You specify the time stamp to be associated with each data point. You can specify time stamps that are as much as two weeks before the current date, and as much as 2 hours after the current day and time. Data points with time stamps from 24 hours ago or longer can take at least 48 hours to become available for GetMetricData or GetMetricStatistics from the time they are submitted. Data points with time stamps between 3 and 24 hours ago can take as much as 2 hours to become available for GetMetricData or GetMetricStatistics. CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you can only retrieve percentile statistics for this data if one of the following conditions is true:   The SampleCount value of the statistic set is 1 and Min, Max, and Sum are all equal.   The Min and Max are equal, and Sum is equal to Min multiplied by SampleCount.
     ///
     /// Parameters:
-    ///   - entityMetricData: Data for metrics that contain associated entity information. You can include up to  two EntityMetricData objects, each of which can contain a single  Entity and associated metrics. The limit of metrics allowed, 1000, is the sum of both EntityMetricData  and MetricData metrics.
-    ///   - metricData: The data for the metrics. Use this parameter if your metrics do not contain associated entities. The array can include no more than 1000 metrics per call. The limit of metrics allowed, 1000, is the sum of both EntityMetricData  and MetricData metrics.
+    ///   - entityMetricData: Data for metrics that contain associated entity information. You can include up to two EntityMetricData objects, each of which can contain a single Entity and associated metrics. The limit of metrics allowed, 1000, is the sum of both EntityMetricData and MetricData metrics.
+    ///   - metricData: The data for the metrics. Use this parameter if your metrics do not contain associated entities. The array can include no more than 1000 metrics per call. The limit of metrics allowed, 1000, is the sum of both EntityMetricData and MetricData metrics.
     ///   - namespace: The namespace for the metric data. You can use ASCII characters for the namespace, except for control characters which are not supported. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
-    ///   - strictEntityValidation: Whether to accept valid metric data when an invalid entity is sent.   When set to true: Any validation error (for entity or metric  data) will fail the entire request, and no data will be ingested. The failed  operation will return a 400 result with the error.   When set to false: Validation errors in the entity will not  associate the metric with the entity, but the metric data will still be  accepted and ingested. Validation errors in the metric data will fail the  entire request, and no data will be ingested. In the case of an invalid entity, the operation will return a  200 status, but an additional response header will contain  information about the validation errors. The new header,  X-Amzn-Failure-Message is an enumeration of the following  values:    InvalidEntity - The provided entity is invalid.    InvalidKeyAttributes - The provided KeyAttributes of an entity is invalid.    InvalidAttributes - The provided Attributes of an entity is invalid.    InvalidTypeValue - The provided Type in the KeyAttributes of an entity is invalid.    EntitySizeTooLarge - The number of  EntityMetricData objects allowed is 2.    MissingRequiredFields - There are missing required  fields in the KeyAttributes for the provided Type.   For details of the requirements for specifying an entity, see  How  to add related information to telemetry in the  CloudWatch User Guide.   This parameter is required when EntityMetricData is included.
+    ///   - strictEntityValidation: Whether to accept valid metric data when an invalid entity is sent.   When set to true: Any validation error (for entity or metric data) will fail the entire request, and no data will be ingested. The failed operation will return a 400 result with the error.   When set to false: Validation errors in the entity will not associate the metric with the entity, but the metric data will still be accepted and ingested. Validation errors in the metric data will fail the entire request, and no data will be ingested. In the case of an invalid entity, the operation will return a 200 status, but an additional response header will contain information about the validation errors. The new header, X-Amzn-Failure-Message is an enumeration of the following values:    InvalidEntity - The provided entity is invalid.    InvalidKeyAttributes - The provided KeyAttributes of an entity is invalid.    InvalidAttributes - The provided Attributes of an entity is invalid.    InvalidTypeValue - The provided Type in the KeyAttributes of an entity is invalid.    EntitySizeTooLarge - The number of EntityMetricData objects allowed is 2.    MissingRequiredFields - There are missing required fields in the KeyAttributes for the provided Type.   For details of the requirements for specifying an entity, see How to add related information to telemetry in the CloudWatch User Guide.   This parameter is required when EntityMetricData is included.
     ///   - logger: Logger use during operation
     @inlinable
     public func putMetricData(
@@ -1620,6 +1826,32 @@ public struct CloudWatch: AWSService {
         return try await self.startMetricStreams(input, logger: logger)
     }
 
+    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see Enable resource tags on telemetry.
+    @Sendable
+    @inlinable
+    public func startOTelEnrichment(_ input: StartOTelEnrichmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOTelEnrichmentOutput {
+        try await self.client.execute(
+            operation: "StartOTelEnrichment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see Enable resource tags on telemetry.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startOTelEnrichment(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartOTelEnrichmentOutput {
+        let input = StartOTelEnrichmentInput(
+        )
+        return try await self.startOTelEnrichment(input, logger: logger)
+    }
+
     /// Stops the streaming of metrics for one or more of your metric streams.
     @Sendable
     @inlinable
@@ -1649,7 +1881,33 @@ public struct CloudWatch: AWSService {
         return try await self.stopMetricStreams(input, logger: logger)
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
+    /// Disables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. After disabling, these metrics are no longer enriched with resource ARN and resource tag labels, and cannot be queried using PromQL.
+    @Sendable
+    @inlinable
+    public func stopOTelEnrichment(_ input: StopOTelEnrichmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopOTelEnrichmentOutput {
+        try await self.client.execute(
+            operation: "StopOTelEnrichment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. After disabling, these metrics are no longer enriched with resource ARN and resource tag labels, and cannot be queried using PromQL.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopOTelEnrichment(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopOTelEnrichmentOutput {
+        let input = StopOTelEnrichmentInput(
+        )
+        return try await self.stopOTelEnrichment(input, logger: logger)
+    }
+
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms, dashboards, metric streams and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
@@ -1662,10 +1920,10 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms, dashboards, metric streams and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     ///
     /// Parameters:
-    ///   - resourceARN: The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+    ///   - resourceARN: The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   The ARN format of a dashboard is arn:aws:cloudwatch::account-id:dashboard/dashboard-name   The ARN format of a metric stream is arn:aws:cloudwatch:Region:account-id:metric-stream/metric-stream-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
     ///   - tags: The list of key-value pairs to associate with the alarm.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1681,7 +1939,7 @@ public struct CloudWatch: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes one or more tags from the specified resource.
+    /// Removes one or more tags from the specified resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
@@ -1694,10 +1952,10 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Removes one or more tags from the specified resource.
+    /// Removes one or more tags from the specified resource. Currently, alarms, dashboards, metric streams and Contributor Insights rules support tagging.
     ///
     /// Parameters:
-    ///   - resourceARN: The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
+    ///   - resourceARN: The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   The ARN format of a dashboard is arn:aws:cloudwatch::account-id:dashboard/dashboard-name   The ARN format of a metric stream is arn:aws:cloudwatch:Region:account-id:metric-stream/metric-stream-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
     ///   - tagKeys: The list of tag keys to remove from the resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1750,7 +2008,7 @@ extension CloudWatch {
     /// - Parameters:
     ///   - alarmContributorId: The unique identifier of a specific alarm contributor to filter the alarm history results.
     ///   - alarmName: The name of the alarm.
-    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
+    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned.
     ///   - endDate: The ending date to retrieve alarm history.
     ///   - historyItemType: The type of alarm histories to retrieve.
     ///   - maxRecords: The maximum number of alarm history records to retrieve.
@@ -1806,7 +2064,7 @@ extension CloudWatch {
     ///   - actionPrefix: Use this parameter to filter the results of the operation to only those alarms that use a certain alarm action. For example, you could specify the ARN of an SNS topic to find all alarms that send notifications to that topic.
     ///   - alarmNamePrefix: An alarm name prefix. If you specify this parameter, you receive information about all alarms that have names that start with this prefix. If this parameter is specified, you cannot specify AlarmNames.
     ///   - alarmNames: The names of the alarms to retrieve information about.
-    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms, even if composite alarms exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms.
+    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms or log alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms or log alarms, even if they exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms or log alarms. If you specify LogAlarms, the operation returns only a list of log alarms, and does not return any metric alarms or composite alarms.
     ///   - childrenOfAlarmName: If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
     ///   - maxRecords: The maximum number of alarm descriptions to retrieve.
     ///   - parentsOfAlarmName: If you use this parameter and specify the name of a metric or composite alarm, the operation returns information about the "parent" alarms of the alarm you specify. These are the composite alarms that have AlarmRule parameters that reference the alarm named in ParentsOfAlarmName. Information about the alarm that you specify in ParentsOfAlarmName is not returned. If you specify ParentsOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name and ARN are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
@@ -1858,6 +2116,7 @@ extension CloudWatch {
     /// Return PaginatorSequence for operation ``describeAnomalyDetectors(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - anomalyDetectorIds: Specifies the unique identifiers of the anomaly detectors to describe. You can specify up to 50 identifiers. If you specify this parameter, you cannot also specify the Namespace, MetricName, Dimensions, or AnomalyDetectorTypes metric filters.
     ///   - anomalyDetectorTypes: The anomaly detector types to request when using DescribeAnomalyDetectorsInput. If empty, defaults to SINGLE_METRIC.
     ///   - dimensions: Limits the results to only the anomaly detection models that are associated with the specified metric dimensions. If there are multiple metrics that have these dimensions and have anomaly detection models associated, they're all returned.
     ///   - maxResults: The maximum number of results to return in one operation. The maximum value that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1866,6 +2125,7 @@ extension CloudWatch {
     ///   - logger: Logger used for logging
     @inlinable
     public func describeAnomalyDetectorsPaginator(
+        anomalyDetectorIds: [String]? = nil,
         anomalyDetectorTypes: [AnomalyDetectorType]? = nil,
         dimensions: [Dimension]? = nil,
         maxResults: Int? = nil,
@@ -1874,6 +2134,7 @@ extension CloudWatch {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput> {
         let input = DescribeAnomalyDetectorsInput(
+            anomalyDetectorIds: anomalyDetectorIds, 
             anomalyDetectorTypes: anomalyDetectorTypes, 
             dimensions: dimensions, 
             maxResults: maxResults, 
@@ -2199,6 +2460,7 @@ extension CloudWatch.DescribeAnomalyDetectorsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudWatch.DescribeAnomalyDetectorsInput {
         return .init(
+            anomalyDetectorIds: self.anomalyDetectorIds,
             anomalyDetectorTypes: self.anomalyDetectorTypes,
             dimensions: self.dimensions,
             maxResults: self.maxResults,
@@ -2322,7 +2584,7 @@ extension CloudWatch {
     ///   - actionPrefix: Use this parameter to filter the results of the operation to only those alarms that use a certain alarm action. For example, you could specify the ARN of an SNS topic to find all alarms that send notifications to that topic.
     ///   - alarmNamePrefix: An alarm name prefix. If you specify this parameter, you receive information about all alarms that have names that start with this prefix. If this parameter is specified, you cannot specify AlarmNames.
     ///   - alarmNames: The names of the alarms to retrieve information about.
-    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms, even if composite alarms exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms.
+    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms or log alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms or log alarms, even if they exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms or log alarms. If you specify LogAlarms, the operation returns only a list of log alarms, and does not return any metric alarms or composite alarms.
     ///   - childrenOfAlarmName: If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
     ///   - maxRecords: The maximum number of alarm descriptions to retrieve.
     ///   - nextToken: The token returned by a previous call to indicate that there is more data available.
@@ -2419,7 +2681,7 @@ extension CloudWatch {
     ///   - actionPrefix: Use this parameter to filter the results of the operation to only those alarms that use a certain alarm action. For example, you could specify the ARN of an SNS topic to find all alarms that send notifications to that topic.
     ///   - alarmNamePrefix: An alarm name prefix. If you specify this parameter, you receive information about all alarms that have names that start with this prefix. If this parameter is specified, you cannot specify AlarmNames.
     ///   - alarmNames: The names of the alarms to retrieve information about.
-    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms, even if composite alarms exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms.
+    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms or log alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms or log alarms, even if they exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms or log alarms. If you specify LogAlarms, the operation returns only a list of log alarms, and does not return any metric alarms or composite alarms.
     ///   - childrenOfAlarmName: If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
     ///   - maxRecords: The maximum number of alarm descriptions to retrieve.
     ///   - nextToken: The token returned by a previous call to indicate that there is more data available.
@@ -2451,5 +2713,65 @@ extension CloudWatch {
             stateValue: stateValue
         )
         try await self.waitUntilCompositeAlarmExists(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeAlarms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLogAlarmExists(
+        _ input: DescribeAlarmsInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeAlarmsInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(logAlarms[]) > `0`", expected: "true")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.describeAlarms
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeAlarms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - actionPrefix: Use this parameter to filter the results of the operation to only those alarms that use a certain alarm action. For example, you could specify the ARN of an SNS topic to find all alarms that send notifications to that topic.
+    ///   - alarmNamePrefix: An alarm name prefix. If you specify this parameter, you receive information about all alarms that have names that start with this prefix. If this parameter is specified, you cannot specify AlarmNames.
+    ///   - alarmNames: The names of the alarms to retrieve information about.
+    ///   - alarmTypes: Use this parameter to specify whether you want the operation to return metric alarms, composite alarms, or log alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms or log alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms or log alarms, even if they exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms or log alarms. If you specify LogAlarms, the operation returns only a list of log alarms, and does not return any metric alarms or composite alarms.
+    ///   - childrenOfAlarmName: If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
+    ///   - maxRecords: The maximum number of alarm descriptions to retrieve.
+    ///   - nextToken: The token returned by a previous call to indicate that there is more data available.
+    ///   - parentsOfAlarmName: If you use this parameter and specify the name of a metric or composite alarm, the operation returns information about the "parent" alarms of the alarm you specify. These are the composite alarms that have AlarmRule parameters that reference the alarm named in ParentsOfAlarmName. Information about the alarm that you specify in ParentsOfAlarmName is not returned. If you specify ParentsOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error.  Only the Alarm Name and ARN are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
+    ///   - stateValue: Specify this parameter to receive information only about alarms that are currently in the state that you specify.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLogAlarmExists(
+        actionPrefix: String? = nil,
+        alarmNamePrefix: String? = nil,
+        alarmNames: [String]? = nil,
+        alarmTypes: [AlarmType]? = nil,
+        childrenOfAlarmName: String? = nil,
+        maxRecords: Int? = nil,
+        nextToken: String? = nil,
+        parentsOfAlarmName: String? = nil,
+        stateValue: StateValue? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeAlarmsInput(
+            actionPrefix: actionPrefix, 
+            alarmNamePrefix: alarmNamePrefix, 
+            alarmNames: alarmNames, 
+            alarmTypes: alarmTypes, 
+            childrenOfAlarmName: childrenOfAlarmName, 
+            maxRecords: maxRecords, 
+            nextToken: nextToken, 
+            parentsOfAlarmName: parentsOfAlarmName, 
+            stateValue: stateValue
+        )
+        try await self.waitUntilLogAlarmExists(input, logger: logger)
     }
 }

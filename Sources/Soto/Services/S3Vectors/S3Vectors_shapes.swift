@@ -1007,6 +1007,8 @@ extension S3Vectors {
         public let indexArn: String?
         /// The name of the vector index that you want to query.
         public let indexName: String?
+        /// Pagination token from a previous request. The value of this field is empty for an initial request.
+        public let nextToken: String?
         /// The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
         public let queryVector: VectorData
         /// Indicates whether to include the computed distance in the response. The default value is false.
@@ -1019,10 +1021,11 @@ extension S3Vectors {
         public let vectorBucketName: String?
 
         @inlinable
-        public init(filter: AWSDocument? = nil, indexArn: String? = nil, indexName: String? = nil, queryVector: VectorData, returnDistance: Bool? = nil, returnMetadata: Bool? = nil, topK: Int, vectorBucketName: String? = nil) {
+        public init(filter: AWSDocument? = nil, indexArn: String? = nil, indexName: String? = nil, nextToken: String? = nil, queryVector: VectorData, returnDistance: Bool? = nil, returnMetadata: Bool? = nil, topK: Int, vectorBucketName: String? = nil) {
             self.filter = filter
             self.indexArn = indexArn
             self.indexName = indexName
+            self.nextToken = nextToken
             self.queryVector = queryVector
             self.returnDistance = returnDistance
             self.returnMetadata = returnMetadata
@@ -1034,6 +1037,8 @@ extension S3Vectors {
             try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.topK, name: "topK", parent: name, min: 1)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
@@ -1043,6 +1048,7 @@ extension S3Vectors {
             case filter = "filter"
             case indexArn = "indexArn"
             case indexName = "indexName"
+            case nextToken = "nextToken"
             case queryVector = "queryVector"
             case returnDistance = "returnDistance"
             case returnMetadata = "returnMetadata"
@@ -1054,17 +1060,21 @@ extension S3Vectors {
     public struct QueryVectorsOutput: AWSDecodableShape {
         /// The distance metric that was used for the similarity search calculation. This is the same distance metric that was configured for the vector index when it was created.
         public let distanceMetric: DistanceMetric?
+        /// Pagination token to be used in the subsequent page request. The field is empty if no further pagination is required.
+        public let nextToken: String?
         /// The vectors in the approximate nearest neighbor search.
         public let vectors: [QueryOutputVector]
 
         @inlinable
-        public init(distanceMetric: DistanceMetric? = nil, vectors: [QueryOutputVector]) {
+        public init(distanceMetric: DistanceMetric? = nil, nextToken: String? = nil, vectors: [QueryOutputVector]) {
             self.distanceMetric = distanceMetric
+            self.nextToken = nextToken
             self.vectors = vectors
         }
 
         private enum CodingKeys: String, CodingKey {
             case distanceMetric = "distanceMetric"
+            case nextToken = "nextToken"
             case vectors = "vectors"
         }
     }

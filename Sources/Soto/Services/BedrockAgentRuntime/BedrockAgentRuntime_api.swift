@@ -79,6 +79,53 @@ public struct BedrockAgentRuntime: AWSService {
 
     // MARK: API Calls
 
+    /// Retrieves information from one or more knowledge bases using an agentic approach. Agentic retrieval uses a foundation model to intelligently decompose complex queries into sub-queries and iteratively retrieve relevant information from your knowledge bases. This approach improves retrieval accuracy for complex, multi-step questions that a single retrieval pass might not fully address. The operation returns results through a stream that includes retrieval results, trace events for visibility into the process, and a generated response synthesized from the results by default, which can be turned off.
+    @Sendable
+    @inlinable
+    public func agenticRetrieveStream(_ input: AgenticRetrieveStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AgenticRetrieveStreamResponse {
+        try await self.client.execute(
+            operation: "AgenticRetrieveStream", 
+            path: "/agenticRetrieveStream", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information from one or more knowledge bases using an agentic approach. Agentic retrieval uses a foundation model to intelligently decompose complex queries into sub-queries and iteratively retrieve relevant information from your knowledge bases. This approach improves retrieval accuracy for complex, multi-step questions that a single retrieval pass might not fully address. The operation returns results through a stream that includes retrieval results, trace events for visibility into the process, and a generated response synthesized from the results by default, which can be turned off.
+    ///
+    /// Parameters:
+    ///   - agenticRetrieveConfiguration: Configuration settings for the agentic retrieval operation.
+    ///   - generateResponse: Whether to generate a response based on the retrieved results.
+    ///   - messages: The list of messages for the agentic retrieval conversation.
+    ///   - nextToken: Opaque continuation token for paginated results.
+    ///   - policyConfiguration: Policy configuration for guardrails and content filtering.
+    ///   - retrievers: The list of retrievers to use for agentic retrieval.
+    ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func agenticRetrieveStream(
+        agenticRetrieveConfiguration: AgenticRetrieveConfiguration,
+        generateResponse: Bool? = nil,
+        messages: [AgenticRetrieveMessage],
+        nextToken: String? = nil,
+        policyConfiguration: AgenticRetrievePolicyConfiguration? = nil,
+        retrievers: [AgenticRetriever],
+        userContext: UserContext? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AgenticRetrieveStreamResponse {
+        let input = AgenticRetrieveStreamRequest(
+            agenticRetrieveConfiguration: agenticRetrieveConfiguration, 
+            generateResponse: generateResponse, 
+            messages: messages, 
+            nextToken: nextToken, 
+            policyConfiguration: policyConfiguration, 
+            retrievers: retrievers, 
+            userContext: userContext
+        )
+        return try await self.agenticRetrieveStream(input, logger: logger)
+    }
+
     /// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions. Related APIs    ListInvocations     ListSessions     GetSession
     @Sendable
     @inlinable
@@ -319,6 +366,47 @@ public struct BedrockAgentRuntime: AWSService {
             nextToken: nextToken
         )
         return try await self.getAgentMemory(input, logger: logger)
+    }
+
+    /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+    @Sendable
+    @inlinable
+    public func getDocumentContent(_ input: GetDocumentContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentContentResponse {
+        try await self.client.execute(
+            operation: "GetDocumentContent", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/documents/{documentId}/content", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+    ///
+    /// Parameters:
+    ///   - dataSourceId: The unique identifier of the data source that contains the document.
+    ///   - documentId: The unique identifier of the document to retrieve content for.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that contains the document.
+    ///   - outputFormat: The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
+    ///   - userContext: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDocumentContent(
+        dataSourceId: String,
+        documentId: String,
+        knowledgeBaseId: String,
+        outputFormat: DocumentOutputFormat? = nil,
+        userContext: UserContext? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDocumentContentResponse {
+        let input = GetDocumentContentRequest(
+            dataSourceId: dataSourceId, 
+            documentId: documentId, 
+            knowledgeBaseId: knowledgeBaseId, 
+            outputFormat: outputFormat, 
+            userContext: userContext
+        )
+        return try await self.getDocumentContent(input, logger: logger)
     }
 
     /// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged.  Flow executions is in preview release for Amazon Bedrock and is subject to change.
@@ -1001,6 +1089,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - nextToken: If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
     ///   - retrievalConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - retrievalQuery: Contains the query to send the knowledge base.
+    ///   - userContext: 
     ///   - logger: Logger use during operation
     @inlinable
     public func retrieve(
@@ -1009,6 +1098,7 @@ public struct BedrockAgentRuntime: AWSService {
         nextToken: String? = nil,
         retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil,
         retrievalQuery: KnowledgeBaseQuery,
+        userContext: UserContext? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RetrieveResponse {
         let input = RetrieveRequest(
@@ -1016,12 +1106,13 @@ public struct BedrockAgentRuntime: AWSService {
             knowledgeBaseId: knowledgeBaseId, 
             nextToken: nextToken, 
             retrievalConfiguration: retrievalConfiguration, 
-            retrievalQuery: retrievalQuery
+            retrievalQuery: retrievalQuery, 
+            userContext: userContext
         )
         return try await self.retrieve(input, logger: logger)
     }
 
-    /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.
+    /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.  This API cannot be used with managed knowledge bases. Use AgenticRetrieveStream or Retrieve with managed knowledge bases.
     @Sendable
     @inlinable
     public func retrieveAndGenerate(_ input: RetrieveAndGenerateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveAndGenerateResponse {
@@ -1034,13 +1125,14 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.
+    /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.  This API cannot be used with managed knowledge bases. Use AgenticRetrieveStream or Retrieve with managed knowledge bases.
     ///
     /// Parameters:
     ///   - input: Contains the query to be made to the knowledge base.
     ///   - retrieveAndGenerateConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - sessionConfiguration: Contains details about the session with the knowledge base.
     ///   - sessionId: The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
+    ///   - userContext: 
     ///   - logger: Logger use during operation
     @inlinable
     public func retrieveAndGenerate(
@@ -1048,18 +1140,20 @@ public struct BedrockAgentRuntime: AWSService {
         retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil,
         sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil,
         sessionId: String? = nil,
+        userContext: UserContext? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RetrieveAndGenerateResponse {
         let input = RetrieveAndGenerateRequest(
             input: input, 
             retrieveAndGenerateConfiguration: retrieveAndGenerateConfiguration, 
             sessionConfiguration: sessionConfiguration, 
-            sessionId: sessionId
+            sessionId: sessionId, 
+            userContext: userContext
         )
         return try await self.retrieveAndGenerate(input, logger: logger)
     }
 
-    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  This API cannot be used with managed knowledge bases. Use AgenticRetrieveStream or Retrieve with managed knowledge bases.   The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     @Sendable
     @inlinable
     public func retrieveAndGenerateStream(_ input: RetrieveAndGenerateStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveAndGenerateStreamResponse {
@@ -1072,13 +1166,14 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  This API cannot be used with managed knowledge bases. Use AgenticRetrieveStream or Retrieve with managed knowledge bases.   The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     ///
     /// Parameters:
     ///   - input: Contains the query to be made to the knowledge base.
     ///   - retrieveAndGenerateConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - sessionConfiguration: Contains details about the session with the knowledge base.
     ///   - sessionId: The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
+    ///   - userContext: 
     ///   - logger: Logger use during operation
     @inlinable
     public func retrieveAndGenerateStream(
@@ -1086,13 +1181,15 @@ public struct BedrockAgentRuntime: AWSService {
         retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil,
         sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil,
         sessionId: String? = nil,
+        userContext: UserContext? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RetrieveAndGenerateStreamResponse {
         let input = RetrieveAndGenerateStreamRequest(
             input: input, 
             retrieveAndGenerateConfiguration: retrieveAndGenerateConfiguration, 
             sessionConfiguration: sessionConfiguration, 
-            sessionId: sessionId
+            sessionId: sessionId, 
+            userContext: userContext
         )
         return try await self.retrieveAndGenerateStream(input, logger: logger)
     }
@@ -1591,6 +1688,7 @@ extension BedrockAgentRuntime {
     ///   - knowledgeBaseId: The unique identifier of the knowledge base to query.
     ///   - retrievalConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - retrievalQuery: Contains the query to send the knowledge base.
+    ///   - userContext: 
     ///   - logger: Logger used for logging
     @inlinable
     public func retrievePaginator(
@@ -1598,13 +1696,15 @@ extension BedrockAgentRuntime {
         knowledgeBaseId: String,
         retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil,
         retrievalQuery: KnowledgeBaseQuery,
+        userContext: UserContext? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<RetrieveRequest, RetrieveResponse> {
         let input = RetrieveRequest(
             guardrailConfiguration: guardrailConfiguration, 
             knowledgeBaseId: knowledgeBaseId, 
             retrievalConfiguration: retrievalConfiguration, 
-            retrievalQuery: retrievalQuery
+            retrievalQuery: retrievalQuery, 
+            userContext: userContext
         )
         return self.retrievePaginator(input, logger: logger)
     }
@@ -1703,7 +1803,8 @@ extension BedrockAgentRuntime.RetrieveRequest: AWSPaginateToken {
             knowledgeBaseId: self.knowledgeBaseId,
             nextToken: token,
             retrievalConfiguration: self.retrievalConfiguration,
-            retrievalQuery: self.retrievalQuery
+            retrievalQuery: self.retrievalQuery,
+            userContext: self.userContext
         )
     }
 }

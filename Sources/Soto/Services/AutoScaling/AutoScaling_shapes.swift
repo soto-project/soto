@@ -68,6 +68,7 @@ extension AutoScaling {
     public enum CapacityDistributionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case balancedBestEffort = "balanced-best-effort"
         case balancedOnly = "balanced-only"
+        case reservationsThenBalanced = "reservations-then-balanced"
         public var description: String { return self.rawValue }
     }
 
@@ -141,20 +142,27 @@ extension AutoScaling {
         case pendingProceed = "Pending:Proceed"
         case pendingWait = "Pending:Wait"
         case quarantined = "Quarantined"
+        case replacingRootVolume = "ReplacingRootVolume"
+        case replacingRootVolumeProceed = "ReplacingRootVolume:Proceed"
+        case replacingRootVolumeWait = "ReplacingRootVolume:Wait"
+        case rootVolumeReplaced = "RootVolumeReplaced"
         case standby = "Standby"
         case terminated = "Terminated"
         case terminating = "Terminating"
         case terminatingProceed = "Terminating:Proceed"
+        case terminatingRetained = "Terminating:Retained"
         case terminatingWait = "Terminating:Wait"
         case warmedHibernated = "Warmed:Hibernated"
         case warmedPending = "Warmed:Pending"
         case warmedPendingProceed = "Warmed:Pending:Proceed"
+        case warmedPendingRetained = "Warmed:Pending:Retained"
         case warmedPendingWait = "Warmed:Pending:Wait"
         case warmedRunning = "Warmed:Running"
         case warmedStopped = "Warmed:Stopped"
         case warmedTerminated = "Warmed:Terminated"
         case warmedTerminating = "Warmed:Terminating"
         case warmedTerminatingProceed = "Warmed:Terminating:Proceed"
+        case warmedTerminatingRetained = "Warmed:Terminating:Retained"
         case warmedTerminatingWait = "Warmed:Terminating:Wait"
         public var description: String { return self.rawValue }
     }
@@ -624,6 +632,9 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// The EC2 instance capacity distribution across Availability Zones for the Auto Scaling group.
         public let availabilityZoneDistribution: AvailabilityZoneDistribution?
+        ///  The Availability Zone IDs where the Auto Scaling group can launch instances.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var availabilityZoneIds: [String]?
         /// The Availability Zone impairment policy for the Auto Scaling group.
         public let availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the Auto Scaling group.
@@ -709,10 +720,11 @@ extension AutoScaling {
         public let warmPoolSize: Int?
 
         @inlinable
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneIds: [String]? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -756,6 +768,7 @@ extension AutoScaling {
             case autoScalingGroupARN = "AutoScalingGroupARN"
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZoneDistribution = "AvailabilityZoneDistribution"
+            case availabilityZoneIds = "AvailabilityZoneIds"
             case availabilityZoneImpairmentPolicy = "AvailabilityZoneImpairmentPolicy"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
@@ -864,6 +877,8 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// The Availability Zone for the instance.
         public let availabilityZone: String?
+        ///  The Availability Zone ID where the instance is located.
+        public let availabilityZoneId: String?
         /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         public let healthStatus: String?
         ///  The ID of the Amazon Machine Image (AMI) associated with the instance. This field shows the  current AMI ID of the instance's root volume. It may differ from the original AMI used when  the instance was first launched.   This field appears for:    Instances with root volume replacements through Instance Refresh   Instances launched with AMI overrides    This field won't appear for:   Existing instances launched from Launch Templates without overrides   Existing instances that didn’t have their root volume replaced through Instance Refresh
@@ -876,7 +891,7 @@ extension AutoScaling {
         public let launchConfigurationName: String?
         /// The launch template for the instance.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see Amazon EC2 Auto Scaling instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminating:Retained | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Pending:Retained | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminating:Retained | Warmed:Terminated | Warmed:Stopped | Warmed:Running
+        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see Amazon EC2 Auto Scaling instance lifecycle in the Amazon EC2 Auto Scaling User Guide.  Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminating:Retained | Terminated | Detaching | Detached | EnteringStandby | Standby | ReplacingRootVolume | ReplacingRootVolume:Wait | ReplacingRootVolume:Proceed | RootVolumeReplaced | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Pending:Retained | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminating:Retained | Warmed:Terminated | Warmed:Stopped | Warmed:Running | Warmed:Hibernated
         public let lifecycleState: String?
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool?
@@ -884,9 +899,10 @@ extension AutoScaling {
         public let weightedCapacity: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZone: String? = nil, healthStatus: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: String? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, healthStatus: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: String? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -901,6 +917,7 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case healthStatus = "HealthStatus"
             case imageId = "ImageId"
             case instanceId = "InstanceId"
@@ -933,7 +950,7 @@ extension AutoScaling {
     }
 
     public struct AvailabilityZoneDistribution: AWSEncodableShape & AWSDecodableShape {
-        ///  If launches fail in an Availability Zone, the following strategies are available. The default is balanced-best-effort.     balanced-only - If launches fail in an Availability Zone, Auto Scaling will continue to attempt to launch in the unhealthy zone to preserve a balanced distribution.    balanced-best-effort - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.
+        ///  If launches fail in an Availability Zone, the following strategies are available. The default is balanced-best-effort.     balanced-only - If launches fail in an Availability Zone, Auto Scaling will continue to attempt to launch in the unhealthy zone to preserve a balanced distribution.    balanced-best-effort - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.    reservations-then-balanced - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across the healthy Availability Zones.
         public let capacityDistributionStrategy: CapacityDistributionStrategy?
 
         @inlinable
@@ -1308,6 +1325,9 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// The instance capacity distribution across Availability Zones.
         public let availabilityZoneDistribution: AvailabilityZoneDistribution?
+        ///  A list of Availability Zone IDs where the Auto Scaling group can launch instances. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var availabilityZoneIds: [String]?
         ///  The policy for Availability Zone impairment.
         public let availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy?
         /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
@@ -1323,7 +1343,7 @@ extension AutoScaling {
         public let defaultCooldown: Int?
         /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.  Default: None
         public let defaultInstanceWarmup: Int?
-        ///  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none
+        ///  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none   For more information, see  Configure deletion protection for your Amazon EC2 Auto Scaling resources in the Amazon EC2 Auto Scaling User Guide.
         public let deletionProtection: DeletionProtection?
         /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
         public let desiredCapacity: Int?
@@ -1381,9 +1401,10 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneIds: [String]? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -1422,6 +1443,11 @@ extension AutoScaling {
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.availabilityZoneIds?.forEach {
+                try validate($0, name: "availabilityZoneIds[]", parent: name, max: 255)
+                try validate($0, name: "availabilityZoneIds[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZoneIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
             try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, max: 255)
                 try validate($0, name: "availabilityZones[]", parent: name, min: 1)
@@ -1481,6 +1507,7 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZoneDistribution = "AvailabilityZoneDistribution"
+            case availabilityZoneIds = "AvailabilityZoneIds"
             case availabilityZoneImpairmentPolicy = "AvailabilityZoneImpairmentPolicy"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
@@ -2336,7 +2363,7 @@ extension AutoScaling {
         public var activityIds: [String]?
         /// The name of the Auto Scaling group.   Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
         public let autoScalingGroupName: String?
-        ///  One or more filters to limit the results based on specific criteria. The following filters are supported:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.
+        ///  One or more filters to limit the results based on specific criteria. The following filters are supported:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.     StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.     2000-01-18T08:15:00Z     2000-01-18T16:15:00+08:00
         @OptionalCustomCoding<StandardArrayCoder<Filter>>
         public var filters: [Filter]?
         /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
@@ -3043,7 +3070,7 @@ extension AutoScaling {
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The name of the filter.  The valid values for Name depend on which API operation you're using with the filter.    DescribeAutoScalingGroups   Valid values for Name include the following:     tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.     tag-value - Accepts tag values. The results only include information about the Auto Scaling groups associated with these tag values.     tag: - Accepts the key/value combination of the tag. Use the tag key in the filter name and the tag value as the filter value. The results only include information about the Auto Scaling groups associated with the specified key/value combination.      DescribeTags   Valid values for Name include the following:     auto-scaling-group - Accepts the names of Auto Scaling groups. The results only include information about the tags associated with these Auto Scaling groups.     key - Accepts tag keys. The results only include information about the tags associated with these tag keys.     value - Accepts tag values. The results only include information about the tags associated with these tag values.     propagate-at-launch - Accepts a Boolean value, which specifies whether tags propagate to instances at launch. The results only include information about the tags associated with the specified Boolean value.      DescribeScalingActivities   Valid values for Name include the following:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.
+        /// The name of the filter.  The valid values for Name depend on which API operation you're using with the filter.    DescribeAutoScalingGroups   Valid values for Name include the following:     tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.     tag-value - Accepts tag values. The results only include information about the Auto Scaling groups associated with these tag values.     tag: - Accepts the key/value combination of the tag. Use the tag key in the filter name and the tag value as the filter value. The results only include information about the Auto Scaling groups associated with the specified key/value combination.      DescribeTags   Valid values for Name include the following:     auto-scaling-group - Accepts the names of Auto Scaling groups. The results only include information about the tags associated with these Auto Scaling groups.     key - Accepts tag keys. The results only include information about the tags associated with these tag keys.     value - Accepts tag values. The results only include information about the tags associated with these tag values.     propagate-at-launch - Accepts a Boolean value, which specifies whether tags propagate to instances at launch. The results only include information about the tags associated with the specified Boolean value.      DescribeScalingActivities   Valid values for Name include the following:     StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.     Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see Activity in the Amazon EC2 Auto Scaling API Reference.     StartTimeLowerBound and StartTimeUpperBound accept ISO 8601 formatted timestamps. Timestamps without a timezone offset are assumed to be UTC.     2000-01-18T08:15:00Z     2000-01-18T16:15:00+08:00
         public let name: String?
         /// One or more filter values. Filter values are case-sensitive.  If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values.  DescribeAutoScalingGroups example: Specify "tag:environment"  for the filter name and "production,development" for the filter values to find Auto Scaling groups with  the tag "environment=production" or "environment=development".   DescribeScalingActivities example: Specify "Status" for the  filter name and "Successful,Failed" for the filter values to find scaling activities with a  status of either "Successful" or "Failed".
         @OptionalCustomCoding<StandardArrayCoder<String>>
@@ -3129,6 +3156,8 @@ extension AutoScaling {
     public struct Instance: AWSDecodableShape {
         /// The Availability Zone in which the instance is running.
         public let availabilityZone: String?
+        ///  The Availability Zone ID where the instance was launched.
+        public let availabilityZoneId: String?
         /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         public let healthStatus: String?
         ///  The ID of the Amazon Machine Image (AMI) used for the instance's current root volume.  This value reflects the most recent AMI applied to the instance, including updates made  through root volume replacement operations.   This field appears for:    Instances with root volume replacements through Instance Refresh   Instances launched with AMI overrides    This field won't appear for:   Existing instances launched from Launch Templates without overrides   Existing instances that didn’t have their root volume replaced through Instance Refresh
@@ -3149,8 +3178,9 @@ extension AutoScaling {
         public let weightedCapacity: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, healthStatus: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: LifecycleState? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, healthStatus: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: LifecycleState? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.healthStatus = healthStatus
             self.imageId = imageId
             self.instanceId = instanceId
@@ -3164,6 +3194,7 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case healthStatus = "HealthStatus"
             case imageId = "ImageId"
             case instanceId = "InstanceId"
@@ -5990,6 +6021,9 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         ///  The instance capacity distribution across Availability Zones.
         public let availabilityZoneDistribution: AvailabilityZoneDistribution?
+        ///  A list of Availability Zone IDs for the Auto Scaling group. You cannot specify both AvailabilityZones and AvailabilityZoneIds in the same request.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var availabilityZoneIds: [String]?
         ///  The policy for Availability Zone impairment.
         public let availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the group.
@@ -6005,7 +6039,7 @@ extension AutoScaling {
         public let defaultCooldown: Int?
         /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state.  During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see Set the default instance warmup for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.  To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
         public let defaultInstanceWarmup: Int?
-        ///  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none
+        ///  The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level.   The valid values are none, prevent-force-deletion, and prevent-all-deletion.   Default: none   For more information, see  Configure deletion protection for your Amazon EC2 Auto Scaling resources in the Amazon EC2 Auto Scaling User Guide.
         public let deletionProtection: DeletionProtection?
         /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
         public let desiredCapacity: Int?
@@ -6046,9 +6080,10 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneIds: [String]? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -6081,6 +6116,11 @@ extension AutoScaling {
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
             try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.availabilityZoneIds?.forEach {
+                try validate($0, name: "availabilityZoneIds[]", parent: name, max: 255)
+                try validate($0, name: "availabilityZoneIds[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZoneIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
             try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, max: 255)
                 try validate($0, name: "availabilityZones[]", parent: name, min: 1)
@@ -6117,6 +6157,7 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZoneDistribution = "AvailabilityZoneDistribution"
+            case availabilityZoneIds = "AvailabilityZoneIds"
             case availabilityZoneImpairmentPolicy = "AvailabilityZoneImpairmentPolicy"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"

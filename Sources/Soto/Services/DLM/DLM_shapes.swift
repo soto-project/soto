@@ -709,6 +709,8 @@ extension DLM {
     }
 
     public struct FastRestoreRule: AWSEncodableShape & AWSDecodableShape {
+        /// The Availability Zone Ids in which to enable fast snapshot restore.
+        public let availabilityZoneIds: [String]?
         /// The Availability Zones in which to enable fast snapshot restore.
         public let availabilityZones: [String]?
         /// The number of snapshots to be enabled with fast snapshot restore.
@@ -720,7 +722,8 @@ extension DLM {
         public let intervalUnit: RetentionIntervalUnitValues?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+        public init(availabilityZoneIds: [String]? = nil, availabilityZones: [String]? = nil, count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZones = availabilityZones
             self.count = count
             self.interval = interval
@@ -728,6 +731,12 @@ extension DLM {
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZoneIds?.forEach {
+                try validate($0, name: "availabilityZoneIds[]", parent: name, max: 16)
+                try validate($0, name: "availabilityZoneIds[]", parent: name, pattern: "^[a-z]{3,4}\\d-az\\d+$")
+            }
+            try self.validate(self.availabilityZoneIds, name: "availabilityZoneIds", parent: name, max: 10)
+            try self.validate(self.availabilityZoneIds, name: "availabilityZoneIds", parent: name, min: 1)
             try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, max: 16)
                 try validate($0, name: "availabilityZones[]", parent: name, pattern: "^([a-z]+-){2,3}\\d[a-z]$")
@@ -740,6 +749,7 @@ extension DLM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneIds = "AvailabilityZoneIds"
             case availabilityZones = "AvailabilityZones"
             case count = "Count"
             case interval = "Interval"

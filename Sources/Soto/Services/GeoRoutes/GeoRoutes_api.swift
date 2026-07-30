@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS GeoRoutes service.
 ///
-/// With the Amazon Location Routes API you can calculate routes and estimate travel time based on up-to-date road network and live traffic information. Calculate optimal travel routes and estimate travel times using up-to-date road network and traffic data. Key features include:   Point-to-point routing with estimated travel time, distance, and turn-by-turn directions   Multi-point route optimization to minimize travel time or distance   Route matrices for efficient multi-destination planning   Isoline calculations to determine reachable areas within specified time or distance thresholds   Map-matching to align GPS traces with the road network
+/// With the Routes API you can calculate routes and estimate travel time based on up-to-date road network and live traffic information. Key features include:   Point-to-point routing with estimated travel time, distance, and turn-by-turn directions. See CalculateRoutes.   Multi-point route optimization to minimize travel time or distance. See OptimizeWaypoints.   Route matrices for efficient multi-destination planning. See CalculateRouteMatrix.   Isoline calculations to determine reachable areas within specified time or distance thresholds. See CalculateIsolines.   Map-matching to align GPS traces with the road network. See SnapToRoads.
 public struct GeoRoutes: AWSService {
     // MARK: Member variables
 
@@ -78,40 +78,40 @@ public struct GeoRoutes: AWSService {
 
     // MARK: API Calls
 
-    /// Use the CalculateIsolines action to find service areas that can be reached in a given threshold of time, distance.
+    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify delivery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including:   Service area visualization - Show customers the area you can serve within promised delivery times   Site selection - Analyze potential business locations based on population within travel distance   Site selection - Determine areas that can be reached within specified response times    Route preferences such as avoiding toll roads or ferries are treated as preferences rather than absolute restrictions. If a viable route cannot be calculated while honoring all preferences, some may be ignored.  For more information, see Calculate isolines in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func calculateIsolines(_ input: CalculateIsolinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CalculateIsolinesResponse {
         try await self.client.execute(
             operation: "CalculateIsolines", 
-            path: "/isolines", 
+            path: "/v2/isolines", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    /// Use the CalculateIsolines action to find service areas that can be reached in a given threshold of time, distance.
+    /// Calculates areas that can be reached within specified time or distance thresholds from a given point. For example, you can use this operation to determine the area within a 30-minute drive of a store location, find neighborhoods within walking distance of a school, or identify delivery zones based on drive time. Isolines (also known as isochrones for time-based calculations) are useful for various applications including:   Service area visualization - Show customers the area you can serve within promised delivery times   Site selection - Analyze potential business locations based on population within travel distance   Site selection - Determine areas that can be reached within specified response times    Route preferences such as avoiding toll roads or ferries are treated as preferences rather than absolute restrictions. If a viable route cannot be calculated while honoring all preferences, some may be ignored.  For more information, see Calculate isolines in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - allow: Features that are allowed while calculating an isoline.
-    ///   - arrivalTime: Time of arrival at the destination. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
-    ///   - avoid: Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
-    ///   - departNow: Uses the current time as the time of departure.
-    ///   - departureTime: Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
-    ///   - destination: The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude].
-    ///   - destinationOptions: Destination related options.
-    ///   - isolineGeometryFormat: The format of the returned IsolineGeometry.  Default Value:FlexiblePolyline
-    ///   - isolineGranularity: Defines the granularity of the returned Isoline.
-    ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - optimizeIsolineFor: Specifies the optimization criteria for when calculating an isoline. AccurateCalculation generates an isoline of higher granularity that is more precise. FastCalculation generates an isoline faster by reducing the granularity, and in turn the quality of the isoline. BalancedCalculation generates an isoline by balancing between quality and performance.  Default Value: BalancedCalculation
-    ///   - optimizeRoutingFor: Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
-    ///   - origin: The start position for the route.
-    ///   - originOptions: Origin related options.
-    ///   - thresholds: Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested.  You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
-    ///   - traffic: Traffic related options.
-    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.   The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
-    ///   - travelModeOptions: Travel mode related options for the provided travel mode.
+    ///   - allow: Enables special road types or features that should be considered for routing even if they might be restricted by default for the selected travel mode. These include high-occupancy vehicle and toll lanes.
+    ///   - arrivalTime: Determine areas from which Destination can be reached by this time, taking into account predicted traffic conditions and working backward to account for congestion patterns. This attribute cannot be used together with DepartureTime or DepartNow. Specified as an ISO-8601 timestamp with timezone offset. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+    ///   - avoid: Specifies road types, features, or areas to avoid (if possible) when calculating reachable areas. These are treated as preferences rather than strict constraints—if a route cannot be calculated without using an avoided feature, that avoidance preference may be ignored.
+    ///   - departNow: When true, uses the current time as the departure time and takes current traffic conditions into account. This attribute cannot be used together with DepartureTime or ArrivalTime.
+    ///   - departureTime: Determine areas that can be reached when departing at this time, taking into account predicted traffic conditions. This attribute cannot be used together with ArrivalTime or DepartNow. Specified as an ISO-8601 timestamp with timezone offset. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+    ///   - destination: An optional destination point, specified as [longitude, latitude] coordinates. When provided, the service calculates areas from which this destination can be reached within the specified thresholds. This reverses the usual isoline calculation to show areas that could reach your location, rather than areas you could reach from your location. Either Origin or Destination must be provided.
+    ///   - destinationOptions: Options that control how the destination point is matched to the road network and how routes can approach it. These options help improve travel time accuracy by accounting for real-world access to the destination.
+    ///   - isolineGeometryFormat: The format of the returned IsolineGeometry.  Default value:FlexiblePolyline
+    ///   - isolineGranularity: Controls the detail level of the generated isolines. Higher granularity produces smoother shapes but requires more processing time and results in larger responses.
+    ///   - key: An Amazon Location Service API Key with access to this action. If omitted, the request must be signed using Signature Version 4.
+    ///   - optimizeIsolineFor: Controls the trade-off between calculation speed and isoline precision. Choose  FastCalculation for quicker results with less detail, AccurateCalculation for more precise results, or BalancedCalculation for a middle ground. Default value: BalancedCalculation
+    ///   - optimizeRoutingFor: Determines whether routes prioritize shortest travel time (FastestRoute) or shortest physical distance (ShortestRoute) when calculating reachable areas. Default value: FastestRoute
+    ///   - origin: The starting point for isoline calculations, specified as [longitude, latitude] coordinates. For example, this could be a store location, service center, or any point from which you want to calculate reachable areas. Either Origin or Destination must be provided.
+    ///   - originOptions: Options that control how the origin point is matched to the road network and how routes can depart from it. These options help improve travel time accuracy by accounting for real-world access from the origin.
+    ///   - thresholds: The distance or time thresholds used to determine reachable areas. You can specify up to five thresholds (which all must be the same type) to calculate multiple isolines in a single request. For example, to determine the areas that are reachable within 10 and 20 minutes of the origin, specify time thresholds of 600 and 1200 seconds. You incur a calculation charge for each threshold. Using a large number of thresholds in a request can lead to unexpected charges. For more information, see Routes pricing in the Amazon Location Service Developer Guide.
+    ///   - traffic: Configures how real-time and historical traffic data affects isoline calculations. Traffic patterns can significantly impact reachable areas, especially during peak hours.
+    ///   - travelMode: The mode of transportation to use for calculations. This affects which road types or features can be used, estimated speed, and the traffic levels that are applied.    Car—Standard passenger vehicle routing using roads accessible to cars    Pedestrian—Walking routes using pedestrian paths, sidewalks, and crossings    Scooter—Light two-wheeled vehicle routing using roads and paths accessible to scooters    Truck—Commercial truck routing considering vehicle dimensions, weight restrictions, and hazardous material regulations    The mode Scooter also applies to motorcycles; set this to Scooter when calculating isolines for motorcycles.  Default value: Car
+    ///   - travelModeOptions: Additional attributes that refine how reachable areas are calculated based on specific vehicle characteristics. These options help produce more accurate results by accounting for real-world constraints and capabilities. For example:   For trucks (Truck), specify dimensions, weight limits, and hazardous cargo restrictions to ensure isolines only include roads that can physically and legally accommodate the vehicle   For cars (Car), set maximum speed capabilities or indicate high-occupancy vehicle eligibility to better estimate reachable areas   For scooters (Scooter), specify engine type and speed limitations to more accurately model their travel capabilities   Without these options, calculations use default assumptions that may not match your specific use case.
     ///   - logger: Logger use during operation
     @inlinable
     public func calculateIsolines(
@@ -158,35 +158,35 @@ public struct GeoRoutes: AWSService {
         return try await self.calculateIsolines(input, logger: logger)
     }
 
-    ///  Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
+    ///  Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions. For more information, see Calculate route matrix in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func calculateRouteMatrix(_ input: CalculateRouteMatrixRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CalculateRouteMatrixResponse {
         try await self.client.execute(
             operation: "CalculateRouteMatrix", 
-            path: "/route-matrix", 
+            path: "/v2/route-matrix", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
+    ///  Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions. For more information, see Calculate route matrix in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
     ///   - allow: Features that are allowed while calculating a route.
-    ///   - avoid: Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+    ///   - avoid:  Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only TollRoads, Ferries, and ControlledAccessHighways.
     ///   - departNow: Uses the current time as the time of departure.
-    ///   - departureTime: Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
-    ///   - destinations: List of destinations for the route.  Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. See  Amazon Location's pricing page for more information.
-    ///   - exclude: Features to be strictly excluded while calculating the route.
+    ///   - departureTime: Time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+    ///   - destinations: List of destinations for the route in World Geodetic System (WGS 84) format: [longitude, latitude].  Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. For more information, see Routes pricing in the Amazon Location Service Developer Guide.  The maximum number of destinations depends on the routing boundary configuration:   With RoutingBoundary.Geometry set: maximum 500 destinations   With RoutingBoundary.Unbounded set to true: maximum 100 destinations   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: maximum 350 destinations   The total matrix size (origins × destinations) must not exceed:   With RoutingBoundary.Geometry: 160,000   With RoutingBoundary.Unbounded: 100   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: 122,500
+    ///   - exclude:  Features to be strictly excluded while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - optimizeRoutingFor: Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
-    ///   - origins: The position in longitude and latitude for the origin.  Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
-    ///   - routingBoundary: Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid.  When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
-    ///   - traffic: Traffic related options.
-    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
-    ///   - travelModeOptions: Travel mode related options for the provided travel mode.
+    ///   - optimizeRoutingFor: Controls the trade-off between finding the shortest travel time (FastestRoute) and the shortest distance (ShortestRoute) when calculating reachable areas. Default value: FastestRoute
+    ///   - origins: List of origins for the route in World Geodetic System (WGS 84) format: [longitude, latitude].  Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. For more information, see Routes pricing in the Amazon Location Service Developer Guide.  The maximum number of origins depends on the routing boundary configuration:   With RoutingBoundary.Geometry set: maximum 500 origins   With RoutingBoundary.Unbounded set to true: maximum 15 origins   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: maximum 350 origins   The total matrix size (origins × destinations) must not exceed:   With RoutingBoundary.Geometry: 160,000   With RoutingBoundary.Unbounded: 100   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: 122,500
+    ///   - routingBoundary:  Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Unbounded set to true.  Default value: Unbounded set to true   When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
+    ///   - traffic:  Traffic related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - travelMode:  Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Car, Pedestrian, and Scooter.  Default value: Car
+    ///   - travelModeOptions:  Travel mode related options for the provided travel mode. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
     ///   - logger: Logger use during operation
     @inlinable
     public func calculateRouteMatrix(
@@ -199,7 +199,7 @@ public struct GeoRoutes: AWSService {
         key: String? = nil,
         optimizeRoutingFor: RoutingObjective? = nil,
         origins: [RouteMatrixOrigin],
-        routingBoundary: RouteMatrixBoundary,
+        routingBoundary: RouteMatrixBoundary? = nil,
         traffic: RouteMatrixTrafficOptions? = nil,
         travelMode: RouteMatrixTravelMode? = nil,
         travelModeOptions: RouteMatrixTravelModeOptions? = nil,
@@ -223,47 +223,47 @@ public struct GeoRoutes: AWSService {
         return try await self.calculateRouteMatrix(input, logger: logger)
     }
 
-    ///  CalculateRoutes computes routes given the following required parameters: Origin and Destination.
+    ///  CalculateRoutes computes routes given the following required parameters: Origin and Destination. For more information, see Calculate routes in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func calculateRoutes(_ input: CalculateRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CalculateRoutesResponse {
         try await self.client.execute(
             operation: "CalculateRoutes", 
-            path: "/routes", 
+            path: "/v2/routes", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  CalculateRoutes computes routes given the following required parameters: Origin and Destination.
+    ///  CalculateRoutes computes routes given the following required parameters: Origin and Destination. For more information, see Calculate routes in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - allow: Features that are allowed while calculating a route.
-    ///   - arrivalTime: Time of arrival at the destination. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
-    ///   - avoid: Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+    ///   - allow:  Features that are allowed while calculating a route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - arrivalTime:  Time of arrival at the destination. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+    ///   - avoid:  Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only ControlledAccessHighways, Ferries, and TollRoads
     ///   - departNow: Uses the current time as the time of departure.
-    ///   - departureTime: Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+    ///   - departureTime: Time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
     ///   - destination: The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude].
-    ///   - destinationOptions: Destination related options.
-    ///   - driver: Driver related options.
-    ///   - exclude: Features to be strictly excluded while calculating the route.
+    ///   - destinationOptions:  Destination related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - driver:  Driver related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - exclude:  Features to be strictly excluded while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
     ///   - instructionsMeasurementSystem: Measurement system to be used for instructions within steps in the response.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - languages: List of languages for instructions within steps in the response.  Instructions in the requested language are returned only if they are available.
-    ///   - legAdditionalFeatures: A list of optional additional parameters such as timezone that can be requested for each result.    Elevation: Retrieves the elevation information for each location.    Incidents: Provides information on traffic incidents along the route.    PassThroughWaypoints: Indicates waypoints that are passed through without stopping.    Summary: Returns a summary of the route, including distance and duration.    Tolls: Supplies toll cost information along the route.    TravelStepInstructions: Provides step-by-step instructions for travel along the route.    TruckRoadTypes: Returns information about road types suitable for trucks.    TypicalDuration: Gives typical travel duration based on historical data.    Zones: Specifies the time zone information for each waypoint.
-    ///   - legGeometryFormat: Specifies the format of the geometry returned for each leg of the route. You can choose between two different geometry encoding formats.  FlexiblePolyline: A compact and precise encoding format for the leg geometry. For more information on the format, see the GitHub repository for  FlexiblePolyline .  Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
-    ///   - maxAlternatives: Maximum number of alternative routes to be provided in the response, if available.
-    ///   - optimizeRoutingFor: Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
-    ///   - origin: The start position for the route.
-    ///   - originOptions: Origin related options.
-    ///   - spanAdditionalFeatures: A list of optional features such as SpeedLimit that can be requested for a Span. A span is a section of a Leg for which the requested features have the same values.
-    ///   - tolls: Toll related options.
-    ///   - traffic: Traffic related options.
-    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
-    ///   - travelModeOptions: Travel mode related options for the provided travel mode.
-    ///   - travelStepType: Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system.
-    ///   - waypoints: List of waypoints between the Origin and Destination.
+    ///   - languages:  List of languages for instructions within steps in the response. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   Instructions in the requested language are returned only if they are available.
+    ///   - legAdditionalFeatures:  A list of optional additional parameters such as timezone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only PassThroughWaypoints, Summary, and TravelStepInstructions     Elevation: Retrieves the elevation information for each location.    Incidents: Provides information on traffic incidents along the route.    PassThroughWaypoints: Indicates waypoints that are passed through without stopping.    Summary: Returns a summary of the route, including distance and duration.    Tolls: Supplies toll cost information along the route.    TravelStepInstructions: Provides step-by-step instructions for travel along the route.    TruckRoadTypes: Returns information about road types suitable for trucks.    TypicalDuration: Gives typical travel duration based on historical data.    Zones: Specifies the time zone information for each waypoint.
+    ///   - legGeometryFormat: Specifies the format of the geometry returned for each leg of the route. You can choose between two different geometry encoding formats.  FlexiblePolyline: A compact and precise encoding format for the leg geometry. For more information on the format, see the GitHub repository for https://github.com/aws-geospatial/polyline.  Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
+    ///   - maxAlternatives: Maximum number of alternative routes to be provided in the response, if available. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only up to 3 alternative routes.
+    ///   - optimizeRoutingFor: Controls the trade-off between achieving the shortest travel time (FastestRoute) and achieving the shortest physical distance ((ShortestRoute) when calculating each route in the matrix. Default value: FastestRoute
+    ///   - origin: The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude].
+    ///   - originOptions:  Specifies how the origin point should be matched to the road network and any routing constraints that apply when the traveler is departing the origin. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - spanAdditionalFeatures:  A list of optional features such as SpeedLimit that can be requested for a Span. A span is a section of a Leg for which the requested features have the same values. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - tolls:  Toll related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - traffic:  Traffic related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - travelMode:  Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Car, Pedestrian, and Scooter values.  Default value: Car
+    ///   - travelModeOptions:  Travel mode related options for the provided travel mode. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Car and Pedestrian travel mode options.
+    ///   - travelStepType: Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions Default does not return any steps.
+    ///   - waypoints:  List of waypoints between the Origin and Destination. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions max length is 100.  Max length: 23
     ///   - logger: Logger use during operation
     @inlinable
     public func calculateRoutes(
@@ -324,20 +324,20 @@ public struct GeoRoutes: AWSService {
         return try await self.calculateRoutes(input, logger: logger)
     }
 
-    ///  OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
+    ///  OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data. For more information, see Optimize waypoints in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func optimizeWaypoints(_ input: OptimizeWaypointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> OptimizeWaypointsResponse {
         try await self.client.execute(
             operation: "OptimizeWaypoints", 
-            path: "/optimize-waypoints", 
+            path: "/v2/optimize-waypoints", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
+    ///  OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data. For more information, see Optimize waypoints in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
     ///   - avoid: Features that are avoided. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, this setting is ignored.
@@ -348,13 +348,13 @@ public struct GeoRoutes: AWSService {
     ///   - driver: Driver related options.
     ///   - exclude: Features to be strictly excluded while calculating the route.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - optimizeSequencingFor: Specifies the optimization criteria for the calculated sequence. Default Value: FastestRoute.
-    ///   - origin: The start position for the route.
+    ///   - optimizeSequencingFor: Specifies the optimization criteria for the calculated sequence. Default value: FastestRoute.
+    ///   - origin: The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude].
     ///   - originOptions: Origin related options.
     ///   - traffic: Traffic-related options.
-    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
     ///   - travelModeOptions: Travel mode related options for the provided travel mode.
-    ///   - waypoints: List of waypoints between the Origin and Destination.
+    ///   - waypoints: List of waypoints between the Origin and Destination, in World Geodetic System (WGS 84) format: [longitude, latitude]. The maximum number of waypoints allowed per request:   Maximum 50 waypoints per request   Maximum 20 waypoints when using constraints (AccessHours, AppointmentTime, ServiceDuration, Heading, SideOfStreet, Before)
     ///   - logger: Logger use during operation
     @inlinable
     public func optimizeWaypoints(
@@ -395,27 +395,27 @@ public struct GeoRoutes: AWSService {
         return try await self.optimizeWaypoints(input, logger: logger)
     }
 
-    ///  SnapToRoads matches GPS trace to roads most likely traveled on.
+    ///  SnapToRoads matches GPS trace to roads most likely traveled on. For more information, see Snap to Roads in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func snapToRoads(_ input: SnapToRoadsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SnapToRoadsResponse {
         try await self.client.execute(
             operation: "SnapToRoads", 
-            path: "/snap-to-roads", 
+            path: "/v2/snap-to-roads", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  SnapToRoads matches GPS trace to roads most likely traveled on.
+    ///  SnapToRoads matches GPS trace to roads most likely traveled on. For more information, see Snap to Roads in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - snappedGeometryFormat: Chooses what the returned SnappedGeometry format should be. Default Value: FlexiblePolyline
+    ///   - snappedGeometryFormat: Chooses what the returned SnappedGeometry format should be. Default value: FlexiblePolyline
     ///   - snapRadius: The radius around the provided tracepoint that is considered for snapping.  Unit: meters  Default value: 300
     ///   - tracePoints: List of trace points to be snapped onto the road network.
-    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+    ///   - travelMode: Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
     ///   - travelModeOptions: Travel mode related options for the provided travel mode.
     ///   - logger: Logger use during operation
     @inlinable

@@ -98,6 +98,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum CancellationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case successful = "Successful"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapabilityDeletePropagationPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case retain = "RETAIN"
         public var description: String { return self.rawValue }
@@ -136,6 +143,7 @@ extension EKS {
 
     public enum Category: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case misconfiguration = "MISCONFIGURATION"
+        case rollbackReadiness = "ROLLBACK_READINESS"
         case upgradeReadiness = "UPGRADE_READINESS"
         public var description: String { return self.rawValue }
     }
@@ -197,6 +205,13 @@ extension EKS {
         case other = "OTHER"
         case rancher = "RANCHER"
         case tanzu = "TANZU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ControlPlaneEgressModeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsManaged = "AWS_MANAGED"
+        case customerIsolated = "CUSTOMER_ISOLATED"
+        case customerRouted = "CUSTOMER_ROUTED"
         public var description: String { return self.rawValue }
     }
 
@@ -368,6 +383,12 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum SpreadLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case host = "host"
+        case rack = "rack"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SsoIdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssoGroup = "SSO_GROUP"
         case ssoUser = "SSO_USER"
@@ -393,6 +414,7 @@ extension EKS {
         case clusterLogging = "ClusterLogging"
         case computeConfig = "ComputeConfig"
         case configurationValues = "ConfigurationValues"
+        case controlPlaneEgressMode = "ControlPlaneEgressMode"
         case deletionProtection = "DeletionProtection"
         case desiredSize = "DesiredSize"
         case encryptionConfig = "EncryptionConfig"
@@ -408,6 +430,7 @@ extension EKS {
         case maxUnavailable = "MaxUnavailable"
         case maxUnavailablePercentage = "MaxUnavailablePercentage"
         case minSize = "MinSize"
+        case networkAccess = "NetworkAccess"
         case nodeRepairConfig = "NodeRepairConfig"
         case nodeRepairEnabled = "NodeRepairEnabled"
         case platformVersion = "PlatformVersion"
@@ -417,6 +440,9 @@ extension EKS {
         case releaseVersion = "ReleaseVersion"
         case remoteNetworkConfig = "RemoteNetworkConfig"
         case resolveConflicts = "ResolveConflicts"
+        case roleArn = "RoleArn"
+        case roleMappingsToAddOrUpdate = "RoleMappingsToAddOrUpdate"
+        case roleMappingsToRemove = "RoleMappingsToRemove"
         case securityGroups = "SecurityGroups"
         case serviceAccountRoleArn = "ServiceAccountRoleArn"
         case storageConfig = "StorageConfig"
@@ -426,7 +452,13 @@ extension EKS {
         case updateStrategy = "UpdateStrategy"
         case updatedTier = "UpdatedTier"
         case upgradePolicy = "UpgradePolicy"
+        case vendedLogs = "VendedLogs"
         case version = "Version"
+        case warmPoolEnabled = "WarmPoolEnabled"
+        case warmPoolMaxGroupPreparedCapacity = "WarmPoolMaxGroupPreparedCapacity"
+        case warmPoolMinSize = "WarmPoolMinSize"
+        case warmPoolReuseOnScaleIn = "WarmPoolReuseOnScaleIn"
+        case warmPoolState = "WarmPoolState"
         case zonalShiftConfig = "ZonalShiftConfig"
         public var description: String { return self.rawValue }
     }
@@ -445,7 +477,9 @@ extension EKS {
         case associateEncryptionConfig = "AssociateEncryptionConfig"
         case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"
         case autoModeUpdate = "AutoModeUpdate"
+        case capabilityUpdate = "CapabilityUpdate"
         case configUpdate = "ConfigUpdate"
+        case controlPlaneEgressUpdate = "ControlPlaneEgressUpdate"
         case controlPlaneScalingConfigUpdate = "ControlPlaneScalingConfigUpdate"
         case deletionProtectionUpdate = "DeletionProtectionUpdate"
         case disassociateIdentityProviderConfig = "DisassociateIdentityProviderConfig"
@@ -454,6 +488,7 @@ extension EKS {
         case remoteNetworkConfigUpdate = "RemoteNetworkConfigUpdate"
         case upgradePolicyUpdate = "UpgradePolicyUpdate"
         case vendedLogsUpdate = "VendedLogsUpdate"
+        case versionRollback = "VersionRollback"
         case versionUpdate = "VersionUpdate"
         case vpcConfigUpdate = "VpcConfigUpdate"
         case zonalShiftConfigUpdate = "ZonalShiftConfigUpdate"
@@ -464,6 +499,13 @@ extension EKS {
         case extendedSupport = "EXTENDED_SUPPORT"
         case standardSupport = "STANDARD_SUPPORT"
         case unsupported = "UNSUPPORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WarmPoolState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hibernated = "HIBERNATED"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -1199,6 +1241,67 @@ extension EKS {
         }
     }
 
+    public struct CancelUpdateRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure
+        /// the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of the Amazon EKS cluster associated with the update.
+        public let name: String
+        /// The ID of the update to cancel.
+        public let updateId: String
+
+        @inlinable
+        public init(clientRequestToken: String? = CancelUpdateRequest.idempotencyToken(), name: String, updateId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.name = name
+            self.updateId = updateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.updateId, key: "updateId")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+        }
+    }
+
+    public struct CancelUpdateResponse: AWSDecodableShape {
+        /// The full description of the specified update.
+        public let update: Update?
+
+        @inlinable
+        public init(update: Update? = nil) {
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update = "update"
+        }
+    }
+
+    public struct Cancellation: AWSDecodableShape {
+        /// A message providing additional details about the cancellation, such as the reason for the cancellation or failure details.
+        public let reason: String?
+        /// The current status of the cancellation. Valid values are InProgress, Failed, and Successful.
+        public let status: CancellationStatus?
+
+        @inlinable
+        public init(reason: String? = nil, status: CancellationStatus? = nil) {
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case status = "status"
+        }
+    }
+
     public struct Capability: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the capability.
         public let arn: String?
@@ -1750,28 +1853,36 @@ extension EKS {
     public struct ControlPlanePlacementRequest: AWSEncodableShape {
         /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
         public let groupName: String?
+        /// Optional parameter to specify the placement group spread level for control plane instances. If not provided, Amazon EKS will deploy control plane instances without a placement group.
+        public let spreadLevel: SpreadLevel?
 
         @inlinable
-        public init(groupName: String? = nil) {
+        public init(groupName: String? = nil, spreadLevel: SpreadLevel? = nil) {
             self.groupName = groupName
+            self.spreadLevel = spreadLevel
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupName = "groupName"
+            case spreadLevel = "spreadLevel"
         }
     }
 
     public struct ControlPlanePlacementResponse: AWSDecodableShape {
         /// The name of the placement group for the Kubernetes control plane instances.
         public let groupName: String?
+        /// The spread level used with the placement group for control plane instances on your local Amazon EKS cluster on Amazon Web Services Outposts.
+        public let spreadLevel: SpreadLevel?
 
         @inlinable
-        public init(groupName: String? = nil) {
+        public init(groupName: String? = nil, spreadLevel: SpreadLevel? = nil) {
             self.groupName = groupName
+            self.spreadLevel = spreadLevel
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupName = "groupName"
+            case spreadLevel = "spreadLevel"
         }
     }
 
@@ -2350,9 +2461,11 @@ extension EKS {
         public let updateConfig: NodegroupUpdateConfig?
         /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let version: String?
+        /// The warm pool configuration for the node group. Warm pools maintain pre-initialized EC2 instances that can quickly join your cluster during scale-out events, improving application scaling performance and reducing costs.
+        public let warmPoolConfig: WarmPoolConfig?
 
         @inlinable
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRepairConfig: NodeRepairConfig? = nil, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRepairConfig: NodeRepairConfig? = nil, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil, warmPoolConfig: WarmPoolConfig? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clientRequestToken = clientRequestToken
@@ -2372,6 +2485,7 @@ extension EKS {
             self.taints = taints
             self.updateConfig = updateConfig
             self.version = version
+            self.warmPoolConfig = warmPoolConfig
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2396,6 +2510,7 @@ extension EKS {
             try container.encodeIfPresent(self.taints, forKey: .taints)
             try container.encodeIfPresent(self.updateConfig, forKey: .updateConfig)
             try container.encodeIfPresent(self.version, forKey: .version)
+            try container.encodeIfPresent(self.warmPoolConfig, forKey: .warmPoolConfig)
         }
 
         public func validate(name: String) throws {
@@ -2418,6 +2533,7 @@ extension EKS {
                 try $0.validate(name: "\(name).taints[]")
             }
             try self.updateConfig?.validate(name: "\(name).updateConfig")
+            try self.warmPoolConfig?.validate(name: "\(name).warmPoolConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2439,6 +2555,7 @@ extension EKS {
             case taints = "taints"
             case updateConfig = "updateConfig"
             case version = "version"
+            case warmPoolConfig = "warmPoolConfig"
         }
     }
 
@@ -3730,6 +3847,34 @@ extension EKS {
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
             case resourceIds = "resourceIds"
+        }
+    }
+
+    public struct EtcdPlacementRequest: AWSEncodableShape {
+        /// Optional parameter to specify the placement group spread level for etcd instances. If not provided, Amazon EKS will deploy etcd instances without a placement group.
+        public let spreadLevel: SpreadLevel?
+
+        @inlinable
+        public init(spreadLevel: SpreadLevel? = nil) {
+            self.spreadLevel = spreadLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spreadLevel = "spreadLevel"
+        }
+    }
+
+    public struct EtcdPlacementResponse: AWSDecodableShape {
+        /// The spread level used with the placement group for etcd instances on your local Amazon EKS cluster on Amazon Web Services Outposts.
+        public let spreadLevel: SpreadLevel?
+
+        @inlinable
+        public init(spreadLevel: SpreadLevel? = nil) {
+            self.spreadLevel = spreadLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spreadLevel = "spreadLevel"
         }
     }
 
@@ -5141,9 +5286,11 @@ extension EKS {
         public let updateConfig: NodegroupUpdateConfig?
         /// The Kubernetes version of the managed node group.
         public let version: String?
+        /// The warm pool configuration attached to the node group. Amazon EKS manages warm pools throughout the node group lifecycle using the AWSServiceRoleForAmazonEKSNodegroup service-linked role to create, update, and delete warm pool resources.
+        public let warmPoolConfig: WarmPoolConfig?
 
         @inlinable
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRepairConfig: NodeRepairConfig? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRepairConfig: NodeRepairConfig? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil, warmPoolConfig: WarmPoolConfig? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clusterName = clusterName
@@ -5168,6 +5315,7 @@ extension EKS {
             self.taints = taints
             self.updateConfig = updateConfig
             self.version = version
+            self.warmPoolConfig = warmPoolConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5195,6 +5343,7 @@ extension EKS {
             case taints = "taints"
             case updateConfig = "updateConfig"
             case version = "version"
+            case warmPoolConfig = "warmPoolConfig"
         }
     }
 
@@ -5410,45 +5559,61 @@ extension EKS {
     }
 
     public struct OutpostConfigRequest: AWSEncodableShape {
-        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. Choose an instance type based on the number of nodes that your cluster will have. For more information, see Capacity considerations in the Amazon EKS User Guide. The instance type that you specify is used for all Kubernetes control plane instances. The instance type can't be changed after cluster creation. The control plane is not automatically scaled by Amazon EKS.
+        /// The Amazon EC2 instance type for the Kubernetes control plane instances of your local Amazon EKS cluster on Amazon Web Services Outposts. This instance type applies to all control plane instances and cannot be changed after cluster creation. For more information, see Capacity considerations in the Amazon EKS User Guide.
         public let controlPlaneInstanceType: String
         /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see Capacity considerations in the Amazon EKS User Guide.
         public let controlPlanePlacement: ControlPlanePlacementRequest?
+        /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS cluster on Amazon Web Services Outposts. This instance type applies to all etcd instances and cannot be changed after cluster creation.
+        public let etcdInstanceType: String?
+        /// An object representing the placement configuration for the etcd instances of your local  Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see Capacity considerations in the Amazon EKS User Guide.
+        public let etcdPlacement: EtcdPlacementRequest?
         /// The ARN of the Outpost that you want to use for your local Amazon EKS cluster on Outposts. Only a single Outpost ARN is supported.
         public let outpostArns: [String]
 
         @inlinable
-        public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementRequest? = nil, outpostArns: [String]) {
+        public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementRequest? = nil, etcdInstanceType: String? = nil, etcdPlacement: EtcdPlacementRequest? = nil, outpostArns: [String]) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
+            self.etcdInstanceType = etcdInstanceType
+            self.etcdPlacement = etcdPlacement
             self.outpostArns = outpostArns
         }
 
         private enum CodingKeys: String, CodingKey {
             case controlPlaneInstanceType = "controlPlaneInstanceType"
             case controlPlanePlacement = "controlPlanePlacement"
+            case etcdInstanceType = "etcdInstanceType"
+            case etcdPlacement = "etcdPlacement"
             case outpostArns = "outpostArns"
         }
     }
 
     public struct OutpostConfigResponse: AWSDecodableShape {
-        /// The Amazon EC2 instance type used for the control plane. The instance type is the same for all control plane instances.
+        /// The Amazon EC2 instance type for the Kubernetes control plane instances of your local Amazon EKS cluster on Amazon Web Services Outposts. The instance type is the same for all control plane instances.
         public let controlPlaneInstanceType: String
         /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see Capacity considerations in the Amazon EKS User Guide.
         public let controlPlanePlacement: ControlPlanePlacementResponse?
+        /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS cluster on Amazon Web Services Outposts. The instance type is the same for all etcd instances.
+        public let etcdInstanceType: String?
+        /// An object representing the placement configuration for the etcd instances of your local  Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see Capacity considerations in the Amazon EKS User Guide.
+        public let etcdPlacement: EtcdPlacementResponse?
         /// The ARN of the Outpost that you specified for use with your local Amazon EKS cluster on Outposts.
         public let outpostArns: [String]
 
         @inlinable
-        public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementResponse? = nil, outpostArns: [String]) {
+        public init(controlPlaneInstanceType: String, controlPlanePlacement: ControlPlanePlacementResponse? = nil, etcdInstanceType: String? = nil, etcdPlacement: EtcdPlacementResponse? = nil, outpostArns: [String]) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
+            self.etcdInstanceType = etcdInstanceType
+            self.etcdPlacement = etcdPlacement
             self.outpostArns = outpostArns
         }
 
         private enum CodingKeys: String, CodingKey {
             case controlPlaneInstanceType = "controlPlaneInstanceType"
             case controlPlanePlacement = "controlPlanePlacement"
+            case etcdInstanceType = "etcdInstanceType"
+            case etcdPlacement = "etcdPlacement"
             case outpostArns = "outpostArns"
         }
     }
@@ -5793,6 +5958,20 @@ extension EKS {
         }
     }
 
+    public struct RollbackConfig: AWSEncodableShape {
+        /// The length of time in minutes to wait before cancelling the update. Timeout is a minimum-bound property, meaning the timeout occurs no sooner than the time you specify, but can occur shortly thereafter. This value can be between 120 (2 hours) and 10080 (7 days). Default: 720 (12 hours) if not specified.
+        public let timeoutMinutes: Int?
+
+        @inlinable
+        public init(timeoutMinutes: Int? = nil) {
+            self.timeoutMinutes = timeoutMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeoutMinutes = "timeoutMinutes"
+        }
+    }
+
     public struct ServerException: AWSErrorShape {
         /// The Amazon EKS add-on name associated with the exception.
         public let addonName: String?
@@ -6050,6 +6229,8 @@ extension EKS {
     }
 
     public struct Update: AWSDecodableShape {
+        /// The latest cancellation information for the update. This field is present only if any cancellation is attempted for the update.
+        public let cancellation: Cancellation?
         /// The Unix epoch timestamp at object creation.
         public let createdAt: Date?
         /// Any errors associated with a Failed update.
@@ -6064,7 +6245,8 @@ extension EKS {
         public let type: UpdateType?
 
         @inlinable
-        public init(createdAt: Date? = nil, errors: [ErrorDetail]? = nil, id: String? = nil, params: [UpdateParam]? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil) {
+        public init(cancellation: Cancellation? = nil, createdAt: Date? = nil, errors: [ErrorDetail]? = nil, id: String? = nil, params: [UpdateParam]? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil) {
+            self.cancellation = cancellation
             self.createdAt = createdAt
             self.errors = errors
             self.id = id
@@ -6074,6 +6256,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cancellation = "cancellation"
             case createdAt = "createdAt"
             case errors = "errors"
             case id = "id"
@@ -6331,6 +6514,7 @@ extension EKS {
         /// The name of the Amazon EKS cluster to update.
         public let name: String
         public let remoteNetworkConfig: RemoteNetworkConfigRequest?
+        /// An object representing the VPC configuration to use for the cluster update. You can use this parameter to update the control plane egress mode, the subnets used by the cluster, the security groups, and the endpoint access settings.
         public let resourcesVpcConfig: VpcConfigRequest?
         /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
         public let storageConfig: StorageConfigRequest?
@@ -6411,18 +6595,21 @@ extension EKS {
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
-        /// Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
+        /// Set this value to true to override upgrade-blocking or rollback-blocking readiness checks when updating a cluster.
         public let force: Bool?
         /// The name of the Amazon EKS cluster to update.
         public let name: String
+        /// The rollback configuration for the cluster version rollback.
+        public let rollbackConfig: RollbackConfig?
         /// The desired Kubernetes version following a successful update.
         public let version: String
 
         @inlinable
-        public init(clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(), force: Bool? = nil, name: String, version: String) {
+        public init(clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(), force: Bool? = nil, name: String, rollbackConfig: RollbackConfig? = nil, version: String) {
             self.clientRequestToken = clientRequestToken
             self.force = force
             self.name = name
+            self.rollbackConfig = rollbackConfig
             self.version = version
         }
 
@@ -6432,12 +6619,14 @@ extension EKS {
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             try container.encodeIfPresent(self.force, forKey: .force)
             request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.rollbackConfig, forKey: .rollbackConfig)
             try container.encode(self.version, forKey: .version)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case force = "force"
+            case rollbackConfig = "rollbackConfig"
             case version = "version"
         }
     }
@@ -6544,9 +6733,11 @@ extension EKS {
         public let taints: UpdateTaintsPayload?
         /// The node group update configuration.
         public let updateConfig: NodegroupUpdateConfig?
+        /// The warm pool configuration to apply to the node group. You can use this to add a warm pool to an existing node group or modify the settings of an existing warm pool.
+        public let warmPoolConfig: WarmPoolConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, nodeRepairConfig: NodeRepairConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil, updateConfig: NodegroupUpdateConfig? = nil) {
+        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, nodeRepairConfig: NodeRepairConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil, updateConfig: NodegroupUpdateConfig? = nil, warmPoolConfig: WarmPoolConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.labels = labels
@@ -6555,6 +6746,7 @@ extension EKS {
             self.scalingConfig = scalingConfig
             self.taints = taints
             self.updateConfig = updateConfig
+            self.warmPoolConfig = warmPoolConfig
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -6568,6 +6760,7 @@ extension EKS {
             try container.encodeIfPresent(self.scalingConfig, forKey: .scalingConfig)
             try container.encodeIfPresent(self.taints, forKey: .taints)
             try container.encodeIfPresent(self.updateConfig, forKey: .updateConfig)
+            try container.encodeIfPresent(self.warmPoolConfig, forKey: .warmPoolConfig)
         }
 
         public func validate(name: String) throws {
@@ -6576,6 +6769,7 @@ extension EKS {
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.taints?.validate(name: "\(name).taints")
             try self.updateConfig?.validate(name: "\(name).updateConfig")
+            try self.warmPoolConfig?.validate(name: "\(name).warmPoolConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6585,6 +6779,7 @@ extension EKS {
             case scalingConfig = "scalingConfig"
             case taints = "taints"
             case updateConfig = "updateConfig"
+            case warmPoolConfig = "warmPoolConfig"
         }
     }
 
@@ -6818,6 +7013,8 @@ extension EKS {
     }
 
     public struct VpcConfigRequest: AWSEncodableShape {
+        /// Specifies the control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED, Amazon EKS manages the egress path from the control plane and you don't need to configure NAT gateways or other routing infrastructure for control plane traffic. If the cluster is set to CUSTOMER_ROUTED, you manage the egress path from the control plane in your VPC subnets. You are responsible for ensuring that the control plane can reach required endpoints such as webhook servers and OIDC providers. The default value is AWS_MANAGED. Once set to CUSTOMER_ROUTED, this setting cannot be changed back to AWS_MANAGED on the same cluster.  Learn more about control plane egress routing in the Amazon EKS User Guide.
+        public let controlPlaneEgressMode: ControlPlaneEgressModeType?
         /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
         /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide .
@@ -6830,7 +7027,8 @@ extension EKS {
         public let subnetIds: [String]?
 
         @inlinable
-        public init(endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(controlPlaneEgressMode: ControlPlaneEgressModeType? = nil, endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.controlPlaneEgressMode = controlPlaneEgressMode
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
             self.publicAccessCidrs = publicAccessCidrs
@@ -6839,6 +7037,7 @@ extension EKS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlPlaneEgressMode = "controlPlaneEgressMode"
             case endpointPrivateAccess = "endpointPrivateAccess"
             case endpointPublicAccess = "endpointPublicAccess"
             case publicAccessCidrs = "publicAccessCidrs"
@@ -6850,6 +7049,8 @@ extension EKS {
     public struct VpcConfigResponse: AWSDecodableShape {
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public let clusterSecurityGroupId: String?
+        /// The current control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED, Amazon EKS manages the egress path from the control plane. If the cluster is set to CUSTOMER_ROUTED, you manage the egress path from the control plane in your VPC subnets.  Learn more about control plane egress routing in the Amazon EKS User Guide.
+        public let controlPlaneEgressMode: ControlPlaneEgressModeType?
         /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Cluster API server endpoint in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
         /// Whether the public API server endpoint is enabled.
@@ -6864,8 +7065,9 @@ extension EKS {
         public let vpcId: String?
 
         @inlinable
-        public init(clusterSecurityGroupId: String? = nil, endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(clusterSecurityGroupId: String? = nil, controlPlaneEgressMode: ControlPlaneEgressModeType? = nil, endpointPrivateAccess: Bool? = nil, endpointPublicAccess: Bool? = nil, publicAccessCidrs: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.clusterSecurityGroupId = clusterSecurityGroupId
+            self.controlPlaneEgressMode = controlPlaneEgressMode
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
             self.publicAccessCidrs = publicAccessCidrs
@@ -6876,12 +7078,47 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case clusterSecurityGroupId = "clusterSecurityGroupId"
+            case controlPlaneEgressMode = "controlPlaneEgressMode"
             case endpointPrivateAccess = "endpointPrivateAccess"
             case endpointPublicAccess = "endpointPublicAccess"
             case publicAccessCidrs = "publicAccessCidrs"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct WarmPoolConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to attach warm pools on the managed node group. Set to true to enable the warm pool, or false to disable and remove it. If not specified during an update, the current value is preserved.
+        public let enabled: Bool?
+        /// The maximum total number of instances across the warm pool and Auto Scaling group combined. This value controls the total prepared capacity available for your node group.
+        public let maxGroupPreparedCapacity: Int?
+        /// The minimum number of instances to maintain in the warm pool. Default: 0. Size your warm pool based on scaling patterns to balance cost and availability. Start with 10-20% of expected peak capacity.
+        public let minSize: Int?
+        /// The desired state for warm pool instances. Default: Stopped. Valid values are Stopped (most cost-effective with EBS storage costs only), Running (fastest transition time with full EC2 costs), and Hibernated (balance between cost and speed, only supported on specific instance types). Warm pool instances in the Hibernated state are not supported with Bottlerocket AMIs.
+        public let poolState: WarmPoolState?
+        /// Indicates whether instances should return to the warm pool during scale-in events instead of being terminated. Default: false. Enable this to reduce costs by reusing instances. This feature is not supported for Bottlerocket AMIs.
+        public let reuseOnScaleIn: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil, maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil, reuseOnScaleIn: Bool? = nil) {
+            self.enabled = enabled
+            self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
+            self.minSize = minSize
+            self.poolState = poolState
+            self.reuseOnScaleIn = reuseOnScaleIn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minSize, name: "minSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case maxGroupPreparedCapacity = "maxGroupPreparedCapacity"
+            case minSize = "minSize"
+            case poolState = "poolState"
+            case reuseOnScaleIn = "reuseOnScaleIn"
         }
     }
 

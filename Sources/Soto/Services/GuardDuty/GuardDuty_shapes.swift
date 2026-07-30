@@ -38,6 +38,11 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum CloudProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -45,6 +50,39 @@ extension GuardDuty {
         case failed = "FAILED"
         case pending = "PENDING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Confidence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "High"
+        case low = "Low"
+        case medium = "Medium"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfidenceLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentPolicyFilterAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentPolicyFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hate = "HATE"
+        case insults = "INSULTS"
+        case jailbreak = "JAILBREAK"
+        case misconduct = "MISCONDUCT"
+        case promptAttack = "PROMPT_ATTACK"
+        case sexual = "SEXUAL"
+        case violence = "VIOLENCE"
         public var description: String { return self.rawValue }
     }
 
@@ -127,6 +165,8 @@ extension GuardDuty {
     }
 
     public enum DetectorFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiAnalyst = "AI_ANALYST"
+        case aiProtection = "AI_PROTECTION"
         case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
         case eksAuditLogs = "EKS_AUDIT_LOGS"
         case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
@@ -138,6 +178,8 @@ extension GuardDuty {
     }
 
     public enum DetectorFeatureResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiAnalyst = "AI_ANALYST"
+        case aiProtection = "AI_PROTECTION"
         case cloudTrail = "CLOUD_TRAIL"
         case dnsLogs = "DNS_LOGS"
         case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
@@ -236,6 +278,7 @@ extension GuardDuty {
     }
 
     public enum FreeTrialFeatureResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiProtection = "AI_PROTECTION"
         case cloudTrail = "CLOUD_TRAIL"
         case dnsLogs = "DNS_LOGS"
         case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
@@ -259,6 +302,18 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case guardrailIntervened = "GUARDRAIL_INTERVENED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case input = "INPUT"
+        case output = "OUTPUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IndicatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attackTactic = "ATTACK_TACTIC"
         case attackTechnique = "ATTACK_TECHNIQUE"
@@ -269,7 +324,11 @@ extension GuardDuty {
         case maliciousDomain = "MALICIOUS_DOMAIN"
         case maliciousFile = "MALICIOUS_FILE"
         case maliciousIp = "MALICIOUS_IP"
+        case maliciousPackage = "MALICIOUS_PACKAGE"
         case maliciousProcess = "MALICIOUS_PROCESS"
+        case misconfiguration = "MISCONFIGURATION"
+        case reachability = "REACHABILITY"
+        case sensitiveData = "SENSITIVE_DATA"
         case suspiciousNetwork = "SUSPICIOUS_NETWORK"
         case suspiciousProcess = "SUSPICIOUS_PROCESS"
         case suspiciousUserAgent = "SUSPICIOUS_USER_AGENT"
@@ -277,6 +336,23 @@ extension GuardDuty {
         case unusualApiForAccount = "UNUSUAL_API_FOR_ACCOUNT"
         case unusualAsnForAccount = "UNUSUAL_ASN_FOR_ACCOUNT"
         case unusualAsnForUser = "UNUSUAL_ASN_FOR_USER"
+        case vulnerability = "VULNERABILITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestigationSortField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case confidence = "CONFIDENCE"
+        case endTime = "END_TIME"
+        case riskLevel = "RISK_LEVEL"
+        case startTime = "START_TIME"
+        case status = "STATUS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvestigationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -346,6 +422,7 @@ extension GuardDuty {
         case ec2Instance = "EC2_INSTANCE"
         case ec2RecoveryPoint = "EC2_RECOVERY_POINT"
         case s3Bucket = "S3_BUCKET"
+        case s3PointInTimeRecovery = "S3_POINT_IN_TIME_RECOVERY"
         case s3RecoveryPoint = "S3_RECOVERY_POINT"
         public var description: String { return self.rawValue }
     }
@@ -392,6 +469,7 @@ extension GuardDuty {
     }
 
     public enum OrgFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiProtection = "AI_PROTECTION"
         case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
         case eksAuditLogs = "EKS_AUDIT_LOGS"
         case eksRuntimeMonitoring = "EKS_RUNTIME_MONITORING"
@@ -417,6 +495,8 @@ extension GuardDuty {
     }
 
     public enum ProfileSubtype: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case average = "AVERAGE"
+        case count = "COUNT"
         case frequent = "FREQUENT"
         case infrequent = "INFREQUENT"
         case rare = "RARE"
@@ -426,6 +506,7 @@ extension GuardDuty {
 
     public enum ProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case frequency = "FREQUENCY"
+        case volume = "VOLUME"
         public var description: String { return self.rawValue }
     }
 
@@ -459,6 +540,15 @@ extension GuardDuty {
         case ec2 = "EC2"
         case ecs = "ECS"
         case eks = "EKS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RiskLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "Critical"
+        case high = "High"
+        case info = "Info"
+        case low = "Low"
+        case medium = "Medium"
         public var description: String { return self.rawValue }
     }
 
@@ -601,6 +691,7 @@ extension GuardDuty {
     }
 
     public enum UsageFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiProtection = "AI_PROTECTION"
         case cloudTrail = "CLOUD_TRAIL"
         case dnsLogs = "DNS_LOGS"
         case ebsMalwareProtection = "EBS_MALWARE_PROTECTION"
@@ -648,7 +739,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.administratorId, forKey: .administratorId)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.invitationId, forKey: .invitationId)
         }
 
@@ -668,8 +759,7 @@ extension GuardDuty {
     }
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
-        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The value that is used to validate the administrator account to the member account.
         public let invitationId: String?
@@ -686,7 +776,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.invitationId, forKey: .invitationId)
             try container.encodeIfPresent(self.masterId, forKey: .masterId)
         }
@@ -738,7 +828,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
-            case type = "__type"
+            case type = "type"
         }
     }
 
@@ -793,7 +883,7 @@ extension GuardDuty {
     public struct Account: AWSDecodableShape {
         /// Name of the member's Amazon Web Services account.
         public let name: String?
-        /// ID of the member's Amazon Web Services account
+        /// The Amazon Web Services account ID within which the activity took place. This may differ from the account that owns the user identity.
         public let uid: String?
 
         @inlinable
@@ -811,7 +901,7 @@ extension GuardDuty {
     public struct AccountDetail: AWSEncodableShape {
         /// The member account ID.
         public let accountId: String?
-        /// The email address of the member account. The following list includes the rules for a valid email address:   The email address must be a minimum of 6 and a maximum of 64 characters long.   All characters must be 7-bit ASCII characters.   There must be one and only one @ symbol, which separates the local name from the domain name.   The local name can't contain any of the following characters: whitespace, " ' ( )  [ ] : ' , \ | % &   The local name can't begin with a dot (.).   The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.).   The domain name can't begin or end with a dot (.) or hyphen (-).   The domain name must contain at least one dot.
+        /// The email address of the member account. The following list includes the rules for a valid email address:   The email address must be a minimum of 6 and a maximum of 64 characters long.   All characters must be 7-bit ASCII characters.   There must be one and only one @ symbol, which separates the local name from the domain name.   The local name can't contain any of the following characters: whitespace, " ' ( ) &lt; &gt; [ ] : ' , \ | % &amp;   The local name can't begin with a dot (.).   The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.).   The domain name can't begin or end with a dot (.) or hyphen (-).   The domain name must contain at least one dot.
         public let email: String?
 
         @inlinable
@@ -824,7 +914,7 @@ extension GuardDuty {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.email, name: "email", parent: name, max: 64)
-            try self.validate(self.email, name: "email", parent: name, min: 6)
+            try self.validate(self.email, name: "email", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1132,7 +1222,7 @@ extension GuardDuty {
     }
 
     public struct AnomalyUnusual: AWSDecodableShape {
-        /// The behavior of the anomalous activity that caused GuardDuty to  generate the finding.
+        /// The behavior of the anomalous activity that caused GuardDuty to generate the finding.
         public let behavior: [String: [String: AnomalyObject]]?
 
         @inlinable
@@ -1146,8 +1236,7 @@ extension GuardDuty {
     }
 
     public struct ArchiveFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The IDs of the findings that you want to archive.
         public let findingIds: [String]?
@@ -1161,7 +1250,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.findingIds, forKey: .findingIds)
         }
 
@@ -1276,7 +1365,70 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
-            case type = "__type"
+            case type = "type"
+        }
+    }
+
+    public struct BedrockGuardrail: AWSDecodableShape {
+        /// The ARN of the Bedrock guardrail.
+        public let arn: String?
+        /// The version of the Bedrock guardrail.
+        public let version: String?
+
+        @inlinable
+        public init(arn: String? = nil, version: String? = nil) {
+            self.arn = arn
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case version = "version"
+        }
+    }
+
+    public struct BedrockGuardrailDetails: AWSDecodableShape {
+        /// The list of content policy filters that matched during the guardrail evaluation.
+        public let contentPolicyFilters: [ContentPolicyFilter]?
+        /// Indicates whether the guardrail intervened or not.
+        public let guardrailAction: GuardrailAction?
+        /// The ARN of the Bedrock guardrail. This field is deprecated. Use the guardrails list instead.
+        public let guardrailArn: String?
+        /// The list of Bedrock guardrails associated with the finding.
+        public let guardrails: [BedrockGuardrail]?
+        /// Indicates whether the guardrail was applied on the input or output of the model invocation.
+        public let guardrailSource: GuardrailSource?
+        /// The version of the Bedrock guardrail. This field is deprecated. Use the guardrails list instead.
+        public let guardrailVersion: String?
+
+        @inlinable
+        public init(contentPolicyFilters: [ContentPolicyFilter]? = nil, guardrailAction: GuardrailAction? = nil, guardrails: [BedrockGuardrail]? = nil, guardrailSource: GuardrailSource? = nil) {
+            self.contentPolicyFilters = contentPolicyFilters
+            self.guardrailAction = guardrailAction
+            self.guardrailArn = nil
+            self.guardrails = guardrails
+            self.guardrailSource = guardrailSource
+            self.guardrailVersion = nil
+        }
+
+        @available(*, deprecated, message: "Members guardrailArn, guardrailVersion have been deprecated")
+        @inlinable
+        public init(contentPolicyFilters: [ContentPolicyFilter]? = nil, guardrailAction: GuardrailAction? = nil, guardrailArn: String? = nil, guardrails: [BedrockGuardrail]? = nil, guardrailSource: GuardrailSource? = nil, guardrailVersion: String? = nil) {
+            self.contentPolicyFilters = contentPolicyFilters
+            self.guardrailAction = guardrailAction
+            self.guardrailArn = guardrailArn
+            self.guardrails = guardrails
+            self.guardrailSource = guardrailSource
+            self.guardrailVersion = guardrailVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentPolicyFilters = "contentPolicyFilters"
+            case guardrailAction = "guardrailAction"
+            case guardrailArn = "guardrailArn"
+            case guardrails = "guardrails"
+            case guardrailSource = "guardrailSource"
+            case guardrailVersion = "guardrailVersion"
         }
     }
 
@@ -1360,6 +1512,28 @@ extension GuardDuty {
         }
     }
 
+    public struct CloudDetails: AWSDecodableShape {
+        /// The Amazon Web Services account ID of the investigated resource.
+        public let account: String?
+        /// The cloud provider. Currently, only AWS is supported.
+        public let provider: CloudProvider?
+        /// The Amazon Web Services Region in which the investigated resource resides.
+        public let region: String?
+
+        @inlinable
+        public init(account: String? = nil, provider: CloudProvider? = nil, region: String? = nil) {
+            self.account = account
+            self.provider = provider
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "account"
+            case provider = "provider"
+            case region = "region"
+        }
+    }
+
     public struct CloudTrailConfigurationResult: AWSDecodableShape {
         /// Describes whether CloudTrail is enabled as a data source for the detector.
         public let status: DataSourceStatus?
@@ -1389,9 +1563,9 @@ extension GuardDuty {
     }
 
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
-        /// Represents the equal condition to be applied to a single field when querying for findings.
+        /// Represents the equal condition to be applied to a single field when querying for findings. Max values: 50
         public let eq: [String]?
-        /// Represents an equal condition to be applied to a single field when querying for findings.
+        /// Represents an equal  condition to be applied to a single field when querying for findings. Max values: 50
         public let equals: [String]?
         /// Represents a greater than condition to be applied to a single field when querying for findings.
         public let greaterThan: Int64?
@@ -1411,9 +1585,9 @@ extension GuardDuty {
         public let lte: Int?
         /// Represents the match condition to be applied to a single field when querying for findings.    The matches condition is available only for create-filter and update-filter APIs.
         public let matches: [String]?
-        /// Represents the not equal condition to be applied to a single field when querying for findings.
+        /// Represents the not equal condition to be applied to a single field when querying for findings. Max values: 50
         public let neq: [String]?
-        /// Represents a not equal condition to be applied to a single field when querying for findings.
+        /// Represents a not equal  condition to be applied to a single field when querying for findings. Max values: 50
         public let notEquals: [String]?
         /// Represents the not match condition to be applied to a single field when querying for findings.    The not-matches condition is available only for create-filter and update-filter APIs.
         public let notMatches: [String]?
@@ -1461,13 +1635,11 @@ extension GuardDuty {
                 try validate($0, name: "matches[]", parent: name, min: 1)
             }
             try self.validate(self.matches, name: "matches", parent: name, max: 5)
-            try self.validate(self.matches, name: "matches", parent: name, min: 1)
             try self.notMatches?.forEach {
                 try validate($0, name: "notMatches[]", parent: name, max: 512)
                 try validate($0, name: "notMatches[]", parent: name, min: 1)
             }
             try self.validate(self.notMatches, name: "notMatches", parent: name, max: 5)
-            try self.validate(self.notMatches, name: "notMatches", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1502,7 +1674,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
-            case type = "__type"
+            case type = "type"
         }
     }
 
@@ -1580,6 +1752,46 @@ extension GuardDuty {
         }
     }
 
+    public struct ContentPolicyFilter: AWSDecodableShape {
+        /// The action taken by the guardrail filter.
+        public let action: ContentPolicyFilterAction?
+        /// The confidence level that the content matched the filter.
+        public let confidence: ConfidenceLevel?
+        /// The type of content that was filtered by the guardrail.
+        public let type: ContentPolicyFilterType?
+
+        @inlinable
+        public init(action: ContentPolicyFilterAction? = nil, confidence: ConfidenceLevel? = nil, type: ContentPolicyFilterType? = nil) {
+            self.action = action
+            self.confidence = confidence
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case confidence = "confidence"
+            case type = "type"
+        }
+    }
+
+    public struct ContinuousScanDetails: AWSEncodableShape {
+        /// The timestamp representing the end of the time range to scan.
+        public let endTime: Date
+        /// The timestamp representing the start of the time range to scan. Reserved for internal use.
+        public let startTime: Date?
+
+        @inlinable
+        public init(endTime: Date, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
     public struct Country: AWSDecodableShape {
         /// The country code of the remote IP address.
         public let countryCode: String?
@@ -1601,13 +1813,13 @@ extension GuardDuty {
     public struct CoverageEc2InstanceDetails: AWSDecodableShape {
         /// Information about the installed security agent.
         public let agentDetails: AgentDetails?
-        /// The cluster ARN of the Amazon ECS cluster running on  the Amazon EC2 instance.
+        /// The cluster ARN of the Amazon ECS cluster running on the Amazon EC2 instance.
         public let clusterArn: String?
         /// The Amazon EC2 instance ID.
         public let instanceId: String?
         /// The instance type of the Amazon EC2 instance.
         public let instanceType: String?
-        /// Indicates how the GuardDuty security agent is managed for this resource.    AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.    MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty  security agent updates for this resource.    The DISABLED status doesn't apply to Amazon  EC2 instances and Amazon EKS clusters.
+        /// Indicates how the GuardDuty security agent is managed for this resource.    AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.    MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty security agent updates for this resource.    The DISABLED status doesn't apply to Amazon EC2 instances and Amazon EKS clusters.
         public let managementType: ManagementType?
 
         @inlinable
@@ -1631,9 +1843,9 @@ extension GuardDuty {
     public struct CoverageEcsClusterDetails: AWSDecodableShape {
         /// The name of the Amazon ECS cluster.
         public let clusterName: String?
-        /// Information about the Amazon ECS container running on Amazon EC2  instance.
+        /// Information about the Amazon ECS container running on Amazon EC2 instance.
         public let containerInstanceDetails: ContainerInstanceDetails?
-        /// Information about the Fargate details associated with the Amazon  ECS cluster.
+        /// Information about the Fargate details associated with the Amazon ECS cluster.
         public let fargateDetails: FargateDetails?
 
         @inlinable
@@ -1659,7 +1871,7 @@ extension GuardDuty {
         public let compatibleNodes: Int64?
         /// Represents the nodes within the EKS cluster that have a HEALTHY coverage status.
         public let coveredNodes: Int64?
-        /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS cluster.  AUTO_MANAGED indicates GuardDuty deploys and manages updates for this resource.  MANUAL indicates that you are responsible to deploy, update, and manage  the Amazon EKS add-on GuardDuty agent for this resource.
+        /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS cluster.  AUTO_MANAGED indicates GuardDuty deploys and manages updates for this resource.  MANUAL indicates that you are responsible to deploy, update, and manage the Amazon EKS add-on GuardDuty agent for this resource.
         public let managementType: ManagementType?
 
         @inlinable
@@ -1773,9 +1985,9 @@ extension GuardDuty {
     }
 
     public struct CoverageResourceDetails: AWSDecodableShape {
-        /// Information about the Amazon EC2 instance assessed  for runtime coverage.
+        /// Information about the Amazon EC2 instance assessed for runtime coverage.
         public let ec2InstanceDetails: CoverageEc2InstanceDetails?
-        /// Information about the Amazon ECS cluster that is assessed for  runtime coverage.
+        /// Information about the Amazon ECS cluster that is assessed for runtime coverage.
         public let ecsClusterDetails: CoverageEcsClusterDetails?
         /// EKS cluster details involved in the coverage statistics.
         public let eksClusterDetails: CoverageEksClusterDetails?
@@ -1837,7 +2049,7 @@ extension GuardDuty {
     public struct CreateDetectorRequest: AWSEncodableShape {
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+        /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
         public let dataSources: DataSourceConfigurations?
         /// A Boolean value that specifies whether the detector is to be enabled.
         public let enable: Bool?
@@ -1910,16 +2122,15 @@ extension GuardDuty {
     }
 
     public struct CreateFilterRequest: AWSEncodableShape {
-        /// Specifies the action that is to be applied to the findings that match the filter.
+        /// Specifies the action that is to be applied to the findings that match the filter. Default: NOOP
         public let action: FilterAction?
         /// The idempotency token for the create request.
         public let clientToken: String?
         /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
         public let description: String?
-        /// The detector ID associated with the GuardDuty account for which you want to create a filter. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The detector ID associated with the GuardDuty account for which you want to create a filter. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   id   region   severity To filter on the basis of severity, the API and CLI use the following input list for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8"]     Critical: ["9", "10"]    For more information, see Findings severity levels in the Amazon GuardDuty User Guide.   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.resourceType   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.dnsRequestAction.vpcOwnerAccountId   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.statusCode   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.protocol   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.additionalInfo.threatListName   service.resourceRole   resource.eksClusterDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   resource.ecsClusterDetails.name   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.definitionArn   resource.containerDetails.image   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.engine   resource.rdsDbUserDetails.user   resource.rdsDbInstanceDetails.tags.key   resource.rdsDbInstanceDetails.tags.value   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.name   service.runtimeDetails.process.executablePath   resource.lambdaDetails.functionName   resource.lambdaDetails.functionArn   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value
+        /// Represents the criteria to be used in the filter for querying findings. The following fields are available for filtering:   accountId   arn   associatedAttackSequenceArn   confidence   createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   id   partition   region   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userIdentity.accessKeyId   resource.accessKeyDetails.userIdentity.accountId   resource.accessKeyDetails.userIdentity.arn   resource.accessKeyDetails.userIdentity.principalId   resource.accessKeyDetails.userIdentity.sessionContext.attributes.mfaAuthenticated   resource.accessKeyDetails.userIdentity.sessionContext.ec2RoleDelivery   resource.accessKeyDetails.userIdentity.sessionContext.invokedBy   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.accountId   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.arn   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.principalId   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.type   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.userName   resource.accessKeyDetails.userIdentity.sessionContext.sourceIdentity   resource.accessKeyDetails.userIdentity.sessionContext.webIdFederationData.attributes   resource.accessKeyDetails.userIdentity.sessionContext.webIdFederationData.federatedProvider   resource.accessKeyDetails.userIdentity.type   resource.accessKeyDetails.userIdentity.userName   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.bedrockGuardrailDetails.guardrailArn   resource.bedrockGuardrailDetails.guardrailVersion   resource.containerDetails.containerRuntime   resource.containerDetails.id   resource.containerDetails.image   resource.containerDetails.imagePrefix   resource.containerDetails.name   resource.containerDetails.securityContext.allowPrivilegeEscalation   resource.containerDetails.securityContext.privileged   resource.containerDetails.volumeMounts.mountPath   resource.containerDetails.volumeMounts.name   resource.ebsSnapshotDetails.snapshotArn   resource.ebsVolumeDetails.scannedVolumeDetails.deviceName   resource.ebsVolumeDetails.scannedVolumeDetails.encryptionType   resource.ebsVolumeDetails.scannedVolumeDetails.kmsKeyArn   resource.ebsVolumeDetails.scannedVolumeDetails.snapshotArn   resource.ebsVolumeDetails.scannedVolumeDetails.volumeArn   resource.ebsVolumeDetails.scannedVolumeDetails.volumeSizeInGB   resource.ebsVolumeDetails.scannedVolumeDetails.volumeType   resource.ebsVolumeDetails.skippedVolumeDetails.deviceName   resource.ebsVolumeDetails.skippedVolumeDetails.encryptionType   resource.ebsVolumeDetails.skippedVolumeDetails.kmsKeyArn   resource.ebsVolumeDetails.skippedVolumeDetails.snapshotArn   resource.ebsVolumeDetails.skippedVolumeDetails.volumeArn   resource.ebsVolumeDetails.skippedVolumeDetails.volumeSizeInGB   resource.ebsVolumeDetails.skippedVolumeDetails.volumeType   resource.ec2ImageDetails.imageArn   resource.ecsClusterDetails.activeServicesCount   resource.ecsClusterDetails.arn   resource.ecsClusterDetails.name   resource.ecsClusterDetails.registeredContainerInstancesCount   resource.ecsClusterDetails.runningTasksCount   resource.ecsClusterDetails.status   resource.ecsClusterDetails.tags.key   resource.ecsClusterDetails.tags.value   resource.ecsClusterDetails.taskDetails.arn   resource.ecsClusterDetails.taskDetails.containers.containerRuntime   resource.ecsClusterDetails.taskDetails.containers.id   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.containers.imagePrefix   resource.ecsClusterDetails.taskDetails.containers.name   resource.ecsClusterDetails.taskDetails.containers.securityContext.allowPrivilegeEscalation   resource.ecsClusterDetails.taskDetails.containers.securityContext.privileged   resource.ecsClusterDetails.taskDetails.containers.volumeMounts.mountPath   resource.ecsClusterDetails.taskDetails.containers.volumeMounts.name   resource.ecsClusterDetails.taskDetails.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.ecsClusterDetails.taskDetails.definitionArn   resource.ecsClusterDetails.taskDetails.group   resource.ecsClusterDetails.taskDetails.launchType   resource.ecsClusterDetails.taskDetails.startedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.ecsClusterDetails.taskDetails.startedBy   resource.ecsClusterDetails.taskDetails.tags.key   resource.ecsClusterDetails.taskDetails.tags.value   resource.ecsClusterDetails.taskDetails.version   resource.ecsClusterDetails.taskDetails.volumes.hostPath.path   resource.ecsClusterDetails.taskDetails.volumes.name   resource.eksClusterDetails.arn   resource.eksClusterDetails.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.eksClusterDetails.name   resource.eksClusterDetails.status   resource.eksClusterDetails.tags.key   resource.eksClusterDetails.tags.value   resource.eksClusterDetails.vpcId   resource.instanceDetails.availabilityZone   resource.instanceDetails.iamInstanceProfile.arn   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageDescription   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.instanceState   resource.instanceDetails.instanceType   resource.instanceDetails.launchTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.networkInterfaceId   resource.instanceDetails.networkInterfaces.privateDnsName   resource.instanceDetails.networkInterfaces.privateIpAddress   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateDnsName   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.instanceDetails.platform   resource.instanceDetails.productCodes.productCodeId   resource.instanceDetails.productCodes.productCodeType   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.kubernetesDetails.kubernetesUserDetails.groups   resource.kubernetesDetails.kubernetesUserDetails.impersonatedUser.groups   resource.kubernetesDetails.kubernetesUserDetails.impersonatedUser.username   resource.kubernetesDetails.kubernetesUserDetails.sessionName   resource.kubernetesDetails.kubernetesUserDetails.uid   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.containerRuntime   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.id   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.name   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.securityContext.allowPrivilegeEscalation   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.securityContext.privileged   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.volumeMounts.mountPath   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.volumeMounts.name   resource.kubernetesDetails.kubernetesWorkloadDetails.hostIpc   resource.kubernetesDetails.kubernetesWorkloadDetails.hostNetwork   resource.kubernetesDetails.kubernetesWorkloadDetails.hostPid   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesWorkloadDetails.serviceAccountName   resource.kubernetesDetails.kubernetesWorkloadDetails.type   resource.kubernetesDetails.kubernetesWorkloadDetails.uid   resource.kubernetesDetails.kubernetesWorkloadDetails.volumes.hostPath.path   resource.kubernetesDetails.kubernetesWorkloadDetails.volumes.name   resource.lambdaDetails.description   resource.lambdaDetails.functionArn   resource.lambdaDetails.functionName   resource.lambdaDetails.functionVersion   resource.lambdaDetails.lastModifiedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.lambdaDetails.revisionId   resource.lambdaDetails.role   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value   resource.lambdaDetails.vpcConfig.securityGroups.groupId   resource.lambdaDetails.vpcConfig.securityGroups.groupName   resource.lambdaDetails.vpcConfig.subnetIds   resource.lambdaDetails.vpcConfig.vpcId   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.dbInstanceArn   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbSecurityGroups.name   resource.rdsDbInstanceDetails.dbSecurityGroups.status   resource.rdsDbInstanceDetails.dbiResourceId   resource.rdsDbInstanceDetails.engine   resource.rdsDbInstanceDetails.engineVersion   resource.rdsDbInstanceDetails.iamDatabaseAuthenticationEnabled   resource.rdsDbInstanceDetails.publiclyAccessible   resource.rdsDbInstanceDetails.vpcId   resource.rdsDbInstanceDetails.vpcSecurityGroups.status   resource.rdsDbInstanceDetails.vpcSecurityGroups.vpcSecurityGroupId   resource.rdsDbUserDetails.application   resource.rdsDbUserDetails.authMethod   resource.rdsDbUserDetails.database   resource.rdsDbUserDetails.ssl   resource.rdsDbUserDetails.user   resource.rdsLimitlessDbDetails.dbClusterIdentifier   resource.rdsLimitlessDbDetails.dbShardGroupArn   resource.rdsLimitlessDbDetails.dbShardGroupIdentifier   resource.rdsLimitlessDbDetails.dbShardGroupResourceId   resource.rdsLimitlessDbDetails.engine   resource.rdsLimitlessDbDetails.engineVersion   resource.rdsLimitlessDbDetails.tags.key   resource.rdsLimitlessDbDetails.tags.value   resource.recoveryPointDetails.backupVaultName   resource.recoveryPointDetails.recoveryPointArn   resource.resourceType   resource.s3BucketDetails.arn   resource.s3BucketDetails.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.s3BucketDetails.defaultServerSideEncryption.encryptionType   resource.s3BucketDetails.defaultServerSideEncryption.kmsMasterKeyArn   resource.s3BucketDetails.name   resource.s3BucketDetails.owner.id   resource.s3BucketDetails.publicAccess.effectivePermission   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.blockPublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.blockPublicPolicy   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.ignorePublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.restrictPublicBuckets   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.accessControlList.allowsPublicReadAccess   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.accessControlList.allowsPublicWriteAccess   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.blockPublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.blockPublicPolicy   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.ignorePublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.restrictPublicBuckets   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.bucketPolicy.allowsPublicReadAccess   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.bucketPolicy.allowsPublicWriteAccess   resource.s3BucketDetails.s3ObjectDetails.eTag   resource.s3BucketDetails.s3ObjectDetails.hash   resource.s3BucketDetails.s3ObjectDetails.key   resource.s3BucketDetails.s3ObjectDetails.objectArn   resource.s3BucketDetails.s3ObjectDetails.versionId   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   schemaVersion   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.domainDetails.domain   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.awsApiCallAction.remoteAccountDetails.awsServiceName   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryCode   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.geoLocation.lat   service.action.awsApiCallAction.remoteIpDetails.geoLocation.lon   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.remoteIpDetails.organization.isp   service.action.awsApiCallAction.remoteIpDetails.organization.org   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.userAgent   service.action.dnsRequestAction.blocked   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.dnsRequestAction.protocol   service.action.dnsRequestAction.vpcOwnerAccountId   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.parameters   service.action.kubernetesApiCallAction.remoteIpDetails.city.cityName   service.action.kubernetesApiCallAction.remoteIpDetails.country.countryCode   service.action.kubernetesApiCallAction.remoteIpDetails.country.countryName   service.action.kubernetesApiCallAction.remoteIpDetails.geoLocation.lat   service.action.kubernetesApiCallAction.remoteIpDetails.geoLocation.lon   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asnOrg   service.action.kubernetesApiCallAction.remoteIpDetails.organization.isp   service.action.kubernetesApiCallAction.remoteIpDetails.organization.org   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.resource   service.action.kubernetesApiCallAction.resourceName   service.action.kubernetesApiCallAction.sourceIPs   service.action.kubernetesApiCallAction.statusCode   service.action.kubernetesApiCallAction.subresource   service.action.kubernetesApiCallAction.userAgent   service.action.kubernetesApiCallAction.verb   service.action.kubernetesPermissionCheckedDetails.allowed   service.action.kubernetesPermissionCheckedDetails.namespace   service.action.kubernetesPermissionCheckedDetails.resource   service.action.kubernetesPermissionCheckedDetails.verb   service.action.kubernetesRoleBindingDetails.kind   service.action.kubernetesRoleBindingDetails.name   service.action.kubernetesRoleBindingDetails.roleRefKind   service.action.kubernetesRoleBindingDetails.roleRefName   service.action.kubernetesRoleBindingDetails.uid   service.action.kubernetesRoleDetails.kind   service.action.kubernetesRoleDetails.name   service.action.kubernetesRoleDetails.uid   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.localNetworkInterface   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.localPortDetails.portName   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryCode   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.geoLocation.lat   service.action.networkConnectionAction.remoteIpDetails.geoLocation.lon   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remoteIpDetails.organization.isp   service.action.networkConnectionAction.remoteIpDetails.organization.org   service.action.networkConnectionAction.remotePortDetails.port   service.action.networkConnectionAction.remotePortDetails.portName   service.action.portProbeAction.blocked   service.action.portProbeAction.portProbeDetails.localIpDetails.ipAddressV4   service.action.portProbeAction.portProbeDetails.localIpDetails.ipAddressV6   service.action.portProbeAction.portProbeDetails.localPortDetails.port   service.action.portProbeAction.portProbeDetails.localPortDetails.portName   service.action.portProbeAction.portProbeDetails.remoteIpDetails.city.cityName   service.action.portProbeAction.portProbeDetails.remoteIpDetails.country.countryCode   service.action.portProbeAction.portProbeDetails.remoteIpDetails.country.countryName   service.action.portProbeAction.portProbeDetails.remoteIpDetails.geoLocation.lat   service.action.portProbeAction.portProbeDetails.remoteIpDetails.geoLocation.lon   service.action.portProbeAction.portProbeDetails.remoteIpDetails.ipAddressV4   service.action.portProbeAction.portProbeDetails.remoteIpDetails.ipAddressV6   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.asn   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.asnOrg   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.isp   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.org   service.action.rdsLoginAttemptAction.loginAttributes.application   service.action.rdsLoginAttemptAction.loginAttributes.failedLoginAttempts   service.action.rdsLoginAttemptAction.loginAttributes.successfulLoginAttempts   service.action.rdsLoginAttemptAction.loginAttributes.user   service.action.rdsLoginAttemptAction.remoteIpDetails.city.cityName   service.action.rdsLoginAttemptAction.remoteIpDetails.country.countryCode   service.action.rdsLoginAttemptAction.remoteIpDetails.country.countryName   service.action.rdsLoginAttemptAction.remoteIpDetails.geoLocation.lat   service.action.rdsLoginAttemptAction.remoteIpDetails.geoLocation.lon   service.action.rdsLoginAttemptAction.remoteIpDetails.ipAddressV4   service.action.rdsLoginAttemptAction.remoteIpDetails.ipAddressV6   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.asn   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.asnOrg   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.isp   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.org   service.additionalInfo.agentDetails.agentId   service.additionalInfo.agentDetails.agentVersion   service.additionalInfo.anomalies.anomalousAPIs   service.additionalInfo.authenticationMethod   service.additionalInfo.averagePacketSizeIn   service.additionalInfo.averagePacketSizeOut   service.additionalInfo.context   service.additionalInfo.domain   service.additionalInfo.inBytes   service.additionalInfo.localNetworkInterfaceOwner   service.additionalInfo.localPort   service.additionalInfo.outBytes   service.additionalInfo.packetsIn   service.additionalInfo.packetsOut   service.additionalInfo.policyArn   service.additionalInfo.policyName   service.additionalInfo.remotePort   service.additionalInfo.sample   service.additionalInfo.scannedPort   service.additionalInfo.threatFileSha256   service.additionalInfo.threatListName   service.additionalInfo.threatName   service.additionalInfo.totalBytesIn   service.additionalInfo.totalBytesOut   service.additionalInfo.type   service.additionalInfo.unusual.asnOrg   service.additionalInfo.unusual.port   service.additionalInfo.unusualProtocol   service.additionalInfo.userAgent.fullUserAgent   service.additionalInfo.userAgent.userAgentCategory   service.additionalInfo.value   service.additionalInfo.vpcOwnerAccountId   service.archived   service.count   service.detection.sequence.actors.id   service.detection.sequence.actors.process.name   service.detection.sequence.actors.process.path   service.detection.sequence.actors.process.sha256   service.detection.sequence.actors.session.createdTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.actors.session.issuer   service.detection.sequence.actors.session.mfaStatus   service.detection.sequence.actors.session.uid   service.detection.sequence.actors.user.account.account   service.detection.sequence.actors.user.account.uid   service.detection.sequence.actors.user.credentialUid   service.detection.sequence.actors.user.name   service.detection.sequence.actors.user.type   service.detection.sequence.actors.user.uid   service.detection.sequence.additionalSequenceTypes   service.detection.sequence.description   service.detection.sequence.endpoints.autonomousSystem.name   service.detection.sequence.endpoints.autonomousSystem.number   service.detection.sequence.endpoints.connection.direction   service.detection.sequence.endpoints.domain   service.detection.sequence.endpoints.id   service.detection.sequence.endpoints.ip   service.detection.sequence.endpoints.location.city   service.detection.sequence.endpoints.location.country   service.detection.sequence.endpoints.location.lat   service.detection.sequence.endpoints.location.lon   service.detection.sequence.endpoints.port   service.detection.sequence.resources.accountId   service.detection.sequence.resources.cloudPartition   service.detection.sequence.resources.data.accessKey.principalId   service.detection.sequence.resources.data.accessKey.userName   service.detection.sequence.resources.data.accessKey.userType   service.detection.sequence.resources.data.autoscalingAutoScalingGroup.ec2InstanceUids   service.detection.sequence.resources.data.cloudformationStack.ec2InstanceUids   service.detection.sequence.resources.data.container.image   service.detection.sequence.resources.data.container.imageUid   service.detection.sequence.resources.data.ec2Image.ec2InstanceUids   service.detection.sequence.resources.data.ec2Instance.availabilityZone   service.detection.sequence.resources.data.ec2Instance.ec2NetworkInterfaceUids   service.detection.sequence.resources.data.ec2Instance.iamInstanceProfile.arn   service.detection.sequence.resources.data.ec2Instance.iamInstanceProfile.id   service.detection.sequence.resources.data.ec2Instance.imageDescription   service.detection.sequence.resources.data.ec2Instance.instanceState   service.detection.sequence.resources.data.ec2Instance.instanceType   service.detection.sequence.resources.data.ec2Instance.outpostArn   service.detection.sequence.resources.data.ec2Instance.platform   service.detection.sequence.resources.data.ec2Instance.productCodes.productCodeId   service.detection.sequence.resources.data.ec2Instance.productCodes.productCodeType   service.detection.sequence.resources.data.ec2LaunchTemplate.ec2InstanceUids   service.detection.sequence.resources.data.ec2LaunchTemplate.version   service.detection.sequence.resources.data.ec2NetworkInterface.ipv6Addresses   service.detection.sequence.resources.data.ec2NetworkInterface.privateIpAddresses.privateDnsName   service.detection.sequence.resources.data.ec2NetworkInterface.privateIpAddresses.privateIpAddress   service.detection.sequence.resources.data.ec2NetworkInterface.publicIp   service.detection.sequence.resources.data.ec2NetworkInterface.securityGroups.groupId   service.detection.sequence.resources.data.ec2NetworkInterface.securityGroups.groupName   service.detection.sequence.resources.data.ec2NetworkInterface.subNetId   service.detection.sequence.resources.data.ec2NetworkInterface.vpcId   service.detection.sequence.resources.data.ec2Vpc.ec2InstanceUids   service.detection.sequence.resources.data.ecsCluster.ec2InstanceUids   service.detection.sequence.resources.data.ecsCluster.status   service.detection.sequence.resources.data.ecsTask.containerUids   service.detection.sequence.resources.data.ecsTask.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.resources.data.ecsTask.launchType   service.detection.sequence.resources.data.ecsTask.taskDefinitionArn   service.detection.sequence.resources.data.eksCluster.arn   service.detection.sequence.resources.data.eksCluster.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.resources.data.eksCluster.ec2InstanceUids   service.detection.sequence.resources.data.eksCluster.status   service.detection.sequence.resources.data.eksCluster.vpcId   service.detection.sequence.resources.data.iamInstanceProfile.ec2InstanceUids   service.detection.sequence.resources.data.iamInstanceProfile.id   service.detection.sequence.resources.data.kubernetesWorkload.containerUids   service.detection.sequence.resources.data.kubernetesWorkload.namespace   service.detection.sequence.resources.data.kubernetesWorkload.type   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicAclAccess   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicAclIgnoreBehavior   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicBucketRestrictBehavior   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicPolicyAccess   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicAclAccess   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicAclIgnoreBehavior   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicBucketRestrictBehavior   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicPolicyAccess   service.detection.sequence.resources.data.s3Bucket.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.resources.data.s3Bucket.effectivePermission   service.detection.sequence.resources.data.s3Bucket.encryptionKeyArn   service.detection.sequence.resources.data.s3Bucket.encryptionType   service.detection.sequence.resources.data.s3Bucket.ownerId   service.detection.sequence.resources.data.s3Bucket.publicReadAccess   service.detection.sequence.resources.data.s3Bucket.publicWriteAccess   service.detection.sequence.resources.data.s3Bucket.s3ObjectUids   service.detection.sequence.resources.data.s3Object.eTag   service.detection.sequence.resources.data.s3Object.key   service.detection.sequence.resources.data.s3Object.versionId   service.detection.sequence.resources.name   service.detection.sequence.resources.region   service.detection.sequence.resources.resourceType   service.detection.sequence.resources.service   service.detection.sequence.resources.tags.key   service.detection.sequence.resources.tags.value   service.detection.sequence.resources.uid   service.detection.sequence.sequenceIndicators.key   service.detection.sequence.sequenceIndicators.title   service.detection.sequence.sequenceIndicators.values   service.detection.sequence.signals.actorIds   service.detection.sequence.signals.count   service.detection.sequence.signals.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.signals.description   service.detection.sequence.signals.endpointIds   service.detection.sequence.signals.firstSeenAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.signals.lastSeenAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.signals.name   service.detection.sequence.signals.resourceUids   service.detection.sequence.signals.severity   service.detection.sequence.signals.signalIndicators.key   service.detection.sequence.signals.signalIndicators.title   service.detection.sequence.signals.signalIndicators.values   service.detection.sequence.signals.type   service.detection.sequence.signals.uid   service.detection.sequence.signals.updatedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.uid   service.detectorId   service.ebsVolumeScanDetails.scanCompletedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.ebsVolumeScanDetails.scanDetections.highestSeverityThreatDetails.count   service.ebsVolumeScanDetails.scanDetections.highestSeverityThreatDetails.severity   service.ebsVolumeScanDetails.scanDetections.highestSeverityThreatDetails.threatName   service.ebsVolumeScanDetails.scanDetections.scannedItemCount.files   service.ebsVolumeScanDetails.scanDetections.scannedItemCount.totalGb   service.ebsVolumeScanDetails.scanDetections.scannedItemCount.volumes   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.itemCount   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.shortened   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.fileName   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.filePath   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.volumeArn   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.itemCount   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.uniqueThreatNameCount   service.ebsVolumeScanDetails.scanDetections.threatsDetectedItemCount.files   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanStartedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.ebsVolumeScanDetails.scanType   service.ebsVolumeScanDetails.sources   service.ebsVolumeScanDetails.triggerFindingId   service.eventFirstSeen Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.eventLastSeen Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.evidence.threatIntelligenceDetails.threatFileSha256   service.evidence.threatIntelligenceDetails.threatListName   service.evidence.threatIntelligenceDetails.threatNames   service.featureName   service.malwareScanDetails.scanCategory   service.malwareScanDetails.scanConfiguration.incrementalScanDetails.baselineResourceArn   service.malwareScanDetails.scanConfiguration.triggerType   service.malwareScanDetails.scanId   service.malwareScanDetails.scanType   service.malwareScanDetails.threats.count   service.malwareScanDetails.threats.hash   service.malwareScanDetails.threats.itemDetails.additionalInfo.deviceName   service.malwareScanDetails.threats.itemDetails.additionalInfo.versionId   service.malwareScanDetails.threats.itemDetails.hash   service.malwareScanDetails.threats.itemDetails.itemPath   service.malwareScanDetails.threats.itemDetails.resourceArn   service.malwareScanDetails.threats.itemPaths.hash   service.malwareScanDetails.threats.itemPaths.nestedItemPath   service.malwareScanDetails.threats.name   service.malwareScanDetails.threats.source   service.malwareScanDetails.uniqueThreatCount   service.resourceRole   service.runtimeDetails.context.addressFamily   service.runtimeDetails.context.commandLineExample   service.runtimeDetails.context.fileOperation   service.runtimeDetails.context.filePath   service.runtimeDetails.context.fileSystemType   service.runtimeDetails.context.flags   service.runtimeDetails.context.ianaProtocolNumber   service.runtimeDetails.context.ldPreloadValue   service.runtimeDetails.context.libraryPath   service.runtimeDetails.context.memoryRegions   service.runtimeDetails.context.modifiedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.modifyingProcess.euid   service.runtimeDetails.context.modifyingProcess.executablePath   service.runtimeDetails.context.modifyingProcess.executableSha256   service.runtimeDetails.context.modifyingProcess.lineage.euid   service.runtimeDetails.context.modifyingProcess.lineage.executablePath   service.runtimeDetails.context.modifyingProcess.lineage.name   service.runtimeDetails.context.modifyingProcess.lineage.namespacePid   service.runtimeDetails.context.modifyingProcess.lineage.parentUuid   service.runtimeDetails.context.modifyingProcess.lineage.pid   service.runtimeDetails.context.modifyingProcess.lineage.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.modifyingProcess.lineage.userId   service.runtimeDetails.context.modifyingProcess.lineage.uuid   service.runtimeDetails.context.modifyingProcess.name   service.runtimeDetails.context.modifyingProcess.namespacePid   service.runtimeDetails.context.modifyingProcess.parentUuid   service.runtimeDetails.context.modifyingProcess.pid   service.runtimeDetails.context.modifyingProcess.pwd   service.runtimeDetails.context.modifyingProcess.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.modifyingProcess.user   service.runtimeDetails.context.modifyingProcess.userId   service.runtimeDetails.context.modifyingProcess.uuid   service.runtimeDetails.context.moduleFilePath   service.runtimeDetails.context.moduleName   service.runtimeDetails.context.moduleSha256   service.runtimeDetails.context.mountSource   service.runtimeDetails.context.mountTarget   service.runtimeDetails.context.relatedFilePaths   service.runtimeDetails.context.releaseAgentPath   service.runtimeDetails.context.runcBinaryPath   service.runtimeDetails.context.scriptPath   service.runtimeDetails.context.serviceName   service.runtimeDetails.context.shellHistoryFilePath   service.runtimeDetails.context.socketPath   service.runtimeDetails.context.targetProcess.euid   service.runtimeDetails.context.targetProcess.executablePath   service.runtimeDetails.context.targetProcess.executableSha256   service.runtimeDetails.context.targetProcess.lineage.euid   service.runtimeDetails.context.targetProcess.lineage.executablePath   service.runtimeDetails.context.targetProcess.lineage.name   service.runtimeDetails.context.targetProcess.lineage.namespacePid   service.runtimeDetails.context.targetProcess.lineage.parentUuid   service.runtimeDetails.context.targetProcess.lineage.pid   service.runtimeDetails.context.targetProcess.lineage.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.targetProcess.lineage.userId   service.runtimeDetails.context.targetProcess.lineage.uuid   service.runtimeDetails.context.targetProcess.name   service.runtimeDetails.context.targetProcess.namespacePid   service.runtimeDetails.context.targetProcess.parentUuid   service.runtimeDetails.context.targetProcess.pid   service.runtimeDetails.context.targetProcess.pwd   service.runtimeDetails.context.targetProcess.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.targetProcess.user   service.runtimeDetails.context.targetProcess.userId   service.runtimeDetails.context.targetProcess.uuid   service.runtimeDetails.context.threatFilePath   service.runtimeDetails.context.toolCategory   service.runtimeDetails.context.toolName   service.runtimeDetails.process.euid   service.runtimeDetails.process.executablePath   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.lineage.euid   service.runtimeDetails.process.lineage.executablePath   service.runtimeDetails.process.lineage.name   service.runtimeDetails.process.lineage.namespacePid   service.runtimeDetails.process.lineage.parentUuid   service.runtimeDetails.process.lineage.pid   service.runtimeDetails.process.lineage.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.process.lineage.userId   service.runtimeDetails.process.lineage.uuid   service.runtimeDetails.process.name   service.runtimeDetails.process.namespacePid   service.runtimeDetails.process.parentUuid   service.runtimeDetails.process.pid   service.runtimeDetails.process.pwd   service.runtimeDetails.process.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.process.user   service.runtimeDetails.process.userId   service.runtimeDetails.process.uuid   service.serviceName   service.userFeedback   severity To configure severity based filters, use the following for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8"]     Critical: ["9", "10"]    For more information, see Findings severity levels in the Amazon GuardDuty User Guide.   type   updatedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000
         public let findingCriteria: FindingCriteria?
         /// The name of the filter. Valid characters include period (.), underscore (_), dash (-), and alphanumeric characters. A whitespace is considered to be an invalid character.
         public let name: String?
@@ -1946,7 +2157,7 @@ extension GuardDuty {
             try container.encodeIfPresent(self.action, forKey: .action)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.description, forKey: .description)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.rank, forKey: .rank)
@@ -2003,8 +2214,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
@@ -2012,7 +2222,7 @@ extension GuardDuty {
         public let format: IpSetFormat?
         /// The URI of the file that contains the IPSet.
         public let location: String?
-        /// The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
+        /// The user-friendly name to identify the IPSet.  Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
         public let name: String?
         /// The tags to be added to a new IP set resource.
         public let tags: [String: String]?
@@ -2034,7 +2244,7 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.format, forKey: .format)
             try container.encodeIfPresent(self.location, forKey: .location)
@@ -2087,12 +2297,63 @@ extension GuardDuty {
         }
     }
 
+    public struct CreateInvestigationRequest: AWSEncodableShape {
+        /// The idempotency token for the create request.
+        public let clientToken: String?
+        /// The unique ID of the GuardDuty detector for the account in which the investigation is created. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// A natural-language description of what to investigate. For example:    "Investigate finding 1ab2c3d4e5f6a7b8c9d0e1f2a3b4c5d6 in account 123456789012"     "Analyze findings in account with id 123456789012"     "Analyze findings in my organization"
+        public let triggerPrompt: String?
+
+        @inlinable
+        public init(clientToken: String? = CreateInvestigationRequest.idempotencyToken(), detectorId: String, triggerPrompt: String? = nil) {
+            self.clientToken = clientToken
+            self.detectorId = detectorId
+            self.triggerPrompt = triggerPrompt
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.detectorId, key: "DetectorId")
+            try container.encodeIfPresent(self.triggerPrompt, forKey: .triggerPrompt)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.triggerPrompt, name: "triggerPrompt", parent: name, max: 2048)
+            try self.validate(self.triggerPrompt, name: "triggerPrompt", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case triggerPrompt = "triggerPrompt"
+        }
+    }
+
+    public struct CreateInvestigationResponse: AWSDecodableShape {
+        /// The unique identifier of the newly created investigation.
+        public let investigationId: String?
+
+        @inlinable
+        public init(investigationId: String? = nil) {
+            self.investigationId = investigationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigationId = "investigationId"
+        }
+    }
+
     public struct CreateMalwareProtectionPlanRequest: AWSEncodableShape {
         /// Information about whether the tags will be added to the S3 object after scanning.
         public let actions: MalwareProtectionPlanActions?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// Information about the protected resource that is associated with the created  Malware Protection plan. Presently, S3Bucket is the only supported  protected resource.
+        /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
         public let protectedResource: CreateProtectedResource?
         /// Amazon Resource Name (ARN) of the IAM role that has the permissions to scan and add tags to the associated protected resource.
         public let role: String?
@@ -2147,8 +2408,7 @@ extension GuardDuty {
     public struct CreateMembersRequest: AWSEncodableShape {
         /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
         public let accountDetails: [AccountDetail]?
-        /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -2161,7 +2421,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountDetails, forKey: .accountDetails)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -2218,8 +2478,7 @@ extension GuardDuty {
         public let destinationProperties: DestinationProperties?
         /// The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported.
         public let destinationType: DestinationType?
-        /// The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The tags to be added to a new publishing destination resource.
         public let tags: [String: String]?
@@ -2239,7 +2498,7 @@ extension GuardDuty {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.destinationProperties, forKey: .destinationProperties)
             try container.encodeIfPresent(self.destinationType, forKey: .destinationType)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -2282,7 +2541,7 @@ extension GuardDuty {
     public struct CreateS3BucketResource: AWSEncodableShape & AWSDecodableShape {
         /// Name of the S3 bucket.
         public let bucketName: String?
-        /// Information about the specified object prefixes. The S3 object will be scanned only  if it belongs to any of the specified object prefixes.
+        /// Information about the specified object prefixes. The S3 object will be scanned only if it belongs to any of the specified object prefixes.
         public let objectPrefixes: [String]?
 
         @inlinable
@@ -2302,8 +2561,7 @@ extension GuardDuty {
     }
 
     public struct CreateSampleFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector for which you need to create sample findings. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The types of sample findings to generate.
         public let findingTypes: [String]?
@@ -2317,7 +2575,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.findingTypes, forKey: .findingTypes)
         }
 
@@ -2325,7 +2583,7 @@ extension GuardDuty {
             try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
             try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
             try self.findingTypes?.forEach {
-                try validate($0, name: "findingTypes[]", parent: name, max: 50)
+                try validate($0, name: "findingTypes[]", parent: name, max: 100)
                 try validate($0, name: "findingTypes[]", parent: name, min: 1)
             }
             try self.validate(self.findingTypes, name: "findingTypes", parent: name, max: 50)
@@ -2345,8 +2603,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
@@ -2354,7 +2611,7 @@ extension GuardDuty {
         public let format: ThreatEntitySetFormat?
         /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide.
         public let location: String?
-        /// A user-friendly name to identify the threat entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        /// A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
         public let name: String?
         /// The tags to be added to a new threat entity set resource.
         public let tags: [String: String]?
@@ -2376,7 +2633,7 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.format, forKey: .format)
             try container.encodeIfPresent(self.location, forKey: .location)
@@ -2435,8 +2692,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create a threatIntelSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
@@ -2466,7 +2722,7 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.format, forKey: .format)
             try container.encodeIfPresent(self.location, forKey: .location)
@@ -2524,8 +2780,7 @@ extension GuardDuty {
         public let activate: Bool?
         /// The idempotency token for the create request.
         public let clientToken: String?
-        /// The unique ID of the detector of the GuardDuty account for which you want to create a trusted entity set. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account for which you want to create a trusted entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
@@ -2533,7 +2788,7 @@ extension GuardDuty {
         public let format: TrustedEntitySetFormat?
         /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see Format of location URL under Step 2: Adding trusted or threat intelligence data in the Amazon GuardDuty User Guide.
         public let location: String?
-        /// A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
         public let name: String?
         /// The tags to be added to a new trusted entity set resource.
         public let tags: [String: String]?
@@ -2555,7 +2810,7 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.format, forKey: .format)
             try container.encodeIfPresent(self.location, forKey: .location)
@@ -2809,8 +3064,7 @@ extension GuardDuty {
     }
 
     public struct DeleteDetectorRequest: AWSEncodableShape {
-        /// The unique ID of the detector that you want to delete. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that you want to delete. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -2821,7 +3075,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -2837,8 +3091,7 @@ extension GuardDuty {
     }
 
     public struct DeleteFilterRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The name of the filter that you want to delete.
         public let filterName: String
@@ -2852,8 +3105,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.filterName, key: "filterName")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.filterName, key: "FilterName")
         }
 
         public func validate(name: String) throws {
@@ -2869,14 +3122,13 @@ extension GuardDuty {
     }
 
     public struct DeleteIPSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector associated with the IPSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector associated with the IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the IPSet to delete.
-        public let ipSetId: String
+        public let ipSetId: String?
 
         @inlinable
-        public init(detectorId: String, ipSetId: String) {
+        public init(detectorId: String, ipSetId: String? = nil) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
         }
@@ -2884,8 +3136,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.ipSetId, key: "ipSetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.ipSetId, key: "IpSetId")
         }
 
         public func validate(name: String) throws {
@@ -2939,17 +3191,17 @@ extension GuardDuty {
 
     public struct DeleteMalwareProtectionPlanRequest: AWSEncodableShape {
         /// A unique identifier associated with Malware Protection plan resource.
-        public let malwareProtectionPlanId: String
+        public let malwareProtectionPlanId: String?
 
         @inlinable
-        public init(malwareProtectionPlanId: String) {
+        public init(malwareProtectionPlanId: String? = nil) {
             self.malwareProtectionPlanId = malwareProtectionPlanId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.malwareProtectionPlanId, key: "malwareProtectionPlanId")
+            request.encodePath(self.malwareProtectionPlanId, key: "MalwareProtectionPlanId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2958,8 +3210,7 @@ extension GuardDuty {
     public struct DeleteMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the GuardDuty member accounts that you want to delete.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty account whose members you want to delete. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account whose members you want to delete. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -2972,7 +3223,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -3008,8 +3259,7 @@ extension GuardDuty {
     public struct DeletePublishingDestinationRequest: AWSEncodableShape {
         /// The ID of the publishing destination to delete.
         public let destinationId: String
-        /// The unique ID of the detector associated with the publishing destination to delete. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector associated with the publishing destination to delete. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -3021,8 +3271,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.destinationId, key: "destinationId")
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.destinationId, key: "DestinationId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -3038,14 +3288,13 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatEntitySetRequest: AWSEncodableShape {
-        /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID that helps GuardDuty identify which threat entity set needs to be deleted.
-        public let threatEntitySetId: String
+        public let threatEntitySetId: String?
 
         @inlinable
-        public init(detectorId: String, threatEntitySetId: String) {
+        public init(detectorId: String, threatEntitySetId: String? = nil) {
             self.detectorId = detectorId
             self.threatEntitySetId = threatEntitySetId
         }
@@ -3053,8 +3302,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.threatEntitySetId, key: "threatEntitySetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.threatEntitySetId, key: "ThreatEntitySetId")
         }
 
         public func validate(name: String) throws {
@@ -3070,8 +3319,7 @@ extension GuardDuty {
     }
 
     public struct DeleteThreatIntelSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to delete.
         public let threatIntelSetId: String
@@ -3085,8 +3333,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.threatIntelSetId, key: "threatIntelSetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.threatIntelSetId, key: "ThreatIntelSetId")
         }
 
         public func validate(name: String) throws {
@@ -3102,8 +3350,7 @@ extension GuardDuty {
     }
 
     public struct DeleteTrustedEntitySetRequest: AWSEncodableShape {
-        /// The unique ID of the detector associated with the trusted entity set resource. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector associated with the trusted entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID that helps GuardDuty identify which trusted entity set needs to be deleted.
         public let trustedEntitySetId: String
@@ -3117,8 +3364,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.trustedEntitySetId, key: "trustedEntitySetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.trustedEntitySetId, key: "TrustedEntitySetId")
         }
 
         public func validate(name: String) throws {
@@ -3134,8 +3381,7 @@ extension GuardDuty {
     }
 
     public struct DescribeMalwareScansRequest: AWSEncodableShape {
-        /// The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that the request is associated with. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria to be used in the filter for describing scan entries.
         public let filterCriteria: FilterCriteria?
@@ -3143,7 +3389,7 @@ extension GuardDuty {
         public let maxResults: Int?
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
-        /// Represents the criteria used for sorting scan entries. The  attributeName is required and it must be scanStartTime.
+        /// Represents the criteria used for sorting scan entries. The  attributeName  is required and it must be scanStartTime.
         public let sortCriteria: SortCriteria?
 
         @inlinable
@@ -3158,7 +3404,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
@@ -3200,8 +3446,7 @@ extension GuardDuty {
     }
 
     public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        /// The detector ID of the delegated administrator for which you need to retrieve the information. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The detector ID of the delegated administrator for which you need to retrieve the information. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response.
         public let maxResults: Int?
@@ -3218,7 +3463,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -3236,7 +3481,7 @@ extension GuardDuty {
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
         /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
         public let autoEnable: Bool?
-        /// Indicates the auto-enablement configuration of GuardDuty or any of the corresponding protection plans for the member accounts in the organization.    NEW: Indicates that when a new account joins the organization, they will have GuardDuty or any of the corresponding protection plans enabled automatically.     ALL: Indicates that all accounts in the organization have GuardDuty and any of the corresponding  protection plans enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty or any of the corresponding protection plans  will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in  the organization individually. When you update the auto-enable setting from ALL or NEW to  NONE, this action doesn't disable the corresponding option for your existing accounts. This configuration will apply to the new accounts that join the organization. After you update the auto-enable settings, no new account will have the corresponding option as enabled.
+        /// Indicates the auto-enablement configuration of GuardDuty or any of the corresponding protection plans for the member accounts in the organization.    NEW: Indicates that when a new account joins the organization, they will have GuardDuty or any of the corresponding protection plans enabled automatically.     ALL: Indicates that all accounts in the organization have GuardDuty and any of the corresponding protection plans enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that GuardDuty or any of the corresponding protection plans will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually. When you update the auto-enable setting from ALL or NEW to NONE, this action doesn't disable the corresponding option for your existing accounts. This configuration will apply to the new accounts that join the organization. After you update the auto-enable settings, no new account will have the corresponding option as enabled.
         public let autoEnableOrganizationMembers: AutoEnableMembers?
         /// Describes which data sources are enabled automatically for member accounts.
         public let dataSources: OrganizationDataSourceConfigurationsResult?
@@ -3281,8 +3526,7 @@ extension GuardDuty {
     public struct DescribePublishingDestinationRequest: AWSEncodableShape {
         /// The ID of the publishing destination to retrieve.
         public let destinationId: String
-        /// The unique ID of the detector associated with the publishing destination to retrieve. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector associated with the publishing destination to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -3294,8 +3538,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.destinationId, key: "destinationId")
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.destinationId, key: "DestinationId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -3381,7 +3625,7 @@ extension GuardDuty {
     }
 
     public struct Detection: AWSDecodableShape {
-        /// The details about the anomalous activity that caused GuardDuty to  generate the finding.
+        /// The details about the anomalous activity that caused GuardDuty to generate the finding.
         public let anomaly: Anomaly?
         /// The details about the attack sequence.
         public let sequence: Sequence?
@@ -3516,7 +3760,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -3543,7 +3787,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -3574,7 +3818,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -3612,7 +3856,7 @@ extension GuardDuty {
         public let blocked: Bool?
         /// The domain information for the DNS query.
         public let domain: String?
-        /// The second and top level domain involved in the  activity that potentially prompted GuardDuty to generate this finding. For a list of top-level and second-level domains, see public suffix list.
+        /// The second and top level domain involved in the activity that potentially prompted GuardDuty to generate this finding. For a list of top-level and second-level domains, see public suffix list.
         public let domainWithSuffix: String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public let `protocol`: String?
@@ -4147,7 +4391,7 @@ extension GuardDuty {
     }
 
     public struct FilterCondition: AWSEncodableShape {
-        /// Represents an equal condition to be applied to a single field when querying for scan entries.
+        /// Represents an equal  condition to be applied to a single field when querying for scan entries.
         public let equalsValue: String?
         /// Represents a greater than condition to be applied to a single field when querying for scan entries.
         public let greaterThan: Int64?
@@ -4437,7 +4681,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -4463,8 +4707,7 @@ extension GuardDuty {
     }
 
     public struct GetCoverageStatisticsRequest: AWSEncodableShape {
-        /// The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the GuardDuty detector. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria used to filter the coverage statistics.
         public let filterCriteria: CoverageFilterCriteria?
@@ -4481,7 +4724,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
             try container.encodeIfPresent(self.statisticsType, forKey: .statisticsType)
         }
@@ -4513,8 +4756,7 @@ extension GuardDuty {
     }
 
     public struct GetDetectorRequest: AWSEncodableShape {
-        /// The unique ID of the detector that you want to get. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that you want to get. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -4525,7 +4767,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -4592,8 +4834,7 @@ extension GuardDuty {
     }
 
     public struct GetFilterRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with this filter. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with this filter. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The name of the filter you want to get.
         public let filterName: String
@@ -4607,8 +4848,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.filterName, key: "filterName")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.filterName, key: "FilterName")
         }
 
         public func validate(name: String) throws {
@@ -4622,6 +4863,8 @@ extension GuardDuty {
     public struct GetFilterResponse: AWSDecodableShape {
         /// Specifies the action that is to be applied to the findings that match the filter.
         public let action: FilterAction?
+        /// The timestamp when the filter was created. This field is not available for filters that were created before the lifecycle metadata feature was enabled (legacy filters).
+        public let createdAt: Date?
         /// The description of the filter.
         public let description: String?
         /// Represents the criteria to be used in the filter for querying findings.
@@ -4632,30 +4875,39 @@ extension GuardDuty {
         public let rank: Int?
         /// The tags of the filter resource.
         public let tags: [String: String]?
+        /// The timestamp when the filter was last updated. For legacy filters, this field is present only after the filter has been updated at least once since the lifecycle metadata feature was enabled.
+        public let updatedAt: Date?
+        /// The version of the filter. Every time the filter is updated, the version increments by 1. This field is not available for legacy filters that were created before the lifecycle metadata feature was enabled.
+        public let version: Int64?
 
         @inlinable
-        public init(action: FilterAction? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, name: String? = nil, rank: Int? = nil, tags: [String: String]? = nil) {
+        public init(action: FilterAction? = nil, createdAt: Date? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, name: String? = nil, rank: Int? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, version: Int64? = nil) {
             self.action = action
+            self.createdAt = createdAt
             self.description = description
             self.findingCriteria = findingCriteria
             self.name = name
             self.rank = rank
             self.tags = tags
+            self.updatedAt = updatedAt
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case createdAt = "createdAt"
             case description = "description"
             case findingCriteria = "findingCriteria"
             case name = "name"
             case rank = "rank"
             case tags = "tags"
+            case updatedAt = "updatedAt"
+            case version = "version"
         }
     }
 
     public struct GetFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The IDs of the findings that you want to retrieve.
         public let findingIds: [String]?
@@ -4672,7 +4924,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.findingIds, forKey: .findingIds)
             try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
         }
@@ -4708,8 +4960,7 @@ extension GuardDuty {
     }
 
     public struct GetFindingsStatisticsRequest: AWSEncodableShape {
-        /// The ID of the detector whose findings statistics you want to retrieve. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector whose findings statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria that is used for querying findings.
         public let findingCriteria: FindingCriteria?
@@ -4746,7 +4997,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
             try container.encodeIfPresent(self.findingStatisticTypes, forKey: .findingStatisticTypes)
             try container.encodeIfPresent(self.groupBy, forKey: .groupBy)
@@ -4791,14 +5042,13 @@ extension GuardDuty {
     }
 
     public struct GetIPSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the IPSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the IPSet to retrieve.
-        public let ipSetId: String
+        public let ipSetId: String?
 
         @inlinable
-        public init(detectorId: String, ipSetId: String) {
+        public init(detectorId: String, ipSetId: String? = nil) {
             self.detectorId = detectorId
             self.ipSetId = ipSetId
         }
@@ -4806,8 +5056,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.ipSetId, key: "ipSetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.ipSetId, key: "IpSetId")
         }
 
         public func validate(name: String) throws {
@@ -4819,7 +5069,7 @@ extension GuardDuty {
     }
 
     public struct GetIPSetResponse: AWSDecodableShape {
-        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears  in the response only if it was provided during IPSet creation or update.
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears in the response only if it was provided during IPSet creation or update.
         public let expectedBucketOwner: String?
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat?
@@ -4852,6 +5102,50 @@ extension GuardDuty {
         }
     }
 
+    public struct GetInvestigationRequest: AWSEncodableShape {
+        /// The unique ID of the GuardDuty detector associated with the investigation. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// The unique identifier of the investigation to retrieve.
+        public let investigationId: String
+
+        @inlinable
+        public init(detectorId: String, investigationId: String) {
+            self.detectorId = detectorId
+            self.investigationId = investigationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.investigationId, key: "InvestigationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, max: 64)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, min: 1)
+            try self.validate(self.investigationId, name: "investigationId", parent: name, pattern: "^[a-fA-F0-9\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInvestigationResponse: AWSDecodableShape {
+        /// The details and results of the requested investigation.
+        public let investigation: Investigation?
+
+        @inlinable
+        public init(investigation: Investigation? = nil) {
+            self.investigation = investigation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigation = "investigation"
+        }
+    }
+
     public struct GetInvitationsCountRequest: AWSEncodableShape {
         public init() {}
     }
@@ -4872,17 +5166,17 @@ extension GuardDuty {
 
     public struct GetMalwareProtectionPlanRequest: AWSEncodableShape {
         /// A unique identifier associated with Malware Protection plan resource.
-        public let malwareProtectionPlanId: String
+        public let malwareProtectionPlanId: String?
 
         @inlinable
-        public init(malwareProtectionPlanId: String) {
+        public init(malwareProtectionPlanId: String? = nil) {
             self.malwareProtectionPlanId = malwareProtectionPlanId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.malwareProtectionPlanId, key: "malwareProtectionPlanId")
+            request.encodePath(self.malwareProtectionPlanId, key: "MalwareProtectionPlanId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4895,9 +5189,9 @@ extension GuardDuty {
         public let arn: String?
         /// The timestamp when the Malware Protection plan resource was created.
         public let createdAt: Date?
-        /// Information about the protected resource that is associated with the created  Malware Protection plan. Presently, S3Bucket is the only supported  protected resource.
+        /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
         public let protectedResource: CreateProtectedResource?
-        /// Amazon Resource Name (ARN) of the IAM role that includes the permissions to scan and  add tags to the associated protected resource.
+        /// Amazon Resource Name (ARN) of the IAM role that includes the permissions to scan and add tags to the associated protected resource.
         public let role: String?
         /// Malware Protection plan status.
         public let status: MalwareProtectionPlanStatus?
@@ -4931,29 +5225,27 @@ extension GuardDuty {
     }
 
     public struct GetMalwareScanRequest: AWSEncodableShape {
-        /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has  a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
-        public let scanId: String
+        /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+        public let scanId: String?
 
         @inlinable
-        public init(scanId: String) {
+        public init(scanId: String? = nil) {
             self.scanId = scanId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.scanId, key: "scanId")
+            request.encodePath(self.scanId, key: "ScanId")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMalwareScanResponse: AWSDecodableShape {
-        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for  DetectorId. If the customer is not a GuardDuty customer, this field will not be present.. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for DetectorId. If the customer is not a GuardDuty customer, this field will not be present.. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let adminDetectorId: String?
-        /// The unique ID of the detector that is associated with the request, if it belongs to an account which is a GuardDuty customer. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the request, if it belongs to an account which is a GuardDuty customer. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String?
         /// The total number of resources that failed to be scanned.
         public let failedResourcesCount: Int?
@@ -4967,7 +5259,7 @@ extension GuardDuty {
         public let scanCompletedAt: Date?
         /// Information about the scan configuration used for the malware scan.
         public let scanConfiguration: ScanConfiguration?
-        /// A unique identifier associated with the malware scan. Each malware scan has  a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+        /// A unique identifier associated with the malware scan. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
         public let scanId: String?
         /// A list of resources along with their metadata that were scanned as part of the malware scan operation.
         public let scannedResources: [ScannedResource]?
@@ -5071,8 +5363,7 @@ extension GuardDuty {
     }
 
     public struct GetMalwareScanSettingsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with this scan. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with this scan. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -5083,7 +5374,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -5113,8 +5404,7 @@ extension GuardDuty {
     }
 
     public struct GetMasterAccountRequest: AWSEncodableShape {
-        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -5125,7 +5415,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -5153,8 +5443,7 @@ extension GuardDuty {
     public struct GetMemberDetectorsRequest: AWSEncodableShape {
         /// A list of member account IDs.
         public let accountIds: [String]?
-        /// The detector ID for the administrator account. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The detector ID for the administrator account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -5167,7 +5456,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -5207,8 +5496,7 @@ extension GuardDuty {
     public struct GetMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the GuardDuty member accounts that you want to describe.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account whose members you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -5221,7 +5509,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -5274,13 +5562,12 @@ extension GuardDuty {
 
     public struct GetRemainingFreeTrialDaysRequest: AWSEncodableShape {
         /// A list of account identifiers of the GuardDuty member account.
-        public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let accountIds: [String]
+        /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
-        public init(accountIds: [String]? = nil, detectorId: String) {
+        public init(accountIds: [String], detectorId: String) {
             self.accountIds = accountIds
             self.detectorId = detectorId
         }
@@ -5288,12 +5575,12 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            try container.encode(self.accountIds, forKey: .accountIds)
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
-            try self.accountIds?.forEach {
+            try self.accountIds.forEach {
                 try validate($0, name: "accountIds[]", parent: name, max: 12)
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
             }
@@ -5327,14 +5614,13 @@ extension GuardDuty {
     }
 
     public struct GetThreatEntitySetRequest: AWSEncodableShape {
-        /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID that helps GuardDuty identify the threat entity set.
-        public let threatEntitySetId: String
+        public let threatEntitySetId: String?
 
         @inlinable
-        public init(detectorId: String, threatEntitySetId: String) {
+        public init(detectorId: String, threatEntitySetId: String? = nil) {
             self.detectorId = detectorId
             self.threatEntitySetId = threatEntitySetId
         }
@@ -5342,8 +5628,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.threatEntitySetId, key: "threatEntitySetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.threatEntitySetId, key: "ThreatEntitySetId")
         }
 
         public func validate(name: String) throws {
@@ -5401,8 +5687,7 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The unique ID of the threatIntelSet that you want to get.
         public let threatIntelSetId: String
@@ -5416,8 +5701,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.threatIntelSetId, key: "threatIntelSetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.threatIntelSetId, key: "ThreatIntelSetId")
         }
 
         public func validate(name: String) throws {
@@ -5429,7 +5714,7 @@ extension GuardDuty {
     }
 
     public struct GetThreatIntelSetResponse: AWSDecodableShape {
-        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.  This field appears in the response only if it was provided during ThreatIntelSet creation or update.
+        /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears in the response only if it was provided during ThreatIntelSet creation or update.
         public let expectedBucketOwner: String?
         /// The format of the threatIntelSet.
         public let format: ThreatIntelSetFormat?
@@ -5477,8 +5762,8 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.trustedEntitySetId, key: "trustedEntitySetId")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.trustedEntitySetId, key: "TrustedEntitySetId")
         }
 
         public func validate(name: String) throws {
@@ -5536,8 +5821,7 @@ extension GuardDuty {
     }
 
     public struct GetUsageStatisticsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -5563,7 +5847,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
             try container.encodeIfPresent(self.unit, forKey: .unit)
@@ -5693,7 +5977,7 @@ extension GuardDuty {
     }
 
     public struct IncrementalScanDetails: AWSEncodableShape & AWSDecodableShape {
-        /// Amazon Resource Name (ARN) of the baseline resource used for incremental scanning. The scan will only  process changes since this baseline resource was created.
+        /// Amazon Resource Name (ARN) of the baseline resource used for incremental scanning. The scan will only process changes since this baseline resource was created.
         public let baselineResourceArn: String?
 
         @inlinable
@@ -5809,7 +6093,151 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
-            case type = "__type"
+            case type = "type"
+        }
+    }
+
+    public struct Investigation: AWSDecodableShape {
+        /// Details about the cloud environment in which the investigation was performed, including the provider, region, and account.
+        public let cloud: CloudDetails?
+        /// The confidence level of the investigation's assessment. Possible values are Unknown, Low, Medium, and High.
+        public let confidence: Confidence?
+        /// The timestamp at which the investigation completed.
+        public let endTime: Date?
+        /// Details about the error if the investigation status is FAILED.
+        public let error: String?
+        /// The unique identifier of the investigation.
+        public let investigationId: String?
+        /// Metadata about the product and version that produced the investigation.
+        public let metadata: InvestigationMetadata?
+        /// A human-readable description of the assessed risk.
+        public let risk: String?
+        /// The assessed risk level of the investigated threat. Possible values are Info, Low, Medium, High, and Critical.
+        public let riskLevel: RiskLevel?
+        /// The timestamp at which the investigation started.
+        public let startTime: Date?
+        /// The current status of the investigation. Possible values are RUNNING, COMPLETED, and FAILED.
+        public let status: InvestigationStatus?
+        /// A structured summary of the investigation findings, including affected resources, threat assessment, and recommended remediation steps.
+        public let summary: String?
+        /// The account that initiated the investigation.
+        public let triggeredBy: String?
+        /// The natural-language prompt that initiated this investigation.
+        public let triggerPrompt: String?
+
+        @inlinable
+        public init(cloud: CloudDetails? = nil, confidence: Confidence? = nil, endTime: Date? = nil, error: String? = nil, investigationId: String? = nil, metadata: InvestigationMetadata? = nil, risk: String? = nil, riskLevel: RiskLevel? = nil, startTime: Date? = nil, status: InvestigationStatus? = nil, summary: String? = nil, triggeredBy: String? = nil, triggerPrompt: String? = nil) {
+            self.cloud = cloud
+            self.confidence = confidence
+            self.endTime = endTime
+            self.error = error
+            self.investigationId = investigationId
+            self.metadata = metadata
+            self.risk = risk
+            self.riskLevel = riskLevel
+            self.startTime = startTime
+            self.status = status
+            self.summary = summary
+            self.triggeredBy = triggeredBy
+            self.triggerPrompt = triggerPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloud = "cloud"
+            case confidence = "confidence"
+            case endTime = "endTime"
+            case error = "error"
+            case investigationId = "investigationId"
+            case metadata = "metadata"
+            case risk = "risk"
+            case riskLevel = "riskLevel"
+            case startTime = "startTime"
+            case status = "status"
+            case summary = "summary"
+            case triggeredBy = "triggeredBy"
+            case triggerPrompt = "triggerPrompt"
+        }
+    }
+
+    public struct InvestigationMetadata: AWSDecodableShape {
+        /// Information about the product that produced the investigation.
+        public let product: Product?
+        /// The version of the investigation engine that produced the results.
+        public let version: String?
+
+        @inlinable
+        public init(product: Product? = nil, version: String? = nil) {
+            self.product = product
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case product = "product"
+            case version = "version"
+        }
+    }
+
+    public struct InvestigationSortCriteria: AWSEncodableShape {
+        /// The attribute by which to sort investigations.
+        public let attributeName: InvestigationSortField?
+        /// The order in which the sorted results are to be displayed.
+        public let orderBy: OrderBy?
+
+        @inlinable
+        public init(attributeName: InvestigationSortField? = nil, orderBy: OrderBy? = nil) {
+            self.attributeName = attributeName
+            self.orderBy = orderBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
+        }
+    }
+
+    public struct InvestigationSummary: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with the investigation.
+        public let accountId: String?
+        /// The confidence level of the investigation's assessment.
+        public let confidence: Confidence?
+        /// The timestamp at which the investigation completed.
+        public let endTime: Date?
+        /// The unique identifier of the investigation.
+        public let investigationId: String?
+        /// The assessed risk level of the investigated threat.
+        public let riskLevel: RiskLevel?
+        /// The timestamp at which the investigation started.
+        public let startTime: Date?
+        /// The current status of the investigation.
+        public let status: InvestigationStatus?
+        /// A short title summarizing the investigation.
+        public let title: String?
+        /// The natural-language prompt that initiated this investigation.
+        public let triggerPrompt: String?
+
+        @inlinable
+        public init(accountId: String? = nil, confidence: Confidence? = nil, endTime: Date? = nil, investigationId: String? = nil, riskLevel: RiskLevel? = nil, startTime: Date? = nil, status: InvestigationStatus? = nil, title: String? = nil, triggerPrompt: String? = nil) {
+            self.accountId = accountId
+            self.confidence = confidence
+            self.endTime = endTime
+            self.investigationId = investigationId
+            self.riskLevel = riskLevel
+            self.startTime = startTime
+            self.status = status
+            self.title = title
+            self.triggerPrompt = triggerPrompt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case confidence = "confidence"
+            case endTime = "endTime"
+            case investigationId = "investigationId"
+            case riskLevel = "riskLevel"
+            case startTime = "startTime"
+            case status = "status"
+            case title = "title"
+            case triggerPrompt = "triggerPrompt"
         }
     }
 
@@ -5842,8 +6270,7 @@ extension GuardDuty {
     public struct InviteMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty account with which you want to invite members. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty account with which you want to invite members. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
         public let disableEmailNotification: Bool?
@@ -5862,7 +6289,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.disableEmailNotification, forKey: .disableEmailNotification)
             try container.encodeIfPresent(self.message, forKey: .message)
         }
@@ -6115,7 +6542,7 @@ extension GuardDuty {
         public let kind: String?
         /// The name of the RoleBinding.
         public let name: String?
-        /// The type of the role being referenced. This could be either Role or  ClusterRole.
+        /// The type of the role being referenced. This could be either Role or ClusterRole.
         public let roleRefKind: String?
         /// The name of the role being referenced. This must match the name of the Role or ClusterRole that you want to bind to.
         public let roleRefName: String?
@@ -6167,7 +6594,7 @@ extension GuardDuty {
         public let groups: [String]?
         /// Information about the impersonated user.
         public let impersonatedUser: ImpersonatedUser?
-        /// Entity that assumes the IAM role  when Kubernetes RBAC permissions are assigned to that role.
+        /// Entity that assumes the IAM role when Kubernetes RBAC permissions are assigned to that role.
         public let sessionName: [String]?
         /// The user ID of the user who called the Kubernetes API.
         public let uid: String?
@@ -6273,13 +6700,13 @@ extension GuardDuty {
         public let functionName: String?
         /// The version of the Lambda function.
         public let functionVersion: String?
-        /// The timestamp when the Lambda function was last modified. This field is in the UTC date string  format (2023-03-22T19:37:20.168Z).
+        /// The timestamp when the Lambda function was last modified. This field is in the UTC date string format (2023-03-22T19:37:20.168Z).
         public let lastModifiedAt: Date?
         /// The revision ID of the Lambda function version.
         public let revisionId: String?
         /// The execution role of the Lambda function.
         public let role: String?
-        /// A list of tags attached to this resource, listed in the format of  key:value pair.
+        /// A list of tags attached to this resource, listed in the format of key:value pair.
         public let tags: [Tag]?
         /// Amazon Virtual Private Cloud configuration details associated with your Lambda function.
         public let vpcConfig: VpcConfig?
@@ -6357,8 +6784,7 @@ extension GuardDuty {
     }
 
     public struct ListCoverageRequest: AWSEncodableShape {
-        /// The unique ID of the detector whose coverage details you want to retrieve. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector whose coverage details you want to retrieve. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria used to filter the coverage details.
         public let filterCriteria: CoverageFilterCriteria?
@@ -6381,7 +6807,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
@@ -6468,8 +6894,7 @@ extension GuardDuty {
     }
 
     public struct ListFiltersRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the filter. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -6486,7 +6911,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -6520,8 +6945,7 @@ extension GuardDuty {
     }
 
     public struct ListFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.ebsVolumeScanDetails.scanId   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
         public let findingCriteria: FindingCriteria?
@@ -6544,7 +6968,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
@@ -6586,8 +7010,7 @@ extension GuardDuty {
     }
 
     public struct ListIPSetsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with IPSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -6604,7 +7027,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -6633,6 +7056,68 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case ipSetIds = "ipSetIds"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListInvestigationsRequest: AWSEncodableShape {
+        /// The unique ID of the GuardDuty detector whose investigations you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
+        public let detectorId: String
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
+        public let maxResults: Int?
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+        public let nextToken: String?
+        /// Represents the criteria used for sorting investigations.
+        public let sortCriteria: InvestigationSortCriteria?
+
+        @inlinable
+        public init(detectorId: String, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: InvestigationSortCriteria? = nil) {
+            self.detectorId = detectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.detectorId, key: "DetectorId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortCriteria, forKey: .sortCriteria)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
+        }
+    }
+
+    public struct ListInvestigationsResponse: AWSDecodableShape {
+        /// A list of investigation summaries associated with the specified detector.
+        public let investigations: [InvestigationSummary]?
+        /// The pagination parameter to be used on the next list operation to retrieve more items.
+        public let nextToken: String?
+
+        @inlinable
+        public init(investigations: [InvestigationSummary]? = nil, nextToken: String? = nil) {
+            self.investigations = investigations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigations = "investigations"
             case nextToken = "nextToken"
         }
     }
@@ -6683,7 +7168,7 @@ extension GuardDuty {
     }
 
     public struct ListMalwareProtectionPlansRequest: AWSEncodableShape {
-        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data. The default page size is 100 plans.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. The default page size is 100 plans.
         public let nextToken: String?
 
         @inlinable
@@ -6703,7 +7188,7 @@ extension GuardDuty {
     public struct ListMalwareProtectionPlansResponse: AWSDecodableShape {
         /// A list of unique identifiers associated with each Malware Protection plan.
         public let malwareProtectionPlans: [MalwareProtectionPlanSummary]?
-        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action.  For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to  continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         @inlinable
@@ -6819,8 +7304,7 @@ extension GuardDuty {
     }
 
     public struct ListMembersRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the member. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the member. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -6840,7 +7324,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.onlyAssociated, key: "onlyAssociated")
@@ -6920,8 +7404,7 @@ extension GuardDuty {
     }
 
     public struct ListPublishingDestinationsRequest: AWSEncodableShape {
-        /// The detector ID for which you want to retrieve the publishing destination. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The detector ID for which you want to retrieve the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
@@ -6938,7 +7421,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -6983,7 +7466,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -7008,12 +7491,11 @@ extension GuardDuty {
     }
 
     public struct ListThreatEntitySetsRequest: AWSEncodableShape {
-        /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
-        /// You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         @inlinable
@@ -7026,7 +7508,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -7060,8 +7542,7 @@ extension GuardDuty {
     }
 
     public struct ListThreatIntelSetsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -7078,7 +7559,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -7112,12 +7593,11 @@ extension GuardDuty {
     }
 
     public struct ListTrustedEntitySetsRequest: AWSEncodableShape {
-        /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
-        /// You can use this parameter to indicate the maximum number of  items you want in the response. The default value is 50.
+        /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
         public let maxResults: Int?
-        /// You can use this parameter when paginating results. Set the value  of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request  with the value of NextToken from the previous response to continue listing data.
+        /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
 
         @inlinable
@@ -7130,7 +7610,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -7305,7 +7785,7 @@ extension GuardDuty {
     public struct MalwareProtectionPlanStatusReason: AWSDecodableShape {
         /// Issue code.
         public let code: String?
-        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see Troubleshooting Malware Protection for S3 status issues in the  Amazon GuardDuty User Guide.
+        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see Troubleshooting Malware Protection for S3 status issues in the Amazon GuardDuty User Guide.
         public let message: String?
 
         @inlinable
@@ -7355,7 +7835,7 @@ extension GuardDuty {
         public let resourceType: MalwareProtectionResourceType?
         /// The timestamp representing when the malware scan was completed.
         public let scanCompletedAt: Date?
-        /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has  a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+        /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
         public let scanId: String?
         /// An enum value representing the result of the malware scan.
         public let scanResultStatus: ScanResultStatus?
@@ -7610,6 +8090,20 @@ extension GuardDuty {
         }
     }
 
+    public struct ModelDetail: AWSDecodableShape {
+        /// The identifier of the AI model.
+        public let modelId: String?
+
+        @inlinable
+        public init(modelId: String? = nil) {
+            self.modelId = modelId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelId = "modelId"
+        }
+    }
+
     public struct NetworkConnection: AWSDecodableShape {
         /// The direction in which the network traffic is flowing.
         public let direction: NetworkDirection?
@@ -7781,15 +8275,19 @@ extension GuardDuty {
     }
 
     public struct Observations: AWSDecodableShape {
+        /// The numeric values that were unusual.
+        public let number: [Int64]?
         /// The text that was unusual.
         public let text: [String]?
 
         @inlinable
-        public init(text: [String]? = nil) {
+        public init(number: [Int64]? = nil, text: [String]? = nil) {
+            self.number = number
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case number = "number"
             case text = "text"
         }
     }
@@ -7821,7 +8319,7 @@ extension GuardDuty {
     }
 
     public struct OrganizationAdditionalConfiguration: AWSEncodableShape {
-        /// The status of the additional configuration that will be configured for the organization. Use one of the following  values to configure the feature status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.     ALL: Indicates that all accounts in the organization have  the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the additional configuration will not be  automatically enabled for any account in the organization. The administrator must manage the additional configuration  for each account individually.
+        /// The status of the additional configuration that will be configured for the organization. Use one of the following values to configure the feature status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.     ALL: Indicates that all accounts in the organization have the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the additional configuration that will be configured for the organization. These values are applicable to only Runtime Monitoring protection plan.
         public let name: OrgFeatureAdditionalConfiguration?
@@ -7839,7 +8337,7 @@ extension GuardDuty {
     }
 
     public struct OrganizationAdditionalConfigurationResult: AWSDecodableShape {
-        /// Describes the status of the additional configuration that is configured for the member accounts within the organization. One of the following  values is the status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.     ALL: Indicates that all accounts in the organization have  the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the additional configuration will not be  automatically enabled for any account in the organization. The administrator must manage the additional configuration  for each account individually.
+        /// Describes the status of the additional configuration that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.     ALL: Indicates that all accounts in the organization have the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the additional configuration that is configured for the member accounts within the organization. These values are applicable to only Runtime Monitoring protection plan.
         public let name: OrgFeatureAdditionalConfiguration?
@@ -7901,7 +8399,7 @@ extension GuardDuty {
     }
 
     public struct OrganizationDetails: AWSDecodableShape {
-        /// Information about the GuardDuty coverage statistics  for members in your Amazon Web Services organization.
+        /// Information about the GuardDuty coverage statistics for members in your Amazon Web Services organization.
         public let organizationStatistics: OrganizationStatistics?
         /// The timestamp at which the organization statistics was last updated. This is in UTC format.
         public let updatedAt: Date?
@@ -7949,7 +8447,7 @@ extension GuardDuty {
     public struct OrganizationFeatureConfiguration: AWSEncodableShape {
         /// The additional information that will be configured for the organization.
         public let additionalConfiguration: [OrganizationAdditionalConfiguration]?
-        /// Describes the status of the feature that is configured for the member accounts within the organization. One of the following  values is the status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.     ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the feature will not be  automatically enabled for any account in the organization. The administrator must manage the feature for each account individually.
+        /// Describes the status of the feature that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:    NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.     ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that the feature will not be automatically enabled for any account in the organization. The administrator must manage the feature for each account individually.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the feature that will be configured for the organization.
         public let name: OrgFeature?
@@ -7971,7 +8469,7 @@ extension GuardDuty {
     public struct OrganizationFeatureConfigurationResult: AWSDecodableShape {
         /// The additional configuration that is configured for the member accounts within the organization.
         public let additionalConfiguration: [OrganizationAdditionalConfigurationResult]?
-        /// Describes the status of the feature that is configured for the member accounts within the organization.    NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.     ALL: Indicates that all accounts in the organization have the feature  enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that the feature will not be automatically enabled for any account in the organization. In this case, each account will be managed individually  by the administrator.
+        /// Describes the status of the feature that is configured for the member accounts within the organization.    NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.     ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that the feature will not be automatically enabled for any account in the organization. In this case, each account will be managed individually by the administrator.
         public let autoEnable: OrgFeatureStatus?
         /// The name of the feature that is configured for the member accounts within the organization.
         public let name: OrgFeature?
@@ -8171,13 +8669,13 @@ extension GuardDuty {
     }
 
     public struct OrganizationStatistics: AWSDecodableShape {
-        /// Total number of active accounts in your Amazon Web Services  organization that are associated with GuardDuty.
+        /// Total number of active accounts in your Amazon Web Services organization that are associated with GuardDuty.
         public let activeAccountsCount: Int?
-        /// Retrieves the coverage  statistics for each feature.
+        /// Retrieves the coverage statistics for each feature.
         public let countByFeature: [OrganizationFeatureStatistics]?
         /// Total number of accounts that have enabled GuardDuty.
         public let enabledAccountsCount: Int?
-        /// Total number of accounts in your Amazon Web Services organization  that are associated with GuardDuty.
+        /// Total number of accounts in your Amazon Web Services organization that are associated with GuardDuty.
         public let memberAccountsCount: Int?
         /// Total number of accounts in your Amazon Web Services organization.
         public let totalAccountsCount: Int?
@@ -8349,6 +8847,24 @@ extension GuardDuty {
             case user = "user"
             case userId = "userId"
             case uuid = "uuid"
+        }
+    }
+
+    public struct Product: AWSDecodableShape {
+        /// The specific feature within the product that produced the investigation.
+        public let feature: String?
+        /// The name of the product.
+        public let name: String?
+
+        @inlinable
+        public init(feature: String? = nil, name: String? = nil) {
+            self.feature = feature
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case feature = "feature"
+            case name = "name"
         }
     }
 
@@ -8540,31 +9056,38 @@ extension GuardDuty {
     public struct RecoveryPoint: AWSEncodableShape {
         /// The name of the Amazon Web Services Backup vault that contains the name of the recovery point to be scanned.
         public let backupVaultName: String?
+        /// Contains information about the time range within the continuous backup in Amazon Web Services Backup to scan.
+        public let continuousScanDetails: ContinuousScanDetails?
 
         @inlinable
-        public init(backupVaultName: String? = nil) {
+        public init(backupVaultName: String? = nil, continuousScanDetails: ContinuousScanDetails? = nil) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultName = "backupVaultName"
+            case continuousScanDetails = "continuousScanDetails"
         }
     }
 
     public struct RecoveryPointDetails: AWSDecodableShape {
         /// The name of the backup vault containing the recovery point.
         public let backupVaultName: String?
+        public let continuousScanDetails: ScanConfigurationContinuousScanDetails?
         /// The Amazon Resource Name (ARN) of the recovery point.
         public let recoveryPointArn: String?
 
         @inlinable
-        public init(backupVaultName: String? = nil, recoveryPointArn: String? = nil) {
+        public init(backupVaultName: String? = nil, continuousScanDetails: ScanConfigurationContinuousScanDetails? = nil, recoveryPointArn: String? = nil) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
             self.recoveryPointArn = recoveryPointArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultName = "backupVaultName"
+            case continuousScanDetails = "continuousScanDetails"
             case recoveryPointArn = "recoveryPointArn"
         }
     }
@@ -8642,6 +9165,8 @@ extension GuardDuty {
     public struct Resource: AWSDecodableShape {
         /// The IAM access key details (user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public let accessKeyDetails: AccessKeyDetails?
+        /// Contains information about the Bedrock guardrail that was involved in a finding.
+        public let bedrockGuardrailDetails: BedrockGuardrailDetails?
         public let containerDetails: Container?
         /// Contains details about the EBS snapshot that was scanned.
         public let ebsSnapshotDetails: EbsSnapshotDetails?
@@ -8659,6 +9184,8 @@ extension GuardDuty {
         public let kubernetesDetails: KubernetesDetails?
         /// Contains information about the Lambda function that was involved in a finding.
         public let lambdaDetails: LambdaDetails?
+        /// Contains information about the AI models involved in a finding.
+        public let modelDetails: [ModelDetail]?
         /// Contains information about the database instance to which an anomalous login attempt was made.
         public let rdsDbInstanceDetails: RdsDbInstanceDetails?
         /// Contains information about the user details through which anomalous login attempt was made.
@@ -8673,8 +9200,9 @@ extension GuardDuty {
         public let s3BucketDetails: [S3BucketDetail]?
 
         @inlinable
-        public init(accessKeyDetails: AccessKeyDetails? = nil, containerDetails: Container? = nil, ebsSnapshotDetails: EbsSnapshotDetails? = nil, ebsVolumeDetails: EbsVolumeDetails? = nil, ec2ImageDetails: Ec2ImageDetails? = nil, ecsClusterDetails: EcsClusterDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, lambdaDetails: LambdaDetails? = nil, rdsDbInstanceDetails: RdsDbInstanceDetails? = nil, rdsDbUserDetails: RdsDbUserDetails? = nil, rdsLimitlessDbDetails: RdsLimitlessDbDetails? = nil, recoveryPointDetails: RecoveryPointDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
+        public init(accessKeyDetails: AccessKeyDetails? = nil, bedrockGuardrailDetails: BedrockGuardrailDetails? = nil, containerDetails: Container? = nil, ebsSnapshotDetails: EbsSnapshotDetails? = nil, ebsVolumeDetails: EbsVolumeDetails? = nil, ec2ImageDetails: Ec2ImageDetails? = nil, ecsClusterDetails: EcsClusterDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, lambdaDetails: LambdaDetails? = nil, modelDetails: [ModelDetail]? = nil, rdsDbInstanceDetails: RdsDbInstanceDetails? = nil, rdsDbUserDetails: RdsDbUserDetails? = nil, rdsLimitlessDbDetails: RdsLimitlessDbDetails? = nil, recoveryPointDetails: RecoveryPointDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
             self.accessKeyDetails = accessKeyDetails
+            self.bedrockGuardrailDetails = bedrockGuardrailDetails
             self.containerDetails = containerDetails
             self.ebsSnapshotDetails = ebsSnapshotDetails
             self.ebsVolumeDetails = ebsVolumeDetails
@@ -8684,6 +9212,7 @@ extension GuardDuty {
             self.instanceDetails = instanceDetails
             self.kubernetesDetails = kubernetesDetails
             self.lambdaDetails = lambdaDetails
+            self.modelDetails = modelDetails
             self.rdsDbInstanceDetails = rdsDbInstanceDetails
             self.rdsDbUserDetails = rdsDbUserDetails
             self.rdsLimitlessDbDetails = rdsLimitlessDbDetails
@@ -8694,6 +9223,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accessKeyDetails = "accessKeyDetails"
+            case bedrockGuardrailDetails = "bedrockGuardrailDetails"
             case containerDetails = "containerDetails"
             case ebsSnapshotDetails = "ebsSnapshotDetails"
             case ebsVolumeDetails = "ebsVolumeDetails"
@@ -8703,6 +9233,7 @@ extension GuardDuty {
             case instanceDetails = "instanceDetails"
             case kubernetesDetails = "kubernetesDetails"
             case lambdaDetails = "lambdaDetails"
+            case modelDetails = "modelDetails"
             case rdsDbInstanceDetails = "rdsDbInstanceDetails"
             case rdsDbUserDetails = "rdsDbUserDetails"
             case rdsLimitlessDbDetails = "rdsLimitlessDbDetails"
@@ -8814,7 +9345,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
-            case type = "__type"
+            case type = "type"
         }
     }
 
@@ -8899,6 +9430,10 @@ extension GuardDuty {
         public let addressFamily: String?
         /// Example of the command line involved in the suspicious activity.
         public let commandLineExample: String?
+        /// Represents the type of file operation that triggered the finding, such as Write, Delete, Rename, Link, or Symlink.
+        public let fileOperation: String?
+        /// The path of the sensitive file that was modified. Modification includes write, delete, rename, link, or symlink operations. This field is indexed for filtering.
+        public let filePath: String?
         /// Represents the type of mounted fileSystem.
         public let fileSystemType: String?
         /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
@@ -8925,6 +9460,8 @@ extension GuardDuty {
         public let mountSource: String?
         /// The path in the container that is mapped to the host directory.
         public let mountTarget: String?
+        /// All file paths modified by the same process that triggered the finding, up to a maximum of 25 paths.
+        public let relatedFilePaths: [String]?
         /// The path in the container that modified the release agent file.
         public let releaseAgentPath: String?
         /// The path to the leveraged runc implementation.
@@ -8947,9 +9484,11 @@ extension GuardDuty {
         public let toolName: String?
 
         @inlinable
-        public init(addressFamily: String? = nil, commandLineExample: String? = nil, fileSystemType: String? = nil, flags: [String]? = nil, ianaProtocolNumber: Int? = nil, ldPreloadValue: String? = nil, libraryPath: String? = nil, memoryRegions: [String]? = nil, modifiedAt: Date? = nil, modifyingProcess: ProcessDetails? = nil, moduleFilePath: String? = nil, moduleName: String? = nil, moduleSha256: String? = nil, mountSource: String? = nil, mountTarget: String? = nil, releaseAgentPath: String? = nil, runcBinaryPath: String? = nil, scriptPath: String? = nil, serviceName: String? = nil, shellHistoryFilePath: String? = nil, socketPath: String? = nil, targetProcess: ProcessDetails? = nil, threatFilePath: String? = nil, toolCategory: String? = nil, toolName: String? = nil) {
+        public init(addressFamily: String? = nil, commandLineExample: String? = nil, fileOperation: String? = nil, filePath: String? = nil, fileSystemType: String? = nil, flags: [String]? = nil, ianaProtocolNumber: Int? = nil, ldPreloadValue: String? = nil, libraryPath: String? = nil, memoryRegions: [String]? = nil, modifiedAt: Date? = nil, modifyingProcess: ProcessDetails? = nil, moduleFilePath: String? = nil, moduleName: String? = nil, moduleSha256: String? = nil, mountSource: String? = nil, mountTarget: String? = nil, relatedFilePaths: [String]? = nil, releaseAgentPath: String? = nil, runcBinaryPath: String? = nil, scriptPath: String? = nil, serviceName: String? = nil, shellHistoryFilePath: String? = nil, socketPath: String? = nil, targetProcess: ProcessDetails? = nil, threatFilePath: String? = nil, toolCategory: String? = nil, toolName: String? = nil) {
             self.addressFamily = addressFamily
             self.commandLineExample = commandLineExample
+            self.fileOperation = fileOperation
+            self.filePath = filePath
             self.fileSystemType = fileSystemType
             self.flags = flags
             self.ianaProtocolNumber = ianaProtocolNumber
@@ -8963,6 +9502,7 @@ extension GuardDuty {
             self.moduleSha256 = moduleSha256
             self.mountSource = mountSource
             self.mountTarget = mountTarget
+            self.relatedFilePaths = relatedFilePaths
             self.releaseAgentPath = releaseAgentPath
             self.runcBinaryPath = runcBinaryPath
             self.scriptPath = scriptPath
@@ -8978,6 +9518,8 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case addressFamily = "addressFamily"
             case commandLineExample = "commandLineExample"
+            case fileOperation = "fileOperation"
+            case filePath = "filePath"
             case fileSystemType = "fileSystemType"
             case flags = "flags"
             case ianaProtocolNumber = "ianaProtocolNumber"
@@ -8991,6 +9533,7 @@ extension GuardDuty {
             case moduleSha256 = "moduleSha256"
             case mountSource = "mountSource"
             case mountTarget = "mountTarget"
+            case relatedFilePaths = "relatedFilePaths"
             case releaseAgentPath = "releaseAgentPath"
             case runcBinaryPath = "runcBinaryPath"
             case scriptPath = "scriptPath"
@@ -9169,7 +9712,7 @@ extension GuardDuty {
     }
 
     public struct S3ObjectDetail: AWSDecodableShape {
-        /// The entity tag is a hash of the S3 object. The ETag reflects changes only to the contents of  an object, and not its metadata.
+        /// The entity tag is a hash of the S3 object. The ETag reflects changes only to the contents of an object, and not its metadata.
         public let eTag: String?
         /// Hash of the threat detected in this finding.
         public let hash: String?
@@ -9223,13 +9766,11 @@ extension GuardDuty {
     public struct Scan: AWSDecodableShape {
         /// The ID for the account that belongs to the scan.
         public let accountId: String?
-        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for  DetectorId. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for DetectorId. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let adminDetectorId: String?
         /// List of volumes that were attached to the original instance to be scanned.
         public let attachedVolumes: [VolumeDetail]?
-        /// The unique ID of the detector that is associated with the request. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that is associated with the request. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String?
         /// Represents the reason for FAILED scan status.
         public let failureReason: String?
@@ -9293,7 +9834,7 @@ extension GuardDuty {
     }
 
     public struct ScanCondition: AWSEncodableShape & AWSDecodableShape {
-        /// Represents an mapEqual condition to be applied to a single field when triggering for malware scan.
+        /// Represents an mapEqual  condition to be applied to a single field when triggering for malware scan.
         public let mapEquals: [ScanConditionPair]?
 
         @inlinable
@@ -9363,17 +9904,39 @@ extension GuardDuty {
         }
     }
 
+    public struct ScanConfigurationContinuousScanDetails: AWSDecodableShape {
+        /// The timestamp representing the end of the time range that was scanned.
+        public let endTime: Date
+        /// The timestamp representing the start of the time range that was scanned.
+        public let startTime: Date?
+
+        @inlinable
+        public init(endTime: Date, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
     public struct ScanConfigurationRecoveryPoint: AWSDecodableShape {
         /// The name of the Amazon Web Services Backup vault that contains the recovery point for the scanned.
         public let backupVaultName: String?
+        /// The time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
+        public let continuousScanDetails: ScanConfigurationContinuousScanDetails?
 
         @inlinable
-        public init(backupVaultName: String? = nil) {
+        public init(backupVaultName: String? = nil, continuousScanDetails: ScanConfigurationContinuousScanDetails? = nil) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultName = "backupVaultName"
+            case continuousScanDetails = "continuousScanDetails"
         }
     }
 
@@ -9875,15 +10438,15 @@ extension GuardDuty {
         public let firstSeenAt: Date?
         /// The timestamp when the last finding or activity related to this signal was observed.
         public let lastSeenAt: Date?
-        /// The name of the signal. For example, when signal type is FINDING,  the signal name is the name of the finding.
+        /// The name of the signal. For example, when signal type is FINDING, the signal name is the name of the finding.
         public let name: String?
         /// Information about the unique identifiers of the resources involved in the signal.
         public let resourceUids: [String]?
-        /// The severity associated with the signal. For more information about severity, see  Findings severity levels in the Amazon GuardDuty User Guide.
+        /// The severity associated with the signal. For more information about severity, see Findings severity levels in the Amazon GuardDuty User Guide.
         public let severity: Double?
         /// Contains information about the indicators associated with the signals.
         public let signalIndicators: [Indicator]?
-        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see  Foundational data sources in the Amazon GuardDuty User Guide. A signal type can be one of the valid values listed in this API. Here are the related descriptions:    FINDING - Individually generated GuardDuty finding.    CLOUD_TRAIL - Activity observed from CloudTrail logs    S3_DATA_EVENTS - Activity observed from CloudTrail data events for S3. Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and steps to enable it, see S3 Protection in the Amazon GuardDuty User Guide.
+        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see Foundational data sources in the Amazon GuardDuty User Guide. A signal type can be one of the valid values listed in this API. Here are the related descriptions:    FINDING - Individually generated GuardDuty finding.    CLOUD_TRAIL - Activity observed from CloudTrail logs    S3_DATA_EVENTS - Activity observed from CloudTrail data events for S3. Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and steps to enable it, see S3 Protection in the Amazon GuardDuty User Guide.
         public let type: SignalType?
         /// The unique identifier of the signal.
         public let uid: String?
@@ -10001,7 +10564,7 @@ extension GuardDuty {
     }
 
     public struct StartMalwareScanResponse: AWSDecodableShape {
-        /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has  a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+        /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
         public let scanId: String?
 
         @inlinable
@@ -10017,8 +10580,7 @@ extension GuardDuty {
     public struct StartMonitoringMembersRequest: AWSEncodableShape {
         /// A list of account IDs of the GuardDuty member accounts to start monitoring.
         public let accountIds: [String]?
-        /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -10031,7 +10593,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -10067,8 +10629,7 @@ extension GuardDuty {
     public struct StopMonitoringMembersRequest: AWSEncodableShape {
         /// A list of account IDs for the member accounts to stop monitoring.
         public let accountIds: [String]?
-        /// The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -10081,7 +10642,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -10134,12 +10695,12 @@ extension GuardDuty {
 
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
-        public let resourceArn: String
+        public let resourceArn: String?
         /// The tags to be added to a resource.
-        public let tags: [String: String]?
+        public let tags: [String: String]
 
         @inlinable
-        public init(resourceArn: String, tags: [String: String]? = nil) {
+        public init(resourceArn: String? = nil, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -10147,13 +10708,13 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.resourceArn, key: "resourceArn")
-            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\\d+:detector/[A-Za-z0-9_/.-]{32,264}$")
-            try self.tags?.forEach {
+            try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
@@ -10179,7 +10740,7 @@ extension GuardDuty {
         public let hash: String?
         /// Detailed information about the detected malware threat.
         public let itemDetails: [ItemDetails]?
-        /// Information about the nested item path and  hash of the protected resource.
+        /// Information about the nested item path and hash of the protected resource.
         public let itemPaths: [ItemPath]?
         /// Name of the detected threat that caused GuardDuty to generate this finding.
         public let name: String?
@@ -10309,8 +10870,7 @@ extension GuardDuty {
     }
 
     public struct UnarchiveFindingsRequest: AWSEncodableShape {
-        /// The ID of the detector associated with the findings to unarchive. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector associated with the findings to unarchive. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The IDs of the findings to unarchive.
         public let findingIds: [String]?
@@ -10324,7 +10884,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.findingIds, forKey: .findingIds)
         }
 
@@ -10393,7 +10953,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
             request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
@@ -10416,10 +10976,9 @@ extension GuardDuty {
     }
 
     public struct UpdateDetectorRequest: AWSEncodableShape {
-        /// Describes which data sources will be updated. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+        /// Describes which data sources will be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
         public let dataSources: DataSourceConfigurations?
-        /// The unique ID of the detector to update. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// Specifies whether the detector is enabled or not enabled.
         public let enable: Bool?
@@ -10451,7 +11010,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.enable, forKey: .enable)
             try container.encodeIfPresent(self.features, forKey: .features)
             try container.encodeIfPresent(self.findingPublishingFrequency, forKey: .findingPublishingFrequency)
@@ -10475,16 +11034,15 @@ extension GuardDuty {
     }
 
     public struct UpdateFilterRequest: AWSEncodableShape {
-        /// Specifies the action that is to be applied to the findings that match the filter.
+        /// Specifies the action that is to be applied to the findings that match the filter. Default: NOOP
         public let action: FilterAction?
         /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
         public let description: String?
-        /// The unique ID of the detector that specifies the GuardDuty service where you want to update a filter. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that specifies the GuardDuty service where you want to update a filter. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The name of the filter.
         public let filterName: String
-        /// Represents the criteria to be used in the filter for querying findings.
+        /// Represents the criteria to be used in the filter for querying findings. The following fields are available for filtering:   accountId   arn   associatedAttackSequenceArn   confidence   createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   id   partition   region   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userIdentity.accessKeyId   resource.accessKeyDetails.userIdentity.accountId   resource.accessKeyDetails.userIdentity.arn   resource.accessKeyDetails.userIdentity.principalId   resource.accessKeyDetails.userIdentity.sessionContext.attributes.mfaAuthenticated   resource.accessKeyDetails.userIdentity.sessionContext.ec2RoleDelivery   resource.accessKeyDetails.userIdentity.sessionContext.invokedBy   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.accountId   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.arn   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.principalId   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.type   resource.accessKeyDetails.userIdentity.sessionContext.sessionIssuer.userName   resource.accessKeyDetails.userIdentity.sessionContext.sourceIdentity   resource.accessKeyDetails.userIdentity.sessionContext.webIdFederationData.attributes   resource.accessKeyDetails.userIdentity.sessionContext.webIdFederationData.federatedProvider   resource.accessKeyDetails.userIdentity.type   resource.accessKeyDetails.userIdentity.userName   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.bedrockGuardrailDetails.guardrailArn   resource.bedrockGuardrailDetails.guardrailVersion   resource.containerDetails.containerRuntime   resource.containerDetails.id   resource.containerDetails.image   resource.containerDetails.imagePrefix   resource.containerDetails.name   resource.containerDetails.securityContext.allowPrivilegeEscalation   resource.containerDetails.securityContext.privileged   resource.containerDetails.volumeMounts.mountPath   resource.containerDetails.volumeMounts.name   resource.ebsSnapshotDetails.snapshotArn   resource.ebsVolumeDetails.scannedVolumeDetails.deviceName   resource.ebsVolumeDetails.scannedVolumeDetails.encryptionType   resource.ebsVolumeDetails.scannedVolumeDetails.kmsKeyArn   resource.ebsVolumeDetails.scannedVolumeDetails.snapshotArn   resource.ebsVolumeDetails.scannedVolumeDetails.volumeArn   resource.ebsVolumeDetails.scannedVolumeDetails.volumeSizeInGB   resource.ebsVolumeDetails.scannedVolumeDetails.volumeType   resource.ebsVolumeDetails.skippedVolumeDetails.deviceName   resource.ebsVolumeDetails.skippedVolumeDetails.encryptionType   resource.ebsVolumeDetails.skippedVolumeDetails.kmsKeyArn   resource.ebsVolumeDetails.skippedVolumeDetails.snapshotArn   resource.ebsVolumeDetails.skippedVolumeDetails.volumeArn   resource.ebsVolumeDetails.skippedVolumeDetails.volumeSizeInGB   resource.ebsVolumeDetails.skippedVolumeDetails.volumeType   resource.ec2ImageDetails.imageArn   resource.ecsClusterDetails.activeServicesCount   resource.ecsClusterDetails.arn   resource.ecsClusterDetails.name   resource.ecsClusterDetails.registeredContainerInstancesCount   resource.ecsClusterDetails.runningTasksCount   resource.ecsClusterDetails.status   resource.ecsClusterDetails.tags.key   resource.ecsClusterDetails.tags.value   resource.ecsClusterDetails.taskDetails.arn   resource.ecsClusterDetails.taskDetails.containers.containerRuntime   resource.ecsClusterDetails.taskDetails.containers.id   resource.ecsClusterDetails.taskDetails.containers.image   resource.ecsClusterDetails.taskDetails.containers.imagePrefix   resource.ecsClusterDetails.taskDetails.containers.name   resource.ecsClusterDetails.taskDetails.containers.securityContext.allowPrivilegeEscalation   resource.ecsClusterDetails.taskDetails.containers.securityContext.privileged   resource.ecsClusterDetails.taskDetails.containers.volumeMounts.mountPath   resource.ecsClusterDetails.taskDetails.containers.volumeMounts.name   resource.ecsClusterDetails.taskDetails.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.ecsClusterDetails.taskDetails.definitionArn   resource.ecsClusterDetails.taskDetails.group   resource.ecsClusterDetails.taskDetails.launchType   resource.ecsClusterDetails.taskDetails.startedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.ecsClusterDetails.taskDetails.startedBy   resource.ecsClusterDetails.taskDetails.tags.key   resource.ecsClusterDetails.taskDetails.tags.value   resource.ecsClusterDetails.taskDetails.version   resource.ecsClusterDetails.taskDetails.volumes.hostPath.path   resource.ecsClusterDetails.taskDetails.volumes.name   resource.eksClusterDetails.arn   resource.eksClusterDetails.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.eksClusterDetails.name   resource.eksClusterDetails.status   resource.eksClusterDetails.tags.key   resource.eksClusterDetails.tags.value   resource.eksClusterDetails.vpcId   resource.instanceDetails.availabilityZone   resource.instanceDetails.iamInstanceProfile.arn   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageDescription   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.instanceState   resource.instanceDetails.instanceType   resource.instanceDetails.launchTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.networkInterfaceId   resource.instanceDetails.networkInterfaces.privateDnsName   resource.instanceDetails.networkInterfaces.privateIpAddress   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateDnsName   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.outpostArn   resource.instanceDetails.platform   resource.instanceDetails.productCodes.productCodeId   resource.instanceDetails.productCodes.productCodeType   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.kubernetesDetails.kubernetesUserDetails.groups   resource.kubernetesDetails.kubernetesUserDetails.impersonatedUser.groups   resource.kubernetesDetails.kubernetesUserDetails.impersonatedUser.username   resource.kubernetesDetails.kubernetesUserDetails.sessionName   resource.kubernetesDetails.kubernetesUserDetails.uid   resource.kubernetesDetails.kubernetesUserDetails.username   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.containerRuntime   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.id   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.image   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.imagePrefix   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.name   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.securityContext.allowPrivilegeEscalation   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.securityContext.privileged   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.volumeMounts.mountPath   resource.kubernetesDetails.kubernetesWorkloadDetails.containers.volumeMounts.name   resource.kubernetesDetails.kubernetesWorkloadDetails.hostIpc   resource.kubernetesDetails.kubernetesWorkloadDetails.hostNetwork   resource.kubernetesDetails.kubernetesWorkloadDetails.hostPid   resource.kubernetesDetails.kubernetesWorkloadDetails.name   resource.kubernetesDetails.kubernetesWorkloadDetails.namespace   resource.kubernetesDetails.kubernetesWorkloadDetails.serviceAccountName   resource.kubernetesDetails.kubernetesWorkloadDetails.type   resource.kubernetesDetails.kubernetesWorkloadDetails.uid   resource.kubernetesDetails.kubernetesWorkloadDetails.volumes.hostPath.path   resource.kubernetesDetails.kubernetesWorkloadDetails.volumes.name   resource.lambdaDetails.description   resource.lambdaDetails.functionArn   resource.lambdaDetails.functionName   resource.lambdaDetails.functionVersion   resource.lambdaDetails.lastModifiedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.lambdaDetails.revisionId   resource.lambdaDetails.role   resource.lambdaDetails.tags.key   resource.lambdaDetails.tags.value   resource.lambdaDetails.vpcConfig.securityGroups.groupId   resource.lambdaDetails.vpcConfig.securityGroups.groupName   resource.lambdaDetails.vpcConfig.subnetIds   resource.lambdaDetails.vpcConfig.vpcId   resource.rdsDbInstanceDetails.dbClusterIdentifier   resource.rdsDbInstanceDetails.dbInstanceArn   resource.rdsDbInstanceDetails.dbInstanceIdentifier   resource.rdsDbInstanceDetails.dbSecurityGroups.name   resource.rdsDbInstanceDetails.dbSecurityGroups.status   resource.rdsDbInstanceDetails.dbiResourceId   resource.rdsDbInstanceDetails.engine   resource.rdsDbInstanceDetails.engineVersion   resource.rdsDbInstanceDetails.iamDatabaseAuthenticationEnabled   resource.rdsDbInstanceDetails.publiclyAccessible   resource.rdsDbInstanceDetails.vpcId   resource.rdsDbInstanceDetails.vpcSecurityGroups.status   resource.rdsDbInstanceDetails.vpcSecurityGroups.vpcSecurityGroupId   resource.rdsDbUserDetails.application   resource.rdsDbUserDetails.authMethod   resource.rdsDbUserDetails.database   resource.rdsDbUserDetails.ssl   resource.rdsDbUserDetails.user   resource.rdsLimitlessDbDetails.dbClusterIdentifier   resource.rdsLimitlessDbDetails.dbShardGroupArn   resource.rdsLimitlessDbDetails.dbShardGroupIdentifier   resource.rdsLimitlessDbDetails.dbShardGroupResourceId   resource.rdsLimitlessDbDetails.engine   resource.rdsLimitlessDbDetails.engineVersion   resource.rdsLimitlessDbDetails.tags.key   resource.rdsLimitlessDbDetails.tags.value   resource.recoveryPointDetails.backupVaultName   resource.recoveryPointDetails.recoveryPointArn   resource.resourceType   resource.s3BucketDetails.arn   resource.s3BucketDetails.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   resource.s3BucketDetails.defaultServerSideEncryption.encryptionType   resource.s3BucketDetails.defaultServerSideEncryption.kmsMasterKeyArn   resource.s3BucketDetails.name   resource.s3BucketDetails.owner.id   resource.s3BucketDetails.publicAccess.effectivePermission   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.blockPublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.blockPublicPolicy   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.ignorePublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.accountLevelPermissions.blockPublicAccess.restrictPublicBuckets   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.accessControlList.allowsPublicReadAccess   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.accessControlList.allowsPublicWriteAccess   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.blockPublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.blockPublicPolicy   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.ignorePublicAcls   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.blockPublicAccess.restrictPublicBuckets   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.bucketPolicy.allowsPublicReadAccess   resource.s3BucketDetails.publicAccess.permissionConfiguration.bucketLevelPermissions.bucketPolicy.allowsPublicWriteAccess   resource.s3BucketDetails.s3ObjectDetails.eTag   resource.s3BucketDetails.s3ObjectDetails.hash   resource.s3BucketDetails.s3ObjectDetails.key   resource.s3BucketDetails.s3ObjectDetails.objectArn   resource.s3BucketDetails.s3ObjectDetails.versionId   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   schemaVersion   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.domainDetails.domain   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteAccountDetails.accountId   service.action.awsApiCallAction.remoteAccountDetails.affiliated   service.action.awsApiCallAction.remoteAccountDetails.awsServiceName   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryCode   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.geoLocation.lat   service.action.awsApiCallAction.remoteIpDetails.geoLocation.lon   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.ipAddressV6   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.remoteIpDetails.organization.isp   service.action.awsApiCallAction.remoteIpDetails.organization.org   service.action.awsApiCallAction.serviceName   service.action.awsApiCallAction.userAgent   service.action.dnsRequestAction.blocked   service.action.dnsRequestAction.domain   service.action.dnsRequestAction.domainWithSuffix   service.action.dnsRequestAction.protocol   service.action.dnsRequestAction.vpcOwnerAccountId   service.action.kubernetesApiCallAction.namespace   service.action.kubernetesApiCallAction.parameters   service.action.kubernetesApiCallAction.remoteIpDetails.city.cityName   service.action.kubernetesApiCallAction.remoteIpDetails.country.countryCode   service.action.kubernetesApiCallAction.remoteIpDetails.country.countryName   service.action.kubernetesApiCallAction.remoteIpDetails.geoLocation.lat   service.action.kubernetesApiCallAction.remoteIpDetails.geoLocation.lon   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4   service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn   service.action.kubernetesApiCallAction.remoteIpDetails.organization.asnOrg   service.action.kubernetesApiCallAction.remoteIpDetails.organization.isp   service.action.kubernetesApiCallAction.remoteIpDetails.organization.org   service.action.kubernetesApiCallAction.requestUri   service.action.kubernetesApiCallAction.resource   service.action.kubernetesApiCallAction.resourceName   service.action.kubernetesApiCallAction.sourceIPs   service.action.kubernetesApiCallAction.statusCode   service.action.kubernetesApiCallAction.subresource   service.action.kubernetesApiCallAction.userAgent   service.action.kubernetesApiCallAction.verb   service.action.kubernetesPermissionCheckedDetails.allowed   service.action.kubernetesPermissionCheckedDetails.namespace   service.action.kubernetesPermissionCheckedDetails.resource   service.action.kubernetesPermissionCheckedDetails.verb   service.action.kubernetesRoleBindingDetails.kind   service.action.kubernetesRoleBindingDetails.name   service.action.kubernetesRoleBindingDetails.roleRefKind   service.action.kubernetesRoleBindingDetails.roleRefName   service.action.kubernetesRoleBindingDetails.uid   service.action.kubernetesRoleDetails.kind   service.action.kubernetesRoleDetails.name   service.action.kubernetesRoleDetails.uid   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.localIpDetails.ipAddressV6   service.action.networkConnectionAction.localNetworkInterface   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.localPortDetails.portName   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryCode   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.geoLocation.lat   service.action.networkConnectionAction.remoteIpDetails.geoLocation.lon   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.ipAddressV6   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remoteIpDetails.organization.isp   service.action.networkConnectionAction.remoteIpDetails.organization.org   service.action.networkConnectionAction.remotePortDetails.port   service.action.networkConnectionAction.remotePortDetails.portName   service.action.portProbeAction.blocked   service.action.portProbeAction.portProbeDetails.localIpDetails.ipAddressV4   service.action.portProbeAction.portProbeDetails.localIpDetails.ipAddressV6   service.action.portProbeAction.portProbeDetails.localPortDetails.port   service.action.portProbeAction.portProbeDetails.localPortDetails.portName   service.action.portProbeAction.portProbeDetails.remoteIpDetails.city.cityName   service.action.portProbeAction.portProbeDetails.remoteIpDetails.country.countryCode   service.action.portProbeAction.portProbeDetails.remoteIpDetails.country.countryName   service.action.portProbeAction.portProbeDetails.remoteIpDetails.geoLocation.lat   service.action.portProbeAction.portProbeDetails.remoteIpDetails.geoLocation.lon   service.action.portProbeAction.portProbeDetails.remoteIpDetails.ipAddressV4   service.action.portProbeAction.portProbeDetails.remoteIpDetails.ipAddressV6   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.asn   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.asnOrg   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.isp   service.action.portProbeAction.portProbeDetails.remoteIpDetails.organization.org   service.action.rdsLoginAttemptAction.loginAttributes.application   service.action.rdsLoginAttemptAction.loginAttributes.failedLoginAttempts   service.action.rdsLoginAttemptAction.loginAttributes.successfulLoginAttempts   service.action.rdsLoginAttemptAction.loginAttributes.user   service.action.rdsLoginAttemptAction.remoteIpDetails.city.cityName   service.action.rdsLoginAttemptAction.remoteIpDetails.country.countryCode   service.action.rdsLoginAttemptAction.remoteIpDetails.country.countryName   service.action.rdsLoginAttemptAction.remoteIpDetails.geoLocation.lat   service.action.rdsLoginAttemptAction.remoteIpDetails.geoLocation.lon   service.action.rdsLoginAttemptAction.remoteIpDetails.ipAddressV4   service.action.rdsLoginAttemptAction.remoteIpDetails.ipAddressV6   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.asn   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.asnOrg   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.isp   service.action.rdsLoginAttemptAction.remoteIpDetails.organization.org   service.additionalInfo.agentDetails.agentId   service.additionalInfo.agentDetails.agentVersion   service.additionalInfo.anomalies.anomalousAPIs   service.additionalInfo.authenticationMethod   service.additionalInfo.averagePacketSizeIn   service.additionalInfo.averagePacketSizeOut   service.additionalInfo.context   service.additionalInfo.domain   service.additionalInfo.inBytes   service.additionalInfo.localNetworkInterfaceOwner   service.additionalInfo.localPort   service.additionalInfo.outBytes   service.additionalInfo.packetsIn   service.additionalInfo.packetsOut   service.additionalInfo.policyArn   service.additionalInfo.policyName   service.additionalInfo.remotePort   service.additionalInfo.sample   service.additionalInfo.scannedPort   service.additionalInfo.threatFileSha256   service.additionalInfo.threatListName   service.additionalInfo.threatName   service.additionalInfo.totalBytesIn   service.additionalInfo.totalBytesOut   service.additionalInfo.type   service.additionalInfo.unusual.asnOrg   service.additionalInfo.unusual.port   service.additionalInfo.unusualProtocol   service.additionalInfo.userAgent.fullUserAgent   service.additionalInfo.userAgent.userAgentCategory   service.additionalInfo.value   service.additionalInfo.vpcOwnerAccountId   service.archived   service.count   service.detection.sequence.actors.id   service.detection.sequence.actors.process.name   service.detection.sequence.actors.process.path   service.detection.sequence.actors.process.sha256   service.detection.sequence.actors.session.createdTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.actors.session.issuer   service.detection.sequence.actors.session.mfaStatus   service.detection.sequence.actors.session.uid   service.detection.sequence.actors.user.account.account   service.detection.sequence.actors.user.account.uid   service.detection.sequence.actors.user.credentialUid   service.detection.sequence.actors.user.name   service.detection.sequence.actors.user.type   service.detection.sequence.actors.user.uid   service.detection.sequence.additionalSequenceTypes   service.detection.sequence.description   service.detection.sequence.endpoints.autonomousSystem.name   service.detection.sequence.endpoints.autonomousSystem.number   service.detection.sequence.endpoints.connection.direction   service.detection.sequence.endpoints.domain   service.detection.sequence.endpoints.id   service.detection.sequence.endpoints.ip   service.detection.sequence.endpoints.location.city   service.detection.sequence.endpoints.location.country   service.detection.sequence.endpoints.location.lat   service.detection.sequence.endpoints.location.lon   service.detection.sequence.endpoints.port   service.detection.sequence.resources.accountId   service.detection.sequence.resources.cloudPartition   service.detection.sequence.resources.data.accessKey.principalId   service.detection.sequence.resources.data.accessKey.userName   service.detection.sequence.resources.data.accessKey.userType   service.detection.sequence.resources.data.autoscalingAutoScalingGroup.ec2InstanceUids   service.detection.sequence.resources.data.cloudformationStack.ec2InstanceUids   service.detection.sequence.resources.data.container.image   service.detection.sequence.resources.data.container.imageUid   service.detection.sequence.resources.data.ec2Image.ec2InstanceUids   service.detection.sequence.resources.data.ec2Instance.availabilityZone   service.detection.sequence.resources.data.ec2Instance.ec2NetworkInterfaceUids   service.detection.sequence.resources.data.ec2Instance.iamInstanceProfile.arn   service.detection.sequence.resources.data.ec2Instance.iamInstanceProfile.id   service.detection.sequence.resources.data.ec2Instance.imageDescription   service.detection.sequence.resources.data.ec2Instance.instanceState   service.detection.sequence.resources.data.ec2Instance.instanceType   service.detection.sequence.resources.data.ec2Instance.outpostArn   service.detection.sequence.resources.data.ec2Instance.platform   service.detection.sequence.resources.data.ec2Instance.productCodes.productCodeId   service.detection.sequence.resources.data.ec2Instance.productCodes.productCodeType   service.detection.sequence.resources.data.ec2LaunchTemplate.ec2InstanceUids   service.detection.sequence.resources.data.ec2LaunchTemplate.version   service.detection.sequence.resources.data.ec2NetworkInterface.ipv6Addresses   service.detection.sequence.resources.data.ec2NetworkInterface.privateIpAddresses.privateDnsName   service.detection.sequence.resources.data.ec2NetworkInterface.privateIpAddresses.privateIpAddress   service.detection.sequence.resources.data.ec2NetworkInterface.publicIp   service.detection.sequence.resources.data.ec2NetworkInterface.securityGroups.groupId   service.detection.sequence.resources.data.ec2NetworkInterface.securityGroups.groupName   service.detection.sequence.resources.data.ec2NetworkInterface.subNetId   service.detection.sequence.resources.data.ec2NetworkInterface.vpcId   service.detection.sequence.resources.data.ec2Vpc.ec2InstanceUids   service.detection.sequence.resources.data.ecsCluster.ec2InstanceUids   service.detection.sequence.resources.data.ecsCluster.status   service.detection.sequence.resources.data.ecsTask.containerUids   service.detection.sequence.resources.data.ecsTask.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.resources.data.ecsTask.launchType   service.detection.sequence.resources.data.ecsTask.taskDefinitionArn   service.detection.sequence.resources.data.eksCluster.arn   service.detection.sequence.resources.data.eksCluster.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.resources.data.eksCluster.ec2InstanceUids   service.detection.sequence.resources.data.eksCluster.status   service.detection.sequence.resources.data.eksCluster.vpcId   service.detection.sequence.resources.data.iamInstanceProfile.ec2InstanceUids   service.detection.sequence.resources.data.iamInstanceProfile.id   service.detection.sequence.resources.data.kubernetesWorkload.containerUids   service.detection.sequence.resources.data.kubernetesWorkload.namespace   service.detection.sequence.resources.data.kubernetesWorkload.type   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicAclAccess   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicAclIgnoreBehavior   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicBucketRestrictBehavior   service.detection.sequence.resources.data.s3Bucket.accountPublicAccess.publicPolicyAccess   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicAclAccess   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicAclIgnoreBehavior   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicBucketRestrictBehavior   service.detection.sequence.resources.data.s3Bucket.bucketPublicAccess.publicPolicyAccess   service.detection.sequence.resources.data.s3Bucket.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.resources.data.s3Bucket.effectivePermission   service.detection.sequence.resources.data.s3Bucket.encryptionKeyArn   service.detection.sequence.resources.data.s3Bucket.encryptionType   service.detection.sequence.resources.data.s3Bucket.ownerId   service.detection.sequence.resources.data.s3Bucket.publicReadAccess   service.detection.sequence.resources.data.s3Bucket.publicWriteAccess   service.detection.sequence.resources.data.s3Bucket.s3ObjectUids   service.detection.sequence.resources.data.s3Object.eTag   service.detection.sequence.resources.data.s3Object.key   service.detection.sequence.resources.data.s3Object.versionId   service.detection.sequence.resources.name   service.detection.sequence.resources.region   service.detection.sequence.resources.resourceType   service.detection.sequence.resources.service   service.detection.sequence.resources.tags.key   service.detection.sequence.resources.tags.value   service.detection.sequence.resources.uid   service.detection.sequence.sequenceIndicators.key   service.detection.sequence.sequenceIndicators.title   service.detection.sequence.sequenceIndicators.values   service.detection.sequence.signals.actorIds   service.detection.sequence.signals.count   service.detection.sequence.signals.createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.signals.description   service.detection.sequence.signals.endpointIds   service.detection.sequence.signals.firstSeenAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.signals.lastSeenAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.signals.name   service.detection.sequence.signals.resourceUids   service.detection.sequence.signals.severity   service.detection.sequence.signals.signalIndicators.key   service.detection.sequence.signals.signalIndicators.title   service.detection.sequence.signals.signalIndicators.values   service.detection.sequence.signals.type   service.detection.sequence.signals.uid   service.detection.sequence.signals.updatedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.detection.sequence.uid   service.detectorId   service.ebsVolumeScanDetails.scanCompletedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.ebsVolumeScanDetails.scanDetections.highestSeverityThreatDetails.count   service.ebsVolumeScanDetails.scanDetections.highestSeverityThreatDetails.severity   service.ebsVolumeScanDetails.scanDetections.highestSeverityThreatDetails.threatName   service.ebsVolumeScanDetails.scanDetections.scannedItemCount.files   service.ebsVolumeScanDetails.scanDetections.scannedItemCount.totalGb   service.ebsVolumeScanDetails.scanDetections.scannedItemCount.volumes   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.itemCount   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.shortened   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.fileName   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.filePath   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.hash   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.filePaths.volumeArn   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.itemCount   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.name   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.threatNames.severity   service.ebsVolumeScanDetails.scanDetections.threatDetectedByName.uniqueThreatNameCount   service.ebsVolumeScanDetails.scanDetections.threatsDetectedItemCount.files   service.ebsVolumeScanDetails.scanId   service.ebsVolumeScanDetails.scanStartedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.ebsVolumeScanDetails.scanType   service.ebsVolumeScanDetails.sources   service.ebsVolumeScanDetails.triggerFindingId   service.eventFirstSeen Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.eventLastSeen Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.evidence.threatIntelligenceDetails.threatFileSha256   service.evidence.threatIntelligenceDetails.threatListName   service.evidence.threatIntelligenceDetails.threatNames   service.featureName   service.malwareScanDetails.scanCategory   service.malwareScanDetails.scanConfiguration.incrementalScanDetails.baselineResourceArn   service.malwareScanDetails.scanConfiguration.triggerType   service.malwareScanDetails.scanId   service.malwareScanDetails.scanType   service.malwareScanDetails.threats.count   service.malwareScanDetails.threats.hash   service.malwareScanDetails.threats.itemDetails.additionalInfo.deviceName   service.malwareScanDetails.threats.itemDetails.additionalInfo.versionId   service.malwareScanDetails.threats.itemDetails.hash   service.malwareScanDetails.threats.itemDetails.itemPath   service.malwareScanDetails.threats.itemDetails.resourceArn   service.malwareScanDetails.threats.itemPaths.hash   service.malwareScanDetails.threats.itemPaths.nestedItemPath   service.malwareScanDetails.threats.name   service.malwareScanDetails.threats.source   service.malwareScanDetails.uniqueThreatCount   service.resourceRole   service.runtimeDetails.context.addressFamily   service.runtimeDetails.context.commandLineExample   service.runtimeDetails.context.fileOperation   service.runtimeDetails.context.filePath   service.runtimeDetails.context.fileSystemType   service.runtimeDetails.context.flags   service.runtimeDetails.context.ianaProtocolNumber   service.runtimeDetails.context.ldPreloadValue   service.runtimeDetails.context.libraryPath   service.runtimeDetails.context.memoryRegions   service.runtimeDetails.context.modifiedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.modifyingProcess.euid   service.runtimeDetails.context.modifyingProcess.executablePath   service.runtimeDetails.context.modifyingProcess.executableSha256   service.runtimeDetails.context.modifyingProcess.lineage.euid   service.runtimeDetails.context.modifyingProcess.lineage.executablePath   service.runtimeDetails.context.modifyingProcess.lineage.name   service.runtimeDetails.context.modifyingProcess.lineage.namespacePid   service.runtimeDetails.context.modifyingProcess.lineage.parentUuid   service.runtimeDetails.context.modifyingProcess.lineage.pid   service.runtimeDetails.context.modifyingProcess.lineage.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.modifyingProcess.lineage.userId   service.runtimeDetails.context.modifyingProcess.lineage.uuid   service.runtimeDetails.context.modifyingProcess.name   service.runtimeDetails.context.modifyingProcess.namespacePid   service.runtimeDetails.context.modifyingProcess.parentUuid   service.runtimeDetails.context.modifyingProcess.pid   service.runtimeDetails.context.modifyingProcess.pwd   service.runtimeDetails.context.modifyingProcess.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.modifyingProcess.user   service.runtimeDetails.context.modifyingProcess.userId   service.runtimeDetails.context.modifyingProcess.uuid   service.runtimeDetails.context.moduleFilePath   service.runtimeDetails.context.moduleName   service.runtimeDetails.context.moduleSha256   service.runtimeDetails.context.mountSource   service.runtimeDetails.context.mountTarget   service.runtimeDetails.context.relatedFilePaths   service.runtimeDetails.context.releaseAgentPath   service.runtimeDetails.context.runcBinaryPath   service.runtimeDetails.context.scriptPath   service.runtimeDetails.context.serviceName   service.runtimeDetails.context.shellHistoryFilePath   service.runtimeDetails.context.socketPath   service.runtimeDetails.context.targetProcess.euid   service.runtimeDetails.context.targetProcess.executablePath   service.runtimeDetails.context.targetProcess.executableSha256   service.runtimeDetails.context.targetProcess.lineage.euid   service.runtimeDetails.context.targetProcess.lineage.executablePath   service.runtimeDetails.context.targetProcess.lineage.name   service.runtimeDetails.context.targetProcess.lineage.namespacePid   service.runtimeDetails.context.targetProcess.lineage.parentUuid   service.runtimeDetails.context.targetProcess.lineage.pid   service.runtimeDetails.context.targetProcess.lineage.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.targetProcess.lineage.userId   service.runtimeDetails.context.targetProcess.lineage.uuid   service.runtimeDetails.context.targetProcess.name   service.runtimeDetails.context.targetProcess.namespacePid   service.runtimeDetails.context.targetProcess.parentUuid   service.runtimeDetails.context.targetProcess.pid   service.runtimeDetails.context.targetProcess.pwd   service.runtimeDetails.context.targetProcess.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.context.targetProcess.user   service.runtimeDetails.context.targetProcess.userId   service.runtimeDetails.context.targetProcess.uuid   service.runtimeDetails.context.threatFilePath   service.runtimeDetails.context.toolCategory   service.runtimeDetails.context.toolName   service.runtimeDetails.process.euid   service.runtimeDetails.process.executablePath   service.runtimeDetails.process.executableSha256   service.runtimeDetails.process.lineage.euid   service.runtimeDetails.process.lineage.executablePath   service.runtimeDetails.process.lineage.name   service.runtimeDetails.process.lineage.namespacePid   service.runtimeDetails.process.lineage.parentUuid   service.runtimeDetails.process.lineage.pid   service.runtimeDetails.process.lineage.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.process.lineage.userId   service.runtimeDetails.process.lineage.uuid   service.runtimeDetails.process.name   service.runtimeDetails.process.namespacePid   service.runtimeDetails.process.parentUuid   service.runtimeDetails.process.pid   service.runtimeDetails.process.pwd   service.runtimeDetails.process.startTime Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000   service.runtimeDetails.process.user   service.runtimeDetails.process.userId   service.runtimeDetails.process.uuid   service.serviceName   service.userFeedback   severity To configure severity based filters, use the following for the FindingCriteria condition:    Low: ["1", "2", "3"]     Medium: ["4", "5", "6"]     High: ["7", "8"]     Critical: ["9", "10"]    For more information, see Findings severity levels in the Amazon GuardDuty User Guide.   type   updatedAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000
         public let findingCriteria: FindingCriteria?
         /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
         public let rank: Int?
@@ -10504,8 +11062,8 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.action, forKey: .action)
             try container.encodeIfPresent(self.description, forKey: .description)
-            request.encodePath(self.detectorId, key: "detectorId")
-            request.encodePath(self.filterName, key: "filterName")
+            request.encodePath(self.detectorId, key: "DetectorId")
+            request.encodePath(self.filterName, key: "FilterName")
             try container.encodeIfPresent(self.findingCriteria, forKey: .findingCriteria)
             try container.encodeIfPresent(self.rank, forKey: .rank)
         }
@@ -10544,8 +11102,7 @@ extension GuardDuty {
     public struct UpdateFindingsFeedbackRequest: AWSEncodableShape {
         /// Additional feedback about the GuardDuty findings.
         public let comments: String?
-        /// The ID of the detector that is associated with the findings for which you want to update  the feedback. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector that is associated with the findings for which you want to update the feedback. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The feedback for the finding.
         public let feedback: Feedback?
@@ -10564,7 +11121,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.comments, forKey: .comments)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.feedback, forKey: .feedback)
             try container.encodeIfPresent(self.findingIds, forKey: .findingIds)
         }
@@ -10593,20 +11150,19 @@ extension GuardDuty {
     public struct UpdateIPSetRequest: AWSEncodableShape {
         /// The updated Boolean value that specifies whether the IPSet is active or not.
         public let activate: Bool?
-        /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
         /// The unique ID that specifies the IPSet that you want to update.
-        public let ipSetId: String
+        public let ipSetId: String?
         /// The updated URI of the file that contains the IPSet.
         public let location: String?
         /// The unique ID that specifies the IPSet that you want to update.
         public let name: String?
 
         @inlinable
-        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, ipSetId: String, location: String? = nil, name: String? = nil) {
+        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, ipSetId: String? = nil, location: String? = nil, name: String? = nil) {
             self.activate = activate
             self.detectorId = detectorId
             self.expectedBucketOwner = expectedBucketOwner
@@ -10619,9 +11175,9 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
-            request.encodePath(self.ipSetId, key: "ipSetId")
+            request.encodePath(self.ipSetId, key: "IpSetId")
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
         }
@@ -10654,9 +11210,9 @@ extension GuardDuty {
         public let actions: MalwareProtectionPlanActions?
         /// A unique identifier associated with the Malware Protection plan.
         public let malwareProtectionPlanId: String
-        /// Information about the protected resource that is associated  with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
+        /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
         public let protectedResource: UpdateProtectedResource?
-        /// Amazon Resource Name (ARN) of the IAM role with permissions to scan and add tags to  the associated protected resource.
+        /// Amazon Resource Name (ARN) of the IAM role with permissions to scan and add tags to the associated protected resource.
         public let role: String?
 
         @inlinable
@@ -10671,7 +11227,7 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.actions, forKey: .actions)
-            request.encodePath(self.malwareProtectionPlanId, key: "malwareProtectionPlanId")
+            request.encodePath(self.malwareProtectionPlanId, key: "MalwareProtectionPlanId")
             try container.encodeIfPresent(self.protectedResource, forKey: .protectedResource)
             try container.encodeIfPresent(self.role, forKey: .role)
         }
@@ -10688,8 +11244,7 @@ extension GuardDuty {
     }
 
     public struct UpdateMalwareScanSettingsRequest: AWSEncodableShape {
-        /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// An enum value representing possible snapshot preservation settings.
         public let ebsSnapshotPreservation: EbsSnapshotPreservation?
@@ -10706,7 +11261,7 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.ebsSnapshotPreservation, forKey: .ebsSnapshotPreservation)
             try container.encodeIfPresent(self.scanResourceCriteria, forKey: .scanResourceCriteria)
         }
@@ -10732,8 +11287,7 @@ extension GuardDuty {
         public let accountIds: [String]?
         /// Describes which data sources will be updated.
         public let dataSources: DataSourceConfigurations?
-        /// The detector ID of the administrator account. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The detector ID of the administrator account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// A list of features that will be updated for the specified member accounts.
         public let features: [MemberFeaturesConfiguration]?
@@ -10760,7 +11314,7 @@ extension GuardDuty {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountIds, forKey: .accountIds)
             try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.features, forKey: .features)
         }
 
@@ -10797,14 +11351,13 @@ extension GuardDuty {
     }
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
-        /// Represents whether to automatically enable member accounts in the organization. This applies to only new member accounts, not the existing member accounts. When a new account joins the organization, the chosen features will be enabled for them by default. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a  value for either autoEnableOrganizationMembers or autoEnable.
+        /// Represents whether to automatically enable member accounts in the organization. This applies to only new member accounts, not the existing member accounts. When a new account joins the organization, the chosen features will be enabled for them by default. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
         public let autoEnable: Bool?
-        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable.  Use one of the  following configuration values for autoEnableOrganizationMembers:    NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually. When you update the auto-enable setting from ALL or NEW to  NONE, this action doesn't disable the corresponding option for your existing accounts. This configuration will apply to the new accounts that join the organization. After you update the auto-enable settings, no new account will have the corresponding option as enabled.
+        /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable.  Use one of the following configuration values for autoEnableOrganizationMembers:    NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.     ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.    NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually. When you update the auto-enable setting from ALL or NEW to NONE, this action doesn't disable the corresponding option for your existing accounts. This configuration will apply to the new accounts that join the organization. After you update the auto-enable settings, no new account will have the corresponding option as enabled.
         public let autoEnableOrganizationMembers: AutoEnableMembers?
         /// Describes which data sources will be updated.
         public let dataSources: OrganizationDataSourceConfigurations?
-        /// The ID of the detector that configures the delegated administrator. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector that configures the delegated administrator. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// A list of features that will be configured for the organization.
         public let features: [OrganizationFeatureConfiguration]?
@@ -10834,7 +11387,7 @@ extension GuardDuty {
             try container.encodeIfPresent(self.autoEnable, forKey: .autoEnable)
             try container.encodeIfPresent(self.autoEnableOrganizationMembers, forKey: .autoEnableOrganizationMembers)
             try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.features, forKey: .features)
         }
 
@@ -10878,8 +11431,7 @@ extension GuardDuty {
         public let destinationId: String
         /// A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
         public let destinationProperties: DestinationProperties?
-        /// The ID of the detector associated with the publishing destinations to update. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The ID of the detector associated with the publishing destinations to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
 
         @inlinable
@@ -10892,9 +11444,9 @@ extension GuardDuty {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.destinationId, key: "destinationId")
+            request.encodePath(self.destinationId, key: "DestinationId")
             try container.encodeIfPresent(self.destinationProperties, forKey: .destinationProperties)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
         }
 
         public func validate(name: String) throws {
@@ -10912,7 +11464,7 @@ extension GuardDuty {
     }
 
     public struct UpdateS3BucketResource: AWSEncodableShape {
-        /// Information about the specified object prefixes. The S3 object will be scanned only  if it belongs to any of the specified object prefixes.
+        /// Information about the specified object prefixes. The S3 object will be scanned only if it belongs to any of the specified object prefixes.
         public let objectPrefixes: [String]?
 
         @inlinable
@@ -10932,20 +11484,19 @@ extension GuardDuty {
     public struct UpdateThreatEntitySetRequest: AWSEncodableShape {
         /// A boolean value that indicates whether GuardDuty is to start using this updated threat entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
         public let activate: Bool?
-        /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
         /// The URI of the file that contains the trusted entity set.
         public let location: String?
-        /// A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
         public let name: String?
         /// The ID returned by GuardDuty after updating the threat entity set resource.
-        public let threatEntitySetId: String
+        public let threatEntitySetId: String?
 
         @inlinable
-        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, location: String? = nil, name: String? = nil, threatEntitySetId: String) {
+        public init(activate: Bool? = nil, detectorId: String, expectedBucketOwner: String? = nil, location: String? = nil, name: String? = nil, threatEntitySetId: String? = nil) {
             self.activate = activate
             self.detectorId = detectorId
             self.expectedBucketOwner = expectedBucketOwner
@@ -10958,11 +11509,11 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
-            request.encodePath(self.threatEntitySetId, key: "threatEntitySetId")
+            request.encodePath(self.threatEntitySetId, key: "ThreatEntitySetId")
         }
 
         public func validate(name: String) throws {
@@ -10992,8 +11543,7 @@ extension GuardDuty {
     public struct UpdateThreatIntelSetRequest: AWSEncodableShape {
         /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
         public let activate: Bool?
-        /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
@@ -11018,11 +11568,11 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
-            request.encodePath(self.threatIntelSetId, key: "threatIntelSetId")
+            request.encodePath(self.threatIntelSetId, key: "ThreatIntelSetId")
         }
 
         public func validate(name: String) throws {
@@ -11051,14 +11601,13 @@ extension GuardDuty {
     public struct UpdateTrustedEntitySetRequest: AWSEncodableShape {
         /// A boolean value that indicates whether GuardDuty is to start using this updated trusted entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
         public let activate: Bool?
-        /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the
-        /// Settings page in the GuardDuty console, or run the ListDetectors API.
+        /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
         /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
         public let expectedBucketOwner: String?
         /// The URI of the file that contains the trusted entity set.
         public let location: String?
-        /// A user-friendly name to identify the trusted entity set. The name of your list can include  lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+        /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
         public let name: String?
         /// The ID returned by GuardDuty after updating the trusted entity set resource.
         public let trustedEntitySetId: String
@@ -11077,11 +11626,11 @@ extension GuardDuty {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.activate, forKey: .activate)
-            request.encodePath(self.detectorId, key: "detectorId")
+            request.encodePath(self.detectorId, key: "DetectorId")
             try container.encodeIfPresent(self.expectedBucketOwner, forKey: .expectedBucketOwner)
             try container.encodeIfPresent(self.location, forKey: .location)
             try container.encodeIfPresent(self.name, forKey: .name)
-            request.encodePath(self.trustedEntitySetId, key: "trustedEntitySetId")
+            request.encodePath(self.trustedEntitySetId, key: "TrustedEntitySetId")
         }
 
         public func validate(name: String) throws {
@@ -11277,7 +11826,7 @@ extension GuardDuty {
     public struct UsageTopAccountsResult: AWSDecodableShape {
         /// The accounts that contributed to the total usage cost.
         public let accounts: [UsageTopAccountResult]?
-        /// Features by which you can generate the usage statistics.  RDS_LOGIN_EVENTS is currently not supported  with topAccountsByFeature.
+        /// Features by which you can generate the usage statistics.  RDS_LOGIN_EVENTS is currently not supported with topAccountsByFeature.
         public let feature: UsageFeature?
 
         @inlinable
@@ -11293,7 +11842,7 @@ extension GuardDuty {
     }
 
     public struct User: AWSDecodableShape {
-        /// Contains information about the Amazon Web Services account.
+        /// Contains information about the Amazon Web Services account within which the activity took place. This is not necessarily the account that owns the user identity.
         public let account: Account?
         /// The credentials of the user ID.
         public let credentialUid: String?

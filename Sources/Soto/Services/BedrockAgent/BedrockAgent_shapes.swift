@@ -25,6 +25,17 @@ import Foundation
 extension BedrockAgent {
     // MARK: Enums
 
+    public enum AccessControlAccess: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AccessControlPrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ActionGroupSignature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonCodeinterpreter = "AMAZON.CodeInterpreter"
         case amazonUserinput = "AMAZON.UserInput"
@@ -154,14 +165,18 @@ extension BedrockAgent {
 
     public enum DataSourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
+        case creating = "CREATING"
         case deleteUnsuccessful = "DELETE_UNSUCCESSFUL"
         case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case confluence = "CONFLUENCE"
         case custom = "CUSTOM"
+        case managedKnowledgeBaseConnector = "MANAGED_KNOWLEDGE_BASE_CONNECTOR"
         case redshiftMetadata = "REDSHIFT_METADATA"
         case s3 = "S3"
         case salesforce = "SALESFORCE"
@@ -189,6 +204,18 @@ extension BedrockAgent {
     public enum EmbeddingDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "BINARY"
         case float32 = "FLOAT32"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EmbeddingModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case managed = "MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnabledOrDisabledState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -296,6 +323,12 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum IncludedData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allData = "ALL_DATA"
+        case metadataOnly = "METADATA_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IncompatibleLoopNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case collector = "Collector"
         case condition = "Condition"
@@ -348,6 +381,7 @@ extension BedrockAgent {
         case deleteUnsuccessful = "DELETE_UNSUCCESSFUL"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case updateUnsuccessful = "UPDATE_UNSUCCESSFUL"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -366,6 +400,7 @@ extension BedrockAgent {
 
     public enum KnowledgeBaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kendra = "KENDRA"
+        case managed = "MANAGED"
         case sql = "SQL"
         case vector = "VECTOR"
         public var description: String { return self.rawValue }
@@ -404,6 +439,7 @@ extension BedrockAgent {
     public enum ParsingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bedrockDataAutomation = "BEDROCK_DATA_AUTOMATION"
         case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
+        case smartParsing = "SMART_PARSING"
         public var description: String { return self.rawValue }
     }
 
@@ -2333,6 +2369,20 @@ extension BedrockAgent {
         }
     }
 
+    public struct AudioExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether audio extraction is enabled or disabled.
+        public let audioExtractionStatus: EnabledOrDisabledState
+
+        @inlinable
+        public init(audioExtractionStatus: EnabledOrDisabledState) {
+            self.audioExtractionStatus = audioExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioExtractionStatus = "audioExtractionStatus"
+        }
+    }
+
     public struct AudioSegmentationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The duration in seconds for each audio segment. Audio files will be divided into chunks of this length for processing.
         public let fixedLengthDuration: Int
@@ -2995,7 +3045,7 @@ extension BedrockAgent {
     public struct CreateDataSourceRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
-        /// The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted if you delete a knowledge base or data source resource.
+        /// The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted if you delete a knowledge base or data source resource.    For managed knowledge bases, the only supported option is DELETE, which is also the default.
         public let dataDeletionPolicy: DataDeletionPolicy?
         /// The connection configuration for the data source.
         public let dataSourceConfiguration: DataSourceConfiguration
@@ -3902,22 +3952,25 @@ extension BedrockAgent {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration information to connect to Confluence as your data source.  Confluence data source connector is in preview release and is subject to change.
+        /// The configuration information to connect to Confluence as your data source for self-managed knowledge bases.  To configure this data source for managed knowledge bases, use managedKnowledgeBaseConnectorConfiguration. Confluence data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public let confluenceConfiguration: ConfluenceDataSourceConfiguration?
-        /// The configuration information to connect to Amazon S3 as your data source.
+        /// Contains the configuration for a data source that connects a managed knowledge base to a supported data source connector. Specify this object when the data source type is MANAGED_KNOWLEDGE_BASE_CONNECTOR.
+        public let managedKnowledgeBaseConnectorConfiguration: ManagedKnowledgeBaseConnectorConfiguration?
+        /// The configuration information to connect to Amazon S3 as your data source for self-managed knowledge bases. To configure this data source for managed knowledge bases, use managedKnowledgeBaseConnectorConfiguration.
         public let s3Configuration: S3DataSourceConfiguration?
-        /// The configuration information to connect to Salesforce as your data source.  Salesforce data source connector is in preview release and is subject to change.
+        /// The configuration information to connect to Salesforce as your data source.  Salesforce data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public let salesforceConfiguration: SalesforceDataSourceConfiguration?
-        /// The configuration information to connect to SharePoint as your data source.  SharePoint data source connector is in preview release and is subject to change.
+        /// The configuration information to connect to SharePoint as your data source for self-managed knowledge bases.  To configure this data source for managed knowledge bases, use managedKnowledgeBaseConnectorConfiguration. SharePoint data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public let sharePointConfiguration: SharePointDataSourceConfiguration?
         /// The type of data source.
         public let type: DataSourceType
-        /// The configuration of web URLs to crawl for your data source. You should be authorized to crawl the URLs.  Crawling web URLs as your data source is in preview release and is subject to change.
+        /// The configuration of web URLs to crawl for your data source. You should be authorized to crawl the URLs.  To configure this data source for managed knowledge bases, use managedKnowledgeBaseConnectorConfiguration. Web crawler data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public let webConfiguration: WebDataSourceConfiguration?
 
         @inlinable
-        public init(confluenceConfiguration: ConfluenceDataSourceConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceDataSourceConfiguration? = nil, sharePointConfiguration: SharePointDataSourceConfiguration? = nil, type: DataSourceType, webConfiguration: WebDataSourceConfiguration? = nil) {
+        public init(confluenceConfiguration: ConfluenceDataSourceConfiguration? = nil, managedKnowledgeBaseConnectorConfiguration: ManagedKnowledgeBaseConnectorConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceDataSourceConfiguration? = nil, sharePointConfiguration: SharePointDataSourceConfiguration? = nil, type: DataSourceType, webConfiguration: WebDataSourceConfiguration? = nil) {
             self.confluenceConfiguration = confluenceConfiguration
+            self.managedKnowledgeBaseConnectorConfiguration = managedKnowledgeBaseConnectorConfiguration
             self.s3Configuration = s3Configuration
             self.salesforceConfiguration = salesforceConfiguration
             self.sharePointConfiguration = sharePointConfiguration
@@ -3935,6 +3988,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case confluenceConfiguration = "confluenceConfiguration"
+            case managedKnowledgeBaseConnectorConfiguration = "managedKnowledgeBaseConnectorConfiguration"
             case s3Configuration = "s3Configuration"
             case salesforceConfiguration = "salesforceConfiguration"
             case sharePointConfiguration = "sharePointConfiguration"
@@ -4496,6 +4550,72 @@ extension BedrockAgent {
         }
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concurrently.
+        public let expectedRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the knowledge base to remove the resource policy from.
+        public let resourceArn: String
+
+        @inlinable
+        public init(expectedRevisionId: String? = nil, resourceArn: String) {
+            self.expectedRevisionId = expectedRevisionId
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedRevisionId, key: "expectedRevisionId")
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, max: 255)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        /// The ARN of the knowledge base that the resource policy was removed from.
+        public let resourceArn: String
+        /// The revision identifier after the resource policy was deleted.
+        public let revisionId: String?
+
+        @inlinable
+        public init(resourceArn: String, revisionId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
+        }
+    }
+
+    public struct DeletionProtectionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enable or disable deletion protection for the connector.
+        public let deletionProtectionStatus: EnabledOrDisabledState
+        /// The threshold is the maximum percentage of documents that a sync job can delete from your index. If a sync would delete more than this percentage, the sync skips its delete phase, leaving your indexed documents in place. Not supported for the Custom connector.
+        public let deletionProtectionThreshold: Int?
+
+        @inlinable
+        public init(deletionProtectionStatus: EnabledOrDisabledState, deletionProtectionThreshold: Int? = nil) {
+            self.deletionProtectionStatus = deletionProtectionStatus
+            self.deletionProtectionThreshold = deletionProtectionThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtectionStatus = "deletionProtectionStatus"
+            case deletionProtectionThreshold = "deletionProtectionThreshold"
+        }
+    }
+
     public struct DisassociateAgentCollaboratorRequest: AWSEncodableShape {
         /// An agent ID.
         public let agentId: String
@@ -4572,6 +4692,28 @@ extension BedrockAgent {
         public init() {}
     }
 
+    public struct DocumentAccessControlEntry: AWSEncodableShape {
+        /// Whether to allow or deny access.
+        public let access: AccessControlAccess
+        /// The user identifier.
+        public let name: String
+        /// The type of principal.
+        public let type: AccessControlPrincipalType
+
+        @inlinable
+        public init(access: AccessControlAccess, name: String, type: AccessControlPrincipalType) {
+            self.access = access
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case access = "access"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
     public struct DocumentContent: AWSEncodableShape {
         /// Contains information about the content to ingest into a knowledge base connected to a custom data source.
         public let custom: CustomContent?
@@ -4626,6 +4768,8 @@ extension BedrockAgent {
     }
 
     public struct DocumentMetadata: AWSEncodableShape {
+        /// Access control list for the document. Used when metadata type is IN_LINE_ATTRIBUTE.
+        public let accessControlList: [DocumentAccessControlEntry]?
         /// An array of objects, each of which defines a metadata attribute to associate with the content to ingest. You define the attributes inline.
         public let inlineAttributes: [MetadataAttribute]?
         /// The Amazon S3 location of the file containing metadata to associate with the content to ingest.
@@ -4634,13 +4778,15 @@ extension BedrockAgent {
         public let type: MetadataSourceType
 
         @inlinable
-        public init(inlineAttributes: [MetadataAttribute]? = nil, s3Location: CustomS3Location? = nil, type: MetadataSourceType) {
+        public init(accessControlList: [DocumentAccessControlEntry]? = nil, inlineAttributes: [MetadataAttribute]? = nil, s3Location: CustomS3Location? = nil, type: MetadataSourceType) {
+            self.accessControlList = accessControlList
             self.inlineAttributes = inlineAttributes
             self.s3Location = s3Location
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accessControlList, name: "accessControlList", parent: name, min: 1)
             try self.inlineAttributes?.forEach {
                 try $0.validate(name: "\(name).inlineAttributes[]")
             }
@@ -4648,6 +4794,7 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessControlList = "accessControlList"
             case inlineAttributes = "inlineAttributes"
             case s3Location = "s3Location"
             case type = "type"
@@ -5588,16 +5735,20 @@ extension BedrockAgent {
     public struct GetFlowRequest: AWSEncodableShape {
         /// The unique identifier of the flow.
         public let flowIdentifier: String
+        /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
+        public let includedData: IncludedData?
 
         @inlinable
-        public init(flowIdentifier: String) {
+        public init(flowIdentifier: String, includedData: IncludedData? = nil) {
             self.flowIdentifier = flowIdentifier
+            self.includedData = includedData
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowIdentifier, key: "flowIdentifier")
+            request.encodeQuery(self.includedData, key: "includedData")
         }
 
         public func validate(name: String) throws {
@@ -5672,11 +5823,14 @@ extension BedrockAgent {
         public let flowIdentifier: String
         /// The version of the flow for which to get information.
         public let flowVersion: String
+        /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
+        public let includedData: IncludedData?
 
         @inlinable
-        public init(flowIdentifier: String, flowVersion: String) {
+        public init(flowIdentifier: String, flowVersion: String, includedData: IncludedData? = nil) {
             self.flowIdentifier = flowIdentifier
             self.flowVersion = flowVersion
+            self.includedData = includedData
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5684,6 +5838,7 @@ extension BedrockAgent {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowIdentifier, key: "flowIdentifier")
             request.encodePath(self.flowVersion, key: "flowVersion")
+            request.encodeQuery(self.includedData, key: "includedData")
         }
 
         public func validate(name: String) throws {
@@ -5880,13 +6035,16 @@ extension BedrockAgent {
     }
 
     public struct GetPromptRequest: AWSEncodableShape {
+        /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
+        public let includedData: IncludedData?
         /// The unique identifier of the prompt.
         public let promptIdentifier: String
         /// The version of the prompt about which you want to retrieve information. Omit this field to return information about the working draft of the prompt.
         public let promptVersion: String?
 
         @inlinable
-        public init(promptIdentifier: String, promptVersion: String? = nil) {
+        public init(includedData: IncludedData? = nil, promptIdentifier: String, promptVersion: String? = nil) {
+            self.includedData = includedData
             self.promptIdentifier = promptIdentifier
             self.promptVersion = promptVersion
         }
@@ -5894,6 +6052,7 @@ extension BedrockAgent {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includedData, key: "includedData")
             request.encodePath(self.promptIdentifier, key: "promptIdentifier")
             request.encodeQuery(self.promptVersion, key: "promptVersion")
         }
@@ -5960,6 +6119,52 @@ extension BedrockAgent {
         }
     }
 
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the knowledge base to retrieve the resource policy for.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The JSON-formatted resource policy associated with the knowledge base.
+        public let policy: String
+        /// The ARN of the knowledge base that the resource policy is associated with.
+        public let resourceArn: String
+        /// The revision identifier of the resource policy.
+        public let revisionId: String
+
+        @inlinable
+        public init(policy: String, resourceArn: String, revisionId: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
+        }
+    }
+
     public struct GuardrailConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier of the guardrail.
         public let guardrailIdentifier: String?
@@ -6018,6 +6223,20 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case maxTokens = "maxTokens"
+        }
+    }
+
+    public struct ImageExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether image extraction is enabled or disabled.
+        public let imageExtractionStatus: EnabledOrDisabledState
+
+        @inlinable
+        public init(imageExtractionStatus: EnabledOrDisabledState) {
+            self.imageExtractionStatus = imageExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageExtractionStatus = "imageExtractionStatus"
         }
     }
 
@@ -6239,6 +6458,8 @@ extension BedrockAgent {
         public let numberOfDocumentsFailed: Int64?
         /// The total number of source documents that were scanned. Includes new, updated, and unchanged documents.
         public let numberOfDocumentsScanned: Int64?
+        /// The number of source documents that were skipped during ingestion.
+        public let numberOfDocumentsSkipped: Int64?
         /// The number of metadata files that were updated or deleted.
         public let numberOfMetadataDocumentsModified: Int64?
         /// The total number of metadata files that were scanned. Includes new, updated, and unchanged files.
@@ -6249,10 +6470,11 @@ extension BedrockAgent {
         public let numberOfNewDocumentsIndexed: Int64?
 
         @inlinable
-        public init(numberOfDocumentsDeleted: Int64? = nil, numberOfDocumentsFailed: Int64? = nil, numberOfDocumentsScanned: Int64? = nil, numberOfMetadataDocumentsModified: Int64? = nil, numberOfMetadataDocumentsScanned: Int64? = nil, numberOfModifiedDocumentsIndexed: Int64? = nil, numberOfNewDocumentsIndexed: Int64? = nil) {
+        public init(numberOfDocumentsDeleted: Int64? = nil, numberOfDocumentsFailed: Int64? = nil, numberOfDocumentsScanned: Int64? = nil, numberOfDocumentsSkipped: Int64? = nil, numberOfMetadataDocumentsModified: Int64? = nil, numberOfMetadataDocumentsScanned: Int64? = nil, numberOfModifiedDocumentsIndexed: Int64? = nil, numberOfNewDocumentsIndexed: Int64? = nil) {
             self.numberOfDocumentsDeleted = numberOfDocumentsDeleted
             self.numberOfDocumentsFailed = numberOfDocumentsFailed
             self.numberOfDocumentsScanned = numberOfDocumentsScanned
+            self.numberOfDocumentsSkipped = numberOfDocumentsSkipped
             self.numberOfMetadataDocumentsModified = numberOfMetadataDocumentsModified
             self.numberOfMetadataDocumentsScanned = numberOfMetadataDocumentsScanned
             self.numberOfModifiedDocumentsIndexed = numberOfModifiedDocumentsIndexed
@@ -6263,6 +6485,7 @@ extension BedrockAgent {
             case numberOfDocumentsDeleted = "numberOfDocumentsDeleted"
             case numberOfDocumentsFailed = "numberOfDocumentsFailed"
             case numberOfDocumentsScanned = "numberOfDocumentsScanned"
+            case numberOfDocumentsSkipped = "numberOfDocumentsSkipped"
             case numberOfMetadataDocumentsModified = "numberOfMetadataDocumentsModified"
             case numberOfMetadataDocumentsScanned = "numberOfMetadataDocumentsScanned"
             case numberOfModifiedDocumentsIndexed = "numberOfModifiedDocumentsIndexed"
@@ -6488,16 +6711,18 @@ extension BedrockAgent {
     public struct KnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Settings for an Amazon Kendra knowledge base.
         public let kendraKnowledgeBaseConfiguration: KendraKnowledgeBaseConfiguration?
+        public let managedKnowledgeBaseConfiguration: ManagedKnowledgeBaseConfiguration?
         /// Specifies configurations for a knowledge base connected to an SQL database.
         public let sqlKnowledgeBaseConfiguration: SqlKnowledgeBaseConfiguration?
-        /// The type of data that the data source is converted into for the knowledge base.
+        /// The type of data that the data source is converted into for the knowledge base. Choose MANAGED to create a managed knowledge base.
         public let type: KnowledgeBaseType
         /// Contains details about the model that's used to convert the data source into vector embeddings.
         public let vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration?
 
         @inlinable
-        public init(kendraKnowledgeBaseConfiguration: KendraKnowledgeBaseConfiguration? = nil, sqlKnowledgeBaseConfiguration: SqlKnowledgeBaseConfiguration? = nil, type: KnowledgeBaseType, vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration? = nil) {
+        public init(kendraKnowledgeBaseConfiguration: KendraKnowledgeBaseConfiguration? = nil, managedKnowledgeBaseConfiguration: ManagedKnowledgeBaseConfiguration? = nil, sqlKnowledgeBaseConfiguration: SqlKnowledgeBaseConfiguration? = nil, type: KnowledgeBaseType, vectorKnowledgeBaseConfiguration: VectorKnowledgeBaseConfiguration? = nil) {
             self.kendraKnowledgeBaseConfiguration = kendraKnowledgeBaseConfiguration
+            self.managedKnowledgeBaseConfiguration = managedKnowledgeBaseConfiguration
             self.sqlKnowledgeBaseConfiguration = sqlKnowledgeBaseConfiguration
             self.type = type
             self.vectorKnowledgeBaseConfiguration = vectorKnowledgeBaseConfiguration
@@ -6505,12 +6730,14 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.kendraKnowledgeBaseConfiguration?.validate(name: "\(name).kendraKnowledgeBaseConfiguration")
+            try self.managedKnowledgeBaseConfiguration?.validate(name: "\(name).managedKnowledgeBaseConfiguration")
             try self.sqlKnowledgeBaseConfiguration?.validate(name: "\(name).sqlKnowledgeBaseConfiguration")
             try self.vectorKnowledgeBaseConfiguration?.validate(name: "\(name).vectorKnowledgeBaseConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case kendraKnowledgeBaseConfiguration = "kendraKnowledgeBaseConfiguration"
+            case managedKnowledgeBaseConfiguration = "managedKnowledgeBaseConfiguration"
             case sqlKnowledgeBaseConfiguration = "sqlKnowledgeBaseConfiguration"
             case type = "type"
             case vectorKnowledgeBaseConfiguration = "vectorKnowledgeBaseConfiguration"
@@ -7695,6 +7922,81 @@ extension BedrockAgent {
         }
     }
 
+    public struct ManagedKnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN for the embeddings model.
+        public let embeddingModelArn: String?
+        public let embeddingModelConfiguration: EmbeddingModelConfiguration?
+        public let embeddingModelType: EmbeddingModelType?
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+
+        @inlinable
+        public init(embeddingModelArn: String? = nil, embeddingModelConfiguration: EmbeddingModelConfiguration? = nil, embeddingModelType: EmbeddingModelType? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+            self.embeddingModelArn = embeddingModelArn
+            self.embeddingModelConfiguration = embeddingModelConfiguration
+            self.embeddingModelType = embeddingModelType
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, max: 2048)
+            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, min: 20)
+            try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+            try self.embeddingModelConfiguration?.validate(name: "\(name).embeddingModelConfiguration")
+            try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case embeddingModelArn = "embeddingModelArn"
+            case embeddingModelConfiguration = "embeddingModelConfiguration"
+            case embeddingModelType = "embeddingModelType"
+            case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+        }
+    }
+
+    public struct ManagedKnowledgeBaseConnectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Connector-specific parameters. For more information, see Connect a data source.
+        public let connectorParameters: AWSDocument?
+        /// A safeguard against accidental bulk deletion of indexed content.
+        public let deletionProtectionConfiguration: DeletionProtectionConfiguration?
+        /// Configuration for extracting media (images, audio, video) from data source files.
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
+
+        @inlinable
+        public init(connectorParameters: AWSDocument? = nil, deletionProtectionConfiguration: DeletionProtectionConfiguration? = nil, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil) {
+            self.connectorParameters = connectorParameters
+            self.deletionProtectionConfiguration = deletionProtectionConfiguration
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorParameters = "connectorParameters"
+            case deletionProtectionConfiguration = "deletionProtectionConfiguration"
+            case mediaExtractionConfiguration = "mediaExtractionConfiguration"
+        }
+    }
+
+    public struct MediaExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for audio extraction.
+        public let audioExtractionConfiguration: AudioExtractionConfiguration?
+        /// Configuration for image extraction.
+        public let imageExtractionConfiguration: ImageExtractionConfiguration?
+        /// Configuration for video extraction.
+        public let videoExtractionConfiguration: VideoExtractionConfiguration?
+
+        @inlinable
+        public init(audioExtractionConfiguration: AudioExtractionConfiguration? = nil, imageExtractionConfiguration: ImageExtractionConfiguration? = nil, videoExtractionConfiguration: VideoExtractionConfiguration? = nil) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
+            self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioExtractionConfiguration = "audioExtractionConfiguration"
+            case imageExtractionConfiguration = "imageExtractionConfiguration"
+            case videoExtractionConfiguration = "videoExtractionConfiguration"
+        }
+    }
+
     public struct MemoryConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The type of memory that is stored.
         public let enabledMemoryTypes: [MemoryType]
@@ -8338,7 +8640,7 @@ extension BedrockAgent {
         public let bedrockDataAutomationConfiguration: BedrockDataAutomationConfiguration?
         /// If you specify BEDROCK_FOUNDATION_MODEL as the parsing strategy for ingesting your data source, use this object to modify configurations for using a foundation model to parse documents.
         public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration?
-        /// The parsing strategy for the data source.
+        /// The parsing strategy for the data source. Only SMART_PARSING can be selected for managed knowledge bases. For more information, see Customize ingestion for managed knowledge bases.
         public let parsingStrategy: ParsingStrategy
 
         @inlinable
@@ -8949,6 +9251,64 @@ extension BedrockAgent {
             case name = "name"
             case templateConfiguration = "templateConfiguration"
             case templateType = "templateType"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concurrently. Specify the revisionId from the most recent GetResourcePolicy or PutResourcePolicy response.
+        public let expectedRevisionId: String?
+        /// The JSON-formatted resource policy to associate with the knowledge base.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the knowledge base to attach the resource policy to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(expectedRevisionId: String? = nil, policy: String, resourceArn: String) {
+            self.expectedRevisionId = expectedRevisionId
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.expectedRevisionId, forKey: .expectedRevisionId)
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, max: 255)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedRevisionId = "expectedRevisionId"
+            case policy = "policy"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The ARN of the knowledge base that the resource policy was attached to.
+        public let resourceArn: String
+        /// The revision identifier of the resource policy. Use this value in the expectedRevisionId field of a subsequent PutResourcePolicy or DeleteResourcePolicy request.
+        public let revisionId: String
+
+        @inlinable
+        public init(resourceArn: String, revisionId: String) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case revisionId = "revisionId"
         }
     }
 
@@ -10083,7 +10443,7 @@ extension BedrockAgent {
     }
 
     public struct SupplementalDataStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A list of objects specifying storage locations for images extracted from multimodal documents in your data source.
+        /// A list of objects specifying storage locations for multimedia content (images, audio, and video) extracted from multimodal documents in your data source.
         public let storageLocations: [SupplementalDataStorageLocation]
 
         @inlinable
@@ -10105,7 +10465,7 @@ extension BedrockAgent {
     }
 
     public struct SupplementalDataStorageLocation: AWSEncodableShape & AWSDecodableShape {
-        /// Contains information about the Amazon S3 location for the extracted images.
+        /// Contains information about the Amazon S3 location for the extracted multimedia content.
         public let s3Location: S3Location?
         /// Specifies the storage service used for this location.
         public let type: SupplementalDataStorageLocationType
@@ -10248,12 +10608,15 @@ extension BedrockAgent {
         public let inputSchema: ToolInputSchema
         /// The name of the tool.
         public let name: String
+        /// Whether to enforce strict JSON schema adherence for the tool input
+        public let strict: Bool?
 
         @inlinable
-        public init(description: String? = nil, inputSchema: ToolInputSchema, name: String) {
+        public init(description: String? = nil, inputSchema: ToolInputSchema, name: String, strict: Bool? = nil) {
             self.description = description
             self.inputSchema = inputSchema
             self.name = name
+            self.strict = strict
         }
 
         public func validate(name: String) throws {
@@ -10267,6 +10630,7 @@ extension BedrockAgent {
             case description = "description"
             case inputSchema = "inputSchema"
             case name = "name"
+            case strict = "strict"
         }
     }
 
@@ -11659,6 +12023,20 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case segmentationConfiguration = "segmentationConfiguration"
+        }
+    }
+
+    public struct VideoExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether video extraction is enabled or disabled.
+        public let videoExtractionStatus: EnabledOrDisabledState
+
+        @inlinable
+        public init(videoExtractionStatus: EnabledOrDisabledState) {
+            self.videoExtractionStatus = videoExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case videoExtractionStatus = "videoExtractionStatus"
         }
     }
 

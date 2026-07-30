@@ -80,7 +80,7 @@ public struct Pricing: AWSService {
 
     // MARK: API Calls
 
-    /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to  that service, such as the attribute  names available for that service. For example, some of the attribute names available for EC2 are  volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
+    /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
     @Sendable
     @inlinable
     public func describeServices(_ input: DescribeServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServicesResponse {
@@ -93,13 +93,13 @@ public struct Pricing: AWSService {
             logger: logger
         )
     }
-    /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to  that service, such as the attribute  names available for that service. For example, some of the attribute names available for EC2 are  volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
+    /// Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
     ///
     /// Parameters:
     ///   - formatVersion: The format version that you want the response to be in. Valid values are: aws_v1
     ///   - maxResults: The maximum number of results that you want returned in the response.
     ///   - nextToken: The pagination token that indicates the next set of results that you want to retrieve.
-    ///   - serviceCode: The code for the service whose information you want to retrieve, such as AmazonEC2. You can use  the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
+    ///   - serviceCode: The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeServices(
@@ -118,7 +118,7 @@ public struct Pricing: AWSService {
         return try await self.describeServices(input, logger: logger)
     }
 
-    /// Returns a list of attribute values. Attributes are similar to the details  in a Price List API offer file. For a list of available attributes, see  Offer File Definitions in the Billing and Cost Management User Guide.
+    /// Returns a list of attribute values. Attributes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the Billing and Cost Management User Guide.
     @Sendable
     @inlinable
     public func getAttributeValues(_ input: GetAttributeValuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAttributeValuesResponse {
@@ -131,13 +131,13 @@ public struct Pricing: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of attribute values. Attributes are similar to the details  in a Price List API offer file. For a list of available attributes, see  Offer File Definitions in the Billing and Cost Management User Guide.
+    /// Returns a list of attribute values. Attributes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the Billing and Cost Management User Guide.
     ///
     /// Parameters:
     ///   - attributeName: The name of the attribute that you want to retrieve the values for, such as volumeType.
     ///   - maxResults: The maximum number of results to return in response.
     ///   - nextToken: The pagination token that indicates the next set of results that you want to retrieve.
-    ///   - serviceCode: The service code for the service whose attributes you want to retrieve. For example, if you want  the retrieve an EC2 attribute, use AmazonEC2.
+    ///   - serviceCode: The service code for the service whose attributes you want to retrieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAttributeValues(
@@ -250,7 +250,7 @@ public struct Pricing: AWSService {
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: The pagination token that indicates the next set of results that you want to retrieve.
     ///   - regionCode: This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from GetAttributeValues API.
-    ///   - serviceCode: The service code or the Savings Plan service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plan price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
+    ///   - serviceCode: The service code or the Savings Plans service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPriceLists(
@@ -310,7 +310,7 @@ extension Pricing {
     /// - Parameters:
     ///   - formatVersion: The format version that you want the response to be in. Valid values are: aws_v1
     ///   - maxResults: The maximum number of results that you want returned in the response.
-    ///   - serviceCode: The code for the service whose information you want to retrieve, such as AmazonEC2. You can use  the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
+    ///   - serviceCode: The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeServicesPaginator(
@@ -350,7 +350,7 @@ extension Pricing {
     /// - Parameters:
     ///   - attributeName: The name of the attribute that you want to retrieve the values for, such as volumeType.
     ///   - maxResults: The maximum number of results to return in response.
-    ///   - serviceCode: The service code for the service whose attributes you want to retrieve. For example, if you want  the retrieve an EC2 attribute, use AmazonEC2.
+    ///   - serviceCode: The service code for the service whose attributes you want to retrieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
     ///   - logger: Logger used for logging
     @inlinable
     public func getAttributeValuesPaginator(
@@ -435,7 +435,7 @@ extension Pricing {
     ///   - effectiveDate: The date that the Price List file prices are effective from.
     ///   - maxResults: The maximum number of results to return in the response.
     ///   - regionCode: This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from GetAttributeValues API.
-    ///   - serviceCode: The service code or the Savings Plan service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plan price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
+    ///   - serviceCode: The service code or the Savings Plans service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPriceListsPaginator(

@@ -33,10 +33,52 @@ extension Evs {
     }
 
     public enum CheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connectorHealth = "CONNECTOR_HEALTH"
         case hostCount = "HOST_COUNT"
         case keyCoverage = "KEY_COVERAGE"
         case keyReuse = "KEY_REUSE"
+        case operationsManagerReachability = "OPERATIONS_MANAGER_REACHABILITY"
         case reachability = "REACHABILITY"
+        case sddcManagerHostCount = "SDDC_MANAGER_HOST_COUNT"
+        case sddcManagerKeyCoverage = "SDDC_MANAGER_KEY_COVERAGE"
+        case sddcManagerKeyReuse = "SDDC_MANAGER_KEY_REUSE"
+        case sddcManagerReachability = "SDDC_MANAGER_REACHABILITY"
+        case vcenterReachability = "VCENTER_REACHABILITY"
+        case vcenterVmEvent = "VCENTER_VM_EVENT"
+        case vcenterVmSync = "VCENTER_VM_SYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case operationsManager = "OPERATIONS_MANAGER"
+        case sddcManager = "SDDC_MANAGER"
+        case vcenter = "VCENTER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntitlementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case atRisk = "AT_RISK"
+        case createFailed = "CREATE_FAILED"
+        case created = "CREATED"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case entitlementRemoved = "ENTITLEMENT_REMOVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntitlementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case windowsServer = "WINDOWS_SERVER"
         public var description: String { return self.rawValue }
     }
 
@@ -62,6 +104,7 @@ extension Evs {
 
     public enum InstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case i4iMetal = "i4i.metal"
+        case i7iMetal24Xl = "i7i.metal-24xl"
         public var description: String { return self.rawValue }
     }
 
@@ -74,6 +117,7 @@ extension Evs {
     }
 
     public enum VcfVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case selfDeployed = "SELF_DEPLOYED"
         case vcf521 = "VCF-5.2.1"
         case vcf522 = "VCF-5.2.2"
         public var description: String { return self.rawValue }
@@ -140,21 +184,25 @@ extension Evs {
     }
 
     public struct Check: AWSDecodableShape {
+        /// A unique ID for the check.
+        public let id: String?
         /// The time when environment health began to be impaired.
         public let impairedSince: Date?
         ///  The check result.
         public let result: CheckResult?
-        /// The check type. Amazon EVS performs the following checks.    KEY_REUSE: checks that the VCF license key is not used by another Amazon EVS environment. This check fails if a used license is added to the environment.    KEY_COVERAGE: checks that your VCF license key allocates sufficient vCPU cores for all deployed hosts. The check fails when any assigned hosts in the EVS environment are not covered by license keys, or when any unassigned hosts cannot be covered by available vCPU cores in keys.    REACHABILITY: checks that the Amazon EVS control plane has a persistent connection to SDDC Manager. If Amazon EVS cannot reach the environment, this check fails.    HOST_COUNT: Checks that your environment has a minimum of 4 hosts. If this check fails, you will need to add hosts so that your environment meets this minimum requirement. Amazon EVS only supports environments with 4-16 hosts.
+        /// The check type. Amazon EVS performs the following checks:    KEY_REUSE: Verifies that the VCF license key is not used by another Amazon EVS environment.    KEY_COVERAGE: Verifies that the VCF license key allocates sufficient vCPU cores for all deployed hosts.    REACHABILITY: Verifies that the Amazon EVS control plane has a persistent connection to SDDC Manager.    HOST_COUNT: Verifies that the environment meets the minimum host count.    VCENTER_REACHABILITY: Verifies vCenter Server reachability through the vCenter connector.    VCENTER_VM_SYNC: Verifies that the vCenter connector can synchronize VM inventory from vCenter Server.    VCENTER_VM_EVENT: Verifies that the vCenter connector can receive VM lifecycle events from vCenter Server.    OPERATIONS_MANAGER_REACHABILITY: Verifies Operations Manager reachability through the Operations Manager connector.    SDDC_MANAGER_REACHABILITY: Verifies SDDC Manager reachability through the SDDC Manager connector.    SDDC_MANAGER_HOST_COUNT: Verifies that the host count reported by SDDC Manager meets Amazon EVS minimum requirements.    SDDC_MANAGER_KEY_COVERAGE: Verifies that the VCF license key configured in SDDC Manager covers all deployed hosts.    SDDC_MANAGER_KEY_REUSE: Verifies that the VCF license key configured in SDDC Manager is not used by another Amazon EVS environment.    CONNECTOR_HEALTH: Aggregate health across all connectors in the environment.
         public let type: CheckType?
 
         @inlinable
-        public init(impairedSince: Date? = nil, result: CheckResult? = nil, type: CheckType? = nil) {
+        public init(id: String? = nil, impairedSince: Date? = nil, result: CheckResult? = nil, type: CheckType? = nil) {
+            self.id = id
             self.impairedSince = impairedSince
             self.result = result
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id = "id"
             case impairedSince = "impairedSince"
             case result = "result"
             case type = "type"
@@ -181,6 +229,211 @@ extension Evs {
 
         private enum CodingKeys: String, CodingKey {
             case privateRouteServerPeerings = "privateRouteServerPeerings"
+        }
+    }
+
+    public struct Connector: AWSDecodableShape {
+        /// The fully qualified domain name (FQDN) of the VCF appliance that the connector connects to.
+        public let applianceFqdn: String?
+        /// A list of checks that are run on the connector.
+        public let checks: [ConnectorCheck]?
+        /// The unique ID of the connector.
+        public let connectorId: String?
+        /// The date and time that the connector was created.
+        public let createdAt: Date?
+        /// The unique ID of the environment that the connector belongs to.
+        public let environmentId: String?
+        /// The date and time that the connector was modified.
+        public let modifiedAt: Date?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance.
+        public let secretArn: String?
+        /// The state of the connector.
+        public let state: ConnectorState?
+        /// A detailed description of the connector state.
+        public let stateDetails: String?
+        /// The status of the connector.
+        public let status: CheckResult?
+        /// The type of the connector.
+        public let type: ConnectorType?
+
+        @inlinable
+        public init(applianceFqdn: String? = nil, checks: [ConnectorCheck]? = nil, connectorId: String? = nil, createdAt: Date? = nil, environmentId: String? = nil, modifiedAt: Date? = nil, secretArn: String? = nil, state: ConnectorState? = nil, stateDetails: String? = nil, status: CheckResult? = nil, type: ConnectorType? = nil) {
+            self.applianceFqdn = applianceFqdn
+            self.checks = checks
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.environmentId = environmentId
+            self.modifiedAt = modifiedAt
+            self.secretArn = secretArn
+            self.state = state
+            self.stateDetails = stateDetails
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applianceFqdn = "applianceFqdn"
+            case checks = "checks"
+            case connectorId = "connectorId"
+            case createdAt = "createdAt"
+            case environmentId = "environmentId"
+            case modifiedAt = "modifiedAt"
+            case secretArn = "secretArn"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct ConnectorCheck: AWSDecodableShape {
+        /// The time when connector health began to be impaired.
+        public let impairedSince: Date?
+        /// The date and time of the last check attempt.
+        public let lastCheckAttempt: Date?
+        /// The check result.
+        public let result: CheckResult?
+        /// The check type.
+        public let type: CheckType?
+
+        @inlinable
+        public init(impairedSince: Date? = nil, lastCheckAttempt: Date? = nil, result: CheckResult? = nil, type: CheckType? = nil) {
+            self.impairedSince = impairedSince
+            self.lastCheckAttempt = lastCheckAttempt
+            self.result = result
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impairedSince = "impairedSince"
+            case lastCheckAttempt = "lastCheckAttempt"
+            case result = "result"
+            case type = "type"
+        }
+    }
+
+    public struct CreateEntitlementRequest: AWSEncodableShape {
+        ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// A unique ID for the connector associated with the entitlement.
+        public let connectorId: String
+        /// The type of entitlement to create.
+        public let entitlementType: EntitlementType
+        /// A unique ID for the environment to create the entitlement in.
+        public let environmentId: String
+        /// The list of VMware vSphere virtual machine managed object IDs to create entitlements for.
+        public let vmIds: [String]
+
+        @inlinable
+        public init(clientToken: String? = CreateEntitlementRequest.idempotencyToken(), connectorId: String, entitlementType: EntitlementType, environmentId: String, vmIds: [String]) {
+            self.clientToken = clientToken
+            self.connectorId = connectorId
+            self.entitlementType = entitlementType
+            self.environmentId = environmentId
+            self.vmIds = vmIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^(cnctr-[a-zA-Z0-9]{10})$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+            try self.vmIds.forEach {
+                try validate($0, name: "vmIds[]", parent: name, max: 1024)
+                try validate($0, name: "vmIds[]", parent: name, min: 4)
+                try validate($0, name: "vmIds[]", parent: name, pattern: "^vm-[0-9]+$")
+            }
+            try self.validate(self.vmIds, name: "vmIds", parent: name, max: 100)
+            try self.validate(self.vmIds, name: "vmIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case connectorId = "connectorId"
+            case entitlementType = "entitlementType"
+            case environmentId = "environmentId"
+            case vmIds = "vmIds"
+        }
+    }
+
+    public struct CreateEntitlementResponse: AWSDecodableShape {
+        /// A list of the created entitlements.
+        public let entitlements: [VmEntitlement]?
+
+        @inlinable
+        public init(entitlements: [VmEntitlement]? = nil) {
+            self.entitlements = entitlements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlements = "entitlements"
+        }
+    }
+
+    public struct CreateEnvironmentConnectorRequest: AWSEncodableShape {
+        /// The fully qualified domain name (FQDN) of the VCF appliance that the connector targets.
+        public let applianceFqdn: String
+        ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// A unique ID for the environment to create the connector in.
+        public let environmentId: String
+        /// The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. SDDC_MANAGER requires an apiKey field; OPERATIONS_MANAGER and VCENTER require username and password fields.  Do not use credentials with Administrator privileges. We recommend using a service account with read-only permissions.
+        public let secretIdentifier: String
+        /// The type of connector to create.    OPERATIONS_MANAGER: Connector to an Operations Manager appliance. Required for VCF 9x environments.    SDDC_MANAGER: Connector to an SDDC Manager appliance. Required for VCF 5.x environments.    VCENTER: Connector to a vCenter Server appliance. Required for features that depend on vCenter, such as Windows Server license-included.
+        public let type: ConnectorType
+
+        @inlinable
+        public init(applianceFqdn: String, clientToken: String? = CreateEnvironmentConnectorRequest.idempotencyToken(), environmentId: String, secretIdentifier: String, type: ConnectorType) {
+            self.applianceFqdn = applianceFqdn
+            self.clientToken = clientToken
+            self.environmentId = environmentId
+            self.secretIdentifier = secretIdentifier
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.applianceFqdn, forKey: .applianceFqdn)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encode(self.secretIdentifier, forKey: .secretIdentifier)
+            try container.encode(self.type, forKey: .type)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applianceFqdn, name: "applianceFqdn", parent: name, max: 253)
+            try self.validate(self.applianceFqdn, name: "applianceFqdn", parent: name, min: 1)
+            try self.validate(self.applianceFqdn, name: "applianceFqdn", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+            try self.validate(self.secretIdentifier, name: "secretIdentifier", parent: name, max: 2048)
+            try self.validate(self.secretIdentifier, name: "secretIdentifier", parent: name, min: 1)
+            try self.validate(self.secretIdentifier, name: "secretIdentifier", parent: name, pattern: "^(arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@!-]+|[a-zA-Z0-9/_+=.@!-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applianceFqdn = "applianceFqdn"
+            case clientToken = "clientToken"
+            case secretIdentifier = "secretIdentifier"
+            case type = "type"
+        }
+    }
+
+    public struct CreateEnvironmentConnectorResponse: AWSDecodableShape {
+        /// A description of the created connector.
+        public let connector: Connector?
+
+        @inlinable
+        public init(connector: Connector? = nil) {
+            self.connector = connector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connector = "connector"
         }
     }
 
@@ -240,37 +493,37 @@ extension Evs {
     public struct CreateEnvironmentRequest: AWSEncodableShape {
         ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
-        ///  The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.
-        public let connectivityInfo: ConnectivityInfo
+        /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.  Not supported when vcfVersion is SELF_DEPLOYED.
+        public let connectivityInfo: ConnectivityInfo?
         /// The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
         public let environmentName: String?
-        /// The ESX hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
-        public let hosts: [HostInfoForCreate]
+        /// The ESX hosts to add to the environment. For each host, provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, provide a partition or cluster placement group, or use Amazon EC2 Dedicated Hosts.  Not supported when vcfVersion is SELF_DEPLOYED. In that case, you can add hosts using CreateEnvironmentHost after the environment is created.
+        public let hosts: [HostInfoForCreate]?
         /// The initial VLAN subnets for the Amazon EVS environment.  For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
         public let initialVlans: InitialVlans
         /// A unique ID for the customer-managed KMS key that is used to encrypt the VCF credential pairs for SDDC Manager, NSX Manager, and vCenter appliances. These credentials are stored in Amazon Web Services Secrets Manager.
         public let kmsKeyId: String?
-        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
-        public let licenseInfo: [LicenseInfo]
+        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see the VCF subscriptions section in the Amazon EVS User Guide. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.  Not supported when vcfVersion is SELF_DEPLOYED.
+        public let licenseInfo: [LicenseInfo]?
         /// The security group that controls communication between the Amazon EVS control plane and VPC. The default security group is used if a custom security group isn't specified. The security group should allow access to the following.   TCP/UDP access to the DNS servers   HTTPS/SSH access to the host management VLAN subnet   HTTPS/SSH access to the Management VM VLAN subnet   You should avoid modifying the security group rules after deployment, as this can break the persistent connection between the Amazon EVS control plane and VPC. This can cause future environment actions like adding or removing hosts to fail.
         public let serviceAccessSecurityGroups: ServiceAccessSecurityGroups?
-        /// The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. Amazon EVS uses this subnet to validate mandatory DNS records for your VCF appliances and hosts and create the environment.
+        /// The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. The Amazon EVS control plane uses this subnet to interface with your environment. This includes validating DNS records and enabling Amazon EVS Connectors.
         public let serviceAccessSubnetId: String
-        /// The Broadcom Site ID that is allocated to you as part of your electronic software delivery. This ID allows customer access to the Broadcom portal, and is provided to you by Broadcom at the close of your software contract or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide to meet Broadcom VCF license usage reporting requirements for Amazon EVS.
-        public let siteId: String
+        /// The Broadcom Site ID that is allocated to you as part of your electronic software delivery. This ID allows customer access to the Broadcom portal, and is provided to you by Broadcom at the close of your software contract or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide to meet Broadcom VCF license usage reporting requirements for Amazon EVS.  Not supported when vcfVersion is SELF_DEPLOYED.
+        public let siteId: String?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
-        /// Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
+        /// Confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
         public let termsAccepted: Bool
-        /// The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
-        public let vcfHostnames: VcfHostnames
-        ///  The VCF version to use for the environment.
+        /// The DNS hostnames for the virtual machines that host the VCF management appliances. Provide hostnames for vCenter, NSX Manager, SDDC Manager, and Cloud Builder.  Not supported when vcfVersion is SELF_DEPLOYED.
+        public let vcfHostnames: VcfHostnames?
+        /// The VCF version to use for the environment.    SELF_DEPLOYED: You install VCF yourself. The licenseInfo, hosts, vcfHostnames, siteId, and connectivityInfo parameters are not supported.   Any other valid value: Amazon EVS installs and configures VCF for you in the version you specify.
         public let vcfVersion: VcfVersion
         /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.  Ensure that you specify a VPC that is adequately sized to accommodate the Amazon EVS subnets.
         public let vpcId: String
 
         @inlinable
-        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), connectivityInfo: ConnectivityInfo, environmentName: String? = nil, hosts: [HostInfoForCreate], initialVlans: InitialVlans, kmsKeyId: String? = nil, licenseInfo: [LicenseInfo], serviceAccessSecurityGroups: ServiceAccessSecurityGroups? = nil, serviceAccessSubnetId: String, siteId: String, tags: [String: String]? = nil, termsAccepted: Bool, vcfHostnames: VcfHostnames, vcfVersion: VcfVersion, vpcId: String) {
+        public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), connectivityInfo: ConnectivityInfo? = nil, environmentName: String? = nil, hosts: [HostInfoForCreate]? = nil, initialVlans: InitialVlans, kmsKeyId: String? = nil, licenseInfo: [LicenseInfo]? = nil, serviceAccessSecurityGroups: ServiceAccessSecurityGroups? = nil, serviceAccessSubnetId: String, siteId: String? = nil, tags: [String: String]? = nil, termsAccepted: Bool, vcfHostnames: VcfHostnames? = nil, vcfVersion: VcfVersion, vpcId: String) {
             self.clientToken = clientToken
             self.connectivityInfo = connectivityInfo
             self.environmentName = environmentName
@@ -292,17 +545,17 @@ extension Evs {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.connectivityInfo.validate(name: "\(name).connectivityInfo")
+            try self.connectivityInfo?.validate(name: "\(name).connectivityInfo")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
             try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.hosts.forEach {
+            try self.hosts?.forEach {
                 try $0.validate(name: "\(name).hosts[]")
             }
             try self.validate(self.hosts, name: "hosts", parent: name, max: 4)
             try self.validate(self.hosts, name: "hosts", parent: name, min: 4)
             try self.initialVlans.validate(name: "\(name).initialVlans")
-            try self.licenseInfo.forEach {
+            try self.licenseInfo?.forEach {
                 try $0.validate(name: "\(name).licenseInfo[]")
             }
             try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, max: 1)
@@ -320,7 +573,7 @@ extension Evs {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.vcfHostnames.validate(name: "\(name).vcfHostnames")
+            try self.vcfHostnames?.validate(name: "\(name).vcfHostnames")
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 21)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 12)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[a-f0-9]{8}([a-f0-9]{9})?$")
@@ -356,6 +609,119 @@ extension Evs {
 
         private enum CodingKeys: String, CodingKey {
             case environment = "environment"
+        }
+    }
+
+    public struct DeleteEntitlementRequest: AWSEncodableShape {
+        ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// A unique ID for the connector associated with the entitlement.
+        public let connectorId: String
+        /// The type of entitlement to delete.
+        public let entitlementType: EntitlementType
+        /// A unique ID for the environment that the entitlement belongs to.
+        public let environmentId: String
+        /// The list of VMware vSphere virtual machine managed object IDs to delete entitlements for.
+        public let vmIds: [String]
+
+        @inlinable
+        public init(clientToken: String? = DeleteEntitlementRequest.idempotencyToken(), connectorId: String, entitlementType: EntitlementType, environmentId: String, vmIds: [String]) {
+            self.clientToken = clientToken
+            self.connectorId = connectorId
+            self.entitlementType = entitlementType
+            self.environmentId = environmentId
+            self.vmIds = vmIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^(cnctr-[a-zA-Z0-9]{10})$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+            try self.vmIds.forEach {
+                try validate($0, name: "vmIds[]", parent: name, max: 1024)
+                try validate($0, name: "vmIds[]", parent: name, min: 4)
+                try validate($0, name: "vmIds[]", parent: name, pattern: "^vm-[0-9]+$")
+            }
+            try self.validate(self.vmIds, name: "vmIds", parent: name, max: 100)
+            try self.validate(self.vmIds, name: "vmIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case connectorId = "connectorId"
+            case entitlementType = "entitlementType"
+            case environmentId = "environmentId"
+            case vmIds = "vmIds"
+        }
+    }
+
+    public struct DeleteEntitlementResponse: AWSDecodableShape {
+        /// A list of the deleted entitlements.
+        public let entitlements: [VmEntitlement]?
+
+        @inlinable
+        public init(entitlements: [VmEntitlement]? = nil) {
+            self.entitlements = entitlements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlements = "entitlements"
+        }
+    }
+
+    public struct DeleteEnvironmentConnectorRequest: AWSEncodableShape {
+        ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// A unique ID for the connector to be deleted.
+        public let connectorId: String
+        /// A unique ID for the environment that the connector belongs to.
+        public let environmentId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteEnvironmentConnectorRequest.idempotencyToken(), connectorId: String, environmentId: String) {
+            self.clientToken = clientToken
+            self.connectorId = connectorId
+            self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.connectorId, key: "connectorId")
+            request.encodePath(self.environmentId, key: "environmentId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^(cnctr-[a-zA-Z0-9]{10})$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct DeleteEnvironmentConnectorResponse: AWSDecodableShape {
+        /// A description of the deleted connector.
+        public let connector: Connector?
+        /// A summary of the environment that the connector was deleted from.
+        public let environmentSummary: EnvironmentSummary?
+
+        @inlinable
+        public init(connector: Connector? = nil, environmentSummary: EnvironmentSummary? = nil) {
+            self.connector = connector
+            self.environmentSummary = environmentSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connector = "connector"
+            case environmentSummary = "environmentSummary"
         }
     }
 
@@ -524,7 +890,7 @@ extension Evs {
     }
 
     public struct Environment: AWSDecodableShape {
-        /// A check on the environment to identify instance health and VMware VCF licensing issues.
+        /// A check on the environment to identify connector health.
         public let checks: [Check]?
         /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX uplink VLAN for connectivity to the NSX overlay network.
         public let connectivityInfo: ConnectivityInfo?
@@ -544,7 +910,7 @@ extension Evs {
         public let environmentStatus: CheckResult?
         /// The Amazon Web Services KMS key ID that Amazon Web Services Secrets Manager uses to encrypt secrets that are associated with the environment. These secrets contain the VCF credentials that are needed to install vCenter Server, NSX, and SDDC Manager. By default, Amazon EVS use the Amazon Web Services Secrets Manager managed key aws/secretsmanager. You can also specify a customer managed key.
         public let kmsKeyId: String?
-        ///  The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity.
+        ///  The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see the VCF subscriptions section in the Amazon EVS User Guide.
         public let licenseInfo: [LicenseInfo]?
         ///  The date and time that the environment was modified.
         public let modifiedAt: Date?
@@ -655,6 +1021,70 @@ extension Evs {
         }
     }
 
+    public struct ErrorDetail: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String
+        /// The error message.
+        public let errorMessage: String
+
+        @inlinable
+        public init(errorCode: String, errorMessage: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public struct GetDepotUrlRequest: AWSEncodableShape {
+        /// The unique ID of the Amazon EVS environment to get the depot URL for.
+        public let environmentId: String
+        /// Revokes the current authentication token and returns a new depot URL with a new token. Previously issued depot URLs will stop working within 5 minutes of rotation.
+        public let rotate: Bool?
+
+        @inlinable
+        public init(environmentId: String, rotate: Bool? = nil) {
+            self.environmentId = environmentId
+            self.rotate = rotate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.rotate, forKey: .rotate)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rotate = "rotate"
+        }
+    }
+
+    public struct GetDepotUrlResponse: AWSDecodableShape {
+        /// The URL for accessing the Amazon EVS Custom Addon depot. This URL includes the authentication token as a path component.
+        public let depotUrl: String
+        /// The authentication token for depot access. This token is included in the depot URL and is used to authenticate requests.
+        public let token: String
+
+        @inlinable
+        public init(depotUrl: String, token: String) {
+            self.depotUrl = depotUrl
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case depotUrl = "depotUrl"
+            case token = "token"
+        }
+    }
+
     public struct GetEnvironmentRequest: AWSEncodableShape {
         /// A unique ID for the environment.
         public let environmentId: String
@@ -724,7 +1154,7 @@ extension Evs {
         public let hostName: String?
         ///  The state of the host.
         public let hostState: HostState?
-        /// The EC2 instance type of the host.  Currently, Amazon EVS supports only the i4i.metal instance type.   EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+        /// The EC2 instance type of the host.  EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
         public let instanceType: InstanceType?
         /// The IP address of the host.
         public let ipAddress: String?
@@ -776,7 +1206,7 @@ extension Evs {
         public let dedicatedHostId: String?
         /// The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF.
         public let hostName: String
-        /// The EC2 instance type that represents the host.  Currently, Amazon EVS supports only the i4i.metal instance type.
+        /// The EC2 instance type that represents the host.
         public let instanceType: InstanceType
         /// The name of the SSH key that is used to access the host.
         public let keyName: String
@@ -925,9 +1355,9 @@ extension Evs {
     }
 
     public struct LicenseInfo: AWSEncodableShape & AWSDecodableShape {
-        ///  The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must cover a minimum of 256 cores.
+        ///  The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must meet the instance-type-specific minimum core requirements.
         public let solutionKey: String
-        ///  The VSAN license key. This license unlocks vSAN features. The vSAN license key must provide at least 110 TiB of vSAN capacity.
+        ///  The VSAN license key. This license unlocks vSAN features. The vSAN license key must meet the instance-type-specific minimum capacity requirements.
         public let vsanKey: String
 
         @inlinable
@@ -944,6 +1374,56 @@ extension Evs {
         private enum CodingKeys: String, CodingKey {
             case solutionKey = "solutionKey"
             case vsanKey = "vsanKey"
+        }
+    }
+
+    public struct ListEnvironmentConnectorsRequest: AWSEncodableShape {
+        /// A unique ID for the environment.
+        public let environmentId: String
+        /// The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+        public let maxResults: Int?
+        /// A unique pagination token for each page. If nextToken is returned, there are more results available. Make the call again using the returned token with all other arguments unchanged to retrieve the next page. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.environmentId = environmentId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEnvironmentConnectorsResponse: AWSDecodableShape {
+        /// A list of connectors in the environment.
+        public let connectors: [Connector]?
+        /// A unique pagination token for next page results. Make the call again using this token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectors: [Connector]? = nil, nextToken: String? = nil) {
+            self.connectors = connectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectors = "connectors"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1130,6 +1610,69 @@ extension Evs {
         }
     }
 
+    public struct ListVmEntitlementsRequest: AWSEncodableShape {
+        /// A unique ID for the connector.
+        public let connectorId: String
+        /// The type of entitlement to list.
+        public let entitlementType: EntitlementType
+        /// A unique ID for the environment.
+        public let environmentId: String
+        /// The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+        public let maxResults: Int?
+        /// A unique pagination token for each page. If nextToken is returned, there are more results available. Make the call again using the returned token with all other arguments unchanged to retrieve the next page. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectorId: String, entitlementType: EntitlementType, environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.connectorId = connectorId
+            self.entitlementType = entitlementType
+            self.environmentId = environmentId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.connectorId, forKey: .connectorId)
+            try container.encode(self.entitlementType, forKey: .entitlementType)
+            try container.encode(self.environmentId, forKey: .environmentId)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^(cnctr-[a-zA-Z0-9]{10})$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "connectorId"
+            case entitlementType = "entitlementType"
+            case environmentId = "environmentId"
+        }
+    }
+
+    public struct ListVmEntitlementsResponse: AWSDecodableShape {
+        /// A list of entitlements for virtual machines in the environment.
+        public let entitlements: [VmEntitlement]?
+        /// A unique pagination token for next page results. Make the call again using this token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(entitlements: [VmEntitlement]? = nil, nextToken: String? = nil) {
+            self.entitlements = entitlements
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlements = "entitlements"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct NetworkInterface: AWSDecodableShape {
         /// The unique ID of the elastic network interface.
         public let networkInterfaceId: String?
@@ -1299,6 +1842,72 @@ extension Evs {
         public init() {}
     }
 
+    public struct UpdateEnvironmentConnectorRequest: AWSEncodableShape {
+        /// The new fully qualified domain name (FQDN) of the VCF appliance that the connector connects to.
+        public let applianceFqdn: String?
+        ///  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector update request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// A unique ID for the connector to update.
+        public let connectorId: String
+        /// A unique ID for the environment that the connector belongs to.
+        public let environmentId: String
+        /// The new ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance.
+        public let secretIdentifier: String?
+
+        @inlinable
+        public init(applianceFqdn: String? = nil, clientToken: String? = UpdateEnvironmentConnectorRequest.idempotencyToken(), connectorId: String, environmentId: String, secretIdentifier: String? = nil) {
+            self.applianceFqdn = applianceFqdn
+            self.clientToken = clientToken
+            self.connectorId = connectorId
+            self.environmentId = environmentId
+            self.secretIdentifier = secretIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applianceFqdn, forKey: .applianceFqdn)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.connectorId, key: "connectorId")
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.secretIdentifier, forKey: .secretIdentifier)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applianceFqdn, name: "applianceFqdn", parent: name, max: 253)
+            try self.validate(self.applianceFqdn, name: "applianceFqdn", parent: name, min: 1)
+            try self.validate(self.applianceFqdn, name: "applianceFqdn", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^(cnctr-[a-zA-Z0-9]{10})$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+            try self.validate(self.secretIdentifier, name: "secretIdentifier", parent: name, max: 2048)
+            try self.validate(self.secretIdentifier, name: "secretIdentifier", parent: name, min: 1)
+            try self.validate(self.secretIdentifier, name: "secretIdentifier", parent: name, pattern: "^(arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@!-]+|[a-zA-Z0-9/_+=.@!-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applianceFqdn = "applianceFqdn"
+            case clientToken = "clientToken"
+            case secretIdentifier = "secretIdentifier"
+        }
+    }
+
+    public struct UpdateEnvironmentConnectorResponse: AWSDecodableShape {
+        /// A description of the updated connector.
+        public let connector: Connector?
+
+        @inlinable
+        public init(connector: Connector? = nil) {
+            self.connector = connector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connector = "connector"
+        }
+    }
+
     public struct ValidationException: AWSErrorShape {
         /// A list of fields that didn't validate.
         public let fieldList: [ValidationExceptionField]?
@@ -1342,7 +1951,7 @@ extension Evs {
     public struct VcfHostnames: AWSEncodableShape & AWSDecodableShape {
         /// The hostname for VMware Cloud Builder.
         public let cloudBuilder: String
-        /// The VMware NSX hostname.
+        /// The VMware NSX Virtual IP (VIP) hostname.
         public let nsx: String
         /// The hostname for the first NSX Edge node.
         public let nsxEdge1: String
@@ -1478,6 +2087,56 @@ extension Evs {
             case subnetId = "subnetId"
             case vlanId = "vlanId"
             case vlanState = "vlanState"
+        }
+    }
+
+    public struct VmEntitlement: AWSDecodableShape {
+        /// The unique ID of the connector associated with the entitlement.
+        public let connectorId: String?
+        /// The unique ID of the environment.
+        public let environmentId: String?
+        /// The error details associated with the entitlement, if applicable.
+        public let errorDetail: ErrorDetail?
+        /// The date and time that the entitlement was last synced.
+        public let lastSyncedAt: Date?
+        /// The date and time that the entitlement started.
+        public let startedAt: Date?
+        /// The status of the entitlement.
+        public let status: EntitlementStatus?
+        /// The date and time that the entitlement stopped.
+        public let stoppedAt: Date?
+        /// The type of entitlement.
+        public let type: EntitlementType?
+        /// The unique ID of the virtual machine.
+        public let vmId: String?
+        /// The name of the virtual machine.
+        public let vmName: String?
+
+        @inlinable
+        public init(connectorId: String? = nil, environmentId: String? = nil, errorDetail: ErrorDetail? = nil, lastSyncedAt: Date? = nil, startedAt: Date? = nil, status: EntitlementStatus? = nil, stoppedAt: Date? = nil, type: EntitlementType? = nil, vmId: String? = nil, vmName: String? = nil) {
+            self.connectorId = connectorId
+            self.environmentId = environmentId
+            self.errorDetail = errorDetail
+            self.lastSyncedAt = lastSyncedAt
+            self.startedAt = startedAt
+            self.status = status
+            self.stoppedAt = stoppedAt
+            self.type = type
+            self.vmId = vmId
+            self.vmName = vmName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "connectorId"
+            case environmentId = "environmentId"
+            case errorDetail = "errorDetail"
+            case lastSyncedAt = "lastSyncedAt"
+            case startedAt = "startedAt"
+            case status = "status"
+            case stoppedAt = "stoppedAt"
+            case type = "type"
+            case vmId = "vmId"
+            case vmName = "vmName"
         }
     }
 }

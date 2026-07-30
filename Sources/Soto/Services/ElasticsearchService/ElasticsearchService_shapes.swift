@@ -83,6 +83,12 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum DomainEngineMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case general = "GENERAL"
+        case optimized = "OPTIMIZED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DomainPackageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case associating = "ASSOCIATING"
@@ -100,6 +106,14 @@ extension ElasticsearchService {
         case modifying = "Modifying"
         case updating = "UpdatingServiceSoftware"
         case upgrading = "UpgradingEngineVersion"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainUseCase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mixed = "MIXED"
+        case observability = "OBSERVABILITY"
+        case search = "SEARCH"
+        case vector = "VECTOR"
         public var description: String { return self.rawValue }
     }
 
@@ -245,6 +259,14 @@ extension ElasticsearchService {
         public var description: String { return self.rawValue }
     }
 
+    public enum PauseState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case completed = "Completed"
+        case disabled = "Disabled"
+        case scheduled = "Scheduled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAccount = "AWS_ACCOUNT"
         case awsService = "AWS_SERVICE"
@@ -287,6 +309,7 @@ extension ElasticsearchService {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
         case policyMinTls12Pfs202310 = "Policy-Min-TLS-1-2-PFS-2023-10"
+        case policyMinTls12Rfc9151Fips202408 = "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
         public var description: String { return self.rawValue }
     }
 
@@ -816,6 +839,72 @@ extension ElasticsearchService {
         }
     }
 
+    public struct AutomatedSnapshotPauseOptions: AWSDecodableShape {
+        /// Whether automated snapshot pause is enabled for the domain.
+        public let enabled: Bool
+        /// The timestamp at which the automated snapshot pause ends.
+        public let endTime: Date?
+        /// The timestamp at which the automated snapshot pause begins.
+        public let startTime: Date?
+        /// The current state of the automated snapshot pause. Valid values are Active, Completed, Scheduled, and Disabled.
+        public let state: PauseState?
+
+        @inlinable
+        public init(enabled: Bool, endTime: Date? = nil, startTime: Date? = nil, state: PauseState? = nil) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+            case state = "State"
+        }
+    }
+
+    public struct AutomatedSnapshotPauseOptionsStatus: AWSDecodableShape {
+        /// Automated snapshot pause options for the specified Elasticsearch domain.
+        public let options: AutomatedSnapshotPauseOptions
+        /// The current status of the automated snapshot pause options for the specified Elasticsearch domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: AutomatedSnapshotPauseOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct AutomatedSnapshotPauseRequestOptions: AWSEncodableShape {
+        /// Whether to enable or disable automated snapshot pause for the domain.
+        public let enabled: Bool
+        /// The timestamp at which the automated snapshot pause should end. The maximum allowed duration between StartTime and EndTime is 3 days.
+        public let endTime: Date?
+        /// The timestamp at which the automated snapshot pause should begin.
+        public let startTime: Date?
+
+        @inlinable
+        public init(enabled: Bool, endTime: Date? = nil, startTime: Date? = nil) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct CancelDomainConfigChangeRequest: AWSEncodableShape {
         /// Name of the OpenSearch Service domain configuration request to cancel.
         public let domainName: String
@@ -1127,6 +1216,8 @@ extension ElasticsearchService {
         public let advancedOptions: [String: String]?
         /// Specifies advanced security options.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
+        /// Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions?
         /// Specifies Auto-Tune options.
         public let autoTuneOptions: AutoTuneOptionsInput?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
@@ -1145,6 +1236,8 @@ extension ElasticsearchService {
         public let elasticsearchVersion: String?
         /// Specifies the Encryption At Rest Options.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
+        /// The engine mode for the domain. For valid values and requirements, see DomainEngineMode.
+        public let engineMode: DomainEngineMode?
         /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
         /// Specifies the NodeToNodeEncryptionOptions.
@@ -1153,14 +1246,17 @@ extension ElasticsearchService {
         public let snapshotOptions: SnapshotOptions?
         /// A list of Tag added during domain creation.
         public let tagList: [Tag]?
+        /// The primary use case for the domain. For valid values, see DomainUseCase.
+        public let useCase: DomainUseCase?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: DomainEngineMode? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.cognitoOptions = cognitoOptions
             self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -1170,10 +1266,12 @@ extension ElasticsearchService {
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.elasticsearchVersion = elasticsearchVersion
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
             self.tagList = tagList
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -1196,6 +1294,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case deploymentStrategyOptions = "DeploymentStrategyOptions"
@@ -1205,10 +1304,12 @@ extension ElasticsearchService {
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case elasticsearchVersion = "ElasticsearchVersion"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case engineMode = "EngineMode"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
             case tagList = "TagList"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -2189,7 +2290,7 @@ extension ElasticsearchService {
         public let customEndpointEnabled: Bool?
         /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch domain.
         public let enforceHTTPS: Bool?
-        /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain. It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy that supports TLS version 1.0 to TLS version 1.2 Policy-Min-TLS-1-2-2019-07:  TLS security policy that supports only TLS version 1.2 Policy-Min-TLS-1-2-PFS-2023-10:  TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
+        /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain. It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy that supports TLS version 1.0 to TLS version 1.2 Policy-Min-TLS-1-2-2019-07:  TLS security policy that supports only TLS version 1.2 Policy-Min-TLS-1-2-PFS-2023-10:  TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08:  TLS security policy that supports TLS version 1.3 with FIPS
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
         @inlinable
@@ -2492,6 +2593,8 @@ extension ElasticsearchService {
         public let advancedOptions: AdvancedOptionsStatus?
         /// Specifies AdvancedSecurityOptions for the domain.
         public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
+        /// Specifies AutomatedSnapshotPauseOptions for the domain.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptionsStatus?
         /// Specifies AutoTuneOptions for the domain.
         public let autoTuneOptions: AutoTuneOptionsStatus?
         /// Specifies change details of the domain configuration change.
@@ -2510,6 +2613,8 @@ extension ElasticsearchService {
         public let elasticsearchVersion: ElasticsearchVersionStatus?
         /// Specifies the EncryptionAtRestOptions for the Elasticsearch domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
+        /// The engine mode configured for the domain.
+        public let engineMode: EngineModeStatus?
         /// Log publishing options for the given domain.
         public let logPublishingOptions: LogPublishingOptionsStatus?
         /// Information about the domain properties that are currently being modified.
@@ -2518,14 +2623,17 @@ extension ElasticsearchService {
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus?
         /// Specifies the SnapshotOptions for the Elasticsearch domain.
         public let snapshotOptions: SnapshotOptionsStatus?
+        /// The use case configured for the domain.
+        public let useCase: UseCaseStatus?
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vpcOptions: VPCDerivedInfoStatus?
 
         @inlinable
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, cognitoOptions: CognitoOptionsStatus? = nil, deploymentStrategyOptions: DeploymentStrategyOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, cognitoOptions: CognitoOptionsStatus? = nil, deploymentStrategyOptions: DeploymentStrategyOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineMode: EngineModeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, useCase: UseCaseStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
             self.cognitoOptions = cognitoOptions
@@ -2535,10 +2643,12 @@ extension ElasticsearchService {
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.elasticsearchVersion = elasticsearchVersion
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -2546,6 +2656,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case changeProgressDetails = "ChangeProgressDetails"
             case cognitoOptions = "CognitoOptions"
@@ -2555,10 +2666,12 @@ extension ElasticsearchService {
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case elasticsearchVersion = "ElasticsearchVersion"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case engineMode = "EngineMode"
             case logPublishingOptions = "LogPublishingOptions"
             case modifyingProperties = "ModifyingProperties"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -2572,6 +2685,8 @@ extension ElasticsearchService {
         public let advancedSecurityOptions: AdvancedSecurityOptions?
         /// The Amazon resource name (ARN) of an Elasticsearch domain.  See Identifiers for IAM Entities in Using AWS Identity and Access Management for more information.
         public let arn: String
+        /// The current status of the Elasticsearch domain's automated snapshot pause options.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptions?
         /// The current status of the Elasticsearch domain's Auto-Tune options.
         public let autoTuneOptions: AutoTuneOptionsOutput?
         /// Specifies change details of the domain configuration change.
@@ -2603,6 +2718,8 @@ extension ElasticsearchService {
         public let endpoint: String?
         /// Map containing the Elasticsearch domain endpoints used to submit index and search requests. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
         public let endpoints: [String: String]?
+        /// The engine mode for the domain.
+        public let engineMode: DomainEngineMode?
         /// Log publishing options for the given domain.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
         /// Information about the domain properties that are currently being modified.
@@ -2617,15 +2734,18 @@ extension ElasticsearchService {
         public let snapshotOptions: SnapshotOptions?
         /// The status of an Elasticsearch domain version upgrade. True if Amazon Elasticsearch Service is undergoing a version upgrade. False if the configuration is active.
         public let upgradeProcessing: Bool?
+        /// The primary use case for the domain.
+        public let useCase: DomainUseCase?
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vpcOptions: VPCDerivedInfo?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptions? = nil, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineMode: DomainEngineMode? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.arn = arn
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
             self.cognitoOptions = cognitoOptions
@@ -2642,6 +2762,7 @@ extension ElasticsearchService {
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.endpoint = endpoint
             self.endpoints = endpoints
+            self.engineMode = engineMode
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
@@ -2649,6 +2770,7 @@ extension ElasticsearchService {
             self.serviceSoftwareOptions = serviceSoftwareOptions
             self.snapshotOptions = snapshotOptions
             self.upgradeProcessing = upgradeProcessing
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -2657,6 +2779,7 @@ extension ElasticsearchService {
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case arn = "ARN"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case changeProgressDetails = "ChangeProgressDetails"
             case cognitoOptions = "CognitoOptions"
@@ -2673,6 +2796,7 @@ extension ElasticsearchService {
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case endpoint = "Endpoint"
             case endpoints = "Endpoints"
+            case engineMode = "EngineMode"
             case logPublishingOptions = "LogPublishingOptions"
             case modifyingProperties = "ModifyingProperties"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
@@ -2680,6 +2804,7 @@ extension ElasticsearchService {
             case serviceSoftwareOptions = "ServiceSoftwareOptions"
             case snapshotOptions = "SnapshotOptions"
             case upgradeProcessing = "UpgradeProcessing"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -2733,6 +2858,24 @@ extension ElasticsearchService {
 
         @inlinable
         public init(options: EncryptionAtRestOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct EngineModeStatus: AWSDecodableShape {
+        /// The engine mode configured for the domain.
+        public let options: DomainEngineMode
+        /// The current status of the engine mode for the domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: DomainEngineMode, status: OptionStatus) {
             self.options = options
             self.status = status
         }
@@ -4290,6 +4433,8 @@ extension ElasticsearchService {
         public let advancedOptions: [String: String]?
         /// Specifies advanced security options.
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
+        /// Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions?
         /// Specifies Auto-Tune options.
         public let autoTuneOptions: AutoTuneOptions?
         /// Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
@@ -4308,20 +4453,25 @@ extension ElasticsearchService {
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
         /// Specifies the Encryption At Rest Options.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
+        /// The engine mode for the domain. For valid values and requirements, see DomainEngineMode.
+        public let engineMode: DomainEngineMode?
         /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
         /// Specifies the NodeToNodeEncryptionOptions.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
+        /// The primary use case for the domain. For valid values, see DomainUseCase.
+        public let useCase: DomainUseCase?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: DomainEngineMode? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.cognitoOptions = cognitoOptions
             self.deploymentStrategyOptions = deploymentStrategyOptions
@@ -4331,9 +4481,11 @@ extension ElasticsearchService {
             self.ebsOptions = ebsOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -4343,6 +4495,7 @@ extension ElasticsearchService {
             try container.encodeIfPresent(self.accessPolicies, forKey: .accessPolicies)
             try container.encodeIfPresent(self.advancedOptions, forKey: .advancedOptions)
             try container.encodeIfPresent(self.advancedSecurityOptions, forKey: .advancedSecurityOptions)
+            try container.encodeIfPresent(self.automatedSnapshotPauseOptions, forKey: .automatedSnapshotPauseOptions)
             try container.encodeIfPresent(self.autoTuneOptions, forKey: .autoTuneOptions)
             try container.encodeIfPresent(self.cognitoOptions, forKey: .cognitoOptions)
             try container.encodeIfPresent(self.deploymentStrategyOptions, forKey: .deploymentStrategyOptions)
@@ -4352,9 +4505,11 @@ extension ElasticsearchService {
             try container.encodeIfPresent(self.ebsOptions, forKey: .ebsOptions)
             try container.encodeIfPresent(self.elasticsearchClusterConfig, forKey: .elasticsearchClusterConfig)
             try container.encodeIfPresent(self.encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+            try container.encodeIfPresent(self.engineMode, forKey: .engineMode)
             try container.encodeIfPresent(self.logPublishingOptions, forKey: .logPublishingOptions)
             try container.encodeIfPresent(self.nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
             try container.encodeIfPresent(self.snapshotOptions, forKey: .snapshotOptions)
+            try container.encodeIfPresent(self.useCase, forKey: .useCase)
             try container.encodeIfPresent(self.vpcOptions, forKey: .vpcOptions)
         }
 
@@ -4373,6 +4528,7 @@ extension ElasticsearchService {
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case deploymentStrategyOptions = "DeploymentStrategyOptions"
@@ -4381,9 +4537,11 @@ extension ElasticsearchService {
             case ebsOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case engineMode = "EngineMode"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -4590,6 +4748,24 @@ extension ElasticsearchService {
             case progressPercent = "ProgressPercent"
             case upgradeStep = "UpgradeStep"
             case upgradeStepStatus = "UpgradeStepStatus"
+        }
+    }
+
+    public struct UseCaseStatus: AWSDecodableShape {
+        /// The use case configured for the domain.
+        public let options: DomainUseCase
+        /// The current status of the use case for the domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: DomainUseCase, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
         }
     }
 

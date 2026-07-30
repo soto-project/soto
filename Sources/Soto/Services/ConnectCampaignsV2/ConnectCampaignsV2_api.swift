@@ -107,6 +107,7 @@ public struct ConnectCampaignsV2: AWSService {
     ///   - communicationTimeConfig: 
     ///   - connectCampaignFlowArn: 
     ///   - connectInstanceId: 
+    ///   - entryLimitsConfig: 
     ///   - name: 
     ///   - schedule: 
     ///   - source: 
@@ -120,6 +121,7 @@ public struct ConnectCampaignsV2: AWSService {
         communicationTimeConfig: CommunicationTimeConfig? = nil,
         connectCampaignFlowArn: String? = nil,
         connectInstanceId: String,
+        entryLimitsConfig: EntryLimitsConfig? = nil,
         name: String,
         schedule: Schedule? = nil,
         source: Source? = nil,
@@ -133,6 +135,7 @@ public struct ConnectCampaignsV2: AWSService {
             communicationTimeConfig: communicationTimeConfig, 
             connectCampaignFlowArn: connectCampaignFlowArn, 
             connectInstanceId: connectInstanceId, 
+            entryLimitsConfig: entryLimitsConfig, 
             name: name, 
             schedule: schedule, 
             source: source, 
@@ -265,6 +268,35 @@ public struct ConnectCampaignsV2: AWSService {
             id: id
         )
         return try await self.deleteCampaignCommunicationTime(input, logger: logger)
+    }
+
+    /// Deletes the entry limits config for a campaign. This API is idempotent.
+    @Sendable
+    @inlinable
+    public func deleteCampaignEntryLimits(_ input: DeleteCampaignEntryLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteCampaignEntryLimits", 
+            path: "/v2/campaigns/{id}/entry-limits", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the entry limits config for a campaign. This API is idempotent.
+    ///
+    /// Parameters:
+    ///   - id: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCampaignEntryLimits(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteCampaignEntryLimitsRequest(
+            id: id
+        )
+        return try await self.deleteCampaignEntryLimits(input, logger: logger)
     }
 
     /// Deletes a connect instance config from the specified AWS account.
@@ -1067,6 +1099,38 @@ public struct ConnectCampaignsV2: AWSService {
             id: id
         )
         return try await self.updateCampaignCommunicationTime(input, logger: logger)
+    }
+
+    /// Updates the entry limits config for a campaign. This API is idempotent.
+    @Sendable
+    @inlinable
+    public func updateCampaignEntryLimits(_ input: UpdateCampaignEntryLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateCampaignEntryLimits", 
+            path: "/v2/campaigns/{id}/entry-limits", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the entry limits config for a campaign. This API is idempotent.
+    ///
+    /// Parameters:
+    ///   - entryLimitsConfig: 
+    ///   - id: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCampaignEntryLimits(
+        entryLimitsConfig: EntryLimitsConfig,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateCampaignEntryLimitsRequest(
+            entryLimitsConfig: entryLimitsConfig, 
+            id: id
+        )
+        return try await self.updateCampaignEntryLimits(input, logger: logger)
     }
 
     /// Updates the campaign flow associated with a campaign. This API is idempotent.

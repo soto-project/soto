@@ -54,15 +54,15 @@ extension RDSData {
     }
 
     public enum ArrayValue: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// An array of arrays.
+        /// An array of arrays. Can contain null values.
         case arrayValues([ArrayValue])
-        /// An array of Boolean values.
+        /// An array of Boolean values. Can contain null values.
         case booleanValues([Bool])
-        /// An array of floating-point numbers.
+        /// An array of floating-point numbers. Can contain null values.
         case doubleValues([Double])
-        /// An array of integers.
+        /// An array of integers. Can contain null values.
         case longValues([Int64])
-        /// An array of strings.
+        /// An array of strings. Can contain null values.
         case stringValues([String])
 
         public init(from decoder: Decoder) throws {
@@ -283,7 +283,7 @@ extension RDSData {
     public struct BatchExecuteStatementRequest: AWSEncodableShape {
         /// The name of the database.
         public let database: String?
-        /// The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided.  To execute a SQL statement with no parameters, use one of the following options:   Specify one or more empty parameter sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.    Array parameters are not supported.
+        /// The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided. To execute a SQL statement with no parameters, use one of the following options:   Specify one or more empty parameter sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.    Array parameters are not supported.
         public let parameterSets: [[SqlParameter]]?
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
@@ -557,7 +557,7 @@ extension RDSData {
     }
 
     public struct ExecuteStatementRequest: AWSEncodableShape {
-        /// A value that indicates whether to continue running the statement after  the call times out. By default, the statement stops running when the call  times out.  For DDL statements, we recommend continuing to run the statement after  the call times out. When a DDL statement terminates before it is finished  running, it can result in errors and possibly corrupted data structures.
+        /// A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out.  For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
         public let continueAfterTimeout: Bool?
         /// The name of the database.
         public let database: String?
@@ -573,7 +573,7 @@ extension RDSData {
         public let resultSetOptions: ResultSetOptions?
         /// The name of the database schema.  Currently, the schema parameter isn't supported.
         public let schema: String?
-        /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.
+        /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.  When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster. If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found. To avoid this, escape the exclamation mark (\!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command.
         public let secretArn: String
         /// The SQL statement to run.
         public let sql: String
@@ -766,7 +766,7 @@ extension RDSData {
     public struct SqlParameter: AWSEncodableShape {
         /// The name of the parameter.
         public let name: String?
-        /// A hint that specifies the correct object type for data type mapping. Possible values are as follows:    DATE - The corresponding String parameter value is sent as an object  of DATE type to the database. The accepted format is YYYY-MM-DD.    DECIMAL - The corresponding String parameter value is sent as an object  of DECIMAL type to the database.    JSON - The corresponding String parameter value is sent as an object of JSON type to the database.    TIME - The corresponding String parameter value is sent as an object  of TIME type to the database. The accepted format is HH:MM:SS[.FFF].    TIMESTAMP - The corresponding String parameter value is sent as an object  of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF].    UUID - The corresponding String parameter value is sent as an object of UUID type to the database.
+        /// A hint that specifies the correct object type for data type mapping. Possible values are as follows:    DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD.    DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database.    JSON - The corresponding String parameter value is sent as an object of JSON type to the database.    TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF].    TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF].    UUID - The corresponding String parameter value is sent as an object of UUID type to the database.
         public let typeHint: TypeHint?
         /// The value of the parameter.
         public let value: Field?
@@ -894,13 +894,13 @@ public struct RDSDataErrorType: AWSErrorType {
 
     /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
+    /// There is an error in the call or in a SQL statement. This exception is deprecated.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// There was an error in processing the SQL statement.
     public static var databaseErrorException: Self { .init(.databaseErrorException) }
     /// The DB cluster doesn't have a DB instance.
     public static var databaseNotFoundException: Self { .init(.databaseNotFoundException) }
-    /// A request was cancelled because the Aurora Serverless v2 DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
+    /// A request was cancelled because the Aurora Serverless DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
     public static var databaseResumingException: Self { .init(.databaseResumingException) }
     /// The writer instance in the DB cluster isn't available.
     public static var databaseUnavailableException: Self { .init(.databaseUnavailableException) }

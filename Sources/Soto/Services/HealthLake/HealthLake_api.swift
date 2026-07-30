@@ -79,6 +79,54 @@ public struct HealthLake: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source.
+    @Sendable
+    @inlinable
+    public func createDataTransformationProfile(_ input: CreateDataTransformationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataTransformationProfileResponse {
+        try await self.client.execute(
+            operation: "CreateDataTransformationProfile", 
+            path: "/data-transformation-profile", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    ///   - kmsKeyId: The AWS Key Management Service (AWS KMS) key identifier used to encrypt the profile content at rest.
+    ///   - profileDescription: A human-readable description of the profile's purpose.
+    ///   - profileName: A name for the data transformation profile.
+    ///   - source: The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3.
+    ///   - sourceFormat: The source data format that this profile converts from (Consolidated Clinical Document Architecture (C-CDA) or Comma-separated values (CSV)).
+    ///   - tags: The tags to associate with the profile at creation time.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataTransformationProfile(
+        clientToken: String? = CreateDataTransformationProfileRequest.idempotencyToken(),
+        kmsKeyId: String? = nil,
+        profileDescription: String? = nil,
+        profileName: String,
+        source: CreateDataTransformationProfileSource,
+        sourceFormat: SourceFormat,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataTransformationProfileResponse {
+        let input = CreateDataTransformationProfileRequest(
+            clientToken: clientToken, 
+            kmsKeyId: kmsKeyId, 
+            profileDescription: profileDescription, 
+            profileName: profileName, 
+            source: source, 
+            sourceFormat: sourceFormat, 
+            tags: tags
+        )
+        return try await self.createDataTransformationProfile(input, logger: logger)
+    }
+
     /// Create a FHIR-enabled data store.
     @Sendable
     @inlinable
@@ -95,35 +143,74 @@ public struct HealthLake: AWSService {
     /// Create a FHIR-enabled data store.
     ///
     /// Parameters:
+    ///   - analyticsConfiguration: The analytics configuration for the data store.
     ///   - clientToken: An optional user-provided token to ensure API idempotency.
     ///   - datastoreName: The data store name (user-generated).
     ///   - datastoreTypeVersion: The FHIR release version supported by the data store. Current support is for version R4.
     ///   - identityProviderConfiguration: The identity provider configuration to use for the data store.
+    ///   - nlpConfiguration: The natural language processing (NLP) configuration for the data store.
     ///   - preloadDataConfig: An optional parameter to preload (import) open source Synthea FHIR data upon creation of the data store.
+    ///   - profileConfiguration: The profile configuration for the data store.
     ///   - sseConfiguration: The server-side encryption key configuration for a customer-provided encryption key specified for creating a data store.
     ///   - tags: The resource tags applied to a data store when it is created.
     ///   - logger: Logger use during operation
     @inlinable
     public func createFHIRDatastore(
+        analyticsConfiguration: AnalyticsConfiguration? = nil,
         clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(),
         datastoreName: String? = nil,
         datastoreTypeVersion: FHIRVersion,
         identityProviderConfiguration: IdentityProviderConfiguration? = nil,
+        nlpConfiguration: NlpConfiguration? = nil,
         preloadDataConfig: PreloadDataConfig? = nil,
+        profileConfiguration: ProfileConfiguration? = nil,
         sseConfiguration: SseConfiguration? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateFHIRDatastoreResponse {
         let input = CreateFHIRDatastoreRequest(
+            analyticsConfiguration: analyticsConfiguration, 
             clientToken: clientToken, 
             datastoreName: datastoreName, 
             datastoreTypeVersion: datastoreTypeVersion, 
             identityProviderConfiguration: identityProviderConfiguration, 
+            nlpConfiguration: nlpConfiguration, 
             preloadDataConfig: preloadDataConfig, 
+            profileConfiguration: profileConfiguration, 
             sseConfiguration: sseConfiguration, 
             tags: tags
         )
         return try await self.createFHIRDatastore(input, logger: logger)
+    }
+
+    /// Deletes a data transformation profile and all its versions, including the DRAFT and all published versions.
+    @Sendable
+    @inlinable
+    public func deleteDataTransformationProfile(_ input: DeleteDataTransformationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataTransformationProfileResponse {
+        try await self.client.execute(
+            operation: "DeleteDataTransformationProfile", 
+            path: "/data-transformation-profile/{ProfileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Deletes a data transformation profile and all its versions, including the DRAFT and all published versions.
+    ///
+    /// Parameters:
+    ///   - profileId: The unique identifier of the profile to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataTransformationProfile(
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDataTransformationProfileResponse {
+        let input = DeleteDataTransformationProfileRequest(
+            profileId: profileId
+        )
+        return try await self.deleteDataTransformationProfile(input, logger: logger)
     }
 
     /// Delete a FHIR-enabled data store.
@@ -153,6 +240,36 @@ public struct HealthLake: AWSService {
             datastoreId: datastoreId
         )
         return try await self.deleteFHIRDatastore(input, logger: logger)
+    }
+
+    /// Describes a data transformation job, including its current status, configuration, and progress information.
+    @Sendable
+    @inlinable
+    public func describeDataTransformationJob(_ input: DescribeDataTransformationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataTransformationJobResponse {
+        try await self.client.execute(
+            operation: "DescribeDataTransformationJob", 
+            path: "/data-transformation-job/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Describes a data transformation job, including its current status, configuration, and progress information.
+    ///
+    /// Parameters:
+    ///   - jobId: The unique identifier of the data transformation job to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDataTransformationJob(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDataTransformationJobResponse {
+        let input = DescribeDataTransformationJobRequest(
+            jobId: jobId
+        )
+        return try await self.describeDataTransformationJob(input, logger: logger)
     }
 
     /// Get properties for a FHIR-enabled data store.
@@ -246,6 +363,156 @@ public struct HealthLake: AWSService {
             jobId: jobId
         )
         return try await self.describeFHIRImportJob(input, logger: logger)
+    }
+
+    /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version.
+    @Sendable
+    @inlinable
+    public func getDataTransformationProfile(_ input: GetDataTransformationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataTransformationProfileResponse {
+        try await self.client.execute(
+            operation: "GetDataTransformationProfile", 
+            path: "/data-transformation-profile/{ProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version.
+    ///
+    /// Parameters:
+    ///   - profileId: The unique identifier of the profile to retrieve.
+    ///   - profileVersion: The version number to retrieve. Specify 0 to retrieve the DRAFT version. If you omit this parameter, the service returns the latest published version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataTransformationProfile(
+        profileId: String,
+        profileVersion: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataTransformationProfileResponse {
+        let input = GetDataTransformationProfileRequest(
+            profileId: profileId, 
+            profileVersion: profileVersion
+        )
+        return try await self.getDataTransformationProfile(input, logger: logger)
+    }
+
+    /// Lists data transformation jobs for your AWS account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listDataTransformationJobs(_ input: ListDataTransformationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataTransformationJobsResponse {
+        try await self.client.execute(
+            operation: "ListDataTransformationJobs", 
+            path: "/data-transformation-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Lists data transformation jobs for your AWS account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - jobName: Filters the results to include only jobs with the specified name.
+    ///   - jobStatus: Filters the results to include only jobs with the specified status.
+    ///   - maxResults: The maximum number of jobs to return per page. If you don't specify a value, the service returns up to 100 results.
+    ///   - nextToken: The pagination token from a previous response. Pass this value to retrieve the next page of results.
+    ///   - submittedAfter: Filters the results to include only jobs submitted at or after this timestamp.
+    ///   - submittedBefore: Filters the results to include only jobs submitted at or before this timestamp.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataTransformationJobs(
+        jobName: String? = nil,
+        jobStatus: TransformationJobStatus? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        submittedAfter: Date? = nil,
+        submittedBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataTransformationJobsResponse {
+        let input = ListDataTransformationJobsRequest(
+            jobName: jobName, 
+            jobStatus: jobStatus, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            submittedAfter: submittedAfter, 
+            submittedBefore: submittedBefore
+        )
+        return try await self.listDataTransformationJobs(input, logger: logger)
+    }
+
+    /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listDataTransformationProfileVersions(_ input: ListDataTransformationProfileVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataTransformationProfileVersionsResponse {
+        try await self.client.execute(
+            operation: "ListDataTransformationProfileVersions", 
+            path: "/data-transformation-profile/{ProfileId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of profile versions to return per page. If you don't specify a value, the service returns up to 100 results.
+    ///   - nextToken: The pagination token from a previous response. Pass this value to retrieve the next page of results.
+    ///   - profileId: The unique identifier of the profile whose versions to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataTransformationProfileVersions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataTransformationProfileVersionsResponse {
+        let input = ListDataTransformationProfileVersionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            profileId: profileId
+        )
+        return try await self.listDataTransformationProfileVersions(input, logger: logger)
+    }
+
+    /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listDataTransformationProfiles(_ input: ListDataTransformationProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataTransformationProfilesResponse {
+        try await self.client.execute(
+            operation: "ListDataTransformationProfiles", 
+            path: "/data-transformation-profile", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of profiles to return per page. If you don't specify a value, the service returns up to 100 results.
+    ///   - nextToken: The pagination token from a previous response. Pass this value to retrieve the next page of results.
+    ///   - sourceFormat: Filters the results by source data format.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataTransformationProfiles(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sourceFormat: SourceFormat,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataTransformationProfilesResponse {
+        let input = ListDataTransformationProfilesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sourceFormat: sourceFormat
+        )
+        return try await self.listDataTransformationProfiles(input, logger: logger)
     }
 
     /// List all FHIR-enabled data stores in a user’s account, regardless of data store status.
@@ -406,6 +673,96 @@ public struct HealthLake: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version.
+    @Sendable
+    @inlinable
+    public func publishDataTransformationProfile(_ input: PublishDataTransformationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishDataTransformationProfileResponse {
+        try await self.client.execute(
+            operation: "PublishDataTransformationProfile", 
+            path: "/data-transformation-profile/{ProfileId}/publish", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Promotes the current DRAFT version of a data transformation profile to a new immutable published version. Also supports rollback by publishing from a previously published version.
+    ///
+    /// Parameters:
+    ///   - changeDescription: A description of what changed or why this version is being published.
+    ///   - fromExistingVersion: The version number of a previously published version to republish as the new latest version. Use this parameter for rollback scenarios. If you omit this parameter, the service publishes the current DRAFT version.
+    ///   - profileId: The unique identifier of the profile to publish.
+    ///   - sourceFormat: The source data format of the profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func publishDataTransformationProfile(
+        changeDescription: String? = nil,
+        fromExistingVersion: Int? = nil,
+        profileId: String,
+        sourceFormat: SourceFormat,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PublishDataTransformationProfileResponse {
+        let input = PublishDataTransformationProfileRequest(
+            changeDescription: changeDescription, 
+            fromExistingVersion: fromExistingVersion, 
+            profileId: profileId, 
+            sourceFormat: sourceFormat
+        )
+        return try await self.publishDataTransformationProfile(input, logger: logger)
+    }
+
+    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or AWS HealthLake.
+    @Sendable
+    @inlinable
+    public func startDataTransformationJob(_ input: StartDataTransformationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataTransformationJobResponse {
+        try await self.client.execute(
+            operation: "StartDataTransformationJob", 
+            path: "/data-transformation-job", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or AWS HealthLake.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that AWS HealthLake assumes to read from and write to the specified Amazon S3 locations.
+    ///   - driftDetectionEnabled: Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+    ///   - inputDataConfig: The Amazon S3 location and format of the source files to transform.
+    ///   - jobName: A descriptive name for the data transformation job.
+    ///   - outputDataConfig: The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+    ///   - profileId: The unique identifier of the data transformation profile to use for conversion.
+    ///   - provenanceEnabled: Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources. If you don't specify a value, the default is true. To disable provenance output, set this parameter to false.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startDataTransformationJob(
+        clientToken: String,
+        dataAccessRoleArn: String,
+        driftDetectionEnabled: Bool? = nil,
+        inputDataConfig: TransformationInputDataConfig,
+        jobName: String? = nil,
+        outputDataConfig: TransformationOutputDataConfig,
+        profileId: String,
+        provenanceEnabled: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartDataTransformationJobResponse {
+        let input = StartDataTransformationJobRequest(
+            clientToken: clientToken, 
+            dataAccessRoleArn: dataAccessRoleArn, 
+            driftDetectionEnabled: driftDetectionEnabled, 
+            inputDataConfig: inputDataConfig, 
+            jobName: jobName, 
+            outputDataConfig: outputDataConfig, 
+            profileId: profileId, 
+            provenanceEnabled: provenanceEnabled
+        )
+        return try await self.startDataTransformationJob(input, logger: logger)
+    }
+
     /// Start a FHIR export job.
     @Sendable
     @inlinable
@@ -466,9 +823,12 @@ public struct HealthLake: AWSService {
     ///   - clientToken: The optional user-provided token used for ensuring API idempotency.
     ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) that grants access permission to AWS HealthLake.
     ///   - datastoreId: The data store identifier.
+    ///   - driftDetectionEnabled: 
     ///   - inputDataConfig: The input properties for the import job request.
+    ///   - inputFormat: 
     ///   - jobName: The import job name.
     ///   - jobOutputDataConfig: 
+    ///   - profileId: 
     ///   - validationLevel: The validation level of the import job.
     ///   - logger: Logger use during operation
     @inlinable
@@ -476,9 +836,12 @@ public struct HealthLake: AWSService {
         clientToken: String? = StartFHIRImportJobRequest.idempotencyToken(),
         dataAccessRoleArn: String,
         datastoreId: String,
+        driftDetectionEnabled: Bool? = nil,
         inputDataConfig: InputDataConfig,
+        inputFormat: String? = nil,
         jobName: String? = nil,
         jobOutputDataConfig: OutputDataConfig,
+        profileId: String? = nil,
         validationLevel: ValidationLevel? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartFHIRImportJobResponse {
@@ -486,9 +849,12 @@ public struct HealthLake: AWSService {
             clientToken: clientToken, 
             dataAccessRoleArn: dataAccessRoleArn, 
             datastoreId: datastoreId, 
+            driftDetectionEnabled: driftDetectionEnabled, 
             inputDataConfig: inputDataConfig, 
+            inputFormat: inputFormat, 
             jobName: jobName, 
             jobOutputDataConfig: jobOutputDataConfig, 
+            profileId: profileId, 
             validationLevel: validationLevel
         )
         return try await self.startFHIRImportJob(input, logger: logger)
@@ -557,6 +923,125 @@ public struct HealthLake: AWSService {
         )
         return try await self.untagResource(input, logger: logger)
     }
+
+    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content.
+    @Sendable
+    @inlinable
+    public func updateDataTransformationProfile(_ input: UpdateDataTransformationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataTransformationProfileResponse {
+        try await self.client.execute(
+            operation: "UpdateDataTransformationProfile", 
+            path: "/data-transformation-profile/{ProfileId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content.
+    ///
+    /// Parameters:
+    ///   - changeDescription: A description of what changed in this update.
+    ///   - profileId: The unique identifier of the profile to update.
+    ///   - profileMapping: The new profile content for the DRAFT version. This is a full replacement of all profile files.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDataTransformationProfile(
+        changeDescription: String? = nil,
+        profileId: String,
+        profileMapping: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDataTransformationProfileResponse {
+        let input = UpdateDataTransformationProfileRequest(
+            changeDescription: changeDescription, 
+            profileId: profileId, 
+            profileMapping: profileMapping
+        )
+        return try await self.updateDataTransformationProfile(input, logger: logger)
+    }
+
+    /// Update the properties of a FHIR-enabled data store.
+    @Sendable
+    @inlinable
+    public func updateFHIRDatastore(_ input: UpdateFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFHIRDatastoreResponse {
+        try await self.client.execute(
+            operation: "UpdateFHIRDatastore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the properties of a FHIR-enabled data store.
+    ///
+    /// Parameters:
+    ///   - analyticsConfiguration: The analytics configuration for the data store.
+    ///   - datastoreId: The data store identifier.
+    ///   - datastoreName: The data store name.
+    ///   - identityProviderConfiguration: The identity provider configuration for the data store.
+    ///   - nlpConfiguration: The natural language processing (NLP) configuration for the data store.
+    ///   - profileConfiguration: The profile configuration for the data store.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateFHIRDatastore(
+        analyticsConfiguration: AnalyticsConfiguration? = nil,
+        datastoreId: String,
+        datastoreName: String? = nil,
+        identityProviderConfiguration: IdentityProviderConfiguration? = nil,
+        nlpConfiguration: NlpConfiguration? = nil,
+        profileConfiguration: ProfileConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateFHIRDatastoreResponse {
+        let input = UpdateFHIRDatastoreRequest(
+            analyticsConfiguration: analyticsConfiguration, 
+            datastoreId: datastoreId, 
+            datastoreName: datastoreName, 
+            identityProviderConfiguration: identityProviderConfiguration, 
+            nlpConfiguration: nlpConfiguration, 
+            profileConfiguration: profileConfiguration
+        )
+        return try await self.updateFHIRDatastore(input, logger: logger)
+    }
+
+    /// Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles.
+    @Sendable
+    @inlinable
+    public func updateProfileWithAgent(_ input: UpdateProfileWithAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProfileWithAgentResponse {
+        try await self.client.execute(
+            operation: "UpdateProfileWithAgent", 
+            path: "/update-profile-with-agent", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "datatransformation.", 
+            logger: logger
+        )
+    }
+    /// Updates a data transformation profile using chat-based interaction with an agent. Supports multi-turn conversations for iteratively customizing profiles.
+    ///
+    /// Parameters:
+    ///   - conversationId: The conversation identifier for multi-turn interactions. Omit to start a new conversation.
+    ///   - inputMessage: The message to send to the agent.
+    ///   - profileId: The unique identifier of the profile to update via the agent.
+    ///   - sourceFormat: The source data format for the transformation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProfileWithAgent(
+        conversationId: String? = nil,
+        inputMessage: AgentInputMessage,
+        profileId: String,
+        sourceFormat: SourceFormat,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProfileWithAgentResponse {
+        let input = UpdateProfileWithAgentRequest(
+            conversationId: conversationId, 
+            inputMessage: inputMessage, 
+            profileId: profileId, 
+            sourceFormat: sourceFormat
+        )
+        return try await self.updateProfileWithAgent(input, logger: logger)
+    }
 }
 
 extension HealthLake {
@@ -572,6 +1057,126 @@ extension HealthLake {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension HealthLake {
+    /// Return PaginatorSequence for operation ``listDataTransformationJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataTransformationJobsPaginator(
+        _ input: ListDataTransformationJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataTransformationJobsRequest, ListDataTransformationJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataTransformationJobs,
+            inputKey: \ListDataTransformationJobsRequest.nextToken,
+            outputKey: \ListDataTransformationJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataTransformationJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - jobName: Filters the results to include only jobs with the specified name.
+    ///   - jobStatus: Filters the results to include only jobs with the specified status.
+    ///   - maxResults: The maximum number of jobs to return per page. If you don't specify a value, the service returns up to 100 results.
+    ///   - submittedAfter: Filters the results to include only jobs submitted at or after this timestamp.
+    ///   - submittedBefore: Filters the results to include only jobs submitted at or before this timestamp.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataTransformationJobsPaginator(
+        jobName: String? = nil,
+        jobStatus: TransformationJobStatus? = nil,
+        maxResults: Int? = nil,
+        submittedAfter: Date? = nil,
+        submittedBefore: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataTransformationJobsRequest, ListDataTransformationJobsResponse> {
+        let input = ListDataTransformationJobsRequest(
+            jobName: jobName, 
+            jobStatus: jobStatus, 
+            maxResults: maxResults, 
+            submittedAfter: submittedAfter, 
+            submittedBefore: submittedBefore
+        )
+        return self.listDataTransformationJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDataTransformationProfileVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataTransformationProfileVersionsPaginator(
+        _ input: ListDataTransformationProfileVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataTransformationProfileVersionsRequest, ListDataTransformationProfileVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataTransformationProfileVersions,
+            inputKey: \ListDataTransformationProfileVersionsRequest.nextToken,
+            outputKey: \ListDataTransformationProfileVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataTransformationProfileVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of profile versions to return per page. If you don't specify a value, the service returns up to 100 results.
+    ///   - profileId: The unique identifier of the profile whose versions to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataTransformationProfileVersionsPaginator(
+        maxResults: Int? = nil,
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataTransformationProfileVersionsRequest, ListDataTransformationProfileVersionsResponse> {
+        let input = ListDataTransformationProfileVersionsRequest(
+            maxResults: maxResults, 
+            profileId: profileId
+        )
+        return self.listDataTransformationProfileVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDataTransformationProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataTransformationProfilesPaginator(
+        _ input: ListDataTransformationProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataTransformationProfilesRequest, ListDataTransformationProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listDataTransformationProfiles,
+            inputKey: \ListDataTransformationProfilesRequest.nextToken,
+            outputKey: \ListDataTransformationProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataTransformationProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of profiles to return per page. If you don't specify a value, the service returns up to 100 results.
+    ///   - sourceFormat: Filters the results by source data format.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataTransformationProfilesPaginator(
+        maxResults: Int? = nil,
+        sourceFormat: SourceFormat,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataTransformationProfilesRequest, ListDataTransformationProfilesResponse> {
+        let input = ListDataTransformationProfilesRequest(
+            maxResults: maxResults, 
+            sourceFormat: sourceFormat
+        )
+        return self.listDataTransformationProfilesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFHIRDatastores(_:logger:)``.
     ///
     /// - Parameters:
@@ -708,6 +1313,42 @@ extension HealthLake {
     }
 }
 
+extension HealthLake.ListDataTransformationJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> HealthLake.ListDataTransformationJobsRequest {
+        return .init(
+            jobName: self.jobName,
+            jobStatus: self.jobStatus,
+            maxResults: self.maxResults,
+            nextToken: token,
+            submittedAfter: self.submittedAfter,
+            submittedBefore: self.submittedBefore
+        )
+    }
+}
+
+extension HealthLake.ListDataTransformationProfileVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> HealthLake.ListDataTransformationProfileVersionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileId: self.profileId
+        )
+    }
+}
+
+extension HealthLake.ListDataTransformationProfilesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> HealthLake.ListDataTransformationProfilesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sourceFormat: self.sourceFormat
+        )
+    }
+}
+
 extension HealthLake.ListFHIRDatastoresRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> HealthLake.ListFHIRDatastoresRequest {
@@ -753,6 +1394,45 @@ extension HealthLake.ListFHIRImportJobsRequest: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension HealthLake {
+    /// Waiter for operation ``describeDataTransformationJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDataTransformationJobCompleted(
+        _ input: DescribeDataTransformationJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeDataTransformationJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("transformationJobProperties.jobStatus", expected: "COMPLETED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("transformationJobProperties.jobStatus", expected: "COMPLETED_WITH_ERRORS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("transformationJobProperties.jobStatus", expected: "FAILED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.describeDataTransformationJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeDataTransformationJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - jobId: The unique identifier of the data transformation job to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDataTransformationJobCompleted(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeDataTransformationJobRequest(
+            jobId: jobId
+        )
+        try await self.waitUntilDataTransformationJobCompleted(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeFHIRDatastore(_:logger:)``.
     ///
     /// - Parameters:

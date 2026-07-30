@@ -236,7 +236,7 @@ public struct BackupGateway: AWSService {
         return try await self.disassociateGatewayFromServer(input, logger: logger)
     }
 
-    /// Retrieves the bandwidth rate limit schedule for a specified gateway.  By default, gateways do not have bandwidth rate limit schedules, which means  no bandwidth rate limiting is in effect. Use this to get a gateway's  bandwidth rate limit schedule.
+    /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
     @Sendable
     @inlinable
     public func getBandwidthRateLimitSchedule(_ input: GetBandwidthRateLimitScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBandwidthRateLimitScheduleOutput {
@@ -249,10 +249,10 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the bandwidth rate limit schedule for a specified gateway.  By default, gateways do not have bandwidth rate limit schedules, which means  no bandwidth rate limiting is in effect. Use this to get a gateway's  bandwidth rate limit schedule.
+    /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
     ///
     /// Parameters:
-    ///   - gatewayArn: The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+    ///   - gatewayArn: The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways  operation to return a list of gateways for your account and Amazon Web Services Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func getBandwidthRateLimitSchedule(
@@ -294,7 +294,7 @@ public struct BackupGateway: AWSService {
         return try await self.getGateway(input, logger: logger)
     }
 
-    /// This action requests information about the specified hypervisor to which the gateway will connect.  A hypervisor is hardware, software, or firmware that creates and manages virtual machines,  and allocates resources to them.
+    /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
     @Sendable
     @inlinable
     public func getHypervisor(_ input: GetHypervisorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHypervisorOutput {
@@ -307,7 +307,7 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// This action requests information about the specified hypervisor to which the gateway will connect.  A hypervisor is hardware, software, or firmware that creates and manages virtual machines,  and allocates resources to them.
+    /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
     ///
     /// Parameters:
     ///   - hypervisorArn: The Amazon Resource Name (ARN) of the hypervisor.
@@ -323,7 +323,7 @@ public struct BackupGateway: AWSService {
         return try await self.getHypervisor(input, logger: logger)
     }
 
-    /// This action retrieves the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
+    /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
     @Sendable
     @inlinable
     public func getHypervisorPropertyMappings(_ input: GetHypervisorPropertyMappingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHypervisorPropertyMappingsOutput {
@@ -336,7 +336,7 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// This action retrieves the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
+    /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
     ///
     /// Parameters:
     ///   - hypervisorArn: The Amazon Resource Name (ARN) of the hypervisor.
@@ -553,7 +553,7 @@ public struct BackupGateway: AWSService {
         return try await self.listVirtualMachines(input, logger: logger)
     }
 
-    /// This action sets the bandwidth rate limit schedule for a specified gateway.  By default, gateways do not have a bandwidth rate limit schedule, which means  no bandwidth rate limiting is in effect. Use this to initiate a   gateway's bandwidth rate limit schedule.
+    /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
     @Sendable
     @inlinable
     public func putBandwidthRateLimitSchedule(_ input: PutBandwidthRateLimitScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutBandwidthRateLimitScheduleOutput {
@@ -566,11 +566,11 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// This action sets the bandwidth rate limit schedule for a specified gateway.  By default, gateways do not have a bandwidth rate limit schedule, which means  no bandwidth rate limiting is in effect. Use this to initiate a   gateway's bandwidth rate limit schedule.
+    /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
     ///
     /// Parameters:
-    ///   - bandwidthRateLimitIntervals: An array containing bandwidth rate limit schedule intervals for a gateway.  When no bandwidth rate limit intervals have been scheduled, the array is empty.
-    ///   - gatewayArn: The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+    ///   - bandwidthRateLimitIntervals: An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
+    ///   - gatewayArn: The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways  operation to return a list of gateways for your account and Amazon Web Services Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func putBandwidthRateLimitSchedule(
@@ -585,7 +585,7 @@ public struct BackupGateway: AWSService {
         return try await self.putBandwidthRateLimitSchedule(input, logger: logger)
     }
 
-    /// This action sets the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
+    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
     @Sendable
     @inlinable
     public func putHypervisorPropertyMappings(_ input: PutHypervisorPropertyMappingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutHypervisorPropertyMappingsOutput {
@@ -598,12 +598,12 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// This action sets the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
+    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
     ///
     /// Parameters:
     ///   - hypervisorArn: The Amazon Resource Name (ARN) of the hypervisor.
     ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role.
-    ///   - vmwareToAwsTagMappings: This action requests the mappings of VMware tags to the  Amazon Web Services tags.
+    ///   - vmwareToAwsTagMappings: This action requests the mappings of VMware tags to the Amazon Web Services tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func putHypervisorPropertyMappings(
@@ -824,7 +824,7 @@ public struct BackupGateway: AWSService {
         return try await self.updateGatewayInformation(input, logger: logger)
     }
 
-    /// Updates the gateway virtual machine (VM) software.  The request immediately triggers the software update.  When you make this request, you get a 200 OK success response immediately. However, it might take some  time for the update to complete.
+    /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.  When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete.
     @Sendable
     @inlinable
     public func updateGatewaySoftwareNow(_ input: UpdateGatewaySoftwareNowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewaySoftwareNowOutput {
@@ -837,7 +837,7 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// Updates the gateway virtual machine (VM) software.  The request immediately triggers the software update.  When you make this request, you get a 200 OK success response immediately. However, it might take some  time for the update to complete.
+    /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.  When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete.
     ///
     /// Parameters:
     ///   - gatewayArn: The Amazon Resource Name (ARN) of the gateway to be updated.

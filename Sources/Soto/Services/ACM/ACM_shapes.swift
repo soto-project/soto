@@ -25,9 +25,63 @@ import Foundation
 extension ACM {
     // MARK: Enums
 
+    public enum AcmeAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deactivated = "DEACTIVATED"
+        case revoked = "REVOKED"
+        case valid = "VALID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcmeAuthorizationBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case preApproved = "PRE_APPROVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcmeContact: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notRequired = "NOT_REQUIRED"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcmeDomainValidationFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDenied = "ACCESS_DENIED"
+        case domainMismatch = "DOMAIN_MISMATCH"
+        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
+        case endpointNotActive = "ENDPOINT_NOT_ACTIVE"
+        case hostedZoneNotFound = "HOSTED_ZONE_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        case invalidChangeBatch = "INVALID_CHANGE_BATCH"
+        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcmeDomainValidationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleting = "DELETING"
+        case invalid = "INVALID"
+        case valid = "VALID"
+        case validating = "VALIDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AcmeEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateExport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateKeyPairOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case acme = "ACME"
+        case awsManaged = "AWS_MANAGED"
+        case customerProvided = "CUSTOMER_PROVIDED"
         public var description: String { return self.rawValue }
     }
 
@@ -57,6 +111,18 @@ extension ACM {
         case `private` = "PRIVATE"
         case amazonIssued = "AMAZON_ISSUED"
         case imported = "IMPORTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contains = "CONTAINS"
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainScopeOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -130,6 +196,18 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
+    public enum PrevalidationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dnsPrevalidation = "DNS_PREVALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PublicKeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ecPrime256V1 = "EC_prime256v1"
+        case ecSecp384R1 = "EC_secp384r1"
+        case rsa2048 = "RSA_2048"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cname = "CNAME"
         public var description: String { return self.rawValue }
@@ -164,6 +242,37 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchCertificatesSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case acmeAccountId = "ACME_ACCOUNT_ID"
+        case acmeEndpointArn = "ACME_ENDPOINT_ARN"
+        case certificateArn = "CERTIFICATE_ARN"
+        case certificateKeyPairOrigin = "CERTIFICATE_KEY_PAIR_ORIGIN"
+        case commonName = "COMMON_NAME"
+        case createdAt = "CREATED_AT"
+        case exportOption = "EXPORT_OPTION"
+        case exported = "EXPORTED"
+        case importedAt = "IMPORTED_AT"
+        case inUse = "IN_USE"
+        case issuedAt = "ISSUED_AT"
+        case keyAlgorithm = "KEY_ALGORITHM"
+        case managedBy = "MANAGED_BY"
+        case notAfter = "NOT_AFTER"
+        case notBefore = "NOT_BEFORE"
+        case renewalEligibility = "RENEWAL_ELIGIBILITY"
+        case renewalStatus = "RENEWAL_STATUS"
+        case revokedAt = "REVOKED_AT"
+        case status = "STATUS"
+        case type = "TYPE"
+        case validationMethod = "VALIDATION_METHOD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchCertificatesSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdAt = "CREATED_AT"
         public var description: String { return self.rawValue }
@@ -175,6 +284,13 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days = "DAYS"
+        case hours = "HOURS"
+        case minutes = "MINUTES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dns = "DNS"
         case email = "EMAIL"
@@ -182,7 +298,727 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
+    public enum AcmCertificateMetadataFilter: AWSEncodableShape, Sendable {
+        /// Filter by ACME account identifier.
+        case acmeAccountId(String)
+        /// Filter by ACME endpoint ARN.
+        case acmeEndpointArn(String)
+        /// Filter by certificate key pair origin.
+        case certificateKeyPairOrigin(CertificateKeyPairOrigin)
+        /// Filter by whether the certificate has been exported.
+        case exported(Bool)
+        /// Filter by certificate export option.
+        case exportOption(CertificateExport)
+        /// Filter by whether the certificate is in use.
+        case inUse(Bool)
+        /// Filter by the entity that manages the certificate.
+        case managedBy(CertificateManagedBy)
+        /// Filter by certificate renewal status.
+        case renewalStatus(RenewalStatus)
+        /// Filter by certificate status.
+        case status(CertificateStatus)
+        /// Filter by certificate type.
+        case type(CertificateType)
+        /// Filter by validation method.
+        case validationMethod(ValidationMethod)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .acmeAccountId(let value):
+                try container.encode(value, forKey: .acmeAccountId)
+            case .acmeEndpointArn(let value):
+                try container.encode(value, forKey: .acmeEndpointArn)
+            case .certificateKeyPairOrigin(let value):
+                try container.encode(value, forKey: .certificateKeyPairOrigin)
+            case .exported(let value):
+                try container.encode(value, forKey: .exported)
+            case .exportOption(let value):
+                try container.encode(value, forKey: .exportOption)
+            case .inUse(let value):
+                try container.encode(value, forKey: .inUse)
+            case .managedBy(let value):
+                try container.encode(value, forKey: .managedBy)
+            case .renewalStatus(let value):
+                try container.encode(value, forKey: .renewalStatus)
+            case .status(let value):
+                try container.encode(value, forKey: .status)
+            case .type(let value):
+                try container.encode(value, forKey: .type)
+            case .validationMethod(let value):
+                try container.encode(value, forKey: .validationMethod)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .acmeAccountId(let value):
+                try self.validate(value, name: "acmeAccountId", parent: name, max: 36)
+                try self.validate(value, name: "acmeAccountId", parent: name, min: 36)
+            case .acmeEndpointArn(let value):
+                try self.validate(value, name: "acmeEndpointArn", parent: name, max: 2048)
+                try self.validate(value, name: "acmeEndpointArn", parent: name, min: 20)
+                try self.validate(value, name: "acmeEndpointArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeAccountId = "AcmeAccountId"
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case certificateKeyPairOrigin = "CertificateKeyPairOrigin"
+            case exported = "Exported"
+            case exportOption = "ExportOption"
+            case inUse = "InUse"
+            case managedBy = "ManagedBy"
+            case renewalStatus = "RenewalStatus"
+            case status = "Status"
+            case type = "Type"
+            case validationMethod = "ValidationMethod"
+        }
+    }
+
+    public enum CertificateFilter: AWSEncodableShape, Sendable {
+        /// Filter by ACM certificate metadata.
+        case acmCertificateMetadataFilter(AcmCertificateMetadataFilter)
+        /// Filter by certificate ARN.
+        case certificateArn(String)
+        /// Filter by X.509 certificate attributes.
+        case x509AttributeFilter(X509AttributeFilter)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .acmCertificateMetadataFilter(let value):
+                try container.encode(value, forKey: .acmCertificateMetadataFilter)
+            case .certificateArn(let value):
+                try container.encode(value, forKey: .certificateArn)
+            case .x509AttributeFilter(let value):
+                try container.encode(value, forKey: .x509AttributeFilter)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .acmCertificateMetadataFilter(let value):
+                try value.validate(name: "\(name).acmCertificateMetadataFilter")
+            case .certificateArn(let value):
+                try self.validate(value, name: "certificateArn", parent: name, max: 2048)
+                try self.validate(value, name: "certificateArn", parent: name, min: 20)
+                try self.validate(value, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            case .x509AttributeFilter(let value):
+                try value.validate(name: "\(name).x509AttributeFilter")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateMetadataFilter = "AcmCertificateMetadataFilter"
+            case certificateArn = "CertificateArn"
+            case x509AttributeFilter = "X509AttributeFilter"
+        }
+    }
+
+    public indirect enum CertificateFilterStatement: AWSEncodableShape, Sendable {
+        /// A list of filter statements that must all be true.
+        case and([CertificateFilterStatement])
+        /// A single certificate filter.
+        case filter(CertificateFilter)
+        /// A filter statement that must not be true.
+        case not(CertificateFilterStatement)
+        /// A list of filter statements where at least one must be true.
+        case or([CertificateFilterStatement])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .and(let value):
+                try container.encode(value, forKey: .and)
+            case .filter(let value):
+                try container.encode(value, forKey: .filter)
+            case .not(let value):
+                try container.encode(value, forKey: .not)
+            case .or(let value):
+                try container.encode(value, forKey: .or)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .and(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).and[]")
+                }
+                try self.validate(value, name: "and", parent: name, max: 15)
+                try self.validate(value, name: "and", parent: name, min: 1)
+            case .filter(let value):
+                try value.validate(name: "\(name).filter")
+            case .not(let value):
+                try value.validate(name: "\(name).not")
+            case .or(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).or[]")
+                }
+                try self.validate(value, name: "or", parent: name, max: 15)
+                try self.validate(value, name: "or", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "And"
+            case filter = "Filter"
+            case not = "Not"
+            case or = "Or"
+        }
+    }
+
+    public enum GeneralName: AWSDecodableShape, Sendable {
+        /// Contains information about the certificate subject. The Subject field in the certificate identifies the entity that owns or controls the public key in the certificate. The entity can be a user, computer, device, or service. The Subject must contain an X.500 distinguished name (DN). A DN is a sequence of relative distinguished names (RDNs). The RDNs are separated by commas in the certificate.
+        case directoryName(DistinguishedName)
+        /// Represents GeneralName as a DNS name.
+        case dnsName(String)
+        /// Represents GeneralName as an IPv4 or IPv6 address.
+        case ipAddress(String)
+        /// Represents GeneralName using an OtherName object.
+        case otherName(OtherName)
+        /// Represents GeneralName as an object identifier (OID).
+        case registeredId(String)
+        /// Represents GeneralName as an RFC 822 email address.
+        case rfc822Name(String)
+        /// Represents GeneralName as a URI.
+        case uniformResourceIdentifier(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .directoryName:
+                let value = try container.decode(DistinguishedName.self, forKey: .directoryName)
+                self = .directoryName(value)
+            case .dnsName:
+                let value = try container.decode(String.self, forKey: .dnsName)
+                self = .dnsName(value)
+            case .ipAddress:
+                let value = try container.decode(String.self, forKey: .ipAddress)
+                self = .ipAddress(value)
+            case .otherName:
+                let value = try container.decode(OtherName.self, forKey: .otherName)
+                self = .otherName(value)
+            case .registeredId:
+                let value = try container.decode(String.self, forKey: .registeredId)
+                self = .registeredId(value)
+            case .rfc822Name:
+                let value = try container.decode(String.self, forKey: .rfc822Name)
+                self = .rfc822Name(value)
+            case .uniformResourceIdentifier:
+                let value = try container.decode(String.self, forKey: .uniformResourceIdentifier)
+                self = .uniformResourceIdentifier(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryName = "DirectoryName"
+            case dnsName = "DnsName"
+            case ipAddress = "IpAddress"
+            case otherName = "OtherName"
+            case registeredId = "RegisteredId"
+            case rfc822Name = "Rfc822Name"
+            case uniformResourceIdentifier = "UniformResourceIdentifier"
+        }
+    }
+
+    public enum X509AttributeFilter: AWSEncodableShape, Sendable {
+        /// Filter by extended key usage.
+        case extendedKeyUsage(ExtendedKeyUsageName)
+        /// Filter by key algorithm.
+        case keyAlgorithm(KeyAlgorithm)
+        /// Filter by key usage.
+        case keyUsage(KeyUsageName)
+        /// Filter by certificate expiration date. The start date is inclusive.
+        case notAfter(TimestampRange)
+        /// Filter by certificate validity start date. The start date is inclusive.
+        case notBefore(TimestampRange)
+        /// Filter by serial number.
+        case serialNumber(String)
+        /// Filter by certificate subject.
+        case subject(SubjectFilter)
+        /// Filter by subject alternative names.
+        case subjectAlternativeName(SubjectAlternativeNameFilter)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .extendedKeyUsage(let value):
+                try container.encode(value, forKey: .extendedKeyUsage)
+            case .keyAlgorithm(let value):
+                try container.encode(value, forKey: .keyAlgorithm)
+            case .keyUsage(let value):
+                try container.encode(value, forKey: .keyUsage)
+            case .notAfter(let value):
+                try container.encode(value, forKey: .notAfter)
+            case .notBefore(let value):
+                try container.encode(value, forKey: .notBefore)
+            case .serialNumber(let value):
+                try container.encode(value, forKey: .serialNumber)
+            case .subject(let value):
+                try container.encode(value, forKey: .subject)
+            case .subjectAlternativeName(let value):
+                try container.encode(value, forKey: .subjectAlternativeName)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .serialNumber(let value):
+                try self.validate(value, name: "serialNumber", parent: name, max: 59)
+                try self.validate(value, name: "serialNumber", parent: name, min: 2)
+                try self.validate(value, name: "serialNumber", parent: name, pattern: "^[0-9a-f]{2}(:[0-9a-f]{2}){1,19}$")
+            case .subject(let value):
+                try value.validate(name: "\(name).subject")
+            case .subjectAlternativeName(let value):
+                try value.validate(name: "\(name).subjectAlternativeName")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extendedKeyUsage = "ExtendedKeyUsage"
+            case keyAlgorithm = "KeyAlgorithm"
+            case keyUsage = "KeyUsage"
+            case notAfter = "NotAfter"
+            case notBefore = "NotBefore"
+            case serialNumber = "SerialNumber"
+            case subject = "Subject"
+            case subjectAlternativeName = "SubjectAlternativeName"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AcmCertificateMetadata: AWSDecodableShape {
+        /// The ACME account identifier associated with the certificate.
+        public let acmeAccountId: String?
+        /// The ARN of the ACME endpoint used to issue the certificate.
+        public let acmeEndpointArn: String?
+        /// The origin of the certificate's key pair.
+        public let certificateKeyPairOrigin: CertificateKeyPairOrigin?
+        /// The time at which the certificate was requested.
+        public let createdAt: Date?
+        /// Indicates whether the certificate has been exported.
+        public let exported: Bool?
+        /// Indicates whether the certificate can be exported.
+        public let exportOption: CertificateExport?
+        /// The date and time when the certificate was imported. This value exists only when the certificate type is IMPORTED.
+        public let importedAt: Date?
+        /// Indicates whether the certificate is currently in use by an Amazon Web Services service.
+        public let inUse: Bool?
+        /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
+        public let issuedAt: Date?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public let managedBy: CertificateManagedBy?
+        /// Specifies whether the certificate is eligible for renewal. At this time, only exported private certificates can be renewed with the RenewCertificate command.
+        public let renewalEligibility: RenewalEligibility?
+        /// The renewal status of the certificate.
+        public let renewalStatus: RenewalStatus?
+        /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
+        public let revokedAt: Date?
+        /// The status of the certificate. A certificate enters status PENDING_VALIDATION upon being requested, unless it fails for any of the reasons given in the troubleshooting topic Certificate request fails. ACM makes repeated attempts to validate a certificate for 72 hours and then times out. If a certificate shows status FAILED or VALIDATION_TIMED_OUT, delete the request, correct the issue with DNS validation or Email validation, and try again. If validation succeeds, the certificate enters status ISSUED.
+        public let status: CertificateStatus?
+        /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the Certificate Manager User Guide.
+        public let type: CertificateType?
+        /// Specifies the domain validation method.
+        public let validationMethod: ValidationMethod?
+
+        @inlinable
+        public init(acmeAccountId: String? = nil, acmeEndpointArn: String? = nil, certificateKeyPairOrigin: CertificateKeyPairOrigin? = nil, createdAt: Date? = nil, exported: Bool? = nil, exportOption: CertificateExport? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, managedBy: CertificateManagedBy? = nil, renewalEligibility: RenewalEligibility? = nil, renewalStatus: RenewalStatus? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, type: CertificateType? = nil, validationMethod: ValidationMethod? = nil) {
+            self.acmeAccountId = acmeAccountId
+            self.acmeEndpointArn = acmeEndpointArn
+            self.certificateKeyPairOrigin = certificateKeyPairOrigin
+            self.createdAt = createdAt
+            self.exported = exported
+            self.exportOption = exportOption
+            self.importedAt = importedAt
+            self.inUse = inUse
+            self.issuedAt = issuedAt
+            self.managedBy = managedBy
+            self.renewalEligibility = renewalEligibility
+            self.renewalStatus = renewalStatus
+            self.revokedAt = revokedAt
+            self.status = status
+            self.type = type
+            self.validationMethod = validationMethod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeAccountId = "AcmeAccountId"
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case certificateKeyPairOrigin = "CertificateKeyPairOrigin"
+            case createdAt = "CreatedAt"
+            case exported = "Exported"
+            case exportOption = "ExportOption"
+            case importedAt = "ImportedAt"
+            case inUse = "InUse"
+            case issuedAt = "IssuedAt"
+            case managedBy = "ManagedBy"
+            case renewalEligibility = "RenewalEligibility"
+            case renewalStatus = "RenewalStatus"
+            case revokedAt = "RevokedAt"
+            case status = "Status"
+            case type = "Type"
+            case validationMethod = "ValidationMethod"
+        }
+    }
+
+    public struct AcmeAccount: AWSDecodableShape {
+        /// The URL of the ACME account.
+        public let accountUrl: String?
+        /// The Amazon Resource Name (ARN) of the external account binding associated with this ACME account.
+        public let acmeExternalAccountBindingArn: String?
+        /// The contact information for the ACME account.
+        public let contacts: [String]?
+        /// The time at which the ACME account was created.
+        public let createdAt: Date?
+        /// The thumbprint of the public key associated with the ACME account.
+        public let publicKeyThumbprint: String?
+        /// The status of the ACME account.
+        public let status: AcmeAccountStatus?
+
+        @inlinable
+        public init(accountUrl: String? = nil, acmeExternalAccountBindingArn: String? = nil, contacts: [String]? = nil, createdAt: Date? = nil, publicKeyThumbprint: String? = nil, status: AcmeAccountStatus? = nil) {
+            self.accountUrl = accountUrl
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.contacts = contacts
+            self.createdAt = createdAt
+            self.publicKeyThumbprint = publicKeyThumbprint
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountUrl = "AccountUrl"
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+            case contacts = "Contacts"
+            case createdAt = "CreatedAt"
+            case publicKeyThumbprint = "PublicKeyThumbprint"
+            case status = "Status"
+        }
+    }
+
+    public struct AcmeAccountSummary: AWSDecodableShape {
+        /// The URL of the ACME account.
+        public let accountUrl: String?
+        /// The Amazon Resource Name (ARN) of the external account binding associated with this ACME account.
+        public let acmeExternalAccountBindingArn: String?
+        /// The contact information for the ACME account.
+        public let contacts: [String]?
+        /// The time at which the ACME account was created.
+        public let createdAt: Date?
+        /// The thumbprint of the public key associated with the ACME account.
+        public let publicKeyThumbprint: String?
+        /// The status of the ACME account.
+        public let status: AcmeAccountStatus?
+
+        @inlinable
+        public init(accountUrl: String? = nil, acmeExternalAccountBindingArn: String? = nil, contacts: [String]? = nil, createdAt: Date? = nil, publicKeyThumbprint: String? = nil, status: AcmeAccountStatus? = nil) {
+            self.accountUrl = accountUrl
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.contacts = contacts
+            self.createdAt = createdAt
+            self.publicKeyThumbprint = publicKeyThumbprint
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountUrl = "AccountUrl"
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+            case contacts = "Contacts"
+            case createdAt = "CreatedAt"
+            case publicKeyThumbprint = "PublicKeyThumbprint"
+            case status = "Status"
+        }
+    }
+
+    public struct AcmeDomainValidation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME domain validation.
+        public let acmeDomainValidationArn: String?
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String?
+        /// The time at which the domain validation was created.
+        public let createdAt: Date?
+        /// The domain name being validated.
+        public let domainName: String?
+        /// Details about the failure, if the validation failed.
+        public let failureDetails: FailureDetails?
+        /// Details about the prevalidation configuration.
+        public let prevalidationDetails: PrevalidationDetails?
+        /// The type of prevalidation used.
+        public let prevalidationType: PrevalidationType?
+        /// The status of the domain validation.
+        public let status: AcmeDomainValidationStatus?
+        /// The time at which the domain validation was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmeDomainValidationArn: String? = nil, acmeEndpointArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, failureDetails: FailureDetails? = nil, prevalidationDetails: PrevalidationDetails? = nil, prevalidationType: PrevalidationType? = nil, status: AcmeDomainValidationStatus? = nil, updatedAt: Date? = nil) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+            self.acmeEndpointArn = acmeEndpointArn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.failureDetails = failureDetails
+            self.prevalidationDetails = prevalidationDetails
+            self.prevalidationType = prevalidationType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidationArn = "AcmeDomainValidationArn"
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case createdAt = "CreatedAt"
+            case domainName = "DomainName"
+            case failureDetails = "FailureDetails"
+            case prevalidationDetails = "PrevalidationDetails"
+            case prevalidationType = "PrevalidationType"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AcmeDomainValidationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME domain validation.
+        public let acmeDomainValidationArn: String?
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String?
+        /// The time at which the domain validation was created.
+        public let createdAt: Date?
+        /// The domain name being validated.
+        public let domainName: String?
+        /// Details about the failure, if the validation failed.
+        public let failureDetails: FailureDetails?
+        /// Details about the prevalidation configuration.
+        public let prevalidationDetails: PrevalidationDetails?
+        /// The type of prevalidation used.
+        public let prevalidationType: PrevalidationType?
+        /// The status of the domain validation.
+        public let status: AcmeDomainValidationStatus?
+        /// The time at which the domain validation was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmeDomainValidationArn: String? = nil, acmeEndpointArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, failureDetails: FailureDetails? = nil, prevalidationDetails: PrevalidationDetails? = nil, prevalidationType: PrevalidationType? = nil, status: AcmeDomainValidationStatus? = nil, updatedAt: Date? = nil) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+            self.acmeEndpointArn = acmeEndpointArn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.failureDetails = failureDetails
+            self.prevalidationDetails = prevalidationDetails
+            self.prevalidationType = prevalidationType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidationArn = "AcmeDomainValidationArn"
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case createdAt = "CreatedAt"
+            case domainName = "DomainName"
+            case failureDetails = "FailureDetails"
+            case prevalidationDetails = "PrevalidationDetails"
+            case prevalidationType = "PrevalidationType"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AcmeEndpoint: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String?
+        /// The authorization behavior of the ACME endpoint.
+        public let authorizationBehavior: AcmeAuthorizationBehavior?
+        /// The certificate authority configuration for the ACME endpoint.
+        public let certificateAuthority: CertificateAuthority?
+        /// Tags applied to certificates issued through this ACME endpoint.
+        public let certificateTags: [Tag]?
+        /// Whether ACME clients must provide contact information during account registration.
+        public let contact: AcmeContact?
+        /// The time at which the ACME endpoint was created.
+        public let createdAt: Date?
+        /// The URL of the ACME endpoint.
+        public let endpointUrl: String?
+        /// The reason the ACME endpoint failed, if applicable.
+        public let failureReason: String?
+        /// The status of the ACME endpoint.
+        public let status: AcmeEndpointStatus?
+        /// The time at which the ACME endpoint was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmeEndpointArn: String? = nil, authorizationBehavior: AcmeAuthorizationBehavior? = nil, certificateAuthority: CertificateAuthority? = nil, certificateTags: [Tag]? = nil, contact: AcmeContact? = nil, createdAt: Date? = nil, endpointUrl: String? = nil, failureReason: String? = nil, status: AcmeEndpointStatus? = nil, updatedAt: Date? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.authorizationBehavior = authorizationBehavior
+            self.certificateAuthority = certificateAuthority
+            self.certificateTags = certificateTags
+            self.contact = contact
+            self.createdAt = createdAt
+            self.endpointUrl = endpointUrl
+            self.failureReason = failureReason
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case authorizationBehavior = "AuthorizationBehavior"
+            case certificateAuthority = "CertificateAuthority"
+            case certificateTags = "CertificateTags"
+            case contact = "Contact"
+            case createdAt = "CreatedAt"
+            case endpointUrl = "EndpointUrl"
+            case failureReason = "FailureReason"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AcmeEndpointSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String?
+        /// The authorization behavior of the ACME endpoint.
+        public let authorizationBehavior: AcmeAuthorizationBehavior?
+        /// The certificate authority configuration for the ACME endpoint.
+        public let certificateAuthority: CertificateAuthority?
+        /// Tags applied to certificates issued through this ACME endpoint.
+        public let certificateTags: [Tag]?
+        /// Whether ACME clients must provide contact information during account registration.
+        public let contact: AcmeContact?
+        /// The time at which the ACME endpoint was created.
+        public let createdAt: Date?
+        /// The URL of the ACME endpoint.
+        public let endpointUrl: String?
+        /// The reason the ACME endpoint failed, if applicable.
+        public let failureReason: String?
+        /// The status of the ACME endpoint.
+        public let status: AcmeEndpointStatus?
+        /// The time at which the ACME endpoint was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmeEndpointArn: String? = nil, authorizationBehavior: AcmeAuthorizationBehavior? = nil, certificateAuthority: CertificateAuthority? = nil, certificateTags: [Tag]? = nil, contact: AcmeContact? = nil, createdAt: Date? = nil, endpointUrl: String? = nil, failureReason: String? = nil, status: AcmeEndpointStatus? = nil, updatedAt: Date? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.authorizationBehavior = authorizationBehavior
+            self.certificateAuthority = certificateAuthority
+            self.certificateTags = certificateTags
+            self.contact = contact
+            self.createdAt = createdAt
+            self.endpointUrl = endpointUrl
+            self.failureReason = failureReason
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case authorizationBehavior = "AuthorizationBehavior"
+            case certificateAuthority = "CertificateAuthority"
+            case certificateTags = "CertificateTags"
+            case contact = "Contact"
+            case createdAt = "CreatedAt"
+            case endpointUrl = "EndpointUrl"
+            case failureReason = "FailureReason"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AcmeExternalAccountBinding: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String?
+        /// The Amazon Resource Name (ARN) of the ACME external account binding.
+        public let acmeExternalAccountBindingArn: String?
+        /// The time at which the external account binding was created.
+        public let createdAt: Date?
+        /// The time at which the external account binding expires.
+        public let expiresAt: Date?
+        /// The time at which the external account binding was last used.
+        public let lastUsedAt: Date?
+        /// The time at which the external account binding was revoked.
+        public let revokedAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the external account binding.
+        public let roleArn: String?
+        /// The time at which the external account binding was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmeEndpointArn: String? = nil, acmeExternalAccountBindingArn: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, lastUsedAt: Date? = nil, revokedAt: Date? = nil, roleArn: String? = nil, updatedAt: Date? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.lastUsedAt = lastUsedAt
+            self.revokedAt = revokedAt
+            self.roleArn = roleArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+            case createdAt = "CreatedAt"
+            case expiresAt = "ExpiresAt"
+            case lastUsedAt = "LastUsedAt"
+            case revokedAt = "RevokedAt"
+            case roleArn = "RoleArn"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AcmeExternalAccountBindingSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String?
+        /// The Amazon Resource Name (ARN) of the ACME external account binding.
+        public let acmeExternalAccountBindingArn: String?
+        /// The time at which the external account binding was created.
+        public let createdAt: Date?
+        /// The time at which the external account binding expires.
+        public let expiresAt: Date?
+        /// The time at which the external account binding was last used.
+        public let lastUsedAt: Date?
+        /// The time at which the external account binding was revoked.
+        public let revokedAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the external account binding.
+        public let roleArn: String?
+        /// The time at which the external account binding was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmeEndpointArn: String? = nil, acmeExternalAccountBindingArn: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, lastUsedAt: Date? = nil, revokedAt: Date? = nil, roleArn: String? = nil, updatedAt: Date? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.lastUsedAt = lastUsedAt
+            self.revokedAt = revokedAt
+            self.roleArn = roleArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+            case createdAt = "CreatedAt"
+            case expiresAt = "ExpiresAt"
+            case lastUsedAt = "LastUsedAt"
+            case revokedAt = "RevokedAt"
+            case roleArn = "RoleArn"
+            case updatedAt = "UpdatedAt"
+        }
+    }
 
     public struct AddTagsToCertificateRequest: AWSEncodableShape {
         /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
@@ -214,10 +1050,16 @@ extension ACM {
     }
 
     public struct CertificateDetail: AWSDecodableShape {
+        /// The ACME account identifier associated with the certificate.
+        public let acmeAccountId: String?
+        /// The ARN of the ACME endpoint used to issue the certificate.
+        public let acmeEndpointArn: String?
         /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let certificateArn: String?
         /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String?
+        /// The origin of the certificate's key pair.
+        public let certificateKeyPairOrigin: CertificateKeyPairOrigin?
         /// The time at which the certificate was requested.
         public let createdAt: Date?
         /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
@@ -246,7 +1088,7 @@ extension ACM {
         public let notAfter: Date?
         /// The time before which the certificate is not valid.
         public let notBefore: Date?
-        /// Value that specifies whether to add the certificate to a transparency log. Certificate transparency makes it possible to detect SSL certificates that have been mistakenly or maliciously issued. A browser might respond to certificate that has not been logged by showing an error message. The logs are cryptographically secure.
+        /// Contains the certificate options. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.
         public let options: CertificateOptions?
         /// Specifies whether the certificate is eligible for renewal. At this time, only exported private certificates can be renewed with the RenewCertificate command.
         public let renewalEligibility: RenewalEligibility?
@@ -270,9 +1112,12 @@ extension ACM {
         public let type: CertificateType?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
+        public init(acmeAccountId: String? = nil, acmeEndpointArn: String? = nil, certificateArn: String? = nil, certificateAuthorityArn: String? = nil, certificateKeyPairOrigin: CertificateKeyPairOrigin? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
+            self.acmeAccountId = acmeAccountId
+            self.acmeEndpointArn = acmeEndpointArn
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
+            self.certificateKeyPairOrigin = certificateKeyPairOrigin
             self.createdAt = createdAt
             self.domainName = domainName
             self.domainValidationOptions = domainValidationOptions
@@ -301,8 +1146,11 @@ extension ACM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acmeAccountId = "AcmeAccountId"
+            case acmeEndpointArn = "AcmeEndpointArn"
             case certificateArn = "CertificateArn"
             case certificateAuthorityArn = "CertificateAuthorityArn"
+            case certificateKeyPairOrigin = "CertificateKeyPairOrigin"
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
             case domainValidationOptions = "DomainValidationOptions"
@@ -332,11 +1180,18 @@ extension ACM {
     }
 
     public struct CertificateOptions: AWSEncodableShape & AWSDecodableShape {
-        /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED.
+        /// This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.
         public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
-        /// You can opt in to allow the export of your certificates by specifying ENABLED.
+        /// You can opt in to allow the export of your certificates by specifying ENABLED. You cannot update the value of Export after the the certificate is created.
         public let export: CertificateExport?
 
+        @inlinable
+        public init(export: CertificateExport? = nil) {
+            self.certificateTransparencyLoggingPreference = nil
+            self.export = export
+        }
+
+        @available(*, deprecated, message: "Members certificateTransparencyLoggingPreference have been deprecated")
         @inlinable
         public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil, export: CertificateExport? = nil) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
@@ -349,14 +1204,38 @@ extension ACM {
         }
     }
 
+    public struct CertificateSearchResult: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the certificate.
+        public let certificateArn: String?
+        /// ACM-specific metadata about the certificate.
+        public let certificateMetadata: CertificateMetadata?
+        /// X.509 certificate attributes such as subject, issuer, and validity period.
+        public let x509Attributes: X509Attributes?
+
+        @inlinable
+        public init(certificateArn: String? = nil, certificateMetadata: CertificateMetadata? = nil, x509Attributes: X509Attributes? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateMetadata = certificateMetadata
+            self.x509Attributes = x509Attributes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateMetadata = "CertificateMetadata"
+            case x509Attributes = "X509Attributes"
+        }
+    }
+
     public struct CertificateSummary: AWSDecodableShape {
         /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String?
+        /// The origin of the certificate's key pair.
+        public let certificateKeyPairOrigin: CertificateKeyPairOrigin?
         /// The time at which the certificate was requested.
         public let createdAt: Date?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
         public let domainName: String?
-        /// Indicates whether the certificate has been exported. This value exists only when the certificate type is PRIVATE.
+        /// Indicates whether the certificate has been exported.
         public let exported: Bool?
         /// Indicates if export is enabled for the certificate.
         public let exportOption: CertificateExport?
@@ -392,8 +1271,9 @@ extension ACM {
         public let type: CertificateType?
 
         @inlinable
-        public init(certificateArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, exported: Bool? = nil, exportOption: CertificateExport? = nil, extendedKeyUsages: [ExtendedKeyUsageName]? = nil, hasAdditionalSubjectAlternativeNames: Bool? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalEligibility: RenewalEligibility? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, subjectAlternativeNameSummaries: [String]? = nil, type: CertificateType? = nil) {
+        public init(certificateArn: String? = nil, certificateKeyPairOrigin: CertificateKeyPairOrigin? = nil, createdAt: Date? = nil, domainName: String? = nil, exported: Bool? = nil, exportOption: CertificateExport? = nil, extendedKeyUsages: [ExtendedKeyUsageName]? = nil, hasAdditionalSubjectAlternativeNames: Bool? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalEligibility: RenewalEligibility? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, subjectAlternativeNameSummaries: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
+            self.certificateKeyPairOrigin = certificateKeyPairOrigin
             self.createdAt = createdAt
             self.domainName = domainName
             self.exported = exported
@@ -417,6 +1297,7 @@ extension ACM {
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
+            case certificateKeyPairOrigin = "CertificateKeyPairOrigin"
             case createdAt = "CreatedAt"
             case domainName = "DomainName"
             case exported = "Exported"
@@ -439,6 +1320,285 @@ extension ACM {
         }
     }
 
+    public struct CommonNameFilter: AWSEncodableShape {
+        /// The comparison operator to use.
+        public let comparisonOperator: ComparisonOperator
+        /// The value to match against.
+        public let value: String
+
+        @inlinable
+        public init(comparisonOperator: ComparisonOperator, value: String) {
+            self.comparisonOperator = comparisonOperator
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case value = "Value"
+        }
+    }
+
+    public struct CreateAcmeDomainValidationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+        /// The domain name to validate.
+        public let domainName: String
+        /// A unique, case-sensitive identifier to ensure idempotency of the request.
+        public let idempotencyToken: String?
+        /// The prevalidation options for the domain.
+        public let prevalidationOptions: PrevalidationOptions
+        /// One or more tags to associate with the domain validation.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(acmeEndpointArn: String, domainName: String, idempotencyToken: String? = CreateAcmeDomainValidationRequest.idempotencyToken(), prevalidationOptions: PrevalidationOptions, tags: [Tag]? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.domainName = domainName
+            self.idempotencyToken = idempotencyToken
+            self.prevalidationOptions = prevalidationOptions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^([a-z0-9]([a-z0-9-]*[a-z0-9])?\\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?$")
+            try self.prevalidationOptions.validate(name: "\(name).prevalidationOptions")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case domainName = "DomainName"
+            case idempotencyToken = "IdempotencyToken"
+            case prevalidationOptions = "PrevalidationOptions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAcmeDomainValidationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created domain validation.
+        public let acmeDomainValidationArn: String
+
+        @inlinable
+        public init(acmeDomainValidationArn: String) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidationArn = "AcmeDomainValidationArn"
+        }
+    }
+
+    public struct CreateAcmeEndpointRequest: AWSEncodableShape {
+        /// The authorization behavior for the ACME endpoint.
+        public let authorizationBehavior: AcmeAuthorizationBehavior
+        /// The type of certificate authority to use for issuing certificates through this ACME endpoint.
+        public let certificateAuthority: CertificateAuthority
+        /// Tags to apply to certificates issued through this ACME endpoint.
+        public let certificateTags: [Tag]?
+        /// Specifies whether ACME clients must provide contact information during account registration.
+        public let contact: AcmeContact?
+        /// A unique, case-sensitive identifier to ensure idempotency of the request.
+        public let idempotencyToken: String?
+        /// One or more tags to associate with the ACME endpoint.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(authorizationBehavior: AcmeAuthorizationBehavior, certificateAuthority: CertificateAuthority, certificateTags: [Tag]? = nil, contact: AcmeContact? = nil, idempotencyToken: String? = CreateAcmeEndpointRequest.idempotencyToken(), tags: [Tag]? = nil) {
+            self.authorizationBehavior = authorizationBehavior
+            self.certificateAuthority = certificateAuthority
+            self.certificateTags = certificateTags
+            self.contact = contact
+            self.idempotencyToken = idempotencyToken
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.certificateTags?.forEach {
+                try $0.validate(name: "\(name).certificateTags[]")
+            }
+            try self.validate(self.certificateTags, name: "certificateTags", parent: name, max: 50)
+            try self.validate(self.certificateTags, name: "certificateTags", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationBehavior = "AuthorizationBehavior"
+            case certificateAuthority = "CertificateAuthority"
+            case certificateTags = "CertificateTags"
+            case contact = "Contact"
+            case idempotencyToken = "IdempotencyToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAcmeEndpointResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created ACME endpoint.
+        public let acmeEndpointArn: String?
+
+        @inlinable
+        public init(acmeEndpointArn: String? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+        }
+    }
+
+    public struct CreateAcmeExternalAccountBindingRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+        /// The expiration configuration for the external account binding.
+        public let expiration: Expiration?
+        /// A unique, case-sensitive identifier to ensure idempotency of the request.
+        public let idempotencyToken: String?
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding.
+        public let roleArn: String
+        /// One or more tags to associate with the external account binding.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(acmeEndpointArn: String, expiration: Expiration? = nil, idempotencyToken: String? = CreateAcmeExternalAccountBindingRequest.idempotencyToken(), roleArn: String, tags: [Tag]? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.expiration = expiration
+            self.idempotencyToken = idempotencyToken
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z-]*:iam::[0-9]{12}:role/.+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case expiration = "Expiration"
+            case idempotencyToken = "IdempotencyToken"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAcmeExternalAccountBindingResponse: AWSDecodableShape {
+        /// The created external account binding.
+        public let externalAccountBinding: AcmeExternalAccountBinding?
+
+        @inlinable
+        public init(externalAccountBinding: AcmeExternalAccountBinding? = nil) {
+            self.externalAccountBinding = externalAccountBinding
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalAccountBinding = "ExternalAccountBinding"
+        }
+    }
+
+    public struct CustomAttribute: AWSDecodableShape {
+        /// Specifies the object identifier (OID) of the attribute type of the relative distinguished name (RDN).
+        public let objectIdentifier: String?
+        /// Specifies the attribute value of relative distinguished name (RDN).
+        public let value: String?
+
+        @inlinable
+        public init(objectIdentifier: String? = nil, value: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+            case value = "Value"
+        }
+    }
+
+    public struct DeleteAcmeDomainValidationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME domain validation to delete.
+        public let acmeDomainValidationArn: String
+
+        @inlinable
+        public init(acmeDomainValidationArn: String) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, max: 200)
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, min: 1)
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidationArn = "AcmeDomainValidationArn"
+        }
+    }
+
+    public struct DeleteAcmeEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint to delete.
+        public let acmeEndpointArn: String
+
+        @inlinable
+        public init(acmeEndpointArn: String) {
+            self.acmeEndpointArn = acmeEndpointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+        }
+    }
+
+    public struct DeleteAcmeExternalAccountBindingRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME external account binding to delete.
+        public let acmeExternalAccountBindingArn: String
+
+        @inlinable
+        public init(acmeExternalAccountBindingArn: String) {
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, max: 200)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, min: 1)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+        }
+    }
+
     public struct DeleteCertificateRequest: AWSEncodableShape {
         /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
@@ -456,6 +1616,146 @@ extension ACM {
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
+        }
+    }
+
+    public struct DescribeAcmeAccountRequest: AWSEncodableShape {
+        /// The URL of the ACME account.
+        public let accountUrl: String
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+
+        @inlinable
+        public init(accountUrl: String, acmeEndpointArn: String) {
+            self.accountUrl = accountUrl
+            self.acmeEndpointArn = acmeEndpointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountUrl = "AccountUrl"
+            case acmeEndpointArn = "AcmeEndpointArn"
+        }
+    }
+
+    public struct DescribeAcmeAccountResponse: AWSDecodableShape {
+        /// The ACME account details.
+        public let acmeAccount: AcmeAccount?
+
+        @inlinable
+        public init(acmeAccount: AcmeAccount? = nil) {
+            self.acmeAccount = acmeAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeAccount = "AcmeAccount"
+        }
+    }
+
+    public struct DescribeAcmeDomainValidationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME domain validation.
+        public let acmeDomainValidationArn: String
+
+        @inlinable
+        public init(acmeDomainValidationArn: String) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, max: 200)
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, min: 1)
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidationArn = "AcmeDomainValidationArn"
+        }
+    }
+
+    public struct DescribeAcmeDomainValidationResponse: AWSDecodableShape {
+        /// The ACME domain validation details.
+        public let acmeDomainValidation: AcmeDomainValidation?
+
+        @inlinable
+        public init(acmeDomainValidation: AcmeDomainValidation? = nil) {
+            self.acmeDomainValidation = acmeDomainValidation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidation = "AcmeDomainValidation"
+        }
+    }
+
+    public struct DescribeAcmeEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+
+        @inlinable
+        public init(acmeEndpointArn: String) {
+            self.acmeEndpointArn = acmeEndpointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+        }
+    }
+
+    public struct DescribeAcmeEndpointResponse: AWSDecodableShape {
+        /// The ACME endpoint details.
+        public let acmeEndpoint: AcmeEndpoint?
+
+        @inlinable
+        public init(acmeEndpoint: AcmeEndpoint? = nil) {
+            self.acmeEndpoint = acmeEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpoint = "AcmeEndpoint"
+        }
+    }
+
+    public struct DescribeAcmeExternalAccountBindingRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME external account binding.
+        public let acmeExternalAccountBindingArn: String
+
+        @inlinable
+        public init(acmeExternalAccountBindingArn: String) {
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, max: 200)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, min: 1)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+        }
+    }
+
+    public struct DescribeAcmeExternalAccountBindingResponse: AWSDecodableShape {
+        /// The external account binding details.
+        public let externalAccountBinding: AcmeExternalAccountBinding?
+
+        @inlinable
+        public init(externalAccountBinding: AcmeExternalAccountBinding? = nil) {
+            self.externalAccountBinding = externalAccountBinding
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalAccountBinding = "ExternalAccountBinding"
         }
     }
 
@@ -490,6 +1790,171 @@ extension ACM {
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
+        }
+    }
+
+    public struct DistinguishedName: AWSDecodableShape {
+        /// The common name (CN) attribute.
+        public let commonName: String?
+        /// The country (C) attribute.
+        public let country: String?
+        /// A list of custom attributes in the distinguished name. Each custom attribute contains an object identifier (OID) and its corresponding value.
+        public let customAttributes: [CustomAttribute]?
+        /// The distinguished name qualifier attribute.
+        public let distinguishedNameQualifier: String?
+        /// The domain component attributes.
+        public let domainComponents: [String]?
+        /// The generation qualifier attribute.
+        public let generationQualifier: String?
+        /// The given name attribute.
+        public let givenName: String?
+        /// The initials attribute.
+        public let initials: String?
+        /// The locality (L) attribute.
+        public let locality: String?
+        /// The organization (O) attribute.
+        public let organization: String?
+        /// The organizational unit (OU) attribute.
+        public let organizationalUnit: String?
+        /// The pseudonym attribute.
+        public let pseudonym: String?
+        /// The serial number attribute.
+        public let serialNumber: String?
+        /// The state or province (ST) attribute.
+        public let state: String?
+        /// The surname attribute.
+        public let surname: String?
+        /// The title attribute.
+        public let title: String?
+
+        @inlinable
+        public init(commonName: String? = nil, country: String? = nil, customAttributes: [CustomAttribute]? = nil, distinguishedNameQualifier: String? = nil, domainComponents: [String]? = nil, generationQualifier: String? = nil, givenName: String? = nil, initials: String? = nil, locality: String? = nil, organization: String? = nil, organizationalUnit: String? = nil, pseudonym: String? = nil, serialNumber: String? = nil, state: String? = nil, surname: String? = nil, title: String? = nil) {
+            self.commonName = commonName
+            self.country = country
+            self.customAttributes = customAttributes
+            self.distinguishedNameQualifier = distinguishedNameQualifier
+            self.domainComponents = domainComponents
+            self.generationQualifier = generationQualifier
+            self.givenName = givenName
+            self.initials = initials
+            self.locality = locality
+            self.organization = organization
+            self.organizationalUnit = organizationalUnit
+            self.pseudonym = pseudonym
+            self.serialNumber = serialNumber
+            self.state = state
+            self.surname = surname
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonName = "CommonName"
+            case country = "Country"
+            case customAttributes = "CustomAttributes"
+            case distinguishedNameQualifier = "DistinguishedNameQualifier"
+            case domainComponents = "DomainComponents"
+            case generationQualifier = "GenerationQualifier"
+            case givenName = "GivenName"
+            case initials = "Initials"
+            case locality = "Locality"
+            case organization = "Organization"
+            case organizationalUnit = "OrganizationalUnit"
+            case pseudonym = "Pseudonym"
+            case serialNumber = "SerialNumber"
+            case state = "State"
+            case surname = "Surname"
+            case title = "Title"
+        }
+    }
+
+    public struct DnsNameFilter: AWSEncodableShape {
+        /// The comparison operator to use.
+        public let comparisonOperator: ComparisonOperator
+        /// The DNS name value to match against.
+        public let value: String
+
+        @inlinable
+        public init(comparisonOperator: ComparisonOperator, value: String) {
+            self.comparisonOperator = comparisonOperator
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case value = "Value"
+        }
+    }
+
+    public struct DnsPrevalidationDetails: AWSDecodableShape {
+        /// The scope of domains covered by this prevalidation.
+        public let domainScope: DomainScope?
+        /// The Route 53 hosted zone ID for DNS validation.
+        public let hostedZoneId: String?
+        /// The DNS resource record to create for domain validation.
+        public let resourceRecord: ResourceRecord?
+
+        @inlinable
+        public init(domainScope: DomainScope? = nil, hostedZoneId: String? = nil, resourceRecord: ResourceRecord? = nil) {
+            self.domainScope = domainScope
+            self.hostedZoneId = hostedZoneId
+            self.resourceRecord = resourceRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainScope = "DomainScope"
+            case hostedZoneId = "HostedZoneId"
+            case resourceRecord = "ResourceRecord"
+        }
+    }
+
+    public struct DnsPrevalidationOptions: AWSEncodableShape {
+        /// The scope of domains covered by this prevalidation.
+        public let domainScope: DomainScope?
+        /// The Route 53 hosted zone ID for DNS validation.
+        public let hostedZoneId: String?
+
+        @inlinable
+        public init(domainScope: DomainScope? = nil, hostedZoneId: String? = nil) {
+            self.domainScope = domainScope
+            self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, min: 1)
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, pattern: "^Z[A-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainScope = "DomainScope"
+            case hostedZoneId = "HostedZoneId"
+        }
+    }
+
+    public struct DomainScope: AWSEncodableShape & AWSDecodableShape {
+        /// Whether validation applies to the exact domain.
+        public let exactDomain: DomainScopeOption?
+        /// Whether validation applies to subdomains.
+        public let subdomains: DomainScopeOption?
+        /// Whether validation applies to wildcard domains.
+        public let wildcards: DomainScopeOption?
+
+        @inlinable
+        public init(exactDomain: DomainScopeOption? = nil, subdomains: DomainScopeOption? = nil, wildcards: DomainScopeOption? = nil) {
+            self.exactDomain = exactDomain
+            self.subdomains = subdomains
+            self.wildcards = wildcards
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exactDomain = "ExactDomain"
+            case subdomains = "Subdomains"
+            case wildcards = "Wildcards"
         }
     }
 
@@ -555,6 +2020,24 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
             case validationDomain = "ValidationDomain"
+        }
+    }
+
+    public struct Expiration: AWSEncodableShape {
+        /// The time unit for the expiration value.
+        public let type: TimeType
+        /// The numeric value of the expiration.
+        public let value: Int64
+
+        @inlinable
+        public init(type: TimeType, value: Int64) {
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
         }
     }
 
@@ -642,6 +2125,24 @@ extension ACM {
         }
     }
 
+    public struct FailureDetails: AWSDecodableShape {
+        /// A message describing the failure.
+        public let message: String?
+        /// The reason for the failure.
+        public let reason: AcmeDomainValidationFailureReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: AcmeDomainValidationFailureReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
     public struct Filters: AWSEncodableShape {
         /// Specify ENABLED or DISABLED to identify certificates that can be exported.
         public let exportOption: CertificateExport?
@@ -683,6 +2184,44 @@ extension ACM {
 
         private enum CodingKeys: String, CodingKey {
             case expiryEvents = "ExpiryEvents"
+        }
+    }
+
+    public struct GetAcmeExternalAccountBindingCredentialsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME external account binding.
+        public let acmeExternalAccountBindingArn: String
+
+        @inlinable
+        public init(acmeExternalAccountBindingArn: String) {
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, max: 200)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, min: 1)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+        }
+    }
+
+    public struct GetAcmeExternalAccountBindingCredentialsResponse: AWSDecodableShape {
+        /// The key identifier for the external account binding credentials.
+        public let keyId: String?
+        /// The MAC key for the external account binding credentials.
+        public let macKey: String?
+
+        @inlinable
+        public init(keyId: String? = nil, macKey: String? = nil) {
+            self.keyId = keyId
+            self.macKey = macKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case macKey = "MacKey"
         }
     }
 
@@ -817,7 +2356,183 @@ extension ACM {
         }
     }
 
+    public struct ListAcmeAccountsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(acmeEndpointArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAcmeAccountsResponse: AWSDecodableShape {
+        /// The list of ACME accounts.
+        public let acmeAccounts: [AcmeAccountSummary]?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(acmeAccounts: [AcmeAccountSummary]? = nil, nextToken: String? = nil) {
+            self.acmeAccounts = acmeAccounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeAccounts = "AcmeAccounts"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAcmeDomainValidationsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(acmeEndpointArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAcmeDomainValidationsResponse: AWSDecodableShape {
+        /// The list of domain validations.
+        public let acmeDomainValidations: [AcmeDomainValidationSummary]?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(acmeDomainValidations: [AcmeDomainValidationSummary]? = nil, nextToken: String? = nil) {
+            self.acmeDomainValidations = acmeDomainValidations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidations = "AcmeDomainValidations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAcmeEndpointsRequest: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAcmeEndpointsResponse: AWSDecodableShape {
+        /// The list of ACME endpoints.
+        public let acmeEndpoints: [AcmeEndpointSummary]?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(acmeEndpoints: [AcmeEndpointSummary]? = nil, nextToken: String? = nil) {
+            self.acmeEndpoints = acmeEndpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpoints = "AcmeEndpoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAcmeExternalAccountBindingsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(acmeEndpointArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAcmeExternalAccountBindingsResponse: AWSDecodableShape {
+        /// The list of external account bindings.
+        public let externalAccountBindings: [AcmeExternalAccountBindingSummary]?
+        /// A token for pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(externalAccountBindings: [AcmeExternalAccountBindingSummary]? = nil, nextToken: String? = nil) {
+            self.externalAccountBindings = externalAccountBindings
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalAccountBindings = "ExternalAccountBindings"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListCertificatesRequest: AWSEncodableShape {
+        /// Filter the certificate list by certificate key pair origin. Specify one or more CertificateKeyPairOrigin values. Default filtering returns only certificates with key pair origin of AWS_MANAGED and CUSTOMER_PROVIDED.
+        public let certificateKeyPairOrigins: [CertificateKeyPairOrigin]?
         /// Filter the certificate list by status value.
         public let certificateStatuses: [CertificateStatus]?
         /// Filter the certificate list. For more information, see the Filters structure.
@@ -832,7 +2547,8 @@ extension ACM {
         public let sortOrder: SortOrder?
 
         @inlinable
-        public init(certificateStatuses: [CertificateStatus]? = nil, includes: Filters? = nil, maxItems: Int? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(certificateKeyPairOrigins: [CertificateKeyPairOrigin]? = nil, certificateStatuses: [CertificateStatus]? = nil, includes: Filters? = nil, maxItems: Int? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.certificateKeyPairOrigins = certificateKeyPairOrigins
             self.certificateStatuses = certificateStatuses
             self.includes = includes
             self.maxItems = maxItems
@@ -842,6 +2558,8 @@ extension ACM {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.certificateKeyPairOrigins, name: "certificateKeyPairOrigins", parent: name, max: 3)
+            try self.validate(self.certificateKeyPairOrigins, name: "certificateKeyPairOrigins", parent: name, min: 1)
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
@@ -850,6 +2568,7 @@ extension ACM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateKeyPairOrigins = "CertificateKeyPairOrigins"
             case certificateStatuses = "CertificateStatuses"
             case includes = "Includes"
             case maxItems = "MaxItems"
@@ -908,6 +2627,72 @@ extension ACM {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The ARN of the ACM resource for which to list tags.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags associated with the resource.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct OtherName: AWSDecodableShape {
+        /// Specifies an OID.
+        public let objectIdentifier: String?
+        /// Specifies an OID value.
+        public let value: String?
+
+        @inlinable
+        public init(objectIdentifier: String? = nil, value: String? = nil) {
+            self.objectIdentifier = objectIdentifier
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+            case value = "Value"
+        }
+    }
+
+    public struct PublicCertificateAuthority: AWSEncodableShape & AWSDecodableShape {
+        /// The key algorithms allowed for certificates issued by this certificate authority.
+        public let allowedKeyAlgorithms: [PublicKeyAlgorithm]?
+
+        @inlinable
+        public init(allowedKeyAlgorithms: [PublicKeyAlgorithm]? = nil) {
+            self.allowedKeyAlgorithms = allowedKeyAlgorithms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedKeyAlgorithms = "AllowedKeyAlgorithms"
         }
     }
 
@@ -1024,7 +2809,7 @@ extension ACM {
         public let keyAlgorithm: KeyAlgorithm?
         /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
         public let managedBy: CertificateManagedBy?
-        /// You can use this parameter to specify whether to add the certificate to a certificate transparency log and export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging. You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see Certificate Manager exportable public certificate.
+        /// You can use this parameter to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging. You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see Certificate Manager exportable public certificate.
         public let options: CertificateOptions?
         /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas.  The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
         public let subjectAlternativeNames: [String]?
@@ -1109,7 +2894,7 @@ extension ACM {
         public let certificateArn: String
         /// The fully qualified domain name (FQDN) of the certificate that needs to be validated.
         public let domain: String
-        /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com
+        /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com
         public let validationDomain: String
 
         @inlinable
@@ -1160,6 +2945,50 @@ extension ACM {
         }
     }
 
+    public struct RevokeAcmeAccountRequest: AWSEncodableShape {
+        /// The URL of the ACME account to revoke.
+        public let accountUrl: String
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public let acmeEndpointArn: String
+
+        @inlinable
+        public init(accountUrl: String, acmeEndpointArn: String) {
+            self.accountUrl = accountUrl
+            self.acmeEndpointArn = acmeEndpointArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountUrl = "AccountUrl"
+            case acmeEndpointArn = "AcmeEndpointArn"
+        }
+    }
+
+    public struct RevokeAcmeExternalAccountBindingRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME external account binding to revoke.
+        public let acmeExternalAccountBindingArn: String
+
+        @inlinable
+        public init(acmeExternalAccountBindingArn: String) {
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, max: 200)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, min: 1)
+            try self.validate(self.acmeExternalAccountBindingArn, name: "acmeExternalAccountBindingArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeExternalAccountBindingArn = "AcmeExternalAccountBindingArn"
+        }
+    }
+
     public struct RevokeCertificateRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form:   arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String
@@ -1198,6 +3027,63 @@ extension ACM {
         }
     }
 
+    public struct SearchCertificatesRequest: AWSEncodableShape {
+        /// A filter statement that defines the search criteria. You can combine multiple filters using AND, OR, and NOT logical operators to create complex queries.
+        public let filterStatement: CertificateFilterStatement?
+        /// The maximum number of results to return in the response. Default is 100.
+        public let maxResults: Int?
+        /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
+        public let nextToken: String?
+        /// Specifies the field to sort results by. Valid values are CREATED_AT, NOT_AFTER, STATUS, RENEWAL_STATUS, EXPORTED, IN_USE, NOT_BEFORE, KEY_ALGORITHM, TYPE, CERTIFICATE_ARN, COMMON_NAME, REVOKED_AT, RENEWAL_ELIGIBILITY, ISSUED_AT, MANAGED_BY, EXPORT_OPTION, VALIDATION_METHOD, and IMPORTED_AT.
+        public let sortBy: SearchCertificatesSortBy?
+        /// Specifies the order of sorted results. Valid values are ASCENDING or DESCENDING.
+        public let sortOrder: SearchCertificatesSortOrder?
+
+        @inlinable
+        public init(filterStatement: CertificateFilterStatement? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SearchCertificatesSortBy? = nil, sortOrder: SearchCertificatesSortOrder? = nil) {
+            self.filterStatement = filterStatement
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.filterStatement?.validate(name: "\(name).filterStatement")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterStatement = "FilterStatement"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct SearchCertificatesResponse: AWSDecodableShape {
+        /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
+        public let nextToken: String?
+        /// A list of certificate search results containing certificate ARNs, X.509 attributes, and ACM metadata.
+        public let results: [CertificateSearchResult]?
+
+        @inlinable
+        public init(nextToken: String? = nil, results: [CertificateSearchResult]? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key of the tag.
         public let key: String
@@ -1213,9 +3099,9 @@ extension ACM {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*$")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.validate(self.value, name: "value", parent: name, max: 256)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1224,10 +3110,180 @@ extension ACM {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The ARN of the ACM resource to which the tag is to be applied.
+        public let resourceArn: String
+        /// The key-value pair that defines the tag to apply.
+        public let tags: [Tag]
+
+        @inlinable
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// One or more reasons why the request was throttled.
+        public let throttlingReasons: [ThrottlingReason]?
+
+        @inlinable
+        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
+            self.message = message
+            self.throttlingReasons = throttlingReasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case throttlingReasons = "throttlingReasons"
+        }
+    }
+
+    public struct ThrottlingReason: AWSDecodableShape {
+        /// A description of why a request was throttled.
+        public let reason: String?
+        /// The resource that causes the request to be throttled.
+        public let resource: String?
+
+        @inlinable
+        public init(reason: String? = nil, resource: String? = nil) {
+            self.reason = reason
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case resource = "resource"
+        }
+    }
+
+    public struct TimestampRange: AWSEncodableShape {
+        /// The end of the time range. This value is inclusive.
+        public let end: Date?
+        /// The start of the time range. This value is inclusive.
+        public let start: Date?
+
+        @inlinable
+        public init(end: Date? = nil, start: Date? = nil) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "End"
+            case start = "Start"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The ARN of the ACM resource from which the tag is to be removed.
+        public let resourceArn: String
+        /// The key of each tag to remove.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UpdateAcmeDomainValidationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME domain validation to update.
+        public let acmeDomainValidationArn: String
+        /// The updated prevalidation options.
+        public let prevalidationOptions: PrevalidationOptions?
+
+        @inlinable
+        public init(acmeDomainValidationArn: String, prevalidationOptions: PrevalidationOptions? = nil) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+            self.prevalidationOptions = prevalidationOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, max: 200)
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, min: 1)
+            try self.validate(self.acmeDomainValidationArn, name: "acmeDomainValidationArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-domain-validation/[a-zA-Z0-9-]+$")
+            try self.prevalidationOptions?.validate(name: "\(name).prevalidationOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeDomainValidationArn = "AcmeDomainValidationArn"
+            case prevalidationOptions = "PrevalidationOptions"
+        }
+    }
+
+    public struct UpdateAcmeEndpointRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint to update.
+        public let acmeEndpointArn: String
+        /// The updated authorization behavior.
+        public let authorizationBehavior: AcmeAuthorizationBehavior?
+        /// The updated certificate authority configuration.
+        public let certificateAuthority: CertificateAuthority?
+        /// The updated contact requirement.
+        public let contact: AcmeContact?
+
+        @inlinable
+        public init(acmeEndpointArn: String, authorizationBehavior: AcmeAuthorizationBehavior? = nil, certificateAuthority: CertificateAuthority? = nil, contact: AcmeContact? = nil) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.authorizationBehavior = authorizationBehavior
+            self.certificateAuthority = certificateAuthority
+            self.contact = contact
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, max: 200)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, min: 1)
+            try self.validate(self.acmeEndpointArn, name: "acmeEndpointArn", parent: name, pattern: "^arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmeEndpointArn = "AcmeEndpointArn"
+            case authorizationBehavior = "AuthorizationBehavior"
+            case certificateAuthority = "CertificateAuthority"
+            case contact = "Contact"
+        }
+    }
+
     public struct UpdateCertificateOptionsRequest: AWSEncodableShape {
         /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String
-        /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log or export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
+        /// Use to update the options for your certificate. Currently, you can specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging.
         public let options: CertificateOptions
 
         @inlinable
@@ -1247,6 +3303,148 @@ extension ACM {
             case options = "Options"
         }
     }
+
+    public struct X509Attributes: AWSDecodableShape {
+        /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
+        public let extendedKeyUsages: [ExtendedKeyUsageName]?
+        /// The distinguished name of the certificate issuer.
+        public let issuer: DistinguishedName?
+        /// The algorithm that was used to generate the public-private key pair.
+        public let keyAlgorithm: KeyAlgorithm?
+        /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
+        public let keyUsages: [KeyUsageName]?
+        /// The time after which the certificate is not valid.
+        public let notAfter: Date?
+        /// The time before which the certificate is not valid.
+        public let notBefore: Date?
+        /// The serial number assigned by the certificate authority.
+        public let serialNumber: String?
+        /// The distinguished name of the certificate subject.
+        public let subject: DistinguishedName?
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
+        public let subjectAlternativeNames: [GeneralName]?
+
+        @inlinable
+        public init(extendedKeyUsages: [ExtendedKeyUsageName]? = nil, issuer: DistinguishedName? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, serialNumber: String? = nil, subject: DistinguishedName? = nil, subjectAlternativeNames: [GeneralName]? = nil) {
+            self.extendedKeyUsages = extendedKeyUsages
+            self.issuer = issuer
+            self.keyAlgorithm = keyAlgorithm
+            self.keyUsages = keyUsages
+            self.notAfter = notAfter
+            self.notBefore = notBefore
+            self.serialNumber = serialNumber
+            self.subject = subject
+            self.subjectAlternativeNames = subjectAlternativeNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extendedKeyUsages = "ExtendedKeyUsages"
+            case issuer = "Issuer"
+            case keyAlgorithm = "KeyAlgorithm"
+            case keyUsages = "KeyUsages"
+            case notAfter = "NotAfter"
+            case notBefore = "NotBefore"
+            case serialNumber = "SerialNumber"
+            case subject = "Subject"
+            case subjectAlternativeNames = "SubjectAlternativeNames"
+        }
+    }
+
+    public struct CertificateAuthority: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for using a public certificate authority.
+        public let publicCertificateAuthority: PublicCertificateAuthority?
+
+        @inlinable
+        public init(publicCertificateAuthority: PublicCertificateAuthority? = nil) {
+            self.publicCertificateAuthority = publicCertificateAuthority
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicCertificateAuthority = "PublicCertificateAuthority"
+        }
+    }
+
+    public struct CertificateMetadata: AWSDecodableShape {
+        /// Metadata for an ACM certificate.
+        public let acmCertificateMetadata: AcmCertificateMetadata?
+
+        @inlinable
+        public init(acmCertificateMetadata: AcmCertificateMetadata? = nil) {
+            self.acmCertificateMetadata = acmCertificateMetadata
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateMetadata = "AcmCertificateMetadata"
+        }
+    }
+
+    public struct PrevalidationDetails: AWSDecodableShape {
+        /// DNS-based prevalidation details.
+        public let dnsPrevalidation: DnsPrevalidationDetails?
+
+        @inlinable
+        public init(dnsPrevalidation: DnsPrevalidationDetails? = nil) {
+            self.dnsPrevalidation = dnsPrevalidation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsPrevalidation = "DnsPrevalidation"
+        }
+    }
+
+    public struct PrevalidationOptions: AWSEncodableShape {
+        /// DNS-based prevalidation options.
+        public let dnsPrevalidation: DnsPrevalidationOptions?
+
+        @inlinable
+        public init(dnsPrevalidation: DnsPrevalidationOptions? = nil) {
+            self.dnsPrevalidation = dnsPrevalidation
+        }
+
+        public func validate(name: String) throws {
+            try self.dnsPrevalidation?.validate(name: "\(name).dnsPrevalidation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsPrevalidation = "DnsPrevalidation"
+        }
+    }
+
+    public struct SubjectAlternativeNameFilter: AWSEncodableShape {
+        /// Filter by DNS name in subject alternative names.
+        public let dnsName: DnsNameFilter?
+
+        @inlinable
+        public init(dnsName: DnsNameFilter? = nil) {
+            self.dnsName = dnsName
+        }
+
+        public func validate(name: String) throws {
+            try self.dnsName?.validate(name: "\(name).dnsName")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsName = "DnsName"
+        }
+    }
+
+    public struct SubjectFilter: AWSEncodableShape {
+        /// Filter by common name in the subject.
+        public let commonName: CommonNameFilter?
+
+        @inlinable
+        public init(commonName: CommonNameFilter? = nil) {
+            self.commonName = commonName
+        }
+
+        public func validate(name: String) throws {
+            try self.commonName?.validate(name: "\(name).commonName")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commonName = "CommonName"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1256,6 +3454,7 @@ public struct ACMErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
         case invalidArgsException = "InvalidArgsException"
         case invalidArnException = "InvalidArnException"
         case invalidDomainValidationOptionsException = "InvalidDomainValidationOptionsException"
@@ -1266,6 +3465,7 @@ public struct ACMErrorType: AWSErrorType {
         case requestInProgressException = "RequestInProgressException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tagPolicyException = "TagPolicyException"
         case throttlingException = "ThrottlingException"
         case tooManyTagsException = "TooManyTagsException"
@@ -1294,6 +3494,8 @@ public struct ACMErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The request processing has failed because of an unknown error, exception, or failure.
+    public static var internalServerException: Self { .init(.internalServerException) }
     /// One or more of request parameters specified is not valid.
     public static var invalidArgsException: Self { .init(.invalidArgsException) }
     /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
@@ -1314,6 +3516,8 @@ public struct ACMErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// A service quota has been exceeded.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// A specified tag did not comply with an existing tag policy and was rejected.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
     /// The request was denied because it exceeded a quota.
@@ -1322,6 +3526,12 @@ public struct ACMErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ACMErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ThrottlingException": ACM.ThrottlingException.self
+    ]
 }
 
 extension ACMErrorType: Equatable {

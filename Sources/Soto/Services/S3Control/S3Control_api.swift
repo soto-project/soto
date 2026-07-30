@@ -2003,6 +2003,7 @@ public struct S3Control: AWSService {
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID of the S3 Access Grants instance.
+    ///   - auditContext: The context to identify the job or query associated with the credential request. This information will be displayed in CloudTrail log in your account.
     ///   - durationSeconds: The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
     ///   - permission: The type of permission granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
     ///   - privilege: The scope of the temporary access credential that S3 Access Grants vends to the grantee or client application.     Default – The scope of the returned temporary access token is the scope of the grant that is closest to the target scope.    Minimal – The scope of the returned temporary access token is the same as the requested target scope as long as the requested scope is the same as or a subset of the grant scope.
@@ -2012,6 +2013,7 @@ public struct S3Control: AWSService {
     @inlinable
     public func getDataAccess(
         accountId: String,
+        auditContext: String? = nil,
         durationSeconds: Int? = nil,
         permission: Permission,
         privilege: Privilege? = nil,
@@ -2021,6 +2023,7 @@ public struct S3Control: AWSService {
     ) async throws -> GetDataAccessResult {
         let input = GetDataAccessRequest(
             accountId: accountId, 
+            auditContext: auditContext, 
             durationSeconds: durationSeconds, 
             permission: permission, 
             privilege: privilege, 

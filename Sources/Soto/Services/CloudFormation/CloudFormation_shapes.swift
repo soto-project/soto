@@ -166,6 +166,12 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentConfigMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case express = "EXPRESS"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case revertDrift = "REVERT_DRIFT"
         public var description: String { return self.rawValue }
@@ -1207,10 +1213,14 @@ extension CloudFormation {
         public let changeSetType: ChangeSetType?
         /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that CloudFormation successfully received them.
         public let clientToken: String?
+        /// The deployment configuration for this stack operation, including the deployment mode.
+        public let deploymentConfig: DeploymentConfig?
         /// Determines how CloudFormation handles configuration drift during deployment.    REVERT_DRIFT – Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state.   For more information, see Using drift-aware change sets in the CloudFormation User Guide.
         public let deploymentMode: DeploymentMode?
         /// A description to help you identify this change set.
         public let description: String?
+        ///  Set to true to disable pre-deployment validations in changeset or stack operations.   Default: false
+        public let disableValidation: Bool?
         /// Indicates if the change set auto-imports resources that already exist. For more information, see Import Amazon Web Services resources into a CloudFormation stack automatically in the CloudFormation User Guide.  This parameter can only import resources that have custom names in templates. For more information, see name type in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
         public let importExistingResources: Bool?
         /// Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
@@ -1246,13 +1256,15 @@ extension CloudFormation {
         public let usePreviousTemplate: Bool?
 
         @inlinable
-        public init(capabilities: [Capability]? = nil, changeSetName: String? = nil, changeSetType: ChangeSetType? = nil, clientToken: String? = nil, deploymentMode: DeploymentMode? = nil, description: String? = nil, importExistingResources: Bool? = nil, includeNestedStacks: Bool? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, resourcesToImport: [ResourceToImport]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(capabilities: [Capability]? = nil, changeSetName: String? = nil, changeSetType: ChangeSetType? = nil, clientToken: String? = nil, deploymentConfig: DeploymentConfig? = nil, deploymentMode: DeploymentMode? = nil, description: String? = nil, disableValidation: Bool? = nil, importExistingResources: Bool? = nil, includeNestedStacks: Bool? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, resourcesToImport: [ResourceToImport]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.capabilities = capabilities
             self.changeSetName = changeSetName
             self.changeSetType = changeSetType
             self.clientToken = clientToken
+            self.deploymentConfig = deploymentConfig
             self.deploymentMode = deploymentMode
             self.description = description
+            self.disableValidation = disableValidation
             self.importExistingResources = importExistingResources
             self.includeNestedStacks = includeNestedStacks
             self.notificationARNs = notificationARNs
@@ -1305,8 +1317,10 @@ extension CloudFormation {
             case changeSetName = "ChangeSetName"
             case changeSetType = "ChangeSetType"
             case clientToken = "ClientToken"
+            case deploymentConfig = "DeploymentConfig"
             case deploymentMode = "DeploymentMode"
             case description = "Description"
+            case disableValidation = "DisableValidation"
             case importExistingResources = "ImportExistingResources"
             case includeNestedStacks = "IncludeNestedStacks"
             case notificationARNs = "NotificationARNs"
@@ -1399,8 +1413,12 @@ extension CloudFormation {
         public var capabilities: [Capability]?
         /// A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that CloudFormation successfully received them. All events initiated by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
         public let clientRequestToken: String?
+        /// The deployment configuration for this stack operation, including the deployment mode.
+        public let deploymentConfig: DeploymentConfig?
         /// Set to true to disable rollback of the stack if stack creation failed. You can specify either DisableRollback or OnFailure, but not both. Default: false
         public let disableRollback: Bool?
+        ///  Set to true to disable pre-deployment validations in changeset or stack operations.   Default: false
+        public let disableValidation: Bool?
         /// Whether to enable termination protection on the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see Protect CloudFormation stacks from being deleted in the CloudFormation User Guide. Termination protection is deactivated on stacks by default. For nested stacks, termination protection is set on the root stack and can't be changed directly on the nested stack.
         public let enableTerminationProtection: Bool?
         /// The Amazon SNS topic ARNs to publish stack related events. You can find your Amazon SNS topic ARNs using the Amazon SNS console or your Command Line Interface (CLI).
@@ -1437,10 +1455,12 @@ extension CloudFormation {
         public let timeoutInMinutes: Int?
 
         @inlinable
-        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, enableTerminationProtection: Bool? = nil, notificationARNs: [String]? = nil, onFailure: OnFailure? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, timeoutInMinutes: Int? = nil) {
+        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, deploymentConfig: DeploymentConfig? = nil, disableRollback: Bool? = nil, disableValidation: Bool? = nil, enableTerminationProtection: Bool? = nil, notificationARNs: [String]? = nil, onFailure: OnFailure? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
+            self.deploymentConfig = deploymentConfig
             self.disableRollback = disableRollback
+            self.disableValidation = disableValidation
             self.enableTerminationProtection = enableTerminationProtection
             self.notificationARNs = notificationARNs
             self.onFailure = onFailure
@@ -1487,7 +1507,9 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case capabilities = "Capabilities"
             case clientRequestToken = "ClientRequestToken"
+            case deploymentConfig = "DeploymentConfig"
             case disableRollback = "DisableRollback"
+            case disableValidation = "DisableValidation"
             case enableTerminationProtection = "EnableTerminationProtection"
             case notificationARNs = "NotificationARNs"
             case onFailure = "OnFailure"
@@ -1850,6 +1872,8 @@ extension CloudFormation {
         public let clientRequestToken: String?
         /// Specifies the deletion mode for the stack. Possible values are:    STANDARD - Use the standard behavior. Specifying this value is the same as not specifying this parameter.    FORCE_DELETE_STACK - Delete the stack if it's stuck in a DELETE_FAILED state due to resource deletion failure.
         public let deletionMode: DeletionMode?
+        /// The deployment configuration for this stack operation, including the deployment mode.
+        public let deploymentConfig: DeploymentConfig?
         /// For stacks in the DELETE_FAILED state, a list of resource logical IDs that are associated with the resources you want to retain. During deletion, CloudFormation deletes the stack but doesn't delete the retained resources. Retaining resources is useful when you can't delete a resource, such as a non-empty S3 bucket, but you want to delete the stack.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var retainResources: [String]?
@@ -1859,9 +1883,10 @@ extension CloudFormation {
         public let stackName: String?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, deletionMode: DeletionMode? = nil, retainResources: [String]? = nil, roleARN: String? = nil, stackName: String? = nil) {
+        public init(clientRequestToken: String? = nil, deletionMode: DeletionMode? = nil, deploymentConfig: DeploymentConfig? = nil, retainResources: [String]? = nil, roleARN: String? = nil, stackName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.deletionMode = deletionMode
+            self.deploymentConfig = deploymentConfig
             self.retainResources = retainResources
             self.roleARN = roleARN
             self.stackName = stackName
@@ -1878,6 +1903,7 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case deletionMode = "DeletionMode"
+            case deploymentConfig = "DeploymentConfig"
             case retainResources = "RetainResources"
             case roleARN = "RoleARN"
             case stackName = "StackName"
@@ -1976,6 +2002,24 @@ extension CloudFormation {
 
     public struct DeleteStackSetOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeploymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to disable rollback of the stack if the stack operation fails. Default: false
+        public let disableRollback: Bool?
+        /// Specifies the deployment mode for the stack operation. Possible values are:    STANDARD - Use the standard deployment behavior, ensuring resources are ready to serve traffic before completing the operation. This is the default. You do not need to specify this value explicitly.    EXPRESS - Complete the stack operation when resource configuration is applied, without waiting for resources to become ready to serve traffic. Resources continue becoming ready in the background.
+        public let mode: DeploymentConfigMode?
+
+        @inlinable
+        public init(disableRollback: Bool? = nil, mode: DeploymentConfigMode? = nil) {
+            self.disableRollback = disableRollback
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disableRollback = "DisableRollback"
+            case mode = "Mode"
+        }
     }
 
     public struct DeploymentTargets: AWSEncodableShape & AWSDecodableShape {
@@ -2221,6 +2265,8 @@ extension CloudFormation {
         public let changeSetName: String?
         /// The start time when the change set was created, in UTC.
         public let creationTime: Date?
+        /// The deployment configuration specified when the change set was created.
+        public let deploymentConfig: DeploymentConfig?
         /// The deployment mode specified when the change set was created. Valid value is REVERT_DRIFT. Only present for drift-aware change sets.
         public let deploymentMode: DeploymentMode?
         /// Information about the change set.
@@ -2262,12 +2308,13 @@ extension CloudFormation {
         public var tags: [Tag]?
 
         @inlinable
-        public init(capabilities: [Capability]? = nil, changes: [Change]? = nil, changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, deploymentMode: DeploymentMode? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, importExistingResources: Bool? = nil, includeNestedStacks: Bool? = nil, nextToken: String? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, parentChangeSetId: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootChangeSetId: String? = nil, stackDriftStatus: StackDriftStatus? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil) {
+        public init(capabilities: [Capability]? = nil, changes: [Change]? = nil, changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, deploymentConfig: DeploymentConfig? = nil, deploymentMode: DeploymentMode? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, importExistingResources: Bool? = nil, includeNestedStacks: Bool? = nil, nextToken: String? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, parentChangeSetId: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootChangeSetId: String? = nil, stackDriftStatus: StackDriftStatus? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil) {
             self.capabilities = capabilities
             self.changes = changes
             self.changeSetId = changeSetId
             self.changeSetName = changeSetName
             self.creationTime = creationTime
+            self.deploymentConfig = deploymentConfig
             self.deploymentMode = deploymentMode
             self.description = description
             self.executionStatus = executionStatus
@@ -2294,6 +2341,7 @@ extension CloudFormation {
             case changeSetId = "ChangeSetId"
             case changeSetName = "ChangeSetName"
             case creationTime = "CreationTime"
+            case deploymentConfig = "DeploymentConfig"
             case deploymentMode = "DeploymentMode"
             case description = "Description"
             case executionStatus = "ExecutionStatus"
@@ -2324,7 +2372,7 @@ extension CloudFormation {
         public let nextToken: String?
         /// The unique identifier of the operation for which you want to retrieve events.
         public let operationId: String?
-        /// The name or unique stack ID for which you want to retrieve events.
+        /// The name or unique stack ID for which you want to retrieve events. If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
         public let stackName: String?
 
         @inlinable
@@ -6136,6 +6184,8 @@ extension CloudFormation {
     public struct RollbackStackInput: AWSEncodableShape {
         /// A unique identifier for this RollbackStack request.
         public let clientRequestToken: String?
+        /// The deployment configuration for this stack operation, including the deployment mode.
+        public let deploymentConfig: DeploymentConfig?
         /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
         public let retainExceptOnCreate: Bool?
         /// The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to rollback the stack.
@@ -6144,8 +6194,9 @@ extension CloudFormation {
         public let stackName: String?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, stackName: String? = nil) {
+        public init(clientRequestToken: String? = nil, deploymentConfig: DeploymentConfig? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, stackName: String? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.deploymentConfig = deploymentConfig
             self.retainExceptOnCreate = retainExceptOnCreate
             self.roleARN = roleARN
             self.stackName = stackName
@@ -6163,6 +6214,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case deploymentConfig = "DeploymentConfig"
             case retainExceptOnCreate = "RetainExceptOnCreate"
             case roleARN = "RoleARN"
             case stackName = "StackName"
@@ -6410,7 +6462,7 @@ extension CloudFormation {
         public let stackName: String?
         /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update.
         public let status: ResourceSignalStatus?
-        /// A unique ID of the signal. When you signal Amazon EC2 instances or Amazon EC2 Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
+        /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
         public let uniqueId: String?
 
         @inlinable
@@ -6448,6 +6500,8 @@ extension CloudFormation {
         public let deletionMode: DeletionMode?
         /// The time the stack was deleted.
         public let deletionTime: Date?
+        /// The deployment configuration for the stack, including the deployment mode used for stack operations.
+        public let deploymentConfig: DeploymentConfig?
         /// A user-defined description associated with the stack.
         public let description: String?
         /// The detailed status of the resource or stack. If CONFIGURATION_COMPLETE is present, the resource or resource configuration phase has completed and the stabilization of the resources is in progress. The StackSets CONFIGURATION_COMPLETE when all of the resources in the stack have reached that event. For more information, see Understand CloudFormation stack creation events in the CloudFormation User Guide.
@@ -6497,12 +6551,13 @@ extension CloudFormation {
         public let timeoutInMinutes: Int?
 
         @inlinable
-        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: Date? = nil, deletionMode: DeletionMode? = nil, deletionTime: Date? = nil, description: String? = nil, detailedStatus: DetailedStatus? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastOperations: [OperationEntry]? = nil, lastUpdatedTime: Date? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String? = nil, stackStatus: StackStatus? = nil, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
+        public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: Date? = nil, deletionMode: DeletionMode? = nil, deletionTime: Date? = nil, deploymentConfig: DeploymentConfig? = nil, description: String? = nil, detailedStatus: DetailedStatus? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastOperations: [OperationEntry]? = nil, lastUpdatedTime: Date? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String? = nil, stackStatus: StackStatus? = nil, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.changeSetId = changeSetId
             self.creationTime = creationTime
             self.deletionMode = deletionMode
             self.deletionTime = deletionTime
+            self.deploymentConfig = deploymentConfig
             self.description = description
             self.detailedStatus = detailedStatus
             self.disableRollback = disableRollback
@@ -6532,6 +6587,7 @@ extension CloudFormation {
             case creationTime = "CreationTime"
             case deletionMode = "DeletionMode"
             case deletionTime = "DeletionTime"
+            case deploymentConfig = "DeploymentConfig"
             case description = "Description"
             case detailedStatus = "DetailedStatus"
             case disableRollback = "DisableRollback"
@@ -8260,8 +8316,12 @@ extension CloudFormation {
         public var capabilities: [Capability]?
         /// A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
         public let clientRequestToken: String?
+        /// The deployment configuration for this stack operation, including the deployment mode.
+        public let deploymentConfig: DeploymentConfig?
         /// Preserve the state of previously provisioned resources when an operation fails. Default: False
         public let disableRollback: Bool?
+        ///  Set to true to disable pre-deployment validations in changeset or stack operations.   Default: false
+        public let disableValidation: Bool?
         /// Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all notification topics.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var notificationARNs: [String]?
@@ -8298,10 +8358,12 @@ extension CloudFormation {
         public let usePreviousTemplate: Bool?
 
         @inlinable
-        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, stackPolicyBody: String? = nil, stackPolicyDuringUpdateBody: String? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
+        public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, deploymentConfig: DeploymentConfig? = nil, disableRollback: Bool? = nil, disableValidation: Bool? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, stackPolicyBody: String? = nil, stackPolicyDuringUpdateBody: String? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
+            self.deploymentConfig = deploymentConfig
             self.disableRollback = disableRollback
+            self.disableValidation = disableValidation
             self.notificationARNs = notificationARNs
             self.parameters = parameters
             self.resourceTypes = resourceTypes
@@ -8351,7 +8413,9 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case capabilities = "Capabilities"
             case clientRequestToken = "ClientRequestToken"
+            case deploymentConfig = "DeploymentConfig"
             case disableRollback = "DisableRollback"
+            case disableValidation = "DisableValidation"
             case notificationARNs = "NotificationARNs"
             case parameters = "Parameters"
             case resourceTypes = "ResourceTypes"

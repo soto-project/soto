@@ -92,6 +92,41 @@ public struct ECS: AWSService {
 
     // MARK: API Calls
 
+    /// Continues or rolls back an Amazon ECS service deployment that is paused at a lifecycle hook. When a service deployment reaches a lifecycle stage that has a PAUSE hook configured, the deployment pauses and waits for an explicit action. Use this API to either continue the deployment to the next stage or roll back to the previous service revision. To find the hookId of the paused hook, call DescribeServiceDeployments and inspect the lifecycleHookDetails field. For more information, see Continuing Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide.
+    @Sendable
+    @inlinable
+    public func continueServiceDeployment(_ input: ContinueServiceDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ContinueServiceDeploymentResponse {
+        try await self.client.execute(
+            operation: "ContinueServiceDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Continues or rolls back an Amazon ECS service deployment that is paused at a lifecycle hook. When a service deployment reaches a lifecycle stage that has a PAUSE hook configured, the deployment pauses and waits for an explicit action. Use this API to either continue the deployment to the next stage or roll back to the previous service revision. To find the hookId of the paused hook, call DescribeServiceDeployments and inspect the lifecycleHookDetails field. For more information, see Continuing Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// Parameters:
+    ///   - action: The action to take on the paused lifecycle hook. Valid values are:    CONTINUE - Proceeds the deployment to the next lifecycle stage.    ROLLBACK - Rolls back the deployment to the previous service revision.   If no value is specified, the default action is CONTINUE.
+    ///   - hookId: The ID of the paused lifecycle hook to act on. You can find the hookId by calling DescribeServiceDeployments and inspecting the lifecycleHookDetails field of the service deployment.
+    ///   - serviceDeploymentArn: The ARN of the service deployment to continue or roll back.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func continueServiceDeployment(
+        action: DeploymentLifecycleHookAction? = nil,
+        hookId: String,
+        serviceDeploymentArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ContinueServiceDeploymentResponse {
+        let input = ContinueServiceDeploymentRequest(
+            action: action, 
+            hookId: hookId, 
+            serviceDeploymentArn: serviceDeploymentArn
+        )
+        return try await self.continueServiceDeployment(input, logger: logger)
+    }
+
     /// Creates a capacity provider. Capacity providers are associated with a cluster and are used in capacity provider strategies to facilitate cluster auto scaling. You can create capacity providers for Amazon ECS Managed Instances and EC2 instances. Fargate has the predefined FARGATE and FARGATE_SPOT capacity providers.
     @Sendable
     @inlinable
@@ -180,6 +215,62 @@ public struct ECS: AWSService {
         return try await self.createCluster(input, logger: logger)
     }
 
+    /// Creates a new daemon in the specified cluster and capacity providers. A daemon deploys cross-cutting software agents such as security monitoring, telemetry, and logging independently across your Amazon ECS infrastructure. Amazon ECS deploys exactly one daemon task on each container instance of the specified capacity providers. When a container instance registers with the cluster, Amazon ECS automatically starts daemon tasks. Amazon ECS starts a daemon task before scheduling other tasks. Daemons are essential for instance health - if a daemon task stops, Amazon ECS automatically drains and replaces that container instance.  ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
+    @Sendable
+    @inlinable
+    public func createDaemon(_ input: CreateDaemonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDaemonResponse {
+        try await self.client.execute(
+            operation: "CreateDaemon", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new daemon in the specified cluster and capacity providers. A daemon deploys cross-cutting software agents such as security monitoring, telemetry, and logging independently across your Amazon ECS infrastructure. Amazon ECS deploys exactly one daemon task on each container instance of the specified capacity providers. When a container instance registers with the cluster, Amazon ECS automatically starts daemon tasks. Amazon ECS starts a daemon task before scheduling other tasks. Daemons are essential for instance health - if a daemon task stops, Amazon ECS automatically drains and replaces that container instance.  ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
+    ///
+    /// Parameters:
+    ///   - capacityProviderArns: The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. The daemon deploys tasks on container instances managed by these capacity providers.
+    ///   - clientToken: An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the cluster to create the daemon in.
+    ///   - daemonName: The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+    ///   - daemonTaskDefinitionArn: The Amazon Resource Name (ARN) of the daemon task definition to use for the daemon.
+    ///   - deploymentConfiguration: Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
+    ///   - enableECSManagedTags: Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS resources in the Amazon Elastic Container Service Developer Guide.
+    ///   - enableExecuteCommand: Determines whether the execute command functionality is turned on for the daemon. If true, the execute command functionality is turned on for all tasks in the daemon.
+    ///   - propagateTags: Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation. To add tags to a task after task creation, use the TagResource API action.
+    ///   - tags: The metadata that you apply to the daemon to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDaemon(
+        capacityProviderArns: [String],
+        clientToken: String? = nil,
+        clusterArn: String? = nil,
+        daemonName: String,
+        daemonTaskDefinitionArn: String,
+        deploymentConfiguration: DaemonDeploymentConfiguration? = nil,
+        enableECSManagedTags: Bool? = nil,
+        enableExecuteCommand: Bool? = nil,
+        propagateTags: DaemonPropagateTags? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDaemonResponse {
+        let input = CreateDaemonRequest(
+            capacityProviderArns: capacityProviderArns, 
+            clientToken: clientToken, 
+            clusterArn: clusterArn, 
+            daemonName: daemonName, 
+            daemonTaskDefinitionArn: daemonTaskDefinitionArn, 
+            deploymentConfiguration: deploymentConfiguration, 
+            enableECSManagedTags: enableECSManagedTags, 
+            enableExecuteCommand: enableExecuteCommand, 
+            propagateTags: propagateTags, 
+            tags: tags
+        )
+        return try await self.createDaemon(input, logger: logger)
+    }
+
     /// Creates an Express service that simplifies deploying containerized web applications on Amazon ECS with managed Amazon Web Services infrastructure. This operation provisions and configures Application Load Balancers, target groups, security groups, and auto-scaling policies automatically. Specify a primary container configuration with your application image and basic settings. Amazon ECS creates the necessary Amazon Web Services resources for traffic distribution, health monitoring, network access control, and capacity management. Provide an execution role for task operations and an infrastructure role for managing Amazon Web Services resources on your behalf.
     @Sendable
     @inlinable
@@ -207,21 +298,23 @@ public struct ECS: AWSService {
     ///   - scalingTarget: The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
     ///   - serviceName: The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
     ///   - tags: The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
+    ///   - taskDefinitionArn: The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
     ///   - taskRoleArn: The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func createExpressGatewayService(
         cluster: String? = nil,
         cpu: String? = nil,
-        executionRoleArn: String,
+        executionRoleArn: String? = nil,
         healthCheckPath: String? = nil,
         infrastructureRoleArn: String,
         memory: String? = nil,
         networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil,
-        primaryContainer: ExpressGatewayContainer,
+        primaryContainer: ExpressGatewayContainer? = nil,
         scalingTarget: ExpressGatewayScalingTarget? = nil,
         serviceName: String? = nil,
         tags: [Tag]? = nil,
+        taskDefinitionArn: String? = nil,
         taskRoleArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateExpressGatewayServiceResponse {
@@ -237,6 +330,7 @@ public struct ECS: AWSService {
             scalingTarget: scalingTarget, 
             serviceName: serviceName, 
             tags: tags, 
+            taskDefinitionArn: taskDefinitionArn, 
             taskRoleArn: taskRoleArn
         )
         return try await self.createExpressGatewayService(input, logger: logger)
@@ -270,6 +364,7 @@ public struct ECS: AWSService {
     ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
     ///   - launchType: The infrastructure that you run your service on. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide.  If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter.  The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.  Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see Fargate capacity providers in the Amazon ECS Developer Guide.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
     ///   - loadBalancers: A load balancer object representing the load balancers to use with your service. For more information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see Using service-linked roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
+    ///   - monitoring: The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
     ///   - networkConfiguration: The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see Task networking in the Amazon Elastic Container Service Developer Guide.
     ///   - placementConstraints: An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
     ///   - placementStrategy: The placement strategy objects to use for tasks in your service. You can specify a maximum of 5 strategy rules for each service.
@@ -299,6 +394,7 @@ public struct ECS: AWSService {
         healthCheckGracePeriodSeconds: Int? = nil,
         launchType: LaunchType? = nil,
         loadBalancers: [LoadBalancer]? = nil,
+        monitoring: MonitoringConfiguration? = nil,
         networkConfiguration: NetworkConfiguration? = nil,
         placementConstraints: [PlacementConstraint]? = nil,
         placementStrategy: [PlacementStrategy]? = nil,
@@ -328,6 +424,7 @@ public struct ECS: AWSService {
             healthCheckGracePeriodSeconds: healthCheckGracePeriodSeconds, 
             launchType: launchType, 
             loadBalancers: loadBalancers, 
+            monitoring: monitoring, 
             networkConfiguration: networkConfiguration, 
             placementConstraints: placementConstraints, 
             placementStrategy: placementStrategy, 
@@ -534,6 +631,64 @@ public struct ECS: AWSService {
             cluster: cluster
         )
         return try await self.deleteCluster(input, logger: logger)
+    }
+
+    /// Deletes the specified daemon. The daemon must be in an ACTIVE state to be deleted. Deleting a daemon stops all running daemon tasks on the associated container instances. Amazon ECS drains existing container instances and provisions new instances without the deleted daemon. Amazon ECS automatically launches replacement tasks for your Amazon ECS services.  ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
+    @Sendable
+    @inlinable
+    public func deleteDaemon(_ input: DeleteDaemonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDaemonResponse {
+        try await self.client.execute(
+            operation: "DeleteDaemon", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified daemon. The daemon must be in an ACTIVE state to be deleted. Deleting a daemon stops all running daemon tasks on the associated container instances. Amazon ECS drains existing container instances and provisions new instances without the deleted daemon. Amazon ECS automatically launches replacement tasks for your Amazon ECS services.  ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
+    ///
+    /// Parameters:
+    ///   - daemonArn: The Amazon Resource Name (ARN) of the daemon to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDaemon(
+        daemonArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDaemonResponse {
+        let input = DeleteDaemonRequest(
+            daemonArn: daemonArn
+        )
+        return try await self.deleteDaemon(input, logger: logger)
+    }
+
+    /// Deletes the specified daemon task definition. After a daemon task definition is deleted, no new daemons can be created using this definition. Existing daemons that reference the deleted daemon task definition continue to run. A daemon task definition must be in an ACTIVE state to be deleted.
+    @Sendable
+    @inlinable
+    public func deleteDaemonTaskDefinition(_ input: DeleteDaemonTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDaemonTaskDefinitionResponse {
+        try await self.client.execute(
+            operation: "DeleteDaemonTaskDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified daemon task definition. After a daemon task definition is deleted, no new daemons can be created using this definition. Existing daemons that reference the deleted daemon task definition continue to run. A daemon task definition must be in an ACTIVE state to be deleted.
+    ///
+    /// Parameters:
+    ///   - daemonTaskDefinition: The family and revision (family:revision) or full Amazon Resource Name (ARN) of the daemon task definition to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDaemonTaskDefinition(
+        daemonTaskDefinition: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDaemonTaskDefinitionResponse {
+        let input = DeleteDaemonTaskDefinitionRequest(
+            daemonTaskDefinition: daemonTaskDefinition
+        )
+        return try await self.deleteDaemonTaskDefinition(input, logger: logger)
     }
 
     /// Deletes an Express service and removes all associated Amazon Web Services resources. This operation stops service tasks, removes the Application Load Balancer, target groups, security groups, auto-scaling policies, and other managed infrastructure components. The service enters a DRAINING state where existing tasks complete current requests without starting new tasks. After all tasks stop, the service and infrastructure are permanently removed. This operation cannot be reversed. Back up important data and verify the service is no longer needed before deletion.
@@ -837,6 +992,122 @@ public struct ECS: AWSService {
             include: include
         )
         return try await self.describeContainerInstances(input, logger: logger)
+    }
+
+    /// Describes the specified daemon.
+    @Sendable
+    @inlinable
+    public func describeDaemon(_ input: DescribeDaemonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDaemonResponse {
+        try await self.client.execute(
+            operation: "DescribeDaemon", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the specified daemon.
+    ///
+    /// Parameters:
+    ///   - daemonArn: The Amazon Resource Name (ARN) of the daemon to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDaemon(
+        daemonArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDaemonResponse {
+        let input = DescribeDaemonRequest(
+            daemonArn: daemonArn
+        )
+        return try await self.describeDaemon(input, logger: logger)
+    }
+
+    /// Describes one or more of your daemon deployments. A daemon deployment orchestrates the progressive rollout of daemon task updates across container instances managed by the daemon's capacity providers. Each deployment includes circuit breaker and alarm-based rollback capabilities.
+    @Sendable
+    @inlinable
+    public func describeDaemonDeployments(_ input: DescribeDaemonDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDaemonDeploymentsResponse {
+        try await self.client.execute(
+            operation: "DescribeDaemonDeployments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more of your daemon deployments. A daemon deployment orchestrates the progressive rollout of daemon task updates across container instances managed by the daemon's capacity providers. Each deployment includes circuit breaker and alarm-based rollback capabilities.
+    ///
+    /// Parameters:
+    ///   - daemonDeploymentArns: The ARN of the daemon deployments to describe. You can specify up to 20 ARNs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDaemonDeployments(
+        daemonDeploymentArns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDaemonDeploymentsResponse {
+        let input = DescribeDaemonDeploymentsRequest(
+            daemonDeploymentArns: daemonDeploymentArns
+        )
+        return try await self.describeDaemonDeployments(input, logger: logger)
+    }
+
+    /// Describes one or more of your daemon revisions. A daemon revision is a snapshot of a daemon's configuration at the time a deployment was initiated. It captures the daemon task definition, container images, tag propagation, and execute command settings. Daemon revisions are immutable.
+    @Sendable
+    @inlinable
+    public func describeDaemonRevisions(_ input: DescribeDaemonRevisionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDaemonRevisionsResponse {
+        try await self.client.execute(
+            operation: "DescribeDaemonRevisions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more of your daemon revisions. A daemon revision is a snapshot of a daemon's configuration at the time a deployment was initiated. It captures the daemon task definition, container images, tag propagation, and execute command settings. Daemon revisions are immutable.
+    ///
+    /// Parameters:
+    ///   - daemonRevisionArns: The ARN of the daemon revisions to describe. You can specify up to 20 ARNs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDaemonRevisions(
+        daemonRevisionArns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDaemonRevisionsResponse {
+        let input = DescribeDaemonRevisionsRequest(
+            daemonRevisionArns: daemonRevisionArns
+        )
+        return try await self.describeDaemonRevisions(input, logger: logger)
+    }
+
+    /// Describes a daemon task definition. You can specify a family and revision to find information about a specific daemon task definition, or you can simply specify the family to find the latest ACTIVE revision in that family.
+    @Sendable
+    @inlinable
+    public func describeDaemonTaskDefinition(_ input: DescribeDaemonTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDaemonTaskDefinitionResponse {
+        try await self.client.execute(
+            operation: "DescribeDaemonTaskDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a daemon task definition. You can specify a family and revision to find information about a specific daemon task definition, or you can simply specify the family to find the latest ACTIVE revision in that family.
+    ///
+    /// Parameters:
+    ///   - daemonTaskDefinition: The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDaemonTaskDefinition(
+        daemonTaskDefinition: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDaemonTaskDefinitionResponse {
+        let input = DescribeDaemonTaskDefinitionRequest(
+            daemonTaskDefinition: daemonTaskDefinition
+        )
+        return try await self.describeDaemonTaskDefinition(input, logger: logger)
     }
 
     /// Retrieves detailed information about an Express service, including current status, configuration, managed infrastructure, and service revisions. Returns comprehensive service details, active service revisions, ingress paths with endpoints, and managed Amazon Web Services resource status including load balancers and auto-scaling policies. Use the include parameter to retrieve additional information such as resource tags.
@@ -1335,6 +1606,132 @@ public struct ECS: AWSService {
         return try await self.listContainerInstances(input, logger: logger)
     }
 
+    /// Returns a list of daemon deployments for a specified daemon. You can filter the results by status or creation time.
+    @Sendable
+    @inlinable
+    public func listDaemonDeployments(_ input: ListDaemonDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDaemonDeploymentsResponse {
+        try await self.client.execute(
+            operation: "ListDaemonDeployments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of daemon deployments for a specified daemon. You can filter the results by status or creation time.
+    ///
+    /// Parameters:
+    ///   - createdAt: An optional filter to narrow the ListDaemonDeployments results by creation time. If you don't specify a time range, all deployments are returned.
+    ///   - daemonArn: The Amazon Resource Name (ARN) of the daemon to list deployments for.
+    ///   - maxResults: The maximum number of daemon deployment results that ListDaemonDeployments returned in paginated output. When this parameter is used, ListDaemonDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonDeployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonDeployments returns up to 20 results and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value returned from a ListDaemonDeployments request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - status: An optional filter to narrow the ListDaemonDeployments results by deployment status. If you don't specify a status, all deployments are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDaemonDeployments(
+        createdAt: CreatedAt? = nil,
+        daemonArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: [DaemonDeploymentStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDaemonDeploymentsResponse {
+        let input = ListDaemonDeploymentsRequest(
+            createdAt: createdAt, 
+            daemonArn: daemonArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listDaemonDeployments(input, logger: logger)
+    }
+
+    /// Returns a list of daemon task definitions that are registered to your account. You can filter the results by family name, status, or both to find daemon task definitions that match your criteria.
+    @Sendable
+    @inlinable
+    public func listDaemonTaskDefinitions(_ input: ListDaemonTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDaemonTaskDefinitionsResponse {
+        try await self.client.execute(
+            operation: "ListDaemonTaskDefinitions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of daemon task definitions that are registered to your account. You can filter the results by family name, status, or both to find daemon task definitions that match your criteria.
+    ///
+    /// Parameters:
+    ///   - family: The exact name of the daemon task definition family to filter results with.
+    ///   - familyPrefix: The full family name to filter the ListDaemonTaskDefinitions results with. Specifying a familyPrefix limits the listed daemon task definitions to daemon task definition families that start with the familyPrefix string.
+    ///   - maxResults: The maximum number of daemon task definition results that ListDaemonTaskDefinitions returned in paginated output. When this parameter is used, ListDaemonTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonTaskDefinitions returns up to 100 results and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value returned from a ListDaemonTaskDefinitions request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - revision: The revision filter to apply. Specify LAST_REGISTERED to return only the last registered revision for each daemon task definition family.
+    ///   - sort: The order to sort the results. Valid values are ASC and DESC. By default (ASC), daemon task definitions are listed in ascending order by family name and revision number.
+    ///   - status: The daemon task definition status to filter the ListDaemonTaskDefinitions results with. By default, only ACTIVE daemon task definitions are listed. If you set this parameter to DELETE_IN_PROGRESS, only daemon task definitions that are in the process of being deleted are listed. If you set this parameter to ALL, all daemon task definitions are listed regardless of status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDaemonTaskDefinitions(
+        family: String? = nil,
+        familyPrefix: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        revision: DaemonTaskDefinitionRevisionFilter? = nil,
+        sort: SortOrder? = nil,
+        status: DaemonTaskDefinitionStatusFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDaemonTaskDefinitionsResponse {
+        let input = ListDaemonTaskDefinitionsRequest(
+            family: family, 
+            familyPrefix: familyPrefix, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            revision: revision, 
+            sort: sort, 
+            status: status
+        )
+        return try await self.listDaemonTaskDefinitions(input, logger: logger)
+    }
+
+    /// Returns a list of daemons. You can filter the results by cluster or capacity provider.
+    @Sendable
+    @inlinable
+    public func listDaemons(_ input: ListDaemonsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDaemonsResponse {
+        try await self.client.execute(
+            operation: "ListDaemons", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of daemons. You can filter the results by cluster or capacity provider.
+    ///
+    /// Parameters:
+    ///   - capacityProviderArns: The Amazon Resource Names (ARNs) of the capacity providers to filter daemons by. Only daemons associated with the specified capacity providers are returned.
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the cluster to filter daemons by. If you do not specify a cluster, the default cluster is assumed.
+    ///   - maxResults: The maximum number of daemon results that ListDaemons returned in paginated output. When this parameter is used, ListDaemons only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemons request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemons returns up to 100 results and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value returned from a ListDaemons request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDaemons(
+        capacityProviderArns: [String]? = nil,
+        clusterArn: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDaemonsResponse {
+        let input = ListDaemonsRequest(
+            capacityProviderArns: capacityProviderArns, 
+            clusterArn: clusterArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDaemons(input, logger: logger)
+    }
+
     /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks.  This API returns the values that you use for the request parameters in DescribeServiceRevisions.
     @Sendable
     @inlinable
@@ -1584,6 +1981,7 @@ public struct ECS: AWSService {
     /// Parameters:
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListTasks results. If you do not specify a cluster, the default cluster is assumed.
     ///   - containerInstance: The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
+    ///   - daemonName: The name of the daemon to use when filtering the ListTasks results. Specifying a daemonName limits the results to tasks that belong to that daemon.
     ///   - desiredStatus: The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING.  Although you can filter results based on a desired status of PENDING, this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
     ///   - family: The name of the task definition family to use when filtering the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
     ///   - launchType: The launch type to use when filtering the ListTasks results.
@@ -1596,6 +1994,7 @@ public struct ECS: AWSService {
     public func listTasks(
         cluster: String? = nil,
         containerInstance: String? = nil,
+        daemonName: String? = nil,
         desiredStatus: DesiredStatus? = nil,
         family: String? = nil,
         launchType: LaunchType? = nil,
@@ -1608,6 +2007,7 @@ public struct ECS: AWSService {
         let input = ListTasksRequest(
             cluster: cluster, 
             containerInstance: containerInstance, 
+            daemonName: daemonName, 
             desiredStatus: desiredStatus, 
             family: family, 
             launchType: launchType, 
@@ -1774,7 +2174,7 @@ public struct ECS: AWSService {
     ///   - containerInstanceArn: The ARN of the container instance (if it was previously registered).
     ///   - instanceIdentityDocument: The instance identity document for the EC2 instance to register. This document can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/document/
     ///   - instanceIdentityDocumentSignature: The instance identity document signature for the EC2 instance to register. This signature can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/signature/
-    ///   - platformDevices: The devices that are available on the container instance. The only supported device type is a GPU.
+    ///   - platformDevices: The devices that are available on the container instance. The supported device types are GPUs and Neuron devices.
     ///   - tags: The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
     ///   - totalResources: The resources available on the instance.
     ///   - versionInfo: The version information for the Amazon ECS container agent and Docker daemon that runs on the container instance.
@@ -1806,6 +2206,62 @@ public struct ECS: AWSService {
         return try await self.registerContainerInstance(input, logger: logger)
     }
 
+    /// Registers a new daemon task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information, see Daemon task definitions in the Amazon Elastic Container Service Developer Guide. A daemon task definition is a template that describes the containers that form a daemon. Daemons deploy cross-cutting software agents such as security monitoring, telemetry, and logging across your Amazon ECS infrastructure. Each time you call RegisterDaemonTaskDefinition, a new revision of the daemon task definition is created. You can't modify a revision after you register it.
+    @Sendable
+    @inlinable
+    public func registerDaemonTaskDefinition(_ input: RegisterDaemonTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterDaemonTaskDefinitionResponse {
+        try await self.client.execute(
+            operation: "RegisterDaemonTaskDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a new daemon task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information, see Daemon task definitions in the Amazon Elastic Container Service Developer Guide. A daemon task definition is a template that describes the containers that form a daemon. Daemons deploy cross-cutting software agents such as security monitoring, telemetry, and logging across your Amazon ECS infrastructure. Each time you call RegisterDaemonTaskDefinition, a new revision of the daemon task definition is created. You can't modify a revision after you register it.
+    ///
+    /// Parameters:
+    ///   - containerDefinitions: A list of container definitions in JSON format that describe the containers that make up your daemon task.
+    ///   - cpu: The number of CPU units used by the daemon task. It can be expressed as an integer using CPU units (for example, 1024).
+    ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. The task execution role is required for daemon tasks that pull container images from Amazon ECR or send container logs to CloudWatch.
+    ///   - family: You must specify a family for a daemon task definition. This family is used as a name for your daemon task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+    ///   - ipcMode: The IPC namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own IPC namespace, isolated from other tasks. If shared is specified, the daemon joins the host IPC namespace, making it accessible to non-daemon tasks that use ipcMode: "host" or other daemons that use ipcMode: "shared".
+    ///   - memory: The amount of memory (in MiB) used by the daemon task. It can be expressed as an integer using MiB (for example, 1024).
+    ///   - pidMode: The PID namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own PID namespace, isolated from other tasks. If shared is specified, the daemon joins the host PID namespace, making it accessible to non-daemon tasks that use pidMode: "host" or other daemons that use pidMode: "shared".
+    ///   - tags: The metadata that you apply to the daemon task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    ///   - taskRoleArn: The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this daemon task can assume. All containers in this daemon task are granted the permissions that are specified in this role.
+    ///   - volumes: A list of volume definitions in JSON format that containers in your daemon task can use.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerDaemonTaskDefinition(
+        containerDefinitions: [DaemonContainerDefinition],
+        cpu: String? = nil,
+        executionRoleArn: String? = nil,
+        family: String,
+        ipcMode: DaemonIpcMode? = nil,
+        memory: String? = nil,
+        pidMode: DaemonPidMode? = nil,
+        tags: [Tag]? = nil,
+        taskRoleArn: String? = nil,
+        volumes: [DaemonVolume]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterDaemonTaskDefinitionResponse {
+        let input = RegisterDaemonTaskDefinitionRequest(
+            containerDefinitions: containerDefinitions, 
+            cpu: cpu, 
+            executionRoleArn: executionRoleArn, 
+            family: family, 
+            ipcMode: ipcMode, 
+            memory: memory, 
+            pidMode: pidMode, 
+            tags: tags, 
+            taskRoleArn: taskRoleArn, 
+            volumes: volumes
+        )
+        return try await self.registerDaemonTaskDefinition(input, logger: logger)
+    }
+
     /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see IAM Roles for Tasks in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     @inlinable
@@ -1828,7 +2284,6 @@ public struct ECS: AWSService {
     ///   - ephemeralStorage: The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see Using data volumes in tasks in the Amazon ECS Developer Guide.  For tasks using the Fargate launch type, the task requires the following platforms:   Linux platform version 1.4.0 or later.   Windows platform version 1.0.0 or later.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see IAM roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
     ///   - family: You must specify a family for a task definition. You can use it track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
-    ///   - inferenceAccelerators: The Elastic Inference accelerators to use for the containers in the task.
     ///   - ipcMode: The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see System Controls in the Amazon Elastic Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.   For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.    This parameter is not supported for Windows containers or tasks run on Fargate.
     ///   - memory: The amount of memory (in MiB) used by the task. It can be expressed as an integer using MiB (for example ,1024) or as a string using GB (for example, 1GB or 1 GB) in a task definition. String values are converted to an integer indicating the MiB when the task definition is registered.  Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers.  If using the EC2 launch type, this field is optional. If using the Fargate launch type, this field is required and you must use one of the following values. This determines your range of supported values for the cpu parameter. The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)   Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.   Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
     ///   - networkMode: The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances, &lt;default&gt; or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings.   When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user.  If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a NetworkConfiguration value when you create a service or run a task with the task definition. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
@@ -1849,7 +2304,6 @@ public struct ECS: AWSService {
         ephemeralStorage: EphemeralStorage? = nil,
         executionRoleArn: String? = nil,
         family: String,
-        inferenceAccelerators: [InferenceAccelerator]? = nil,
         ipcMode: IpcMode? = nil,
         memory: String? = nil,
         networkMode: NetworkMode? = nil,
@@ -1870,7 +2324,6 @@ public struct ECS: AWSService {
             ephemeralStorage: ephemeralStorage, 
             executionRoleArn: executionRoleArn, 
             family: family, 
-            inferenceAccelerators: inferenceAccelerators, 
             ipcMode: ipcMode, 
             memory: memory, 
             networkMode: networkMode, 
@@ -2478,6 +2931,53 @@ public struct ECS: AWSService {
         return try await self.updateContainerInstancesState(input, logger: logger)
     }
 
+    /// Updates the specified daemon. When you update a daemon, a new deployment is triggered that progressively rolls out the changes to the container instances associated with the daemon's capacity providers. For more information, see Daemon deployments in the Amazon Elastic Container Service Developer Guide. Amazon ECS drains existing container instances and provisions new instances with the updated daemon. Amazon ECS automatically launches replacement tasks for your services.  Updating a daemon triggers a rolling deployment that drains and replaces container instances. Plan updates during maintenance windows to minimize impact on running services.   ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
+    @Sendable
+    @inlinable
+    public func updateDaemon(_ input: UpdateDaemonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDaemonResponse {
+        try await self.client.execute(
+            operation: "UpdateDaemon", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified daemon. When you update a daemon, a new deployment is triggered that progressively rolls out the changes to the container instances associated with the daemon's capacity providers. For more information, see Daemon deployments in the Amazon Elastic Container Service Developer Guide. Amazon ECS drains existing container instances and provisions new instances with the updated daemon. Amazon ECS automatically launches replacement tasks for your services.  Updating a daemon triggers a rolling deployment that drains and replaces container instances. Plan updates during maintenance windows to minimize impact on running services.   ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers.
+    ///
+    /// Parameters:
+    ///   - capacityProviderArns: The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon.
+    ///   - daemonArn: The Amazon Resource Name (ARN) of the daemon to update.
+    ///   - daemonTaskDefinitionArn: The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.
+    ///   - deploymentConfiguration: Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
+    ///   - enableECSManagedTags: Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS resources in the Amazon Elastic Container Service Developer Guide.
+    ///   - enableExecuteCommand: If true, the execute command functionality is turned on for all tasks in the daemon. If false, the execute command functionality is turned off.
+    ///   - propagateTags: Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDaemon(
+        capacityProviderArns: [String],
+        daemonArn: String,
+        daemonTaskDefinitionArn: String,
+        deploymentConfiguration: DaemonDeploymentConfiguration? = nil,
+        enableECSManagedTags: Bool? = nil,
+        enableExecuteCommand: Bool? = nil,
+        propagateTags: DaemonPropagateTags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDaemonResponse {
+        let input = UpdateDaemonRequest(
+            capacityProviderArns: capacityProviderArns, 
+            daemonArn: daemonArn, 
+            daemonTaskDefinitionArn: daemonTaskDefinitionArn, 
+            deploymentConfiguration: deploymentConfiguration, 
+            enableECSManagedTags: enableECSManagedTags, 
+            enableExecuteCommand: enableExecuteCommand, 
+            propagateTags: propagateTags
+        )
+        return try await self.updateDaemon(input, logger: logger)
+    }
+
     /// Updates an existing Express service configuration. Modifies container settings, resource allocation, auto-scaling configuration, and other service parameters without recreating the service. Amazon ECS creates a new service revision with updated configuration and performs a rolling deployment to replace existing tasks. The service remains available during updates, ensuring zero-downtime deployments. Some parameters like the infrastructure role cannot be modified after service creation and require creating a new service.
     @Sendable
     @inlinable
@@ -2502,6 +3002,7 @@ public struct ECS: AWSService {
     ///   - primaryContainer: The primary container configuration for the Express service.
     ///   - scalingTarget: The auto-scaling configuration for the Express service.
     ///   - serviceArn: The Amazon Resource Name (ARN) of the Express service to update.
+    ///   - taskDefinitionArn: The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
     ///   - taskRoleArn: The Amazon Resource Name (ARN) of the IAM role for containers in this task.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2514,6 +3015,7 @@ public struct ECS: AWSService {
         primaryContainer: ExpressGatewayContainer? = nil,
         scalingTarget: ExpressGatewayScalingTarget? = nil,
         serviceArn: String,
+        taskDefinitionArn: String? = nil,
         taskRoleArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateExpressGatewayServiceResponse {
@@ -2526,6 +3028,7 @@ public struct ECS: AWSService {
             primaryContainer: primaryContainer, 
             scalingTarget: scalingTarget, 
             serviceArn: serviceArn, 
+            taskDefinitionArn: taskDefinitionArn, 
             taskRoleArn: taskRoleArn
         )
         return try await self.updateExpressGatewayService(input, logger: logger)
@@ -2558,6 +3061,7 @@ public struct ECS: AWSService {
     ///   - forceNewDeployment: Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
     ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
     ///   - loadBalancers:  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using  CreateDeployment  through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  For services that use the external deployment controller, you can add, update, or remove load balancers by using CreateTaskSet. Note that multiple target groups are not supported for external deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
+    ///   - monitoring: The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
     ///   - networkConfiguration: An object representing the network configuration for the service. This parameter triggers a new service deployment.
     ///   - placementConstraints: An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
     ///   - placementStrategy: The task placement strategy objects to update the service to use. If no value is specified, the existing placement strategy for the service will remain unchanged. If this value is specified, it will override the existing placement strategy defined for the service. To remove an existing placement strategy, specify an empty object. You can specify a maximum of five strategy rules for each service. This parameter doesn't trigger a new service deployment.
@@ -2583,6 +3087,7 @@ public struct ECS: AWSService {
         forceNewDeployment: Bool? = nil,
         healthCheckGracePeriodSeconds: Int? = nil,
         loadBalancers: [LoadBalancer]? = nil,
+        monitoring: MonitoringConfiguration? = nil,
         networkConfiguration: NetworkConfiguration? = nil,
         placementConstraints: [PlacementConstraint]? = nil,
         placementStrategy: [PlacementStrategy]? = nil,
@@ -2608,6 +3113,7 @@ public struct ECS: AWSService {
             forceNewDeployment: forceNewDeployment, 
             healthCheckGracePeriodSeconds: healthCheckGracePeriodSeconds, 
             loadBalancers: loadBalancers, 
+            monitoring: monitoring, 
             networkConfiguration: networkConfiguration, 
             placementConstraints: placementConstraints, 
             placementStrategy: placementStrategy, 
@@ -3106,6 +3612,7 @@ extension ECS {
     /// - Parameters:
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListTasks results. If you do not specify a cluster, the default cluster is assumed.
     ///   - containerInstance: The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
+    ///   - daemonName: The name of the daemon to use when filtering the ListTasks results. Specifying a daemonName limits the results to tasks that belong to that daemon.
     ///   - desiredStatus: The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING.  Although you can filter results based on a desired status of PENDING, this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
     ///   - family: The name of the task definition family to use when filtering the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
     ///   - launchType: The launch type to use when filtering the ListTasks results.
@@ -3117,6 +3624,7 @@ extension ECS {
     public func listTasksPaginator(
         cluster: String? = nil,
         containerInstance: String? = nil,
+        daemonName: String? = nil,
         desiredStatus: DesiredStatus? = nil,
         family: String? = nil,
         launchType: LaunchType? = nil,
@@ -3128,6 +3636,7 @@ extension ECS {
         let input = ListTasksRequest(
             cluster: cluster, 
             containerInstance: containerInstance, 
+            daemonName: daemonName, 
             desiredStatus: desiredStatus, 
             family: family, 
             launchType: launchType, 
@@ -3246,6 +3755,7 @@ extension ECS.ListTasksRequest: AWSPaginateToken {
         return .init(
             cluster: self.cluster,
             containerInstance: self.containerInstance,
+            daemonName: self.daemonName,
             desiredStatus: self.desiredStatus,
             family: self.family,
             launchType: self.launchType,
@@ -3261,6 +3771,194 @@ extension ECS.ListTasksRequest: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ECS {
+    /// Waiter for operation ``describeDaemon(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonActive(
+        _ input: DescribeDaemonRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeDaemonRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("daemon.status", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("daemon.status", expected: "DELETE_IN_PROGRESS")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeDaemon
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeDaemon(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - daemonArn: The Amazon Resource Name (ARN) of the daemon to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonActive(
+        daemonArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeDaemonRequest(
+            daemonArn: daemonArn
+        )
+        try await self.waitUntilDaemonActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeDaemonDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonDeploymentStopped(
+        _ input: DescribeDaemonDeploymentsRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeDaemonDeploymentsRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("daemonDeployments[].status", expected: "STOPPED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeDaemonDeployments
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeDaemonDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - daemonDeploymentArns: The ARN of the daemon deployments to describe. You can specify up to 20 ARNs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonDeploymentStopped(
+        daemonDeploymentArns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeDaemonDeploymentsRequest(
+            daemonDeploymentArns: daemonDeploymentArns
+        )
+        try await self.waitUntilDaemonDeploymentStopped(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeDaemonDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonDeploymentSuccessful(
+        _ input: DescribeDaemonDeploymentsRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeDaemonDeploymentsRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("daemonDeployments[].status", expected: "SUCCESSFUL")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("daemonDeployments[].status", expected: "STOPPED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("daemonDeployments[].status", expected: "ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("daemonDeployments[].status", expected: "ROLLBACK_SUCCESSFUL")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeDaemonDeployments
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeDaemonDeployments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - daemonDeploymentArns: The ARN of the daemon deployments to describe. You can specify up to 20 ARNs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonDeploymentSuccessful(
+        daemonDeploymentArns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeDaemonDeploymentsRequest(
+            daemonDeploymentArns: daemonDeploymentArns
+        )
+        try await self.waitUntilDaemonDeploymentSuccessful(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeDaemonTaskDefinition(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonTaskDefinitionActive(
+        _ input: DescribeDaemonTaskDefinitionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeDaemonTaskDefinitionRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("daemonTaskDefinition.status", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("daemonTaskDefinition.status", expected: "DELETE_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("daemonTaskDefinition.status", expected: "DELETED")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeDaemonTaskDefinition
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeDaemonTaskDefinition(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - daemonTaskDefinition: The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonTaskDefinitionActive(
+        daemonTaskDefinition: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeDaemonTaskDefinitionRequest(
+            daemonTaskDefinition: daemonTaskDefinition
+        )
+        try await self.waitUntilDaemonTaskDefinitionActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeDaemonTaskDefinition(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonTaskDefinitionDeleted(
+        _ input: DescribeDaemonTaskDefinitionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeDaemonTaskDefinitionRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("daemonTaskDefinition.status", expected: "DELETED")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeDaemonTaskDefinition
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeDaemonTaskDefinition(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - daemonTaskDefinition: The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilDaemonTaskDefinitionDeleted(
+        daemonTaskDefinition: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeDaemonTaskDefinitionRequest(
+            daemonTaskDefinition: daemonTaskDefinition
+        )
+        try await self.waitUntilDaemonTaskDefinitionDeleted(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeServices(_:logger:)``.
     ///
     /// - Parameters:

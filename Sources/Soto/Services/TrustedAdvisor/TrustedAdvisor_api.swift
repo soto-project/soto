@@ -466,6 +466,53 @@ public struct TrustedAdvisor: AWSService {
         return try await self.listRecommendations(input, logger: logger)
     }
 
+    /// List all Trusted Advisor recommendations for a given AWS resource ARN.
+    @Sendable
+    @inlinable
+    public func listRecommendationsForResource(_ input: ListRecommendationsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListRecommendationsForResource", 
+            path: "/v1/recommendations-for-resource/{awsResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all Trusted Advisor recommendations for a given AWS resource ARN.
+    ///
+    /// Parameters:
+    ///   - awsResourceArn: The ARN of the AWS resource to query recommendations for
+    ///   - checkArn: The AWS Trusted Advisor Check ARN that relates to the Recommendation
+    ///   - language: The ISO 639-1 code for the language that you want your recommendations to appear in.
+    ///   - maxResults: The maximum number of results to return per page
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - pillar: The pillar that the recommendation belongs to
+    ///   - status: The current status of the Recommendation Resource
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecommendationsForResource(
+        awsResourceArn: String,
+        checkArn: String? = nil,
+        language: RecommendationLanguage? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        pillar: RecommendationPillar? = nil,
+        status: ResourceStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecommendationsForResourceResponse {
+        let input = ListRecommendationsForResourceRequest(
+            awsResourceArn: awsResourceArn, 
+            checkArn: checkArn, 
+            language: language, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            pillar: pillar, 
+            status: status
+        )
+        return try await self.listRecommendationsForResource(input, logger: logger)
+    }
+
     /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
     @Sendable
     @inlinable
@@ -858,6 +905,55 @@ extension TrustedAdvisor {
         )
         return self.listRecommendationsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listRecommendationsForResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommendationsForResourcePaginator(
+        _ input: ListRecommendationsForResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsForResourceRequest, ListRecommendationsForResourceResponse> {
+        return .init(
+            input: input,
+            command: self.listRecommendationsForResource,
+            inputKey: \ListRecommendationsForResourceRequest.nextToken,
+            outputKey: \ListRecommendationsForResourceResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecommendationsForResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsResourceArn: The ARN of the AWS resource to query recommendations for
+    ///   - checkArn: The AWS Trusted Advisor Check ARN that relates to the Recommendation
+    ///   - language: The ISO 639-1 code for the language that you want your recommendations to appear in.
+    ///   - maxResults: The maximum number of results to return per page
+    ///   - pillar: The pillar that the recommendation belongs to
+    ///   - status: The current status of the Recommendation Resource
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommendationsForResourcePaginator(
+        awsResourceArn: String,
+        checkArn: String? = nil,
+        language: RecommendationLanguage? = nil,
+        maxResults: Int? = nil,
+        pillar: RecommendationPillar? = nil,
+        status: ResourceStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsForResourceRequest, ListRecommendationsForResourceResponse> {
+        let input = ListRecommendationsForResourceRequest(
+            awsResourceArn: awsResourceArn, 
+            checkArn: checkArn, 
+            language: language, 
+            maxResults: maxResults, 
+            pillar: pillar, 
+            status: status
+        )
+        return self.listRecommendationsForResourcePaginator(input, logger: logger)
+    }
 }
 
 extension TrustedAdvisor.ListChecksRequest: AWSPaginateToken {
@@ -929,6 +1025,21 @@ extension TrustedAdvisor.ListRecommendationResourcesRequest: AWSPaginateToken {
             nextToken: token,
             recommendationIdentifier: self.recommendationIdentifier,
             regionCode: self.regionCode,
+            status: self.status
+        )
+    }
+}
+
+extension TrustedAdvisor.ListRecommendationsForResourceRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> TrustedAdvisor.ListRecommendationsForResourceRequest {
+        return .init(
+            awsResourceArn: self.awsResourceArn,
+            checkArn: self.checkArn,
+            language: self.language,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pillar: self.pillar,
             status: self.status
         )
     }

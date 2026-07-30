@@ -163,11 +163,19 @@ extension MediaLive {
     public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case itu17701 = "ITU_1770_1"
         case itu17702 = "ITU_1770_2"
+        case itu17703 = "ITU_1770_3"
+        case itu17704 = "ITU_1770_4"
         public var description: String { return self.rawValue }
     }
 
     public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case correctAudio = "CORRECT_AUDIO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioNormalizationPeakCalculation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case truePeak = "TRUE_PEAK"
         public var description: String { return self.rawValue }
     }
 
@@ -353,6 +361,12 @@ extension MediaLive {
     public enum BurnInTeletextGridControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fixed = "FIXED"
         case scaled = "SCALED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CaptionSynchronizationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noVideoDelay = "NO_VIDEO_DELAY"
+        case videoAlignedCaptions = "VIDEO_ALIGNED_CAPTIONS"
         public var description: String { return self.rawValue }
     }
 
@@ -1806,6 +1820,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum MediaConnectRouterOutputEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case secretsManager = "SECRETS_MANAGER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MotionGraphicsInsertion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -2844,6 +2864,24 @@ extension MediaLive {
         }
     }
 
+    public struct AudioFeedInput: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the audio selector in the channel that will be sent to the Elemental Inference feed input.
+        public let audioSelectorName: String?
+        /// The name of the feed input on the Elemental Inference feed that will receive the audio from the specified audio selector.
+        public let feedInput: String?
+
+        @inlinable
+        public init(audioSelectorName: String? = nil, feedInput: String? = nil) {
+            self.audioSelectorName = audioSelectorName
+            self.feedInput = feedInput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioSelectorName = "audioSelectorName"
+            case feedInput = "feedInput"
+        }
+    }
+
     public struct AudioHlsRenditionSelection: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio rendition.
         public let groupId: String?
@@ -2881,23 +2919,42 @@ extension MediaLive {
     }
 
     public struct AudioNormalizationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Audio normalization algorithm to use. itu17701 conforms to the CALM Act specification, itu17702 conforms to the EBU R-128 specification.
+        /// Choose one of the following audio normalization algorithms:
+        /// ITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content,
+        /// suitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels.
+        /// ITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of
+        /// EBU-R128. Supports up to 5.1 audio channels.
+        /// ITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak
+        /// measurement.
+        /// ITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including
+        /// configurations such as 7.1.
         public let algorithm: AudioNormalizationAlgorithm?
         /// When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.
         public let algorithmControl: AudioNormalizationAlgorithmControl?
+        /// If set to TRUE_PEAK, calculate the TruePeak for each output's audio track loudness.
+        public let peakCalculation: AudioNormalizationPeakCalculation?
+        /// Peak limiter threshold in decibels relative to true peak (dBTP) if TRUE_PEAK is enabled.
+        /// If TRUE_PEAK is not enabled a full scale (dbFS) value is used.
+        /// The peak inter-audio sample loudness in your output will be limited to the value that you specify,
+        /// without affecting the overall target LKFS. Leave blank to use the default value 0.
+        public let peakLimiterThreshold: Double?
         /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm.  The CALM Act recommends a target of -24 LKFS. The EBU R-128 specification recommends a target of -23 LKFS.
         public let targetLkfs: Double?
 
         @inlinable
-        public init(algorithm: AudioNormalizationAlgorithm? = nil, algorithmControl: AudioNormalizationAlgorithmControl? = nil, targetLkfs: Double? = nil) {
+        public init(algorithm: AudioNormalizationAlgorithm? = nil, algorithmControl: AudioNormalizationAlgorithmControl? = nil, peakCalculation: AudioNormalizationPeakCalculation? = nil, peakLimiterThreshold: Double? = nil, targetLkfs: Double? = nil) {
             self.algorithm = algorithm
             self.algorithmControl = algorithmControl
+            self.peakCalculation = peakCalculation
+            self.peakLimiterThreshold = peakLimiterThreshold
             self.targetLkfs = targetLkfs
         }
 
         private enum CodingKeys: String, CodingKey {
             case algorithm = "algorithm"
             case algorithmControl = "algorithmControl"
+            case peakCalculation = "peakCalculation"
+            case peakLimiterThreshold = "peakLimiterThreshold"
             case targetLkfs = "targetLkfs"
         }
     }
@@ -2937,17 +2994,81 @@ extension MediaLive {
         }
     }
 
+    public struct AudioPid: AWSEncodableShape & AWSDecodableShape {
+        /// Configure decoding options for Dolby E streams - these should be Dolby E frames carried in PCM streams tagged with SMPTE-337.
+        /// When using the 'pids' array, if this field is not specified and Dolby E content is present,
+        /// the decoder will extract the specified program. To maintain legacy behavior (allPrograms),
+        /// explicitly set programSelection to "allChannels".
+        public let dolbyEDecode: AudioDolbyEDecode?
+        /// PID value from within a source.
+        public let pid: Int?
+        /// Optional audio pre-mixer settings for this PID.
+        /// When specified, allows per-PID audio processing including channel remixing,
+        /// gain adjustment, and loudness normalization before interleaving.
+        public let premixSettings: AudioPreMixerSettings?
+
+        @inlinable
+        public init(dolbyEDecode: AudioDolbyEDecode? = nil, pid: Int? = nil, premixSettings: AudioPreMixerSettings? = nil) {
+            self.dolbyEDecode = dolbyEDecode
+            self.pid = pid
+            self.premixSettings = premixSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dolbyEDecode = "dolbyEDecode"
+            case pid = "pid"
+            case premixSettings = "premixSettings"
+        }
+    }
+
     public struct AudioPidSelection: AWSEncodableShape & AWSDecodableShape {
         /// Selects a specific PID from within a source.
         public let pid: Int?
+        /// Selects one or more unique PIDs from within a source.
+        /// When using 'pids', you can specify per-PID audio pre-mixer settings.
+        public let pids: [AudioPid]?
 
         @inlinable
-        public init(pid: Int? = nil) {
+        public init(pid: Int? = nil, pids: [AudioPid]? = nil) {
             self.pid = pid
+            self.pids = pids
         }
 
         private enum CodingKeys: String, CodingKey {
             case pid = "pid"
+            case pids = "pids"
+        }
+    }
+
+    public struct AudioPreMixerSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Audio normalization settings for loudness control.
+        /// When specified, audio loudness will be normalized according to the chosen algorithm.
+        public let audioNormalizationSettings: AudioNormalizationSettings?
+        /// Number of audio channels.
+        /// If specified, the audio will be remixed to match this channel count.
+        /// Ignored if remixSettings is specified.
+        public let channels: Int?
+        /// Gain adjustment in dB to apply.
+        /// Range: -60 to +60 dB
+        public let gainDb: Double?
+        /// Settings that control how input audio channels are remixed.
+        /// When specified, allows fine-grained control over channel mapping and gain levels.
+        /// Takes precedence over the 'channels' setting.
+        public let remixSettings: RemixSettings?
+
+        @inlinable
+        public init(audioNormalizationSettings: AudioNormalizationSettings? = nil, channels: Int? = nil, gainDb: Double? = nil, remixSettings: RemixSettings? = nil) {
+            self.audioNormalizationSettings = audioNormalizationSettings
+            self.channels = channels
+            self.gainDb = gainDb
+            self.remixSettings = remixSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioNormalizationSettings = "audioNormalizationSettings"
+            case channels = "channels"
+            case gainDb = "gainDb"
+            case remixSettings = "remixSettings"
         }
     }
 
@@ -3010,15 +3131,21 @@ extension MediaLive {
     }
 
     public struct AudioTrack: AWSEncodableShape & AWSDecodableShape {
+        /// Optional audio pre-mixer settings for this track.
+        /// When specified, allows per-track audio processing including channel remixing,
+        /// gain adjustment, and loudness normalization before interleaving.
+        public let premixSettings: AudioPreMixerSettings?
         /// 1-based integer value that maps to a specific audio track
         public let track: Int?
 
         @inlinable
-        public init(track: Int? = nil) {
+        public init(premixSettings: AudioPreMixerSettings? = nil, track: Int? = nil) {
+            self.premixSettings = premixSettings
             self.track = track
         }
 
         private enum CodingKeys: String, CodingKey {
+            case premixSettings = "premixSettings"
             case track = "track"
         }
     }
@@ -3084,13 +3211,15 @@ extension MediaLive {
     public struct Av1ColorSpaceSettings: AWSEncodableShape & AWSDecodableShape {
         public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
         public let hdr10Settings: Hdr10Settings?
+        public let hlg2020Settings: Hlg2020Settings?
         public let rec601Settings: Rec601Settings?
         public let rec709Settings: Rec709Settings?
 
         @inlinable
-        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, hdr10Settings: Hdr10Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
+        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, hdr10Settings: Hdr10Settings? = nil, hlg2020Settings: Hlg2020Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
             self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
             self.hdr10Settings = hdr10Settings
+            self.hlg2020Settings = hlg2020Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
         }
@@ -3098,6 +3227,7 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case colorSpacePassthroughSettings = "colorSpacePassthroughSettings"
             case hdr10Settings = "hdr10Settings"
+            case hlg2020Settings = "hlg2020Settings"
             case rec601Settings = "rec601Settings"
             case rec709Settings = "rec709Settings"
         }
@@ -3890,16 +4020,18 @@ extension MediaLive {
         public let embeddedSourceSettings: EmbeddedSourceSettings?
         public let scte20SourceSettings: Scte20SourceSettings?
         public let scte27SourceSettings: Scte27SourceSettings?
+        public let smartSubtitleSourceSettings: SmartSubtitleSourceSettings?
         public let teletextSourceSettings: TeletextSourceSettings?
 
         @inlinable
-        public init(ancillarySourceSettings: AncillarySourceSettings? = nil, aribSourceSettings: AribSourceSettings? = nil, dvbSubSourceSettings: DvbSubSourceSettings? = nil, embeddedSourceSettings: EmbeddedSourceSettings? = nil, scte20SourceSettings: Scte20SourceSettings? = nil, scte27SourceSettings: Scte27SourceSettings? = nil, teletextSourceSettings: TeletextSourceSettings? = nil) {
+        public init(ancillarySourceSettings: AncillarySourceSettings? = nil, aribSourceSettings: AribSourceSettings? = nil, dvbSubSourceSettings: DvbSubSourceSettings? = nil, embeddedSourceSettings: EmbeddedSourceSettings? = nil, scte20SourceSettings: Scte20SourceSettings? = nil, scte27SourceSettings: Scte27SourceSettings? = nil, smartSubtitleSourceSettings: SmartSubtitleSourceSettings? = nil, teletextSourceSettings: TeletextSourceSettings? = nil) {
             self.ancillarySourceSettings = ancillarySourceSettings
             self.aribSourceSettings = aribSourceSettings
             self.dvbSubSourceSettings = dvbSubSourceSettings
             self.embeddedSourceSettings = embeddedSourceSettings
             self.scte20SourceSettings = scte20SourceSettings
             self.scte27SourceSettings = scte27SourceSettings
+            self.smartSubtitleSourceSettings = smartSubtitleSourceSettings
             self.teletextSourceSettings = teletextSourceSettings
         }
 
@@ -3910,6 +4042,7 @@ extension MediaLive {
             case embeddedSourceSettings = "embeddedSourceSettings"
             case scte20SourceSettings = "scte20SourceSettings"
             case scte27SourceSettings = "scte27SourceSettings"
+            case smartSubtitleSourceSettings = "smartSubtitleSourceSettings"
             case teletextSourceSettings = "teletextSourceSettings"
         }
     }
@@ -7049,15 +7182,19 @@ extension MediaLive {
     }
 
     public struct DescribeInferenceSettings: AWSDecodableShape {
+        /// A list of audio feed inputs that map audio selectors in the channel to feed inputs on the associated Elemental Inference feed.
+        public let audioFeedInputs: [AudioFeedInput]?
         /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
         public let feedArn: String?
 
         @inlinable
-        public init(feedArn: String? = nil) {
+        public init(audioFeedInputs: [AudioFeedInput]? = nil, feedArn: String? = nil) {
+            self.audioFeedInputs = audioFeedInputs
             self.feedArn = feedArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFeedInputs = "audioFeedInputs"
             case feedArn = "feedArn"
         }
     }
@@ -10327,15 +10464,19 @@ extension MediaLive {
     }
 
     public struct InferenceSettings: AWSEncodableShape {
+        /// A list of audio feed inputs that map audio selectors in the channel to feed inputs on the associated Elemental Inference feed.
+        public let audioFeedInputs: [AudioFeedInput]?
         /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
         public let feedArn: String?
 
         @inlinable
-        public init(feedArn: String? = nil) {
+        public init(audioFeedInputs: [AudioFeedInput]? = nil, feedArn: String? = nil) {
+            self.audioFeedInputs = audioFeedInputs
             self.feedArn = feedArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFeedInputs = "audioFeedInputs"
             case feedArn = "feedArn"
         }
     }
@@ -12891,6 +13032,104 @@ extension MediaLive {
         }
     }
 
+    public struct MediaConnectRouterContainerSettings: AWSEncodableShape & AWSDecodableShape {
+        public let m2tsSettings: M2tsSettings?
+
+        @inlinable
+        public init(m2tsSettings: M2tsSettings? = nil) {
+            self.m2tsSettings = m2tsSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case m2tsSettings = "m2tsSettings"
+        }
+    }
+
+    public struct MediaConnectRouterGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The names of the Availability Zones in which to write output to MediaConnect Router.
+        public let availabilityZones: [String]?
+
+        @inlinable
+        public init(availabilityZones: [String]? = nil) {
+            self.availabilityZones = availabilityZones
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "availabilityZones"
+        }
+    }
+
+    public struct MediaConnectRouterOutputConnection: AWSDecodableShape {
+        /// The ARN of the MediaConnect Router Input connected to this pipeline.
+        public let routerInputArn: String?
+
+        @inlinable
+        public init(routerInputArn: String? = nil) {
+            self.routerInputArn = routerInputArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerInputArn = "routerInputArn"
+        }
+    }
+
+    public struct MediaConnectRouterOutputConnectionMap: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the MediaConnect Router Input connected to pipeline 0.
+        public let pipeline0: String?
+        /// The ARN of the MediaConnect Router Input connected to pipeline 1.
+        public let pipeline1: String?
+
+        @inlinable
+        public init(pipeline0: String? = nil, pipeline1: String? = nil) {
+            self.pipeline0 = pipeline0
+            self.pipeline1 = pipeline1
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline0 = "pipeline0"
+            case pipeline1 = "pipeline1"
+        }
+    }
+
+    public struct MediaConnectRouterOutputDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER encryption, you must provide the ARN of the secret used to encrypt data in transit. When using AUTOMATIC encryption, a service-managed secret will be used instead.
+        public let encryptionType: MediaConnectRouterOutputEncryptionType?
+        /// ARN of the secret used to encrypt this input. Used only with the SECRETS_MANAGER encryption type.
+        public let secretArn: String?
+
+        @inlinable
+        public init(encryptionType: MediaConnectRouterOutputEncryptionType? = nil, secretArn: String? = nil) {
+            self.encryptionType = encryptionType
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct MediaConnectRouterOutputSettings: AWSEncodableShape & AWSDecodableShape {
+        /// This parameter is deprecated and unused.
+        public let connectedRouterInputs: MediaConnectRouterOutputConnectionMap?
+        public let containerSettings: MediaConnectRouterContainerSettings?
+        /// Destination for this MediaConnect Router Output. The referenced OutputDestination must have MediaConnect Router settings configured.
+        public let destination: OutputLocationRef?
+
+        @inlinable
+        public init(connectedRouterInputs: MediaConnectRouterOutputConnectionMap? = nil, containerSettings: MediaConnectRouterContainerSettings? = nil, destination: OutputLocationRef? = nil) {
+            self.connectedRouterInputs = connectedRouterInputs
+            self.containerSettings = containerSettings
+            self.destination = destination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedRouterInputs = "connectedRouterInputs"
+            case containerSettings = "containerSettings"
+            case destination = "destination"
+        }
+    }
+
     public struct MediaPackageAdditionalDestinations: AWSEncodableShape & AWSDecodableShape {
         /// The destination location
         public let destination: OutputLocationRef?
@@ -14297,6 +14536,8 @@ extension MediaLive {
         public let id: String?
         /// Optional assignment of an output to a logical interface on the Node. Only applies to on premises channels.
         public let logicalInterfaceNames: [String]?
+        /// Destination settings for a MediaConnect Router output; one destination for each redundant encoder.
+        public let mediaConnectRouterSettings: [MediaConnectRouterOutputDestinationSettings]?
         /// Destination settings for a MediaPackage output; one destination for both encoders.
         public let mediaPackageSettings: [MediaPackageOutputDestinationSettings]?
         /// Destination settings for a Multiplex output; one destination for both encoders.
@@ -14307,9 +14548,10 @@ extension MediaLive {
         public let srtSettings: [SrtOutputDestinationSettings]?
 
         @inlinable
-        public init(id: String? = nil, logicalInterfaceNames: [String]? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, multiplexSettings: MultiplexProgramChannelDestinationSettings? = nil, settings: [OutputDestinationSettings]? = nil, srtSettings: [SrtOutputDestinationSettings]? = nil) {
+        public init(id: String? = nil, logicalInterfaceNames: [String]? = nil, mediaConnectRouterSettings: [MediaConnectRouterOutputDestinationSettings]? = nil, mediaPackageSettings: [MediaPackageOutputDestinationSettings]? = nil, multiplexSettings: MultiplexProgramChannelDestinationSettings? = nil, settings: [OutputDestinationSettings]? = nil, srtSettings: [SrtOutputDestinationSettings]? = nil) {
             self.id = id
             self.logicalInterfaceNames = logicalInterfaceNames
+            self.mediaConnectRouterSettings = mediaConnectRouterSettings
             self.mediaPackageSettings = mediaPackageSettings
             self.multiplexSettings = multiplexSettings
             self.settings = settings
@@ -14319,6 +14561,7 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case logicalInterfaceNames = "logicalInterfaceNames"
+            case mediaConnectRouterSettings = "mediaConnectRouterSettings"
             case mediaPackageSettings = "mediaPackageSettings"
             case multiplexSettings = "multiplexSettings"
             case settings = "settings"
@@ -14378,6 +14621,7 @@ extension MediaLive {
         public let cmafIngestGroupSettings: CmafIngestGroupSettings?
         public let frameCaptureGroupSettings: FrameCaptureGroupSettings?
         public let hlsGroupSettings: HlsGroupSettings?
+        public let mediaConnectRouterGroupSettings: MediaConnectRouterGroupSettings?
         public let mediaPackageGroupSettings: MediaPackageGroupSettings?
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
         public let multiplexGroupSettings: MultiplexGroupSettings?
@@ -14386,11 +14630,12 @@ extension MediaLive {
         public let udpGroupSettings: UdpGroupSettings?
 
         @inlinable
-        public init(archiveGroupSettings: ArchiveGroupSettings? = nil, cmafIngestGroupSettings: CmafIngestGroupSettings? = nil, frameCaptureGroupSettings: FrameCaptureGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, mediaPackageGroupSettings: MediaPackageGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, multiplexGroupSettings: MultiplexGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil, srtGroupSettings: SrtGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil) {
+        public init(archiveGroupSettings: ArchiveGroupSettings? = nil, cmafIngestGroupSettings: CmafIngestGroupSettings? = nil, frameCaptureGroupSettings: FrameCaptureGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, mediaConnectRouterGroupSettings: MediaConnectRouterGroupSettings? = nil, mediaPackageGroupSettings: MediaPackageGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, multiplexGroupSettings: MultiplexGroupSettings? = nil, rtmpGroupSettings: RtmpGroupSettings? = nil, srtGroupSettings: SrtGroupSettings? = nil, udpGroupSettings: UdpGroupSettings? = nil) {
             self.archiveGroupSettings = archiveGroupSettings
             self.cmafIngestGroupSettings = cmafIngestGroupSettings
             self.frameCaptureGroupSettings = frameCaptureGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
+            self.mediaConnectRouterGroupSettings = mediaConnectRouterGroupSettings
             self.mediaPackageGroupSettings = mediaPackageGroupSettings
             self.msSmoothGroupSettings = msSmoothGroupSettings
             self.multiplexGroupSettings = multiplexGroupSettings
@@ -14404,6 +14649,7 @@ extension MediaLive {
             case cmafIngestGroupSettings = "cmafIngestGroupSettings"
             case frameCaptureGroupSettings = "frameCaptureGroupSettings"
             case hlsGroupSettings = "hlsGroupSettings"
+            case mediaConnectRouterGroupSettings = "mediaConnectRouterGroupSettings"
             case mediaPackageGroupSettings = "mediaPackageGroupSettings"
             case msSmoothGroupSettings = "msSmoothGroupSettings"
             case multiplexGroupSettings = "multiplexGroupSettings"
@@ -14450,6 +14696,7 @@ extension MediaLive {
         public let cmafIngestOutputSettings: CmafIngestOutputSettings?
         public let frameCaptureOutputSettings: FrameCaptureOutputSettings?
         public let hlsOutputSettings: HlsOutputSettings?
+        public let mediaConnectRouterOutputSettings: MediaConnectRouterOutputSettings?
         public let mediaPackageOutputSettings: MediaPackageOutputSettings?
         public let msSmoothOutputSettings: MsSmoothOutputSettings?
         public let multiplexOutputSettings: MultiplexOutputSettings?
@@ -14458,11 +14705,12 @@ extension MediaLive {
         public let udpOutputSettings: UdpOutputSettings?
 
         @inlinable
-        public init(archiveOutputSettings: ArchiveOutputSettings? = nil, cmafIngestOutputSettings: CmafIngestOutputSettings? = nil, frameCaptureOutputSettings: FrameCaptureOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, mediaPackageOutputSettings: MediaPackageOutputSettings? = nil, msSmoothOutputSettings: MsSmoothOutputSettings? = nil, multiplexOutputSettings: MultiplexOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil, srtOutputSettings: SrtOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil) {
+        public init(archiveOutputSettings: ArchiveOutputSettings? = nil, cmafIngestOutputSettings: CmafIngestOutputSettings? = nil, frameCaptureOutputSettings: FrameCaptureOutputSettings? = nil, hlsOutputSettings: HlsOutputSettings? = nil, mediaConnectRouterOutputSettings: MediaConnectRouterOutputSettings? = nil, mediaPackageOutputSettings: MediaPackageOutputSettings? = nil, msSmoothOutputSettings: MsSmoothOutputSettings? = nil, multiplexOutputSettings: MultiplexOutputSettings? = nil, rtmpOutputSettings: RtmpOutputSettings? = nil, srtOutputSettings: SrtOutputSettings? = nil, udpOutputSettings: UdpOutputSettings? = nil) {
             self.archiveOutputSettings = archiveOutputSettings
             self.cmafIngestOutputSettings = cmafIngestOutputSettings
             self.frameCaptureOutputSettings = frameCaptureOutputSettings
             self.hlsOutputSettings = hlsOutputSettings
+            self.mediaConnectRouterOutputSettings = mediaConnectRouterOutputSettings
             self.mediaPackageOutputSettings = mediaPackageOutputSettings
             self.msSmoothOutputSettings = msSmoothOutputSettings
             self.multiplexOutputSettings = multiplexOutputSettings
@@ -14476,6 +14724,7 @@ extension MediaLive {
             case cmafIngestOutputSettings = "cmafIngestOutputSettings"
             case frameCaptureOutputSettings = "frameCaptureOutputSettings"
             case hlsOutputSettings = "hlsOutputSettings"
+            case mediaConnectRouterOutputSettings = "mediaConnectRouterOutputSettings"
             case mediaPackageOutputSettings = "mediaPackageOutputSettings"
             case msSmoothOutputSettings = "msSmoothOutputSettings"
             case multiplexOutputSettings = "multiplexOutputSettings"
@@ -14513,16 +14762,19 @@ extension MediaLive {
         public let activeMotionGraphicsUri: String?
         /// Current engine version of the encoder for this pipeline.
         public let channelEngineVersion: ChannelEngineVersionResponse?
+        /// A map of output names to the MediaConnect Router connection for this pipeline. Only present for channels with MediaConnect Router outputs.
+        public let mediaConnectRouterOutputConnectionMap: [String: MediaConnectRouterOutputConnection]?
         /// Pipeline ID
         public let pipelineId: String?
 
         @inlinable
-        public init(activeInputAttachmentName: String? = nil, activeInputSwitchActionName: String? = nil, activeMotionGraphicsActionName: String? = nil, activeMotionGraphicsUri: String? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, pipelineId: String? = nil) {
+        public init(activeInputAttachmentName: String? = nil, activeInputSwitchActionName: String? = nil, activeMotionGraphicsActionName: String? = nil, activeMotionGraphicsUri: String? = nil, channelEngineVersion: ChannelEngineVersionResponse? = nil, mediaConnectRouterOutputConnectionMap: [String: MediaConnectRouterOutputConnection]? = nil, pipelineId: String? = nil) {
             self.activeInputAttachmentName = activeInputAttachmentName
             self.activeInputSwitchActionName = activeInputSwitchActionName
             self.activeMotionGraphicsActionName = activeMotionGraphicsActionName
             self.activeMotionGraphicsUri = activeMotionGraphicsUri
             self.channelEngineVersion = channelEngineVersion
+            self.mediaConnectRouterOutputConnectionMap = mediaConnectRouterOutputConnectionMap
             self.pipelineId = pipelineId
         }
 
@@ -14532,6 +14784,7 @@ extension MediaLive {
             case activeMotionGraphicsActionName = "activeMotionGraphicsActionName"
             case activeMotionGraphicsUri = "activeMotionGraphicsUri"
             case channelEngineVersion = "channelEngineVersion"
+            case mediaConnectRouterOutputConnectionMap = "mediaConnectRouterOutputConnectionMap"
             case pipelineId = "pipelineId"
         }
     }
@@ -15748,6 +16001,24 @@ extension MediaLive {
             case name = "name"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct SmartSubtitleSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Controls whether MediaLive delays video to synchronize captions with audio and video output.
+        public let captionSynchronizationMode: CaptionSynchronizationMode?
+        /// The name of the Elemental Inference feed output that supplies subtitle input into this caption selector.
+        public let inferenceFeedOutput: String?
+
+        @inlinable
+        public init(captionSynchronizationMode: CaptionSynchronizationMode? = nil, inferenceFeedOutput: String? = nil) {
+            self.captionSynchronizationMode = captionSynchronizationMode
+            self.inferenceFeedOutput = inferenceFeedOutput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captionSynchronizationMode = "captionSynchronizationMode"
+            case inferenceFeedOutput = "inferenceFeedOutput"
         }
     }
 
@@ -17559,9 +17830,13 @@ extension MediaLive {
         public let name: String?
         /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
         public let roleArn: String?
+        /// When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output
+        /// is created. This group of settings is set on your behalf by the MediaConnect Router service using this set of settings. This
+        /// setting object can only by used by that service.
+        public let specialRouterSettings: SpecialRouterSettings?
 
         @inlinable
-        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelId: String, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inferenceSettings: InferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: LinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceUpdateSettings? = nil, name: String? = nil, roleArn: String? = nil) {
+        public init(anywhereSettings: AnywhereSettings? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelEngineVersion: ChannelEngineVersionRequest? = nil, channelId: String, channelSecurityGroups: [String]? = nil, destinations: [OutputDestination]? = nil, dryRun: Bool? = nil, encoderSettings: EncoderSettings? = nil, inferenceSettings: InferenceSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, linkedChannelSettings: LinkedChannelSettings? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceUpdateSettings? = nil, name: String? = nil, roleArn: String? = nil, specialRouterSettings: SpecialRouterSettings? = nil) {
             self.anywhereSettings = anywhereSettings
             self.cdiInputSpecification = cdiInputSpecification
             self.channelEngineVersion = channelEngineVersion
@@ -17578,6 +17853,7 @@ extension MediaLive {
             self.maintenance = maintenance
             self.name = name
             self.roleArn = roleArn
+            self.specialRouterSettings = specialRouterSettings
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -17599,6 +17875,7 @@ extension MediaLive {
             try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.specialRouterSettings, forKey: .specialRouterSettings)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17617,6 +17894,7 @@ extension MediaLive {
             case maintenance = "maintenance"
             case name = "name"
             case roleArn = "roleArn"
+            case specialRouterSettings = "specialRouterSettings"
         }
     }
 

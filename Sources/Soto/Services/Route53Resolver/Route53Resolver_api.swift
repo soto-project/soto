@@ -157,7 +157,7 @@ public struct Route53Resolver: AWSService {
 
     // MARK: API Calls
 
-    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
+    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active AWS Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
     @Sendable
     @inlinable
     public func associateFirewallRuleGroup(_ input: AssociateFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateFirewallRuleGroupResponse {
@@ -170,7 +170,7 @@ public struct Route53Resolver: AWSService {
             logger: logger
         )
     }
-    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
+    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active AWS Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
     ///
     /// Parameters:
     ///   - creatorRequestId: A unique string that identifies the request and that allows failed requests to be
@@ -323,6 +323,93 @@ public struct Route53Resolver: AWSService {
         return try await self.associateResolverRule(input, logger: logger)
     }
 
+    /// Creates multiple DNS Firewall rules in the specified rule group.
+    @Sendable
+    @inlinable
+    public func batchCreateFirewallRule(_ input: BatchCreateFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateFirewallRuleResponse {
+        try await self.client.execute(
+            operation: "BatchCreateFirewallRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates multiple DNS Firewall rules in the specified rule group.
+    ///
+    /// Parameters:
+    ///   - createFirewallRuleEntries: The list of firewall rules to create.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchCreateFirewallRule(
+        createFirewallRuleEntries: [CreateFirewallRuleEntry],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchCreateFirewallRuleResponse {
+        let input = BatchCreateFirewallRuleRequest(
+            createFirewallRuleEntries: createFirewallRuleEntries
+        )
+        return try await self.batchCreateFirewallRule(input, logger: logger)
+    }
+
+    /// Deletes multiple DNS Firewall rules from the specified rule group.
+    @Sendable
+    @inlinable
+    public func batchDeleteFirewallRule(_ input: BatchDeleteFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteFirewallRuleResponse {
+        try await self.client.execute(
+            operation: "BatchDeleteFirewallRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes multiple DNS Firewall rules from the specified rule group.
+    ///
+    /// Parameters:
+    ///   - deleteFirewallRuleEntries: The list of firewall rules to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteFirewallRule(
+        deleteFirewallRuleEntries: [DeleteFirewallRuleEntry],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDeleteFirewallRuleResponse {
+        let input = BatchDeleteFirewallRuleRequest(
+            deleteFirewallRuleEntries: deleteFirewallRuleEntries
+        )
+        return try await self.batchDeleteFirewallRule(input, logger: logger)
+    }
+
+    /// Updates multiple DNS Firewall rules in the specified rule group.
+    @Sendable
+    @inlinable
+    public func batchUpdateFirewallRule(_ input: BatchUpdateFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFirewallRuleResponse {
+        try await self.client.execute(
+            operation: "BatchUpdateFirewallRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates multiple DNS Firewall rules in the specified rule group.
+    ///
+    /// Parameters:
+    ///   - updateFirewallRuleEntries: The list of firewall rules to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateFirewallRule(
+        updateFirewallRuleEntries: [UpdateFirewallRuleEntry],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchUpdateFirewallRuleResponse {
+        let input = BatchUpdateFirewallRuleRequest(
+            updateFirewallRuleEntries: updateFirewallRuleEntries
+        )
+        return try await self.batchUpdateFirewallRule(input, logger: logger)
+    }
+
     /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
     @Sendable
     @inlinable
@@ -358,7 +445,7 @@ public struct Route53Resolver: AWSService {
         return try await self.createFirewallDomainList(input, logger: logger)
     }
 
-    /// Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
+    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field — they are mutually exclusive:    FirewallDomainListId — match a customer-managed or AWS-managed domain list.    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    FirewallRuleType — match one of the rule-type variants returned by ListFirewallRuleTypes: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, or PartnerThreatProtection. The PartnerThreatProtection variant requires an active AWS Marketplace subscription to the named partner product.   For rules that require asynchronous provisioning (today, the PartnerThreatProtection rule type), the rule's Status begins at CREATING and transitions to COMPLETE once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, Status becomes CREATION_FAILED and StatusMessage contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
     @Sendable
     @inlinable
     public func createFirewallRule(_ input: CreateFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallRuleResponse {
@@ -371,7 +458,7 @@ public struct Route53Resolver: AWSService {
             logger: logger
         )
     }
-    /// Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
+    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field — they are mutually exclusive:    FirewallDomainListId — match a customer-managed or AWS-managed domain list.    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    FirewallRuleType — match one of the rule-type variants returned by ListFirewallRuleTypes: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, or PartnerThreatProtection. The PartnerThreatProtection variant requires an active AWS Marketplace subscription to the named partner product.   For rules that require asynchronous provisioning (today, the PartnerThreatProtection rule type), the rule's Status begins at CREATING and transitions to COMPLETE once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, Status becomes CREATION_FAILED and StatusMessage contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
     ///
     /// Parameters:
     ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request and send metrics and logs to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
@@ -381,10 +468,11 @@ public struct Route53Resolver: AWSService {
     ///   - blockResponse: The way that you want DNS Firewall to block the request, used with the rule action
     ///   - confidenceThreshold: 			The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence
     ///   - creatorRequestId: A unique string that identifies the request and that allows you to retry failed requests
-    ///   - dnsThreatProtection: 			Use to create a DNS Firewall Advanced rule.
+    ///   - dnsThreatProtection: 			The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:
     ///   - firewallDomainListId: The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
     ///   - firewallDomainRedirectionAction: 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.
     ///   - firewallRuleGroupId: The unique identifier of the firewall rule group where you want to create the rule.
+    ///   - firewallRuleType: The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
     ///   - name: A name that lets you identify the rule in the rule group.
     ///   - priority: The setting that determines the processing order of the rule in the rule group. DNS Firewall  processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group.  To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You  can change the priority setting for the rules in a rule group at any time.
     ///   - qtype: 			The DNS query type you want the rule to evaluate. Allowed values are;
@@ -402,6 +490,7 @@ public struct Route53Resolver: AWSService {
         firewallDomainListId: String? = nil,
         firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: String,
+        firewallRuleType: FirewallRuleType? = nil,
         name: String,
         priority: Int,
         qtype: String? = nil,
@@ -419,6 +508,7 @@ public struct Route53Resolver: AWSService {
             firewallDomainListId: firewallDomainListId, 
             firewallDomainRedirectionAction: firewallDomainRedirectionAction, 
             firewallRuleGroupId: firewallRuleGroupId, 
+            firewallRuleType: firewallRuleType, 
             name: name, 
             priority: priority, 
             qtype: qtype
@@ -527,7 +617,9 @@ public struct Route53Resolver: AWSService {
     /// Parameters:
     ///   - creatorRequestId: A unique string that identifies the request and that allows failed requests to be retried
     ///   - direction: Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network.    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network.    INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
+    ///   - dns64Enabled: Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true, Route 53 Resolver
     ///   - ipAddresses: The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward
+    ///   - ipv6InternetAccessEnabled: Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true,
     ///   - name: A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
     ///   - outpostArn: The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a
     ///   - preferredInstanceType: The  instance type. If you specify this, you must also specify a value for the OutpostArn.
@@ -542,7 +634,9 @@ public struct Route53Resolver: AWSService {
     public func createResolverEndpoint(
         creatorRequestId: String,
         direction: ResolverEndpointDirection,
+        dns64Enabled: Bool? = nil,
         ipAddresses: [IpAddressRequest],
+        ipv6InternetAccessEnabled: Bool? = nil,
         name: String? = nil,
         outpostArn: String? = nil,
         preferredInstanceType: String? = nil,
@@ -557,7 +651,9 @@ public struct Route53Resolver: AWSService {
         let input = CreateResolverEndpointRequest(
             creatorRequestId: creatorRequestId, 
             direction: direction, 
+            dns64Enabled: dns64Enabled, 
             ipAddresses: ipAddresses, 
+            ipv6InternetAccessEnabled: ipv6InternetAccessEnabled, 
             name: name, 
             outpostArn: outpostArn, 
             preferredInstanceType: preferredInstanceType, 
@@ -698,7 +794,7 @@ public struct Route53Resolver: AWSService {
         return try await self.deleteFirewallDomainList(input, logger: logger)
     }
 
-    /// Deletes the specified firewall rule.
+    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Advanced rules) — together with FirewallRuleGroupId.  DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED.
     @Sendable
     @inlinable
     public func deleteFirewallRule(_ input: DeleteFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallRuleResponse {
@@ -711,7 +807,7 @@ public struct Route53Resolver: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified firewall rule.
+    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Advanced rules) — together with FirewallRuleGroupId.  DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED.
     ///
     /// Parameters:
     ///   - firewallDomainListId: The ID of the domain list that's used in the rule.
@@ -1707,7 +1803,42 @@ public struct Route53Resolver: AWSService {
         return try await self.listFirewallRuleGroups(input, logger: logger)
     }
 
-    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
+    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of CreateFirewallRule and UpdateFirewallRule. Each returned FirewallRuleTypeDefinition identifies one variant + value combination — for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH, or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. When a returned definition's variant requires an external subscription (currently only PartnerThreatProtection), the response also includes a SubscriptionInfo identifying the AWS Marketplace product that backs it; absence of SubscriptionInfo means the variant is fully managed by AWS and requires no separate subscription.
+    @Sendable
+    @inlinable
+    public func listFirewallRuleTypes(_ input: ListFirewallRuleTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallRuleTypesResponse {
+        try await self.client.execute(
+            operation: "ListFirewallRuleTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of CreateFirewallRule and UpdateFirewallRule. Each returned FirewallRuleTypeDefinition identifies one variant + value combination — for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH, or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. When a returned definition's variant requires an external subscription (currently only PartnerThreatProtection), the response also includes a SubscriptionInfo identifying the AWS Marketplace product that backs it; absence of SubscriptionInfo means the variant is fully managed by AWS and requires no separate subscription.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver provides a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+    ///   - ruleType: An optional filter that restricts the response to a single FirewallRuleType variant. Supported values: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. If omitted, definitions across all variants are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFirewallRuleTypes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        ruleType: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFirewallRuleTypesResponse {
+        let input = ListFirewallRuleTypesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            ruleType: ruleType
+        )
+        return try await self.listFirewallRuleTypes(input, logger: logger)
+    }
+
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults. For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus) and, on failure, StatusMessage with the reason.
     @Sendable
     @inlinable
     public func listFirewallRules(_ input: ListFirewallRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallRulesResponse {
@@ -1720,7 +1851,7 @@ public struct Route53Resolver: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults. For rules that require asynchronous provisioning, the response includes Status (see FirewallRuleStatus) and, on failure, StatusMessage with the reason.
     ///
     /// Parameters:
     ///   - action: Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
@@ -2348,7 +2479,7 @@ public struct Route53Resolver: AWSService {
         return try await self.updateFirewallDomains(input, logger: logger)
     }
 
-    /// Updates the specified firewall rule.
+    /// Updates the specified firewall rule. The rule's FirewallRuleType, FirewallDomainListId, and top-level DnsThreatProtection match source cannot be changed after creation. Rules whose Status is CREATING or CREATION_FAILED cannot be updated; remove a failed rule with DeleteFirewallRule.
     @Sendable
     @inlinable
     public func updateFirewallRule(_ input: UpdateFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallRuleResponse {
@@ -2361,7 +2492,7 @@ public struct Route53Resolver: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified firewall rule.
+    /// Updates the specified firewall rule. The rule's FirewallRuleType, FirewallDomainListId, and top-level DnsThreatProtection match source cannot be changed after creation. Rules whose Status is CREATING or CREATION_FAILED cannot be updated; remove a failed rule with DeleteFirewallRule.
     ///
     /// Parameters:
     ///   - action: The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
@@ -2370,10 +2501,11 @@ public struct Route53Resolver: AWSService {
     ///   - blockOverrideTtl: The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
     ///   - blockResponse: The way that you want DNS Firewall to block the request. Used for the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
     ///   - confidenceThreshold: 			The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence
-    ///   - dnsThreatProtection: 			The type of the DNS Firewall Advanced rule. Valid values are:
+    ///   - dnsThreatProtection: 			The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:
     ///   - firewallDomainListId: The ID of the domain list to use in the rule.
     ///   - firewallDomainRedirectionAction: 			How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.
     ///   - firewallRuleGroupId: The unique identifier of the firewall rule group for the rule.
+    ///   - firewallRuleType: The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
     ///   - firewallThreatProtectionId: 			The DNS Firewall Advanced rule ID.
     ///   - name: The name of the rule.
     ///   - priority: The setting that determines the processing order of the rule in the rule group. DNS Firewall  processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group.  To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You  can change the priority setting for the rules in a rule group at any time.
@@ -2391,6 +2523,7 @@ public struct Route53Resolver: AWSService {
         firewallDomainListId: String? = nil,
         firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: String,
+        firewallRuleType: FirewallRuleType? = nil,
         firewallThreatProtectionId: String? = nil,
         name: String? = nil,
         priority: Int? = nil,
@@ -2408,6 +2541,7 @@ public struct Route53Resolver: AWSService {
             firewallDomainListId: firewallDomainListId, 
             firewallDomainRedirectionAction: firewallDomainRedirectionAction, 
             firewallRuleGroupId: firewallRuleGroupId, 
+            firewallRuleType: firewallRuleType, 
             firewallThreatProtectionId: firewallThreatProtectionId, 
             name: name, 
             priority: priority, 
@@ -2576,6 +2710,8 @@ public struct Route53Resolver: AWSService {
     /// 			You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
     ///
     /// Parameters:
+    ///   - dns64Enabled: Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true, Route 53 Resolver
+    ///   - ipv6InternetAccessEnabled: Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true,
     ///   - name: The name of the Resolver endpoint that you want to update.
     ///   - protocols: 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
     ///   - resolverEndpointId: The ID of the Resolver endpoint that you want to update.
@@ -2586,6 +2722,8 @@ public struct Route53Resolver: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateResolverEndpoint(
+        dns64Enabled: Bool? = nil,
+        ipv6InternetAccessEnabled: Bool? = nil,
         name: String? = nil,
         protocols: [`Protocol`]? = nil,
         resolverEndpointId: String,
@@ -2596,6 +2734,8 @@ public struct Route53Resolver: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateResolverEndpointResponse {
         let input = UpdateResolverEndpointRequest(
+            dns64Enabled: dns64Enabled, 
+            ipv6InternetAccessEnabled: ipv6InternetAccessEnabled, 
             name: name, 
             protocols: protocols, 
             resolverEndpointId: resolverEndpointId, 
@@ -2838,6 +2978,43 @@ extension Route53Resolver {
             maxResults: maxResults
         )
         return self.listFirewallRuleGroupsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFirewallRuleTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFirewallRuleTypesPaginator(
+        _ input: ListFirewallRuleTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFirewallRuleTypesRequest, ListFirewallRuleTypesResponse> {
+        return .init(
+            input: input,
+            command: self.listFirewallRuleTypes,
+            inputKey: \ListFirewallRuleTypesRequest.nextToken,
+            outputKey: \ListFirewallRuleTypesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFirewallRuleTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - ruleType: An optional filter that restricts the response to a single FirewallRuleType variant. Supported values: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. If omitted, definitions across all variants are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFirewallRuleTypesPaginator(
+        maxResults: Int? = nil,
+        ruleType: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFirewallRuleTypesRequest, ListFirewallRuleTypesResponse> {
+        let input = ListFirewallRuleTypesRequest(
+            maxResults: maxResults, 
+            ruleType: ruleType
+        )
+        return self.listFirewallRuleTypesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listFirewallRules(_:logger:)``.
@@ -3314,6 +3491,17 @@ extension Route53Resolver.ListFirewallRuleGroupsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Route53Resolver.ListFirewallRuleTypesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Route53Resolver.ListFirewallRuleTypesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            ruleType: self.ruleType
         )
     }
 }

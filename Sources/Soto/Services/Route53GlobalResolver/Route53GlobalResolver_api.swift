@@ -1273,31 +1273,31 @@ public struct Route53GlobalResolver: AWSService {
         return try await self.listGlobalResolvers(input, logger: logger)
     }
 
-    /// Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    /// Lists hosted zone associations with pagination support. Specify a DNS view through the resourceArn parameter to list the hosted zone associations for that DNS view, or omit it to list all hosted zone associations in your Amazon Web Services account.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     @Sendable
     @inlinable
     public func listHostedZoneAssociations(_ input: ListHostedZoneAssociationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZoneAssociationsOutput {
         try await self.client.execute(
             operation: "ListHostedZoneAssociations", 
-            path: "/hosted-zone-associations/resource-arn/{resourceArn+}", 
+            path: "/hosted-zone-associations", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    /// Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    /// Lists hosted zone associations with pagination support. Specify a DNS view through the resourceArn parameter to list the hosted zone associations for that DNS view, or omit it to list all hosted zone associations in your Amazon Web Services account.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to retrieve in a single call.
     ///   - nextToken: A pagination token used for large sets of results that can't be returned in a single response.
-    ///   - resourceArn: Amazon Resource Name (ARN) of the DNS view.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the DNS view to list hosted zone associations for. This parameter is optional; if you omit it, all hosted zone associations in your Amazon Web Services account are returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func listHostedZoneAssociations(
         maxResults: Int? = nil,
         nextToken: String? = nil,
-        resourceArn: String,
+        resourceArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListHostedZoneAssociationsOutput {
         let input = ListHostedZoneAssociationsInput(
@@ -1341,6 +1341,38 @@ public struct Route53GlobalResolver: AWSService {
             nextToken: nextToken
         )
         return try await self.listManagedFirewallDomainLists(input, logger: logger)
+    }
+
+    /// Lists the DNS views that have been shared with your Amazon Web Services account through Amazon Web Services Resource Access Manager (Amazon Web Services RAM), with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    @Sendable
+    @inlinable
+    public func listSharedDNSViews(_ input: ListSharedDNSViewsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSharedDNSViewsOutput {
+        try await self.client.execute(
+            operation: "ListSharedDNSViews", 
+            path: "/shared-dns-views", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the DNS views that have been shared with your Amazon Web Services account through Amazon Web Services Resource Access Manager (Amazon Web Services RAM), with pagination support.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to retrieve in a single call.
+    ///   - nextToken: A pagination token used for large sets of results that can't be returned in a single response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSharedDNSViews(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSharedDNSViewsOutput {
+        let input = ListSharedDNSViewsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSharedDNSViews(input, logger: logger)
     }
 
     /// Lists the tags associated with a Route 53 Global Resolver resource.  Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands.
@@ -1671,6 +1703,7 @@ public struct Route53GlobalResolver: AWSService {
     ///   - ipAddressType: The IP address type for the Global Resolver. Valid values are IPV4 or DUAL_STACK for both IPv4 and IPv6 support.
     ///   - name: The name of the Global Resolver.
     ///   - observabilityRegion: The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
+    ///   - regions: The list of Amazon Web Services Regions where the Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGlobalResolver(
@@ -1679,6 +1712,7 @@ public struct Route53GlobalResolver: AWSService {
         ipAddressType: GlobalResolverIpAddressType? = nil,
         name: String? = nil,
         observabilityRegion: String? = nil,
+        regions: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateGlobalResolverOutput {
         let input = UpdateGlobalResolverInput(
@@ -1686,7 +1720,8 @@ public struct Route53GlobalResolver: AWSService {
             globalResolverId: globalResolverId, 
             ipAddressType: ipAddressType, 
             name: name, 
-            observabilityRegion: observabilityRegion
+            observabilityRegion: observabilityRegion, 
+            regions: regions
         )
         return try await self.updateGlobalResolver(input, logger: logger)
     }
@@ -2021,12 +2056,12 @@ extension Route53GlobalResolver {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to retrieve in a single call.
-    ///   - resourceArn: Amazon Resource Name (ARN) of the DNS view.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the DNS view to list hosted zone associations for. This parameter is optional; if you omit it, all hosted zone associations in your Amazon Web Services account are returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func listHostedZoneAssociationsPaginator(
         maxResults: Int? = nil,
-        resourceArn: String,
+        resourceArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListHostedZoneAssociationsInput, ListHostedZoneAssociationsOutput> {
         let input = ListHostedZoneAssociationsInput(
@@ -2071,6 +2106,40 @@ extension Route53GlobalResolver {
             maxResults: maxResults
         )
         return self.listManagedFirewallDomainListsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSharedDNSViews(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSharedDNSViewsPaginator(
+        _ input: ListSharedDNSViewsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSharedDNSViewsInput, ListSharedDNSViewsOutput> {
+        return .init(
+            input: input,
+            command: self.listSharedDNSViews,
+            inputKey: \ListSharedDNSViewsInput.nextToken,
+            outputKey: \ListSharedDNSViewsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSharedDNSViews(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to retrieve in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSharedDNSViewsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSharedDNSViewsInput, ListSharedDNSViewsOutput> {
+        let input = ListSharedDNSViewsInput(
+            maxResults: maxResults
+        )
+        return self.listSharedDNSViewsPaginator(input, logger: logger)
     }
 }
 
@@ -2168,6 +2237,16 @@ extension Route53GlobalResolver.ListManagedFirewallDomainListsInput: AWSPaginate
     public func usingPaginationToken(_ token: String) -> Route53GlobalResolver.ListManagedFirewallDomainListsInput {
         return .init(
             managedFirewallDomainListType: self.managedFirewallDomainListType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Route53GlobalResolver.ListSharedDNSViewsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Route53GlobalResolver.ListSharedDNSViewsInput {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

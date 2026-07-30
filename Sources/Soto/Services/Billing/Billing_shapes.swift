@@ -25,6 +25,28 @@ import Foundation
 extension Billing {
     // MARK: Enums
 
+    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case afterDiscounts = "AFTER_DISCOUNTS"
+        case beforeCrossServiceDiscounts = "BEFORE_CROSS_SERVICE_DISCOUNTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case billingAlerts = "BILLING_ALERTS"
+        case creditLevelSharing = "CREDIT_LEVEL_SHARING"
+        case creditPreferenceOptions = "CREDIT_PREFERENCE_OPTIONS"
+        case creditSharing = "CREDIT_SHARING"
+        case creditSharingHistory = "CREDIT_SHARING_HISTORY"
+        case riSharing = "RI_SHARING"
+        case riSharingHistory = "RI_SHARING_HISTORY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingFeatureFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case preferenceKey = "PREFERENCE_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BillingViewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case healthy = "HEALTHY"
@@ -54,8 +76,28 @@ extension Billing {
         public var description: String { return self.rawValue }
     }
 
+    public enum CreditSharingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case costCategoryRule = "COST_CATEGORY_RULE"
+        case custom = "CUSTOM"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CreditStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linkedAccount = "LINKED_ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreferenceValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -89,6 +131,24 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case activeAfterInclusive = "activeAfterInclusive"
             case activeBeforeInclusive = "activeBeforeInclusive"
+        }
+    }
+
+    public struct Amount: AWSDecodableShape {
+        /// The amount as a decimal string (for example, "743.21"). Negative values represent credits that reduce a bill.
+        public let currencyAmount: String
+        /// The ISO 4217 currency code for the amount (for example, USD).
+        public let currencyCode: String
+
+        @inlinable
+        public init(currencyAmount: String, currencyCode: String) {
+            self.currencyAmount = currencyAmount
+            self.currencyCode = currencyCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyAmount = "currencyAmount"
+            case currencyCode = "currencyCode"
         }
     }
 
@@ -130,6 +190,110 @@ extension Billing {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+        }
+    }
+
+    public struct BillingFeatureFilter: AWSEncodableShape {
+        /// The filter name. Currently the only supported value is PREFERENCE_KEY.
+        public let name: BillingFeatureFilterName?
+        /// The filter values to match. For PREFERENCE_KEY, supply 1 to 10 preference key values to match.
+        public let value: [String]?
+
+        @inlinable
+        public init(name: BillingFeatureFilterName? = nil, value: [String]? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.value?.forEach {
+                try validate($0, name: "value[]", parent: name, max: 100)
+                try validate($0, name: "value[]", parent: name, min: 1)
+                try validate($0, name: "value[]", parent: name, pattern: "^[a-zA-Z0-9-/]+$")
+            }
+            try self.validate(self.value, name: "value", parent: name, max: 10)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct BillingPeriod: AWSDecodableShape {
+        /// The month of the billing period as an integer between 1 and 12.
+        public let month: Int
+        /// The four-digit year of the billing period.
+        public let year: Int
+
+        @inlinable
+        public init(month: Int, year: Int) {
+            self.month = month
+            self.year = year
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case month = "month"
+            case year = "year"
+        }
+    }
+
+    public struct BillingPreferenceForKey: AWSEncodableShape {
+        /// The preference key. Format depends on the feature being updated.
+        public let key: String
+        /// The preference value. Valid values: ENABLED or DISABLED.
+        public let value: PreferenceValue
+
+        @inlinable
+        public init(key: String, value: PreferenceValue) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 2148)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9-\\/\\*: ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct BillingPreferenceSummary: AWSDecodableShape {
+        /// The associated Amazon Web Services account ID. Populated for account-list keys; null otherwise.
+        public let accountId: String?
+        /// The display name of the account. Populated together with accountId; null otherwise.
+        public let accountName: String?
+        /// The billing period associated with the preference change. Populated only for the history features RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY.
+        public let billingPeriod: BillingPeriod?
+        /// The feature this preference belongs to.
+        public let feature: BillingFeature
+        /// The preference key. Format depends on the feature.
+        public let key: String
+        /// The preference value. Valid values: ENABLED or DISABLED.
+        public let value: PreferenceValue
+
+        @inlinable
+        public init(accountId: String? = nil, accountName: String? = nil, billingPeriod: BillingPeriod? = nil, feature: BillingFeature, key: String, value: PreferenceValue) {
+            self.accountId = accountId
+            self.accountName = accountName
+            self.billingPeriod = billingPeriod
+            self.feature = feature
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case accountName = "accountName"
+            case billingPeriod = "billingPeriod"
+            case feature = "feature"
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -383,6 +547,134 @@ extension Billing {
         }
     }
 
+    public struct CreditAllocationHistoryEntry: AWSDecodableShape {
+        /// The Amazon Web Services account the credit was applied to.
+        public let accountId: String
+        /// The Amazon Web Services service the credit was applied to.
+        public let appliedServiceName: String
+        /// The billing month of the application in YYYY-MM format.
+        public let billingMonth: String
+        /// The amount of credit applied. Negative values represent credits that reduced the bill.
+        public let creditAmount: Amount
+        /// The identifier of the credit that was applied.
+        public let creditId: String
+        /// A human-readable description of the credit allocation.
+        public let description: String?
+        ///  true when the entry was applied to an in-flight bill that has not yet been finalized.
+        public let isEstimatedBill: Bool
+
+        @inlinable
+        public init(accountId: String, appliedServiceName: String, billingMonth: String, creditAmount: Amount, creditId: String, description: String? = nil, isEstimatedBill: Bool) {
+            self.accountId = accountId
+            self.appliedServiceName = appliedServiceName
+            self.billingMonth = billingMonth
+            self.creditAmount = creditAmount
+            self.creditId = creditId
+            self.description = description
+            self.isEstimatedBill = isEstimatedBill
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case appliedServiceName = "appliedServiceName"
+            case billingMonth = "billingMonth"
+            case creditAmount = "creditAmount"
+            case creditId = "creditId"
+            case description = "description"
+            case isEstimatedBill = "isEstimatedBill"
+        }
+    }
+
+    public struct CreditData: AWSDecodableShape {
+        /// Whether the owning account has account-level credit sharing turned on.
+        public let accountHasCreditSharingEnabled: Bool?
+        /// The Amazon Web Services account ID that owns the credit.
+        public let accountId: String
+        /// The names of Amazon Web Services services this credit applies to.
+        public let applicableProductNames: [String]?
+        /// When the credit is applied during bill computation. Valid values: BEFORE_CROSS_SERVICE_DISCOUNTS, AFTER_DISCOUNTS.
+        public let applicationType: ApplicationType?
+        /// The Amazon Resource Name (ARN) of the Cost Category controlling the credit's sharing scope. Present only when creditSharingType is COST_CATEGORY_RULE.
+        public let costCategoryArn: String?
+        /// The display configuration for the credit in the Amazon Web Services Billing console.
+        public let creditConsoleVisibility: String?
+        /// The unique identifier for the credit.
+        public let creditId: String
+        /// The sharing configuration for the credit. Valid values: DEFAULT, DISABLED, CUSTOM, COST_CATEGORY_RULE.
+        public let creditSharingType: CreditSharingType?
+        /// Whether the credit participates in billing runs. Valid values: ENABLED, DISABLED.
+        public let creditStatus: CreditStatus?
+        /// The type of credit. Examples: Promotion, Refund, TrueUp.
+        public let creditType: String
+        /// A human-readable description of the credit.
+        public let description: String
+        /// The date the credit expires, as Unix epoch seconds.
+        public let endDate: Date?
+        /// The estimated remaining balance, including in-flight (open) bills that have not yet been finalized.
+        public let estimatedAmount: Amount?
+        /// The date the credit balance reached zero, as Unix epoch seconds.
+        public let exhaustDate: Date?
+        /// The initial amount of the credit when it was issued.
+        public let initialAmount: Amount
+        /// Restricts which purchase types this credit applies to. When null or omitted, the credit applies to all purchase types.
+        public let purchaseTypeApplications: [String]?
+        /// The unused balance of the credit.
+        public let remainingAmount: Amount
+        /// The rule name within the Cost Category. Present only when creditSharingType is COST_CATEGORY_RULE.
+        public let ruleName: String?
+        /// The Amazon Web Services account IDs entitled to apply this credit.
+        public let shareableAccounts: [String]?
+        /// The date the credit becomes valid, as Unix epoch seconds.
+        public let startDate: Date
+
+        @inlinable
+        public init(accountHasCreditSharingEnabled: Bool? = nil, accountId: String, applicableProductNames: [String]? = nil, applicationType: ApplicationType? = nil, costCategoryArn: String? = nil, creditConsoleVisibility: String? = nil, creditId: String, creditSharingType: CreditSharingType? = nil, creditStatus: CreditStatus? = nil, creditType: String, description: String, endDate: Date? = nil, estimatedAmount: Amount? = nil, exhaustDate: Date? = nil, initialAmount: Amount, purchaseTypeApplications: [String]? = nil, remainingAmount: Amount, ruleName: String? = nil, shareableAccounts: [String]? = nil, startDate: Date) {
+            self.accountHasCreditSharingEnabled = accountHasCreditSharingEnabled
+            self.accountId = accountId
+            self.applicableProductNames = applicableProductNames
+            self.applicationType = applicationType
+            self.costCategoryArn = costCategoryArn
+            self.creditConsoleVisibility = creditConsoleVisibility
+            self.creditId = creditId
+            self.creditSharingType = creditSharingType
+            self.creditStatus = creditStatus
+            self.creditType = creditType
+            self.description = description
+            self.endDate = endDate
+            self.estimatedAmount = estimatedAmount
+            self.exhaustDate = exhaustDate
+            self.initialAmount = initialAmount
+            self.purchaseTypeApplications = purchaseTypeApplications
+            self.remainingAmount = remainingAmount
+            self.ruleName = ruleName
+            self.shareableAccounts = shareableAccounts
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountHasCreditSharingEnabled = "accountHasCreditSharingEnabled"
+            case accountId = "accountId"
+            case applicableProductNames = "applicableProductNames"
+            case applicationType = "applicationType"
+            case costCategoryArn = "costCategoryArn"
+            case creditConsoleVisibility = "creditConsoleVisibility"
+            case creditId = "creditId"
+            case creditSharingType = "creditSharingType"
+            case creditStatus = "creditStatus"
+            case creditType = "creditType"
+            case description = "description"
+            case endDate = "endDate"
+            case estimatedAmount = "estimatedAmount"
+            case exhaustDate = "exhaustDate"
+            case initialAmount = "initialAmount"
+            case purchaseTypeApplications = "purchaseTypeApplications"
+            case remainingAmount = "remainingAmount"
+            case ruleName = "ruleName"
+            case shareableAccounts = "shareableAccounts"
+            case startDate = "startDate"
+        }
+    }
+
     public struct DeleteBillingViewRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public let arn: String
@@ -519,6 +811,61 @@ extension Billing {
         }
     }
 
+    public struct GetBillingPreferencesRequest: AWSEncodableShape {
+        /// The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS, RI_SHARING, RI_SHARING_HISTORY, CREDIT_SHARING, CREDIT_SHARING_HISTORY, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS.
+        public let features: [BillingFeature]
+        /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY, which accepts 1 to 10 values to match preference keys.
+        public let filters: [BillingFeatureFilter]?
+        /// The maximum number of records to return per page. Range: 1 to 50. Default: 50.
+        public let maxResults: Int?
+        /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(features: [BillingFeature], filters: [BillingFeatureFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.features = features
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case features = "features"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetBillingPreferencesResponse: AWSDecodableShape {
+        /// The list of preference entries matching the request.
+        public let billingPreferences: [BillingPreferenceSummary]
+        /// Pagination token. Present when more pages are available; null when there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(billingPreferences: [BillingPreferenceSummary], nextToken: String? = nil) {
+            self.billingPreferences = billingPreferences
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingPreferences = "billingPreferences"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetBillingViewRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public let arn: String
@@ -548,6 +895,113 @@ extension Billing {
 
         private enum CodingKeys: String, CodingKey {
             case billingView = "billingView"
+        }
+    }
+
+    public struct GetCreditAllocationHistoryRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID whose allocation history to retrieve. Must be a 12-digit numeric string.
+        public let accountId: String
+        /// Filters the result to a single credit. When omitted, returns allocation entries for all credits.
+        public let creditId: Int64?
+        /// Inclusive end date as Unix epoch seconds.
+        public let endDate: Date
+        /// The maximum number of records to return per page. Range: 1 to 1000. Default: 100.
+        public let maxResults: Int?
+        /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results.
+        public let nextToken: String?
+        /// Inclusive start date as Unix epoch seconds. Must be on or before endDate. The range from startDate to endDate cannot exceed 24 billing months.
+        public let startDate: Date
+
+        @inlinable
+        public init(accountId: String, creditId: Int64? = nil, endDate: Date, maxResults: Int? = nil, nextToken: String? = nil, startDate: Date) {
+            self.accountId = accountId
+            self.creditId = creditId
+            self.endDate = endDate
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startDate = startDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case creditId = "creditId"
+            case endDate = "endDate"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case startDate = "startDate"
+        }
+    }
+
+    public struct GetCreditAllocationHistoryResponse: AWSDecodableShape {
+        /// Allocation entries sorted by billingMonth in descending order.
+        public let creditAllocationHistoryList: [CreditAllocationHistoryEntry]?
+        /// Billing months in YYYY-MM format that failed to return data. Non-empty only when partialResults is true.
+        public let failedMonths: [String]?
+        /// Pagination token. Present when more pages are available; null when there are no more results.
+        public let nextToken: String?
+        ///  true when data could not be retrieved for one or more billing months. The failedMonths field lists which months are missing.
+        public let partialResults: Bool
+
+        @inlinable
+        public init(creditAllocationHistoryList: [CreditAllocationHistoryEntry]? = nil, failedMonths: [String]? = nil, nextToken: String? = nil, partialResults: Bool) {
+            self.creditAllocationHistoryList = creditAllocationHistoryList
+            self.failedMonths = failedMonths
+            self.nextToken = nextToken
+            self.partialResults = partialResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creditAllocationHistoryList = "creditAllocationHistoryList"
+            case failedMonths = "failedMonths"
+            case nextToken = "nextToken"
+            case partialResults = "partialResults"
+        }
+    }
+
+    public struct GetCreditsRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID. Must be a 12-digit numeric string.
+        public let accountId: String
+        /// The end date for the credit period as Unix epoch seconds. Must not be a future date and must be on or after startDate. Defaults to the current date when omitted.
+        public let endDate: Date?
+        /// When true and the caller is the management account, the response aggregates credits across the entire consolidated billing family. When false or omitted, returns only credits for the specified accountId.
+        public let payerAccountFlag: Bool?
+        /// The start date for the credit period as Unix epoch seconds. Must be a past date that is not more than one year before the current date.
+        public let startDate: Date
+
+        @inlinable
+        public init(accountId: String, endDate: Date? = nil, payerAccountFlag: Bool? = nil, startDate: Date) {
+            self.accountId = accountId
+            self.endDate = endDate
+            self.payerAccountFlag = payerAccountFlag
+            self.startDate = startDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case endDate = "endDate"
+            case payerAccountFlag = "payerAccountFlag"
+            case startDate = "startDate"
+        }
+    }
+
+    public struct GetCreditsResponse: AWSDecodableShape {
+        /// The list of credits matching the request. Returns an empty list when no credits exist.
+        public let credits: [CreditData]?
+
+        @inlinable
+        public init(credits: [CreditData]? = nil) {
+            self.credits = credits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credits = "credits"
         }
     }
 
@@ -629,8 +1083,9 @@ extension Billing {
             }
             try self.validate(self.names, name: "names", parent: name, max: 1)
             try self.validate(self.names, name: "names", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2047)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
             try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.sourceAccountId, name: "sourceAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
@@ -684,8 +1139,9 @@ extension Billing {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,75}[a-zA-Z0-9]$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2047)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -743,6 +1199,30 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case resourceTags = "resourceTags"
         }
+    }
+
+    public struct RedeemCreditsRequest: AWSEncodableShape {
+        /// The promotional credit code to redeem.
+        public let promoCode: String
+
+        @inlinable
+        public init(promoCode: String) {
+            self.promoCode = promoCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.promoCode, name: "promoCode", parent: name, max: 256)
+            try self.validate(self.promoCode, name: "promoCode", parent: name, min: 1)
+            try self.validate(self.promoCode, name: "promoCode", parent: name, pattern: "[^<>\"&\\%|'\n\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case promoCode = "promoCode"
+        }
+    }
+
+    public struct RedeemCreditsResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
@@ -948,6 +1428,35 @@ extension Billing {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateBillingPreferencesRequest: AWSEncodableShape {
+        /// Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS, all keys must reference the same creditId.
+        public let billingPreferencesPerKey: [BillingPreferenceForKey]
+        /// The feature to update. Valid values: BILLING_ALERTS, RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS. The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY) are read-only and cannot be updated.
+        public let feature: BillingFeature
+
+        @inlinable
+        public init(billingPreferencesPerKey: [BillingPreferenceForKey], feature: BillingFeature) {
+            self.billingPreferencesPerKey = billingPreferencesPerKey
+            self.feature = feature
+        }
+
+        public func validate(name: String) throws {
+            try self.billingPreferencesPerKey.forEach {
+                try $0.validate(name: "\(name).billingPreferencesPerKey[]")
+            }
+            try self.validate(self.billingPreferencesPerKey, name: "billingPreferencesPerKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingPreferencesPerKey = "billingPreferencesPerKey"
+            case feature = "feature"
+        }
+    }
+
+    public struct UpdateBillingPreferencesResponse: AWSDecodableShape {
         public init() {}
     }
 

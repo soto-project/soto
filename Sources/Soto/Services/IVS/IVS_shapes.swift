@@ -122,16 +122,106 @@ extension IVS {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// User does not have sufficient access to perform this action.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
             case exceptionMessage = "exceptionMessage"
+        }
+    }
+
+    public struct AdConfiguration: AWSDecodableShape {
+        /// Ad configuration ARN.
+        public let arn: String
+        /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens.
+        public let mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration]
+        /// Ad configuration name. Defaults to “”.
+        public let name: String?
+        /// Configuration for the post-roll ad break to use for this ad configuration.
+        public let postRollConfiguration: PostRollConfiguration?
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration], name: String? = nil, postRollConfiguration: PostRollConfiguration? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
+            self.name = name
+            self.postRollConfiguration = postRollConfiguration
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case mediaTailorPlaybackConfigurations = "mediaTailorPlaybackConfigurations"
+            case name = "name"
+            case postRollConfiguration = "postRollConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct AdConfigurationSummary: AWSDecodableShape {
+        /// Ad configuration ARN.
+        public let arn: String
+        /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens.
+        public let mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration]
+        /// Ad configuration name. Defaults to “”.
+        public let name: String?
+        /// Configuration for the post-roll ad break to use for this ad configuration.
+        public let postRollConfiguration: PostRollConfiguration?
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration], name: String? = nil, postRollConfiguration: PostRollConfiguration? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
+            self.name = name
+            self.postRollConfiguration = postRollConfiguration
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case mediaTailorPlaybackConfigurations = "mediaTailorPlaybackConfigurations"
+            case name = "name"
+            case postRollConfiguration = "postRollConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -144,7 +234,7 @@ extension IVS {
         public let sampleRate: Int64?
         /// The expected ingest bitrate (bits per second). This is configured in the encoder.
         public let targetBitrate: Int64?
-        /// Name of the audio track (if the stream has an audio track). If multitrack is not enabled, this is track0 (the sole track).
+        /// Name of the audio track (if the stream has an audio track). If multitrack is not enabled, this is Track0 (the sole track).
         public let track: String?
 
         @inlinable
@@ -212,14 +302,49 @@ extension IVS {
     }
 
     public struct BatchGetChannelResponse: AWSDecodableShape {
+        /// See Access-Control-Allow-Origin in the MDN Web Docs.
+        public let accessControlAllowOrigin: String?
+        /// See Access-Control-Expose-Headers in the MDN Web Docs.
+        public let accessControlExposeHeaders: String?
+        /// See Cache-Control in the MDN Web Docs.
+        public let cacheControl: String?
         public let channels: [Channel]?
+        /// See Content-Security-Policy in the MDN Web Docs.
+        public let contentSecurityPolicy: String?
         /// Each error object is related to a specific ARN in the request.
         public let errors: [BatchError]?
+        /// See Strict-Transport-Security in the MDN Web Docs.
+        public let strictTransportSecurity: String?
+        /// See X-Content-Type-Options in the MDN Web Docs.
+        public let xContentTypeOptions: String?
+        /// See X-Frame-Options in the MDN Web Docs.
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(channels: [Channel]? = nil, errors: [BatchError]? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, channels: [Channel]? = nil, contentSecurityPolicy: String? = nil, errors: [BatchError]? = nil, strictTransportSecurity: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
             self.channels = channels
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.errors = errors
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.channels = try container.decodeIfPresent([Channel].self, forKey: .channels)
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.errors = try container.decodeIfPresent([BatchError].self, forKey: .errors)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -253,13 +378,48 @@ extension IVS {
     }
 
     public struct BatchGetStreamKeyResponse: AWSDecodableShape {
+        /// See Access-Control-Allow-Origin in the MDN Web Docs.
+        public let accessControlAllowOrigin: String?
+        /// See Access-Control-Expose-Headers in the MDN Web Docs.
+        public let accessControlExposeHeaders: String?
+        /// See Cache-Control in the MDN Web Docs.
+        public let cacheControl: String?
+        /// See Content-Security-Policy in the MDN Web Docs.
+        public let contentSecurityPolicy: String?
         public let errors: [BatchError]?
         public let streamKeys: [StreamKey]?
+        /// See Strict-Transport-Security in the MDN Web Docs.
+        public let strictTransportSecurity: String?
+        /// See X-Content-Type-Options in the MDN Web Docs.
+        public let xContentTypeOptions: String?
+        /// See X-Frame-Options in the MDN Web Docs.
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(errors: [BatchError]? = nil, streamKeys: [StreamKey]? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, errors: [BatchError]? = nil, streamKeys: [StreamKey]? = nil, strictTransportSecurity: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.errors = errors
             self.streamKeys = streamKeys
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.errors = try container.decodeIfPresent([BatchError].self, forKey: .errors)
+            self.streamKeys = try container.decodeIfPresent([StreamKey].self, forKey: .streamKeys)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -317,12 +477,46 @@ extension IVS {
     }
 
     public struct BatchStartViewerSessionRevocationResponse: AWSDecodableShape {
+        /// See Access-Control-Allow-Origin in the MDN Web Docs.
+        public let accessControlAllowOrigin: String?
+        /// See Access-Control-Expose-Headers in the MDN Web Docs.
+        public let accessControlExposeHeaders: String?
+        /// See Cache-Control in the MDN Web Docs.
+        public let cacheControl: String?
+        /// See Content-Security-Policy in the MDN Web Docs.
+        public let contentSecurityPolicy: String?
         /// Each error object is related to a specific channelArn and viewerId pair in the request.
         public let errors: [BatchStartViewerSessionRevocationError]?
+        /// See Strict-Transport-Security in the MDN Web Docs.
+        public let strictTransportSecurity: String?
+        /// See X-Content-Type-Options in the MDN Web Docs.
+        public let xContentTypeOptions: String?
+        /// See X-Frame-Options in the MDN Web Docs.
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(errors: [BatchStartViewerSessionRevocationError]? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, errors: [BatchStartViewerSessionRevocationError]? = nil, strictTransportSecurity: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.errors = errors
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.errors = try container.decodeIfPresent([BatchStartViewerSessionRevocationError].self, forKey: .errors)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -362,6 +556,8 @@ extension IVS {
     }
 
     public struct Channel: AWSDecodableShape {
+        /// ARN of the ad configuration associated with the channel.
+        public let adConfigurationArn: String?
         /// Channel ARN.
         public let arn: String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
@@ -394,7 +590,8 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(arn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, srt: Srt? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, arn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, ingestEndpoint: String? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, playbackUrl: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, srt: Srt? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+            self.adConfigurationArn = adConfigurationArn
             self.arn = arn
             self.authorized = authorized
             self.containerFormat = containerFormat
@@ -413,6 +610,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConfigurationArn = "adConfigurationArn"
             case arn = "arn"
             case authorized = "authorized"
             case containerFormat = "containerFormat"
@@ -432,12 +630,42 @@ extension IVS {
     }
 
     public struct ChannelNotBroadcasting: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// The stream is offline for the given channel ARN.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -446,6 +674,8 @@ extension IVS {
     }
 
     public struct ChannelSummary: AWSDecodableShape {
+        /// ARN of the ad configuration associated with the channel.
+        public let adConfigurationArn: String?
         /// Channel ARN.
         public let arn: String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
@@ -468,7 +698,8 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(arn: String? = nil, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, arn: String? = nil, authorized: Bool? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+            self.adConfigurationArn = adConfigurationArn
             self.arn = arn
             self.authorized = authorized
             self.insecureIngest = insecureIngest
@@ -482,6 +713,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConfigurationArn = "adConfigurationArn"
             case arn = "arn"
             case authorized = "authorized"
             case insecureIngest = "insecureIngest"
@@ -496,12 +728,42 @@ extension IVS {
     }
 
     public struct ConflictException: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// Updating or deleting a resource can cause an inconsistent state.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -509,7 +771,67 @@ extension IVS {
         }
     }
 
+    public struct CreateAdConfigurationRequest: AWSEncodableShape {
+        /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens.
+        public let mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration]
+        /// Ad configuration name. Defaults to “”.
+        public let name: String?
+        /// Configuration for the post-roll ad break to use for this ad configuration. Default: disabled (enabled set to false, durationSeconds set to 15).
+        public let postRollConfiguration: PostRollConfiguration?
+        /// Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration], name: String? = nil, postRollConfiguration: PostRollConfiguration? = nil, tags: [String: String]? = nil) {
+            self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
+            self.name = name
+            self.postRollConfiguration = postRollConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.mediaTailorPlaybackConfigurations.forEach {
+                try $0.validate(name: "\(name).mediaTailorPlaybackConfigurations[]")
+            }
+            try self.validate(self.mediaTailorPlaybackConfigurations, name: "mediaTailorPlaybackConfigurations", parent: name, max: 3)
+            try self.validate(self.mediaTailorPlaybackConfigurations, name: "mediaTailorPlaybackConfigurations", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.postRollConfiguration?.validate(name: "\(name).postRollConfiguration")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaTailorPlaybackConfigurations = "mediaTailorPlaybackConfigurations"
+            case name = "name"
+            case postRollConfiguration = "postRollConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAdConfigurationResponse: AWSDecodableShape {
+        public let adConfiguration: AdConfiguration
+
+        @inlinable
+        public init(adConfiguration: AdConfiguration) {
+            self.adConfiguration = adConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adConfiguration = "adConfiguration"
+        }
+    }
+
     public struct CreateChannelRequest: AWSEncodableShape {
+        /// ARN of the ad configuration associated with the channel.
+        public let adConfigurationArn: String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
         public let authorized: Bool?
         /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
@@ -534,7 +856,8 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
+            self.adConfigurationArn = adConfigurationArn
             self.authorized = authorized
             self.containerFormat = containerFormat
             self.insecureIngest = insecureIngest
@@ -549,6 +872,8 @@ extension IVS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.adConfigurationArn, name: "adConfigurationArn", parent: name, max: 128)
+            try self.validate(self.adConfigurationArn, name: "adConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.playbackRestrictionPolicyArn, name: "playbackRestrictionPolicyArn", parent: name, max: 128)
@@ -558,12 +883,15 @@ extension IVS {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConfigurationArn = "adConfigurationArn"
             case authorized = "authorized"
             case containerFormat = "containerFormat"
             case insecureIngest = "insecureIngest"
@@ -628,7 +956,9 @@ extension IVS {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -688,7 +1018,9 @@ extension IVS {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.thumbnailConfiguration?.validate(name: "\(name).thumbnailConfiguration")
@@ -736,7 +1068,9 @@ extension IVS {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -758,6 +1092,25 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case streamKey = "streamKey"
+        }
+    }
+
+    public struct DeleteAdConfigurationRequest: AWSEncodableShape {
+        /// ARN of the ad configuration to be deleted.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
@@ -879,6 +1232,38 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case s3 = "s3"
+        }
+    }
+
+    public struct GetAdConfigurationRequest: AWSEncodableShape {
+        /// ARN of the ad configuration to be retrieved.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetAdConfigurationResponse: AWSDecodableShape {
+        public let adConfiguration: AdConfiguration?
+
+        @inlinable
+        public init(adConfiguration: AdConfiguration? = nil) {
+            self.adConfiguration = adConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adConfiguration = "adConfiguration"
         }
     }
 
@@ -1141,7 +1526,9 @@ extension IVS {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -1202,13 +1589,83 @@ extension IVS {
         }
     }
 
-    public struct InternalServerException: AWSErrorShape {
-        /// Unexpected error during processing of request.
-        public let exceptionMessage: String?
+    public struct InsertAdBreakRequest: AWSEncodableShape {
+        /// ARN of the channel into which the ad break is inserted.
+        public let channelArn: String
+        /// Duration of the ad break, in seconds.
+        public let durationSeconds: Int
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(channelArn: String, durationSeconds: Int) {
+            self.channelArn = channelArn
+            self.durationSeconds = durationSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 128)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 1)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 300)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case durationSeconds = "durationSeconds"
+        }
+    }
+
+    public struct InsertAdBreakResponse: AWSDecodableShape {
+        /// Unique identifier for the ad break that was inserted into the playlist.
+        public let adBreakId: String?
+
+        @inlinable
+        public init(adBreakId: String? = nil) {
+            self.adBreakId = adBreakId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adBreakId = "adBreakId"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
+        /// Unexpected error during processing of request.
+        public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
+
+        @inlinable
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1216,7 +1673,52 @@ extension IVS {
         }
     }
 
+    public struct ListAdConfigurationsRequest: AWSEncodableShape {
+        /// Maximum number of ad configurations to return. Default: your service quota or 100, whichever is smaller.
+        public let maxResults: Int?
+        /// The first ad configuration to retrieve. This is used for pagination; see the nextToken response field.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAdConfigurationsResponse: AWSDecodableShape {
+        /// List of the matching ad configurations.
+        public let adConfigurations: [AdConfigurationSummary]
+        /// If there are more ad configurations than maxResults, use nextToken in the request to get the next set.
+        public let nextToken: String?
+
+        @inlinable
+        public init(adConfigurations: [AdConfigurationSummary], nextToken: String? = nil) {
+            self.adConfigurations = adConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adConfigurations = "adConfigurations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListChannelsRequest: AWSEncodableShape {
+        /// Filters the channel list to match the specified ad configuration ARN.
+        public let filterByAdConfigurationArn: String?
         /// Filters the channel list to match the specified name.
         public let filterByName: String?
         /// Filters the channel list to match the specified policy.
@@ -1229,7 +1731,8 @@ extension IVS {
         public let nextToken: String?
 
         @inlinable
-        public init(filterByName: String? = nil, filterByPlaybackRestrictionPolicyArn: String? = nil, filterByRecordingConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filterByAdConfigurationArn: String? = nil, filterByName: String? = nil, filterByPlaybackRestrictionPolicyArn: String? = nil, filterByRecordingConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterByAdConfigurationArn = filterByAdConfigurationArn
             self.filterByName = filterByName
             self.filterByPlaybackRestrictionPolicyArn = filterByPlaybackRestrictionPolicyArn
             self.filterByRecordingConfigurationArn = filterByRecordingConfigurationArn
@@ -1238,6 +1741,8 @@ extension IVS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.filterByAdConfigurationArn, name: "filterByAdConfigurationArn", parent: name, max: 128)
+            try self.validate(self.filterByAdConfigurationArn, name: "filterByAdConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.filterByName, name: "filterByName", parent: name, max: 128)
             try self.validate(self.filterByName, name: "filterByName", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.filterByPlaybackRestrictionPolicyArn, name: "filterByPlaybackRestrictionPolicyArn", parent: name, max: 128)
@@ -1251,6 +1756,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filterByAdConfigurationArn = "filterByAdConfigurationArn"
             case filterByName = "filterByName"
             case filterByPlaybackRestrictionPolicyArn = "filterByPlaybackRestrictionPolicyArn"
             case filterByRecordingConfigurationArn = "filterByRecordingConfigurationArn"
@@ -1591,6 +2097,25 @@ extension IVS {
         }
     }
 
+    public struct MediaTailorPlaybackConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// ARN of the customer-created EMT PlaybackConfiguration resource in the same region and account.
+        public let playbackConfigurationArn: String?
+
+        @inlinable
+        public init(playbackConfigurationArn: String? = nil) {
+            self.playbackConfigurationArn = playbackConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.playbackConfigurationArn, name: "playbackConfigurationArn", parent: name, max: 128)
+            try self.validate(self.playbackConfigurationArn, name: "playbackConfigurationArn", parent: name, pattern: "^arn:aws:mediatailor:[a-z0-9-]+:[0-9]+:playbackConfiguration/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case playbackConfigurationArn = "playbackConfigurationArn"
+        }
+    }
+
     public struct MultitrackInputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether multitrack input is enabled. Can be set to true only if channel type is STANDARD. Setting enabled to true with any other channel type will cause an exception. If true, then policy, maximumResolution, and containerFormat are required, and containerFormat must be set to FRAGMENTED_MP4. Default: false.
         public let enabled: Bool?
@@ -1614,12 +2139,42 @@ extension IVS {
     }
 
     public struct PendingVerification: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         ///  Your account is pending verification.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1743,6 +2298,29 @@ extension IVS {
         }
     }
 
+    public struct PostRollConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Duration of the post-roll ad break, in seconds.
+        public let durationSeconds: Int
+        /// Whether the post-roll ad configuration is enabled.
+        public let enabled: Bool
+
+        @inlinable
+        public init(durationSeconds: Int, enabled: Bool) {
+            self.durationSeconds = durationSeconds
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 300)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationSeconds = "durationSeconds"
+            case enabled = "enabled"
+        }
+    }
+
     public struct PutMetadataRequest: AWSEncodableShape {
         /// ARN of the channel into which metadata is inserted. This channel must have an active stream.
         public let channelArn: String
@@ -1859,12 +2437,42 @@ extension IVS {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// Request references a resource which does not exist.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1893,12 +2501,86 @@ extension IVS {
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// Request would cause a service quota to be exceeded.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
+    public struct ServiceUnavailable: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
+        /// The service is temporarily unavailable.
+        public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
+
+        @inlinable
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
+            self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2117,9 +2799,9 @@ extension IVS {
         /// Time when the channel went offline. This is an ISO 8601 timestamp; note that this is returned as a string. For live streams, this is NULL.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
-        /// The properties of the incoming RTMP stream.  Note: ingestConfiguration is deprecated in favor of ingestConfigurations but retained to ensure backward compatibility. If multitrack is not enabled, ingestConfiguration and ingestConfigurations contain the same data, namely information about track0 (the sole track). If multitrack is enabled, ingestConfiguration contains data for only the first track (track0) and ingestConfigurations contains data for all tracks.
+        /// The properties of the incoming RTMP stream.  Note: ingestConfiguration is deprecated in favor of ingestConfigurations but retained to ensure backward compatibility. If multitrack is not enabled, ingestConfiguration and ingestConfigurations contain the same data, namely information about Track0 (the sole track). If multitrack is enabled, ingestConfiguration contains data for only the first track (Track0) and ingestConfigurations contains data for all tracks.
         public let ingestConfiguration: IngestConfiguration?
-        /// The properties of the incoming RTMP stream. If multitrack is enabled, ingestConfigurations contains data for all tracks; otherwise, it contains data only for track0 (the sole track).
+        /// The properties of the incoming RTMP stream. If multitrack is enabled, ingestConfigurations contains data for all tracks; otherwise, it contains data only for Track0 (the sole track).
         public let ingestConfigurations: IngestConfigurations?
         /// The properties of recording the live stream.
         public let recordingConfiguration: RecordingConfiguration?
@@ -2219,12 +2901,42 @@ extension IVS {
     }
 
     public struct StreamUnavailable: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// The stream is temporarily unavailable.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2258,7 +2970,9 @@ extension IVS {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -2273,12 +2987,42 @@ extension IVS {
     }
 
     public struct ThrottlingException: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// Request was denied due to request throttling.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2320,7 +3064,7 @@ extension IVS {
     public struct UntagResourceRequest: AWSEncodableShape {
         /// ARN of the resource for which tags are to be removed. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Array of tag keys (strings) for the tags to be removed. See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public let tagKeys: [String]
 
         @inlinable
@@ -2343,6 +3087,7 @@ extension IVS {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
         }
@@ -2354,7 +3099,62 @@ extension IVS {
         public init() {}
     }
 
+    public struct UpdateAdConfigurationRequest: AWSEncodableShape {
+        /// ARN of the ad configuration to be updated.
+        public let arn: String
+        /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens.
+        public let mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration]?
+        /// Ad configuration name. The value does not need to be unique.
+        public let name: String?
+        /// Configuration for the post-roll ad break to use for this ad configuration.
+        public let postRollConfiguration: PostRollConfiguration?
+
+        @inlinable
+        public init(arn: String, mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration]? = nil, name: String? = nil, postRollConfiguration: PostRollConfiguration? = nil) {
+            self.arn = arn
+            self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
+            self.name = name
+            self.postRollConfiguration = postRollConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$")
+            try self.mediaTailorPlaybackConfigurations?.forEach {
+                try $0.validate(name: "\(name).mediaTailorPlaybackConfigurations[]")
+            }
+            try self.validate(self.mediaTailorPlaybackConfigurations, name: "mediaTailorPlaybackConfigurations", parent: name, max: 3)
+            try self.validate(self.mediaTailorPlaybackConfigurations, name: "mediaTailorPlaybackConfigurations", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
+            try self.postRollConfiguration?.validate(name: "\(name).postRollConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case mediaTailorPlaybackConfigurations = "mediaTailorPlaybackConfigurations"
+            case name = "name"
+            case postRollConfiguration = "postRollConfiguration"
+        }
+    }
+
+    public struct UpdateAdConfigurationResponse: AWSDecodableShape {
+        /// Object specifying the updated ad configuration.
+        public let adConfiguration: AdConfiguration
+
+        @inlinable
+        public init(adConfiguration: AdConfiguration) {
+            self.adConfiguration = adConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adConfiguration = "adConfiguration"
+        }
+    }
+
     public struct UpdateChannelRequest: AWSEncodableShape {
+        /// ARN of the ad configuration associated with the channel.
+        public let adConfigurationArn: String?
         /// ARN of the channel to be updated.
         public let arn: String
         /// Whether the channel is private (enabled for playback authorization).
@@ -2379,7 +3179,8 @@ extension IVS {
         public let type: ChannelType?
 
         @inlinable
-        public init(arn: String, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
+        public init(adConfigurationArn: String? = nil, arn: String, authorized: Bool? = nil, containerFormat: ContainerFormat? = nil, insecureIngest: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, multitrackInputConfiguration: MultitrackInputConfiguration? = nil, name: String? = nil, playbackRestrictionPolicyArn: String? = nil, preset: TranscodePreset? = nil, recordingConfigurationArn: String? = nil, type: ChannelType? = nil) {
+            self.adConfigurationArn = adConfigurationArn
             self.arn = arn
             self.authorized = authorized
             self.containerFormat = containerFormat
@@ -2394,6 +3195,8 @@ extension IVS {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.adConfigurationArn, name: "adConfigurationArn", parent: name, max: 128)
+            try self.validate(self.adConfigurationArn, name: "adConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:ad-configuration/[a-zA-Z0-9-]+$$")
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:channel/[a-zA-Z0-9-]+$")
@@ -2406,6 +3209,7 @@ extension IVS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConfigurationArn = "adConfigurationArn"
             case arn = "arn"
             case authorized = "authorized"
             case containerFormat = "containerFormat"
@@ -2494,12 +3298,42 @@ extension IVS {
     }
 
     public struct ValidationException: AWSErrorShape {
+        public let accessControlAllowOrigin: String?
+        public let accessControlExposeHeaders: String?
+        public let cacheControl: String?
+        public let contentSecurityPolicy: String?
         /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public let exceptionMessage: String?
+        public let strictTransportSecurity: String?
+        public let xAmznErrorType: String?
+        public let xContentTypeOptions: String?
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(exceptionMessage: String? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, exceptionMessage: String? = nil, strictTransportSecurity: String? = nil, xAmznErrorType: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.exceptionMessage = exceptionMessage
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xAmznErrorType = xAmznErrorType
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.exceptionMessage = try container.decodeIfPresent(String.self, forKey: .exceptionMessage)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xAmznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2508,9 +3342,9 @@ extension IVS {
     }
 
     public struct VideoConfiguration: AWSDecodableShape {
-        /// Indicates the degree of required decoder performance for a profile. Normally this is set automatically by the encoder. For details, see the H.264 specification.
+        /// (Deprecated) Indicates the degree of required decoder performance for a profile. Normally this is set automatically by the encoder. For details, see the H.264 specification. This is populated only when VideoConfiguration is part of the deprecated IngestConfiguration; otherwise, this is an empty string.
         public let avcLevel: String?
-        /// Indicates to the decoder the requirements for decoding the stream. For definitions of the valid values, see the H.264 specification.
+        /// (Deprecated) Indicates to the decoder the requirements for decoding the stream. For definitions of the valid values, see the H.264 specification. This is populated only when VideoConfiguration is part of the deprecated IngestConfiguration; otherwise, this is an empty string.
         public let avcProfile: String?
         /// Codec used for the video encoding.
         public let codec: String?
@@ -2524,7 +3358,7 @@ extension IVS {
         public let targetBitrate: Int64?
         /// The expected ingest framerate. This is configured in the encoder.
         public let targetFramerate: Int64?
-        /// Name of the video track. If multitrack is not enabled, this is track0 (the sole track).
+        /// Name of the video track. If multitrack is not enabled, this is Track0 (the sole track).
         public let track: String?
         /// Video-resolution height in pixels.
         public let videoHeight: Int64?
@@ -2574,6 +3408,7 @@ public struct IVSErrorType: AWSErrorType {
         case pendingVerification = "PendingVerification"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case serviceUnavailable = "ServiceUnavailable"
         case streamUnavailable = "StreamUnavailable"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
@@ -2597,15 +3432,27 @@ public struct IVSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// User does not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The stream is offline for the given channel ARN.
     public static var channelNotBroadcasting: Self { .init(.channelNotBroadcasting) }
+    /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Unexpected error during processing of request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Your account is pending verification.
     public static var pendingVerification: Self { .init(.pendingVerification) }
+    /// Request references a resource which does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Request would cause a service quota to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The service is temporarily unavailable.
+    public static var serviceUnavailable: Self { .init(.serviceUnavailable) }
+    /// The stream is temporarily unavailable.
     public static var streamUnavailable: Self { .init(.streamUnavailable) }
+    /// Request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 
@@ -2618,6 +3465,7 @@ extension IVSErrorType: AWSServiceErrorType {
         "PendingVerification": IVS.PendingVerification.self,
         "ResourceNotFoundException": IVS.ResourceNotFoundException.self,
         "ServiceQuotaExceededException": IVS.ServiceQuotaExceededException.self,
+        "ServiceUnavailable": IVS.ServiceUnavailable.self,
         "StreamUnavailable": IVS.StreamUnavailable.self,
         "ThrottlingException": IVS.ThrottlingException.self,
         "ValidationException": IVS.ValidationException.self

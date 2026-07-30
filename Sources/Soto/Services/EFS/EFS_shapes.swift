@@ -364,7 +364,7 @@ extension EFS {
         public let kmsKeyId: String?
         /// The performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems.  Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems.  Default is generalPurpose.
         public let performanceMode: PerformanceMode?
-        /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web ServicesSupport. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
+        /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// Use to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair. Each key must be unique. For more  information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
@@ -2343,7 +2343,7 @@ extension EFS {
     public struct UpdateFileSystemRequest: AWSEncodableShape {
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
-        /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web ServicesSupport. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
+        /// (Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned,  you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?

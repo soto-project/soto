@@ -209,8 +209,12 @@ extension TrustedAdvisor {
     public struct CheckSummary: AWSDecodableShape {
         /// The ARN of the AWS Trusted Advisor Check
         public let arn: String
+        /// The AWS resource types that this check evaluates (for example, AWS::EC2::Instance).
+        public let awsResourceTypes: [String]?
         /// The AWS Services that the Check applies to
         public let awsServices: [String]
+        /// The granularity level at which the check operates: resource, account, or account_region.
+        public let checkGranularity: String?
         /// A description of what the AWS Trusted Advisor Check is monitoring
         public let description: String
         /// The unique identifier of the AWS Trusted Advisor Check
@@ -221,29 +225,41 @@ extension TrustedAdvisor {
         public let name: String
         /// The Recommendation pillars that the AWS Trusted Advisor Check falls under
         public let pillars: [RecommendationPillar]
+        /// The recommendation identifier associated with the check.
+        public let recommendationId: String?
+        /// Indicates whether this check is supported by the ListRecommendationsForResource API.
+        public let resourceArnQueryable: Bool?
         /// The source of the Recommendation
         public let source: RecommendationSource
 
         @inlinable
-        public init(arn: String, awsServices: [String], description: String, id: String, metadata: [String: String], name: String, pillars: [RecommendationPillar], source: RecommendationSource) {
+        public init(arn: String, awsResourceTypes: [String]? = nil, awsServices: [String], checkGranularity: String? = nil, description: String, id: String, metadata: [String: String], name: String, pillars: [RecommendationPillar], recommendationId: String? = nil, resourceArnQueryable: Bool? = nil, source: RecommendationSource) {
             self.arn = arn
+            self.awsResourceTypes = awsResourceTypes
             self.awsServices = awsServices
+            self.checkGranularity = checkGranularity
             self.description = description
             self.id = id
             self.metadata = metadata
             self.name = name
             self.pillars = pillars
+            self.recommendationId = recommendationId
+            self.resourceArnQueryable = resourceArnQueryable
             self.source = source
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case awsResourceTypes = "awsResourceTypes"
             case awsServices = "awsServices"
+            case checkGranularity = "checkGranularity"
             case description = "description"
             case id = "id"
             case metadata = "metadata"
             case name = "name"
             case pillars = "pillars"
+            case recommendationId = "recommendationId"
+            case resourceArnQueryable = "resourceArnQueryable"
             case source = "source"
         }
     }
@@ -661,6 +677,75 @@ extension TrustedAdvisor {
         }
     }
 
+    public struct ListRecommendationsForResourceRequest: AWSEncodableShape {
+        /// The ARN of the AWS resource to query recommendations for
+        public let awsResourceArn: String
+        /// The AWS Trusted Advisor Check ARN that relates to the Recommendation
+        public let checkArn: String?
+        /// The ISO 639-1 code for the language that you want your recommendations to appear in.
+        public let language: RecommendationLanguage?
+        /// The maximum number of results to return per page
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The pillar that the recommendation belongs to
+        public let pillar: RecommendationPillar?
+        /// The current status of the Recommendation Resource
+        public let status: ResourceStatus?
+
+        @inlinable
+        public init(awsResourceArn: String, checkArn: String? = nil, language: RecommendationLanguage? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillar: RecommendationPillar? = nil, status: ResourceStatus? = nil) {
+            self.awsResourceArn = awsResourceArn
+            self.checkArn = checkArn
+            self.language = language
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pillar = pillar
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsResourceArn, key: "awsResourceArn")
+            request.encodeQuery(self.checkArn, key: "checkArn")
+            request.encodeQuery(self.language, key: "language")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.pillar, key: "pillar")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsResourceArn, name: "awsResourceArn", parent: name, max: 2048)
+            try self.validate(self.awsResourceArn, name: "awsResourceArn", parent: name, min: 20)
+            try self.validate(self.awsResourceArn, name: "awsResourceArn", parent: name, pattern: "^arn:aws(-\\w+)*:[\\w\\d-]+:([\\w\\d-]*)?:[\\w\\d_-]*([:/].+)*$")
+            try self.validate(self.checkArn, name: "checkArn", parent: name, max: 2048)
+            try self.validate(self.checkArn, name: "checkArn", parent: name, min: 20)
+            try self.validate(self.checkArn, name: "checkArn", parent: name, pattern: "^arn:[\\w-]+:trustedadvisor:::check\\/[\\w-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRecommendationsForResourceResponse: AWSDecodableShape {
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// List of Trusted Advisor recommendations associated with the given AWS resource
+        public let recommendationForResourceSummaries: [RecommendationForResourceSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, recommendationForResourceSummaries: [RecommendationForResourceSummary]) {
+            self.nextToken = nextToken
+            self.recommendationForResourceSummaries = recommendationForResourceSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case recommendationForResourceSummaries = "recommendationForResourceSummaries"
+        }
+    }
+
     public struct ListRecommendationsRequest: AWSEncodableShape {
         /// After the last update of the Recommendation
         public let afterLastUpdatedAt: Date?
@@ -1068,6 +1153,48 @@ extension TrustedAdvisor {
         private enum CodingKeys: String, CodingKey {
             case estimatedMonthlySavings = "estimatedMonthlySavings"
             case estimatedPercentMonthlySavings = "estimatedPercentMonthlySavings"
+        }
+    }
+
+    public struct RecommendationForResourceSummary: AWSDecodableShape {
+        /// The AWS Resource ARN
+        public let awsResourceArn: String
+        /// The Check ARN
+        public let checkArn: String
+        /// The exclusion status of the recommendation
+        public let exclusionStatus: ExclusionStatus
+        /// When the recommendation was last updated
+        public let lastUpdatedAt: Date
+        /// Metadata associated with the recommendation
+        public let metadata: [String: String]
+        /// The Pillars that the Recommendation is optimizing
+        public let pillars: [RecommendationPillar]
+        /// The Recommendation ARN
+        public let recommendationArn: String
+        /// The current status of the recommendation
+        public let status: ResourceStatus
+
+        @inlinable
+        public init(awsResourceArn: String, checkArn: String, exclusionStatus: ExclusionStatus, lastUpdatedAt: Date, metadata: [String: String], pillars: [RecommendationPillar], recommendationArn: String, status: ResourceStatus) {
+            self.awsResourceArn = awsResourceArn
+            self.checkArn = checkArn
+            self.exclusionStatus = exclusionStatus
+            self.lastUpdatedAt = lastUpdatedAt
+            self.metadata = metadata
+            self.pillars = pillars
+            self.recommendationArn = recommendationArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsResourceArn = "awsResourceArn"
+            case checkArn = "checkArn"
+            case exclusionStatus = "exclusionStatus"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case metadata = "metadata"
+            case pillars = "pillars"
+            case recommendationArn = "recommendationArn"
+            case status = "status"
         }
     }
 

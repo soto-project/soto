@@ -463,6 +463,24 @@ extension IoTWireless {
         }
     }
 
+    public struct AdvancedConfiguration: AWSEncodableShape {
+        /// Configuration for WiFi and cellular-based payloads for location estimates.
+        public let wiFiCellular: WiFiCellular?
+
+        @inlinable
+        public init(wiFiCellular: WiFiCellular? = nil) {
+            self.wiFiCellular = wiFiCellular
+        }
+
+        public func validate(name: String) throws {
+            try self.wiFiCellular?.validate(name: "\(name).wiFiCellular")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wiFiCellular = "WiFiCellular"
+        }
+    }
+
     public struct ApplicationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The name of the position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
         public let destinationName: String?
@@ -1737,6 +1755,29 @@ extension IoTWireless {
             case deviceTypeId = "DeviceTypeId"
             case factorySupport = "FactorySupport"
             case maxAllowedSignature = "MaxAllowedSignature"
+        }
+    }
+
+    public struct DefaultSessionParametersMulticast: AWSEncodableShape & AWSDecodableShape {
+        public let dlDr: Int?
+        public let dlFreq: Int?
+
+        @inlinable
+        public init(dlDr: Int? = nil, dlFreq: Int? = nil) {
+            self.dlDr = dlDr
+            self.dlFreq = dlFreq
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dlDr, name: "dlDr", parent: name, max: 15)
+            try self.validate(self.dlDr, name: "dlDr", parent: name, min: 0)
+            try self.validate(self.dlFreq, name: "dlFreq", parent: name, max: 1000000000)
+            try self.validate(self.dlFreq, name: "dlFreq", parent: name, min: 100000000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dlDr = "DlDr"
+            case dlFreq = "DlFreq"
         }
     }
 
@@ -3119,6 +3160,8 @@ extension IoTWireless {
     }
 
     public struct GetPositionEstimateRequest: AWSEncodableShape {
+        /// Optional configuration to customize position estimates. If not provided, defaults are applied.
+        public let advancedConfiguration: AdvancedConfiguration?
         /// Retrieves an estimated device position by resolving measurement data from cellular radio towers. The position is resolved using HERE's cellular-based solver.
         public let cellTowers: CellTowers?
         /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
@@ -3131,7 +3174,8 @@ extension IoTWireless {
         public let wiFiAccessPoints: [WiFiAccessPoint]?
 
         @inlinable
-        public init(cellTowers: CellTowers? = nil, gnss: Gnss? = nil, ip: Ip? = nil, timestamp: Date? = nil, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
+        public init(advancedConfiguration: AdvancedConfiguration? = nil, cellTowers: CellTowers? = nil, gnss: Gnss? = nil, ip: Ip? = nil, timestamp: Date? = nil, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
+            self.advancedConfiguration = advancedConfiguration
             self.cellTowers = cellTowers
             self.gnss = gnss
             self.ip = ip
@@ -3140,6 +3184,7 @@ extension IoTWireless {
         }
 
         public func validate(name: String) throws {
+            try self.advancedConfiguration?.validate(name: "\(name).advancedConfiguration")
             try self.cellTowers?.validate(name: "\(name).cellTowers")
             try self.gnss?.validate(name: "\(name).gnss")
             try self.wiFiAccessPoints?.forEach {
@@ -3148,6 +3193,7 @@ extension IoTWireless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedConfiguration = "AdvancedConfiguration"
             case cellTowers = "CellTowers"
             case gnss = "Gnss"
             case ip = "Ip"
@@ -5610,22 +5656,27 @@ extension IoTWireless {
     }
 
     public struct LoRaWANMulticast: AWSEncodableShape {
+        /// The default session parameters for the multicast group.
+        public let defaultSessionParameters: DefaultSessionParametersMulticast?
         public let dlClass: DlClass?
         public let participatingGateways: ParticipatingGatewaysMulticast?
         public let rfRegion: SupportedRfRegion?
 
         @inlinable
-        public init(dlClass: DlClass? = nil, participatingGateways: ParticipatingGatewaysMulticast? = nil, rfRegion: SupportedRfRegion? = nil) {
+        public init(defaultSessionParameters: DefaultSessionParametersMulticast? = nil, dlClass: DlClass? = nil, participatingGateways: ParticipatingGatewaysMulticast? = nil, rfRegion: SupportedRfRegion? = nil) {
+            self.defaultSessionParameters = defaultSessionParameters
             self.dlClass = dlClass
             self.participatingGateways = participatingGateways
             self.rfRegion = rfRegion
         }
 
         public func validate(name: String) throws {
+            try self.defaultSessionParameters?.validate(name: "\(name).defaultSessionParameters")
             try self.participatingGateways?.validate(name: "\(name).participatingGateways")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultSessionParameters = "DefaultSessionParameters"
             case dlClass = "DlClass"
             case participatingGateways = "ParticipatingGateways"
             case rfRegion = "RfRegion"
@@ -5633,6 +5684,8 @@ extension IoTWireless {
     }
 
     public struct LoRaWANMulticastGet: AWSDecodableShape {
+        /// The default session parameters for the multicast group.
+        public let defaultSessionParameters: DefaultSessionParametersMulticast?
         public let dlClass: DlClass?
         public let numberOfDevicesInGroup: Int?
         public let numberOfDevicesRequested: Int?
@@ -5640,7 +5693,8 @@ extension IoTWireless {
         public let rfRegion: SupportedRfRegion?
 
         @inlinable
-        public init(dlClass: DlClass? = nil, numberOfDevicesInGroup: Int? = nil, numberOfDevicesRequested: Int? = nil, participatingGateways: ParticipatingGatewaysMulticast? = nil, rfRegion: SupportedRfRegion? = nil) {
+        public init(defaultSessionParameters: DefaultSessionParametersMulticast? = nil, dlClass: DlClass? = nil, numberOfDevicesInGroup: Int? = nil, numberOfDevicesRequested: Int? = nil, participatingGateways: ParticipatingGatewaysMulticast? = nil, rfRegion: SupportedRfRegion? = nil) {
+            self.defaultSessionParameters = defaultSessionParameters
             self.dlClass = dlClass
             self.numberOfDevicesInGroup = numberOfDevicesInGroup
             self.numberOfDevicesRequested = numberOfDevicesRequested
@@ -5649,6 +5703,7 @@ extension IoTWireless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultSessionParameters = "DefaultSessionParameters"
             case dlClass = "DlClass"
             case numberOfDevicesInGroup = "NumberOfDevicesInGroup"
             case numberOfDevicesRequested = "NumberOfDevicesRequested"
@@ -8830,6 +8885,25 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case macAddress = "MacAddress"
             case rss = "Rss"
+        }
+    }
+
+    public struct WiFiCellular: AWSEncodableShape {
+        /// Confidence level for WiFi and cellular position estimates, expressed as a percentage. Valid range: 50–99 inclusive. Defaults to 68 if not specified.
+        public let confidencePercent: Int?
+
+        @inlinable
+        public init(confidencePercent: Int? = nil) {
+            self.confidencePercent = confidencePercent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.confidencePercent, name: "confidencePercent", parent: name, max: 99)
+            try self.validate(self.confidencePercent, name: "confidencePercent", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidencePercent = "ConfidencePercent"
         }
     }
 

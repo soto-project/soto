@@ -3760,6 +3760,7 @@ public struct MediaLive: AWSService {
     ///   - maintenance: Maintenance settings for this channel.
     ///   - name: The name of the channel.
     ///   - roleArn: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
+    ///   - specialRouterSettings: When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output
     ///   - logger: Logger use during operation
     @inlinable
     public func updateChannel(
@@ -3779,6 +3780,7 @@ public struct MediaLive: AWSService {
         maintenance: MaintenanceUpdateSettings? = nil,
         name: String? = nil,
         roleArn: String? = nil,
+        specialRouterSettings: SpecialRouterSettings? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateChannelResponse {
         let input = UpdateChannelRequest(
@@ -3797,7 +3799,8 @@ public struct MediaLive: AWSService {
             logLevel: logLevel, 
             maintenance: maintenance, 
             name: name, 
-            roleArn: roleArn
+            roleArn: roleArn, 
+            specialRouterSettings: specialRouterSettings
         )
         return try await self.updateChannel(input, logger: logger)
     }

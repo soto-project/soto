@@ -139,7 +139,7 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - entities: (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
-    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
+    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - requests: An array of up to 30 requests that you want Verified Permissions to evaluate.
     ///   - logger: Logger use during operation
     @inlinable
@@ -176,7 +176,7 @@ public struct VerifiedPermissions: AWSService {
     ///   - accessToken: Specifies an access token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an access token. Verified Permissions returns an error if the token_use claim in the submitted token isn't access.
     ///   - entities: (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The BatchIsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
     ///   - identityToken: Specifies an identity (ID) token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
-    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - requests: An array of up to 30 requests that you want Verified Permissions to evaluate.
     ///   - logger: Logger use during operation
     @inlinable
@@ -216,7 +216,7 @@ public struct VerifiedPermissions: AWSService {
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - configuration: Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
-    ///   - policyStoreId: Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source.
+    ///   - policyStoreId: Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - principalEntityType: Specifies the namespace and data type of the principals generated for identities authenticated by the new identity source.
     ///   - logger: Logger use during operation
     @inlinable
@@ -254,24 +254,27 @@ public struct VerifiedPermissions: AWSService {
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - definition: A structure that specifies the policy type and content to use for the new policy. You must include either a static or a templateLinked element. The policy content must be written in the Cedar policy language.
-    ///   - policyStoreId: Specifies the PolicyStoreId of the policy store you want to store the policy in.
+    ///   - name: Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/. If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error.
+    ///   - policyStoreId: Specifies the PolicyStoreId of the policy store you want to store the policy in. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPolicy(
         clientToken: String? = CreatePolicyInput.idempotencyToken(),
         definition: PolicyDefinition,
+        name: String? = nil,
         policyStoreId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePolicyOutput {
         let input = CreatePolicyInput(
             clientToken: clientToken, 
             definition: definition, 
+            name: name, 
             policyStoreId: policyStoreId
         )
         return try await self.createPolicy(input, logger: logger)
     }
 
-    /// Creates a policy store. A policy store is a container for policy resources.  Although Cedar supports multiple namespaces, Verified Permissions currently supports only one namespace per policy store.   Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creates a policy store. A policy store is a container for policy resources.  As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces.   Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     @Sendable
     @inlinable
     public func createPolicyStore(_ input: CreatePolicyStoreInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyStoreOutput {
@@ -284,7 +287,7 @@ public struct VerifiedPermissions: AWSService {
             logger: logger
         )
     }
-    /// Creates a policy store. A policy store is a container for policy resources.  Although Cedar supports multiple namespaces, Verified Permissions currently supports only one namespace per policy store.   Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creates a policy store. A policy store is a container for policy resources.  As of May 2026, Verified Permissions has aligned with Cedar and now supports multiple namespaces.   Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
@@ -315,6 +318,38 @@ public struct VerifiedPermissions: AWSService {
         return try await self.createPolicyStore(input, logger: logger)
     }
 
+    /// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias requests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will not be created.  Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    @Sendable
+    @inlinable
+    public func createPolicyStoreAlias(_ input: CreatePolicyStoreAliasInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyStoreAliasOutput {
+        try await self.client.execute(
+            operation: "CreatePolicyStoreAlias", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a policy store alias for the specified policy store. A policy store alias is an alternative identifier that you can use to reference a policy store in API operations. This operation is idempotent. If multiple CreatePolicyStoreAlias requests are made where the aliasName and policyStoreId fields are the same between the requests, subsequent requests will be ignored. For each duplicate CreatePolicyStoreAlias request, a Success response will be returned and a new policy store alias will not be created.  Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
+    ///
+    /// Parameters:
+    ///   - aliasName: Specifies the name of the policy store alias to create. The name must be unique within your Amazon Web Services account and Amazon Web Services Region.  The alias name must always be prefixed with policy-store-alias/.
+    ///   - policyStoreId: Specifies the ID of the policy store to associate with the alias.  The associated policy store must be specified using its ID. The alias name cannot be used.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPolicyStoreAlias(
+        aliasName: String,
+        policyStoreId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePolicyStoreAliasOutput {
+        let input = CreatePolicyStoreAliasInput(
+            aliasName: aliasName, 
+            policyStoreId: policyStoreId
+        )
+        return try await self.createPolicyStoreAlias(input, logger: logger)
+    }
+
     /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well.  Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     @Sendable
     @inlinable
@@ -333,13 +368,15 @@ public struct VerifiedPermissions: AWSService {
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     ///   - description: Specifies a description for the policy template.
-    ///   - policyStoreId: The ID of the policy store in which to create the policy template.
+    ///   - name: Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/. If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error.
+    ///   - policyStoreId: The ID of the policy store in which to create the policy template. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - statement: Specifies the content that you want to use for the new policy template, written in the Cedar policy language.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPolicyTemplate(
         clientToken: String? = CreatePolicyTemplateInput.idempotencyToken(),
         description: String? = nil,
+        name: String? = nil,
         policyStoreId: String,
         statement: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -347,6 +384,7 @@ public struct VerifiedPermissions: AWSService {
         let input = CreatePolicyTemplateInput(
             clientToken: clientToken, 
             description: description, 
+            name: name, 
             policyStoreId: policyStoreId, 
             statement: statement
         )
@@ -370,7 +408,7 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - identitySourceId: Specifies the ID of the identity source that you want to delete.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity source that you want to delete.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity source that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteIdentitySource(
@@ -401,8 +439,8 @@ public struct VerifiedPermissions: AWSService {
     /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code.
     ///
     /// Parameters:
-    ///   - policyId: Specifies the ID of the policy that you want to delete.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy that you want to delete.
+    ///   - policyId: Specifies the ID of the policy that you want to delete. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:   ID: SPEXAMPLEabcdefg111111    Name: name/example-policy
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func deletePolicy(
@@ -433,7 +471,7 @@ public struct VerifiedPermissions: AWSService {
     /// Deletes the specified policy store. This operation is idempotent. If you specify a policy store that does not exist, the request response will still return a successful HTTP 200 status code.
     ///
     /// Parameters:
-    ///   - policyStoreId: Specifies the ID of the policy store that you want to delete.
+    ///   - policyStoreId: Specifies the ID of the policy store that you want to delete.  To specify a policy store, the alias name cannot be used. Only the ID can be used.
     ///   - logger: Logger use during operation
     @inlinable
     public func deletePolicyStore(
@@ -444,6 +482,38 @@ public struct VerifiedPermissions: AWSService {
             policyStoreId: policyStoreId
         )
         return try await self.deletePolicyStore(input, logger: logger)
+    }
+
+    /// Deletes the specified policy store alias. This operation is idempotent. If you specify a policy store alias that does not exist, the request response will still return a successful HTTP 200 status code. By default, when a policy store alias is deleted, it enters the PendingDeletion state. When a policy store alias is in the PendingDeletion state, new policy store aliases cannot be created with the same name. If the policy store alias is used in an API that has a policyStoreId field, the operation will fail with a ResourceNotFound exception. To immediately delete a policy store alias and bypass the PendingDeletion state, set the deletionMode parameter to HardDelete.  Verified Permissions is eventually consistent. If you hard delete a policy store alias and then immediately recreate it to be associated with a different policy store, requests that reference this alias may continue to be evaluated against the previously associated policy store for a short period of time.
+    @Sendable
+    @inlinable
+    public func deletePolicyStoreAlias(_ input: DeletePolicyStoreAliasInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyStoreAliasOutput {
+        try await self.client.execute(
+            operation: "DeletePolicyStoreAlias", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified policy store alias. This operation is idempotent. If you specify a policy store alias that does not exist, the request response will still return a successful HTTP 200 status code. By default, when a policy store alias is deleted, it enters the PendingDeletion state. When a policy store alias is in the PendingDeletion state, new policy store aliases cannot be created with the same name. If the policy store alias is used in an API that has a policyStoreId field, the operation will fail with a ResourceNotFound exception. To immediately delete a policy store alias and bypass the PendingDeletion state, set the deletionMode parameter to HardDelete.  Verified Permissions is eventually consistent. If you hard delete a policy store alias and then immediately recreate it to be associated with a different policy store, requests that reference this alias may continue to be evaluated against the previously associated policy store for a short period of time.
+    ///
+    /// Parameters:
+    ///   - aliasName: Specifies the name of the policy store alias that you want to delete.  The alias name must always be prefixed with policy-store-alias/.
+    ///   - deletionMode: Specifies the deletion mode for the policy store alias. The valid values are:    SoftDelete – The policy store alias enters the PendingDeletion state. This is the default behavior when no deletionMode is specified.    HardDelete – The policy store alias is immediately deleted, bypassing the PendingDeletion state.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePolicyStoreAlias(
+        aliasName: String,
+        deletionMode: DeletionMode? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePolicyStoreAliasOutput {
+        let input = DeletePolicyStoreAliasInput(
+            aliasName: aliasName, 
+            deletionMode: deletionMode
+        )
+        return try await self.deletePolicyStoreAlias(input, logger: logger)
     }
 
     /// Deletes the specified policy template from the policy store.  This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
@@ -462,8 +532,8 @@ public struct VerifiedPermissions: AWSService {
     /// Deletes the specified policy template from the policy store.  This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
     ///
     /// Parameters:
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy template that you want to delete.
-    ///   - policyTemplateId: Specifies the ID of the policy template that you want to delete.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy template that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
+    ///   - policyTemplateId: Specifies the ID of the policy template that you want to delete. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:   ID: PTEXAMPLEabcdefg111111    Name: name/example-policy-template
     ///   - logger: Logger use during operation
     @inlinable
     public func deletePolicyTemplate(
@@ -495,7 +565,7 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - identitySourceId: Specifies the ID of the identity source you want information about.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity source you want information about.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity source you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func getIdentitySource(
@@ -526,8 +596,8 @@ public struct VerifiedPermissions: AWSService {
     /// Retrieves information about the specified policy.
     ///
     /// Parameters:
-    ///   - policyId: Specifies the ID of the policy you want information about.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy that you want information about.
+    ///   - policyId: Specifies the ID of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:   ID: SPEXAMPLEabcdefg111111    Name: name/example-policy
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func getPolicy(
@@ -558,7 +628,7 @@ public struct VerifiedPermissions: AWSService {
     /// Retrieves details about a policy store.
     ///
     /// Parameters:
-    ///   - policyStoreId: Specifies the ID of the policy store that you want information about.
+    ///   - policyStoreId: Specifies the policy store that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - tags: Specifies whether to return the tags that are attached to the policy store. If this parameter is included in the API call, the tags are returned, otherwise they are not returned.  If this parameter is included in the API call but there are no tags attached to the policy store, the tags response parameter is omitted from the response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -572,6 +642,35 @@ public struct VerifiedPermissions: AWSService {
             tags: tags
         )
         return try await self.getPolicyStore(input, logger: logger)
+    }
+
+    /// Retrieves details about the specified policy store alias.
+    @Sendable
+    @inlinable
+    public func getPolicyStoreAlias(_ input: GetPolicyStoreAliasInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyStoreAliasOutput {
+        try await self.client.execute(
+            operation: "GetPolicyStoreAlias", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about the specified policy store alias.
+    ///
+    /// Parameters:
+    ///   - aliasName: Specifies the name of the policy store alias that you want information about.  The alias name must always be prefixed with policy-store-alias/.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPolicyStoreAlias(
+        aliasName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPolicyStoreAliasOutput {
+        let input = GetPolicyStoreAliasInput(
+            aliasName: aliasName
+        )
+        return try await self.getPolicyStoreAlias(input, logger: logger)
     }
 
     /// Retrieve the details for the specified policy template in the specified policy store.
@@ -590,8 +689,8 @@ public struct VerifiedPermissions: AWSService {
     /// Retrieve the details for the specified policy template in the specified policy store.
     ///
     /// Parameters:
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy template that you want information about.
-    ///   - policyTemplateId: Specifies the ID of the policy template that you want information about.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy template that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
+    ///   - policyTemplateId: Specifies the ID of the policy template that you want information about. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:   ID: PTEXAMPLEabcdefg111111    Name: name/example-policy-template
     ///   - logger: Logger use during operation
     @inlinable
     public func getPolicyTemplate(
@@ -622,7 +721,7 @@ public struct VerifiedPermissions: AWSService {
     /// Retrieve the details for the specified schema in the specified policy store.
     ///
     /// Parameters:
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the schema.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func getSchema(
@@ -654,7 +753,7 @@ public struct VerifiedPermissions: AWSService {
     ///   - action: Specifies the requested action to be authorized. For example, is the principal authorized to perform this action on the resource?
     ///   - context: Specifies additional context that can be used to make more granular authorization decisions.
     ///   - entities: (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
-    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - principal: Specifies the principal for which the authorization decision is to be made.
     ///   - resource: Specifies the resource for which the authorization decision is to be made.
     ///   - logger: Logger use during operation
@@ -700,7 +799,7 @@ public struct VerifiedPermissions: AWSService {
     ///   - context: Specifies additional context that can be used to make more granular authorization decisions.
     ///   - entities: (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The IsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
     ///   - identityToken: Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
-    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+    ///   - policyStoreId: Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - resource: Specifies the resource for which the authorization decision is made. For example, is the principal allowed to perform the action on the resource?
     ///   - logger: Logger use during operation
     @inlinable
@@ -745,7 +844,7 @@ public struct VerifiedPermissions: AWSService {
     ///   - filters: Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
     ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity sources that you want to list.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity sources that you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func listIdentitySources(
@@ -783,7 +882,7 @@ public struct VerifiedPermissions: AWSService {
     ///   - filter: Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
     ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
-    ///   - policyStoreId: Specifies the ID of the policy store you want to list policies from.
+    ///   - policyStoreId: Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPolicies(
@@ -800,6 +899,41 @@ public struct VerifiedPermissions: AWSService {
             policyStoreId: policyStoreId
         )
         return try await self.listPolicies(input, logger: logger)
+    }
+
+    /// Returns a paginated list of all policy store aliases in the calling Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listPolicyStoreAliases(_ input: ListPolicyStoreAliasesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyStoreAliasesOutput {
+        try await self.client.execute(
+            operation: "ListPolicyStoreAliases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of all policy store aliases in the calling Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - filter: Specifies a filter to narrow the results. You can filter by policyStoreId to list only the policy store aliases associated with a specific policy store.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 5 policy store aliases per response. You can specify a maximum of 50 policy store aliases per response.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicyStoreAliases(
+        filter: PolicyStoreAliasFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPolicyStoreAliasesOutput {
+        let input = ListPolicyStoreAliasesInput(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPolicyStoreAliases(input, logger: logger)
     }
 
     /// Returns a paginated list of all policy stores in the calling Amazon Web Services account.
@@ -852,7 +986,7 @@ public struct VerifiedPermissions: AWSService {
     /// Parameters:
     ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy templates you want to list.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy templates you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPolicyTemplates(
@@ -915,7 +1049,7 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - definition: Specifies the definition of the schema to be stored. The schema definition must be written in Cedar schema JSON.
-    ///   - policyStoreId: Specifies the ID of the policy store in which to place the schema.
+    ///   - policyStoreId: Specifies the ID of the policy store in which to place the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func putSchema(
@@ -1011,7 +1145,7 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - identitySourceId: Specifies the ID of the identity source that you want to update.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity source that you want to update.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity source that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - principalEntityType: Specifies the data type of principals generated for identities authenticated by the identity source.
     ///   - updateConfiguration: Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
     ///   - logger: Logger use during operation
@@ -1048,19 +1182,22 @@ public struct VerifiedPermissions: AWSService {
     /// Modifies a Cedar static policy in the specified policy store. You can change only certain elements of the UpdatePolicyDefinition parameter. You can directly update only static policies. To change a template-linked policy, you must update the template instead, using UpdatePolicyTemplate.    If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static policy doesn't pass validation, the operation fails and the update isn't stored.   When you edit a static policy, you can change only certain elements of a static policy:   The action referenced by the policy.    A condition clause, such as when and unless.    You can't change these elements of a static policy:    Changing a policy from a static policy to a template-linked policy.    Changing the effect of a static policy from permit or forbid.    The principal referenced by a static policy.    The resource referenced by a static policy.      To update a template-linked policy, you must update the template instead.      Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// Parameters:
-    ///   - definition: Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. You can change only the following elements from the policy definition:   The action referenced by the policy.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   Changing from static to templateLinked.   Changing the effect of the policy from permit or forbid.   The principal referenced by the policy.   The resource referenced by the policy.
-    ///   - policyId: Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy that you want to update.
+    ///   - definition: Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. If you don't specify this parameter, the existing policy definition remains unchanged. You can change only the following elements from the policy definition:   The action referenced by the policy.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   Changing from static to templateLinked.   Changing the effect of the policy from permit or forbid.   The principal referenced by the policy.   The resource referenced by the policy.
+    ///   - name: Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/.  If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("").  If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error.
+    ///   - policyId: Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:   ID: SPEXAMPLEabcdefg111111    Name: name/example-policy
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePolicy(
         definition: UpdatePolicyDefinition? = nil,
+        name: String? = nil,
         policyId: String,
         policyStoreId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePolicyOutput {
         let input = UpdatePolicyInput(
             definition: definition, 
+            name: name, 
             policyId: policyId, 
             policyStoreId: policyStoreId
         )
@@ -1085,7 +1222,7 @@ public struct VerifiedPermissions: AWSService {
     /// Parameters:
     ///   - deletionProtection: Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore, this parameter is unchanged unless explicitly included in the call.
     ///   - description: Descriptive text that you can provide to help with identification of the current policy store.
-    ///   - policyStoreId: Specifies the ID of the policy store that you want to update
+    ///   - policyStoreId: Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - validationSettings: A structure that defines the validation settings that want to enable for the policy store.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1122,13 +1259,15 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - description: Specifies a new description to apply to the policy template.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy template that you want to update.
-    ///   - policyTemplateId: Specifies the ID of the policy template that you want to update.
+    ///   - name: Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/.  If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("").  If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy template that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
+    ///   - policyTemplateId: Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:   ID: PTEXAMPLEabcdefg111111    Name: name/example-policy-template
     ///   - statement: Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body:   The action referenced by the policy template.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   The effect (permit or forbid) of the policy template.   The principal referenced by the policy template.   The resource referenced by the policy template.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePolicyTemplate(
         description: String? = nil,
+        name: String? = nil,
         policyStoreId: String,
         policyTemplateId: String,
         statement: String,
@@ -1136,6 +1275,7 @@ public struct VerifiedPermissions: AWSService {
     ) async throws -> UpdatePolicyTemplateOutput {
         let input = UpdatePolicyTemplateInput(
             description: description, 
+            name: name, 
             policyStoreId: policyStoreId, 
             policyTemplateId: policyTemplateId, 
             statement: statement
@@ -1180,7 +1320,7 @@ extension VerifiedPermissions {
     /// - Parameters:
     ///   - filters: Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
     ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity sources that you want to list.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the identity sources that you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger used for logging
     @inlinable
     public func listIdentitySourcesPaginator(
@@ -1220,7 +1360,7 @@ extension VerifiedPermissions {
     /// - Parameters:
     ///   - filter: Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
     ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
-    ///   - policyStoreId: Specifies the ID of the policy store you want to list policies from.
+    ///   - policyStoreId: Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPoliciesPaginator(
@@ -1235,6 +1375,43 @@ extension VerifiedPermissions {
             policyStoreId: policyStoreId
         )
         return self.listPoliciesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPolicyStoreAliases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyStoreAliasesPaginator(
+        _ input: ListPolicyStoreAliasesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput> {
+        return .init(
+            input: input,
+            command: self.listPolicyStoreAliases,
+            inputKey: \ListPolicyStoreAliasesInput.nextToken,
+            outputKey: \ListPolicyStoreAliasesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicyStoreAliases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: Specifies a filter to narrow the results. You can filter by policyStoreId to list only the policy store aliases associated with a specific policy store.
+    ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 5 policy store aliases per response. You can specify a maximum of 50 policy store aliases per response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyStoreAliasesPaginator(
+        filter: PolicyStoreAliasFilter? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPolicyStoreAliasesInput, ListPolicyStoreAliasesOutput> {
+        let input = ListPolicyStoreAliasesInput(
+            filter: filter, 
+            maxResults: maxResults
+        )
+        return self.listPolicyStoreAliasesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listPolicyStores(_:logger:)``.
@@ -1293,7 +1470,7 @@ extension VerifiedPermissions {
     ///
     /// - Parameters:
     ///   - maxResults: Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
-    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy templates you want to list.
+    ///   - policyStoreId: Specifies the ID of the policy store that contains the policy templates you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPolicyTemplatesPaginator(
@@ -1329,6 +1506,17 @@ extension VerifiedPermissions.ListPoliciesInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             policyStoreId: self.policyStoreId
+        )
+    }
+}
+
+extension VerifiedPermissions.ListPolicyStoreAliasesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> VerifiedPermissions.ListPolicyStoreAliasesInput {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

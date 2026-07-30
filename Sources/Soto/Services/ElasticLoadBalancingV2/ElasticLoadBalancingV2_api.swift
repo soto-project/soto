@@ -299,7 +299,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         return try await self.createLoadBalancer(input, logger: logger)
     }
 
-    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, one or more conditions, and up to two optional transforms. Rules are evaluated in priority order, from the lowest value  to the highest value. When the conditions for a rule are met, its actions are performed.  If the conditions for no rules are met, the actions for the default rule are performed.  For more information, see Listener rules in the Application Load Balancers Guide.
+    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer or a dual-stack Network Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see Listener rules in the Application Load Balancers Guide or Listener rules in the Network Load Balancers Guide.
     @Sendable
     @inlinable
     public func createRule(_ input: CreateRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleOutput {
@@ -312,7 +312,7 @@ public struct ElasticLoadBalancingV2: AWSService {
             logger: logger
         )
     }
-    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, one or more conditions, and up to two optional transforms. Rules are evaluated in priority order, from the lowest value  to the highest value. When the conditions for a rule are met, its actions are performed.  If the conditions for no rules are met, the actions for the default rule are performed.  For more information, see Listener rules in the Application Load Balancers Guide.
+    /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer or a dual-stack Network Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see Listener rules in the Application Load Balancers Guide or Listener rules in the Network Load Balancers Guide.
     ///
     /// Parameters:
     ///   - actions: The actions.

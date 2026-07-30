@@ -311,6 +311,38 @@ public struct BedrockRuntime: AWSService {
         return try await self.getAsyncInvoke(input, logger: logger)
     }
 
+    /// Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores.
+    @Sendable
+    @inlinable
+    public func invokeGuardrailChecks(_ input: InvokeGuardrailChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeGuardrailChecksResponse {
+        try await self.client.execute(
+            operation: "InvokeGuardrailChecks", 
+            path: "/guardrail-checks/invoke", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Evaluates messages against inline guardrail checks. You specify the check configurations directly in the request, and Amazon Bedrock returns per-check results with severity or confidence scores.
+    ///
+    /// Parameters:
+    ///   - checks: The inline check configurations that specify which guardrail checks to run against the messages.
+    ///   - messages: The messages to evaluate against the specified guardrail checks. Each message includes a role and one or more content blocks.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeGuardrailChecks(
+        checks: GuardrailChecksConfig,
+        messages: [GuardrailChecksMessage],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeGuardrailChecksResponse {
+        let input = InvokeGuardrailChecksRequest(
+            checks: checks, 
+            messages: messages
+        )
+        return try await self.invokeGuardrailChecks(input, logger: logger)
+    }
+
     /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide.  This operation requires permission for the bedrock:InvokeModel action.  To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the InvokeModel API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
     @Sendable
     @inlinable
@@ -334,6 +366,7 @@ public struct BedrockRuntime: AWSService {
     ///   - guardrailVersion: The version number for the guardrail. The value can also be DRAFT.
     ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - performanceConfigLatency: Model performance settings for the request.
+    ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
     ///   - serviceTier: Specifies the processing tier type used for serving the request.
     ///   - trace: Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     ///   - logger: Logger use during operation
@@ -346,6 +379,7 @@ public struct BedrockRuntime: AWSService {
         guardrailVersion: String? = nil,
         modelId: String,
         performanceConfigLatency: PerformanceConfigLatency? = nil,
+        requestMetadata: String? = nil,
         serviceTier: ServiceTierType? = nil,
         trace: Trace? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -358,6 +392,7 @@ public struct BedrockRuntime: AWSService {
             guardrailVersion: guardrailVersion, 
             modelId: modelId, 
             performanceConfigLatency: performanceConfigLatency, 
+            requestMetadata: requestMetadata, 
             serviceTier: serviceTier, 
             trace: trace
         )
@@ -419,6 +454,7 @@ public struct BedrockRuntime: AWSService {
     ///   - guardrailVersion: The version number for the guardrail. The value can also be DRAFT.
     ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - performanceConfigLatency: Model performance settings for the request.
+    ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
     ///   - serviceTier: Specifies the processing tier type used for serving the request.
     ///   - trace: Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     ///   - logger: Logger use during operation
@@ -431,6 +467,7 @@ public struct BedrockRuntime: AWSService {
         guardrailVersion: String? = nil,
         modelId: String,
         performanceConfigLatency: PerformanceConfigLatency? = nil,
+        requestMetadata: String? = nil,
         serviceTier: ServiceTierType? = nil,
         trace: Trace? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -443,6 +480,7 @@ public struct BedrockRuntime: AWSService {
             guardrailVersion: guardrailVersion, 
             modelId: modelId, 
             performanceConfigLatency: performanceConfigLatency, 
+            requestMetadata: requestMetadata, 
             serviceTier: serviceTier, 
             trace: trace
         )

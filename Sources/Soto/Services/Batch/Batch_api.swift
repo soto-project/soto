@@ -173,8 +173,8 @@ public struct Batch: AWSService {
     ///   - computeResources: Details about the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see Compute Environments in the Batch User Guide.
     ///   - context: Reserved.
     ///   - eksConfiguration: The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
-    ///   - serviceRole: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
-    ///   - state: The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see State in the Batch User Guide.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+    ///   - serviceRole: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
+    ///   - state: The state of the compute environment. A compute environment must be created in the ENABLED state. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     ///   - tags: The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags don't propagate to the underlying compute resources.
     ///   - type: The type of the compute environment: MANAGED or UNMANAGED. For more information, see Compute Environments in the Batch User Guide.
     ///   - unmanagedvCpus: The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.  This parameter is only supported when the type parameter is set to UNMANAGED.
@@ -297,6 +297,53 @@ public struct Batch: AWSService {
         return try await self.createJobQueue(input, logger: logger)
     }
 
+    /// Creates an Batch quota share. Each quota share operates as a virtual queue with a configured compute capacity, resource sharing strategy, and borrow limits.
+    @Sendable
+    @inlinable
+    public func createQuotaShare(_ input: CreateQuotaShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQuotaShareResponse {
+        try await self.client.execute(
+            operation: "CreateQuotaShare", 
+            path: "/v1/createquotashare", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Batch quota share. Each quota share operates as a virtual queue with a configured compute capacity, resource sharing strategy, and borrow limits.
+    ///
+    /// Parameters:
+    ///   - capacityLimits: A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    ///   - jobQueue: The Batch job queue associated with the quota share. This can be the job queue name or ARN. A job queue must be in the VALID state before you can associate it with a quota share.
+    ///   - preemptionConfiguration: Specifies the preemption behavior for jobs in a quota share.
+    ///   - quotaShareName: The name of the quota share. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    ///   - resourceSharingConfiguration: Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    ///   - state: The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish. The default state is ENABLED.
+    ///   - tags: The tags that you apply to the quota share to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources in Batch User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createQuotaShare(
+        capacityLimits: [QuotaShareCapacityLimit]? = nil,
+        jobQueue: String? = nil,
+        preemptionConfiguration: QuotaSharePreemptionConfiguration? = nil,
+        quotaShareName: String? = nil,
+        resourceSharingConfiguration: QuotaShareResourceSharingConfiguration? = nil,
+        state: QuotaShareState? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateQuotaShareResponse {
+        let input = CreateQuotaShareRequest(
+            capacityLimits: capacityLimits, 
+            jobQueue: jobQueue, 
+            preemptionConfiguration: preemptionConfiguration, 
+            quotaShareName: quotaShareName, 
+            resourceSharingConfiguration: resourceSharingConfiguration, 
+            state: state, 
+            tags: tags
+        )
+        return try await self.createQuotaShare(input, logger: logger)
+    }
+
     /// Creates an Batch scheduling policy.
     @Sendable
     @inlinable
@@ -313,20 +360,23 @@ public struct Batch: AWSService {
     /// Creates an Batch scheduling policy.
     ///
     /// Parameters:
-    ///   - fairsharePolicy: The fair-share scheduling policy details.
+    ///   - fairsharePolicy: The fair-share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a quotaSharePolicy.
     ///   - name: The name of the fair-share scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+    ///   - quotaSharePolicy: The quota share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a fairSharePolicy.
     ///   - tags: The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSchedulingPolicy(
         fairsharePolicy: FairsharePolicy? = nil,
         name: String? = nil,
+        quotaSharePolicy: QuotaSharePolicy? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSchedulingPolicyResponse {
         let input = CreateSchedulingPolicyRequest(
             fairsharePolicy: fairsharePolicy, 
             name: name, 
+            quotaSharePolicy: quotaSharePolicy, 
             tags: tags
         )
         return try await self.createSchedulingPolicy(input, logger: logger)
@@ -431,7 +481,7 @@ public struct Batch: AWSService {
         return try await self.deleteConsumableResource(input, logger: logger)
     }
 
-    /// Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are eventually terminated when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each second. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
+    /// Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are eventually terminated when you delete a job queue. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
     @Sendable
     @inlinable
     public func deleteJobQueue(_ input: DeleteJobQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobQueueResponse {
@@ -444,7 +494,7 @@ public struct Batch: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are eventually terminated when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each second. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
+    /// Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are eventually terminated when you delete a job queue. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
     ///
     /// Parameters:
     ///   - jobQueue: The short name or full Amazon Resource Name (ARN) of the queue to delete.
@@ -458,6 +508,35 @@ public struct Batch: AWSService {
             jobQueue: jobQueue
         )
         return try await self.deleteJobQueue(input, logger: logger)
+    }
+
+    /// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuotaShare operation. All jobs in the share are eventually terminated when you delete a quota share.
+    @Sendable
+    @inlinable
+    public func deleteQuotaShare(_ input: DeleteQuotaShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQuotaShareResponse {
+        try await self.client.execute(
+            operation: "DeleteQuotaShare", 
+            path: "/v1/deletequotashare", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified quota share. You must first disable submissions for the share by updating the state to DISABLED using the UpdateQuotaShare operation. All jobs in the share are eventually terminated when you delete a quota share.
+    ///
+    /// Parameters:
+    ///   - quotaShareArn: The Amazon Resource Name (ARN) of the quota share.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteQuotaShare(
+        quotaShareArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteQuotaShareResponse {
+        let input = DeleteQuotaShareRequest(
+            quotaShareArn: quotaShareArn
+        )
+        return try await self.deleteQuotaShare(input, logger: logger)
     }
 
     /// Deletes the specified scheduling policy. You can't delete a scheduling policy that's used in any job queues.
@@ -716,6 +795,35 @@ public struct Batch: AWSService {
         return try await self.describeJobs(input, logger: logger)
     }
 
+    /// Returns a description of the specified quota share.
+    @Sendable
+    @inlinable
+    public func describeQuotaShare(_ input: DescribeQuotaShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQuotaShareResponse {
+        try await self.client.execute(
+            operation: "DescribeQuotaShare", 
+            path: "/v1/describequotashare", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a description of the specified quota share.
+    ///
+    /// Parameters:
+    ///   - quotaShareArn: The Amazon Resource Name (ARN) of the quota share.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeQuotaShare(
+        quotaShareArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeQuotaShareResponse {
+        let input = DescribeQuotaShareRequest(
+            quotaShareArn: quotaShareArn
+        )
+        return try await self.describeQuotaShare(input, logger: logger)
+    }
+
     /// Describes one or more of your scheduling policies.
     @Sendable
     @inlinable
@@ -809,7 +917,7 @@ public struct Batch: AWSService {
         return try await self.describeServiceJob(input, logger: logger)
     }
 
-    /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue and includes capacity utilization, including total usage and breakdown by share for fairshare scheduling job queues.
+    /// Provides a snapshot of job queue state, including ordering of RUNNABLE jobs, as well as capacity utilization for already dispatched jobs. The first 100 RUNNABLE jobs in the job queue are listed in order of dispatch. For job queues with an attached quota-share policy, the first RUNNABLE job in each quota share is also listed. Capacity utilization for the job queue is provided, as well as break downs by share for job queues with attached fair-share or quota-share scheduling policies.
     @Sendable
     @inlinable
     public func getJobQueueSnapshot(_ input: GetJobQueueSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobQueueSnapshotResponse {
@@ -822,7 +930,7 @@ public struct Batch: AWSService {
             logger: logger
         )
     }
-    /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue and includes capacity utilization, including total usage and breakdown by share for fairshare scheduling job queues.
+    /// Provides a snapshot of job queue state, including ordering of RUNNABLE jobs, as well as capacity utilization for already dispatched jobs. The first 100 RUNNABLE jobs in the job queue are listed in order of dispatch. For job queues with an attached quota-share policy, the first RUNNABLE job in each quota share is also listed. Capacity utilization for the job queue is provided, as well as break downs by share for job queues with attached fair-share or quota-share scheduling policies.
     ///
     /// Parameters:
     ///   - jobQueue: The job queue’s name or full queue Amazon Resource Name (ARN).
@@ -956,6 +1064,41 @@ public struct Batch: AWSService {
             nextToken: nextToken
         )
         return try await self.listJobsByConsumableResource(input, logger: logger)
+    }
+
+    /// Returns a list of Batch quota shares associated with a job queue.
+    @Sendable
+    @inlinable
+    public func listQuotaShares(_ input: ListQuotaSharesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQuotaSharesResponse {
+        try await self.client.execute(
+            operation: "ListQuotaShares", 
+            path: "/v1/listquotashares", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Batch quota shares associated with a job queue.
+    ///
+    /// Parameters:
+    ///   - jobQueue: The name or full Amazon Resource Name (ARN) of the job queue used to list quota shares.
+    ///   - maxResults: The maximum number of results returned by ListQuotaShares in paginated output. When this parameter is used, ListQuotaShares only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListQuotaShares request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListQuotaShares returns up to 100 results and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value that's returned from a previous paginated ListQuotaShares request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listQuotaShares(
+        jobQueue: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListQuotaSharesResponse {
+        let input = ListQuotaSharesRequest(
+            jobQueue: jobQueue, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listQuotaShares(input, logger: logger)
     }
 
     /// Returns a list of Batch scheduling policies.
@@ -1224,6 +1367,8 @@ public struct Batch: AWSService {
     ///   - clientToken: A unique identifier for the request. This token is used to ensure idempotency of requests. If this parameter is specified and two submit requests with identical payloads and clientTokens are received, these requests are considered the same request and the second request is rejected.
     ///   - jobName: The name of the service job. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     ///   - jobQueue: The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING.
+    ///   - preemptionConfiguration: Specifies the service job behavior when preempted.
+    ///   - quotaShareName: The quota share for the service job. Don't specify this parameter if the job queue doesn't have a quota share scheduling policy. If the job queue has a quota share scheduling policy, then this parameter must be specified.
     ///   - retryStrategy: The retry strategy to use for failed service jobs that are submitted with this service job request.
     ///   - schedulingPriority: The scheduling priority of the service job.  Valid values are integers between 0 and 9999.
     ///   - serviceJobType: The type of service job. For SageMaker Training jobs, specify SAGEMAKER_TRAINING.
@@ -1237,6 +1382,8 @@ public struct Batch: AWSService {
         clientToken: String? = SubmitServiceJobRequest.idempotencyToken(),
         jobName: String? = nil,
         jobQueue: String? = nil,
+        preemptionConfiguration: ServiceJobPreemptionConfiguration? = nil,
+        quotaShareName: String? = nil,
         retryStrategy: ServiceJobRetryStrategy? = nil,
         schedulingPriority: Int? = nil,
         serviceJobType: ServiceJobType? = nil,
@@ -1250,6 +1397,8 @@ public struct Batch: AWSService {
             clientToken: clientToken, 
             jobName: jobName, 
             jobQueue: jobQueue, 
+            preemptionConfiguration: preemptionConfiguration, 
+            quotaShareName: quotaShareName, 
             retryStrategy: retryStrategy, 
             schedulingPriority: schedulingPriority, 
             serviceJobType: serviceJobType, 
@@ -1409,7 +1558,7 @@ public struct Batch: AWSService {
     ///   - computeResources: Details of the compute resources managed by the compute environment. Required for a managed compute environment. For more information, see Compute Environments in the Batch User Guide.
     ///   - context: Reserved.
     ///   - serviceRole: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see Updating compute environments in the Batch User Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
-    ///   - state: The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see State in the Batch User Guide.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+    ///   - state: The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     ///   - unmanagedvCpus: The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.
     ///   - updatePolicy: Specifies the updated infrastructure update policy for the compute environment. For more information about infrastructure updates, see Updating compute environments in the Batch User Guide.
     ///   - logger: Logger use during operation
@@ -1521,6 +1670,47 @@ public struct Batch: AWSService {
         return try await self.updateJobQueue(input, logger: logger)
     }
 
+    /// Updates a quota share.
+    @Sendable
+    @inlinable
+    public func updateQuotaShare(_ input: UpdateQuotaShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQuotaShareResponse {
+        try await self.client.execute(
+            operation: "UpdateQuotaShare", 
+            path: "/v1/updatequotashare", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a quota share.
+    ///
+    /// Parameters:
+    ///   - capacityLimits: A list that specifies the quantity and type of compute capacity allocated to the quota share.
+    ///   - preemptionConfiguration: Specifies the preemption behavior for jobs in a quota share.
+    ///   - quotaShareArn: The Amazon Resource Name (ARN) of the quota share to update.
+    ///   - resourceSharingConfiguration: Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+    ///   - state: The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQuotaShare(
+        capacityLimits: [QuotaShareCapacityLimit]? = nil,
+        preemptionConfiguration: QuotaSharePreemptionConfiguration? = nil,
+        quotaShareArn: String? = nil,
+        resourceSharingConfiguration: QuotaShareResourceSharingConfiguration? = nil,
+        state: QuotaShareState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQuotaShareResponse {
+        let input = UpdateQuotaShareRequest(
+            capacityLimits: capacityLimits, 
+            preemptionConfiguration: preemptionConfiguration, 
+            quotaShareArn: quotaShareArn, 
+            resourceSharingConfiguration: resourceSharingConfiguration, 
+            state: state
+        )
+        return try await self.updateQuotaShare(input, logger: logger)
+    }
+
     /// Updates a scheduling policy.
     @Sendable
     @inlinable
@@ -1538,17 +1728,20 @@ public struct Batch: AWSService {
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the scheduling policy to update.
-    ///   - fairsharePolicy: The fair-share policy scheduling details.
+    ///   - fairsharePolicy: The fair-share policy scheduling details. Once set during creation, a fairsharePolicy cannot be removed or changed to a quotaSharePolicy.
+    ///   - quotaSharePolicy: The quota share scheduling policy details. Once set during creation, a quotaSharePolicy cannot be removed or changed to a fairsharePolicy.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSchedulingPolicy(
         arn: String? = nil,
         fairsharePolicy: FairsharePolicy? = nil,
+        quotaSharePolicy: QuotaSharePolicy? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateSchedulingPolicyResponse {
         let input = UpdateSchedulingPolicyRequest(
             arn: arn, 
-            fairsharePolicy: fairsharePolicy
+            fairsharePolicy: fairsharePolicy, 
+            quotaSharePolicy: quotaSharePolicy
         )
         return try await self.updateSchedulingPolicy(input, logger: logger)
     }
@@ -1586,6 +1779,38 @@ public struct Batch: AWSService {
             state: state
         )
         return try await self.updateServiceEnvironment(input, logger: logger)
+    }
+
+    /// Updates the priority of a specified service job in an Batch job queue.
+    @Sendable
+    @inlinable
+    public func updateServiceJob(_ input: UpdateServiceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceJobResponse {
+        try await self.client.execute(
+            operation: "UpdateServiceJob", 
+            path: "/v1/updateservicejob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the priority of a specified service job in an Batch job queue.
+    ///
+    /// Parameters:
+    ///   - jobId: The Batch job ID of the job to update.
+    ///   - schedulingPriority: The scheduling priority for the job. This only affects jobs in job queues with a quota-share or fair-share scheduling policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority within a share. The minimum supported value is 0 and the maximum supported value is 9999.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateServiceJob(
+        jobId: String? = nil,
+        schedulingPriority: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateServiceJobResponse {
+        let input = UpdateServiceJobRequest(
+            jobId: jobId, 
+            schedulingPriority: schedulingPriority
+        )
+        return try await self.updateServiceJob(input, logger: logger)
     }
 }
 
@@ -1882,6 +2107,43 @@ extension Batch {
         return self.listJobsByConsumableResourcePaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listQuotaShares(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQuotaSharesPaginator(
+        _ input: ListQuotaSharesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListQuotaSharesRequest, ListQuotaSharesResponse> {
+        return .init(
+            input: input,
+            command: self.listQuotaShares,
+            inputKey: \ListQuotaSharesRequest.nextToken,
+            outputKey: \ListQuotaSharesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listQuotaShares(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - jobQueue: The name or full Amazon Resource Name (ARN) of the job queue used to list quota shares.
+    ///   - maxResults: The maximum number of results returned by ListQuotaShares in paginated output. When this parameter is used, ListQuotaShares only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListQuotaShares request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListQuotaShares returns up to 100 results and a nextToken value if applicable.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQuotaSharesPaginator(
+        jobQueue: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListQuotaSharesRequest, ListQuotaSharesResponse> {
+        let input = ListQuotaSharesRequest(
+            jobQueue: jobQueue, 
+            maxResults: maxResults
+        )
+        return self.listQuotaSharesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSchedulingPolicies(_:logger:)``.
     ///
     /// - Parameters:
@@ -2039,6 +2301,17 @@ extension Batch.ListJobsRequest: AWSPaginateToken {
             jobStatus: self.jobStatus,
             maxResults: self.maxResults,
             multiNodeJobId: self.multiNodeJobId,
+            nextToken: token
+        )
+    }
+}
+
+extension Batch.ListQuotaSharesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Batch.ListQuotaSharesRequest {
+        return .init(
+            jobQueue: self.jobQueue,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

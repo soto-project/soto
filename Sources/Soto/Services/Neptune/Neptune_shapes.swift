@@ -224,19 +224,22 @@ extension Neptune {
         public let iamDatabaseAuthenticationEnabled: Bool?
         /// The Provisioned IOPS (I/O operations per second) value. This setting is only for Multi-AZ DB clusters.
         public let iops: Int?
+        /// The pending change in network type for the DB cluster. Valid Values: IPV4, DUAL
+        public let networkType: String?
         /// This PendingCloudwatchLogsExports structure specifies pending changes to which CloudWatch logs are enabled and which are disabled.
         public let pendingCloudwatchLogsExports: PendingCloudwatchLogsExports?
         /// The pending change in storage type for the DB cluster.   Valid Values:     standard   –   ( the default ) Configures cost-effective database storage for applications with moderate to small I/O usage.     iopt1   –   Enables I/O-Optimized storage that's designed to meet the needs of I/O-intensive graph workloads that require predictable pricing with low I/O latency and consistent I/O throughput. Neptune I/O-Optimized storage is only available starting with engine release 1.3.0.0.
         public let storageType: String?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, iops: Int? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, storageType: String? = nil) {
+        public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, iops: Int? = nil, networkType: String? = nil, pendingCloudwatchLogsExports: PendingCloudwatchLogsExports? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dbClusterIdentifier = dbClusterIdentifier
             self.engineVersion = engineVersion
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.iops = iops
+            self.networkType = networkType
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
             self.storageType = storageType
         }
@@ -248,6 +251,7 @@ extension Neptune {
             case engineVersion = "EngineVersion"
             case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
             case iops = "Iops"
+            case networkType = "NetworkType"
             case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
             case storageType = "StorageType"
         }
@@ -256,7 +260,7 @@ extension Neptune {
     public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same Amazon Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different Amazon Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.
+        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
         public let sourceDBClusterParameterGroupIdentifier: String?
         /// The tags to be assigned to the copied DB cluster parameter group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -300,7 +304,7 @@ extension Neptune {
 
         /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
-        /// The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+        /// The Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
         public let kmsKeyId: String?
         /// Not currently supported.
         public let preSignedUrl: String?
@@ -348,7 +352,7 @@ extension Neptune {
     public struct CopyDBParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.
+        /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.   The source DB parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
         public let sourceDBParameterGroupIdentifier: String?
         /// The tags to be assigned to the copied DB parameter group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -492,7 +496,7 @@ extension Neptune {
         public let characterSetName: String?
         ///  If set to true, tags are copied to any snapshot of the DB cluster that is created.
         public let copyTagsToSnapshot: Bool?
-        /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Neptune will not create a database in the DB cluster you are creating.
+        /// Not supported by Neptune.
         public let databaseName: String?
         /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
         public let dbClusterIdentifier: String?
@@ -519,6 +523,8 @@ extension Neptune {
         public let masterUsername: String?
         /// Not supported by Neptune.
         public let masterUserPassword: String?
+        /// The network type of the DB cluster. Valid Values:     IPV4   –   ( the default ) The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+        public let networkType: String?
         ///  (Not supported by Neptune)
         public let optionGroupName: String?
         /// The port number on which the instances in the DB cluster accept connections. Default: 8182
@@ -545,7 +551,7 @@ extension Neptune {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
@@ -563,6 +569,7 @@ extension Neptune {
             self.kmsKeyId = kmsKeyId
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
+            self.networkType = networkType
             self.optionGroupName = optionGroupName
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
@@ -600,6 +607,7 @@ extension Neptune {
             case kmsKeyId = "KmsKeyId"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
+            case networkType = "NetworkType"
             case optionGroupName = "OptionGroupName"
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
@@ -758,7 +766,7 @@ extension Neptune {
         public let engineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
         public let iops: Int?
-        /// The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
+        /// The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KMS encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
         public let kmsKeyId: String?
         /// License model information for this DB instance. Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
@@ -1001,7 +1009,7 @@ extension Neptune {
         public struct _SourceIdsEncoding: ArrayCoderProperties { public static let member = "SourceId" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
+        ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not activate it.
         public let enabled: Bool?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
@@ -1057,7 +1065,7 @@ extension Neptune {
     public struct CreateGlobalClusterMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The name for the new global database (up to 64 alpha-numeric characters.
+        /// The name for the new global database (up to 64 alpha-numeric characters).
         public let databaseName: String?
         /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
@@ -1195,6 +1203,8 @@ extension Neptune {
         public let masterUsername: String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
         public let multiAZ: Bool?
+        /// The network type of the DB cluster. Valid Values:     IPV4   –   The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication.
+        public let networkType: String?
         /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
         public let pendingModifiedValues: ClusterPendingModifiedValues?
         /// Specifies the progress of the operation as a percentage.
@@ -1225,7 +1235,7 @@ extension Neptune {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, hostedZoneId: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, hostedZoneId: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.automaticRestartTime = automaticRestartTime
@@ -1258,6 +1268,7 @@ extension Neptune {
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.pendingModifiedValues = pendingModifiedValues
             self.percentProgress = percentProgress
             self.port = port
@@ -1306,6 +1317,7 @@ extension Neptune {
             case latestRestorableTime = "LatestRestorableTime"
             case masterUsername = "MasterUsername"
             case multiAZ = "MultiAZ"
+            case networkType = "NetworkType"
             case pendingModifiedValues = "PendingModifiedValues"
             case percentProgress = "PercentProgress"
             case port = "Port"
@@ -1380,7 +1392,7 @@ extension Neptune {
         /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
         @OptionalCustomCoding<ArrayCoder<_DBClusterEndpointsEncoding, DBClusterEndpoint>>
         public var dbClusterEndpoints: [DBClusterEndpoint]?
-        ///  n optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         @inlinable
@@ -1899,6 +1911,8 @@ extension Neptune {
         public let monitoringRoleArn: String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
+        /// The network type of the DB instance. Inherited from the DB cluster. Valid Values: IPV4, DUAL
+        public let networkType: String?
         ///  (Not supported by Neptune)
         @OptionalCustomCoding<ArrayCoder<_OptionGroupMembershipsEncoding, OptionGroupMembership>>
         public var optionGroupMemberships: [OptionGroupMembership]?
@@ -1942,7 +1956,7 @@ extension Neptune {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, masterUsername: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1978,6 +1992,7 @@ extension Neptune {
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.optionGroupMemberships = optionGroupMemberships
             self.pendingModifiedValues = pendingModifiedValues
             self.performanceInsightsEnabled = performanceInsightsEnabled
@@ -2034,6 +2049,7 @@ extension Neptune {
             case monitoringInterval = "MonitoringInterval"
             case monitoringRoleArn = "MonitoringRoleArn"
             case multiAZ = "MultiAZ"
+            case networkType = "NetworkType"
             case optionGroupMemberships = "OptionGroupMemberships"
             case pendingModifiedValues = "PendingModifiedValues"
             case performanceInsightsEnabled = "PerformanceInsightsEnabled"
@@ -2164,7 +2180,7 @@ extension Neptune {
     }
 
     public struct DBParameterGroupStatus: AWSDecodableShape {
-        /// The name of the DP parameter group.
+        /// The name of the DB parameter group.
         public let dbParameterGroupName: String?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
@@ -2234,16 +2250,20 @@ extension Neptune {
         ///  Contains a list of Subnet elements.
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
+        /// The network types supported by the DB subnet group. Valid network types include IPV4 and DUAL. A DB subnet group supports DUAL if all subnets in the group have both IPv4 and IPv6 CIDRs.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var supportedNetworkTypes: [String]?
         /// Provides the VpcId of the DB subnet group.
         public let vpcId: String?
 
         @inlinable
-        public init(dbSubnetGroupArn: String? = nil, dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
+        public init(dbSubnetGroupArn: String? = nil, dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, supportedNetworkTypes: [String]? = nil, vpcId: String? = nil) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
 
@@ -2253,6 +2273,7 @@ extension Neptune {
             case dbSubnetGroupName = "DBSubnetGroupName"
             case subnetGroupStatus = "SubnetGroupStatus"
             case subnets = "Subnets"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
             case vpcId = "VpcId"
         }
     }
@@ -2347,7 +2368,7 @@ extension Neptune {
     public struct DeleteDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dbClusterIdentifier: String?
-        ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
+        ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false
         public let skipFinalSnapshot: Bool?
@@ -2423,7 +2444,7 @@ extension Neptune {
     public struct DeleteDBInstanceMessage: AWSEncodableShape {
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.
         public let dbInstanceIdentifier: String?
-        ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.
+        ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.
         public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false
         public let skipFinalSnapshot: Bool?
@@ -3517,11 +3538,11 @@ extension Neptune {
     }
 
     public struct FailoverGlobalClusterMessage: AWSEncodableShape {
-        /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:Can't be specified together with the Switchover parameter.
+        /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints: Can't be specified together with the Switchover parameter.
         public let allowDataLoss: Bool?
         /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune  global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
         public let globalClusterIdentifier: String?
-        /// Specifies whether to switch over this global database cluster. Constraints:Can't be specified together with the AllowDataLoss parameter.
+        /// Specifies whether to switch over this global database cluster. Constraints: Can't be specified together with the AllowDataLoss parameter.
         public let switchover: Bool?
         /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
         public let targetDbClusterIdentifier: String?
@@ -3629,7 +3650,7 @@ extension Neptune {
         /// A list of cluster ARNs and instance ARNs for all the DB clusters that are part of the global database.
         @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
         public var globalClusterMembers: [GlobalClusterMember]?
-        /// An immutable identifier for the global database that is unique within in all regions. This identifier is found in CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
+        /// An immutable identifier for the global database that is unique within all regions. This identifier is found in CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
         public let globalClusterResourceId: String?
         /// Specifies the current state of this global database.
         public let status: String?
@@ -3843,6 +3864,8 @@ extension Neptune {
         public let engineVersion: String?
         /// Not supported by Neptune.
         public let masterUserPassword: String?
+        /// The network type of the DB cluster. Valid Values:     IPV4   –   The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+        public let networkType: String?
         /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
         public let newDBClusterIdentifier: String?
         ///  Not supported by Neptune.
@@ -3862,7 +3885,7 @@ extension Neptune {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbInstanceParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -3875,6 +3898,7 @@ extension Neptune {
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.engineVersion = engineVersion
             self.masterUserPassword = masterUserPassword
+            self.networkType = networkType
             self.newDBClusterIdentifier = newDBClusterIdentifier
             self.optionGroupName = optionGroupName
             self.port = port
@@ -3898,6 +3922,7 @@ extension Neptune {
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case engineVersion = "EngineVersion"
             case masterUserPassword = "MasterUserPassword"
+            case networkType = "NetworkType"
             case newDBClusterIdentifier = "NewDBClusterIdentifier"
             case optionGroupName = "OptionGroupName"
             case port = "Port"
@@ -4370,6 +4395,9 @@ extension Neptune {
         public let readReplicaCapable: Bool?
         /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public let storageType: String?
+        /// The network types supported by the orderable DB instance option.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var supportedNetworkTypes: [String]?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
         public let supportsEnhancedMonitoring: Bool?
         /// A value that indicates whether you can use Neptune global databases with a specific combination of other DB engine attributes.
@@ -4386,7 +4414,7 @@ extension Neptune {
         public let vpc: Bool?
 
         @inlinable
-        public init(availabilityZones: [AvailabilityZone]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, dbInstanceClass: String? = nil, engine: String? = nil, engineVersion: String? = nil, licenseModel: String? = nil, maxIopsPerDbInstance: Int? = nil, maxIopsPerGib: Double? = nil, maxStorageSize: Int? = nil, minIopsPerDbInstance: Int? = nil, minIopsPerGib: Double? = nil, minStorageSize: Int? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, storageType: String? = nil, supportedNetworkTypes: [String]? = nil, supportsEnhancedMonitoring: Bool? = nil, supportsGlobalDatabases: Bool? = nil, supportsIAMDatabaseAuthentication: Bool? = nil, supportsIops: Bool? = nil, supportsPerformanceInsights: Bool? = nil, supportsStorageEncryption: Bool? = nil, vpc: Bool? = nil) {
             self.availabilityZones = availabilityZones
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
@@ -4401,6 +4429,7 @@ extension Neptune {
             self.multiAZCapable = multiAZCapable
             self.readReplicaCapable = readReplicaCapable
             self.storageType = storageType
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
@@ -4425,6 +4454,7 @@ extension Neptune {
             case multiAZCapable = "MultiAZCapable"
             case readReplicaCapable = "ReadReplicaCapable"
             case storageType = "StorageType"
+            case supportedNetworkTypes = "SupportedNetworkTypes"
             case supportsEnhancedMonitoring = "SupportsEnhancedMonitoring"
             case supportsGlobalDatabases = "SupportsGlobalDatabases"
             case supportsIAMDatabaseAuthentication = "SupportsIAMDatabaseAuthentication"
@@ -4938,6 +4968,8 @@ extension Neptune {
         public let engineVersion: String?
         /// The Amazon KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
         public let kmsKeyId: String?
+        /// The network type of the DB cluster. Valid Values:     IPV4   –   ( the default ) The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+        public let networkType: String?
         ///  (Not supported by Neptune)
         public let optionGroupName: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
@@ -4956,7 +4988,7 @@ extension Neptune {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseName = databaseName
@@ -4969,6 +5001,7 @@ extension Neptune {
             self.engine = engine
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
+            self.networkType = networkType
             self.optionGroupName = optionGroupName
             self.port = port
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
@@ -4991,6 +5024,7 @@ extension Neptune {
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
+            case networkType = "NetworkType"
             case optionGroupName = "OptionGroupName"
             case port = "Port"
             case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
@@ -5033,6 +5067,8 @@ extension Neptune {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The Amazon KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
+        /// The network type of the DB cluster. Valid Values:     IPV4   –   ( the default ) The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+        public let networkType: String?
         ///  (Not supported by Neptune)
         public let optionGroupName: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
@@ -5057,7 +5093,7 @@ extension Neptune {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, kmsKeyId: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -5065,6 +5101,7 @@ extension Neptune {
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
             self.kmsKeyId = kmsKeyId
+            self.networkType = networkType
             self.optionGroupName = optionGroupName
             self.port = port
             self.restoreToTime = restoreToTime
@@ -5085,6 +5122,7 @@ extension Neptune {
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
             case kmsKeyId = "KmsKeyId"
+            case networkType = "NetworkType"
             case optionGroupName = "OptionGroupName"
             case port = "Port"
             case restoreToTime = "RestoreToTime"
@@ -5469,6 +5507,7 @@ public struct NeptuneErrorType: AWSErrorType {
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
         case kmsKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case networkTypeNotSupportedFault = "NetworkTypeNotSupported"
         case optionGroupNotFoundFault = "OptionGroupNotFoundFault"
         case provisionedIopsNotAvailableInAZFault = "ProvisionedIopsNotAvailableInAZFault"
         case resourceNotFoundFault = "ResourceNotFoundFault"
@@ -5608,6 +5647,8 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// Error accessing KMS key.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
+    /// The specified NetworkType is not supported for the DB cluster, DB subnet group, or orderable DB instance option.
+    public static var networkTypeNotSupportedFault: Self { .init(.networkTypeNotSupportedFault) }
     /// The designated option group could not be found.
     public static var optionGroupNotFoundFault: Self { .init(.optionGroupNotFoundFault) }
     /// Provisioned IOPS not available in the specified Availability Zone.

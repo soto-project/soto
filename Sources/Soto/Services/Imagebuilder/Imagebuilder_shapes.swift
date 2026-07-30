@@ -473,7 +473,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
@@ -519,7 +519,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.lifecycleExecutionId, name: "lifecycleExecutionId", parent: name, pattern: "^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
         }
@@ -1134,7 +1134,7 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, max: 1024)
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.data, name: "data", parent: name, max: 16000)
             try self.validate(self.data, name: "data", parent: name, min: 1)
@@ -1267,7 +1267,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.components?.forEach {
                 try $0.validate(name: "\(name).components[]")
@@ -1369,7 +1369,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -1442,12 +1442,19 @@ extension Imagebuilder {
         public let imageRecipeArn: String?
         /// Contains settings for vulnerability scans.
         public let imageScanningConfiguration: ImageScanningConfiguration?
+        /// The tags to be applied to the images produced by this pipeline.
+        public let imageTags: [String: String]?
         /// The image test configuration of the image pipeline.
         public let imageTestsConfiguration: ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used
         /// 			to build images created by this image pipeline.
         public let infrastructureConfigurationArn: String
-        /// Define logging configuration for the image build process.
+        /// Specifies the logging configuration for the image pipeline. Use this
+        /// 			to define custom CloudWatch Logs log groups for your pipeline execution
+        /// 			logs and image build logs. The service manages log groups with names
+        /// 			starting with /aws/imagebuilder/ using the service-linked
+        /// 			role. For custom log group names outside of this prefix, you must also
+        /// 			provide an executionRole.
         public let loggingConfiguration: PipelineLoggingConfiguration?
         /// The name of the image pipeline.
         public let name: String
@@ -1461,7 +1468,7 @@ extension Imagebuilder {
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTags: [String: String]? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
             self.description = description
@@ -1470,6 +1477,7 @@ extension Imagebuilder {
             self.executionRole = executionRole
             self.imageRecipeArn = imageRecipeArn
             self.imageScanningConfiguration = imageScanningConfiguration
+            self.imageTags = imageTags
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.loggingConfiguration = loggingConfiguration
@@ -1481,7 +1489,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
@@ -1492,6 +1500,14 @@ extension Imagebuilder {
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
+            try self.imageTags?.forEach {
+                try validate($0.key, name: "imageTags.key", parent: name, max: 128)
+                try validate($0.key, name: "imageTags.key", parent: name, min: 1)
+                try validate($0.key, name: "imageTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
+                try validate($0.value, name: "imageTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.imageTags, name: "imageTags", parent: name, max: 50)
+            try self.validate(self.imageTags, name: "imageTags", parent: name, min: 1)
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
@@ -1519,6 +1535,7 @@ extension Imagebuilder {
             case executionRole = "executionRole"
             case imageRecipeArn = "imageRecipeArn"
             case imageScanningConfiguration = "imageScanningConfiguration"
+            case imageTags = "imageTags"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
             case loggingConfiguration = "loggingConfiguration"
@@ -1559,6 +1576,12 @@ extension Imagebuilder {
         /// Tags that are applied to the AMI that Image Builder creates during the Build phase
         /// 			prior to image distribution.
         public let amiTags: [String: String]?
+        /// The AMI watermark names to attach to the output AMI from this recipe.
+        /// 			AMI watermarks are lineage markers. They automatically propagate to
+        /// 			derivative AMIs when the source AMI is copied or distributed across
+        /// 			Regions or accounts.  AMI watermarks are supported only for image recipes. AMIs with
+        /// 				watermarks cannot be made public.
+        public let amiWatermarks: [String]?
         /// The block device mappings of the image recipe.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
@@ -1588,9 +1611,10 @@ extension Imagebuilder {
         public let workingDirectory: String?
 
         @inlinable
-        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, amiWatermarks: [String]? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.amiTags = amiTags
+            self.amiWatermarks = amiWatermarks
             self.blockDeviceMappings = blockDeviceMappings
             self.clientToken = clientToken
             self.components = components
@@ -1612,10 +1636,17 @@ extension Imagebuilder {
             }
             try self.validate(self.amiTags, name: "amiTags", parent: name, max: 50)
             try self.validate(self.amiTags, name: "amiTags", parent: name, min: 1)
+            try self.amiWatermarks?.forEach {
+                try validate($0, name: "amiWatermarks[]", parent: name, max: 128)
+                try validate($0, name: "amiWatermarks[]", parent: name, min: 3)
+                try validate($0, name: "amiWatermarks[]", parent: name, pattern: "^[A-Za-z0-9()\\[\\]./'@_\\-][A-Za-z0-9 ()\\[\\]./'@_\\-]{1,126}[A-Za-z0-9()\\[\\]./'@_\\-]$")
+            }
+            try self.validate(self.amiWatermarks, name: "amiWatermarks", parent: name, max: 5)
+            try self.validate(self.amiWatermarks, name: "amiWatermarks", parent: name, min: 1)
             try self.blockDeviceMappings?.forEach {
                 try $0.validate(name: "\(name).blockDeviceMappings[]")
             }
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.components?.forEach {
                 try $0.validate(name: "\(name).components[]")
@@ -1642,6 +1673,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case additionalInstanceConfiguration = "additionalInstanceConfiguration"
             case amiTags = "amiTags"
+            case amiWatermarks = "amiWatermarks"
             case blockDeviceMappings = "blockDeviceMappings"
             case clientToken = "clientToken"
             case components = "components"
@@ -1731,7 +1763,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
@@ -1864,7 +1896,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -1979,7 +2011,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -2092,7 +2124,7 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, max: 1024)
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.data, name: "data", parent: name, max: 16000)
             try self.validate(self.data, name: "data", parent: name, min: 1)
@@ -2588,13 +2620,19 @@ extension Imagebuilder {
     public struct DistributeImageRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of the distribution configuration to use.
+        /// The Amazon Resource Name (ARN) of the distribution configuration. The configuration
+        /// 			defines target Regions, accounts, and AMI settings. The distribution
+        /// 			configuration must be in the same Region as this operation.
         public let distributionConfigurationArn: String
-        /// The IAM role to use for the distribution.
+        /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute
+        /// 			the image.
         public let executionRole: String
         /// The logging configuration for the distribution.
         public let loggingConfiguration: ImageLoggingConfiguration?
-        /// The source image Amazon Resource Name (ARN) to distribute.
+        /// The source image to distribute. Specify an AMI identifier,
+        /// 			SSM parameter path, or Image Builder image Amazon Resource Name (ARN). When you specify an
+        /// 			Image Builder image Amazon Resource Name (ARN), the image must be in the AVAILABLE
+        /// 			state.
         public let sourceImage: String
         /// The tags to apply to the distributed image.
         public let tags: [String: String]?
@@ -2610,7 +2648,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
@@ -4089,6 +4127,8 @@ extension Imagebuilder {
         public let imageRecipeArn: String?
         /// Contains settings for vulnerability scans.
         public let imageScanningConfiguration: ImageScanningConfiguration?
+        /// The tags to be applied to the images produced by this pipeline.
+        public let imageTags: [String: String]?
         /// The image tests configuration of the image pipeline.
         public let imageTestsConfiguration: ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration associated with
@@ -4114,7 +4154,7 @@ extension Imagebuilder {
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(arn: String? = nil, consecutiveFailures: Int? = nil, containerRecipeArn: String? = nil, dateCreated: String? = nil, dateLastRun: String? = nil, dateNextRun: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String? = nil, lastRunStatus: ImageStatus? = nil, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String? = nil, platform: Platform? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(arn: String? = nil, consecutiveFailures: Int? = nil, containerRecipeArn: String? = nil, dateCreated: String? = nil, dateLastRun: String? = nil, dateNextRun: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTags: [String: String]? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String? = nil, lastRunStatus: ImageStatus? = nil, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String? = nil, platform: Platform? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.arn = arn
             self.consecutiveFailures = consecutiveFailures
             self.containerRecipeArn = containerRecipeArn
@@ -4128,6 +4168,7 @@ extension Imagebuilder {
             self.executionRole = executionRole
             self.imageRecipeArn = imageRecipeArn
             self.imageScanningConfiguration = imageScanningConfiguration
+            self.imageTags = imageTags
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.lastRunStatus = lastRunStatus
@@ -4154,6 +4195,7 @@ extension Imagebuilder {
             case executionRole = "executionRole"
             case imageRecipeArn = "imageRecipeArn"
             case imageScanningConfiguration = "imageScanningConfiguration"
+            case imageTags = "imageTags"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
             case lastRunStatus = "lastRunStatus"
@@ -4196,6 +4238,10 @@ extension Imagebuilder {
         /// Tags that are applied to the AMI that Image Builder creates during the Build phase
         /// 			prior to image distribution.
         public let amiTags: [String: String]?
+        /// The AMI watermark names attached to the output AMI from this recipe.
+        /// 			AMI watermarks are lineage markers that automatically propagate to
+        /// 			derivative AMIs when the source AMI is copied or distributed.
+        public let amiWatermarks: [String]?
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
         /// The block device mappings to apply when creating images from this recipe.
@@ -4228,9 +4274,10 @@ extension Imagebuilder {
         public let workingDirectory: String?
 
         @inlinable
-        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, amiWatermarks: [String]? = nil, arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.amiTags = amiTags
+            self.amiWatermarks = amiWatermarks
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
             self.components = components
@@ -4249,6 +4296,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case additionalInstanceConfiguration = "additionalInstanceConfiguration"
             case amiTags = "amiTags"
+            case amiWatermarks = "amiWatermarks"
             case arn = "arn"
             case blockDeviceMappings = "blockDeviceMappings"
             case components = "components"
@@ -4717,7 +4765,7 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, max: 1024)
             try self.validate(self.changeDescription, name: "changeDescription", parent: name, min: 1)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.data, name: "data", parent: name, max: 1024)
             try self.validate(self.data, name: "data", parent: name, min: 1)
@@ -4796,6 +4844,9 @@ extension Imagebuilder {
         /// The operating system platform for the imported image. Allowed values include
         /// 			the following: Windows.
         public let platform: String
+        /// Configures Secure Boot and UEFI settings for the
+        /// 			imported image.
+        public let registerImageOptions: RegisterImageOptions?
         /// The semantic version to attach to the image that's created during the import
         /// 			process. This version follows the semantic version syntax.
         public let semanticVersion: String
@@ -4803,9 +4854,11 @@ extension Imagebuilder {
         public let tags: [String: String]?
         /// The uri of the ISO disk file that's stored in Amazon S3.
         public let uri: String
+        /// Specifies Windows settings for ISO imports.
+        public let windowsConfiguration: WindowsConfiguration?
 
         @inlinable
-        public init(clientToken: String = ImportDiskImageRequest.idempotencyToken(), description: String? = nil, executionRole: String? = nil, infrastructureConfigurationArn: String, loggingConfiguration: ImageLoggingConfiguration? = nil, name: String, osVersion: String, platform: String, semanticVersion: String, tags: [String: String]? = nil, uri: String) {
+        public init(clientToken: String = ImportDiskImageRequest.idempotencyToken(), description: String? = nil, executionRole: String? = nil, infrastructureConfigurationArn: String, loggingConfiguration: ImageLoggingConfiguration? = nil, name: String, osVersion: String, platform: String, registerImageOptions: RegisterImageOptions? = nil, semanticVersion: String, tags: [String: String]? = nil, uri: String, windowsConfiguration: WindowsConfiguration? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.executionRole = executionRole
@@ -4814,13 +4867,15 @@ extension Imagebuilder {
             self.name = name
             self.osVersion = osVersion
             self.platform = platform
+            self.registerImageOptions = registerImageOptions
             self.semanticVersion = semanticVersion
             self.tags = tags
             self.uri = uri
+            self.windowsConfiguration = windowsConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -4829,11 +4884,11 @@ extension Imagebuilder {
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
-            try self.validate(self.name, name: "name", parent: name, max: 1024)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try self.validate(self.osVersion, name: "osVersion", parent: name, min: 1)
             try self.validate(self.platform, name: "platform", parent: name, max: 1024)
             try self.validate(self.platform, name: "platform", parent: name, min: 1)
+            try self.registerImageOptions?.validate(name: "\(name).registerImageOptions")
             try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -4843,6 +4898,7 @@ extension Imagebuilder {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.windowsConfiguration?.validate(name: "\(name).windowsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4854,9 +4910,11 @@ extension Imagebuilder {
             case name = "name"
             case osVersion = "osVersion"
             case platform = "platform"
+            case registerImageOptions = "registerImageOptions"
             case semanticVersion = "semanticVersion"
             case tags = "tags"
             case uri = "uri"
+            case windowsConfiguration = "windowsConfiguration"
         }
     }
 
@@ -4920,7 +4978,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -6043,7 +6101,7 @@ extension Imagebuilder {
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -7308,11 +7366,20 @@ extension Imagebuilder {
     }
 
     public struct PipelineLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The log group name that Image Builder uses for image creation. If not specified, the log group
-        /// 			name defaults to /aws/imagebuilder/image-name.
+        /// Specifies the CloudWatch Logs log group name for image build logs.
+        /// 			The log group name can contain alphanumeric characters, hyphens,
+        /// 			underscores, forward slashes, and periods, up to 512 characters.
+        /// 			Log group names not starting with /aws/imagebuilder/
+        /// 			require an executionRole with CloudWatch Logs write
+        /// 			permissions. If not specified, defaults to
+        /// 			/aws/imagebuilder/image-name.
         public let imageLogGroupName: String?
-        /// The log group name that Image Builder uses for the log output during creation of a new pipeline.
-        /// 			If not specified, the pipeline log group name defaults to
+        /// Specifies the CloudWatch Logs log group name for pipeline execution
+        /// 			logs. The log group name can contain alphanumeric characters, hyphens,
+        /// 			underscores, forward slashes, and periods, up to 512 characters.
+        /// 			Log group names not starting with /aws/imagebuilder/
+        /// 			require an executionRole with CloudWatch Logs write
+        /// 			permissions. If not specified, defaults to
         /// 			/aws/imagebuilder/pipeline/pipeline-name.
         public let pipelineLogGroupName: String?
 
@@ -7577,6 +7644,35 @@ extension Imagebuilder {
         }
     }
 
+    public struct RegisterImageOptions: AWSEncodableShape {
+        /// Specifies whether Secure Boot is enabled for the output AMI.
+        /// 			The default value is true. To disable Secure Boot
+        /// 			for custom unsigned drivers, set this value to false.
+        public let secureBootEnabled: Bool?
+        /// A Base64-encoded representation of the non-volatile UEFI variable store.
+        /// 			You can specify this parameter only when
+        /// 			secureBootEnabled is true or
+        /// 			unspecified. You can inspect and modify the UEFI data by using
+        /// 			the python-uefivars tool on GitHub. For more information, see UEFI
+        /// 				variables for Amazon EC2 instances.
+        public let uefiData: String?
+
+        @inlinable
+        public init(secureBootEnabled: Bool? = nil, uefiData: String? = nil) {
+            self.secureBootEnabled = secureBootEnabled
+            self.uefiData = uefiData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uefiData, name: "uefiData", parent: name, max: 64000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secureBootEnabled = "secureBootEnabled"
+            case uefiData = "uefiData"
+        }
+    }
+
     public struct Remediation: AWSDecodableShape {
         /// An object that contains information about the recommended course of action to
         /// 			remediate the finding.
@@ -7677,7 +7773,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
@@ -7817,14 +7913,20 @@ extension Imagebuilder {
     }
 
     public struct SendWorkflowStepActionRequest: AWSEncodableShape {
-        /// The action for the image creation process to take while a workflow
-        /// 			WaitForAction step waits for an asynchronous action to complete.
+        /// The action to perform on the paused workflow step. The workflow
+        /// 			step must be in a waiting state to accept an action. The request
+        /// 			fails if the step has already timed out or been actioned.
         public let action: WorkflowStepActionType
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of the image build version to send action for.
+        /// The Amazon Resource Name (ARN) of the image build version associated with the workflow
+        /// 			step execution. This value must match the image that owns the waiting step.
+        /// 			If the ARN does not correspond to the image running the workflow,
+        /// 			then the request fails with a validation error.
         public let imageBuildVersionArn: String
-        /// The reason why this action is sent.
+        /// The reason for the action. This value is stored with the step
+        /// 			execution record and is accessible in subsequent workflow steps
+        /// 			via step output references.
         public let reason: String?
         /// Uniquely identifies the workflow step that sent the step action.
         public let stepExecutionId: String
@@ -7839,7 +7941,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
             try self.validate(self.reason, name: "reason", parent: name, max: 1024)
@@ -7957,7 +8059,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
             try self.tags?.forEach {
@@ -8007,14 +8109,31 @@ extension Imagebuilder {
         public let exclusionRules: ResourceStateUpdateExclusionRules?
         /// The name or Amazon Resource Name (ARN) of the IAM role that’s used to update image state.
         public let executionRole: String?
-        /// A list of image resources to update state for.
+        /// Specifies which image resources to include in the state update.
+        /// 			When specified, the lifecycle action applies to underlying resources.
+        /// 			These resources include AMIs, snapshots, and containers in addition
+        /// 			to the Image Builder image resource. Requires executionRole to
+        /// 			also be specified. To delete an image and its underlying resources, you must
+        /// 			specify includeResources. To delete only the Image Builder
+        /// 			image record without affecting underlying resources, use the
+        /// 			DeleteImage API instead.
         public let includeResources: ResourceStateUpdateIncludeResources?
-        /// The Amazon Resource Name (ARN) of the Image Builder resource that is updated. The state update might also
-        /// 			impact associated resources.
+        /// The Amazon Resource Name (ARN) of the image build version to update. The
+        /// 			image must be in one of these terminal states: AVAILABLE,
+        /// 			DEPRECATED, DISABLED,
+        /// 			FAILED, or CANCELLED. Images with
+        /// 			FAILED or CANCELLED status can transition only
+        /// 			to DELETED.
         public let resourceArn: String
-        /// Indicates the lifecycle action to take for this request.
+        /// Specifies the lifecycle action to take for this request. For AMI-based
+        /// 			images, valid values are AVAILABLE,
+        /// 			DEPRECATED, DISABLED, and
+        /// 			DELETED. For container-based images, only
+        /// 			DELETED is supported.
         public let state: ResourceState
-        /// The timestamp that indicates when resources are updated by a lifecycle action.
+        /// Specifies the timestamp when the state transition takes
+        /// 			effect. Use this parameter only when the target status is
+        /// 			DEPRECATED. The value must be a future time.
         public let updateAt: Date?
 
         @inlinable
@@ -8029,7 +8148,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.exclusionRules?.validate(name: "\(name).exclusionRules")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
@@ -8207,7 +8326,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -8272,6 +8391,8 @@ extension Imagebuilder {
         public let imageRecipeArn: String?
         /// Contains settings for vulnerability scans.
         public let imageScanningConfiguration: ImageScanningConfiguration?
+        /// The tags to be applied to the images produced by this pipeline.
+        public let imageTags: [String: String]?
         /// The image test configuration of the image pipeline.
         public let imageTestsConfiguration: ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to
@@ -8288,7 +8409,7 @@ extension Imagebuilder {
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imagePipelineArn: String, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imagePipelineArn: String, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTags: [String: String]? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
             self.description = description
@@ -8298,6 +8419,7 @@ extension Imagebuilder {
             self.imagePipelineArn = imagePipelineArn
             self.imageRecipeArn = imageRecipeArn
             self.imageScanningConfiguration = imageScanningConfiguration
+            self.imageTags = imageTags
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.loggingConfiguration = loggingConfiguration
@@ -8307,7 +8429,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
@@ -8319,6 +8441,14 @@ extension Imagebuilder {
             try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
             try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
+            try self.imageTags?.forEach {
+                try validate($0.key, name: "imageTags.key", parent: name, max: 128)
+                try validate($0.key, name: "imageTags.key", parent: name, min: 1)
+                try validate($0.key, name: "imageTags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z0-9\\s_.:/=+\\-@]*$")
+                try validate($0.value, name: "imageTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.imageTags, name: "imageTags", parent: name, max: 50)
+            try self.validate(self.imageTags, name: "imageTags", parent: name, min: 1)
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
@@ -8338,6 +8468,7 @@ extension Imagebuilder {
             case imagePipelineArn = "imagePipelineArn"
             case imageRecipeArn = "imageRecipeArn"
             case imageScanningConfiguration = "imageScanningConfiguration"
+            case imageTags = "imageTags"
             case imageTestsConfiguration = "imageTestsConfiguration"
             case infrastructureConfigurationArn = "infrastructureConfigurationArn"
             case loggingConfiguration = "loggingConfiguration"
@@ -8435,7 +8566,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -8538,7 +8669,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
@@ -8647,6 +8778,28 @@ extension Imagebuilder {
             case remediation = "remediation"
             case sourceLayerHash = "sourceLayerHash"
             case version = "version"
+        }
+    }
+
+    public struct WindowsConfiguration: AWSEncodableShape {
+        /// The 1-based index that specifies which Windows edition to install
+        /// 			from a multi-edition Windows ISO file. A Windows ISO can contain a
+        /// 			.wim file with multiple image indexes, each representing
+        /// 			a different edition.
+        public let imageIndex: Int64
+
+        @inlinable
+        public init(imageIndex: Int64) {
+            self.imageIndex = imageIndex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.imageIndex, name: "imageIndex", parent: name, max: 4294967295)
+            try self.validate(self.imageIndex, name: "imageIndex", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageIndex = "imageIndex"
         }
     }
 

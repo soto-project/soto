@@ -1370,7 +1370,7 @@ public struct ECR: AWSService {
     ///
     /// Parameters:
     ///   - filter: The filter key and value with which to filter your ListImageReferrers results. If no filter is specified, only artifacts with ACTIVE status are returned.
-    ///   - maxResults: The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 50 results and a nextToken value, if applicable.
+    ///   - maxResults: The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 20 results and a nextToken value, if applicable.
     ///   - nextToken: The nextToken value returned from a previous paginated ListImageReferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository in which to list image referrers. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name of the repository that contains the subject image.
@@ -1516,7 +1516,7 @@ public struct ECR: AWSService {
     ///
     /// Parameters:
     ///   - name: The name of the account setting, such as BASIC_SCAN_TYPE_VERSION, REGISTRY_POLICY_SCOPE, or BLOB_MOUNTING.
-    ///   - value: Setting value that is specified. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V1 or V2. Valid values for blob mounting: ENABLED or DISABLED.
+    ///   - value: Setting value that is specified. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V2. Valid values for blob mounting: ENABLED or DISABLED.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAccountSetting(

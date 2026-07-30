@@ -25,6 +25,14 @@ import Foundation
 extension Account {
     // MARK: Enums
 
+    public enum AccountState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case closed = "CLOSED"
+        case pendingActivation = "PENDING_ACTIVATION"
+        case suspended = "SUSPENDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AlternateContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billing = "BILLING"
         case operations = "OPERATIONS"
@@ -42,6 +50,8 @@ extension Account {
 
     public enum PrimaryEmailUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "ACCEPTED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
@@ -364,18 +374,22 @@ extension Account {
         public let accountId: String?
         /// The name of the account.
         public let accountName: String?
+        /// The state of the account. Each account state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. Valid values: PENDING_ACTIVATION | ACTIVE | SUSPENDED | CLOSED
+        public let accountState: AccountState?
 
         @inlinable
-        public init(accountCreatedDate: Date? = nil, accountId: String? = nil, accountName: String? = nil) {
+        public init(accountCreatedDate: Date? = nil, accountId: String? = nil, accountName: String? = nil, accountState: AccountState? = nil) {
             self.accountCreatedDate = accountCreatedDate
             self.accountId = accountId
             self.accountName = accountName
+            self.accountState = accountState
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountCreatedDate = "AccountCreatedDate"
             case accountId = "AccountId"
             case accountName = "AccountName"
+            case accountState = "AccountState"
         }
     }
 
@@ -512,6 +526,42 @@ extension Account {
 
         private enum CodingKeys: String, CodingKey {
             case primaryEmail = "PrimaryEmail"
+        }
+    }
+
+    public struct GetPrimaryEmailUpdateStatusRequest: AWSEncodableShape {
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account.  The management account can't specify its own AccountId.
+        public let accountId: String?
+
+        @inlinable
+        public init(accountId: String? = nil) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+        }
+    }
+
+    public struct GetPrimaryEmailUpdateStatusResponse: AWSDecodableShape {
+        /// The status of the most recent primary email update request.
+        public let status: PrimaryEmailUpdateStatus
+        /// The date and time that the most recent primary email update status was last changed.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(status: PrimaryEmailUpdateStatus, updatedAt: Date? = nil) {
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
         }
     }
 

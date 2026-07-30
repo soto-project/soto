@@ -152,14 +152,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
-    ///   - isoCountryCode: The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
+    ///   - isoCountryCode: The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
     ///   - originationIdentity: The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - poolId: The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools.  If you are using a shared End User Messaging SMS; resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func associateOriginationIdentity(
         clientToken: String? = AssociateOriginationIdentityRequest.idempotencyToken(),
-        isoCountryCode: String,
+        isoCountryCode: String? = nil,
         originationIdentity: String,
         poolId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -316,6 +316,59 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.createEventDestination(input, logger: logger)
     }
 
+    /// Creates a new notify configuration for managed messaging. A notify configuration defines the settings for sending templated messages, including the display name, use case, enabled channels, and enabled countries.
+    @Sendable
+    @inlinable
+    public func createNotifyConfiguration(_ input: CreateNotifyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotifyConfigurationResult {
+        try await self.client.execute(
+            operation: "CreateNotifyConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new notify configuration for managed messaging. A notify configuration defines the settings for sending templated messages, including the display name, use case, enabled channels, and enabled countries.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - defaultTemplateId: The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier.
+    ///   - deletionProtectionEnabled: By default this is set to false. When set to true the notify configuration can't be deleted. You can change this value using the UpdateNotifyConfiguration action.
+    ///   - displayName: The display name to associate with the notify configuration.
+    ///   - enabledChannels: An array of channels to enable for the notify configuration. Supported values include SMS and VOICE.
+    ///   - enabledCountries: An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+    ///   - poolId: The identifier of the pool to associate with the notify configuration.
+    ///   - tags: An array of tags (key and value pairs) associated with the notify configuration.
+    ///   - useCase: The use case for the notify configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createNotifyConfiguration(
+        clientToken: String? = CreateNotifyConfigurationRequest.idempotencyToken(),
+        defaultTemplateId: String? = nil,
+        deletionProtectionEnabled: Bool? = nil,
+        displayName: String,
+        enabledChannels: [NumberCapability],
+        enabledCountries: [String]? = nil,
+        poolId: String? = nil,
+        tags: [Tag]? = nil,
+        useCase: NotifyConfigurationUseCase,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateNotifyConfigurationResult {
+        let input = CreateNotifyConfigurationRequest(
+            clientToken: clientToken, 
+            defaultTemplateId: defaultTemplateId, 
+            deletionProtectionEnabled: deletionProtectionEnabled, 
+            displayName: displayName, 
+            enabledChannels: enabledChannels, 
+            enabledCountries: enabledCountries, 
+            poolId: poolId, 
+            tags: tags, 
+            useCase: useCase
+        )
+        return try await self.createNotifyConfiguration(input, logger: logger)
+    }
+
     /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see  SMS opt out  in the End User Messaging SMS User Guide.
     @Sendable
     @inlinable
@@ -369,7 +422,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - deletionProtectionEnabled: By default this is set to false. When set to true the pool can't be deleted. You can change this value using the UpdatePool action.
-    ///   - isoCountryCode: The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool.
+    ///   - isoCountryCode: The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
     ///   - messageType: The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed.
     ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, and use DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - tags: An array of tags (key and value pairs) associated with the pool.
@@ -378,7 +431,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     public func createPool(
         clientToken: String? = CreatePoolRequest.idempotencyToken(),
         deletionProtectionEnabled: Bool? = nil,
-        isoCountryCode: String,
+        isoCountryCode: String? = nil,
         messageType: MessageType,
         originationIdentity: String,
         tags: [Tag]? = nil,
@@ -428,6 +481,44 @@ public struct PinpointSMSVoiceV2: AWSService {
             tags: tags
         )
         return try await self.createProtectConfiguration(input, logger: logger)
+    }
+
+    /// Creates a new RCS agent for sending rich messages through the RCS channel. The RCS agent serves as an origination identity for sending RCS messages to your recipients.
+    @Sendable
+    @inlinable
+    public func createRcsAgent(_ input: CreateRcsAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRcsAgentResult {
+        try await self.client.execute(
+            operation: "CreateRcsAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new RCS agent for sending rich messages through the RCS channel. The RCS agent serves as an origination identity for sending RCS messages to your recipients.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - deletionProtectionEnabled: By default this is set to false. When set to true the RCS agent can't be deleted. You can change this value using the UpdateRcsAgent action.
+    ///   - optOutListName: The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn.
+    ///   - tags: An array of tags (key and value pairs) associated with the RCS agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRcsAgent(
+        clientToken: String? = CreateRcsAgentRequest.idempotencyToken(),
+        deletionProtectionEnabled: Bool? = nil,
+        optOutListName: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRcsAgentResult {
+        let input = CreateRcsAgentRequest(
+            clientToken: clientToken, 
+            deletionProtectionEnabled: deletionProtectionEnabled, 
+            optOutListName: optOutListName, 
+            tags: tags
+        )
+        return try await self.createRcsAgent(input, logger: logger)
     }
 
     /// Creates a new registration based on the RegistrationType field.
@@ -582,18 +673,21 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - destinationPhoneNumber: The verified destination phone number, in E.164 format.
+    ///   - rcsAgentId: The unique identifier of the RCS agent to associate with the verified destination number. You can use either the RcsAgentId or RcsAgentArn.
     ///   - tags: An array of tags (key and value pairs) to associate with the destination number.
     ///   - logger: Logger use during operation
     @inlinable
     public func createVerifiedDestinationNumber(
         clientToken: String? = CreateVerifiedDestinationNumberRequest.idempotencyToken(),
         destinationPhoneNumber: String,
+        rcsAgentId: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateVerifiedDestinationNumberResult {
         let input = CreateVerifiedDestinationNumberRequest(
             clientToken: clientToken, 
             destinationPhoneNumber: destinationPhoneNumber, 
+            rcsAgentId: rcsAgentId, 
             tags: tags
         )
         return try await self.createVerifiedDestinationNumber(input, logger: logger)
@@ -802,6 +896,61 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.deleteMediaMessageSpendLimitOverride(input, logger: logger)
     }
 
+    /// Deletes an existing notify configuration. If deletion protection is enabled, an error is returned.
+    @Sendable
+    @inlinable
+    public func deleteNotifyConfiguration(_ input: DeleteNotifyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotifyConfigurationResult {
+        try await self.client.execute(
+            operation: "DeleteNotifyConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing notify configuration. If deletion protection is enabled, an error is returned.
+    ///
+    /// Parameters:
+    ///   - notifyConfigurationId: The identifier of the notify configuration to delete. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteNotifyConfiguration(
+        notifyConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteNotifyConfigurationResult {
+        let input = DeleteNotifyConfigurationRequest(
+            notifyConfigurationId: notifyConfigurationId
+        )
+        return try await self.deleteNotifyConfiguration(input, logger: logger)
+    }
+
+    /// Deletes an account-level monthly spending limit override for sending notify messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
+    @Sendable
+    @inlinable
+    public func deleteNotifyMessageSpendLimitOverride(_ input: DeleteNotifyMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotifyMessageSpendLimitOverrideResult {
+        try await self.client.execute(
+            operation: "DeleteNotifyMessageSpendLimitOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an account-level monthly spending limit override for sending notify messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User Messaging SMS User Guide.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteNotifyMessageSpendLimitOverride(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteNotifyMessageSpendLimitOverrideResult {
+        let input = DeleteNotifyMessageSpendLimitOverrideRequest(
+        )
+        return try await self.deleteNotifyMessageSpendLimitOverride(input, logger: logger)
+    }
+
     /// Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted. If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
     @Sendable
     @inlinable
@@ -951,6 +1100,61 @@ public struct PinpointSMSVoiceV2: AWSService {
             protectConfigurationId: protectConfigurationId
         )
         return try await self.deleteProtectConfigurationRuleSetNumberOverride(input, logger: logger)
+    }
+
+    /// Deletes an existing RCS agent. If deletion protection is enabled, an error is returned.
+    @Sendable
+    @inlinable
+    public func deleteRcsAgent(_ input: DeleteRcsAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRcsAgentResult {
+        try await self.client.execute(
+            operation: "DeleteRcsAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing RCS agent. If deletion protection is enabled, an error is returned.
+    ///
+    /// Parameters:
+    ///   - rcsAgentId: The unique identifier of the RCS agent to delete. You can use either the RcsAgentId or RcsAgentArn.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRcsAgent(
+        rcsAgentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRcsAgentResult {
+        let input = DeleteRcsAgentRequest(
+            rcsAgentId: rcsAgentId
+        )
+        return try await self.deleteRcsAgent(input, logger: logger)
+    }
+
+    /// Deletes an account-level monthly spending limit override for sending RCS messages. Deleting a spend limit override sets the EnforcedLimit to equal the MaxLimit, which is set by Amazon Web Services.
+    @Sendable
+    @inlinable
+    public func deleteRcsMessageSpendLimitOverride(_ input: DeleteRcsMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRcsMessageSpendLimitOverrideResult {
+        try await self.client.execute(
+            operation: "DeleteRcsMessageSpendLimitOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an account-level monthly spending limit override for sending RCS messages. Deleting a spend limit override sets the EnforcedLimit to equal the MaxLimit, which is set by Amazon Web Services.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRcsMessageSpendLimitOverride(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRcsMessageSpendLimitOverrideResult {
+        let input = DeleteRcsMessageSpendLimitOverrideRequest(
+        )
+        return try await self.deleteRcsMessageSpendLimitOverride(input, logger: logger)
     }
 
     /// Permanently delete an existing registration from your account.
@@ -1296,6 +1500,82 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.describeKeywords(input, logger: logger)
     }
 
+    /// Describes the specified notify configurations or all notify configurations in your account. If you specify notify configuration IDs, the output includes information for only the specified notify configurations. If you specify filters, the output includes information for only those notify configurations that meet the filter criteria. If you don't specify notify configuration IDs or filters, the output includes information for all notify configurations. If you specify a notify configuration ID that isn't valid, an error is returned.
+    @Sendable
+    @inlinable
+    public func describeNotifyConfigurations(_ input: DescribeNotifyConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNotifyConfigurationsResult {
+        try await self.client.execute(
+            operation: "DescribeNotifyConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the specified notify configurations or all notify configurations in your account. If you specify notify configuration IDs, the output includes information for only the specified notify configurations. If you specify filters, the output includes information for only those notify configurations that meet the filter criteria. If you don't specify notify configuration IDs or filters, the output includes information for all notify configurations. If you specify a notify configuration ID that isn't valid, an error is returned.
+    ///
+    /// Parameters:
+    ///   - filters: An array of NotifyConfigurationFilter objects to filter the results on.
+    ///   - maxResults: The maximum number of results to return per each request.
+    ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    ///   - notifyConfigurationIds: An array of notify configuration IDs to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeNotifyConfigurations(
+        filters: [NotifyConfigurationFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        notifyConfigurationIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeNotifyConfigurationsResult {
+        let input = DescribeNotifyConfigurationsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            notifyConfigurationIds: notifyConfigurationIds
+        )
+        return try await self.describeNotifyConfigurations(input, logger: logger)
+    }
+
+    /// Describes the specified notify templates or all notify templates in your account. If you specify template IDs, the output includes information for only the specified notify templates. If you specify filters, the output includes information for only those notify templates that meet the filter criteria. If you don't specify template IDs or filters, the output includes information for all notify templates. If you specify a template ID that isn't valid, an error is returned.
+    @Sendable
+    @inlinable
+    public func describeNotifyTemplates(_ input: DescribeNotifyTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNotifyTemplatesResult {
+        try await self.client.execute(
+            operation: "DescribeNotifyTemplates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the specified notify templates or all notify templates in your account. If you specify template IDs, the output includes information for only the specified notify templates. If you specify filters, the output includes information for only those notify templates that meet the filter criteria. If you don't specify template IDs or filters, the output includes information for all notify templates. If you specify a template ID that isn't valid, an error is returned.
+    ///
+    /// Parameters:
+    ///   - filters: An array of NotifyTemplateFilter objects to filter the results on.
+    ///   - maxResults: The maximum number of results to return per each request.
+    ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    ///   - templateIds: An array of template IDs to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeNotifyTemplates(
+        filters: [NotifyTemplateFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        templateIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeNotifyTemplatesResult {
+        let input = DescribeNotifyTemplatesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            templateIds: templateIds
+        )
+        return try await self.describeNotifyTemplates(input, logger: logger)
+    }
+
     /// Describes the specified opt-out list or all opt-out lists in your account. If you specify opt-out list names, the output includes information for only the specified opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't specify opt-out list names or filters, the output includes information for all opt-out lists. If you specify an opt-out list name that isn't valid, an error is returned.
     @Sendable
     @inlinable
@@ -1493,6 +1773,88 @@ public struct PinpointSMSVoiceV2: AWSService {
             protectConfigurationIds: protectConfigurationIds
         )
         return try await self.describeProtectConfigurations(input, logger: logger)
+    }
+
+    /// Retrieves the per-country launch status of an RCS agent, including carrier-level details for each country.
+    @Sendable
+    @inlinable
+    public func describeRcsAgentCountryLaunchStatus(_ input: DescribeRcsAgentCountryLaunchStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRcsAgentCountryLaunchStatusResult {
+        try await self.client.execute(
+            operation: "DescribeRcsAgentCountryLaunchStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the per-country launch status of an RCS agent, including carrier-level details for each country.
+    ///
+    /// Parameters:
+    ///   - filters: An array of CountryLaunchStatusFilter objects to filter the results.
+    ///   - isoCountryCodes: An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, to filter the results.
+    ///   - maxResults: The maximum number of results to return per each request.
+    ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    ///   - rcsAgentId: The unique identifier of the RCS agent. You can use either the RcsAgentId or RcsAgentArn.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeRcsAgentCountryLaunchStatus(
+        filters: [CountryLaunchStatusFilter]? = nil,
+        isoCountryCodes: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        rcsAgentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeRcsAgentCountryLaunchStatusResult {
+        let input = DescribeRcsAgentCountryLaunchStatusRequest(
+            filters: filters, 
+            isoCountryCodes: isoCountryCodes, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            rcsAgentId: rcsAgentId
+        )
+        return try await self.describeRcsAgentCountryLaunchStatus(input, logger: logger)
+    }
+
+    /// Retrieves the specified RCS agents or all RCS agents associated with your Amazon Web Services account. If you specify RCS agent IDs, the output includes information for only the specified RCS agents. If you specify filters, the output includes information for only those RCS agents that meet the filter criteria. If you don't specify RCS agent IDs or filters, the output includes information for all RCS agents.
+    @Sendable
+    @inlinable
+    public func describeRcsAgents(_ input: DescribeRcsAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRcsAgentsResult {
+        try await self.client.execute(
+            operation: "DescribeRcsAgents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the specified RCS agents or all RCS agents associated with your Amazon Web Services account. If you specify RCS agent IDs, the output includes information for only the specified RCS agents. If you specify filters, the output includes information for only those RCS agents that meet the filter criteria. If you don't specify RCS agent IDs or filters, the output includes information for all RCS agents.
+    ///
+    /// Parameters:
+    ///   - filters: An array of RcsAgentFilter objects to filter the results.
+    ///   - maxResults: The maximum number of results to return per each request.
+    ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    ///   - owner: Use SELF to filter the list of RCS agents to ones your account owns or use SHARED to filter on RCS agents shared with your account. The Owner and RcsAgentIds parameters can't be used at the same time.
+    ///   - rcsAgentIds: An array of unique identifiers for the RCS agents. This is an array of strings that can be either the RcsAgentId or RcsAgentArn.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeRcsAgents(
+        filters: [RcsAgentFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        owner: Owner? = nil,
+        rcsAgentIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeRcsAgentsResult {
+        let input = DescribeRcsAgentsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            owner: owner, 
+            rcsAgentIds: rcsAgentIds
+        )
+        return try await self.describeRcsAgents(input, logger: logger)
     }
 
     /// Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account.
@@ -1904,14 +2266,14 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
-    ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
     ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use DescribeSenderIds to get the values for SenderId and SenderIdArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - poolId: The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateOriginationIdentity(
         clientToken: String? = DisassociateOriginationIdentityRequest.idempotencyToken(),
-        isoCountryCode: String,
+        isoCountryCode: String? = nil,
         originationIdentity: String,
         poolId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2045,6 +2407,47 @@ public struct PinpointSMSVoiceV2: AWSService {
             resourceArn: resourceArn
         )
         return try await self.getResourcePolicy(input, logger: logger)
+    }
+
+    /// Lists countries that support notify messaging. You can optionally filter by channel, use case, or tier.
+    @Sendable
+    @inlinable
+    public func listNotifyCountries(_ input: ListNotifyCountriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotifyCountriesResult {
+        try await self.client.execute(
+            operation: "ListNotifyCountries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists countries that support notify messaging. You can optionally filter by channel, use case, or tier.
+    ///
+    /// Parameters:
+    ///   - channels: An array of channels to filter the results by.
+    ///   - maxResults: The maximum number of results to return per each request.
+    ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    ///   - tier: The tier to filter the results by.
+    ///   - useCases: An array of use cases to filter the results by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNotifyCountries(
+        channels: [NumberCapability]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        tier: NotifyConfigurationTier? = nil,
+        useCases: [NotifyConfigurationUseCase]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNotifyCountriesResult {
+        let input = ListNotifyCountriesRequest(
+            channels: channels, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            tier: tier, 
+            useCases: useCases
+        )
+        return try await self.listNotifyCountries(input, logger: logger)
     }
 
     /// Lists all associated origination identities in your pool. If you specify filters, the output includes information for only those origination identities that meet the filter criteria.
@@ -2546,7 +2949,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - deletionProtectionEnabled: By default this is set to false. When set to true the sender ID can't be deleted.
     ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     ///   - messageTypes: The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
-    ///   - senderId: The sender ID string to request.
+    ///   - senderId: The sender ID string to request. The sender ID can be 1-11 alphanumeric characters including letters (A-Z, a-z), numbers (0-9), or hyphens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen.
     ///   - tags: An array of tags (key and value pairs) to associate with the sender ID.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2676,6 +3079,177 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.sendMediaMessage(input, logger: logger)
     }
 
+    /// Sends a templated text message through a notify configuration to a recipient's phone number.
+    @Sendable
+    @inlinable
+    public func sendNotifyTextMessage(_ input: SendNotifyTextMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendNotifyTextMessageResult {
+        try await self.client.execute(
+            operation: "SendNotifyTextMessage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a templated text message through a notify configuration to a recipient's phone number.
+    ///
+    /// Parameters:
+    ///   - configurationSetName: The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    ///   - context: You can specify custom data in this field. If you do, that data is logged to the event destination.
+    ///   - destinationPhoneNumber: The destination phone number in E.164 format.
+    ///   - dryRun: When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+    ///   - notifyConfigurationId: The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn.
+    ///   - templateId: The unique identifier of the template to use for the message.
+    ///   - templateVariables: A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false".
+    ///   - timeToLive: How long the text message is valid for, in seconds. By default this is 72 hours.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendNotifyTextMessage(
+        configurationSetName: String? = nil,
+        context: [String: String]? = nil,
+        destinationPhoneNumber: String,
+        dryRun: Bool? = nil,
+        messageFeedbackEnabled: Bool? = nil,
+        notifyConfigurationId: String,
+        templateId: String? = nil,
+        templateVariables: [String: String],
+        timeToLive: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendNotifyTextMessageResult {
+        let input = SendNotifyTextMessageRequest(
+            configurationSetName: configurationSetName, 
+            context: context, 
+            destinationPhoneNumber: destinationPhoneNumber, 
+            dryRun: dryRun, 
+            messageFeedbackEnabled: messageFeedbackEnabled, 
+            notifyConfigurationId: notifyConfigurationId, 
+            templateId: templateId, 
+            templateVariables: templateVariables, 
+            timeToLive: timeToLive
+        )
+        return try await self.sendNotifyTextMessage(input, logger: logger)
+    }
+
+    /// Sends a templated voice message through a notify configuration to a recipient's phone number.
+    @Sendable
+    @inlinable
+    public func sendNotifyVoiceMessage(_ input: SendNotifyVoiceMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendNotifyVoiceMessageResult {
+        try await self.client.execute(
+            operation: "SendNotifyVoiceMessage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a templated voice message through a notify configuration to a recipient's phone number.
+    ///
+    /// Parameters:
+    ///   - configurationSetName: The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    ///   - context: You can specify custom data in this field. If you do, that data is logged to the event destination.
+    ///   - destinationPhoneNumber: The destination phone number in E.164 format.
+    ///   - dryRun: When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+    ///   - notifyConfigurationId: The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn.
+    ///   - templateId: The unique identifier of the template to use for the message.
+    ///   - templateVariables: A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false".
+    ///   - timeToLive: How long the voice message is valid for, in seconds. By default this is 72 hours.
+    ///   - voiceId: The voice ID to use for the voice message.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendNotifyVoiceMessage(
+        configurationSetName: String? = nil,
+        context: [String: String]? = nil,
+        destinationPhoneNumber: String,
+        dryRun: Bool? = nil,
+        messageFeedbackEnabled: Bool? = nil,
+        notifyConfigurationId: String,
+        templateId: String? = nil,
+        templateVariables: [String: String],
+        timeToLive: Int? = nil,
+        voiceId: VoiceId? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendNotifyVoiceMessageResult {
+        let input = SendNotifyVoiceMessageRequest(
+            configurationSetName: configurationSetName, 
+            context: context, 
+            destinationPhoneNumber: destinationPhoneNumber, 
+            dryRun: dryRun, 
+            messageFeedbackEnabled: messageFeedbackEnabled, 
+            notifyConfigurationId: notifyConfigurationId, 
+            templateId: templateId, 
+            templateVariables: templateVariables, 
+            timeToLive: timeToLive, 
+            voiceId: voiceId
+        )
+        return try await self.sendNotifyVoiceMessage(input, logger: logger)
+    }
+
+    /// Creates a new RCS message and sends it to a recipient's phone number. RCS messages support rich content including text, files, rich cards, and carousels with interactive suggested actions.
+    @Sendable
+    @inlinable
+    public func sendRcsMessage(_ input: SendRcsMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendRcsMessageResult {
+        try await self.client.execute(
+            operation: "SendRcsMessage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new RCS message and sends it to a recipient's phone number. RCS messages support rich content including text, files, rich cards, and carousels with interactive suggested actions.
+    ///
+    /// Parameters:
+    ///   - configurationSetName: The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    ///   - context: You can specify custom data in this field. If you do, that data is logged to the event destination.
+    ///   - destinationPhoneNumber: The destination phone number in E.164 format.
+    ///   - dryRun: When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    ///   - fallbackConfiguration: Configuration for SMS or MMS fallback when RCS delivery fails. If provided, the service sends a fallback message via the specified channel when the RCS message fails or the TimeToLive expires.
+    ///   - maxPrice: The maximum amount that you want to spend, in US dollars, per each RCS message.
+    ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+    ///   - messageTrafficType: The traffic type of the RCS message. Valid values are AUTHENTICATION, TRANSACTION, PROMOTION, SERVICE_REQUEST, and ACKNOWLEDGEMENT. This field is reserved for future use.
+    ///   - originationIdentity: The origination identity of the message. This can be either the RcsAgentId, RcsAgentArn, PoolId, or PoolArn.
+    ///   - protectConfigurationId: The unique identifier of the protect configuration to use.
+    ///   - rcsMessageContent: The content of the RCS message. Contains the message content (text, file, rich card, or carousel) and optional message-level suggested actions.
+    ///   - timeToLive: The duration in seconds that the RCS message is valid for delivery. If the message cannot be delivered within this duration, it is considered expired. Valid values are 1 to 172800 (48 hours). If a FallbackConfiguration is provided, the fallback is triggered when the duration expires without delivery confirmation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendRcsMessage(
+        configurationSetName: String? = nil,
+        context: [String: String]? = nil,
+        destinationPhoneNumber: String,
+        dryRun: Bool? = nil,
+        fallbackConfiguration: RcsFallbackConfiguration? = nil,
+        maxPrice: String? = nil,
+        messageFeedbackEnabled: Bool? = nil,
+        messageTrafficType: String? = nil,
+        originationIdentity: String,
+        protectConfigurationId: String? = nil,
+        rcsMessageContent: RcsMessageContent? = nil,
+        timeToLive: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendRcsMessageResult {
+        let input = SendRcsMessageRequest(
+            configurationSetName: configurationSetName, 
+            context: context, 
+            destinationPhoneNumber: destinationPhoneNumber, 
+            dryRun: dryRun, 
+            fallbackConfiguration: fallbackConfiguration, 
+            maxPrice: maxPrice, 
+            messageFeedbackEnabled: messageFeedbackEnabled, 
+            messageTrafficType: messageTrafficType, 
+            originationIdentity: originationIdentity, 
+            protectConfigurationId: protectConfigurationId, 
+            rcsMessageContent: rcsMessageContent, 
+            timeToLive: timeToLive
+        )
+        return try await self.sendRcsMessage(input, logger: logger)
+    }
+
     /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the End User Messaging SMS User Guide.
     @Sendable
     @inlinable
@@ -2702,7 +3276,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - messageBody: The body of the text message.
     ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
     ///   - messageType: The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
-    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, RcsAgentId, RcsAgentArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
     ///   - timeToLive: How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return TTL_EXPIRED event.
     ///   - logger: Logger use during operation
@@ -2957,6 +3531,64 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.setMediaMessageSpendLimitOverride(input, logger: logger)
     }
 
+    /// Sets an account level monthly spend limit override for sending notify messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
+    @Sendable
+    @inlinable
+    public func setNotifyMessageSpendLimitOverride(_ input: SetNotifyMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetNotifyMessageSpendLimitOverrideResult {
+        try await self.client.execute(
+            operation: "SetNotifyMessageSpendLimitOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets an account level monthly spend limit override for sending notify messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
+    ///
+    /// Parameters:
+    ///   - monthlyLimit: The new monthly limit to enforce on notify messages.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func setNotifyMessageSpendLimitOverride(
+        monthlyLimit: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SetNotifyMessageSpendLimitOverrideResult {
+        let input = SetNotifyMessageSpendLimitOverrideRequest(
+            monthlyLimit: monthlyLimit
+        )
+        return try await self.setNotifyMessageSpendLimitOverride(input, logger: logger)
+    }
+
+    /// Sets an account level monthly spend limit override for sending RCS messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
+    @Sendable
+    @inlinable
+    public func setRcsMessageSpendLimitOverride(_ input: SetRcsMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetRcsMessageSpendLimitOverrideResult {
+        try await self.client.execute(
+            operation: "SetRcsMessageSpendLimitOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets an account level monthly spend limit override for sending RCS messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
+    ///
+    /// Parameters:
+    ///   - monthlyLimit: The new monthly limit to enforce on RCS message spending.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func setRcsMessageSpendLimitOverride(
+        monthlyLimit: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SetRcsMessageSpendLimitOverrideResult {
+        let input = SetRcsMessageSpendLimitOverrideRequest(
+            monthlyLimit: monthlyLimit
+        )
+        return try await self.setRcsMessageSpendLimitOverride(input, logger: logger)
+    }
+
     /// Sets an account level monthly spend limit override for sending text messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
     @Sendable
     @inlinable
@@ -3158,6 +3790,50 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.updateEventDestination(input, logger: logger)
     }
 
+    /// Updates an existing notify configuration. You can update the default template, pool association, enabled channels, enabled countries, and deletion protection settings.
+    @Sendable
+    @inlinable
+    public func updateNotifyConfiguration(_ input: UpdateNotifyConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotifyConfigurationResult {
+        try await self.client.execute(
+            operation: "UpdateNotifyConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing notify configuration. You can update the default template, pool association, enabled channels, enabled countries, and deletion protection settings.
+    ///
+    /// Parameters:
+    ///   - defaultTemplateId: The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier. Pass the special value UNSET_DEFAULT_TEMPLATE to clear the current default template from the notify configuration.
+    ///   - deletionProtectionEnabled: When set to true the notify configuration can't be deleted.
+    ///   - enabledChannels: An array of channels to enable for the notify configuration. Supported values include SMS and VOICE.
+    ///   - enabledCountries: An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+    ///   - notifyConfigurationId: The identifier of the notify configuration to update. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation.
+    ///   - poolId: The pool identifier or Amazon Resource Name (ARN) to associate with the notify configuration. Pass the special value UNSET_DEFAULT_POOL_FOR_NOTIFY to clear the current default pool from the notify configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateNotifyConfiguration(
+        defaultTemplateId: String? = nil,
+        deletionProtectionEnabled: Bool? = nil,
+        enabledChannels: [NumberCapability]? = nil,
+        enabledCountries: [String]? = nil,
+        notifyConfigurationId: String,
+        poolId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateNotifyConfigurationResult {
+        let input = UpdateNotifyConfigurationRequest(
+            defaultTemplateId: defaultTemplateId, 
+            deletionProtectionEnabled: deletionProtectionEnabled, 
+            enabledChannels: enabledChannels, 
+            enabledCountries: enabledCountries, 
+            notifyConfigurationId: notifyConfigurationId, 
+            poolId: poolId
+        )
+        return try await self.updateNotifyConfiguration(input, logger: logger)
+    }
+
     /// Updates the configuration of an existing origination phone number. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, and enable or disable deletion protection. If the origination phone number is associated with a pool, an error is returned.
     @Sendable
     @inlinable
@@ -3323,6 +3999,65 @@ public struct PinpointSMSVoiceV2: AWSService {
             protectConfigurationId: protectConfigurationId
         )
         return try await self.updateProtectConfigurationCountryRuleSet(input, logger: logger)
+    }
+
+    /// Updates the configuration of an existing RCS agent. You can update the opt-out list, deletion protection, two-way messaging settings, and self-managed opt-outs configuration.
+    @Sendable
+    @inlinable
+    public func updateRcsAgent(_ input: UpdateRcsAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRcsAgentResult {
+        try await self.client.execute(
+            operation: "UpdateRcsAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing RCS agent. You can update the opt-out list, deletion protection, two-way messaging settings, and self-managed opt-outs configuration.
+    ///
+    /// Parameters:
+    ///   - deletionProtectionEnabled: By default this is set to false. When set to true the RCS agent can't be deleted.
+    ///   - optOutListName: The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn.
+    ///   - rcsAgentId: The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn.
+    ///   - selfManagedOptOutsEnabled: By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    ///   - twoWayChannelArn: The Amazon Resource Name (ARN) of the two way channel.
+    ///   - twoWayChannelRole: An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+    ///   - twoWayEnabled: By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+    ///   - twoWayMediaS3BucketName: The name of the S3 bucket where inbound RCS media files are stored. Two-way messaging must be enabled on the agent. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3Role.
+    ///   - twoWayMediaS3KeyPrefix: The key prefix used for inbound RCS media objects in the S3 bucket.
+    ///   - twoWayMediaS3Role: The ARN of the IAM role used to write inbound RCS media files to the S3 bucket. The role must have s3:PutObject permission on the bucket and a trust policy allowing sms-voice.amazonaws.com to assume it. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3BucketName.
+    ///   - twoWayRcsEventsEnabled: The list of RCS event types to enable for two-way messaging. Pass an empty list to disable all event types. The special value ALL enables all current and future event types and must be the sole element if used.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRcsAgent(
+        deletionProtectionEnabled: Bool? = nil,
+        optOutListName: String? = nil,
+        rcsAgentId: String,
+        selfManagedOptOutsEnabled: Bool? = nil,
+        twoWayChannelArn: String? = nil,
+        twoWayChannelRole: String? = nil,
+        twoWayEnabled: Bool? = nil,
+        twoWayMediaS3BucketName: String? = nil,
+        twoWayMediaS3KeyPrefix: String? = nil,
+        twoWayMediaS3Role: String? = nil,
+        twoWayRcsEventsEnabled: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRcsAgentResult {
+        let input = UpdateRcsAgentRequest(
+            deletionProtectionEnabled: deletionProtectionEnabled, 
+            optOutListName: optOutListName, 
+            rcsAgentId: rcsAgentId, 
+            selfManagedOptOutsEnabled: selfManagedOptOutsEnabled, 
+            twoWayChannelArn: twoWayChannelArn, 
+            twoWayChannelRole: twoWayChannelRole, 
+            twoWayEnabled: twoWayEnabled, 
+            twoWayMediaS3BucketName: twoWayMediaS3BucketName, 
+            twoWayMediaS3KeyPrefix: twoWayMediaS3KeyPrefix, 
+            twoWayMediaS3Role: twoWayMediaS3Role, 
+            twoWayRcsEventsEnabled: twoWayRcsEventsEnabled
+        )
+        return try await self.updateRcsAgent(input, logger: logger)
     }
 
     /// Updates the configuration of an existing sender ID.

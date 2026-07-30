@@ -624,6 +624,7 @@ extension PartnerCentralSelling {
     public enum EngagementContextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerProject = "CustomerProject"
         case lead = "Lead"
+        case prospectingResult = "ProspectingResult"
         public var description: String { return self.rawValue }
     }
 
@@ -642,6 +643,11 @@ extension PartnerCentralSelling {
 
     public enum EngagementSortName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdDate = "CreatedDate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpectedContractDurationTerm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case months = "Months"
         public var description: String { return self.rawValue }
     }
 
@@ -770,6 +776,21 @@ extension PartnerCentralSelling {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProspectingFromEngagementTaskSortName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failedEngagementCount = "FailedEngagementCount"
+        case startTime = "StartTime"
+        case taskName = "TaskName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProspectingTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contextNotFound = "ContextNotFound"
         case customerProjectContextNotPermitted = "CustomerProjectContextNotPermitted"
@@ -812,6 +833,8 @@ extension PartnerCentralSelling {
     public enum RelatedEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsMarketplaceOfferSets = "AwsMarketplaceOfferSets"
         case awsMarketplaceOffers = "AwsMarketplaceOffers"
+        case awsMarketplaceProducts = "AwsMarketplaceProducts"
+        case awsMarketplaceSolutions = "AwsMarketplaceSolutions"
         case awsProducts = "AwsProducts"
         case solutions = "Solutions"
         public var description: String { return self.rawValue }
@@ -939,6 +962,8 @@ extension PartnerCentralSelling {
         case customerProject(CustomerProjectsContext)
         /// Contains detailed information about a lead when the context type is "Lead". This field is present only when the Type in EngagementContextDetails is set to "Lead".
         case lead(LeadContext)
+        /// Contains prospecting result data with enriched insights. The system generates these insights when a partner runs an autonomous prospecting job on leads. This field appears only when the context type is "ProspectingResult".
+        case prospectingResult(ProspectingResult)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -956,6 +981,9 @@ extension PartnerCentralSelling {
             case .lead:
                 let value = try container.decode(LeadContext.self, forKey: .lead)
                 self = .lead(value)
+            case .prospectingResult:
+                let value = try container.decode(ProspectingResult.self, forKey: .prospectingResult)
+                self = .prospectingResult(value)
             }
         }
 
@@ -966,6 +994,8 @@ extension PartnerCentralSelling {
                 try container.encode(value, forKey: .customerProject)
             case .lead(let value):
                 try container.encode(value, forKey: .lead)
+            case .prospectingResult(let value):
+                try container.encode(value, forKey: .prospectingResult)
             }
         }
 
@@ -975,12 +1005,15 @@ extension PartnerCentralSelling {
                 try value.validate(name: "\(name).customerProject")
             case .lead(let value):
                 try value.validate(name: "\(name).lead")
+            case .prospectingResult(let value):
+                try value.validate(name: "\(name).prospectingResult")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case customerProject = "CustomerProject"
             case lead = "Lead"
+            case prospectingResult = "ProspectingResult"
         }
     }
 
@@ -1069,6 +1102,8 @@ extension PartnerCentralSelling {
         case customerProject(CustomerProjectsContext)
         /// Contains updated information about a lead when the context type is "Lead". This field is present only when updating a lead context within the engagement.
         case lead(UpdateLeadContext)
+        /// Contains updated prospecting result data when the context type is "ProspectingResult". This field includes enriched data and insights that the system generates when a partner runs an autonomous prospecting job on leads.
+        case prospectingResult(ProspectingResult)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1077,6 +1112,8 @@ extension PartnerCentralSelling {
                 try container.encode(value, forKey: .customerProject)
             case .lead(let value):
                 try container.encode(value, forKey: .lead)
+            case .prospectingResult(let value):
+                try container.encode(value, forKey: .prospectingResult)
             }
         }
 
@@ -1086,12 +1123,15 @@ extension PartnerCentralSelling {
                 try value.validate(name: "\(name).customerProject")
             case .lead(let value):
                 try value.validate(name: "\(name).lead")
+            case .prospectingResult(let value):
+                try value.validate(name: "\(name).prospectingResult")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case customerProject = "CustomerProject"
             case lead = "Lead"
+            case prospectingResult = "ProspectingResult"
         }
     }
 
@@ -1409,18 +1449,26 @@ extension PartnerCentralSelling {
         public let engagementScore: EngagementScore?
         /// Provides recommendations from AWS on the next best actions to take in order to move the opportunity forward and increase the likelihood of success.
         public let nextBestActions: String?
+        /// Opportunity quality assessment. Null if not yet scored.
+        public let opportunityQuality: OpportunityQuality?
+        /// List of recommendations from various agent-driven sources.
+        public let recommendations: [Recommendation]?
 
         @inlinable
-        public init(awsProductsSpendInsightsBySource: AwsProductsSpendInsightsBySource? = nil, engagementScore: EngagementScore? = nil, nextBestActions: String? = nil) {
+        public init(awsProductsSpendInsightsBySource: AwsProductsSpendInsightsBySource? = nil, engagementScore: EngagementScore? = nil, nextBestActions: String? = nil, opportunityQuality: OpportunityQuality? = nil, recommendations: [Recommendation]? = nil) {
             self.awsProductsSpendInsightsBySource = awsProductsSpendInsightsBySource
             self.engagementScore = engagementScore
             self.nextBestActions = nextBestActions
+            self.opportunityQuality = opportunityQuality
+            self.recommendations = recommendations
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsProductsSpendInsightsBySource = "AwsProductsSpendInsightsBySource"
             case engagementScore = "EngagementScore"
             case nextBestActions = "NextBestActions"
+            case opportunityQuality = "OpportunityQuality"
+            case recommendations = "Recommendations"
         }
     }
 
@@ -1473,24 +1521,34 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsOpportunityRelatedEntities: AWSDecodableShape {
+        /// The AWS Marketplace product ARNs associated with this opportunity.
+        public let awsMarketplaceProducts: [String]?
+        /// The AWS Marketplace solution ARNs associated with this opportunity.
+        public let awsMarketplaceSolutions: [String]?
         /// Specifies the AWS products associated with the opportunity. This field helps track the specific products that are part of the proposed solution.
         public let awsProducts: [String]?
         /// Specifies the partner solutions related to the opportunity. These solutions represent the partner's offerings that are being positioned as part of the overall AWS opportunity.
         public let solutions: [String]?
 
         @inlinable
-        public init(awsProducts: [String]? = nil, solutions: [String]? = nil) {
+        public init(awsMarketplaceProducts: [String]? = nil, awsMarketplaceSolutions: [String]? = nil, awsProducts: [String]? = nil, solutions: [String]? = nil) {
+            self.awsMarketplaceProducts = awsMarketplaceProducts
+            self.awsMarketplaceSolutions = awsMarketplaceSolutions
             self.awsProducts = awsProducts
             self.solutions = solutions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsMarketplaceProducts = "AwsMarketplaceProducts"
+            case awsMarketplaceSolutions = "AwsMarketplaceSolutions"
             case awsProducts = "AwsProducts"
             case solutions = "Solutions"
         }
     }
 
     public struct AwsOpportunitySummaryFullView: AWSDecodableShape {
+        /// Engagement classification for this opportunity. Read-only. Null before scoring. Known values: AWS Field-engaged, Agent-engaged, Partner-led.
+        public let cosellMotion: String?
         public let customer: AwsOpportunityCustomer?
         public let insights: AwsOpportunityInsights?
         /// Type of AWS involvement in the opportunity.
@@ -1510,7 +1568,8 @@ extension PartnerCentralSelling {
         public let visibility: Visibility?
 
         @inlinable
-        public init(customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, visibility: Visibility? = nil) {
+        public init(cosellMotion: String? = nil, customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, visibility: Visibility? = nil) {
+            self.cosellMotion = cosellMotion
             self.customer = customer
             self.insights = insights
             self.involvementType = involvementType
@@ -1525,6 +1584,7 @@ extension PartnerCentralSelling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cosellMotion = "CosellMotion"
             case customer = "Customer"
             case insights = "Insights"
             case involvementType = "InvolvementType"
@@ -1580,7 +1640,7 @@ extension PartnerCentralSelling {
     public struct AwsProductInsights: AWSDecodableShape {
         /// Product-level details including costs and optimization recommendations.
         public let awsProducts: [AwsProductDetails]
-        /// ISO 4217 currency code.
+        /// ISO 4217 currency code. Supported values are USD and EUR. Returns EUR when the opportunity is in the aws-eusc (AWS European Sovereign Cloud) partition.
         public let currencyCode: CurrencyCode
         /// Time period for spend amounts.
         public let frequency: PaymentFrequency
@@ -2471,6 +2531,36 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct EngagementProspectingResult: AWSDecodableShape {
+        /// The identifier of the prospecting context created for this engagement. This field is only populated when the engagement was processed successfully (status is COMPLETED). Use this identifier to reference the prospecting context in subsequent operations.
+        public let engagementContextId: String?
+        /// The unique identifier of the engagement that was processed.
+        public let engagementIdentifier: String
+        /// A human-readable description of the failure for this engagement, including suggested recovery steps. This field is only populated when Status is FAILED.
+        public let message: String?
+        /// An enumerated code indicating the reason this engagement failed to process. This field is only populated when Status is FAILED.
+        public let reasonCode: String?
+        /// The processing status of this specific engagement. Possible values are PENDING, IN_PROGRESS, COMPLETED, and FAILED.
+        public let status: ProspectingTaskStatus
+
+        @inlinable
+        public init(engagementContextId: String? = nil, engagementIdentifier: String, message: String? = nil, reasonCode: String? = nil, status: ProspectingTaskStatus) {
+            self.engagementContextId = engagementContextId
+            self.engagementIdentifier = engagementIdentifier
+            self.message = message
+            self.reasonCode = reasonCode
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engagementContextId = "EngagementContextId"
+            case engagementIdentifier = "EngagementIdentifier"
+            case message = "Message"
+            case reasonCode = "ReasonCode"
+            case status = "Status"
+        }
+    }
+
     public struct EngagementResourceAssociationSummary: AWSDecodableShape {
         ///  Indicates the environment in which the resource and engagement exist.
         public let catalog: String
@@ -2567,16 +2657,34 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct ExpectedContractDuration: AWSEncodableShape & AWSDecodableShape {
+        /// The unit of measurement for the contract duration value. Currently accepts only Months.
+        public let term: ExpectedContractDurationTerm
+        /// A String representation of the contract duration as an integer, expressed in the unit defined by Term. Valid values range from 1 to 144.
+        public let value: String
+
+        @inlinable
+        public init(term: ExpectedContractDurationTerm, value: String) {
+            self.term = term
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case term = "Term"
+            case value = "Value"
+        }
+    }
+
     public struct ExpectedCustomerSpend: AWSEncodableShape & AWSDecodableShape {
         /// Represents the estimated monthly revenue that the partner expects to earn from the opportunity. This helps in forecasting financial returns.
         public let amount: String?
-        /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets.
+        /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets. Accepted values are USD (US Dollars) and EUR (Euros). If the AWS Partition is aws-eusc (AWS European Sovereign Cloud), the currency code must be EUR.
         public let currencyCode: CurrencyCode
         /// A URL providing additional information or context about the spend estimation.
         public let estimationUrl: String?
-        /// Indicates how frequently the customer is expected to spend the projected amount. Only the value Monthly is allowed for the Frequency field, representing recurring monthly spend.
+        /// Indicates how frequently the customer is expected to spend the projected amount. Use Monthly for recurring monthly spend (required for TargetCompany: "AWS" entries). Use None for one-time deal value entries (required for TargetCompany: "Self" entries when providing Total Contract Value).
         public let frequency: PaymentFrequency
-        /// Specifies the name of the partner company that is expected to generate revenue from the opportunity. This field helps track the partner’s involvement in the opportunity. This field only accepts the value AWS. If any other value is provided, the system will automatically set it to AWS.
+        /// Specifies the entity associated with this spend entry. Use AWS for the system’s AWS Monthly Recurring Revenue (MRR) estimate. Use Self for the partner’s own deal value entry when providing Total Contract Value (TCV) for automatic MRR conversion. When ExpectedContractDuration is present on the Project, only AWS and Self are accepted. When ExpectedContractDuration is not present, only AWS is accepted and any other value will be automatically set to AWS.
         public let targetCompany: String
 
         @inlinable
@@ -2590,7 +2698,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.amount, name: "amount", parent: name, pattern: "^((0|([1-9][0-9]{0,30}))(\\.[0-9]{0,2})?)?$")
-            try self.validate(self.estimationUrl, name: "estimationUrl", parent: name, pattern: "^https://calculator\\.aws/#/estimate\\?id=[a-f0-9]{32,64}$")
+            try self.validate(self.estimationUrl, name: "estimationUrl", parent: name, pattern: "^https://(calculator\\.aws|pricing\\.calculator\\.aws\\.eu)/#/estimate\\?id=[a-f0-9]{32,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2628,6 +2736,8 @@ extension PartnerCentralSelling {
     public struct GetAwsOpportunitySummaryResponse: AWSDecodableShape {
         /// Specifies the catalog in which the AWS Opportunity exists. This is the environment (e.g., AWS or Sandbox) where the opportunity is being managed.
         public let catalog: String
+        /// Engagement classification for this opportunity. Read-only. Null before scoring. Known values: AWS Field-engaged, Agent-engaged, Partner-led.
+        public let cosellMotion: String?
         /// Provides details about the customer associated with the AWS Opportunity, including account information, industry, and other customer data. These details help partners understand the business context of the opportunity.
         public let customer: AwsOpportunityCustomer?
         /// Provides insights into the AWS Opportunity, including engagement score and recommended actions that AWS suggests for the partner.
@@ -2652,8 +2762,9 @@ extension PartnerCentralSelling {
         public let visibility: Visibility?
 
         @inlinable
-        public init(catalog: String, customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, visibility: Visibility? = nil) {
+        public init(catalog: String, cosellMotion: String? = nil, customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, visibility: Visibility? = nil) {
             self.catalog = catalog
+            self.cosellMotion = cosellMotion
             self.customer = customer
             self.insights = insights
             self.involvementType = involvementType
@@ -2669,6 +2780,7 @@ extension PartnerCentralSelling {
 
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
+            case cosellMotion = "CosellMotion"
             case customer = "Customer"
             case insights = "Insights"
             case involvementType = "InvolvementType"
@@ -2957,6 +3069,65 @@ extension PartnerCentralSelling {
             case project = "Project"
             case relatedEntityIdentifiers = "RelatedEntityIdentifiers"
             case softwareRevenue = "SoftwareRevenue"
+        }
+    }
+
+    public struct GetProspectingFromEngagementTaskRequest: AWSEncodableShape {
+        /// Specifies the catalog associated with the task. Specify AWS for production environments and Sandbox for testing and development purposes. The value must match the catalog used when the task was created.
+        public let catalog: String
+        /// The unique identifier of the prospecting task to retrieve. This value is returned in the TaskId field of the StartProspectingFromEngagementTask response.
+        public let taskIdentifier: String
+
+        @inlinable
+        public init(catalog: String, taskIdentifier: String) {
+            self.catalog = catalog
+            self.taskIdentifier = taskIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.taskIdentifier, name: "taskIdentifier", parent: name, pattern: "^task-[0-9a-z]{14}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case taskIdentifier = "TaskIdentifier"
+        }
+    }
+
+    public struct GetProspectingFromEngagementTaskResponse: AWSDecodableShape {
+        /// The timestamp indicating when the task finished processing. This field is absent if the task is still in progress. The format follows ISO 8601 date-time notation.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// An array of EngagementProspectingResult entries for each engagement in the task. Each entry contains the processing status. For successfully completed engagements, includes the prospecting context identifier. For failed engagements, includes an error code and message.
+        public let engagements: [EngagementProspectingResult]
+        /// The timestamp indicating when the task was initiated. The format follows ISO 8601 date-time notation.
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
+        /// The Amazon Resource Name (ARN) of the task.
+        public let taskArn: String
+        /// The unique identifier of the task.
+        public let taskId: String
+        /// The descriptive name of the task that you provided when you created it.
+        public let taskName: String
+
+        @inlinable
+        public init(endTime: Date? = nil, engagements: [EngagementProspectingResult], startTime: Date, taskArn: String, taskId: String, taskName: String) {
+            self.endTime = endTime
+            self.engagements = engagements
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskName = taskName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case engagements = "Engagements"
+            case startTime = "StartTime"
+            case taskArn = "TaskArn"
+            case taskId = "TaskId"
+            case taskName = "TaskName"
         }
     }
 
@@ -3262,14 +3433,17 @@ extension PartnerCentralSelling {
     public struct LeadContext: AWSEncodableShape & AWSDecodableShape {
         /// Contains detailed information about the customer associated with the lead, including company information, contact details, and other relevant customer data.
         public let customer: LeadCustomer
+        /// Insights that AI generates and associates with the lead. These insights provide automated analysis such as lead readiness scoring to help partners assess the lead quality.
+        public let insights: LeadInsights?
         /// An array of interactions that have occurred with the lead, providing a history of communications, meetings, and other engagement activities related to the lead.
         public let interactions: [LeadInteraction]
         /// Indicates the current qualification status of the lead, such as whether it has been qualified, disqualified, or is still under evaluation. This helps track the lead's progression through the qualification process.
         public let qualificationStatus: String?
 
         @inlinable
-        public init(customer: LeadCustomer, interactions: [LeadInteraction], qualificationStatus: String? = nil) {
+        public init(customer: LeadCustomer, insights: LeadInsights? = nil, interactions: [LeadInteraction], qualificationStatus: String? = nil) {
             self.customer = customer
+            self.insights = insights
             self.interactions = interactions
             self.qualificationStatus = qualificationStatus
         }
@@ -3286,6 +3460,7 @@ extension PartnerCentralSelling {
 
         private enum CodingKeys: String, CodingKey {
             case customer = "Customer"
+            case insights = "Insights"
             case interactions = "Interactions"
             case qualificationStatus = "QualificationStatus"
         }
@@ -3327,6 +3502,20 @@ extension PartnerCentralSelling {
             case industry = "Industry"
             case marketSegment = "MarketSegment"
             case websiteUrl = "WebsiteUrl"
+        }
+    }
+
+    public struct LeadInsights: AWSEncodableShape & AWSDecodableShape {
+        /// A score that indicates the lead's readiness for engagement. Valid values are Low, Medium, and High. Use this score to prioritize leads based on their likelihood of conversion.
+        public let leadReadinessScore: String?
+
+        @inlinable
+        public init(leadReadinessScore: String? = nil) {
+            self.leadReadinessScore = leadReadinessScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case leadReadinessScore = "LeadReadinessScore"
         }
     }
 
@@ -4360,6 +4549,83 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct ListProspectingFromEngagementTasksRequest: AWSEncodableShape {
+        /// Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes.
+        public let catalog: String
+        /// The maximum number of results to return in a single page. If additional results exist, the response includes a NextToken value for retrieving the next page. If omitted, the API uses a service-defined default page size.
+        public let maxResults: Int?
+        /// The pagination token from a previous call to this API. Include this value to retrieve the next page of results. If omitted, the first page is returned.
+        public let nextToken: String?
+        /// Specifies the field and order used to sort the returned tasks. If omitted, tasks are returned in the default sort order.
+        public let sort: ProspectingFromEngagementTaskSort?
+        /// Filters tasks to include only those that started after the specified timestamp. Use this with StartBefore to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startAfter: Date?
+        /// Filters tasks to include only those that started before the specified timestamp. Use this with StartAfter to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startBefore: Date?
+        /// Filters the results to include only the tasks with the specified identifiers. Provide up to 10 task IDs to narrow the list to specific tasks. If omitted, tasks are not filtered by identifier.
+        public let taskIdentifier: [String]?
+        /// Filters the results to include only tasks with the specified names. Provide up to 10 task names to narrow the list. If omitted, tasks are not filtered by name.
+        public let taskName: [String]?
+
+        @inlinable
+        public init(catalog: String, maxResults: Int? = nil, nextToken: String? = nil, sort: ProspectingFromEngagementTaskSort? = nil, startAfter: Date? = nil, startBefore: Date? = nil, taskIdentifier: [String]? = nil, taskName: [String]? = nil) {
+            self.catalog = catalog
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sort = sort
+            self.startAfter = startAfter
+            self.startBefore = startBefore
+            self.taskIdentifier = taskIdentifier
+            self.taskName = taskName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.taskIdentifier?.forEach {
+                try validate($0, name: "taskIdentifier[]", parent: name, pattern: "^task-[0-9a-z]{14}$")
+            }
+            try self.validate(self.taskIdentifier, name: "taskIdentifier", parent: name, max: 10)
+            try self.taskName?.forEach {
+                try validate($0, name: "taskName[]", parent: name, max: 128)
+                try validate($0, name: "taskName[]", parent: name, min: 1)
+            }
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sort = "Sort"
+            case startAfter = "StartAfter"
+            case startBefore = "StartBefore"
+            case taskIdentifier = "TaskIdentifier"
+            case taskName = "TaskName"
+        }
+    }
+
+    public struct ListProspectingFromEngagementTasksResponse: AWSDecodableShape {
+        /// A pagination token used to retrieve the next page of results. If this field is present, pass its value as NextToken in the next call. If absent or empty, there are no further pages.
+        public let nextToken: String?
+        /// Prospecting task summaries matching the specified filters. Each summary includes the task identifier, name, status counters, and timing information. If no tasks match the filter criteria, the list is empty.
+        public let taskSummaries: [ProspectingTaskSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, taskSummaries: [ProspectingTaskSummary]) {
+            self.nextToken = nextToken
+            self.taskSummaries = taskSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case taskSummaries = "TaskSummaries"
+        }
+    }
+
     public struct ListResourceSnapshotJobsRequest: AWSEncodableShape {
         ///  Specifies the catalog related to the request.
         public let catalog: String
@@ -4490,6 +4756,8 @@ extension PartnerCentralSelling {
     }
 
     public struct ListSolutionsRequest: AWSEncodableShape {
+        /// Filters results by AWS Marketplace solution ARN. You can provide up to 10 ARNs.
+        public let awsMarketplaceSolutionArn: [String]?
         /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
         public let catalog: String
         /// Filters the solutions based on the category to which they belong. This allows partners to search for solutions within specific categories, such as Software, Consulting, or Managed Services.
@@ -4506,7 +4774,8 @@ extension PartnerCentralSelling {
         public let status: [SolutionStatus]?
 
         @inlinable
-        public init(catalog: String, category: [String]? = nil, identifier: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: SolutionSort? = nil, status: [SolutionStatus]? = nil) {
+        public init(awsMarketplaceSolutionArn: [String]? = nil, catalog: String, category: [String]? = nil, identifier: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: SolutionSort? = nil, status: [SolutionStatus]? = nil) {
+            self.awsMarketplaceSolutionArn = awsMarketplaceSolutionArn
             self.catalog = catalog
             self.category = category
             self.identifier = identifier
@@ -4517,6 +4786,11 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
+            try self.awsMarketplaceSolutionArn?.forEach {
+                try validate($0, name: "awsMarketplaceSolutionArn[]", parent: name, max: 2048)
+                try validate($0, name: "awsMarketplaceSolutionArn[]", parent: name, min: 4)
+                try validate($0, name: "awsMarketplaceSolutionArn[]", parent: name, pattern: "^arn:.*$")
+            }
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
             try self.identifier?.forEach {
                 try validate($0, name: "identifier[]", parent: name, pattern: "^S-[0-9]{1,19}$")
@@ -4526,6 +4800,7 @@ extension PartnerCentralSelling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsMarketplaceSolutionArn = "AwsMarketplaceSolutionArn"
             case catalog = "Catalog"
             case category = "Category"
             case identifier = "Identifier"
@@ -4637,7 +4912,7 @@ extension PartnerCentralSelling {
     public struct MonetaryValue: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the payment amount.
         public let amount: String
-        /// Specifies the payment currency.
+        /// Specifies the payment currency. Accepted values are USD (US Dollars) and EUR (Euros). If the AWS Partition is aws-eusc (AWS European Sovereign Cloud), the currency code must be EUR.
         public let currencyCode: CurrencyCode
 
         @inlinable
@@ -4722,6 +4997,24 @@ extension PartnerCentralSelling {
             case project = "Project"
             case receiverResponsibilities = "ReceiverResponsibilities"
             case senderContacts = "SenderContacts"
+        }
+    }
+
+    public struct OpportunityQuality: AWSDecodableShape {
+        /// Deal quality score based on opportunity content completeness and sales methodology criteria. Values range from 0 to 100.
+        public let score: Int?
+        /// Direction of score change since last scoring iteration. Known values: Improving, Declining, No Change.
+        public let trend: String?
+
+        @inlinable
+        public init(score: Int? = nil, trend: String? = nil) {
+            self.score = score
+            self.trend = trend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case score = "Score"
+            case trend = "Trend"
         }
     }
 
@@ -4865,6 +5158,8 @@ extension PartnerCentralSelling {
         public let customerUseCase: String?
         /// Specifies the deployment or consumption model for your solution or service in the Opportunity's context. You can select multiple options. Options' descriptions from the Delivery Model field are:   SaaS or PaaS: Your Amazon Web Services based solution deployed as SaaS or PaaS in your Amazon Web Services environment.   BYOL or AMI: Your Amazon Web Services based solution deployed as BYOL or AMI in the end customer's Amazon Web Services environment.   Managed Services: The end customer's Amazon Web Services business management (For example: Consulting, design, implementation, billing support, cost optimization, technical support).   Professional Services: Offerings to help enterprise end customers achieve specific business outcomes for enterprise cloud adoption (For example: Advisory or transformation planning).   Resell: Amazon Web Services accounts and billing management for your customers.   Other: Delivery model not described above.
         public let deliveryModels: [DeliveryModel]?
+        /// Optional. The expected duration of the contract associated with this opportunity. Partners use this value alongside expected customer spend to convert Total Contract Value (TCV) into Monthly Recurring Revenue (MRR).
+        public let expectedContractDuration: ExpectedContractDuration?
         /// Represents the estimated amount that the customer is expected to spend on AWS services related to the opportunity. This helps in evaluating the potential financial value of the opportunity for AWS.
         public let expectedCustomerSpend: [ExpectedCustomerSpend]?
         /// Only allowed when CompetitorNames has Other selected.
@@ -4879,7 +5174,7 @@ extension PartnerCentralSelling {
         public let title: String?
 
         @inlinable
-        public init(additionalComments: String? = nil, apnPrograms: [String]? = nil, awsPartition: AwsPartition? = nil, competitorName: CompetitorName? = nil, customerBusinessProblem: String? = nil, customerUseCase: String? = nil, deliveryModels: [DeliveryModel]? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil, otherCompetitorNames: String? = nil, otherSolutionDescription: String? = nil, relatedOpportunityIdentifier: String? = nil, salesActivities: [SalesActivity]? = nil, title: String? = nil) {
+        public init(additionalComments: String? = nil, apnPrograms: [String]? = nil, awsPartition: AwsPartition? = nil, competitorName: CompetitorName? = nil, customerBusinessProblem: String? = nil, customerUseCase: String? = nil, deliveryModels: [DeliveryModel]? = nil, expectedContractDuration: ExpectedContractDuration? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil, otherCompetitorNames: String? = nil, otherSolutionDescription: String? = nil, relatedOpportunityIdentifier: String? = nil, salesActivities: [SalesActivity]? = nil, title: String? = nil) {
             self.additionalComments = additionalComments
             self.apnPrograms = apnPrograms
             self.awsPartition = awsPartition
@@ -4887,6 +5182,7 @@ extension PartnerCentralSelling {
             self.customerBusinessProblem = customerBusinessProblem
             self.customerUseCase = customerUseCase
             self.deliveryModels = deliveryModels
+            self.expectedContractDuration = expectedContractDuration
             self.expectedCustomerSpend = expectedCustomerSpend
             self.otherCompetitorNames = otherCompetitorNames
             self.otherSolutionDescription = otherSolutionDescription
@@ -4911,6 +5207,7 @@ extension PartnerCentralSelling {
             case customerBusinessProblem = "CustomerBusinessProblem"
             case customerUseCase = "CustomerUseCase"
             case deliveryModels = "DeliveryModels"
+            case expectedContractDuration = "ExpectedContractDuration"
             case expectedCustomerSpend = "ExpectedCustomerSpend"
             case otherCompetitorNames = "OtherCompetitorNames"
             case otherSolutionDescription = "OtherSolutionDescription"
@@ -4958,17 +5255,21 @@ extension PartnerCentralSelling {
     public struct ProjectSummary: AWSDecodableShape {
         /// Specifies your solution or service's deployment or consumption model in the Opportunity's context. You can select multiple options. Options' descriptions from the Delivery Model field are:   SaaS or PaaS: Your Amazon Web Services based solution deployed as SaaS or PaaS in your Amazon Web Services environment.   BYOL or AMI: Your Amazon Web Services based solution deployed as BYOL or AMI in the end customer's Amazon Web Services environment.   Managed Services: The end customer's Amazon Web Services business management (For example: Consulting, design, implementation, billing support, cost optimization, technical support).   Professional Services: Offerings to help enterprise end customers achieve specific business outcomes for enterprise cloud adoption (For example: Advisory or transformation planning).   Resell: Amazon Web Services accounts and billing management for your customers.   Other: Delivery model not described above.
         public let deliveryModels: [DeliveryModel]?
+        /// Optional. The expected contract duration for this opportunity, representing the anticipated length of the contract in the unit specified by Term.
+        public let expectedContractDuration: ExpectedContractDuration?
         /// Provides a summary of the expected customer spend for the project, offering a high-level view of the potential financial impact.
         public let expectedCustomerSpend: [ExpectedCustomerSpend]?
 
         @inlinable
-        public init(deliveryModels: [DeliveryModel]? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil) {
+        public init(deliveryModels: [DeliveryModel]? = nil, expectedContractDuration: ExpectedContractDuration? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil) {
             self.deliveryModels = deliveryModels
+            self.expectedContractDuration = expectedContractDuration
             self.expectedCustomerSpend = expectedCustomerSpend
         }
 
         private enum CodingKeys: String, CodingKey {
             case deliveryModels = "DeliveryModels"
+            case expectedContractDuration = "ExpectedContractDuration"
             case expectedCustomerSpend = "ExpectedCustomerSpend"
         }
     }
@@ -4978,6 +5279,8 @@ extension PartnerCentralSelling {
         public let customerUseCase: String?
         ///  Describes the deployment or consumption model for the partner solution or offering. This field indicates how the project's solution will be delivered or implemented for the customer.
         public let deliveryModels: [DeliveryModel]?
+        /// Optional. The expected contract duration for this opportunity, representing the anticipated length of the contract in the unit specified by Term.
+        public let expectedContractDuration: ExpectedContractDuration?
         ///  Provides information about the anticipated customer spend related to this project. This may include details such as amount, frequency, and currency of expected expenditure.
         public let expectedCustomerSpend: [ExpectedCustomerSpend]?
         ///  Offers a description of other solutions if the standard solutions do not adequately cover the project's scope.
@@ -4986,9 +5289,10 @@ extension PartnerCentralSelling {
         public let salesActivities: [SalesActivity]?
 
         @inlinable
-        public init(customerUseCase: String? = nil, deliveryModels: [DeliveryModel]? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil, otherSolutionDescription: String? = nil, salesActivities: [SalesActivity]? = nil) {
+        public init(customerUseCase: String? = nil, deliveryModels: [DeliveryModel]? = nil, expectedContractDuration: ExpectedContractDuration? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil, otherSolutionDescription: String? = nil, salesActivities: [SalesActivity]? = nil) {
             self.customerUseCase = customerUseCase
             self.deliveryModels = deliveryModels
+            self.expectedContractDuration = expectedContractDuration
             self.expectedCustomerSpend = expectedCustomerSpend
             self.otherSolutionDescription = otherSolutionDescription
             self.salesActivities = salesActivities
@@ -4997,9 +5301,234 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case customerUseCase = "CustomerUseCase"
             case deliveryModels = "DeliveryModels"
+            case expectedContractDuration = "ExpectedContractDuration"
             case expectedCustomerSpend = "ExpectedCustomerSpend"
             case otherSolutionDescription = "OtherSolutionDescription"
             case salesActivities = "SalesActivities"
+        }
+    }
+
+    public struct ProspectingFromEngagementTaskSort: AWSEncodableShape {
+        /// The field by which to sort the returned tasks. Valid values: StartTime (task creation timestamp), TaskName (alphabetically by task name), and FailedEngagementCount (number of failed engagements).
+        public let sortBy: ProspectingFromEngagementTaskSortName
+        /// The direction in which to sort the results. Use ASCENDING to return the smallest or earliest values first, or DESCENDING to return the largest or most recent values first.
+        public let sortOrder: SortOrder
+
+        @inlinable
+        public init(sortBy: ProspectingFromEngagementTaskSortName, sortOrder: SortOrder) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ProspectingInsights: AWSEncodableShape & AWSDecodableShape {
+        /// A score that indicates the prospected customer's level of engagement with AWS Marketplace. Valid values are High, Medium, and Low.
+        public let marketplaceEngagementScore: String?
+        /// The primary solution category classification for the prospected customer. This indicates the type of solution that best addresses their needs.
+        public let solutionCategory: String?
+        /// A score that indicates how well the partner's solution fits the prospected customer's needs.
+        public let solutionScore: String?
+        /// The solution sub-category classification for the prospected customer. This provides more granular categorization of the recommended solution type.
+        public let solutionSubCategory: String?
+
+        @inlinable
+        public init(marketplaceEngagementScore: String? = nil, solutionCategory: String? = nil, solutionScore: String? = nil, solutionSubCategory: String? = nil) {
+            self.marketplaceEngagementScore = marketplaceEngagementScore
+            self.solutionCategory = solutionCategory
+            self.solutionScore = solutionScore
+            self.solutionSubCategory = solutionSubCategory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marketplaceEngagementScore, name: "marketplaceEngagementScore", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marketplaceEngagementScore = "MarketplaceEngagementScore"
+            case solutionCategory = "SolutionCategory"
+            case solutionScore = "SolutionScore"
+            case solutionSubCategory = "SolutionSubCategory"
+        }
+    }
+
+    public struct ProspectingResult: AWSEncodableShape & AWSDecodableShape {
+        /// Prospecting data and insights that AWS provides during the prospecting job. This includes customer details, task information, and scoring that AI generates.
+        public let aws: ProspectingResultAws?
+
+        @inlinable
+        public init(aws: ProspectingResultAws? = nil) {
+            self.aws = aws
+        }
+
+        public func validate(name: String) throws {
+            try self.aws?.validate(name: "\(name).aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aws = "Aws"
+        }
+    }
+
+    public struct ProspectingResultAws: AWSEncodableShape & AWSDecodableShape {
+        /// Contains details about the prospected customer account, including geographic, industry, and segment classifications.
+        public let customer: ProspectingResultCustomer?
+        /// The timestamp when the prospecting task completed processing. The format is ISO 8601 (UTC).
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// Insights that AI generates from the prospecting analysis. These insights include engagement scores and solution fit assessments for the prospected customer.
+        public let insights: ProspectingInsights?
+        /// The timestamp when the prospecting result context was created. The format is ISO 8601 (UTC).
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// The Amazon Resource Name (ARN) of the prospecting task. Use this ARN to track and manage the task within AWS.
+        public let taskArn: String?
+        /// The unique identifier of the prospecting task that generates this result.
+        public let taskId: String?
+        /// The name that the user provides for the prospecting task that generates this result.
+        public let taskName: String?
+
+        @inlinable
+        public init(customer: ProspectingResultCustomer? = nil, endTime: Date? = nil, insights: ProspectingInsights? = nil, startTime: Date? = nil, taskArn: String? = nil, taskId: String? = nil, taskName: String? = nil) {
+            self.customer = customer
+            self.endTime = endTime
+            self.insights = insights
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskName = taskName
+        }
+
+        public func validate(name: String) throws {
+            try self.customer?.validate(name: "\(name).customer")
+            try self.insights?.validate(name: "\(name).insights")
+            try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:.*")
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^task-[0-9a-z]{14}$")
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 128)
+            try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customer = "Customer"
+            case endTime = "EndTime"
+            case insights = "Insights"
+            case startTime = "StartTime"
+            case taskArn = "TaskArn"
+            case taskId = "TaskId"
+            case taskName = "TaskName"
+        }
+    }
+
+    public struct ProspectingResultCustomer: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the prospected customer account.
+        public let accountName: String?
+        /// The company size classification of the prospected customer account.
+        public let companySize: String?
+        /// The country code of the prospected customer account.
+        public let country: CountryCode?
+        /// A list of AWS Greenfield programs that the prospected customer is eligible for. Use this list to identify relevant go-to-market opportunities.
+        public let eligiblePrograms: [String]?
+        /// The geographic region classification of the prospected customer account.
+        public let geo: String?
+        /// The industry classification of the prospected customer account.
+        public let industry: Industry?
+        /// A summary of publicly available information about the prospected customer. The system uses this summary to generate customer insights and inform engagement strategies.
+        public let publicProfileSummary: String?
+        /// The specific region of the prospected customer account.
+        public let region: String?
+        /// The market segment classification of the prospected customer account.
+        public let segment: String?
+        /// The sub-industry classification of the prospected customer account. This provides more granular categorization within the primary industry.
+        public let subIndustry: String?
+        /// The subregion classification of the prospected customer account.
+        public let subRegion: String?
+
+        @inlinable
+        public init(accountName: String? = nil, companySize: String? = nil, country: CountryCode? = nil, eligiblePrograms: [String]? = nil, geo: String? = nil, industry: Industry? = nil, publicProfileSummary: String? = nil, region: String? = nil, segment: String? = nil, subIndustry: String? = nil, subRegion: String? = nil) {
+            self.accountName = accountName
+            self.companySize = companySize
+            self.country = country
+            self.eligiblePrograms = eligiblePrograms
+            self.geo = geo
+            self.industry = industry
+            self.publicProfileSummary = publicProfileSummary
+            self.region = region
+            self.segment = segment
+            self.subIndustry = subIndustry
+            self.subRegion = subRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountName, name: "accountName", parent: name, max: 255)
+            try self.validate(self.companySize, name: "companySize", parent: name, max: 255)
+            try self.validate(self.geo, name: "geo", parent: name, max: 255)
+            try self.validate(self.publicProfileSummary, name: "publicProfileSummary", parent: name, max: 5000)
+            try self.validate(self.region, name: "region", parent: name, max: 255)
+            try self.validate(self.segment, name: "segment", parent: name, max: 255)
+            try self.validate(self.subIndustry, name: "subIndustry", parent: name, max: 255)
+            try self.validate(self.subRegion, name: "subRegion", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountName = "AccountName"
+            case companySize = "CompanySize"
+            case country = "Country"
+            case eligiblePrograms = "EligiblePrograms"
+            case geo = "Geo"
+            case industry = "Industry"
+            case publicProfileSummary = "PublicProfileSummary"
+            case region = "Region"
+            case segment = "Segment"
+            case subIndustry = "SubIndustry"
+            case subRegion = "SubRegion"
+        }
+    }
+
+    public struct ProspectingTaskSummary: AWSDecodableShape {
+        /// The number of engagements that have been successfully converted into prospecting leads.
+        public let completedEngagementCount: Int
+        /// The timestamp indicating when the task finished processing. This field is absent if the task is still in progress. The format follows ISO 8601 date-time notation.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        /// The number of engagements that failed to be converted. Retrieve the full task details using GetProspectingFromEngagementTask for per-engagement error information.
+        public let failedEngagementCount: Int
+        /// The timestamp indicating when the task was initiated. The format follows ISO 8601 date-time notation.
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
+        /// The Amazon Resource Name (ARN) of the task.
+        public let taskArn: String
+        /// The unique identifier of the task. Use this value with GetProspectingFromEngagementTask to retrieve full task details.
+        public let taskId: String
+        /// The descriptive name of the task provided when it was created.
+        public let taskName: String
+        /// The total number of engagements included in the task.
+        public let totalEngagementCount: Int
+
+        @inlinable
+        public init(completedEngagementCount: Int, endTime: Date? = nil, failedEngagementCount: Int, startTime: Date, taskArn: String, taskId: String, taskName: String, totalEngagementCount: Int) {
+            self.completedEngagementCount = completedEngagementCount
+            self.endTime = endTime
+            self.failedEngagementCount = failedEngagementCount
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskName = taskName
+            self.totalEngagementCount = totalEngagementCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedEngagementCount = "CompletedEngagementCount"
+            case endTime = "EndTime"
+            case failedEngagementCount = "FailedEngagementCount"
+            case startTime = "StartTime"
+            case taskArn = "TaskArn"
+            case taskId = "TaskId"
+            case taskName = "TaskName"
+            case totalEngagementCount = "TotalEngagementCount"
         }
     }
 
@@ -5044,6 +5573,28 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct Recommendation: AWSDecodableShape {
+        /// Source-specific metadata as key-value pairs.
+        public let attributes: [String: String]?
+        /// Human-readable recommendation text from this source.
+        public let details: String
+        /// The recommendation source type. Known values: OpportunityQuality, SolutionRecommendation, SpecialistRecommendation.
+        public let type: String
+
+        @inlinable
+        public init(attributes: [String: String]? = nil, details: String, type: String) {
+            self.attributes = attributes
+            self.details = details
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case details = "Details"
+            case type = "Type"
+        }
+    }
+
     public struct RejectEngagementInvitationRequest: AWSEncodableShape {
         /// This is the catalog that's associated with the engagement invitation. Acceptable values are AWS or Sandbox, and these values determine the environment in which the opportunity is managed.
         public let catalog: String
@@ -5077,15 +5628,21 @@ extension PartnerCentralSelling {
         public let awsMarketplaceOffers: [String]?
         /// Enables the association of AWS Marketplace offer sets with the Opportunity. Offer sets allow grouping multiple related marketplace offers together for comprehensive solution packaging. Each value is an Amazon Resource Name (ARN) in this format: arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/OfferSet/offerset-sampleOfferSet32.
         public let awsMarketplaceOfferSets: [String]?
+        /// Specifies the AWS Marketplace products to associate with the Opportunity. Each value is an Amazon Resource Name (ARN) that identifies a product listing in AWS Marketplace.
+        public let awsMarketplaceProducts: [String]?
+        /// Specifies the AWS Marketplace solutions to associate with the Opportunity. Each value is an Amazon Resource Name (ARN) that identifies a solution listing in AWS Marketplace.
+        public let awsMarketplaceSolutions: [String]?
         /// Enables the association of specific Amazon Web Services products with the Opportunity. Partners can indicate the relevant Amazon Web Services products for the Opportunity's solution and align with the customer's needs. Returns multiple values separated by commas. For example, "AWSProducts" : ["AmazonRedshift", "AWSAppFabric", "AWSCleanRooms"]. Use the file with the list of Amazon Web Services products hosted on GitHub:  Amazon Web Services products.
         public let awsProducts: [String]?
         /// Enables partner solutions or offerings' association with an opportunity. To associate a solution, provide the solution's unique identifier, which you can obtain with the ListSolutions operation. If the specific solution identifier is not available, you can use the value Other and provide details about the solution in the otherSolutionOffered field. But when the opportunity reaches the Committed stage or beyond, the Other value cannot be used, and a valid solution identifier must be provided. By associating the relevant solutions with the opportunity, you can communicate the offerings that are being considered or implemented to address the customer's business problem.
         public let solutions: [String]?
 
         @inlinable
-        public init(awsMarketplaceOffers: [String]? = nil, awsMarketplaceOfferSets: [String]? = nil, awsProducts: [String]? = nil, solutions: [String]? = nil) {
+        public init(awsMarketplaceOffers: [String]? = nil, awsMarketplaceOfferSets: [String]? = nil, awsMarketplaceProducts: [String]? = nil, awsMarketplaceSolutions: [String]? = nil, awsProducts: [String]? = nil, solutions: [String]? = nil) {
             self.awsMarketplaceOffers = awsMarketplaceOffers
             self.awsMarketplaceOfferSets = awsMarketplaceOfferSets
+            self.awsMarketplaceProducts = awsMarketplaceProducts
+            self.awsMarketplaceSolutions = awsMarketplaceSolutions
             self.awsProducts = awsProducts
             self.solutions = solutions
         }
@@ -5093,6 +5650,8 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case awsMarketplaceOffers = "AwsMarketplaceOffers"
             case awsMarketplaceOfferSets = "AwsMarketplaceOfferSets"
+            case awsMarketplaceProducts = "AwsMarketplaceProducts"
+            case awsMarketplaceSolutions = "AwsMarketplaceSolutions"
             case awsProducts = "AwsProducts"
             case solutions = "Solutions"
         }
@@ -5230,6 +5789,8 @@ extension PartnerCentralSelling {
     public struct SolutionBase: AWSDecodableShape {
         ///  The SolutionBase structure provides essential information about a solution.
         public let arn: String?
+        /// The Amazon Resource Name (ARN) of the AWS Marketplace solution associated with this partner solution.
+        public let awsMarketplaceSolutionArn: String?
         /// Specifies the catalog in which the solution is hosted, either AWS or Sandbox. This helps partners differentiate between live solutions and those in testing environments.
         public let catalog: String
         /// Specifies the solution category, which helps to categorize and organize the solutions partners offer. Valid values: Software Product | Consulting Service | Hardware Product | Communications Product | Professional Service | Managed Service | Value-Added Resale Amazon Web Services Service | Distribution Service | Training Service | Merger and Acquisition Advising Service.
@@ -5245,8 +5806,9 @@ extension PartnerCentralSelling {
         public let status: SolutionStatus
 
         @inlinable
-        public init(arn: String? = nil, catalog: String, category: String, createdDate: Date, id: String, name: String, status: SolutionStatus) {
+        public init(arn: String? = nil, awsMarketplaceSolutionArn: String? = nil, catalog: String, category: String, createdDate: Date, id: String, name: String, status: SolutionStatus) {
             self.arn = arn
+            self.awsMarketplaceSolutionArn = awsMarketplaceSolutionArn
             self.catalog = catalog
             self.category = category
             self.createdDate = createdDate
@@ -5257,6 +5819,7 @@ extension PartnerCentralSelling {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case awsMarketplaceSolutionArn = "AwsMarketplaceSolutionArn"
             case catalog = "Catalog"
             case category = "Category"
             case createdDate = "CreatedDate"
@@ -5570,6 +6133,86 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct StartProspectingFromEngagementTaskRequest: AWSEncodableShape {
+        /// Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes.
+        public let catalog: String
+        /// A unique, case-sensitive identifier provided by the client to ensure idempotency. Making the same request with the same ClientToken returns the same response without creating a duplicate task.
+        public let clientToken: String
+        /// The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task.
+        public let identifiers: [String]
+        /// A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 characters.
+        public let taskName: String
+
+        @inlinable
+        public init(catalog: String, clientToken: String = StartProspectingFromEngagementTaskRequest.idempotencyToken(), identifiers: [String], taskName: String) {
+            self.catalog = catalog
+            self.clientToken = clientToken
+            self.identifiers = identifiers
+            self.taskName = taskName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
+            try self.identifiers.forEach {
+                try validate($0, name: "identifiers[]", parent: name, pattern: "^eng-[0-9a-z]{14}$")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 100)
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 128)
+            try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case clientToken = "ClientToken"
+            case identifiers = "Identifiers"
+            case taskName = "TaskName"
+        }
+    }
+
+    public struct StartProspectingFromEngagementTaskResponse: AWSDecodableShape {
+        /// The list of engagement identifiers that were accepted into the task queue for processing. This list matches the identifiers provided in the request.
+        public let identifiers: [String]
+        /// A message providing additional context about the task's current state. When the task fails, this field contains a detailed description of the failure and suggested recovery steps. This field is only populated for tasks in a failed state.
+        public let message: String?
+        /// An enumerated code identifying the reason for task failure. This field is only populated when the task has failed. Use the corresponding Message field for a human-readable description of the failure.
+        public let reasonCode: String?
+        /// The timestamp indicating when the task was initiated. The format follows ISO 8601 date-time notation.
+        @CustomCoding<ISO8601DateCoder>
+        public var startTime: Date
+        /// The Amazon Resource Name (ARN) of the task. The ARN uniquely identifies the task across AWS and can be used for resource-level IAM policies.
+        public let taskArn: String?
+        /// The unique identifier assigned to this task. Use this identifier with GetProspectingFromEngagementTask to retrieve task details and check status.
+        public let taskId: String?
+        /// The task name from the request.
+        public let taskName: String
+        /// The current status of the task. Possible values: PENDING (waiting to run), IN_PROGRESS (actively processing), COMPLETED (successfully processed), and FAILED (unrecoverable error).
+        public let taskStatus: ProspectingTaskStatus
+
+        @inlinable
+        public init(identifiers: [String], message: String? = nil, reasonCode: String? = nil, startTime: Date, taskArn: String? = nil, taskId: String? = nil, taskName: String, taskStatus: ProspectingTaskStatus) {
+            self.identifiers = identifiers
+            self.message = message
+            self.reasonCode = reasonCode
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskName = taskName
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "Identifiers"
+            case message = "Message"
+            case reasonCode = "ReasonCode"
+            case startTime = "StartTime"
+            case taskArn = "TaskArn"
+            case taskId = "TaskId"
+            case taskName = "TaskName"
+            case taskStatus = "TaskStatus"
+        }
+    }
+
     public struct StartResourceSnapshotJobRequest: AWSEncodableShape {
         /// Specifies the catalog related to the request. Valid values are:   AWS: Starts the request from the production AWS environment.   Sandbox: Starts the request from a sandbox environment used for testing or development purposes.
         public let catalog: String
@@ -5827,14 +6470,17 @@ extension PartnerCentralSelling {
     public struct UpdateLeadContext: AWSEncodableShape {
         /// Updated customer information associated with the lead.
         public let customer: LeadCustomer
+        /// Insights that AI generates and associates with the lead. These insights provide automated analysis to help partners assess the lead quality and readiness.
+        public let insights: LeadInsights?
         /// Updated interaction details for the lead context.
         public let interaction: LeadInteraction?
         /// The updated qualification status of the lead.
         public let qualificationStatus: String?
 
         @inlinable
-        public init(customer: LeadCustomer, interaction: LeadInteraction? = nil, qualificationStatus: String? = nil) {
+        public init(customer: LeadCustomer, insights: LeadInsights? = nil, interaction: LeadInteraction? = nil, qualificationStatus: String? = nil) {
             self.customer = customer
+            self.insights = insights
             self.interaction = interaction
             self.qualificationStatus = qualificationStatus
         }
@@ -5847,6 +6493,7 @@ extension PartnerCentralSelling {
 
         private enum CodingKeys: String, CodingKey {
             case customer = "Customer"
+            case insights = "Insights"
             case interaction = "Interaction"
             case qualificationStatus = "QualificationStatus"
         }

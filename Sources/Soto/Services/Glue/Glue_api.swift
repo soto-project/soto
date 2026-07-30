@@ -137,6 +137,41 @@ public struct Glue: AWSService {
 
     // MARK: API Calls
 
+    /// Associates one or more glossary terms with an asset in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func associateGlossaryTerms(_ input: AssociateGlossaryTermsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateGlossaryTermsResponse {
+        try await self.client.execute(
+            operation: "AssociateGlossaryTerms", 
+            path: "/assets/{AssetIdentifier}/associate-glossary-terms", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates one or more glossary terms with an asset in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - assetIdentifier: The unique identifier of the asset to associate glossary terms with.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - glossaryTermIdentifiers: The list of glossary term identifiers to associate with the asset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateGlossaryTerms(
+        assetIdentifier: String,
+        clientToken: String? = AssociateGlossaryTermsRequest.idempotencyToken(),
+        glossaryTermIdentifiers: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateGlossaryTermsResponse {
+        let input = AssociateGlossaryTermsRequest(
+            assetIdentifier: assetIdentifier, 
+            clientToken: clientToken, 
+            glossaryTermIdentifiers: glossaryTermIdentifiers
+        )
+        return try await self.associateGlossaryTerms(input, logger: logger)
+    }
+
     /// Creates one or more partitions in a batch operation.
     @Sendable
     @inlinable
@@ -443,6 +478,35 @@ public struct Glue: AWSService {
         return try await self.batchGetDataQualityResult(input, logger: logger)
     }
 
+    /// Retrieves the details of multiple evaluation runs in a single request.
+    @Sendable
+    @inlinable
+    public func batchGetDataQualityRulesetEvaluationRun(_ input: BatchGetDataQualityRulesetEvaluationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDataQualityRulesetEvaluationRunResponse {
+        try await self.client.execute(
+            operation: "BatchGetDataQualityRulesetEvaluationRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of multiple evaluation runs in a single request.
+    ///
+    /// Parameters:
+    ///   - runIds: A list of unique run identifiers for the evaluation runs to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetDataQualityRulesetEvaluationRun(
+        runIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetDataQualityRulesetEvaluationRunResponse {
+        let input = BatchGetDataQualityRulesetEvaluationRunRequest(
+            runIds: runIds
+        )
+        return try await self.batchGetDataQualityRulesetEvaluationRun(input, logger: logger)
+    }
+
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     @Sendable
     @inlinable
@@ -470,6 +534,41 @@ public struct Glue: AWSService {
             devEndpointNames: devEndpointNames
         )
         return try await self.batchGetDevEndpoints(input, logger: logger)
+    }
+
+    /// Retrieves multiple items from an iterable form on an asset in Glue Data Catalog in a single request.
+    @Sendable
+    @inlinable
+    public func batchGetIterableForms(_ input: BatchGetIterableFormsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetIterableFormsResponse {
+        try await self.client.execute(
+            operation: "BatchGetIterableForms", 
+            path: "/assets/{AssetIdentifier}/iterable-forms/{IterableFormName}/batch-get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves multiple items from an iterable form on an asset in Glue Data Catalog in a single request.
+    ///
+    /// Parameters:
+    ///   - assetIdentifier: The unique identifier of the asset.
+    ///   - itemIdentifiers: The list of item identifiers to retrieve. Each identifier can be an item ID or item name.
+    ///   - iterableFormName: The name of the iterable form to retrieve items from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetIterableForms(
+        assetIdentifier: String,
+        itemIdentifiers: [String],
+        iterableFormName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetIterableFormsResponse {
+        let input = BatchGetIterableFormsRequest(
+            assetIdentifier: assetIdentifier, 
+            itemIdentifiers: itemIdentifiers, 
+            iterableFormName: iterableFormName
+        )
+        return try await self.batchGetIterableForms(input, logger: logger)
     }
 
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
@@ -1355,6 +1454,82 @@ public struct Glue: AWSService {
         return try await self.createDevEndpoint(input, logger: logger)
     }
 
+    /// Creates a business glossary in Glue Data Catalog. A glossary is a container for glossary terms that define business concepts.
+    @Sendable
+    @inlinable
+    public func createGlossary(_ input: CreateGlossaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlossaryResponse {
+        try await self.client.execute(
+            operation: "CreateGlossary", 
+            path: "/glossaries", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a business glossary in Glue Data Catalog. A glossary is a container for glossary terms that define business concepts.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: The description of the glossary.
+    ///   - name: The name of the glossary.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createGlossary(
+        clientToken: String? = CreateGlossaryRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateGlossaryResponse {
+        let input = CreateGlossaryRequest(
+            clientToken: clientToken, 
+            description: description, 
+            name: name
+        )
+        return try await self.createGlossary(input, logger: logger)
+    }
+
+    /// Creates a glossary term within a business glossary in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func createGlossaryTerm(_ input: CreateGlossaryTermRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlossaryTermResponse {
+        try await self.client.execute(
+            operation: "CreateGlossaryTerm", 
+            path: "/glossary-terms", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a glossary term within a business glossary in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - glossaryIdentifier: The unique identifier of the glossary in which to create the term.
+    ///   - longDescription: A long description of the glossary term.
+    ///   - name: The name of the glossary term.
+    ///   - shortDescription: A short description of the glossary term.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createGlossaryTerm(
+        clientToken: String? = CreateGlossaryTermRequest.idempotencyToken(),
+        glossaryIdentifier: String,
+        longDescription: String? = nil,
+        name: String,
+        shortDescription: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateGlossaryTermResponse {
+        let input = CreateGlossaryTermRequest(
+            clientToken: clientToken, 
+            glossaryIdentifier: glossaryIdentifier, 
+            longDescription: longDescription, 
+            name: name, 
+            shortDescription: shortDescription
+        )
+        return try await self.createGlossaryTerm(input, logger: logger)
+    }
+
     /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM  Identity Center for authentication and authorization.
     @Sendable
     @inlinable
@@ -1542,7 +1717,7 @@ public struct Glue: AWSService {
     ///   - description: Description of the job being defined.
     ///   - executionClass: Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary.  Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
     ///   - executionProperty: An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
-    ///   - glueVersion: In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+    ///   - glueVersion: In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 5.1.
     ///   - jobMode: A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
     ///   - jobRunQueuingEnabled: Specifies whether job run queuing is enabled for the job runs for this job. A value of true means job run queuing is enabled for the job runs. If false or not populated, the job runs will not be considered for queueing. If this field does not match the value set in the job run, then the value from the job run field will be used.
     ///   - logUri: This field is reserved for future use.
@@ -1557,7 +1732,7 @@ public struct Glue: AWSService {
     ///   - securityConfiguration: The name of the SecurityConfiguration structure to be used with this job.
     ///   - sourceControlDetails: The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
     ///   - tags: The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
-    ///   - timeout: The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+    ///   - timeout: The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Spain), Europe (Stockholm), and South America (São Paulo).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1935,6 +2110,7 @@ public struct Glue: AWSService {
     ///   - requestOrigin: The origin of the request.
     ///   - role: The IAM Role ARN
     ///   - securityConfiguration: The name of the SecurityConfiguration structure to be used with the session
+    ///   - sessionType: The type of session to create.
     ///   - tags: The map of key value pairs (tags) belonging to the session.
     ///   - timeout:  The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes). Consult the documentation for other job types.
     ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
@@ -1953,6 +2129,7 @@ public struct Glue: AWSService {
         requestOrigin: String? = nil,
         role: String,
         securityConfiguration: String? = nil,
+        sessionType: SessionType? = nil,
         tags: [String: String]? = nil,
         timeout: Int? = nil,
         workerType: WorkerType? = nil,
@@ -1971,6 +2148,7 @@ public struct Glue: AWSService {
             requestOrigin: requestOrigin, 
             role: role, 
             securityConfiguration: securityConfiguration, 
+            sessionType: sessionType, 
             tags: tags, 
             timeout: timeout, 
             workerType: workerType
@@ -2234,6 +2412,102 @@ public struct Glue: AWSService {
             tags: tags
         )
         return try await self.createWorkflow(input, logger: logger)
+    }
+
+    /// Deletes an asset from Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func deleteAsset(_ input: DeleteAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetResponse {
+        try await self.client.execute(
+            operation: "DeleteAsset", 
+            path: "/assets/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an asset from Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - identifier: The unique identifier of the asset to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAsset(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAssetResponse {
+        let input = DeleteAssetRequest(
+            identifier: identifier
+        )
+        return try await self.deleteAsset(input, logger: logger)
+    }
+
+    /// Deletes an asset type from Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func deleteAssetType(_ input: DeleteAssetTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetTypeResponse {
+        try await self.client.execute(
+            operation: "DeleteAssetType", 
+            path: "/asset-types/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an asset type from Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the asset type to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAssetType(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAssetTypeResponse {
+        let input = DeleteAssetTypeRequest(
+            identifier: identifier
+        )
+        return try await self.deleteAssetType(input, logger: logger)
+    }
+
+    /// Deletes a form attachment from an asset in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func deleteAttachment(_ input: DeleteAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAttachmentResponse {
+        try await self.client.execute(
+            operation: "DeleteAttachment", 
+            path: "/assets/{AssetIdentifier}/attachments/{AttachmentName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a form attachment from an asset in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - assetIdentifier: The unique identifier of the asset from which to delete the attachment.
+    ///   - attachmentName: The name of the attachment to delete.
+    ///   - itemIdentifier: The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    ///   - iterableFormName: The name of the iterable form. When specified along with itemIdentifier, the attachment is deleted from an item within the iterable form rather than from the asset itself.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAttachment(
+        assetIdentifier: String,
+        attachmentName: String,
+        itemIdentifier: String? = nil,
+        iterableFormName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAttachmentResponse {
+        let input = DeleteAttachmentRequest(
+            assetIdentifier: assetIdentifier, 
+            attachmentName: attachmentName, 
+            itemIdentifier: itemIdentifier, 
+            iterableFormName: iterableFormName
+        )
+        return try await self.deleteAttachment(input, logger: logger)
     }
 
     /// Deletes an existing blueprint.
@@ -2641,6 +2915,93 @@ public struct Glue: AWSService {
             endpointName: endpointName
         )
         return try await self.deleteDevEndpoint(input, logger: logger)
+    }
+
+    /// Deletes a form type from Glue Data Catalog. A form type cannot be deleted if it is still referenced by an asset type.
+    @Sendable
+    @inlinable
+    public func deleteFormType(_ input: DeleteFormTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFormTypeResponse {
+        try await self.client.execute(
+            operation: "DeleteFormType", 
+            path: "/form-types/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a form type from Glue Data Catalog. A form type cannot be deleted if it is still referenced by an asset type.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the form type to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteFormType(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteFormTypeResponse {
+        let input = DeleteFormTypeRequest(
+            identifier: identifier
+        )
+        return try await self.deleteFormType(input, logger: logger)
+    }
+
+    /// Deletes a business glossary from Glue Data Catalog. A glossary cannot be deleted if it still contains glossary terms.
+    @Sendable
+    @inlinable
+    public func deleteGlossary(_ input: DeleteGlossaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlossaryResponse {
+        try await self.client.execute(
+            operation: "DeleteGlossary", 
+            path: "/glossaries/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a business glossary from Glue Data Catalog. A glossary cannot be deleted if it still contains glossary terms.
+    ///
+    /// Parameters:
+    ///   - identifier: The unique identifier of the glossary to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteGlossary(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteGlossaryResponse {
+        let input = DeleteGlossaryRequest(
+            identifier: identifier
+        )
+        return try await self.deleteGlossary(input, logger: logger)
+    }
+
+    /// Deletes a glossary term from Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func deleteGlossaryTerm(_ input: DeleteGlossaryTermRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlossaryTermResponse {
+        try await self.client.execute(
+            operation: "DeleteGlossaryTerm", 
+            path: "/glossary-terms/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a glossary term from Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - identifier: The unique identifier of the glossary term to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteGlossaryTerm(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteGlossaryTermResponse {
+        let input = DeleteGlossaryTermRequest(
+            identifier: identifier
+        )
+        return try await self.deleteGlossaryTerm(input, logger: logger)
     }
 
     /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and  Amazon Web Services IAM Identity Center.
@@ -3458,6 +3819,99 @@ public struct Glue: AWSService {
         return try await self.describeIntegrations(input, logger: logger)
     }
 
+    /// Removes the association of one or more glossary terms from an asset in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func disassociateGlossaryTerms(_ input: DisassociateGlossaryTermsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateGlossaryTermsResponse {
+        try await self.client.execute(
+            operation: "DisassociateGlossaryTerms", 
+            path: "/assets/{AssetIdentifier}/disassociate-glossary-terms", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association of one or more glossary terms from an asset in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - assetIdentifier: The unique identifier of the asset to disassociate glossary terms from.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - glossaryTermIdentifiers: The list of glossary term identifiers to disassociate from the asset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateGlossaryTerms(
+        assetIdentifier: String,
+        clientToken: String? = DisassociateGlossaryTermsRequest.idempotencyToken(),
+        glossaryTermIdentifiers: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateGlossaryTermsResponse {
+        let input = DisassociateGlossaryTermsRequest(
+            assetIdentifier: assetIdentifier, 
+            clientToken: clientToken, 
+            glossaryTermIdentifiers: glossaryTermIdentifiers
+        )
+        return try await self.disassociateGlossaryTerms(input, logger: logger)
+    }
+
+    /// Retrieves the metadata for an asset in Glue Data Catalog, including its forms, additional attachments, and associated glossary terms.
+    @Sendable
+    @inlinable
+    public func getAsset(_ input: GetAssetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetOutput {
+        try await self.client.execute(
+            operation: "GetAsset", 
+            path: "/assets/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the metadata for an asset in Glue Data Catalog, including its forms, additional attachments, and associated glossary terms.
+    ///
+    /// Parameters:
+    ///   - identifier: The unique identifier of the asset to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAsset(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAssetOutput {
+        let input = GetAssetInput(
+            identifier: identifier
+        )
+        return try await self.getAsset(input, logger: logger)
+    }
+
+    /// Retrieves an asset type in Glue Data Catalog by its identifier.
+    @Sendable
+    @inlinable
+    public func getAssetType(_ input: GetAssetTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssetTypeResponse {
+        try await self.client.execute(
+            operation: "GetAssetType", 
+            path: "/asset-types/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves an asset type in Glue Data Catalog by its identifier.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the asset type to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAssetType(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAssetTypeResponse {
+        let input = GetAssetTypeRequest(
+            identifier: identifier
+        )
+        return try await self.getAssetType(input, logger: logger)
+    }
+
     /// Retrieves the details of a blueprint.
     @Sendable
     @inlinable
@@ -3634,6 +4088,7 @@ public struct Glue: AWSService {
     /// Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
     ///
     /// Parameters:
+    ///   - hasDatabases: When true, the response only includes catalogs that can contain databases. Some catalogs are organizational containers that hold only other catalogs, not databases. When this parameter is set to true, those container-only catalogs are excluded, and only catalogs capable of containing databases are returned. Defaults to false.
     ///   - includeRoot: Whether to list the default catalog in the account and region in the response. Defaults to false. When true and ParentCatalogId = NULL | Amazon Web Services Account ID, all catalogs and the default catalog are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true, an InvalidInputException is thrown.
     ///   - maxResults: The maximum number of catalogs to return in one response.
     ///   - nextToken: A continuation token, if this is a continuation call.
@@ -3642,6 +4097,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getCatalogs(
+        hasDatabases: Bool? = nil,
         includeRoot: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -3650,6 +4106,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCatalogsResponse {
         let input = GetCatalogsRequest(
+            hasDatabases: hasDatabases, 
             includeRoot: includeRoot, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -4102,6 +4559,41 @@ public struct Glue: AWSService {
         return try await self.getCustomEntityType(input, logger: logger)
     }
 
+    /// Retrieves the URL for the Spark monitoring dashboard for a Glue resource.
+    @Sendable
+    @inlinable
+    public func getDashboardUrl(_ input: GetDashboardUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardUrlResponse {
+        try await self.client.execute(
+            operation: "GetDashboardUrl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the URL for the Spark monitoring dashboard for a Glue resource.
+    ///
+    /// Parameters:
+    ///   - requestOrigin: The origin of the request.
+    ///   - resourceId: The unique identifier of the resource for which to retrieve the dashboard URL.
+    ///   - resourceType: The type of the resource. Valid values are SESSION and JOB.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDashboardUrl(
+        requestOrigin: String? = nil,
+        resourceId: String,
+        resourceType: GlueResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDashboardUrlResponse {
+        let input = GetDashboardUrlRequest(
+            requestOrigin: requestOrigin, 
+            resourceId: resourceId, 
+            resourceType: resourceType
+        )
+        return try await self.getDashboardUrl(input, logger: logger)
+    }
+
     /// Retrieves the security configuration for a specified catalog.
     @Sendable
     @inlinable
@@ -4528,6 +5020,93 @@ public struct Glue: AWSService {
             selectedFields: selectedFields
         )
         return try await self.getEntityRecords(input, logger: logger)
+    }
+
+    /// Retrieves a form type in Glue Data Catalog by its identifier.
+    @Sendable
+    @inlinable
+    public func getFormType(_ input: GetFormTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFormTypeResponse {
+        try await self.client.execute(
+            operation: "GetFormType", 
+            path: "/form-types/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a form type in Glue Data Catalog by its identifier.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the form type to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFormType(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFormTypeResponse {
+        let input = GetFormTypeRequest(
+            identifier: identifier
+        )
+        return try await self.getFormType(input, logger: logger)
+    }
+
+    /// Retrieves a business glossary in Glue Data Catalog by its identifier.
+    @Sendable
+    @inlinable
+    public func getGlossary(_ input: GetGlossaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlossaryResponse {
+        try await self.client.execute(
+            operation: "GetGlossary", 
+            path: "/glossaries/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a business glossary in Glue Data Catalog by its identifier.
+    ///
+    /// Parameters:
+    ///   - identifier: The unique identifier of the glossary to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getGlossary(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetGlossaryResponse {
+        let input = GetGlossaryRequest(
+            identifier: identifier
+        )
+        return try await self.getGlossary(input, logger: logger)
+    }
+
+    /// Retrieves a glossary term in Glue Data Catalog by its identifier.
+    @Sendable
+    @inlinable
+    public func getGlossaryTerm(_ input: GetGlossaryTermRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlossaryTermResponse {
+        try await self.client.execute(
+            operation: "GetGlossaryTerm", 
+            path: "/glossary-terms/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a glossary term in Glue Data Catalog by its identifier.
+    ///
+    /// Parameters:
+    ///   - identifier: The unique identifier of the glossary term to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getGlossaryTerm(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetGlossaryTermResponse {
+        let input = GetGlossaryTermRequest(
+            identifier: identifier
+        )
+        return try await self.getGlossaryTerm(input, logger: logger)
     }
 
     /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and  application information.
@@ -5003,6 +5582,7 @@ public struct Glue: AWSService {
     /// Retrieves information about a specified partition.
     ///
     /// Parameters:
+    ///   - auditContext: 
     ///   - catalogId: The ID of the Data Catalog where the partition in question resides. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the catalog database where the partition resides.
     ///   - partitionValues: The values that define the partition.
@@ -5010,6 +5590,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getPartition(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         partitionValues: [String],
@@ -5017,6 +5598,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetPartitionResponse {
         let input = GetPartitionRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             partitionValues: partitionValues, 
@@ -5079,6 +5661,7 @@ public struct Glue: AWSService {
     /// Retrieves information about the partitions in a table.
     ///
     /// Parameters:
+    ///   - auditContext: 
     ///   - catalogId: The ID of the Data Catalog where the partitions in question reside. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the catalog database where the partitions reside.
     ///   - excludeColumnSchema: When true, specifies not returning the partition column schema. Useful when you are interested only in other partition attributes such as partition values or location. This approach avoids the problem of a large response by not returning duplicate data.
@@ -5092,6 +5675,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getPartitions(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         excludeColumnSchema: Bool? = nil,
@@ -5105,6 +5689,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetPartitionsResponse {
         let input = GetPartitionsRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             excludeColumnSchema: excludeColumnSchema, 
@@ -5480,6 +6065,35 @@ public struct Glue: AWSService {
         return try await self.getSession(input, logger: logger)
     }
 
+    /// Returns the Spark Connect endpoint URL and authentication token for an interactive session.
+    @Sendable
+    @inlinable
+    public func getSessionEndpoint(_ input: GetSessionEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEndpointResponse {
+        try await self.client.execute(
+            operation: "GetSessionEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the Spark Connect endpoint URL and authentication token for an interactive session.
+    ///
+    /// Parameters:
+    ///   - sessionId: The unique identifier of the interactive session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSessionEndpoint(
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSessionEndpointResponse {
+        let input = GetSessionEndpointRequest(
+            sessionId: sessionId
+        )
+        return try await self.getSessionEndpoint(input, logger: logger)
+    }
+
     /// Retrieves the statement.
     @Sendable
     @inlinable
@@ -5531,6 +6145,7 @@ public struct Glue: AWSService {
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     ///
     /// Parameters:
+    ///   - attributesToGet: Specifies the table fields returned by the GetTable call. This parameter doesn't accept an empty list. The following are the valid combinations of values:    DEFAULT - Returns the Hive-style table definition only.    LATEST_ICEBERG_METADATA - Returns only the latest Apache Iceberg table metadata.    DEFAULT, LATEST_ICEBERG_METADATA - Returns both the Hive-style table definition and the latest Apache Iceberg table metadata.
     ///   - auditContext: A structure containing the Lake Formation audit context.
     ///   - catalogId: The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -5541,6 +6156,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getTable(
+        attributesToGet: [TableAttributes]? = nil,
         auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
@@ -5551,6 +6167,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTableResponse {
         let input = GetTableRequest(
+            attributesToGet: attributesToGet, 
             auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
@@ -5616,6 +6233,7 @@ public struct Glue: AWSService {
     /// Retrieves a specified version of a table.
     ///
     /// Parameters:
+    ///   - auditContext: 
     ///   - catalogId: The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
     ///   - tableName: The name of the table. For Hive compatibility, this name is entirely lowercase.
@@ -5623,6 +6241,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getTableVersion(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         tableName: String,
@@ -5630,6 +6249,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTableVersionResponse {
         let input = GetTableVersionRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             tableName: tableName, 
@@ -5654,6 +6274,7 @@ public struct Glue: AWSService {
     /// Retrieves a list of strings that identify available versions of a specified table.
     ///
     /// Parameters:
+    ///   - auditContext: 
     ///   - catalogId: The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
     ///   - maxResults: The maximum number of table versions to return in one response.
@@ -5662,6 +6283,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getTableVersions(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         maxResults: Int? = nil,
@@ -5670,6 +6292,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTableVersionsResponse {
         let input = GetTableVersionsRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             maxResults: maxResults, 
@@ -6270,6 +6893,38 @@ public struct Glue: AWSService {
         return try await self.importCatalogToGlue(input, logger: logger)
     }
 
+    /// Lists the asset types defined in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func listAssetTypes(_ input: ListAssetTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetTypesResponse {
+        try await self.client.execute(
+            operation: "ListAssetTypes", 
+            path: "/asset-types", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the asset types defined in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAssetTypes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAssetTypesResponse {
+        let input = ListAssetTypesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAssetTypes(input, logger: logger)
+    }
+
     /// Lists all the blueprint names in an account.
     @Sendable
     @inlinable
@@ -6531,18 +7186,21 @@ public struct Glue: AWSService {
     ///   - filter: The filter criteria.
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A paginated token to offset the results.
+    ///   - tags: A list of key-value pair tags to filter recommendation runs.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDataQualityRuleRecommendationRuns(
         filter: DataQualityRuleRecommendationRunFilter? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListDataQualityRuleRecommendationRunsResponse {
         let input = ListDataQualityRuleRecommendationRunsRequest(
             filter: filter, 
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            tags: tags
         )
         return try await self.listDataQualityRuleRecommendationRuns(input, logger: logger)
     }
@@ -6778,6 +7436,105 @@ public struct Glue: AWSService {
         return try await self.listEntities(input, logger: logger)
     }
 
+    /// Lists the form types defined in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func listFormTypes(_ input: ListFormTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFormTypesResponse {
+        try await self.client.execute(
+            operation: "ListFormTypes", 
+            path: "/form-types", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the form types defined in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFormTypes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFormTypesResponse {
+        let input = ListFormTypesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFormTypes(input, logger: logger)
+    }
+
+    /// Lists business glossaries in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func listGlossaries(_ input: ListGlossariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGlossariesResponse {
+        try await self.client.execute(
+            operation: "ListGlossaries", 
+            path: "/glossaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists business glossaries in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGlossaries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGlossariesResponse {
+        let input = ListGlossariesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listGlossaries(input, logger: logger)
+    }
+
+    /// Lists glossary terms within a business glossary in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func listGlossaryTerms(_ input: ListGlossaryTermsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGlossaryTermsResponse {
+        try await self.client.execute(
+            operation: "ListGlossaryTerms", 
+            path: "/glossary-terms", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists glossary terms within a business glossary in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - glossaryIdentifier: The unique identifier of the glossary whose terms to list.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGlossaryTerms(
+        glossaryIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGlossaryTermsResponse {
+        let input = ListGlossaryTermsRequest(
+            glossaryIdentifier: glossaryIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listGlossaryTerms(input, logger: logger)
+    }
+
     /// List integration resource properties for a single customer. It supports the filters, maxRecords and markers.
     @Sendable
     @inlinable
@@ -6811,6 +7568,44 @@ public struct Glue: AWSService {
             maxRecords: maxRecords
         )
         return try await self.listIntegrationResourceProperties(input, logger: logger)
+    }
+
+    /// Lists the items in an iterable form on an asset in Glue Data Catalog. For example, lists the columns of a table asset.
+    @Sendable
+    @inlinable
+    public func listIterableForms(_ input: ListIterableFormsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIterableFormsResponse {
+        try await self.client.execute(
+            operation: "ListIterableForms", 
+            path: "/assets/{AssetIdentifier}/iterable-forms/{IterableFormName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the items in an iterable form on an asset in Glue Data Catalog. For example, lists the columns of a table asset.
+    ///
+    /// Parameters:
+    ///   - assetIdentifier: The unique identifier of the asset.
+    ///   - iterableFormName: The name of the iterable form to list items from.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIterableForms(
+        assetIdentifier: String,
+        iterableFormName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIterableFormsResponse {
+        let input = ListIterableFormsRequest(
+            assetIdentifier: assetIdentifier, 
+            iterableFormName: iterableFormName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listIterableForms(input, logger: logger)
     }
 
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -7292,6 +8087,132 @@ public struct Glue: AWSService {
         return try await self.modifyIntegration(input, logger: logger)
     }
 
+    /// Creates or updates an asset in Glue Data Catalog. If the asset already exists, this operation updates it; otherwise, a new asset is created.
+    @Sendable
+    @inlinable
+    public func putAsset(_ input: PutAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAssetResponse {
+        try await self.client.execute(
+            operation: "PutAsset", 
+            path: "/assets", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates an asset in Glue Data Catalog. If the asset already exists, this operation updates it; otherwise, a new asset is created.
+    ///
+    /// Parameters:
+    ///   - assetTypeId: The identifier of the asset type for the asset.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: The description of the asset.
+    ///   - forms: The forms to set on the asset, keyed by form name. Each entry specifies the form type and its JSON content.
+    ///   - identifier: The unique identifier of the asset. If an asset with this identifier already exists, it is updated.
+    ///   - name: The name of the asset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAsset(
+        assetTypeId: String,
+        clientToken: String? = PutAssetRequest.idempotencyToken(),
+        description: String? = nil,
+        forms: [String: AssetFormEntry],
+        identifier: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAssetResponse {
+        let input = PutAssetRequest(
+            assetTypeId: assetTypeId, 
+            clientToken: clientToken, 
+            description: description, 
+            forms: forms, 
+            identifier: identifier, 
+            name: name
+        )
+        return try await self.putAsset(input, logger: logger)
+    }
+
+    /// Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated.
+    @Sendable
+    @inlinable
+    public func putAssetType(_ input: PutAssetTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAssetTypeResponse {
+        try await self.client.execute(
+            operation: "PutAssetType", 
+            path: "/asset-types", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - forms: The forms that make up the asset type, keyed by form name. Each entry references the form type that defines the form's schema.
+    ///   - name: The name of the asset type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAssetType(
+        clientToken: String? = PutAssetTypeRequest.idempotencyToken(),
+        forms: [String: AssetTypeFormReference],
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAssetTypeResponse {
+        let input = PutAssetTypeRequest(
+            clientToken: clientToken, 
+            forms: forms, 
+            name: name
+        )
+        return try await self.putAssetType(input, logger: logger)
+    }
+
+    /// Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten.
+    @Sendable
+    @inlinable
+    public func putAttachment(_ input: PutAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAttachmentResponse {
+        try await self.client.execute(
+            operation: "PutAttachment", 
+            path: "/assets/{AssetIdentifier}/attachment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Attaches a form to an asset or an iterable form item in Glue Data Catalog. If an attachment with the same name already exists, it is overwritten.
+    ///
+    /// Parameters:
+    ///   - assetIdentifier: The unique identifier of the asset to attach the form to.
+    ///   - attachmentName: The name of the attachment.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - content: The JSON content of the form, conforming to the schema of the specified form type.
+    ///   - formTypeId: The identifier of the form type for this attachment.
+    ///   - itemIdentifier: The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    ///   - iterableFormName: The name of the iterable form. When specified along with itemIdentifier, the attachment targets an item within the iterable form rather than the asset itself.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAttachment(
+        assetIdentifier: String,
+        attachmentName: String,
+        clientToken: String? = PutAttachmentRequest.idempotencyToken(),
+        content: String,
+        formTypeId: String,
+        itemIdentifier: String? = nil,
+        iterableFormName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAttachmentResponse {
+        let input = PutAttachmentRequest(
+            assetIdentifier: assetIdentifier, 
+            attachmentName: attachmentName, 
+            clientToken: clientToken, 
+            content: content, 
+            formTypeId: formTypeId, 
+            itemIdentifier: itemIdentifier, 
+            iterableFormName: iterableFormName
+        )
+        return try await self.putAttachment(input, logger: logger)
+    }
+
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
     @Sendable
     @inlinable
@@ -7354,6 +8275,41 @@ public struct Glue: AWSService {
             profileId: profileId
         )
         return try await self.putDataQualityProfileAnnotation(input, logger: logger)
+    }
+
+    /// Creates or updates a form type in Glue Data Catalog. A form type defines the schema for structured metadata that can be attached to assets.
+    @Sendable
+    @inlinable
+    public func putFormType(_ input: PutFormTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFormTypeResponse {
+        try await self.client.execute(
+            operation: "PutFormType", 
+            path: "/form-types", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a form type in Glue Data Catalog. A form type defines the schema for structured metadata that can be attached to assets.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - name: The name of the form type. Must start with an uppercase letter.
+    ///   - schema: The Smithy IDL schema definition for the form type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putFormType(
+        clientToken: String? = PutFormTypeRequest.idempotencyToken(),
+        name: String,
+        schema: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutFormTypeResponse {
+        let input = PutFormTypeRequest(
+            clientToken: clientToken, 
+            name: name, 
+            schema: schema
+        )
+        return try await self.putFormType(input, logger: logger)
     }
 
     /// Sets the Data Catalog resource policy for access control.
@@ -7733,6 +8689,47 @@ public struct Glue: AWSService {
         return try await self.runStatement(input, logger: logger)
     }
 
+    /// Searches for assets in Glue Data Catalog using full-text search, filters, sorting, and aggregations. Returns matching assets with relevance-ranked results.
+    @Sendable
+    @inlinable
+    public func searchAssets(_ input: SearchAssetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAssetsOutput {
+        try await self.client.execute(
+            operation: "SearchAssets", 
+            path: "/search-assets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for assets in Glue Data Catalog using full-text search, filters, sorting, and aggregations. Returns matching assets with relevance-ranked results.
+    ///
+    /// Parameters:
+    ///   - filterClause: The filter clause to apply to the search. Supports nested AND/OR logic with attribute-level and map-level filters.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - searchText: The text to search for. At least one of searchText or filterClause must be provided.
+    ///   - sort: The sort criteria for the search results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchAssets(
+        filterClause: SearchFilterClause? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchText: String? = nil,
+        sort: SearchSort? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchAssetsOutput {
+        let input = SearchAssetsInput(
+            filterClause: filterClause, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchText: searchText, 
+            sort: sort
+        )
+        return try await self.searchAssets(input, logger: logger)
+    }
+
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
     @Sendable
     @inlinable
@@ -7971,6 +8968,7 @@ public struct Glue: AWSService {
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking. Recommendation runs are automatically deleted after 90 days.
     ///
     /// Parameters:
+    ///   - additionalRunOptions: Additional run options you can specify for a recommendation run.
     ///   - clientToken: Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
     ///   - createdRulesetName: A name for the ruleset.
     ///   - dataQualitySecurityConfiguration: The name of the security configuration created with the data quality encryption option.
@@ -7981,6 +8979,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startDataQualityRuleRecommendationRun(
+        additionalRunOptions: DataQualityRuleRecommendationRunAdditionalRunOptions? = nil,
         clientToken: String? = nil,
         createdRulesetName: String? = nil,
         dataQualitySecurityConfiguration: String? = nil,
@@ -7991,6 +8990,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartDataQualityRuleRecommendationRunResponse {
         let input = StartDataQualityRuleRecommendationRunRequest(
+            additionalRunOptions: additionalRunOptions, 
             clientToken: clientToken, 
             createdRulesetName: createdRulesetName, 
             dataQualitySecurityConfiguration: dataQualitySecurityConfiguration, 
@@ -8145,7 +9145,7 @@ public struct Glue: AWSService {
     ///   - notificationProperty: Specifies configuration properties of a job run notification.
     ///   - numberOfWorkers: The number of workers of a defined workerType that are allocated when a job runs.
     ///   - securityConfiguration: The name of the SecurityConfiguration structure to be used with this job run.
-    ///   - timeout: The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+    ///   - timeout: The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
@@ -8690,6 +9690,44 @@ public struct Glue: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates the name and description of an existing asset in Glue Data Catalog. Only the fields that you provide are updated.
+    @Sendable
+    @inlinable
+    public func updateAsset(_ input: UpdateAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssetResponse {
+        try await self.client.execute(
+            operation: "UpdateAsset", 
+            path: "/assets/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the name and description of an existing asset in Glue Data Catalog. Only the fields that you provide are updated.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: The new description of the asset.
+    ///   - identifier: The unique identifier of the asset to update.
+    ///   - name: The new name of the asset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAsset(
+        clientToken: String? = UpdateAssetRequest.idempotencyToken(),
+        description: String? = nil,
+        identifier: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAssetResponse {
+        let input = UpdateAssetRequest(
+            clientToken: clientToken, 
+            description: description, 
+            identifier: identifier, 
+            name: name
+        )
+        return try await self.updateAsset(input, logger: logger)
+    }
+
     /// Updates a registered blueprint.
     @Sendable
     @inlinable
@@ -9177,6 +10215,85 @@ public struct Glue: AWSService {
             updateEtlLibraries: updateEtlLibraries
         )
         return try await self.updateDevEndpoint(input, logger: logger)
+    }
+
+    /// Updates a business glossary in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func updateGlossary(_ input: UpdateGlossaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlossaryResponse {
+        try await self.client.execute(
+            operation: "UpdateGlossary", 
+            path: "/glossaries/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a business glossary in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: The updated description of the glossary.
+    ///   - identifier: The unique identifier of the glossary to update.
+    ///   - name: The updated name of the glossary.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateGlossary(
+        clientToken: String? = UpdateGlossaryRequest.idempotencyToken(),
+        description: String? = nil,
+        identifier: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateGlossaryResponse {
+        let input = UpdateGlossaryRequest(
+            clientToken: clientToken, 
+            description: description, 
+            identifier: identifier, 
+            name: name
+        )
+        return try await self.updateGlossary(input, logger: logger)
+    }
+
+    /// Updates a glossary term in Glue Data Catalog.
+    @Sendable
+    @inlinable
+    public func updateGlossaryTerm(_ input: UpdateGlossaryTermRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlossaryTermResponse {
+        try await self.client.execute(
+            operation: "UpdateGlossaryTerm", 
+            path: "/glossary-terms/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a glossary term in Glue Data Catalog.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - identifier: The unique identifier of the glossary term to update.
+    ///   - longDescription: The updated long description of the glossary term.
+    ///   - name: The updated name of the glossary term.
+    ///   - shortDescription: The updated short description of the glossary term.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateGlossaryTerm(
+        clientToken: String? = UpdateGlossaryTermRequest.idempotencyToken(),
+        identifier: String,
+        longDescription: String? = nil,
+        name: String? = nil,
+        shortDescription: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateGlossaryTermResponse {
+        let input = UpdateGlossaryTermRequest(
+            clientToken: clientToken, 
+            identifier: identifier, 
+            longDescription: longDescription, 
+            name: name, 
+            shortDescription: shortDescription
+        )
+        return try await self.updateGlossaryTerm(input, logger: logger)
     }
 
     /// Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
@@ -10406,6 +11523,7 @@ extension Glue {
     /// Return PaginatorSequence for operation ``getPartitions(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - auditContext: 
     ///   - catalogId: The ID of the Data Catalog where the partitions in question reside. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the catalog database where the partitions reside.
     ///   - excludeColumnSchema: When true, specifies not returning the partition column schema. Useful when you are interested only in other partition attributes such as partition values or location. This approach avoids the problem of a large response by not returning duplicate data.
@@ -10418,6 +11536,7 @@ extension Glue {
     ///   - logger: Logger used for logging
     @inlinable
     public func getPartitionsPaginator(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         excludeColumnSchema: Bool? = nil,
@@ -10430,6 +11549,7 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetPartitionsRequest, GetPartitionsResponse> {
         let input = GetPartitionsRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             excludeColumnSchema: excludeColumnSchema, 
@@ -10532,6 +11652,7 @@ extension Glue {
     /// Return PaginatorSequence for operation ``getTableVersions(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - auditContext: 
     ///   - catalogId: The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
     ///   - maxResults: The maximum number of table versions to return in one response.
@@ -10539,6 +11660,7 @@ extension Glue {
     ///   - logger: Logger used for logging
     @inlinable
     public func getTableVersionsPaginator(
+        auditContext: AuditContext? = nil,
         catalogId: String? = nil,
         databaseName: String,
         maxResults: Int? = nil,
@@ -10546,6 +11668,7 @@ extension Glue {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetTableVersionsRequest, GetTableVersionsResponse> {
         let input = GetTableVersionsRequest(
+            auditContext: auditContext, 
             catalogId: catalogId, 
             databaseName: databaseName, 
             maxResults: maxResults, 
@@ -10796,6 +11919,40 @@ extension Glue {
         return self.getWorkflowRunsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAssetTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAssetTypesPaginator(
+        _ input: ListAssetTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssetTypesRequest, ListAssetTypesResponse> {
+        return .init(
+            input: input,
+            command: self.listAssetTypes,
+            inputKey: \ListAssetTypesRequest.nextToken,
+            outputKey: \ListAssetTypesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAssetTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAssetTypesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAssetTypesRequest, ListAssetTypesResponse> {
+        let input = ListAssetTypesRequest(
+            maxResults: maxResults
+        )
+        return self.listAssetTypesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listBlueprints(_:logger:)``.
     ///
     /// - Parameters:
@@ -11035,16 +12192,19 @@ extension Glue {
     /// - Parameters:
     ///   - filter: The filter criteria.
     ///   - maxResults: The maximum number of results to return.
+    ///   - tags: A list of key-value pair tags to filter recommendation runs.
     ///   - logger: Logger used for logging
     @inlinable
     public func listDataQualityRuleRecommendationRunsPaginator(
         filter: DataQualityRuleRecommendationRunFilter? = nil,
         maxResults: Int? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListDataQualityRuleRecommendationRunsRequest, ListDataQualityRuleRecommendationRunsResponse> {
         let input = ListDataQualityRuleRecommendationRunsRequest(
             filter: filter, 
-            maxResults: maxResults
+            maxResults: maxResults, 
+            tags: tags
         )
         return self.listDataQualityRuleRecommendationRunsPaginator(input, logger: logger)
     }
@@ -11204,6 +12364,151 @@ extension Glue {
             parentEntityName: parentEntityName
         )
         return self.listEntitiesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFormTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFormTypesPaginator(
+        _ input: ListFormTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFormTypesRequest, ListFormTypesResponse> {
+        return .init(
+            input: input,
+            command: self.listFormTypes,
+            inputKey: \ListFormTypesRequest.nextToken,
+            outputKey: \ListFormTypesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFormTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFormTypesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFormTypesRequest, ListFormTypesResponse> {
+        let input = ListFormTypesRequest(
+            maxResults: maxResults
+        )
+        return self.listFormTypesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listGlossaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGlossariesPaginator(
+        _ input: ListGlossariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGlossariesRequest, ListGlossariesResponse> {
+        return .init(
+            input: input,
+            command: self.listGlossaries,
+            inputKey: \ListGlossariesRequest.nextToken,
+            outputKey: \ListGlossariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGlossaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGlossariesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGlossariesRequest, ListGlossariesResponse> {
+        let input = ListGlossariesRequest(
+            maxResults: maxResults
+        )
+        return self.listGlossariesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listGlossaryTerms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGlossaryTermsPaginator(
+        _ input: ListGlossaryTermsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGlossaryTermsRequest, ListGlossaryTermsResponse> {
+        return .init(
+            input: input,
+            command: self.listGlossaryTerms,
+            inputKey: \ListGlossaryTermsRequest.nextToken,
+            outputKey: \ListGlossaryTermsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGlossaryTerms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - glossaryIdentifier: The unique identifier of the glossary whose terms to list.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGlossaryTermsPaginator(
+        glossaryIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGlossaryTermsRequest, ListGlossaryTermsResponse> {
+        let input = ListGlossaryTermsRequest(
+            glossaryIdentifier: glossaryIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listGlossaryTermsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listIterableForms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIterableFormsPaginator(
+        _ input: ListIterableFormsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIterableFormsRequest, ListIterableFormsResponse> {
+        return .init(
+            input: input,
+            command: self.listIterableForms,
+            inputKey: \ListIterableFormsRequest.nextToken,
+            outputKey: \ListIterableFormsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listIterableForms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assetIdentifier: The unique identifier of the asset.
+    ///   - iterableFormName: The name of the iterable form to list items from.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIterableFormsPaginator(
+        assetIdentifier: String,
+        iterableFormName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListIterableFormsRequest, ListIterableFormsResponse> {
+        let input = ListIterableFormsRequest(
+            assetIdentifier: assetIdentifier, 
+            iterableFormName: iterableFormName, 
+            maxResults: maxResults
+        )
+        return self.listIterableFormsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
@@ -11631,6 +12936,49 @@ extension Glue {
         return self.listWorkflowsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchAssets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAssetsPaginator(
+        _ input: SearchAssetsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchAssetsInput, SearchAssetsOutput> {
+        return .init(
+            input: input,
+            command: self.searchAssets,
+            inputKey: \SearchAssetsInput.nextToken,
+            outputKey: \SearchAssetsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchAssets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterClause: The filter clause to apply to the search. Supports nested AND/OR logic with attribute-level and map-level filters.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - searchText: The text to search for. At least one of searchText or filterClause must be provided.
+    ///   - sort: The sort criteria for the search results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAssetsPaginator(
+        filterClause: SearchFilterClause? = nil,
+        maxResults: Int? = nil,
+        searchText: String? = nil,
+        sort: SearchSort? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchAssetsInput, SearchAssetsOutput> {
+        let input = SearchAssetsInput(
+            filterClause: filterClause, 
+            maxResults: maxResults, 
+            searchText: searchText, 
+            sort: sort
+        )
+        return self.searchAssetsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchTables(_:logger:)``.
     ///
     /// - Parameters:
@@ -11849,6 +13197,7 @@ extension Glue.GetPartitionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Glue.GetPartitionsRequest {
         return .init(
+            auditContext: self.auditContext,
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             excludeColumnSchema: self.excludeColumnSchema,
@@ -11887,6 +13236,7 @@ extension Glue.GetTableVersionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Glue.GetTableVersionsRequest {
         return .init(
+            auditContext: self.auditContext,
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             maxResults: self.maxResults,
@@ -11970,6 +13320,16 @@ extension Glue.GetWorkflowRunsRequest: AWSPaginateToken {
     }
 }
 
+extension Glue.ListAssetTypesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListAssetTypesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Glue.ListBlueprintsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Glue.ListBlueprintsRequest {
@@ -12040,7 +13400,8 @@ extension Glue.ListDataQualityRuleRecommendationRunsRequest: AWSPaginateToken {
         return .init(
             filter: self.filter,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            tags: self.tags
         )
     }
 }
@@ -12088,6 +13449,49 @@ extension Glue.ListEntitiesRequest: AWSPaginateToken {
             dataStoreApiVersion: self.dataStoreApiVersion,
             nextToken: token,
             parentEntityName: self.parentEntityName
+        )
+    }
+}
+
+extension Glue.ListFormTypesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListFormTypesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Glue.ListGlossariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListGlossariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Glue.ListGlossaryTermsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListGlossaryTermsRequest {
+        return .init(
+            glossaryIdentifier: self.glossaryIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Glue.ListIterableFormsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListIterableFormsRequest {
+        return .init(
+            assetIdentifier: self.assetIdentifier,
+            iterableFormName: self.iterableFormName,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -12215,6 +13619,19 @@ extension Glue.ListWorkflowsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Glue.SearchAssetsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.SearchAssetsInput {
+        return .init(
+            filterClause: self.filterClause,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchText: self.searchText,
+            sort: self.sort
         )
     }
 }

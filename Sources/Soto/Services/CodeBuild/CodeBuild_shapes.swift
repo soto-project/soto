@@ -222,6 +222,13 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum HostKernel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case linuxKernel4 = "LINUX_KERNEL_4"
+        case linuxKernel6 = "LINUX_KERNEL_6"
+        case linuxKernelLatest = "LINUX_KERNEL_LATEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImagePullCredentialsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codebuild = "CODEBUILD"
         case serviceRole = "SERVICE_ROLE"
@@ -2241,7 +2248,7 @@ extension CodeBuild {
         public let computeType: ComputeType
         /// A list of one or more security groups IDs.  Security groups configured for Docker servers should allow ingress network traffic from the VPC configured in the project. They should allow ingress on port 9876.
         public let securityGroupIds: [String]?
-        /// A DockerServerStatus object to use for this docker server.
+        /// A DockerServerStatus object to use for this docker server.  Note that status is only an output and cannot be passed in as an input.
         public let status: DockerServerStatus?
 
         @inlinable
@@ -3743,6 +3750,8 @@ extension CodeBuild {
         public let environmentVariables: [EnvironmentVariable]?
         /// A ProjectFleet object to use for this build project.
         public let fleet: ProjectFleet?
+        /// The host operating system kernel used for on-demand builds in the build project. The host kernel does not affect the build environment operating system, which is determined by the image you specify. Valid values are:    LINUX_KERNEL_4: Runs on an Amazon Linux 2 host (kernel 4.x).    LINUX_KERNEL_6: Runs on an Amazon Linux 2023 host (kernel 6.x).    LINUX_KERNEL_LATEST: Runs on the latest supported host kernel.   This setting applies to the LINUX_CONTAINER, ARM_CONTAINER, LINUX_EC2, and ARM_EC2 environment types. It is not applicable to Windows, Lambda, or Mac environment types.
+        public let hostKernel: HostKernel?
         /// The image tag or image digest that identifies the Docker image to use for this build project. Use the following formats:   For an image tag: /:. For example, in the Docker repository that CodeBuild uses to manage its Docker images, this would be aws/codebuild/standard:4.0.    For an image digest: /@. For example, to specify an image with the digest "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf," use /@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf.   For more information, see Docker images provided by CodeBuild in the CodeBuild user guide.
         public let image: String
         ///  The type of credentials CodeBuild uses to pull images in your build. There are two valid values:     CODEBUILD specifies that CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust CodeBuild service principal.     SERVICE_ROLE specifies that CodeBuild uses your build project's service role.    When you use a cross-account or private registry image, you must use SERVICE_ROLE credentials. When you use an CodeBuild curated image, you must use CODEBUILD credentials.
@@ -3755,13 +3764,14 @@ extension CodeBuild {
         public let type: EnvironmentType
 
         @inlinable
-        public init(certificate: String? = nil, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType, dockerServer: DockerServer? = nil, environmentVariables: [EnvironmentVariable]? = nil, fleet: ProjectFleet? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
+        public init(certificate: String? = nil, computeConfiguration: ComputeConfiguration? = nil, computeType: ComputeType, dockerServer: DockerServer? = nil, environmentVariables: [EnvironmentVariable]? = nil, fleet: ProjectFleet? = nil, hostKernel: HostKernel? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
             self.certificate = certificate
             self.computeConfiguration = computeConfiguration
             self.computeType = computeType
             self.dockerServer = dockerServer
             self.environmentVariables = environmentVariables
             self.fleet = fleet
+            self.hostKernel = hostKernel
             self.image = image
             self.imagePullCredentialsType = imagePullCredentialsType
             self.privilegedMode = privilegedMode
@@ -3786,6 +3796,7 @@ extension CodeBuild {
             case dockerServer = "dockerServer"
             case environmentVariables = "environmentVariables"
             case fleet = "fleet"
+            case hostKernel = "hostKernel"
             case image = "image"
             case imagePullCredentialsType = "imagePullCredentialsType"
             case privilegedMode = "privilegedMode"
@@ -4849,6 +4860,8 @@ extension CodeBuild {
         public let gitCloneDepthOverride: Int?
         ///  Information about the Git submodules configuration for this build of an CodeBuild build project.
         public let gitSubmodulesConfigOverride: GitSubmodulesConfig?
+        /// The host operating system kernel for this build that overrides the one specified in the build project.
+        public let hostKernelOverride: HostKernel?
         /// A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuild request. The token is included in the StartBuild request and is valid for 5 minutes. If you repeat the StartBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
         public let idempotencyToken: String?
         /// The name of an image for this build that overrides the one specified in the build project.
@@ -4890,7 +4903,7 @@ extension CodeBuild {
         public let timeoutInMinutesOverride: Int?
 
         @inlinable
-        public init(artifactsOverride: ProjectArtifacts? = nil, autoRetryLimitOverride: Int? = nil, buildspecOverride: String? = nil, buildStatusConfigOverride: BuildStatusConfig? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, debugSessionEnabled: Bool? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, fleetOverride: ProjectFleet? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
+        public init(artifactsOverride: ProjectArtifacts? = nil, autoRetryLimitOverride: Int? = nil, buildspecOverride: String? = nil, buildStatusConfigOverride: BuildStatusConfig? = nil, cacheOverride: ProjectCache? = nil, certificateOverride: String? = nil, computeTypeOverride: ComputeType? = nil, debugSessionEnabled: Bool? = nil, encryptionKeyOverride: String? = nil, environmentTypeOverride: EnvironmentType? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, fleetOverride: ProjectFleet? = nil, gitCloneDepthOverride: Int? = nil, gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil, hostKernelOverride: HostKernel? = nil, idempotencyToken: String? = nil, imageOverride: String? = nil, imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil, insecureSslOverride: Bool? = nil, logsConfigOverride: LogsConfig? = nil, privilegedModeOverride: Bool? = nil, projectName: String, queuedTimeoutInMinutesOverride: Int? = nil, registryCredentialOverride: RegistryCredential? = nil, reportBuildStatusOverride: Bool? = nil, secondaryArtifactsOverride: [ProjectArtifacts]? = nil, secondarySourcesOverride: [ProjectSource]? = nil, secondarySourcesVersionOverride: [ProjectSourceVersion]? = nil, serviceRoleOverride: String? = nil, sourceAuthOverride: SourceAuth? = nil, sourceLocationOverride: String? = nil, sourceTypeOverride: SourceType? = nil, sourceVersion: String? = nil, timeoutInMinutesOverride: Int? = nil) {
             self.artifactsOverride = artifactsOverride
             self.autoRetryLimitOverride = autoRetryLimitOverride
             self.buildspecOverride = buildspecOverride
@@ -4905,6 +4918,7 @@ extension CodeBuild {
             self.fleetOverride = fleetOverride
             self.gitCloneDepthOverride = gitCloneDepthOverride
             self.gitSubmodulesConfigOverride = gitSubmodulesConfigOverride
+            self.hostKernelOverride = hostKernelOverride
             self.idempotencyToken = idempotencyToken
             self.imageOverride = imageOverride
             self.imagePullCredentialsTypeOverride = imagePullCredentialsTypeOverride
@@ -4963,6 +4977,7 @@ extension CodeBuild {
             case fleetOverride = "fleetOverride"
             case gitCloneDepthOverride = "gitCloneDepthOverride"
             case gitSubmodulesConfigOverride = "gitSubmodulesConfigOverride"
+            case hostKernelOverride = "hostKernelOverride"
             case idempotencyToken = "idempotencyToken"
             case imageOverride = "imageOverride"
             case imagePullCredentialsTypeOverride = "imagePullCredentialsTypeOverride"

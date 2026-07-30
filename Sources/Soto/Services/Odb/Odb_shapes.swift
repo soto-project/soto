@@ -31,9 +31,125 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdminPasswordSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiRequestParameter = "API_REQUEST_PARAMETER"
+        case customerManagedAwsSecret = "CUSTOMER_MANAGED_AWS_SECRET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutonomousDatabaseBackupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutonomousDatabaseBackupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cumulativeIncremental = "CUMULATIVE_INCREMENTAL"
+        case full = "FULL"
+        case incremental = "INCREMENTAL"
+        case longterm = "LONGTERM"
+        case rollForwardImageCopy = "ROLL_FORWARD_IMAGE_COPY"
+        case virtualFull = "VIRTUAL_FULL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutonomousDatabaseResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case availableNeedsAttention = "AVAILABLE_NEEDS_ATTENTION"
+        case backupInProgress = "BACKUP_IN_PROGRESS"
+        case failed = "FAILED"
+        case inaccessible = "INACCESSIBLE"
+        case maintenanceInProgress = "MAINTENANCE_IN_PROGRESS"
+        case provisioning = "PROVISIONING"
+        case recreating = "RECREATING"
+        case restarting = "RESTARTING"
+        case restoreFailed = "RESTORE_FAILED"
+        case restoreInProgress = "RESTORE_IN_PROGRESS"
+        case roleChangeInProgress = "ROLE_CHANGE_IN_PROGRESS"
+        case scaleInProgress = "SCALE_IN_PROGRESS"
+        case standby = "STANDBY"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
+        case unavailable = "UNAVAILABLE"
+        case updating = "UPDATING"
+        case upgrading = "UPGRADING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutonomousDatabaseWalletStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutonomousMaintenanceScheduleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case early = "EARLY"
+        case regular = "REGULAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CharacterSetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case database = "DATABASE"
+        case national = "NATIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloneType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "FULL"
+        case metadata = "METADATA"
+        case partial = "PARTIAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComputeModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecpu = "ECPU"
         case ocpu = "OCPU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataGuardRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case backupCopy = "BACKUP_COPY"
+        case disabledStandby = "DISABLED_STANDBY"
+        case primary = "PRIMARY"
+        case snapshotStandby = "SNAPSHOT_STANDBY"
+        case standby = "STANDBY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSafeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deregistering = "DEREGISTERING"
+        case failed = "FAILED"
+        case notRegistered = "NOT_REGISTERED"
+        case registered = "REGISTERED"
+        case registering = "REGISTERING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatabaseEdition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enterpriseEdition = "ENTERPRISE_EDITION"
+        case standardEdition = "STANDARD_EDITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatabaseManagementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case failedDisabling = "FAILED_DISABLING"
+        case failedEnabling = "FAILED_ENABLING"
+        case notEnabled = "NOT_ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatabaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clone = "CLONE"
+        case regular = "REGULAR"
         public var description: String { return self.rawValue }
     }
 
@@ -74,9 +190,44 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum DbWorkload: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ajd = "AJD"
+        case apex = "APEX"
+        case lh = "LH"
+        case oltp = "OLTP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DisasterRecoveryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case adg = "ADG"
+        case backupBased = "BACKUP_BASED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DiskRedundancy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionKeyProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsKms = "AWS_KMS"
+        case oci = "OCI"
+        case okv = "OKV"
+        case oracleManaged = "ORACLE_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionKeyProviderInput: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsKms = "AWS_KMS"
+        case oracleManaged = "ORACLE_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExternalIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compartmentOcid = "compartment_ocid"
+        case databaseOcid = "database_ocid"
+        case tenantOcid = "tenant_ocid"
         public var description: String { return self.rawValue }
     }
 
@@ -130,12 +281,33 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetServicesArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dedicated = "DEDICATED"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Objective: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case balanced = "BALANCED"
         case basic = "BASIC"
         case highThroughput = "HIGH_THROUGHPUT"
         case lowLatency = "LOW_LATENCY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OciAwsIntegration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsTde = "KmsTde"
+        case secretsManager = "SecretsManager"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OciIamRoleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case provisionFailed = "PROVISION_FAILED"
+        case provisioning = "PROVISIONING"
+        case terminateFailed = "TERMINATE_FAILED"
+        case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
@@ -155,15 +327,57 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum OpenMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case readOnly = "READ_ONLY"
+        case readWrite = "READ_WRITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OperationsInsightsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case failedDisabling = "FAILED_DISABLING"
+        case failedEnabling = "FAILED_ENABLING"
+        case notEnabled = "NOT_ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PatchingModeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nonrolling = "NONROLLING"
         case rolling = "ROLLING"
         public var description: String { return self.rawValue }
     }
 
+    public enum PermissionLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case restricted = "RESTRICTED"
+        case unrestricted = "UNRESTRICTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PreferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customPreference = "CUSTOM_PREFERENCE"
         case noPreference = "NO_PREFERENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RefreshableMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RefreshableStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notRefreshing = "NOT_REFRESHING"
+        case refreshing = "REFRESHING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepeatCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case monthly = "MONTHLY"
+        case oneTime = "ONE_TIME"
+        case weekly = "WEEKLY"
+        case yearly = "YEARLY"
         public var description: String { return self.rawValue }
     }
 
@@ -186,6 +400,24 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case backupFromId = "BACKUP_FROM_ID"
+        case backupFromTimestamp = "BACKUP_FROM_TIMESTAMP"
+        case cloneToRefreshable = "CLONE_TO_REFRESHABLE"
+        case crossRegionDataguard = "CROSS_REGION_DATAGUARD"
+        case crossRegionDisasterRecovery = "CROSS_REGION_DISASTER_RECOVERY"
+        case database = "DATABASE"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StandbyAllowlistedIpsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notApplicable = "NOT_APPLICABLE"
+        case primary = "PRIMARY"
+        case separate = "SEPARATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SupportedAwsIntegration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kmsTde = "KmsTde"
         public var description: String { return self.rawValue }
@@ -202,6 +434,114 @@ extension Odb {
     public enum VpcEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case servicenetwork = "SERVICENETWORK"
         public var description: String { return self.rawValue }
+    }
+
+    public enum WalletPasswordSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiRequestParameter = "API_REQUEST_PARAMETER"
+        case customerManagedAwsSecret = "CUSTOMER_MANAGED_AWS_SECRET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WalletType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instance = "INSTANCE"
+        case regional = "REGIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionKeyConfiguration: AWSDecodableShape, Sendable {
+        /// The configuration of the Amazon Web Services Key Management Service (KMS) encryption key.
+        case awsEncryptionKey(AwsEncryptionKeyConfiguration)
+        /// The configuration of the Oracle Cloud Infrastructure (OCI) Vault encryption key.
+        case ociEncryptionKey(OciEncryptionKeyConfiguration)
+        /// The configuration of the Oracle Key Vault (OKV) encryption key.
+        case okvEncryptionKey(OkvEncryptionKeyConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .awsEncryptionKey:
+                let value = try container.decode(AwsEncryptionKeyConfiguration.self, forKey: .awsEncryptionKey)
+                self = .awsEncryptionKey(value)
+            case .ociEncryptionKey:
+                let value = try container.decode(OciEncryptionKeyConfiguration.self, forKey: .ociEncryptionKey)
+                self = .ociEncryptionKey(value)
+            case .okvEncryptionKey:
+                let value = try container.decode(OkvEncryptionKeyConfiguration.self, forKey: .okvEncryptionKey)
+                self = .okvEncryptionKey(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsEncryptionKey = "awsEncryptionKey"
+            case ociEncryptionKey = "ociEncryptionKey"
+            case okvEncryptionKey = "okvEncryptionKey"
+        }
+    }
+
+    public enum SourceConfiguration: AWSEncodableShape, Sendable {
+        /// The configuration for creating the Autonomous Database as a refreshable clone.
+        case cloneToRefreshable(CloneToRefreshableConfiguration)
+        /// The configuration for creating the Autonomous Database as a cross-Region Oracle Data Guard peer.
+        case crossRegionDataGuard(CrossRegionDataGuardConfiguration)
+        /// The configuration for creating the Autonomous Database as a cross-Region disaster recovery peer.
+        case crossRegionDisasterRecovery(CrossRegionDisasterRecoveryConfiguration)
+        /// The configuration for creating the Autonomous Database as a clone of an existing database.
+        case databaseClone(DatabaseCloneConfiguration)
+        /// The configuration for creating the Autonomous Database by restoring to a point in time.
+        case pointInTimeRestore(PointInTimeRestoreConfiguration)
+        /// The configuration for creating the Autonomous Database by restoring from a backup.
+        case restoreFromBackup(RestoreFromBackupConfiguration)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cloneToRefreshable(let value):
+                try container.encode(value, forKey: .cloneToRefreshable)
+            case .crossRegionDataGuard(let value):
+                try container.encode(value, forKey: .crossRegionDataGuard)
+            case .crossRegionDisasterRecovery(let value):
+                try container.encode(value, forKey: .crossRegionDisasterRecovery)
+            case .databaseClone(let value):
+                try container.encode(value, forKey: .databaseClone)
+            case .pointInTimeRestore(let value):
+                try container.encode(value, forKey: .pointInTimeRestore)
+            case .restoreFromBackup(let value):
+                try container.encode(value, forKey: .restoreFromBackup)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .cloneToRefreshable(let value):
+                try value.validate(name: "\(name).cloneToRefreshable")
+            case .crossRegionDataGuard(let value):
+                try value.validate(name: "\(name).crossRegionDataGuard")
+            case .crossRegionDisasterRecovery(let value):
+                try value.validate(name: "\(name).crossRegionDisasterRecovery")
+            case .databaseClone(let value):
+                try value.validate(name: "\(name).databaseClone")
+            case .pointInTimeRestore(let value):
+                try value.validate(name: "\(name).pointInTimeRestore")
+            case .restoreFromBackup(let value):
+                try value.validate(name: "\(name).restoreFromBackup")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloneToRefreshable = "cloneToRefreshable"
+            case crossRegionDataGuard = "crossRegionDataGuard"
+            case crossRegionDisasterRecovery = "crossRegionDisasterRecovery"
+            case databaseClone = "databaseClone"
+            case pointInTimeRestore = "pointInTimeRestore"
+            case restoreFromBackup = "restoreFromBackup"
+        }
     }
 
     // MARK: Shapes
@@ -222,6 +562,24 @@ extension Odb {
 
     public struct AcceptMarketplaceRegistrationOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AdminPasswordSourceSummary: AWSDecodableShape {
+        /// The source of the admin password for the Autonomous Database.
+        public let adminPasswordSource: AdminPasswordSource?
+        /// The configuration of the admin password source for the Autonomous Database.
+        public let adminPasswordSourceConfiguration: AdminPasswordSourceConfiguration?
+
+        @inlinable
+        public init(adminPasswordSource: AdminPasswordSource? = nil, adminPasswordSourceConfiguration: AdminPasswordSourceConfiguration? = nil) {
+            self.adminPasswordSource = adminPasswordSource
+            self.adminPasswordSourceConfiguration = adminPasswordSourceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminPasswordSource = "adminPasswordSource"
+            case adminPasswordSourceConfiguration = "adminPasswordSourceConfiguration"
+        }
     }
 
     public struct AssociateIamRoleToResourceInput: AWSEncodableShape {
@@ -256,6 +614,1180 @@ extension Odb {
 
     public struct AssociateIamRoleToResourceOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AutonomousDatabase: AWSDecodableShape {
+        /// The actual amount of data storage currently in use by the Autonomous Database, in TB.
+        public let actualUsedDataStorageSizeInTBs: Double?
+        /// The summary of the admin password source configuration for the Autonomous Database.
+        public let adminPasswordSourceSummary: AdminPasswordSourceSummary?
+        /// The amount of storage currently allocated to the Autonomous Database, in TB.
+        public let allocatedStorageSizeInTBs: Double?
+        /// The list of IP addresses that are allowed to access the Autonomous Database.
+        public let allowlistedIps: [String]?
+        /// The Oracle Application Express (APEX) details for the Autonomous Database.
+        public let apexDetails: AutonomousDatabaseApex?
+        /// The Amazon Resource Name (ARN) of the Autonomous Database.
+        public let autonomousDatabaseArn: String?
+        /// The unique identifier of the Autonomous Database.
+        public let autonomousDatabaseId: String?
+        /// The maintenance schedule type for the Autonomous Database.
+        public let autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType?
+        /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
+        public let autoRefreshFrequencyInSeconds: Int?
+        /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database.
+        public let autoRefreshPointLagInSeconds: Int?
+        /// The Availability Zone where the Autonomous Database is located.
+        public let availabilityZone: String?
+        /// The unique identifier of the Availability Zone where the Autonomous Database is located.
+        public let availabilityZoneId: String?
+        /// The list of Oracle Database software versions to which the Autonomous Database can be upgraded.
+        public let availableUpgradeVersions: [String]?
+        /// The retention period, in days, for automatic backups of the Autonomous Database.
+        public let backupRetentionPeriodInDays: Int?
+        /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+        public let byolComputeCountLimit: Int?
+        /// The character set of the Autonomous Database.
+        public let characterSet: String?
+        /// The list of tablespace identifiers to clone for the Autonomous Database.
+        public let cloneTableSpaceList: [Int]?
+        /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), assigned to the Autonomous Database.
+        public let computeCount: Float?
+        /// The compute model of the Autonomous Database, either ECPU or OCPU.
+        public let computeModel: ComputeModel?
+        /// The connection string details for the Autonomous Database.
+        public let connectionStringDetails: AutonomousDatabaseConnectionStrings?
+        /// The connection URLs for accessing tools and services for the Autonomous Database.
+        public let connectionUrls: AutonomousDatabaseConnectionUrls?
+        /// The number of CPU cores allocated to the Autonomous Database.
+        public let cpuCoreCount: Int?
+        /// The date and time when the Autonomous Database was created.
+        public let createdAt: Date?
+        /// The list of customer contacts that receive operational notifications from Oracle for the Autonomous Database.
+        public let customerContacts: [CustomerContact]?
+        /// The Oracle Database edition of the Autonomous Database.
+        public let databaseEdition: DatabaseEdition?
+        /// The status of Oracle Database Management for the Autonomous Database.
+        public let databaseManagementStatus: DatabaseManagementStatus?
+        /// The type of the Autonomous Database, either a regular database or a clone.
+        public let databaseType: DatabaseType?
+        /// The status of the Oracle Data Safe registration for the Autonomous Database.
+        public let dataSafeStatus: DataSafeStatus?
+        /// The size, in gigabytes (GB), of the data volume allocated for the Autonomous Database.
+        public let dataStorageSizeInGBs: Int?
+        /// The size, in terabytes (TB), of the data volume allocated for the Autonomous Database.
+        public let dataStorageSizeInTBs: Double?
+        /// The name of the Autonomous Database.
+        public let dbName: String?
+        /// The list of database management tools enabled for the Autonomous Database.
+        public let dbToolsDetails: [DatabaseTool]?
+        /// The Oracle Database software version of the Autonomous Database.
+        public let dbVersion: String?
+        /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+        public let dbWorkload: DbWorkload?
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The encryption configuration for the Autonomous Database.
+        public let encryptionSummary: EncryptionSummary?
+        /// The amount of time, in seconds, that the data in the Autonomous Database is behind the data in the primary database.
+        public let failedDataRecoveryInSeconds: Int?
+        /// The size of the in-memory area of the Autonomous Database, in GB.
+        public let inMemoryAreaInGBs: Int?
+        /// Indicates whether automatic scaling of the compute resources is enabled for the Autonomous Database.
+        public let isAutoScalingEnabled: Bool?
+        /// Indicates whether automatic scaling of the storage is enabled for the Autonomous Database.
+        public let isAutoScalingForStorageEnabled: Bool?
+        /// Indicates whether the backup retention period of the Autonomous Database is locked.
+        public let isBackupRetentionLocked: Bool?
+        /// Indicates whether local Oracle Data Guard is enabled for the Autonomous Database.
+        public let isLocalDataGuardEnabled: Bool?
+        /// Indicates whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+        public let isMtlsConnectionRequired: Bool?
+        /// Indicates whether reconnecting the refreshable clone to its source Autonomous Database is enabled.
+        public let isReconnectCloneEnabled: Bool?
+        /// Indicates whether the Autonomous Database is a refreshable clone.
+        public let isRefreshableClone: Bool?
+        /// Indicates whether remote Oracle Data Guard is enabled for the Autonomous Database.
+        public let isRemoteDataGuardEnabled: Bool?
+        /// The Oracle license model that applies to the Autonomous Database.
+        public let licenseModel: LicenseModel?
+        /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database.
+        public let localAdgAutoFailoverMaxDataLossLimit: Int?
+        /// The type of local disaster recovery configured for the Autonomous Database.
+        public let localDisasterRecoveryType: DisasterRecoveryType?
+        /// The details of the local standby Autonomous Database in an Oracle Data Guard configuration.
+        public let localStandbyDb: DatabaseStandbySummary?
+        /// The long-term backup schedule for the Autonomous Database.
+        public let longTermBackupSchedule: LongTermBackupSchedule?
+        /// The component on the Autonomous Database that the current maintenance is being applied to.
+        public let maintenanceTargetComponent: String?
+        /// The amount of memory allocated per Oracle Compute Unit, in GB.
+        public let memoryPerOracleComputeUnitInGBs: Int?
+        /// The national character set of the Autonomous Database.
+        public let ncharacterSet: String?
+        /// The Oracle Net Services architecture of the Autonomous Database, either dedicated or shared.
+        public let netServicesArchitecture: NetServicesArchitecture?
+        /// The date and time of the next scheduled long-term backup of the Autonomous Database.
+        public let nextLongTermBackupTimeStamp: Date?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+        public let ocid: String?
+        /// The name of the Oracle Cloud Infrastructure (OCI) resource anchor associated with the Autonomous Database.
+        public let ociResourceAnchorName: String?
+        /// The URL for accessing the OCI console page for the Autonomous Database.
+        public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with the Autonomous Database.
+        public let odbNetworkArn: String?
+        /// The unique identifier of the ODB network associated with the Autonomous Database.
+        public let odbNetworkId: String?
+        /// The mode in which the Autonomous Database is open, either read-only or read/write.
+        public let openMode: OpenMode?
+        /// The status of Oracle Operations Insights for the Autonomous Database.
+        public let operationsInsightsStatus: OperationsInsightsStatus?
+        /// The list of unique identifiers of the peer Autonomous Databases.
+        public let peerDbIds: [String]?
+        /// The progress of the current operation on the Autonomous Database, as a percentage.
+        public let percentProgress: Float?
+        /// The permission level of the Autonomous Database.
+        public let permissionLevel: PermissionLevel?
+        /// The private endpoint for the Autonomous Database.
+        public let privateEndpoint: String?
+        /// The private endpoint IP address for the Autonomous Database.
+        public let privateEndpointIp: String?
+        /// The private endpoint label for the Autonomous Database.
+        public let privateEndpointLabel: String?
+        /// The list of CPU core counts that you can provision for the Autonomous Database.
+        public let provisionableCpus: [Int]?
+        /// The refresh mode of the refreshable clone Autonomous Database.
+        public let refreshableMode: RefreshableMode?
+        /// The refresh status of the refreshable clone Autonomous Database.
+        public let refreshableStatus: RefreshableStatus?
+        /// The configuration of the remote disaster recovery for the Autonomous Database.
+        public let remoteDisasterRecoveryConfiguration: DisasterRecoveryConfiguration?
+        /// The unique identifier of the resource pool leader Autonomous Database.
+        public let resourcePoolLeaderId: String?
+        /// The configuration of the resource pool for the Autonomous Database.
+        public let resourcePoolSummary: ResourcePoolSummary?
+        /// The Oracle Data Guard role of the Autonomous Database.
+        public let role: DataGuardRole?
+        /// The list of scheduled start and stop times for the Autonomous Database.
+        public let scheduledOperations: [ScheduledOperationDetails]?
+        /// The URL for accessing the Oracle service console for the Autonomous Database.
+        public let serviceConsoleUrl: String?
+        /// The unique identifier of the source from which the Autonomous Database was created.
+        public let sourceId: String?
+        /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+        public let sqlWebDeveloperUrl: String?
+        /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+        public let standbyAllowlistedIps: [String]?
+        /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+        public let standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource?
+        /// The details of the standby Autonomous Database in a cross-Region Oracle Data Guard configuration.
+        public let standbyDb: DatabaseStandbySummary?
+        /// The current status of the Autonomous Database.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the Autonomous Database, if applicable.
+        public let statusReason: String?
+        /// The date and time when the Oracle Data Guard role of the Autonomous Database last changed.
+        public let timeDataGuardRoleChanged: Date?
+        /// The date and time when the inactive Always Free Autonomous Database is scheduled to be automatically deleted.
+        public let timeDeletionOfFreeAutonomousDatabase: Date?
+        /// The date and time when the disaster recovery role of the Autonomous Database last changed.
+        public let timeDisasterRecoveryRoleChanged: Date?
+        /// The date and time when local Oracle Data Guard was enabled for the Autonomous Database.
+        public let timeLocalDataGuardEnabled: Date?
+        /// The date and time when the next maintenance of the Autonomous Database begins.
+        public let timeMaintenanceBegin: Date?
+        /// The date and time when the next maintenance of the Autonomous Database ends.
+        public let timeMaintenanceEnd: Date?
+        /// The date and time at which the automatic refresh of the refreshable clone Autonomous Database starts.
+        public let timeOfAutoRefreshStart: Date?
+        /// The date and time of the last backup of the Autonomous Database.
+        public let timeOfLastBackup: Date?
+        /// The date and time of the last failover operation for the Autonomous Database.
+        public let timeOfLastFailover: Date?
+        /// The date and time of the last refresh of the refreshable clone Autonomous Database.
+        public let timeOfLastRefresh: Date?
+        /// The date and time as of which the data in the refreshable clone Autonomous Database is current.
+        public let timeOfLastRefreshPoint: Date?
+        /// The date and time of the last switchover operation for the Autonomous Database.
+        public let timeOfLastSwitchover: Date?
+        /// The date and time of the next scheduled refresh of the refreshable clone Autonomous Database.
+        public let timeOfNextRefresh: Date?
+        /// The date and time when the Always Free Autonomous Database is scheduled to be stopped because of inactivity.
+        public let timeReclamationOfFreeAutonomousDatabase: Date?
+        /// The date and time when the Autonomous Database was restored after deletion.
+        public let timeUndeleted: Date?
+        /// The date and time until which reconnecting the refreshable clone to its source Autonomous Database is allowed.
+        public let timeUntilReconnectCloneEnabled: Date?
+        /// The total amount of backup storage used by the Autonomous Database, in GB.
+        public let totalBackupStorageSizeInGBs: Double?
+        /// The amount of data storage currently in use by the Autonomous Database, in GB.
+        public let usedDataStorageSizeInGBs: Int?
+        /// The amount of data storage currently in use by the Autonomous Database, in TB.
+        public let usedDataStorageSizeInTBs: Double?
+
+        @inlinable
+        public init(actualUsedDataStorageSizeInTBs: Double? = nil, adminPasswordSourceSummary: AdminPasswordSourceSummary? = nil, allocatedStorageSizeInTBs: Double? = nil, allowlistedIps: [String]? = nil, apexDetails: AutonomousDatabaseApex? = nil, autonomousDatabaseArn: String? = nil, autonomousDatabaseId: String? = nil, autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType? = nil, autoRefreshFrequencyInSeconds: Int? = nil, autoRefreshPointLagInSeconds: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableUpgradeVersions: [String]? = nil, backupRetentionPeriodInDays: Int? = nil, byolComputeCountLimit: Int? = nil, characterSet: String? = nil, cloneTableSpaceList: [Int]? = nil, computeCount: Float? = nil, computeModel: ComputeModel? = nil, connectionStringDetails: AutonomousDatabaseConnectionStrings? = nil, connectionUrls: AutonomousDatabaseConnectionUrls? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, customerContacts: [CustomerContact]? = nil, databaseEdition: DatabaseEdition? = nil, databaseManagementStatus: DatabaseManagementStatus? = nil, databaseType: DatabaseType? = nil, dataSafeStatus: DataSafeStatus? = nil, dataStorageSizeInGBs: Int? = nil, dataStorageSizeInTBs: Double? = nil, dbName: String? = nil, dbToolsDetails: [DatabaseTool]? = nil, dbVersion: String? = nil, dbWorkload: DbWorkload? = nil, displayName: String? = nil, encryptionSummary: EncryptionSummary? = nil, failedDataRecoveryInSeconds: Int? = nil, inMemoryAreaInGBs: Int? = nil, isAutoScalingEnabled: Bool? = nil, isAutoScalingForStorageEnabled: Bool? = nil, isBackupRetentionLocked: Bool? = nil, isLocalDataGuardEnabled: Bool? = nil, isMtlsConnectionRequired: Bool? = nil, isReconnectCloneEnabled: Bool? = nil, isRefreshableClone: Bool? = nil, isRemoteDataGuardEnabled: Bool? = nil, licenseModel: LicenseModel? = nil, localAdgAutoFailoverMaxDataLossLimit: Int? = nil, localDisasterRecoveryType: DisasterRecoveryType? = nil, localStandbyDb: DatabaseStandbySummary? = nil, longTermBackupSchedule: LongTermBackupSchedule? = nil, maintenanceTargetComponent: String? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, ncharacterSet: String? = nil, netServicesArchitecture: NetServicesArchitecture? = nil, nextLongTermBackupTimeStamp: Date? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, openMode: OpenMode? = nil, operationsInsightsStatus: OperationsInsightsStatus? = nil, peerDbIds: [String]? = nil, percentProgress: Float? = nil, permissionLevel: PermissionLevel? = nil, privateEndpoint: String? = nil, privateEndpointIp: String? = nil, privateEndpointLabel: String? = nil, provisionableCpus: [Int]? = nil, refreshableMode: RefreshableMode? = nil, refreshableStatus: RefreshableStatus? = nil, remoteDisasterRecoveryConfiguration: DisasterRecoveryConfiguration? = nil, resourcePoolLeaderId: String? = nil, resourcePoolSummary: ResourcePoolSummary? = nil, role: DataGuardRole? = nil, scheduledOperations: [ScheduledOperationDetails]? = nil, serviceConsoleUrl: String? = nil, sourceId: String? = nil, sqlWebDeveloperUrl: String? = nil, standbyAllowlistedIps: [String]? = nil, standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource? = nil, standbyDb: DatabaseStandbySummary? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil, timeDataGuardRoleChanged: Date? = nil, timeDeletionOfFreeAutonomousDatabase: Date? = nil, timeDisasterRecoveryRoleChanged: Date? = nil, timeLocalDataGuardEnabled: Date? = nil, timeMaintenanceBegin: Date? = nil, timeMaintenanceEnd: Date? = nil, timeOfAutoRefreshStart: Date? = nil, timeOfLastBackup: Date? = nil, timeOfLastFailover: Date? = nil, timeOfLastRefresh: Date? = nil, timeOfLastRefreshPoint: Date? = nil, timeOfLastSwitchover: Date? = nil, timeOfNextRefresh: Date? = nil, timeReclamationOfFreeAutonomousDatabase: Date? = nil, timeUndeleted: Date? = nil, timeUntilReconnectCloneEnabled: Date? = nil, totalBackupStorageSizeInGBs: Double? = nil, usedDataStorageSizeInGBs: Int? = nil, usedDataStorageSizeInTBs: Double? = nil) {
+            self.actualUsedDataStorageSizeInTBs = actualUsedDataStorageSizeInTBs
+            self.adminPasswordSourceSummary = adminPasswordSourceSummary
+            self.allocatedStorageSizeInTBs = allocatedStorageSizeInTBs
+            self.allowlistedIps = allowlistedIps
+            self.apexDetails = apexDetails
+            self.autonomousDatabaseArn = autonomousDatabaseArn
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+            self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+            self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.availableUpgradeVersions = availableUpgradeVersions
+            self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+            self.byolComputeCountLimit = byolComputeCountLimit
+            self.characterSet = characterSet
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.computeCount = computeCount
+            self.computeModel = computeModel
+            self.connectionStringDetails = connectionStringDetails
+            self.connectionUrls = connectionUrls
+            self.cpuCoreCount = cpuCoreCount
+            self.createdAt = createdAt
+            self.customerContacts = customerContacts
+            self.databaseEdition = databaseEdition
+            self.databaseManagementStatus = databaseManagementStatus
+            self.databaseType = databaseType
+            self.dataSafeStatus = dataSafeStatus
+            self.dataStorageSizeInGBs = dataStorageSizeInGBs
+            self.dataStorageSizeInTBs = dataStorageSizeInTBs
+            self.dbName = dbName
+            self.dbToolsDetails = dbToolsDetails
+            self.dbVersion = dbVersion
+            self.dbWorkload = dbWorkload
+            self.displayName = displayName
+            self.encryptionSummary = encryptionSummary
+            self.failedDataRecoveryInSeconds = failedDataRecoveryInSeconds
+            self.inMemoryAreaInGBs = inMemoryAreaInGBs
+            self.isAutoScalingEnabled = isAutoScalingEnabled
+            self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+            self.isBackupRetentionLocked = isBackupRetentionLocked
+            self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+            self.isMtlsConnectionRequired = isMtlsConnectionRequired
+            self.isReconnectCloneEnabled = isReconnectCloneEnabled
+            self.isRefreshableClone = isRefreshableClone
+            self.isRemoteDataGuardEnabled = isRemoteDataGuardEnabled
+            self.licenseModel = licenseModel
+            self.localAdgAutoFailoverMaxDataLossLimit = localAdgAutoFailoverMaxDataLossLimit
+            self.localDisasterRecoveryType = localDisasterRecoveryType
+            self.localStandbyDb = localStandbyDb
+            self.longTermBackupSchedule = longTermBackupSchedule
+            self.maintenanceTargetComponent = maintenanceTargetComponent
+            self.memoryPerOracleComputeUnitInGBs = memoryPerOracleComputeUnitInGBs
+            self.ncharacterSet = ncharacterSet
+            self.netServicesArchitecture = netServicesArchitecture
+            self.nextLongTermBackupTimeStamp = nextLongTermBackupTimeStamp
+            self.ocid = ocid
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.openMode = openMode
+            self.operationsInsightsStatus = operationsInsightsStatus
+            self.peerDbIds = peerDbIds
+            self.percentProgress = percentProgress
+            self.permissionLevel = permissionLevel
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointIp = privateEndpointIp
+            self.privateEndpointLabel = privateEndpointLabel
+            self.provisionableCpus = provisionableCpus
+            self.refreshableMode = refreshableMode
+            self.refreshableStatus = refreshableStatus
+            self.remoteDisasterRecoveryConfiguration = remoteDisasterRecoveryConfiguration
+            self.resourcePoolLeaderId = resourcePoolLeaderId
+            self.resourcePoolSummary = resourcePoolSummary
+            self.role = role
+            self.scheduledOperations = scheduledOperations
+            self.serviceConsoleUrl = serviceConsoleUrl
+            self.sourceId = sourceId
+            self.sqlWebDeveloperUrl = sqlWebDeveloperUrl
+            self.standbyAllowlistedIps = standbyAllowlistedIps
+            self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+            self.standbyDb = standbyDb
+            self.status = status
+            self.statusReason = statusReason
+            self.timeDataGuardRoleChanged = timeDataGuardRoleChanged
+            self.timeDeletionOfFreeAutonomousDatabase = timeDeletionOfFreeAutonomousDatabase
+            self.timeDisasterRecoveryRoleChanged = timeDisasterRecoveryRoleChanged
+            self.timeLocalDataGuardEnabled = timeLocalDataGuardEnabled
+            self.timeMaintenanceBegin = timeMaintenanceBegin
+            self.timeMaintenanceEnd = timeMaintenanceEnd
+            self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+            self.timeOfLastBackup = timeOfLastBackup
+            self.timeOfLastFailover = timeOfLastFailover
+            self.timeOfLastRefresh = timeOfLastRefresh
+            self.timeOfLastRefreshPoint = timeOfLastRefreshPoint
+            self.timeOfLastSwitchover = timeOfLastSwitchover
+            self.timeOfNextRefresh = timeOfNextRefresh
+            self.timeReclamationOfFreeAutonomousDatabase = timeReclamationOfFreeAutonomousDatabase
+            self.timeUndeleted = timeUndeleted
+            self.timeUntilReconnectCloneEnabled = timeUntilReconnectCloneEnabled
+            self.totalBackupStorageSizeInGBs = totalBackupStorageSizeInGBs
+            self.usedDataStorageSizeInGBs = usedDataStorageSizeInGBs
+            self.usedDataStorageSizeInTBs = usedDataStorageSizeInTBs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actualUsedDataStorageSizeInTBs = "actualUsedDataStorageSizeInTBs"
+            case adminPasswordSourceSummary = "adminPasswordSourceSummary"
+            case allocatedStorageSizeInTBs = "allocatedStorageSizeInTBs"
+            case allowlistedIps = "allowlistedIps"
+            case apexDetails = "apexDetails"
+            case autonomousDatabaseArn = "autonomousDatabaseArn"
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case autonomousMaintenanceScheduleType = "autonomousMaintenanceScheduleType"
+            case autoRefreshFrequencyInSeconds = "autoRefreshFrequencyInSeconds"
+            case autoRefreshPointLagInSeconds = "autoRefreshPointLagInSeconds"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case availableUpgradeVersions = "availableUpgradeVersions"
+            case backupRetentionPeriodInDays = "backupRetentionPeriodInDays"
+            case byolComputeCountLimit = "byolComputeCountLimit"
+            case characterSet = "characterSet"
+            case cloneTableSpaceList = "cloneTableSpaceList"
+            case computeCount = "computeCount"
+            case computeModel = "computeModel"
+            case connectionStringDetails = "connectionStringDetails"
+            case connectionUrls = "connectionUrls"
+            case cpuCoreCount = "cpuCoreCount"
+            case createdAt = "createdAt"
+            case customerContacts = "customerContacts"
+            case databaseEdition = "databaseEdition"
+            case databaseManagementStatus = "databaseManagementStatus"
+            case databaseType = "databaseType"
+            case dataSafeStatus = "dataSafeStatus"
+            case dataStorageSizeInGBs = "dataStorageSizeInGBs"
+            case dataStorageSizeInTBs = "dataStorageSizeInTBs"
+            case dbName = "dbName"
+            case dbToolsDetails = "dbToolsDetails"
+            case dbVersion = "dbVersion"
+            case dbWorkload = "dbWorkload"
+            case displayName = "displayName"
+            case encryptionSummary = "encryptionSummary"
+            case failedDataRecoveryInSeconds = "failedDataRecoveryInSeconds"
+            case inMemoryAreaInGBs = "inMemoryAreaInGBs"
+            case isAutoScalingEnabled = "isAutoScalingEnabled"
+            case isAutoScalingForStorageEnabled = "isAutoScalingForStorageEnabled"
+            case isBackupRetentionLocked = "isBackupRetentionLocked"
+            case isLocalDataGuardEnabled = "isLocalDataGuardEnabled"
+            case isMtlsConnectionRequired = "isMtlsConnectionRequired"
+            case isReconnectCloneEnabled = "isReconnectCloneEnabled"
+            case isRefreshableClone = "isRefreshableClone"
+            case isRemoteDataGuardEnabled = "isRemoteDataGuardEnabled"
+            case licenseModel = "licenseModel"
+            case localAdgAutoFailoverMaxDataLossLimit = "localAdgAutoFailoverMaxDataLossLimit"
+            case localDisasterRecoveryType = "localDisasterRecoveryType"
+            case localStandbyDb = "localStandbyDb"
+            case longTermBackupSchedule = "longTermBackupSchedule"
+            case maintenanceTargetComponent = "maintenanceTargetComponent"
+            case memoryPerOracleComputeUnitInGBs = "memoryPerOracleComputeUnitInGBs"
+            case ncharacterSet = "ncharacterSet"
+            case netServicesArchitecture = "netServicesArchitecture"
+            case nextLongTermBackupTimeStamp = "nextLongTermBackupTimeStamp"
+            case ocid = "ocid"
+            case ociResourceAnchorName = "ociResourceAnchorName"
+            case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
+            case odbNetworkId = "odbNetworkId"
+            case openMode = "openMode"
+            case operationsInsightsStatus = "operationsInsightsStatus"
+            case peerDbIds = "peerDbIds"
+            case percentProgress = "percentProgress"
+            case permissionLevel = "permissionLevel"
+            case privateEndpoint = "privateEndpoint"
+            case privateEndpointIp = "privateEndpointIp"
+            case privateEndpointLabel = "privateEndpointLabel"
+            case provisionableCpus = "provisionableCpus"
+            case refreshableMode = "refreshableMode"
+            case refreshableStatus = "refreshableStatus"
+            case remoteDisasterRecoveryConfiguration = "remoteDisasterRecoveryConfiguration"
+            case resourcePoolLeaderId = "resourcePoolLeaderId"
+            case resourcePoolSummary = "resourcePoolSummary"
+            case role = "role"
+            case scheduledOperations = "scheduledOperations"
+            case serviceConsoleUrl = "serviceConsoleUrl"
+            case sourceId = "sourceId"
+            case sqlWebDeveloperUrl = "sqlWebDeveloperUrl"
+            case standbyAllowlistedIps = "standbyAllowlistedIps"
+            case standbyAllowlistedIpsSource = "standbyAllowlistedIpsSource"
+            case standbyDb = "standbyDb"
+            case status = "status"
+            case statusReason = "statusReason"
+            case timeDataGuardRoleChanged = "timeDataGuardRoleChanged"
+            case timeDeletionOfFreeAutonomousDatabase = "timeDeletionOfFreeAutonomousDatabase"
+            case timeDisasterRecoveryRoleChanged = "timeDisasterRecoveryRoleChanged"
+            case timeLocalDataGuardEnabled = "timeLocalDataGuardEnabled"
+            case timeMaintenanceBegin = "timeMaintenanceBegin"
+            case timeMaintenanceEnd = "timeMaintenanceEnd"
+            case timeOfAutoRefreshStart = "timeOfAutoRefreshStart"
+            case timeOfLastBackup = "timeOfLastBackup"
+            case timeOfLastFailover = "timeOfLastFailover"
+            case timeOfLastRefresh = "timeOfLastRefresh"
+            case timeOfLastRefreshPoint = "timeOfLastRefreshPoint"
+            case timeOfLastSwitchover = "timeOfLastSwitchover"
+            case timeOfNextRefresh = "timeOfNextRefresh"
+            case timeReclamationOfFreeAutonomousDatabase = "timeReclamationOfFreeAutonomousDatabase"
+            case timeUndeleted = "timeUndeleted"
+            case timeUntilReconnectCloneEnabled = "timeUntilReconnectCloneEnabled"
+            case totalBackupStorageSizeInGBs = "totalBackupStorageSizeInGBs"
+            case usedDataStorageSizeInGBs = "usedDataStorageSizeInGBs"
+            case usedDataStorageSizeInTBs = "usedDataStorageSizeInTBs"
+        }
+    }
+
+    public struct AutonomousDatabaseApex: AWSDecodableShape {
+        /// The Oracle Application Express (APEX) version of the Autonomous Database.
+        public let apexVersion: String?
+        /// The Oracle REST Data Services (ORDS) version of the Autonomous Database.
+        public let ordsVersion: String?
+
+        @inlinable
+        public init(apexVersion: String? = nil, ordsVersion: String? = nil) {
+            self.apexVersion = apexVersion
+            self.ordsVersion = ordsVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apexVersion = "apexVersion"
+            case ordsVersion = "ordsVersion"
+        }
+    }
+
+    public struct AutonomousDatabaseBackup: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Autonomous Database backup.
+        public let autonomousDatabaseBackupArn: String?
+        /// The unique identifier of the Autonomous Database backup.
+        public let autonomousDatabaseBackupId: String?
+        /// The unique identifier of the Autonomous Database that the backup was created from.
+        public let autonomousDatabaseId: String?
+        /// The Oracle Database software version of the Autonomous Database backup.
+        public let dbVersion: String?
+        /// The user-friendly name of the Autonomous Database backup.
+        public let displayName: String?
+        /// Indicates whether the backup was created automatically.
+        public let isAutomatic: Bool?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database backup.
+        public let ocid: String?
+        /// The retention period, in days, for the Autonomous Database backup.
+        public let retentionPeriodInDays: Int?
+        /// The size of the Autonomous Database backup, in terabytes (TB).
+        public let sizeInTBs: Double?
+        /// The current status of the Autonomous Database backup.
+        public let status: AutonomousDatabaseBackupStatus?
+        /// Additional information about the current status of the Autonomous Database backup, if applicable.
+        public let statusReason: String?
+        /// The date and time until which the Autonomous Database backup is available for restore.
+        public let timeAvailableTill: Date?
+        /// The date and time when the Autonomous Database backup ended.
+        public let timeEnded: Date?
+        /// The date and time when the Autonomous Database backup started.
+        public let timeStarted: Date?
+        /// The type of the Autonomous Database backup.
+        public let type: AutonomousDatabaseBackupType?
+
+        @inlinable
+        public init(autonomousDatabaseBackupArn: String? = nil, autonomousDatabaseBackupId: String? = nil, autonomousDatabaseId: String? = nil, dbVersion: String? = nil, displayName: String? = nil, isAutomatic: Bool? = nil, ocid: String? = nil, retentionPeriodInDays: Int? = nil, sizeInTBs: Double? = nil, status: AutonomousDatabaseBackupStatus? = nil, statusReason: String? = nil, timeAvailableTill: Date? = nil, timeEnded: Date? = nil, timeStarted: Date? = nil, type: AutonomousDatabaseBackupType? = nil) {
+            self.autonomousDatabaseBackupArn = autonomousDatabaseBackupArn
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.dbVersion = dbVersion
+            self.displayName = displayName
+            self.isAutomatic = isAutomatic
+            self.ocid = ocid
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.sizeInTBs = sizeInTBs
+            self.status = status
+            self.statusReason = statusReason
+            self.timeAvailableTill = timeAvailableTill
+            self.timeEnded = timeEnded
+            self.timeStarted = timeStarted
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseBackupArn = "autonomousDatabaseBackupArn"
+            case autonomousDatabaseBackupId = "autonomousDatabaseBackupId"
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case dbVersion = "dbVersion"
+            case displayName = "displayName"
+            case isAutomatic = "isAutomatic"
+            case ocid = "ocid"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+            case sizeInTBs = "sizeInTBs"
+            case status = "status"
+            case statusReason = "statusReason"
+            case timeAvailableTill = "timeAvailableTill"
+            case timeEnded = "timeEnded"
+            case timeStarted = "timeStarted"
+            case type = "type"
+        }
+    }
+
+    public struct AutonomousDatabaseBackupSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Autonomous Database backup.
+        public let autonomousDatabaseBackupArn: String?
+        /// The unique identifier of the Autonomous Database backup.
+        public let autonomousDatabaseBackupId: String?
+        /// The unique identifier of the Autonomous Database that the backup was created from.
+        public let autonomousDatabaseId: String?
+        /// The Oracle Database software version of the Autonomous Database backup.
+        public let dbVersion: String?
+        /// The user-friendly name of the Autonomous Database backup.
+        public let displayName: String?
+        /// Indicates whether the backup was created automatically.
+        public let isAutomatic: Bool?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database backup.
+        public let ocid: String?
+        /// The retention period, in days, for the Autonomous Database backup.
+        public let retentionPeriodInDays: Int?
+        /// The size of the Autonomous Database backup, in terabytes (TB).
+        public let sizeInTBs: Double?
+        /// The current status of the Autonomous Database backup.
+        public let status: AutonomousDatabaseBackupStatus?
+        /// Additional information about the current status of the Autonomous Database backup, if applicable.
+        public let statusReason: String?
+        /// The date and time until which the Autonomous Database backup is available for restore.
+        public let timeAvailableTill: Date?
+        /// The date and time when the Autonomous Database backup ended.
+        public let timeEnded: Date?
+        /// The date and time when the Autonomous Database backup started.
+        public let timeStarted: Date?
+        /// The type of the Autonomous Database backup.
+        public let type: AutonomousDatabaseBackupType?
+
+        @inlinable
+        public init(autonomousDatabaseBackupArn: String? = nil, autonomousDatabaseBackupId: String? = nil, autonomousDatabaseId: String? = nil, dbVersion: String? = nil, displayName: String? = nil, isAutomatic: Bool? = nil, ocid: String? = nil, retentionPeriodInDays: Int? = nil, sizeInTBs: Double? = nil, status: AutonomousDatabaseBackupStatus? = nil, statusReason: String? = nil, timeAvailableTill: Date? = nil, timeEnded: Date? = nil, timeStarted: Date? = nil, type: AutonomousDatabaseBackupType? = nil) {
+            self.autonomousDatabaseBackupArn = autonomousDatabaseBackupArn
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.dbVersion = dbVersion
+            self.displayName = displayName
+            self.isAutomatic = isAutomatic
+            self.ocid = ocid
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.sizeInTBs = sizeInTBs
+            self.status = status
+            self.statusReason = statusReason
+            self.timeAvailableTill = timeAvailableTill
+            self.timeEnded = timeEnded
+            self.timeStarted = timeStarted
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseBackupArn = "autonomousDatabaseBackupArn"
+            case autonomousDatabaseBackupId = "autonomousDatabaseBackupId"
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case dbVersion = "dbVersion"
+            case displayName = "displayName"
+            case isAutomatic = "isAutomatic"
+            case ocid = "ocid"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+            case sizeInTBs = "sizeInTBs"
+            case status = "status"
+            case statusReason = "statusReason"
+            case timeAvailableTill = "timeAvailableTill"
+            case timeEnded = "timeEnded"
+            case timeStarted = "timeStarted"
+            case type = "type"
+        }
+    }
+
+    public struct AutonomousDatabaseCharacterSetSummary: AWSDecodableShape {
+        /// The name of the character set.
+        public let characterSet: String?
+
+        @inlinable
+        public init(characterSet: String? = nil) {
+            self.characterSet = characterSet
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case characterSet = "characterSet"
+        }
+    }
+
+    public struct AutonomousDatabaseConnectionStrings: AWSDecodableShape {
+        /// The list of all connection strings that you can use to connect to the Autonomous Database.
+        public let allConnectionStrings: [String: String]?
+        /// The connection string for connecting to the Autonomous Database with a dedicated service.
+        public let dedicated: String?
+        /// The connection string for the high-priority database service.
+        public let high: String?
+        /// The connection string for the low-priority database service.
+        public let low: String?
+        /// The connection string for the medium-priority database service.
+        public let medium: String?
+        /// The list of connection string profiles for the Autonomous Database.
+        public let profiles: [DatabaseConnectionStringProfile]?
+
+        @inlinable
+        public init(allConnectionStrings: [String: String]? = nil, dedicated: String? = nil, high: String? = nil, low: String? = nil, medium: String? = nil, profiles: [DatabaseConnectionStringProfile]? = nil) {
+            self.allConnectionStrings = allConnectionStrings
+            self.dedicated = dedicated
+            self.high = high
+            self.low = low
+            self.medium = medium
+            self.profiles = profiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allConnectionStrings = "allConnectionStrings"
+            case dedicated = "dedicated"
+            case high = "high"
+            case low = "low"
+            case medium = "medium"
+            case profiles = "profiles"
+        }
+    }
+
+    public struct AutonomousDatabaseConnectionUrls: AWSDecodableShape {
+        /// The URL for accessing Oracle Application Express (APEX) for the Autonomous Database.
+        public let apexUrl: String?
+        /// The URL for accessing Oracle Database Transforms for the Autonomous Database.
+        public let databaseTransformsUrl: String?
+        /// The URL for accessing Oracle Graph Studio for the Autonomous Database.
+        public let graphStudioUrl: String?
+        /// The URL for accessing the Oracle Machine Learning notebook for the Autonomous Database.
+        public let machineLearningNotebookUrl: String?
+        /// The URL for accessing Oracle Machine Learning user management for the Autonomous Database.
+        public let machineLearningUserManagementUrl: String?
+        /// The URL for accessing the MongoDB API for the Autonomous Database.
+        public let mongoDbUrl: String?
+        /// The URL for accessing Oracle REST Data Services (ORDS) for the Autonomous Database.
+        public let ordsUrl: String?
+        /// The URL for accessing Oracle Spatial Studio for the Autonomous Database.
+        public let spatialStudioUrl: String?
+        /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+        public let sqlDevWebUrl: String?
+
+        @inlinable
+        public init(apexUrl: String? = nil, databaseTransformsUrl: String? = nil, graphStudioUrl: String? = nil, machineLearningNotebookUrl: String? = nil, machineLearningUserManagementUrl: String? = nil, mongoDbUrl: String? = nil, ordsUrl: String? = nil, spatialStudioUrl: String? = nil, sqlDevWebUrl: String? = nil) {
+            self.apexUrl = apexUrl
+            self.databaseTransformsUrl = databaseTransformsUrl
+            self.graphStudioUrl = graphStudioUrl
+            self.machineLearningNotebookUrl = machineLearningNotebookUrl
+            self.machineLearningUserManagementUrl = machineLearningUserManagementUrl
+            self.mongoDbUrl = mongoDbUrl
+            self.ordsUrl = ordsUrl
+            self.spatialStudioUrl = spatialStudioUrl
+            self.sqlDevWebUrl = sqlDevWebUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apexUrl = "apexUrl"
+            case databaseTransformsUrl = "databaseTransformsUrl"
+            case graphStudioUrl = "graphStudioUrl"
+            case machineLearningNotebookUrl = "machineLearningNotebookUrl"
+            case machineLearningUserManagementUrl = "machineLearningUserManagementUrl"
+            case mongoDbUrl = "mongoDbUrl"
+            case ordsUrl = "ordsUrl"
+            case spatialStudioUrl = "spatialStudioUrl"
+            case sqlDevWebUrl = "sqlDevWebUrl"
+        }
+    }
+
+    public struct AutonomousDatabasePeerSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the peer Autonomous Database.
+        public let autonomousDatabaseArn: String?
+        /// The unique identifier of the peer Autonomous Database.
+        public let autonomousDatabaseId: String?
+        /// The Oracle Cloud Identifier (OCID) of the peer Autonomous Database.
+        public let ocid: String?
+        /// The Amazon Web Services Region where the peer Autonomous Database is located.
+        public let region: String?
+
+        @inlinable
+        public init(autonomousDatabaseArn: String? = nil, autonomousDatabaseId: String? = nil, ocid: String? = nil, region: String? = nil) {
+            self.autonomousDatabaseArn = autonomousDatabaseArn
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.ocid = ocid
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseArn = "autonomousDatabaseArn"
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case ocid = "ocid"
+            case region = "region"
+        }
+    }
+
+    public struct AutonomousDatabaseSummary: AWSDecodableShape {
+        /// The actual amount of data storage currently in use by the Autonomous Database, in TB.
+        public let actualUsedDataStorageSizeInTBs: Double?
+        /// The summary of the admin password source configuration for the Autonomous Database.
+        public let adminPasswordSourceSummary: AdminPasswordSourceSummary?
+        /// The amount of storage currently allocated to the Autonomous Database, in TB.
+        public let allocatedStorageSizeInTBs: Double?
+        /// The list of IP addresses that are allowed to access the Autonomous Database.
+        public let allowlistedIps: [String]?
+        /// The Oracle Application Express (APEX) details for the Autonomous Database.
+        public let apexDetails: AutonomousDatabaseApex?
+        /// The Amazon Resource Name (ARN) of the Autonomous Database.
+        public let autonomousDatabaseArn: String?
+        /// The unique identifier of the Autonomous Database.
+        public let autonomousDatabaseId: String?
+        /// The maintenance schedule type for the Autonomous Database.
+        public let autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType?
+        /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
+        public let autoRefreshFrequencyInSeconds: Int?
+        /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database.
+        public let autoRefreshPointLagInSeconds: Int?
+        /// The Availability Zone where the Autonomous Database is located.
+        public let availabilityZone: String?
+        /// The unique identifier of the Availability Zone where the Autonomous Database is located.
+        public let availabilityZoneId: String?
+        /// The list of Oracle Database software versions to which the Autonomous Database can be upgraded.
+        public let availableUpgradeVersions: [String]?
+        /// The retention period, in days, for automatic backups of the Autonomous Database.
+        public let backupRetentionPeriodInDays: Int?
+        /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+        public let byolComputeCountLimit: Int?
+        /// The character set of the Autonomous Database.
+        public let characterSet: String?
+        /// The list of tablespace identifiers to clone for the Autonomous Database.
+        public let cloneTableSpaceList: [Int]?
+        /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), assigned to the Autonomous Database.
+        public let computeCount: Float?
+        /// The compute model of the Autonomous Database, either ECPU or OCPU.
+        public let computeModel: ComputeModel?
+        /// The connection string details for the Autonomous Database.
+        public let connectionStringDetails: AutonomousDatabaseConnectionStrings?
+        /// The connection URLs for accessing tools and services for the Autonomous Database.
+        public let connectionUrls: AutonomousDatabaseConnectionUrls?
+        /// The number of CPU cores allocated to the Autonomous Database.
+        public let cpuCoreCount: Int?
+        /// The date and time when the Autonomous Database was created.
+        public let createdAt: Date?
+        /// The list of customer contacts that receive operational notifications from Oracle for the Autonomous Database.
+        public let customerContacts: [CustomerContact]?
+        /// The Oracle Database edition of the Autonomous Database.
+        public let databaseEdition: DatabaseEdition?
+        /// The status of Oracle Database Management for the Autonomous Database.
+        public let databaseManagementStatus: DatabaseManagementStatus?
+        /// The type of the Autonomous Database, either a regular database or a clone.
+        public let databaseType: DatabaseType?
+        /// The status of the Oracle Data Safe registration for the Autonomous Database.
+        public let dataSafeStatus: DataSafeStatus?
+        /// The size, in gigabytes (GB), of the data volume allocated for the Autonomous Database.
+        public let dataStorageSizeInGBs: Int?
+        /// The size, in terabytes (TB), of the data volume allocated for the Autonomous Database.
+        public let dataStorageSizeInTBs: Double?
+        /// The name of the Autonomous Database.
+        public let dbName: String?
+        /// The list of database management tools enabled for the Autonomous Database.
+        public let dbToolsDetails: [DatabaseTool]?
+        /// The Oracle Database software version of the Autonomous Database.
+        public let dbVersion: String?
+        /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+        public let dbWorkload: DbWorkload?
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The encryption configuration for the Autonomous Database.
+        public let encryptionSummary: EncryptionSummary?
+        /// The amount of time, in seconds, that the data in the Autonomous Database is behind the data in the primary database.
+        public let failedDataRecoveryInSeconds: Int?
+        /// The size of the in-memory area of the Autonomous Database, in GB.
+        public let inMemoryAreaInGBs: Int?
+        /// Indicates whether automatic scaling of the compute resources is enabled for the Autonomous Database.
+        public let isAutoScalingEnabled: Bool?
+        /// Indicates whether automatic scaling of the storage is enabled for the Autonomous Database.
+        public let isAutoScalingForStorageEnabled: Bool?
+        /// Indicates whether the backup retention period of the Autonomous Database is locked.
+        public let isBackupRetentionLocked: Bool?
+        /// Indicates whether local Oracle Data Guard is enabled for the Autonomous Database.
+        public let isLocalDataGuardEnabled: Bool?
+        /// Indicates whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+        public let isMtlsConnectionRequired: Bool?
+        /// Indicates whether reconnecting the refreshable clone to its source Autonomous Database is enabled.
+        public let isReconnectCloneEnabled: Bool?
+        /// Indicates whether the Autonomous Database is a refreshable clone.
+        public let isRefreshableClone: Bool?
+        /// Indicates whether remote Oracle Data Guard is enabled for the Autonomous Database.
+        public let isRemoteDataGuardEnabled: Bool?
+        /// The Oracle license model that applies to the Autonomous Database.
+        public let licenseModel: LicenseModel?
+        /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database.
+        public let localAdgAutoFailoverMaxDataLossLimit: Int?
+        /// The type of local disaster recovery configured for the Autonomous Database.
+        public let localDisasterRecoveryType: DisasterRecoveryType?
+        /// The details of the local standby Autonomous Database in an Oracle Data Guard configuration.
+        public let localStandbyDb: DatabaseStandbySummary?
+        /// The long-term backup schedule for the Autonomous Database.
+        public let longTermBackupSchedule: LongTermBackupSchedule?
+        /// The component on the Autonomous Database that the current maintenance is being applied to.
+        public let maintenanceTargetComponent: String?
+        /// The amount of memory allocated per Oracle Compute Unit, in GB.
+        public let memoryPerOracleComputeUnitInGBs: Int?
+        /// The national character set of the Autonomous Database.
+        public let ncharacterSet: String?
+        /// The Oracle Net Services architecture of the Autonomous Database, either dedicated or shared.
+        public let netServicesArchitecture: NetServicesArchitecture?
+        /// The date and time of the next scheduled long-term backup of the Autonomous Database.
+        public let nextLongTermBackupTimeStamp: Date?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+        public let ocid: String?
+        /// The name of the Oracle Cloud Infrastructure (OCI) resource anchor associated with the Autonomous Database.
+        public let ociResourceAnchorName: String?
+        /// The URL for accessing the OCI console page for the Autonomous Database.
+        public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with the Autonomous Database.
+        public let odbNetworkArn: String?
+        /// The unique identifier of the ODB network associated with the Autonomous Database.
+        public let odbNetworkId: String?
+        /// The mode in which the Autonomous Database is open, either read-only or read/write.
+        public let openMode: OpenMode?
+        /// The status of Oracle Operations Insights for the Autonomous Database.
+        public let operationsInsightsStatus: OperationsInsightsStatus?
+        /// The list of unique identifiers of the peer Autonomous Databases.
+        public let peerDbIds: [String]?
+        /// The progress of the current operation on the Autonomous Database, as a percentage.
+        public let percentProgress: Float?
+        /// The permission level of the Autonomous Database.
+        public let permissionLevel: PermissionLevel?
+        /// The private endpoint for the Autonomous Database.
+        public let privateEndpoint: String?
+        /// The private endpoint IP address for the Autonomous Database.
+        public let privateEndpointIp: String?
+        /// The private endpoint label for the Autonomous Database.
+        public let privateEndpointLabel: String?
+        /// The list of CPU core counts that you can provision for the Autonomous Database.
+        public let provisionableCpus: [Int]?
+        /// The refresh mode of the refreshable clone Autonomous Database.
+        public let refreshableMode: RefreshableMode?
+        /// The refresh status of the refreshable clone Autonomous Database.
+        public let refreshableStatus: RefreshableStatus?
+        /// The configuration of the remote disaster recovery for the Autonomous Database.
+        public let remoteDisasterRecoveryConfiguration: DisasterRecoveryConfiguration?
+        /// The unique identifier of the resource pool leader Autonomous Database.
+        public let resourcePoolLeaderId: String?
+        /// The configuration of the resource pool for the Autonomous Database.
+        public let resourcePoolSummary: ResourcePoolSummary?
+        /// The Oracle Data Guard role of the Autonomous Database.
+        public let role: DataGuardRole?
+        /// The list of scheduled start and stop times for the Autonomous Database.
+        public let scheduledOperations: [ScheduledOperationDetails]?
+        /// The URL for accessing the Oracle service console for the Autonomous Database.
+        public let serviceConsoleUrl: String?
+        /// The unique identifier of the source from which the Autonomous Database was created.
+        public let sourceId: String?
+        /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+        public let sqlWebDeveloperUrl: String?
+        /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+        public let standbyAllowlistedIps: [String]?
+        /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+        public let standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource?
+        /// The details of the standby Autonomous Database in a cross-Region Oracle Data Guard configuration.
+        public let standbyDb: DatabaseStandbySummary?
+        /// The current status of the Autonomous Database.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the Autonomous Database, if applicable.
+        public let statusReason: String?
+        /// The date and time when the Oracle Data Guard role of the Autonomous Database last changed.
+        public let timeDataGuardRoleChanged: Date?
+        /// The date and time when the inactive Always Free Autonomous Database is scheduled to be automatically deleted.
+        public let timeDeletionOfFreeAutonomousDatabase: Date?
+        /// The date and time when the disaster recovery role of the Autonomous Database last changed.
+        public let timeDisasterRecoveryRoleChanged: Date?
+        /// The date and time when local Oracle Data Guard was enabled for the Autonomous Database.
+        public let timeLocalDataGuardEnabled: Date?
+        /// The date and time when the next maintenance of the Autonomous Database begins.
+        public let timeMaintenanceBegin: Date?
+        /// The date and time when the next maintenance of the Autonomous Database ends.
+        public let timeMaintenanceEnd: Date?
+        /// The date and time at which the automatic refresh of the refreshable clone Autonomous Database starts.
+        public let timeOfAutoRefreshStart: Date?
+        /// The date and time of the last backup of the Autonomous Database.
+        public let timeOfLastBackup: Date?
+        /// The date and time of the last failover operation for the Autonomous Database.
+        public let timeOfLastFailover: Date?
+        /// The date and time of the last refresh of the refreshable clone Autonomous Database.
+        public let timeOfLastRefresh: Date?
+        /// The date and time as of which the data in the refreshable clone Autonomous Database is current.
+        public let timeOfLastRefreshPoint: Date?
+        /// The date and time of the last switchover operation for the Autonomous Database.
+        public let timeOfLastSwitchover: Date?
+        /// The date and time of the next scheduled refresh of the refreshable clone Autonomous Database.
+        public let timeOfNextRefresh: Date?
+        /// The date and time when the Always Free Autonomous Database is scheduled to be stopped because of inactivity.
+        public let timeReclamationOfFreeAutonomousDatabase: Date?
+        /// The date and time when the Autonomous Database was restored after deletion.
+        public let timeUndeleted: Date?
+        /// The date and time until which reconnecting the refreshable clone to its source Autonomous Database is allowed.
+        public let timeUntilReconnectCloneEnabled: Date?
+        /// The total amount of backup storage used by the Autonomous Database, in GB.
+        public let totalBackupStorageSizeInGBs: Double?
+        /// The amount of data storage currently in use by the Autonomous Database, in GB.
+        public let usedDataStorageSizeInGBs: Int?
+        /// The amount of data storage currently in use by the Autonomous Database, in TB.
+        public let usedDataStorageSizeInTBs: Double?
+
+        @inlinable
+        public init(actualUsedDataStorageSizeInTBs: Double? = nil, adminPasswordSourceSummary: AdminPasswordSourceSummary? = nil, allocatedStorageSizeInTBs: Double? = nil, allowlistedIps: [String]? = nil, apexDetails: AutonomousDatabaseApex? = nil, autonomousDatabaseArn: String? = nil, autonomousDatabaseId: String? = nil, autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType? = nil, autoRefreshFrequencyInSeconds: Int? = nil, autoRefreshPointLagInSeconds: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableUpgradeVersions: [String]? = nil, backupRetentionPeriodInDays: Int? = nil, byolComputeCountLimit: Int? = nil, characterSet: String? = nil, cloneTableSpaceList: [Int]? = nil, computeCount: Float? = nil, computeModel: ComputeModel? = nil, connectionStringDetails: AutonomousDatabaseConnectionStrings? = nil, connectionUrls: AutonomousDatabaseConnectionUrls? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, customerContacts: [CustomerContact]? = nil, databaseEdition: DatabaseEdition? = nil, databaseManagementStatus: DatabaseManagementStatus? = nil, databaseType: DatabaseType? = nil, dataSafeStatus: DataSafeStatus? = nil, dataStorageSizeInGBs: Int? = nil, dataStorageSizeInTBs: Double? = nil, dbName: String? = nil, dbToolsDetails: [DatabaseTool]? = nil, dbVersion: String? = nil, dbWorkload: DbWorkload? = nil, displayName: String? = nil, encryptionSummary: EncryptionSummary? = nil, failedDataRecoveryInSeconds: Int? = nil, inMemoryAreaInGBs: Int? = nil, isAutoScalingEnabled: Bool? = nil, isAutoScalingForStorageEnabled: Bool? = nil, isBackupRetentionLocked: Bool? = nil, isLocalDataGuardEnabled: Bool? = nil, isMtlsConnectionRequired: Bool? = nil, isReconnectCloneEnabled: Bool? = nil, isRefreshableClone: Bool? = nil, isRemoteDataGuardEnabled: Bool? = nil, licenseModel: LicenseModel? = nil, localAdgAutoFailoverMaxDataLossLimit: Int? = nil, localDisasterRecoveryType: DisasterRecoveryType? = nil, localStandbyDb: DatabaseStandbySummary? = nil, longTermBackupSchedule: LongTermBackupSchedule? = nil, maintenanceTargetComponent: String? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, ncharacterSet: String? = nil, netServicesArchitecture: NetServicesArchitecture? = nil, nextLongTermBackupTimeStamp: Date? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, openMode: OpenMode? = nil, operationsInsightsStatus: OperationsInsightsStatus? = nil, peerDbIds: [String]? = nil, percentProgress: Float? = nil, permissionLevel: PermissionLevel? = nil, privateEndpoint: String? = nil, privateEndpointIp: String? = nil, privateEndpointLabel: String? = nil, provisionableCpus: [Int]? = nil, refreshableMode: RefreshableMode? = nil, refreshableStatus: RefreshableStatus? = nil, remoteDisasterRecoveryConfiguration: DisasterRecoveryConfiguration? = nil, resourcePoolLeaderId: String? = nil, resourcePoolSummary: ResourcePoolSummary? = nil, role: DataGuardRole? = nil, scheduledOperations: [ScheduledOperationDetails]? = nil, serviceConsoleUrl: String? = nil, sourceId: String? = nil, sqlWebDeveloperUrl: String? = nil, standbyAllowlistedIps: [String]? = nil, standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource? = nil, standbyDb: DatabaseStandbySummary? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil, timeDataGuardRoleChanged: Date? = nil, timeDeletionOfFreeAutonomousDatabase: Date? = nil, timeDisasterRecoveryRoleChanged: Date? = nil, timeLocalDataGuardEnabled: Date? = nil, timeMaintenanceBegin: Date? = nil, timeMaintenanceEnd: Date? = nil, timeOfAutoRefreshStart: Date? = nil, timeOfLastBackup: Date? = nil, timeOfLastFailover: Date? = nil, timeOfLastRefresh: Date? = nil, timeOfLastRefreshPoint: Date? = nil, timeOfLastSwitchover: Date? = nil, timeOfNextRefresh: Date? = nil, timeReclamationOfFreeAutonomousDatabase: Date? = nil, timeUndeleted: Date? = nil, timeUntilReconnectCloneEnabled: Date? = nil, totalBackupStorageSizeInGBs: Double? = nil, usedDataStorageSizeInGBs: Int? = nil, usedDataStorageSizeInTBs: Double? = nil) {
+            self.actualUsedDataStorageSizeInTBs = actualUsedDataStorageSizeInTBs
+            self.adminPasswordSourceSummary = adminPasswordSourceSummary
+            self.allocatedStorageSizeInTBs = allocatedStorageSizeInTBs
+            self.allowlistedIps = allowlistedIps
+            self.apexDetails = apexDetails
+            self.autonomousDatabaseArn = autonomousDatabaseArn
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+            self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+            self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.availableUpgradeVersions = availableUpgradeVersions
+            self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+            self.byolComputeCountLimit = byolComputeCountLimit
+            self.characterSet = characterSet
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.computeCount = computeCount
+            self.computeModel = computeModel
+            self.connectionStringDetails = connectionStringDetails
+            self.connectionUrls = connectionUrls
+            self.cpuCoreCount = cpuCoreCount
+            self.createdAt = createdAt
+            self.customerContacts = customerContacts
+            self.databaseEdition = databaseEdition
+            self.databaseManagementStatus = databaseManagementStatus
+            self.databaseType = databaseType
+            self.dataSafeStatus = dataSafeStatus
+            self.dataStorageSizeInGBs = dataStorageSizeInGBs
+            self.dataStorageSizeInTBs = dataStorageSizeInTBs
+            self.dbName = dbName
+            self.dbToolsDetails = dbToolsDetails
+            self.dbVersion = dbVersion
+            self.dbWorkload = dbWorkload
+            self.displayName = displayName
+            self.encryptionSummary = encryptionSummary
+            self.failedDataRecoveryInSeconds = failedDataRecoveryInSeconds
+            self.inMemoryAreaInGBs = inMemoryAreaInGBs
+            self.isAutoScalingEnabled = isAutoScalingEnabled
+            self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+            self.isBackupRetentionLocked = isBackupRetentionLocked
+            self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+            self.isMtlsConnectionRequired = isMtlsConnectionRequired
+            self.isReconnectCloneEnabled = isReconnectCloneEnabled
+            self.isRefreshableClone = isRefreshableClone
+            self.isRemoteDataGuardEnabled = isRemoteDataGuardEnabled
+            self.licenseModel = licenseModel
+            self.localAdgAutoFailoverMaxDataLossLimit = localAdgAutoFailoverMaxDataLossLimit
+            self.localDisasterRecoveryType = localDisasterRecoveryType
+            self.localStandbyDb = localStandbyDb
+            self.longTermBackupSchedule = longTermBackupSchedule
+            self.maintenanceTargetComponent = maintenanceTargetComponent
+            self.memoryPerOracleComputeUnitInGBs = memoryPerOracleComputeUnitInGBs
+            self.ncharacterSet = ncharacterSet
+            self.netServicesArchitecture = netServicesArchitecture
+            self.nextLongTermBackupTimeStamp = nextLongTermBackupTimeStamp
+            self.ocid = ocid
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.openMode = openMode
+            self.operationsInsightsStatus = operationsInsightsStatus
+            self.peerDbIds = peerDbIds
+            self.percentProgress = percentProgress
+            self.permissionLevel = permissionLevel
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointIp = privateEndpointIp
+            self.privateEndpointLabel = privateEndpointLabel
+            self.provisionableCpus = provisionableCpus
+            self.refreshableMode = refreshableMode
+            self.refreshableStatus = refreshableStatus
+            self.remoteDisasterRecoveryConfiguration = remoteDisasterRecoveryConfiguration
+            self.resourcePoolLeaderId = resourcePoolLeaderId
+            self.resourcePoolSummary = resourcePoolSummary
+            self.role = role
+            self.scheduledOperations = scheduledOperations
+            self.serviceConsoleUrl = serviceConsoleUrl
+            self.sourceId = sourceId
+            self.sqlWebDeveloperUrl = sqlWebDeveloperUrl
+            self.standbyAllowlistedIps = standbyAllowlistedIps
+            self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+            self.standbyDb = standbyDb
+            self.status = status
+            self.statusReason = statusReason
+            self.timeDataGuardRoleChanged = timeDataGuardRoleChanged
+            self.timeDeletionOfFreeAutonomousDatabase = timeDeletionOfFreeAutonomousDatabase
+            self.timeDisasterRecoveryRoleChanged = timeDisasterRecoveryRoleChanged
+            self.timeLocalDataGuardEnabled = timeLocalDataGuardEnabled
+            self.timeMaintenanceBegin = timeMaintenanceBegin
+            self.timeMaintenanceEnd = timeMaintenanceEnd
+            self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+            self.timeOfLastBackup = timeOfLastBackup
+            self.timeOfLastFailover = timeOfLastFailover
+            self.timeOfLastRefresh = timeOfLastRefresh
+            self.timeOfLastRefreshPoint = timeOfLastRefreshPoint
+            self.timeOfLastSwitchover = timeOfLastSwitchover
+            self.timeOfNextRefresh = timeOfNextRefresh
+            self.timeReclamationOfFreeAutonomousDatabase = timeReclamationOfFreeAutonomousDatabase
+            self.timeUndeleted = timeUndeleted
+            self.timeUntilReconnectCloneEnabled = timeUntilReconnectCloneEnabled
+            self.totalBackupStorageSizeInGBs = totalBackupStorageSizeInGBs
+            self.usedDataStorageSizeInGBs = usedDataStorageSizeInGBs
+            self.usedDataStorageSizeInTBs = usedDataStorageSizeInTBs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actualUsedDataStorageSizeInTBs = "actualUsedDataStorageSizeInTBs"
+            case adminPasswordSourceSummary = "adminPasswordSourceSummary"
+            case allocatedStorageSizeInTBs = "allocatedStorageSizeInTBs"
+            case allowlistedIps = "allowlistedIps"
+            case apexDetails = "apexDetails"
+            case autonomousDatabaseArn = "autonomousDatabaseArn"
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case autonomousMaintenanceScheduleType = "autonomousMaintenanceScheduleType"
+            case autoRefreshFrequencyInSeconds = "autoRefreshFrequencyInSeconds"
+            case autoRefreshPointLagInSeconds = "autoRefreshPointLagInSeconds"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case availableUpgradeVersions = "availableUpgradeVersions"
+            case backupRetentionPeriodInDays = "backupRetentionPeriodInDays"
+            case byolComputeCountLimit = "byolComputeCountLimit"
+            case characterSet = "characterSet"
+            case cloneTableSpaceList = "cloneTableSpaceList"
+            case computeCount = "computeCount"
+            case computeModel = "computeModel"
+            case connectionStringDetails = "connectionStringDetails"
+            case connectionUrls = "connectionUrls"
+            case cpuCoreCount = "cpuCoreCount"
+            case createdAt = "createdAt"
+            case customerContacts = "customerContacts"
+            case databaseEdition = "databaseEdition"
+            case databaseManagementStatus = "databaseManagementStatus"
+            case databaseType = "databaseType"
+            case dataSafeStatus = "dataSafeStatus"
+            case dataStorageSizeInGBs = "dataStorageSizeInGBs"
+            case dataStorageSizeInTBs = "dataStorageSizeInTBs"
+            case dbName = "dbName"
+            case dbToolsDetails = "dbToolsDetails"
+            case dbVersion = "dbVersion"
+            case dbWorkload = "dbWorkload"
+            case displayName = "displayName"
+            case encryptionSummary = "encryptionSummary"
+            case failedDataRecoveryInSeconds = "failedDataRecoveryInSeconds"
+            case inMemoryAreaInGBs = "inMemoryAreaInGBs"
+            case isAutoScalingEnabled = "isAutoScalingEnabled"
+            case isAutoScalingForStorageEnabled = "isAutoScalingForStorageEnabled"
+            case isBackupRetentionLocked = "isBackupRetentionLocked"
+            case isLocalDataGuardEnabled = "isLocalDataGuardEnabled"
+            case isMtlsConnectionRequired = "isMtlsConnectionRequired"
+            case isReconnectCloneEnabled = "isReconnectCloneEnabled"
+            case isRefreshableClone = "isRefreshableClone"
+            case isRemoteDataGuardEnabled = "isRemoteDataGuardEnabled"
+            case licenseModel = "licenseModel"
+            case localAdgAutoFailoverMaxDataLossLimit = "localAdgAutoFailoverMaxDataLossLimit"
+            case localDisasterRecoveryType = "localDisasterRecoveryType"
+            case localStandbyDb = "localStandbyDb"
+            case longTermBackupSchedule = "longTermBackupSchedule"
+            case maintenanceTargetComponent = "maintenanceTargetComponent"
+            case memoryPerOracleComputeUnitInGBs = "memoryPerOracleComputeUnitInGBs"
+            case ncharacterSet = "ncharacterSet"
+            case netServicesArchitecture = "netServicesArchitecture"
+            case nextLongTermBackupTimeStamp = "nextLongTermBackupTimeStamp"
+            case ocid = "ocid"
+            case ociResourceAnchorName = "ociResourceAnchorName"
+            case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
+            case odbNetworkId = "odbNetworkId"
+            case openMode = "openMode"
+            case operationsInsightsStatus = "operationsInsightsStatus"
+            case peerDbIds = "peerDbIds"
+            case percentProgress = "percentProgress"
+            case permissionLevel = "permissionLevel"
+            case privateEndpoint = "privateEndpoint"
+            case privateEndpointIp = "privateEndpointIp"
+            case privateEndpointLabel = "privateEndpointLabel"
+            case provisionableCpus = "provisionableCpus"
+            case refreshableMode = "refreshableMode"
+            case refreshableStatus = "refreshableStatus"
+            case remoteDisasterRecoveryConfiguration = "remoteDisasterRecoveryConfiguration"
+            case resourcePoolLeaderId = "resourcePoolLeaderId"
+            case resourcePoolSummary = "resourcePoolSummary"
+            case role = "role"
+            case scheduledOperations = "scheduledOperations"
+            case serviceConsoleUrl = "serviceConsoleUrl"
+            case sourceId = "sourceId"
+            case sqlWebDeveloperUrl = "sqlWebDeveloperUrl"
+            case standbyAllowlistedIps = "standbyAllowlistedIps"
+            case standbyAllowlistedIpsSource = "standbyAllowlistedIpsSource"
+            case standbyDb = "standbyDb"
+            case status = "status"
+            case statusReason = "statusReason"
+            case timeDataGuardRoleChanged = "timeDataGuardRoleChanged"
+            case timeDeletionOfFreeAutonomousDatabase = "timeDeletionOfFreeAutonomousDatabase"
+            case timeDisasterRecoveryRoleChanged = "timeDisasterRecoveryRoleChanged"
+            case timeLocalDataGuardEnabled = "timeLocalDataGuardEnabled"
+            case timeMaintenanceBegin = "timeMaintenanceBegin"
+            case timeMaintenanceEnd = "timeMaintenanceEnd"
+            case timeOfAutoRefreshStart = "timeOfAutoRefreshStart"
+            case timeOfLastBackup = "timeOfLastBackup"
+            case timeOfLastFailover = "timeOfLastFailover"
+            case timeOfLastRefresh = "timeOfLastRefresh"
+            case timeOfLastRefreshPoint = "timeOfLastRefreshPoint"
+            case timeOfLastSwitchover = "timeOfLastSwitchover"
+            case timeOfNextRefresh = "timeOfNextRefresh"
+            case timeReclamationOfFreeAutonomousDatabase = "timeReclamationOfFreeAutonomousDatabase"
+            case timeUndeleted = "timeUndeleted"
+            case timeUntilReconnectCloneEnabled = "timeUntilReconnectCloneEnabled"
+            case totalBackupStorageSizeInGBs = "totalBackupStorageSizeInGBs"
+            case usedDataStorageSizeInGBs = "usedDataStorageSizeInGBs"
+            case usedDataStorageSizeInTBs = "usedDataStorageSizeInTBs"
+        }
+    }
+
+    public struct AutonomousDatabaseVersionSummary: AWSDecodableShape {
+        /// The intended use of the Autonomous Database that the version supports, such as transaction processing, data warehouse, JSON database, or APEX.
+        public let dbWorkload: DbWorkload?
+        /// Additional details about the Autonomous Database software version.
+        public let details: String?
+        /// The Oracle Database software version.
+        public let version: String?
+
+        @inlinable
+        public init(dbWorkload: DbWorkload? = nil, details: String? = nil, version: String? = nil) {
+            self.dbWorkload = dbWorkload
+            self.details = details
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbWorkload = "dbWorkload"
+            case details = "details"
+            case version = "version"
+        }
+    }
+
+    public struct AutonomousDatabaseWalletDetails: AWSDecodableShape {
+        /// The summary of the password source configuration for the Autonomous Database wallet.
+        public let passwordSourceSummary: WalletPasswordSourceSummary?
+        /// The current status of the Autonomous Database wallet.
+        public let status: AutonomousDatabaseWalletStatus?
+        /// The date and time when the Autonomous Database wallet was last rotated.
+        public let timeRotated: Date?
+
+        @inlinable
+        public init(passwordSourceSummary: WalletPasswordSourceSummary? = nil, status: AutonomousDatabaseWalletStatus? = nil, timeRotated: Date? = nil) {
+            self.passwordSourceSummary = passwordSourceSummary
+            self.status = status
+            self.timeRotated = timeRotated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passwordSourceSummary = "passwordSourceSummary"
+            case status = "status"
+            case timeRotated = "timeRotated"
+        }
     }
 
     public struct AutonomousVirtualMachineSummary: AWSDecodableShape {
@@ -317,6 +1849,103 @@ extension Odb {
             case status = "status"
             case statusReason = "statusReason"
             case vmName = "vmName"
+        }
+    }
+
+    public struct AwsEncryptionKeyConfiguration: AWSDecodableShape {
+        /// The type of external identifier associated with the encryption key.
+        public let externalIdType: ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key.
+        public let iamRoleArn: String?
+        /// The identifier or ARN of the Amazon Web Services KMS key used for encryption.
+        public let kmsKeyId: String?
+
+        @inlinable
+        public init(externalIdType: ExternalIdType? = nil, iamRoleArn: String? = nil, kmsKeyId: String? = nil) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.kmsKeyId = kmsKeyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalIdType = "externalIdType"
+            case iamRoleArn = "iamRoleArn"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
+    public struct AwsEncryptionKeyConfigurationInput: AWSEncodableShape {
+        /// The type of external identifier associated with the encryption key.
+        public let externalIdType: ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key.
+        public let iamRoleArn: String?
+        /// The identifier or ARN of the Amazon Web Services KMS key to use for encryption.
+        public let kmsKeyId: String?
+
+        @inlinable
+        public init(externalIdType: ExternalIdType? = nil, iamRoleArn: String? = nil, kmsKeyId: String? = nil) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9_:./-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalIdType = "externalIdType"
+            case iamRoleArn = "iamRoleArn"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
+    public struct CloneToRefreshableConfiguration: AWSEncodableShape {
+        /// The frequency, in seconds, at which the refreshable clone is automatically refreshed.
+        public let autoRefreshFrequencyInSeconds: Int?
+        /// The time lag, in seconds, between the refreshable clone and its source database.
+        public let autoRefreshPointLagInSeconds: Int?
+        /// The type of clone to create.
+        public let cloneType: CloneType?
+        /// The mode in which to open the refreshable clone, either read-only or read/write.
+        public let openMode: OpenMode?
+        /// The refresh mode of the refreshable clone, either automatic or manual.
+        public let refreshableMode: RefreshableMode?
+        /// The unique identifier of the source Autonomous Database to create the refreshable clone from.
+        public let sourceAutonomousDatabaseId: String
+        /// The date and time at which the automatic refresh of the refreshable clone starts.
+        public let timeOfAutoRefreshStart: Date?
+
+        @inlinable
+        public init(autoRefreshFrequencyInSeconds: Int? = nil, autoRefreshPointLagInSeconds: Int? = nil, cloneType: CloneType? = nil, openMode: OpenMode? = nil, refreshableMode: RefreshableMode? = nil, sourceAutonomousDatabaseId: String, timeOfAutoRefreshStart: Date? = nil) {
+            self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+            self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+            self.cloneType = cloneType
+            self.openMode = openMode
+            self.refreshableMode = refreshableMode
+            self.sourceAutonomousDatabaseId = sourceAutonomousDatabaseId
+            self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRefreshFrequencyInSeconds = "autoRefreshFrequencyInSeconds"
+            case autoRefreshPointLagInSeconds = "autoRefreshPointLagInSeconds"
+            case cloneType = "cloneType"
+            case openMode = "openMode"
+            case refreshableMode = "refreshableMode"
+            case sourceAutonomousDatabaseId = "sourceAutonomousDatabaseId"
+            case timeOfAutoRefreshStart = "timeOfAutoRefreshStart"
         }
     }
 
@@ -1519,6 +3148,362 @@ extension Odb {
         }
     }
 
+    public struct CreateAutonomousDatabaseBackupInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to back up.
+        public let autonomousDatabaseId: String
+        /// A client-provided token to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The user-friendly name for the Autonomous Database backup.
+        public let displayName: String?
+        /// The retention period, in days, for the Autonomous Database backup.
+        public let retentionPeriodInDays: Int?
+        /// The list of resource tags to apply to the Autonomous Database backup. Each tag is a key-value pair with no predefined name, type, or namespace.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, clientToken: String? = CreateAutonomousDatabaseBackupInput.idempotencyToken(), displayName: String? = nil, retentionPeriodInDays: Int? = nil, tags: [String: String]? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.clientToken = clientToken
+            self.displayName = displayName
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\/.=-]+$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case clientToken = "clientToken"
+            case displayName = "displayName"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAutonomousDatabaseBackupOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database backup that was created.
+        public let autonomousDatabaseBackupId: String
+        /// The user-friendly name of the Autonomous Database backup that was created.
+        public let displayName: String?
+        /// The current status of the Autonomous Database backup.
+        public let status: ResourceStatus?
+        /// Additional information about the current status of the Autonomous Database backup, if applicable.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseBackupId: String, displayName: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseBackupId = "autonomousDatabaseBackupId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct CreateAutonomousDatabaseInput: AWSEncodableShape {
+        /// The password for the ADMIN user of the Autonomous Database.
+        public let adminPassword: String?
+        /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET, the admin password is retrieved from an Amazon Web Services Secrets Manager secret.
+        public let adminPasswordSource: AdminPasswordSource?
+        /// The configuration of the admin password source for the Autonomous Database.
+        public let adminPasswordSourceConfiguration: AdminPasswordSourceConfigurationInput?
+        /// The list of IP addresses that are allowed to access the Autonomous Database.
+        public let allowlistedIps: [String]?
+        /// The maintenance schedule type for the Autonomous Database.
+        public let autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType?
+        /// The retention period, in days, for automatic backups of the Autonomous Database.
+        public let backupRetentionPeriodInDays: Int?
+        /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+        public let byolComputeCountLimit: Double?
+        /// The character set to use for the Autonomous Database.
+        public let characterSet: String?
+        /// A client-provided token to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), to assign to the Autonomous Database.
+        public let computeCount: Double?
+        /// The number of CPU cores to allocate to the Autonomous Database.
+        public let cpuCoreCount: Int?
+        /// The list of customer contacts to receive operational notifications from Oracle Cloud Infrastructure (OCI) for the Autonomous Database.
+        public let customerContactsToSendToOCI: [CustomerContact]?
+        /// The Oracle Database edition to apply to the Autonomous Database.
+        public let databaseEdition: DatabaseEdition?
+        /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database.
+        public let dataStorageSizeInGBs: Int?
+        /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database.
+        public let dataStorageSizeInTBs: Int?
+        /// The name of the Autonomous Database. The name must begin with an alphabetic character and can contain a maximum of 30 alphanumeric characters. Special characters are not permitted. The name must be unique in the Amazon Web Services account.
+        public let dbName: String?
+        /// The list of database management tools to enable for the Autonomous Database.
+        public let dbToolsDetails: [DatabaseTool]?
+        /// The Oracle Database software version to use for the Autonomous Database.
+        public let dbVersion: String?
+        /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+        public let dbWorkload: DbWorkload?
+        /// The user-friendly name for the Autonomous Database. The name does not have to be unique.
+        public let displayName: String?
+        /// The configuration of the encryption key to use for the Autonomous Database.
+        public let encryptionKeyConfiguration: EncryptionKeyConfigurationInput?
+        /// The provider of the encryption key to use for the Autonomous Database.
+        public let encryptionKeyProvider: EncryptionKeyProviderInput?
+        /// Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
+        public let isAutoScalingEnabled: Bool?
+        /// Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+        public let isAutoScalingForStorageEnabled: Bool?
+        /// Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
+        public let isBackupRetentionLocked: Bool?
+        /// Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
+        public let isLocalDataGuardEnabled: Bool?
+        /// Specifies whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+        public let isMtlsConnectionRequired: Bool?
+        /// The Oracle license model to apply to the Autonomous Database.
+        public let licenseModel: LicenseModel?
+        /// The national character set to use for the Autonomous Database.
+        public let ncharacterSet: String?
+        /// The unique identifier of the ODB network to be used for the Autonomous Database.
+        public let odbNetworkId: String?
+        /// The private endpoint IP address for the Autonomous Database.
+        public let privateEndpointIp: String?
+        /// The private endpoint label for the Autonomous Database.
+        public let privateEndpointLabel: String?
+        /// The unique identifier of the resource pool leader Autonomous Database.
+        public let resourcePoolLeaderId: String?
+        /// The configuration of the resource pool for the Autonomous Database.
+        public let resourcePoolSummary: ResourcePoolSummary?
+        /// The list of scheduled start and stop times for the Autonomous Database.
+        public let scheduledOperations: [ScheduledOperationDetails]?
+        /// The source from which to create the Autonomous Database, such as a clone, backup, or cross-Region copy.
+        public let source: SourceType?
+        /// The configuration details for the source used to create the Autonomous Database.
+        public let sourceConfiguration: SourceConfiguration?
+        /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+        public let standbyAllowlistedIps: [String]?
+        /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+        public let standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource?
+        /// The list of resource tags to apply to the Autonomous Database. Each tag is a key-value pair with no predefined name, type, or namespace.
+        public let tags: [String: String]?
+        /// The transportable tablespace configuration to use when creating the Autonomous Database.
+        public let transportableTablespace: TransportableTablespace?
+
+        @inlinable
+        public init(adminPassword: String? = nil, adminPasswordSource: AdminPasswordSource? = nil, adminPasswordSourceConfiguration: AdminPasswordSourceConfigurationInput? = nil, allowlistedIps: [String]? = nil, autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType? = nil, backupRetentionPeriodInDays: Int? = nil, byolComputeCountLimit: Double? = nil, characterSet: String? = nil, clientToken: String? = CreateAutonomousDatabaseInput.idempotencyToken(), computeCount: Double? = nil, cpuCoreCount: Int? = nil, customerContactsToSendToOCI: [CustomerContact]? = nil, databaseEdition: DatabaseEdition? = nil, dataStorageSizeInGBs: Int? = nil, dataStorageSizeInTBs: Int? = nil, dbName: String? = nil, dbToolsDetails: [DatabaseTool]? = nil, dbVersion: String? = nil, dbWorkload: DbWorkload? = nil, displayName: String? = nil, encryptionKeyConfiguration: EncryptionKeyConfigurationInput? = nil, encryptionKeyProvider: EncryptionKeyProviderInput? = nil, isAutoScalingEnabled: Bool? = nil, isAutoScalingForStorageEnabled: Bool? = nil, isBackupRetentionLocked: Bool? = nil, isLocalDataGuardEnabled: Bool? = nil, isMtlsConnectionRequired: Bool? = nil, licenseModel: LicenseModel? = nil, ncharacterSet: String? = nil, odbNetworkId: String? = nil, privateEndpointIp: String? = nil, privateEndpointLabel: String? = nil, resourcePoolLeaderId: String? = nil, resourcePoolSummary: ResourcePoolSummary? = nil, scheduledOperations: [ScheduledOperationDetails]? = nil, source: SourceType? = nil, sourceConfiguration: SourceConfiguration? = nil, standbyAllowlistedIps: [String]? = nil, standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource? = nil, tags: [String: String]? = nil, transportableTablespace: TransportableTablespace? = nil) {
+            self.adminPassword = adminPassword
+            self.adminPasswordSource = adminPasswordSource
+            self.adminPasswordSourceConfiguration = adminPasswordSourceConfiguration
+            self.allowlistedIps = allowlistedIps
+            self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+            self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+            self.byolComputeCountLimit = byolComputeCountLimit
+            self.characterSet = characterSet
+            self.clientToken = clientToken
+            self.computeCount = computeCount
+            self.cpuCoreCount = cpuCoreCount
+            self.customerContactsToSendToOCI = customerContactsToSendToOCI
+            self.databaseEdition = databaseEdition
+            self.dataStorageSizeInGBs = dataStorageSizeInGBs
+            self.dataStorageSizeInTBs = dataStorageSizeInTBs
+            self.dbName = dbName
+            self.dbToolsDetails = dbToolsDetails
+            self.dbVersion = dbVersion
+            self.dbWorkload = dbWorkload
+            self.displayName = displayName
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyProvider = encryptionKeyProvider
+            self.isAutoScalingEnabled = isAutoScalingEnabled
+            self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+            self.isBackupRetentionLocked = isBackupRetentionLocked
+            self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+            self.isMtlsConnectionRequired = isMtlsConnectionRequired
+            self.licenseModel = licenseModel
+            self.ncharacterSet = ncharacterSet
+            self.odbNetworkId = odbNetworkId
+            self.privateEndpointIp = privateEndpointIp
+            self.privateEndpointLabel = privateEndpointLabel
+            self.resourcePoolLeaderId = resourcePoolLeaderId
+            self.resourcePoolSummary = resourcePoolSummary
+            self.scheduledOperations = scheduledOperations
+            self.source = source
+            self.sourceConfiguration = sourceConfiguration
+            self.standbyAllowlistedIps = standbyAllowlistedIps
+            self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+            self.tags = tags
+            self.transportableTablespace = transportableTablespace
+        }
+
+        public func validate(name: String) throws {
+            try self.adminPasswordSourceConfiguration?.validate(name: "\(name).adminPasswordSourceConfiguration")
+            try self.validate(self.allowlistedIps, name: "allowlistedIps", parent: name, max: 1024)
+            try self.validate(self.allowlistedIps, name: "allowlistedIps", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\/.=-]+$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.encryptionKeyConfiguration?.validate(name: "\(name).encryptionKeyConfiguration")
+            try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, max: 2048)
+            try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, min: 6)
+            try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.resourcePoolLeaderId, name: "resourcePoolLeaderId", parent: name, max: 2048)
+            try self.validate(self.resourcePoolLeaderId, name: "resourcePoolLeaderId", parent: name, min: 6)
+            try self.validate(self.resourcePoolLeaderId, name: "resourcePoolLeaderId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.sourceConfiguration?.validate(name: "\(name).sourceConfiguration")
+            try self.validate(self.standbyAllowlistedIps, name: "standbyAllowlistedIps", parent: name, max: 1024)
+            try self.validate(self.standbyAllowlistedIps, name: "standbyAllowlistedIps", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminPassword = "adminPassword"
+            case adminPasswordSource = "adminPasswordSource"
+            case adminPasswordSourceConfiguration = "adminPasswordSourceConfiguration"
+            case allowlistedIps = "allowlistedIps"
+            case autonomousMaintenanceScheduleType = "autonomousMaintenanceScheduleType"
+            case backupRetentionPeriodInDays = "backupRetentionPeriodInDays"
+            case byolComputeCountLimit = "byolComputeCountLimit"
+            case characterSet = "characterSet"
+            case clientToken = "clientToken"
+            case computeCount = "computeCount"
+            case cpuCoreCount = "cpuCoreCount"
+            case customerContactsToSendToOCI = "customerContactsToSendToOCI"
+            case databaseEdition = "databaseEdition"
+            case dataStorageSizeInGBs = "dataStorageSizeInGBs"
+            case dataStorageSizeInTBs = "dataStorageSizeInTBs"
+            case dbName = "dbName"
+            case dbToolsDetails = "dbToolsDetails"
+            case dbVersion = "dbVersion"
+            case dbWorkload = "dbWorkload"
+            case displayName = "displayName"
+            case encryptionKeyConfiguration = "encryptionKeyConfiguration"
+            case encryptionKeyProvider = "encryptionKeyProvider"
+            case isAutoScalingEnabled = "isAutoScalingEnabled"
+            case isAutoScalingForStorageEnabled = "isAutoScalingForStorageEnabled"
+            case isBackupRetentionLocked = "isBackupRetentionLocked"
+            case isLocalDataGuardEnabled = "isLocalDataGuardEnabled"
+            case isMtlsConnectionRequired = "isMtlsConnectionRequired"
+            case licenseModel = "licenseModel"
+            case ncharacterSet = "ncharacterSet"
+            case odbNetworkId = "odbNetworkId"
+            case privateEndpointIp = "privateEndpointIp"
+            case privateEndpointLabel = "privateEndpointLabel"
+            case resourcePoolLeaderId = "resourcePoolLeaderId"
+            case resourcePoolSummary = "resourcePoolSummary"
+            case scheduledOperations = "scheduledOperations"
+            case source = "source"
+            case sourceConfiguration = "sourceConfiguration"
+            case standbyAllowlistedIps = "standbyAllowlistedIps"
+            case standbyAllowlistedIpsSource = "standbyAllowlistedIpsSource"
+            case tags = "tags"
+            case transportableTablespace = "transportableTablespace"
+        }
+    }
+
+    public struct CreateAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was created.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database that was created.
+        public let displayName: String?
+        /// The current status of the Autonomous Database.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the Autonomous Database, if applicable.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct CreateAutonomousDatabaseWalletInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to create a wallet for.
+        public let autonomousDatabaseId: String
+        /// A client-provided token to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The password to encrypt the keys inside the wallet.
+        public let password: String?
+        /// The source of the password for encrypting the wallet. When set to CUSTOMER_MANAGED_AWS_SECRET, the password is retrieved from an Amazon Web Services Secrets Manager secret.
+        public let passwordSource: WalletPasswordSource?
+        /// The configuration of the password source for the Autonomous Database wallet.
+        public let passwordSourceConfiguration: WalletPasswordSourceConfigurationInput?
+        /// The type of wallet to create, either a regional wallet or an instance wallet.
+        public let walletType: WalletType?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, clientToken: String? = CreateAutonomousDatabaseWalletInput.idempotencyToken(), password: String? = nil, passwordSource: WalletPasswordSource? = nil, passwordSourceConfiguration: WalletPasswordSourceConfigurationInput? = nil, walletType: WalletType? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.clientToken = clientToken
+            self.password = password
+            self.passwordSource = passwordSource
+            self.passwordSourceConfiguration = passwordSourceConfiguration
+            self.walletType = walletType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\/.=-]+$")
+            try self.passwordSourceConfiguration?.validate(name: "\(name).passwordSourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case clientToken = "clientToken"
+            case password = "password"
+            case passwordSource = "passwordSource"
+            case passwordSourceConfiguration = "passwordSourceConfiguration"
+            case walletType = "walletType"
+        }
+    }
+
+    public struct CreateAutonomousDatabaseWalletOutput: AWSDecodableShape {
+        /// The generated wallet file for the Autonomous Database, returned as a compressed archive.
+        public let autonomousDatabaseWalletFile: AWSBase64Data
+
+        @inlinable
+        public init(autonomousDatabaseWalletFile: AWSBase64Data) {
+            self.autonomousDatabaseWalletFile = autonomousDatabaseWalletFile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseWalletFile = "autonomousDatabaseWalletFile"
+        }
+    }
+
     public struct CreateCloudAutonomousVmClusterInput: AWSEncodableShape {
         /// The data disk group size to be allocated for Autonomous Databases, in terabytes (TB).
         public let autonomousDataStorageSizeInTBs: Double
@@ -1820,11 +3805,17 @@ extension Odb {
             try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, max: 2048)
             try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, min: 6)
             try self.validate(self.cloudExadataInfrastructureId, name: "cloudExadataInfrastructureId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 11)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]*$")
             try self.validate(self.dbServers, name: "dbServers", parent: name, max: 1024)
             try self.validate(self.dbServers, name: "dbServers", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.hostname, name: "hostname", parent: name, max: 12)
+            try self.validate(self.hostname, name: "hostname", parent: name, min: 1)
+            try self.validate(self.hostname, name: "hostname", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, max: 2048)
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, min: 6)
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
@@ -2110,6 +4101,52 @@ extension Odb {
         }
     }
 
+    public struct CrossRegionDataGuardConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the source Autonomous Database for the cross-Region Oracle Data Guard configuration.
+        public let sourceAutonomousDatabaseArn: String
+
+        @inlinable
+        public init(sourceAutonomousDatabaseArn: String) {
+            self.sourceAutonomousDatabaseArn = sourceAutonomousDatabaseArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceAutonomousDatabaseArn, name: "sourceAutonomousDatabaseArn", parent: name, max: 2048)
+            try self.validate(self.sourceAutonomousDatabaseArn, name: "sourceAutonomousDatabaseArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceAutonomousDatabaseArn = "sourceAutonomousDatabaseArn"
+        }
+    }
+
+    public struct CrossRegionDisasterRecoveryConfiguration: AWSEncodableShape {
+        /// Indicates whether automatic backups are replicated to the disaster recovery database.
+        public let isReplicateAutomaticBackups: Bool?
+        /// The type of remote disaster recovery to configure, either Autonomous Data Guard or backup-based.
+        public let remoteDisasterRecoveryType: DisasterRecoveryType
+        /// The Amazon Resource Name (ARN) of the source Autonomous Database for the cross-Region disaster recovery configuration.
+        public let sourceAutonomousDatabaseArn: String
+
+        @inlinable
+        public init(isReplicateAutomaticBackups: Bool? = nil, remoteDisasterRecoveryType: DisasterRecoveryType, sourceAutonomousDatabaseArn: String) {
+            self.isReplicateAutomaticBackups = isReplicateAutomaticBackups
+            self.remoteDisasterRecoveryType = remoteDisasterRecoveryType
+            self.sourceAutonomousDatabaseArn = sourceAutonomousDatabaseArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceAutonomousDatabaseArn, name: "sourceAutonomousDatabaseArn", parent: name, max: 2048)
+            try self.validate(self.sourceAutonomousDatabaseArn, name: "sourceAutonomousDatabaseArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isReplicateAutomaticBackups = "isReplicateAutomaticBackups"
+            case remoteDisasterRecoveryType = "remoteDisasterRecoveryType"
+            case sourceAutonomousDatabaseArn = "sourceAutonomousDatabaseArn"
+        }
+    }
+
     public struct CrossRegionS3RestoreSourcesAccess: AWSDecodableShape {
         /// The IPv4 addresses allowed for cross-Region Amazon S3 restore access.
         public let ipv4Addresses: [String]?
@@ -2146,6 +4183,58 @@ extension Odb {
         }
     }
 
+    public struct CustomerManagedAwsSecretConfiguration: AWSDecodableShape {
+        /// The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role.
+        public let externalIdType: ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value.
+        public let iamRoleArn: String?
+        /// The identifier or ARN of the Amazon Web Services Secrets Manager secret that contains the password.
+        public let secretId: String?
+
+        @inlinable
+        public init(externalIdType: ExternalIdType? = nil, iamRoleArn: String? = nil, secretId: String? = nil) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.secretId = secretId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalIdType = "externalIdType"
+            case iamRoleArn = "iamRoleArn"
+            case secretId = "secretId"
+        }
+    }
+
+    public struct CustomerManagedAwsSecretConfigurationInput: AWSEncodableShape {
+        /// The type of Oracle Cloud Identifier (OCID) used as the external ID when assuming the IAM role. The valid values depend on the operation. For the CreateAutonomousDatabase operation, only compartment_ocid and tenant_ocid are allowed. For the UpdateAutonomousDatabase and CreateAutonomousDatabaseWallet operations, database_ocid, compartment_ocid, and tenant_ocid are all allowed.
+        public let externalIdType: ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that OCI assumes to retrieve the secret value.
+        public let iamRoleArn: String?
+        /// The identifier or ARN of the Amazon Web Services Secrets Manager secret that contains the password.
+        public let secretId: String?
+
+        @inlinable
+        public init(externalIdType: ExternalIdType? = nil, iamRoleArn: String? = nil, secretId: String? = nil) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.secretId = secretId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+$")
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 2048)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalIdType = "externalIdType"
+            case iamRoleArn = "iamRoleArn"
+            case secretId = "secretId"
+        }
+    }
+
     public struct DataCollectionOptions: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether diagnostic collection is enabled for the VM cluster.
         public let isDiagnosticsEventsEnabled: Bool?
@@ -2165,6 +4254,148 @@ extension Odb {
             case isDiagnosticsEventsEnabled = "isDiagnosticsEventsEnabled"
             case isHealthMonitoringEnabled = "isHealthMonitoringEnabled"
             case isIncidentLogsEnabled = "isIncidentLogsEnabled"
+        }
+    }
+
+    public struct DatabaseCloneConfiguration: AWSEncodableShape {
+        /// The type of clone to create, either a full clone, a metadata clone, or a partial clone.
+        public let cloneType: CloneType
+        /// The unique identifier of the source Autonomous Database to clone.
+        public let sourceAutonomousDatabaseId: String
+
+        @inlinable
+        public init(cloneType: CloneType, sourceAutonomousDatabaseId: String) {
+            self.cloneType = cloneType
+            self.sourceAutonomousDatabaseId = sourceAutonomousDatabaseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloneType = "cloneType"
+            case sourceAutonomousDatabaseId = "sourceAutonomousDatabaseId"
+        }
+    }
+
+    public struct DatabaseConnectionStringProfile: AWSDecodableShape {
+        /// The consumer group associated with the connection string profile.
+        public let consumerGroup: String?
+        /// The user-friendly name of the connection string profile.
+        public let displayName: String?
+        /// The host name format used in the connection string.
+        public let hostFormat: String?
+        /// Indicates whether the connection string profile is regional.
+        public let isRegional: Bool?
+        /// The protocol used by the connection string profile.
+        public let `protocol`: String?
+        /// The session mode of the connection string profile.
+        public let sessionMode: String?
+        /// The syntax format of the connection string profile.
+        public let syntaxFormat: String?
+        /// The TLS authentication method used by the connection string profile.
+        public let tlsAuthentication: String?
+        /// The connection string value of the profile.
+        public let value: String?
+
+        @inlinable
+        public init(consumerGroup: String? = nil, displayName: String? = nil, hostFormat: String? = nil, isRegional: Bool? = nil, protocol: String? = nil, sessionMode: String? = nil, syntaxFormat: String? = nil, tlsAuthentication: String? = nil, value: String? = nil) {
+            self.consumerGroup = consumerGroup
+            self.displayName = displayName
+            self.hostFormat = hostFormat
+            self.isRegional = isRegional
+            self.`protocol` = `protocol`
+            self.sessionMode = sessionMode
+            self.syntaxFormat = syntaxFormat
+            self.tlsAuthentication = tlsAuthentication
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumerGroup = "consumerGroup"
+            case displayName = "displayName"
+            case hostFormat = "hostFormat"
+            case isRegional = "isRegional"
+            case `protocol` = "protocol"
+            case sessionMode = "sessionMode"
+            case syntaxFormat = "syntaxFormat"
+            case tlsAuthentication = "tlsAuthentication"
+            case value = "value"
+        }
+    }
+
+    public struct DatabaseStandbySummary: AWSDecodableShape {
+        /// The availability domain of the standby Autonomous Database.
+        public let availabilityDomain: String?
+        /// The time lag, in seconds, between the standby database and the primary database.
+        public let lagTimeInSeconds: Int?
+        /// The component on the standby Autonomous Database that the current maintenance is being applied to.
+        public let maintenanceTargetComponent: String?
+        /// The current status of the standby Autonomous Database.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the standby Autonomous Database, if applicable.
+        public let statusReason: String?
+        /// The date and time when the Oracle Data Guard role of the standby database last changed.
+        public let timeDataGuardRoleChanged: Date?
+        /// The date and time when the disaster recovery role of the standby database last changed.
+        public let timeDisasterRecoveryRoleChanged: Date?
+        /// The date and time when the next maintenance of the standby database begins.
+        public let timeMaintenanceBegin: Date?
+        /// The date and time when the next maintenance of the standby database ends.
+        public let timeMaintenanceEnd: Date?
+
+        @inlinable
+        public init(availabilityDomain: String? = nil, lagTimeInSeconds: Int? = nil, maintenanceTargetComponent: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil, timeDataGuardRoleChanged: Date? = nil, timeDisasterRecoveryRoleChanged: Date? = nil, timeMaintenanceBegin: Date? = nil, timeMaintenanceEnd: Date? = nil) {
+            self.availabilityDomain = availabilityDomain
+            self.lagTimeInSeconds = lagTimeInSeconds
+            self.maintenanceTargetComponent = maintenanceTargetComponent
+            self.status = status
+            self.statusReason = statusReason
+            self.timeDataGuardRoleChanged = timeDataGuardRoleChanged
+            self.timeDisasterRecoveryRoleChanged = timeDisasterRecoveryRoleChanged
+            self.timeMaintenanceBegin = timeMaintenanceBegin
+            self.timeMaintenanceEnd = timeMaintenanceEnd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityDomain = "availabilityDomain"
+            case lagTimeInSeconds = "lagTimeInSeconds"
+            case maintenanceTargetComponent = "maintenanceTargetComponent"
+            case status = "status"
+            case statusReason = "statusReason"
+            case timeDataGuardRoleChanged = "timeDataGuardRoleChanged"
+            case timeDisasterRecoveryRoleChanged = "timeDisasterRecoveryRoleChanged"
+            case timeMaintenanceBegin = "timeMaintenanceBegin"
+            case timeMaintenanceEnd = "timeMaintenanceEnd"
+        }
+    }
+
+    public struct DatabaseTool: AWSEncodableShape & AWSDecodableShape {
+        /// The compute capacity allocated to the database management tool.
+        public let computeCount: Double?
+        /// Indicates whether the database management tool is enabled.
+        public let isEnabled: Bool?
+        /// The maximum amount of time, in minutes, that the database management tool can be idle before it is shut down.
+        public let maxIdleTimeInMinutes: Int?
+        /// The name of the database management tool.
+        public let name: String?
+
+        @inlinable
+        public init(computeCount: Double? = nil, isEnabled: Bool? = nil, maxIdleTimeInMinutes: Int? = nil, name: String? = nil) {
+            self.computeCount = computeCount
+            self.isEnabled = isEnabled
+            self.maxIdleTimeInMinutes = maxIdleTimeInMinutes
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeCount = "computeCount"
+            case isEnabled = "isEnabled"
+            case maxIdleTimeInMinutes = "maxIdleTimeInMinutes"
+            case name = "name"
         }
     }
 
@@ -2751,6 +4982,62 @@ extension Odb {
         }
     }
 
+    public struct DeleteAutonomousDatabaseBackupInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database backup to delete.
+        public let autonomousDatabaseBackupId: String
+
+        @inlinable
+        public init(autonomousDatabaseBackupId: String) {
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseBackupId, key: "autonomousDatabaseBackupId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, max: 64)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAutonomousDatabaseBackupOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to delete.
+        public let autonomousDatabaseId: String
+
+        @inlinable
+        public init(autonomousDatabaseId: String) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseId, key: "autonomousDatabaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAutonomousDatabaseOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteCloudAutonomousVmClusterInput: AWSEncodableShape {
         /// The unique identifier of the Autonomous VM cluster to delete.
         public let cloudAutonomousVmClusterId: String
@@ -2931,6 +5218,50 @@ extension Odb {
         public init() {}
     }
 
+    public struct DisasterRecoveryConfiguration: AWSDecodableShape {
+        /// The type of disaster recovery configured for the Autonomous Database.
+        public let disasterRecoveryType: DisasterRecoveryType?
+        /// Indicates whether automatic backups are replicated to the disaster recovery database.
+        public let isReplicateAutomaticBackups: Bool?
+        /// Indicates whether the standby database is a snapshot standby.
+        public let isSnapshotStandby: Bool?
+        /// The date and time until which the snapshot standby database remains enabled.
+        public let timeSnapshotStandbyEnabledTill: Date?
+
+        @inlinable
+        public init(disasterRecoveryType: DisasterRecoveryType? = nil, isReplicateAutomaticBackups: Bool? = nil, isSnapshotStandby: Bool? = nil, timeSnapshotStandbyEnabledTill: Date? = nil) {
+            self.disasterRecoveryType = disasterRecoveryType
+            self.isReplicateAutomaticBackups = isReplicateAutomaticBackups
+            self.isSnapshotStandby = isSnapshotStandby
+            self.timeSnapshotStandbyEnabledTill = timeSnapshotStandbyEnabledTill
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disasterRecoveryType = "disasterRecoveryType"
+            case isReplicateAutomaticBackups = "isReplicateAutomaticBackups"
+            case isSnapshotStandby = "isSnapshotStandby"
+            case timeSnapshotStandbyEnabledTill = "timeSnapshotStandbyEnabledTill"
+        }
+    }
+
+    public struct EncryptionSummary: AWSDecodableShape {
+        /// The configuration of the encryption key used for the Autonomous Database.
+        public let encryptionKeyConfiguration: EncryptionKeyConfiguration?
+        /// The provider of the encryption key used for the Autonomous Database.
+        public let encryptionKeyProvider: EncryptionKeyProvider?
+
+        @inlinable
+        public init(encryptionKeyConfiguration: EncryptionKeyConfiguration? = nil, encryptionKeyProvider: EncryptionKeyProvider? = nil) {
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyProvider = encryptionKeyProvider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionKeyConfiguration = "encryptionKeyConfiguration"
+            case encryptionKeyProvider = "encryptionKeyProvider"
+        }
+    }
+
     public struct ExadataIormConfig: AWSDecodableShape {
         /// An array of IORM settings for all the database in the Exadata DB system.
         public let dbPlans: [DbIormConfig]?
@@ -2954,6 +5285,169 @@ extension Odb {
             case lifecycleDetails = "lifecycleDetails"
             case lifecycleState = "lifecycleState"
             case objective = "objective"
+        }
+    }
+
+    public struct FailoverAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to fail over.
+        public let autonomousDatabaseId: String
+        /// The Amazon Resource Name (ARN) of the peer Autonomous Database to fail over to.
+        public let peerDbArn: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, peerDbArn: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.peerDbArn = peerDbArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.peerDbArn, name: "peerDbArn", parent: name, max: 2048)
+            try self.validate(self.peerDbArn, name: "peerDbArn", parent: name, min: 20)
+            try self.validate(self.peerDbArn, name: "peerDbArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-z0-9-_]{6,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case peerDbArn = "peerDbArn"
+        }
+    }
+
+    public struct FailoverAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was failed over.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The current status of the Autonomous Database after the failover operation.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the status of the Autonomous Database after the failover operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct GetAutonomousDatabaseBackupInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database backup to retrieve information about.
+        public let autonomousDatabaseBackupId: String
+
+        @inlinable
+        public init(autonomousDatabaseBackupId: String) {
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseBackupId, key: "autonomousDatabaseBackupId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, max: 64)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutonomousDatabaseBackupOutput: AWSDecodableShape {
+        /// The details of the requested Autonomous Database backup.
+        public let autonomousDatabaseBackup: AutonomousDatabaseBackup?
+
+        @inlinable
+        public init(autonomousDatabaseBackup: AutonomousDatabaseBackup? = nil) {
+            self.autonomousDatabaseBackup = autonomousDatabaseBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseBackup = "autonomousDatabaseBackup"
+        }
+    }
+
+    public struct GetAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to retrieve information about.
+        public let autonomousDatabaseId: String
+
+        @inlinable
+        public init(autonomousDatabaseId: String) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseId, key: "autonomousDatabaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The details of the requested Autonomous Database.
+        public let autonomousDatabase: AutonomousDatabase
+
+        @inlinable
+        public init(autonomousDatabase: AutonomousDatabase) {
+            self.autonomousDatabase = autonomousDatabase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabase = "autonomousDatabase"
+        }
+    }
+
+    public struct GetAutonomousDatabaseWalletDetailsInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to retrieve wallet details for.
+        public let autonomousDatabaseId: String
+
+        @inlinable
+        public init(autonomousDatabaseId: String) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+        }
+    }
+
+    public struct GetAutonomousDatabaseWalletDetailsOutput: AWSDecodableShape {
+        /// The wallet details for the Autonomous Database.
+        public let autonomousDatabaseWalletDetails: AutonomousDatabaseWalletDetails
+
+        @inlinable
+        public init(autonomousDatabaseWalletDetails: AutonomousDatabaseWalletDetails) {
+            self.autonomousDatabaseWalletDetails = autonomousDatabaseWalletDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseWalletDetails = "autonomousDatabaseWalletDetails"
         }
     }
 
@@ -3211,27 +5705,43 @@ extension Odb {
     }
 
     public struct GetOciOnboardingStatusOutput: AWSDecodableShape {
+        /// The list of Amazon Web Services Identity and Access Management (IAM) service roles used for Autonomous Database integration with Oracle Cloud Infrastructure (OCI).
+        public let autonomousDatabaseOciIntegrationIamRoles: [OciIamRole]?
         /// The existing OCI tenancy activation link for your Amazon Web Services account.
         public let existingTenancyActivationLink: String?
+        /// The unique identifier of the Oracle Cloud Infrastructure (OCI) compartment that is linked to your Amazon Web Services account.
+        public let linkedOciCompartmentId: String?
+        /// The unique identifier of the Oracle Cloud Infrastructure (OCI) tenancy that is linked to your Amazon Web Services account.
+        public let linkedOciTenancyId: String?
         /// A new OCI tenancy activation link for your Amazon Web Services account.
         public let newTenancyActivationLink: String?
         /// The Oracle Cloud Infrastructure (OCI) identity domain information in the onboarding status response.
         public let ociIdentityDomain: OciIdentityDomain?
         public let status: OciOnboardingStatus?
+        /// The list of errors that occurred during the subscription process for your Amazon Web Services account, if any.
+        public let subscriptionErrors: [SubscriptionError]?
 
         @inlinable
-        public init(existingTenancyActivationLink: String? = nil, newTenancyActivationLink: String? = nil, ociIdentityDomain: OciIdentityDomain? = nil, status: OciOnboardingStatus? = nil) {
+        public init(autonomousDatabaseOciIntegrationIamRoles: [OciIamRole]? = nil, existingTenancyActivationLink: String? = nil, linkedOciCompartmentId: String? = nil, linkedOciTenancyId: String? = nil, newTenancyActivationLink: String? = nil, ociIdentityDomain: OciIdentityDomain? = nil, status: OciOnboardingStatus? = nil, subscriptionErrors: [SubscriptionError]? = nil) {
+            self.autonomousDatabaseOciIntegrationIamRoles = autonomousDatabaseOciIntegrationIamRoles
             self.existingTenancyActivationLink = existingTenancyActivationLink
+            self.linkedOciCompartmentId = linkedOciCompartmentId
+            self.linkedOciTenancyId = linkedOciTenancyId
             self.newTenancyActivationLink = newTenancyActivationLink
             self.ociIdentityDomain = ociIdentityDomain
             self.status = status
+            self.subscriptionErrors = subscriptionErrors
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseOciIntegrationIamRoles = "autonomousDatabaseOciIntegrationIamRoles"
             case existingTenancyActivationLink = "existingTenancyActivationLink"
+            case linkedOciCompartmentId = "linkedOciCompartmentId"
+            case linkedOciTenancyId = "linkedOciTenancyId"
             case newTenancyActivationLink = "newTenancyActivationLink"
             case ociIdentityDomain = "ociIdentityDomain"
             case status = "status"
+            case subscriptionErrors = "subscriptionErrors"
         }
     }
 
@@ -3351,15 +5861,19 @@ extension Odb {
     }
 
     public struct InitializeServiceInput: AWSEncodableShape {
+        /// Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database.
+        public let autonomousDatabaseOciAwsSecretsManagerIntegration: Access?
         /// The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
         public let ociIdentityDomain: Bool?
 
         @inlinable
-        public init(ociIdentityDomain: Bool? = nil) {
+        public init(autonomousDatabaseOciAwsSecretsManagerIntegration: Access? = nil, ociIdentityDomain: Bool? = nil) {
+            self.autonomousDatabaseOciAwsSecretsManagerIntegration = autonomousDatabaseOciAwsSecretsManagerIntegration
             self.ociIdentityDomain = ociIdentityDomain
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseOciAwsSecretsManagerIntegration = "autonomousDatabaseOciAwsSecretsManagerIntegration"
             case ociIdentityDomain = "ociIdentityDomain"
         }
     }
@@ -3414,6 +5928,299 @@ extension Odb {
             case ipv4Addresses = "ipv4Addresses"
             case kmsPolicyDocument = "kmsPolicyDocument"
             case status = "status"
+        }
+    }
+
+    public struct ListAutonomousDatabaseBackupsInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database whose backups you want to list.
+        public let autonomousDatabaseId: String
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+        /// The status of the Autonomous Database backups to return results for.
+        public let status: AutonomousDatabaseBackupStatus?
+        /// The type of the Autonomous Database backups to return results for.
+        public let type: AutonomousDatabaseBackupType?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, maxResults: Int? = nil, nextToken: String? = nil, status: AutonomousDatabaseBackupStatus? = nil, type: AutonomousDatabaseBackupType? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseId, key: "autonomousDatabaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.type, forKey: .type)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 64)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct ListAutonomousDatabaseBackupsOutput: AWSDecodableShape {
+        /// The list of Autonomous Database backups along with their properties.
+        public let autonomousDatabaseBackups: [AutonomousDatabaseBackupSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabaseBackups: [AutonomousDatabaseBackupSummary], nextToken: String? = nil) {
+            self.autonomousDatabaseBackups = autonomousDatabaseBackups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseBackups = "autonomousDatabaseBackups"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutonomousDatabaseCharacterSetsInput: AWSEncodableShape {
+        /// The type of character set to return results for, either the database character set or the national character set.
+        public let characterSetType: CharacterSetType?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(characterSetType: CharacterSetType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.characterSetType = characterSetType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.characterSetType, forKey: .characterSetType)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case characterSetType = "characterSetType"
+        }
+    }
+
+    public struct ListAutonomousDatabaseCharacterSetsOutput: AWSDecodableShape {
+        /// The list of available Autonomous Database character sets.
+        public let autonomousDatabaseCharacterSets: [AutonomousDatabaseCharacterSetSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabaseCharacterSets: [AutonomousDatabaseCharacterSetSummary], nextToken: String? = nil) {
+            self.autonomousDatabaseCharacterSets = autonomousDatabaseCharacterSets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseCharacterSets = "autonomousDatabaseCharacterSets"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutonomousDatabaseClonesInput: AWSEncodableShape {
+        /// The unique identifier of the source Autonomous Database whose clones you want to list.
+        public let autonomousDatabaseId: String
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseId, key: "autonomousDatabaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutonomousDatabaseClonesOutput: AWSDecodableShape {
+        /// The list of Autonomous Database clones along with their properties.
+        public let autonomousDatabaseClones: [AutonomousDatabaseSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabaseClones: [AutonomousDatabaseSummary], nextToken: String? = nil) {
+            self.autonomousDatabaseClones = autonomousDatabaseClones
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseClones = "autonomousDatabaseClones"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutonomousDatabasePeersInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database whose peer databases you want to list.
+        public let autonomousDatabaseId: String
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseId, key: "autonomousDatabaseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutonomousDatabasePeersOutput: AWSDecodableShape {
+        /// The list of peer databases for the Autonomous Database.
+        public let autonomousDatabasePeers: [AutonomousDatabasePeerSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabasePeers: [AutonomousDatabasePeerSummary], nextToken: String? = nil) {
+            self.autonomousDatabasePeers = autonomousDatabasePeers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabasePeers = "autonomousDatabasePeers"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutonomousDatabaseVersionsInput: AWSEncodableShape {
+        /// The intended use of the Autonomous Database to return versions for, such as transaction processing, data warehouse, JSON database, or APEX.
+        public let dbWorkload: DbWorkload?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dbWorkload: DbWorkload? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dbWorkload = dbWorkload
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dbWorkload, forKey: .dbWorkload)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbWorkload = "dbWorkload"
+        }
+    }
+
+    public struct ListAutonomousDatabaseVersionsOutput: AWSDecodableShape {
+        /// The list of available Autonomous Database software versions.
+        public let autonomousDatabaseVersions: [AutonomousDatabaseVersionSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabaseVersions: [AutonomousDatabaseVersionSummary], nextToken: String? = nil) {
+            self.autonomousDatabaseVersions = autonomousDatabaseVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseVersions = "autonomousDatabaseVersions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAutonomousDatabasesInput: AWSEncodableShape {
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAutonomousDatabasesOutput: AWSDecodableShape {
+        /// The list of Autonomous Databases along with their properties.
+        public let autonomousDatabases: [AutonomousDatabaseSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(autonomousDatabases: [AutonomousDatabaseSummary], nextToken: String? = nil) {
+            self.autonomousDatabases = autonomousDatabases
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabases = "autonomousDatabases"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3985,6 +6792,32 @@ extension Odb {
         }
     }
 
+    public struct LongTermBackupSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the long-term backup schedule is disabled.
+        public let isDisabled: Bool?
+        /// The cadence at which long-term backups are taken.
+        public let repeatCadence: RepeatCadence?
+        /// The retention period, in days, for long-term backups.
+        public let retentionPeriodInDays: Int?
+        /// The date and time at which the long-term backup is taken.
+        public let timeOfBackup: Date?
+
+        @inlinable
+        public init(isDisabled: Bool? = nil, repeatCadence: RepeatCadence? = nil, retentionPeriodInDays: Int? = nil, timeOfBackup: Date? = nil) {
+            self.isDisabled = isDisabled
+            self.repeatCadence = repeatCadence
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.timeOfBackup = timeOfBackup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isDisabled = "isDisabled"
+            case repeatCadence = "repeatCadence"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+            case timeOfBackup = "timeOfBackup"
+        }
+    }
+
     public struct MaintenanceWindow: AWSEncodableShape & AWSDecodableShape {
         /// The custom action timeout in minutes for the maintenance window.
         public let customActionTimeoutInMins: Int?
@@ -4135,6 +6968,50 @@ extension Odb {
         }
     }
 
+    public struct OciEncryptionKeyConfiguration: AWSDecodableShape {
+        /// The Oracle Cloud Identifier (OCID) of the OCI Vault key to use for encryption.
+        public let kmsKeyId: String
+        /// The Oracle Cloud Identifier (OCID) of the OCI Vault that contains the encryption key.
+        public let vaultId: String
+
+        @inlinable
+        public init(kmsKeyId: String, vaultId: String) {
+            self.kmsKeyId = kmsKeyId
+            self.vaultId = vaultId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "kmsKeyId"
+            case vaultId = "vaultId"
+        }
+    }
+
+    public struct OciIamRole: AWSDecodableShape {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role.
+        public let awsIntegration: OciAwsIntegration?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public let iamRoleArn: String?
+        /// The current lifecycle status of the IAM service role.
+        public let status: OciIamRoleStatus?
+        /// Additional information about the current status of the IAM service role, if applicable.
+        public let statusReason: String?
+
+        @inlinable
+        public init(awsIntegration: OciAwsIntegration? = nil, iamRoleArn: String? = nil, status: OciIamRoleStatus? = nil, statusReason: String? = nil) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIntegration = "awsIntegration"
+            case iamRoleArn = "iamRoleArn"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct OciIdentityDomain: AWSDecodableShape {
         /// The Amazon Web Services CloudFormation URL for setting up the account integration with the OCI identity domain.
         public let accountSetupCloudFormationUrl: String?
@@ -4186,6 +7063,8 @@ extension Odb {
         public let defaultDnsPrefix: String?
         /// The user-friendly name of the ODB network.
         public let displayName: String?
+        /// The list of EC2 Placement Group IDs associated with your ODB network.
+        public let ec2PlacementGroupIds: [String]?
         /// The managed services configuration for the ODB network.
         public let managedServices: ManagedServices?
         /// The DNS resolver endpoint in OCI for forwarding DNS queries for the ociPrivateZone domain.
@@ -4214,7 +7093,7 @@ extension Odb {
         public let statusReason: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, backupSubnetCidr: String? = nil, clientSubnetCidr: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, defaultDnsPrefix: String? = nil, displayName: String? = nil, managedServices: ManagedServices? = nil, ociDnsForwardingConfigs: [OciDnsForwardingConfig]? = nil, ociNetworkAnchorId: String? = nil, ociNetworkAnchorUrl: String? = nil, ociResourceAnchorName: String? = nil, ociVcnId: String? = nil, ociVcnUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String, peeredCidrs: [String]? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, backupSubnetCidr: String? = nil, clientSubnetCidr: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, defaultDnsPrefix: String? = nil, displayName: String? = nil, ec2PlacementGroupIds: [String]? = nil, managedServices: ManagedServices? = nil, ociDnsForwardingConfigs: [OciDnsForwardingConfig]? = nil, ociNetworkAnchorId: String? = nil, ociNetworkAnchorUrl: String? = nil, ociResourceAnchorName: String? = nil, ociVcnId: String? = nil, ociVcnUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String, peeredCidrs: [String]? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.backupSubnetCidr = backupSubnetCidr
@@ -4223,6 +7102,7 @@ extension Odb {
             self.customDomainName = customDomainName
             self.defaultDnsPrefix = defaultDnsPrefix
             self.displayName = displayName
+            self.ec2PlacementGroupIds = ec2PlacementGroupIds
             self.managedServices = managedServices
             self.ociDnsForwardingConfigs = ociDnsForwardingConfigs
             self.ociNetworkAnchorId = ociNetworkAnchorId
@@ -4247,6 +7127,7 @@ extension Odb {
             case customDomainName = "customDomainName"
             case defaultDnsPrefix = "defaultDnsPrefix"
             case displayName = "displayName"
+            case ec2PlacementGroupIds = "ec2PlacementGroupIds"
             case managedServices = "managedServices"
             case ociDnsForwardingConfigs = "ociDnsForwardingConfigs"
             case ociNetworkAnchorId = "ociNetworkAnchorId"
@@ -4280,6 +7161,8 @@ extension Odb {
         public let defaultDnsPrefix: String?
         /// The user-friendly name of the ODB network.
         public let displayName: String?
+        /// The list of EC2 Placement Group IDs associated with your ODB network.
+        public let ec2PlacementGroupIds: [String]?
         /// The managed services configuration for the ODB network.
         public let managedServices: ManagedServices?
         /// The DNS resolver endpoint in OCI for forwarding DNS queries for the ociPrivateZone domain.
@@ -4308,7 +7191,7 @@ extension Odb {
         public let statusReason: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, backupSubnetCidr: String? = nil, clientSubnetCidr: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, defaultDnsPrefix: String? = nil, displayName: String? = nil, managedServices: ManagedServices? = nil, ociDnsForwardingConfigs: [OciDnsForwardingConfig]? = nil, ociNetworkAnchorId: String? = nil, ociNetworkAnchorUrl: String? = nil, ociResourceAnchorName: String? = nil, ociVcnId: String? = nil, ociVcnUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String, peeredCidrs: [String]? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, backupSubnetCidr: String? = nil, clientSubnetCidr: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, defaultDnsPrefix: String? = nil, displayName: String? = nil, ec2PlacementGroupIds: [String]? = nil, managedServices: ManagedServices? = nil, ociDnsForwardingConfigs: [OciDnsForwardingConfig]? = nil, ociNetworkAnchorId: String? = nil, ociNetworkAnchorUrl: String? = nil, ociResourceAnchorName: String? = nil, ociVcnId: String? = nil, ociVcnUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String, peeredCidrs: [String]? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.backupSubnetCidr = backupSubnetCidr
@@ -4317,6 +7200,7 @@ extension Odb {
             self.customDomainName = customDomainName
             self.defaultDnsPrefix = defaultDnsPrefix
             self.displayName = displayName
+            self.ec2PlacementGroupIds = ec2PlacementGroupIds
             self.managedServices = managedServices
             self.ociDnsForwardingConfigs = ociDnsForwardingConfigs
             self.ociNetworkAnchorId = ociNetworkAnchorId
@@ -4341,6 +7225,7 @@ extension Odb {
             case customDomainName = "customDomainName"
             case defaultDnsPrefix = "defaultDnsPrefix"
             case displayName = "displayName"
+            case ec2PlacementGroupIds = "ec2PlacementGroupIds"
             case managedServices = "managedServices"
             case ociDnsForwardingConfigs = "ociDnsForwardingConfigs"
             case ociNetworkAnchorId = "ociNetworkAnchorId"
@@ -4465,6 +7350,122 @@ extension Odb {
         }
     }
 
+    public struct OkvEncryptionKeyConfiguration: AWSDecodableShape {
+        /// The name of the directory that contains the Oracle Key Vault (OKV) certificate.
+        public let certificateDirectoryName: String
+        /// The identifier of the Oracle Key Vault (OKV) certificate.
+        public let certificateId: String?
+        /// The name of the directory where the Oracle Key Vault (OKV) configuration is stored.
+        public let directoryName: String
+        /// The identifier of the Oracle Key Vault (OKV) key to use for encryption.
+        public let okvKmsKey: String
+        /// The URI of the Oracle Key Vault (OKV) server.
+        public let okvUri: String
+
+        @inlinable
+        public init(certificateDirectoryName: String, certificateId: String? = nil, directoryName: String, okvKmsKey: String, okvUri: String) {
+            self.certificateDirectoryName = certificateDirectoryName
+            self.certificateId = certificateId
+            self.directoryName = directoryName
+            self.okvKmsKey = okvKmsKey
+            self.okvUri = okvUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateDirectoryName = "certificateDirectoryName"
+            case certificateId = "certificateId"
+            case directoryName = "directoryName"
+            case okvKmsKey = "okvKmsKey"
+            case okvUri = "okvUri"
+        }
+    }
+
+    public struct PointInTimeRestoreConfiguration: AWSEncodableShape {
+        /// The list of tablespace identifiers to clone from the point-in-time restore.
+        public let cloneTableSpaceList: [Int]?
+        /// The type of clone to create from the point-in-time restore.
+        public let cloneType: CloneType
+        /// The unique identifier of the source Autonomous Database to restore from.
+        public let sourceAutonomousDatabaseId: String
+        /// The date and time to which to restore the Autonomous Database.
+        public let timestamp: Date?
+        /// Indicates whether to use the latest available backup timestamp for the restore.
+        public let useLatestAvailableBackupTimestamp: Bool?
+
+        @inlinable
+        public init(cloneTableSpaceList: [Int]? = nil, cloneType: CloneType, sourceAutonomousDatabaseId: String, timestamp: Date? = nil, useLatestAvailableBackupTimestamp: Bool? = nil) {
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.cloneType = cloneType
+            self.sourceAutonomousDatabaseId = sourceAutonomousDatabaseId
+            self.timestamp = timestamp
+            self.useLatestAvailableBackupTimestamp = useLatestAvailableBackupTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.sourceAutonomousDatabaseId, name: "sourceAutonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloneTableSpaceList = "cloneTableSpaceList"
+            case cloneType = "cloneType"
+            case sourceAutonomousDatabaseId = "sourceAutonomousDatabaseId"
+            case timestamp = "timestamp"
+            case useLatestAvailableBackupTimestamp = "useLatestAvailableBackupTimestamp"
+        }
+    }
+
+    public struct RebootAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to reboot.
+        public let autonomousDatabaseId: String
+        /// Specifies whether to perform an online reboot of the Autonomous Database without interrupting active connections.
+        public let isOnlineReboot: Bool?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, isOnlineReboot: Bool? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.isOnlineReboot = isOnlineReboot
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case isOnlineReboot = "isOnlineReboot"
+        }
+    }
+
+    public struct RebootAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was rebooted.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The current status of the Autonomous Database after the reboot operation.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the status of the Autonomous Database after the reboot operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct RebootDbNodeInput: AWSEncodableShape {
         /// The unique identifier of the VM cluster that contains the DB node to reboot.
         public let cloudVmClusterId: String
@@ -4539,6 +7540,118 @@ extension Odb {
         }
     }
 
+    public struct ResourcePoolSummary: AWSEncodableShape & AWSDecodableShape {
+        /// The available compute capacity in the resource pool.
+        public let availableComputeCapacity: Int?
+        /// The available storage capacity in the resource pool, in TB.
+        public let availableStorageCapacityInTBs: Double?
+        /// Indicates whether the resource pool is disabled.
+        public let isDisabled: Bool?
+        /// The number of Autonomous Databases that the resource pool can contain.
+        public let poolSize: Int?
+        /// The total storage size of the resource pool, in terabytes (TB).
+        public let poolStorageSizeInTBs: Int?
+        /// The total compute capacity of the resource pool.
+        public let totalComputeCapacity: Int?
+
+        @inlinable
+        public init(availableComputeCapacity: Int? = nil, availableStorageCapacityInTBs: Double? = nil, isDisabled: Bool? = nil, poolSize: Int? = nil, poolStorageSizeInTBs: Int? = nil, totalComputeCapacity: Int? = nil) {
+            self.availableComputeCapacity = availableComputeCapacity
+            self.availableStorageCapacityInTBs = availableStorageCapacityInTBs
+            self.isDisabled = isDisabled
+            self.poolSize = poolSize
+            self.poolStorageSizeInTBs = poolStorageSizeInTBs
+            self.totalComputeCapacity = totalComputeCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableComputeCapacity = "availableComputeCapacity"
+            case availableStorageCapacityInTBs = "availableStorageCapacityInTBs"
+            case isDisabled = "isDisabled"
+            case poolSize = "poolSize"
+            case poolStorageSizeInTBs = "poolStorageSizeInTBs"
+            case totalComputeCapacity = "totalComputeCapacity"
+        }
+    }
+
+    public struct RestoreAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to restore.
+        public let autonomousDatabaseId: String
+        /// The date and time to which to restore the Autonomous Database.
+        public let timestamp: Date
+
+        @inlinable
+        public init(autonomousDatabaseId: String, timestamp: Date) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.timestamp = timestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct RestoreAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was restored.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The current status of the Autonomous Database after the restore operation.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the status of the Autonomous Database after the restore operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct RestoreFromBackupConfiguration: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database backup to restore from.
+        public let autonomousDatabaseBackupId: String
+        /// The list of tablespace identifiers to clone from the backup.
+        public let cloneTableSpaceList: [Int]?
+        /// The type of clone to create from the backup.
+        public let cloneType: CloneType
+
+        @inlinable
+        public init(autonomousDatabaseBackupId: String, cloneTableSpaceList: [Int]? = nil, cloneType: CloneType) {
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.cloneType = cloneType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseBackupId = "autonomousDatabaseBackupId"
+            case cloneTableSpaceList = "cloneTableSpaceList"
+            case cloneType = "cloneType"
+        }
+    }
+
     public struct S3Access: AWSDecodableShape {
         /// The domain name for the Amazon S3 access.
         public let domainName: String?
@@ -4562,6 +7675,28 @@ extension Odb {
             case ipv4Addresses = "ipv4Addresses"
             case s3PolicyDocument = "s3PolicyDocument"
             case status = "status"
+        }
+    }
+
+    public struct ScheduledOperationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The day of the week on which the scheduled operation occurs.
+        public let dayOfWeek: DayOfWeek
+        /// The scheduled start time for the Autonomous Database, in UTC.
+        public let scheduledStartTime: String?
+        /// The scheduled stop time for the Autonomous Database, in UTC.
+        public let scheduledStopTime: String?
+
+        @inlinable
+        public init(dayOfWeek: DayOfWeek, scheduledStartTime: String? = nil, scheduledStopTime: String? = nil) {
+            self.dayOfWeek = dayOfWeek
+            self.scheduledStartTime = scheduledStartTime
+            self.scheduledStopTime = scheduledStopTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfWeek = "dayOfWeek"
+            case scheduledStartTime = "scheduledStartTime"
+            case scheduledStopTime = "scheduledStopTime"
         }
     }
 
@@ -4605,6 +7740,98 @@ extension Odb {
             case quotaCode = "quotaCode"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
+        }
+    }
+
+    public struct ShrinkAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to shrink.
+        public let autonomousDatabaseId: String
+
+        @inlinable
+        public init(autonomousDatabaseId: String) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+        }
+    }
+
+    public struct ShrinkAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was shrunk.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The current status of the Autonomous Database after the shrink operation.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the status of the Autonomous Database after the shrink operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct StartAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to start.
+        public let autonomousDatabaseId: String
+
+        @inlinable
+        public init(autonomousDatabaseId: String) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+        }
+    }
+
+    public struct StartAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was started.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The current status of the Autonomous Database after the start operation.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the status of the Autonomous Database after the start operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -4656,6 +7883,52 @@ extension Odb {
 
         private enum CodingKeys: String, CodingKey {
             case dbNodeId = "dbNodeId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct StopAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to stop.
+        public let autonomousDatabaseId: String
+
+        @inlinable
+        public init(autonomousDatabaseId: String) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+        }
+    }
+
+    public struct StopAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was stopped.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The current status of the Autonomous Database after the stop operation.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the status of the Autonomous Database after the stop operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
             case status = "status"
             case statusReason = "statusReason"
         }
@@ -4740,6 +8013,73 @@ extension Odb {
         }
     }
 
+    public struct SubscriptionError: AWSDecodableShape {
+        /// A human-readable message that describes the subscription error.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(errorMessage: String? = nil) {
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+        }
+    }
+
+    public struct SwitchoverAutonomousDatabaseInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database to switch over.
+        public let autonomousDatabaseId: String
+        /// The Amazon Resource Name (ARN) of the peer Autonomous Database to switch over to.
+        public let peerDbArn: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, peerDbArn: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.peerDbArn = peerDbArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.peerDbArn, name: "peerDbArn", parent: name, max: 2048)
+            try self.validate(self.peerDbArn, name: "peerDbArn", parent: name, min: 20)
+            try self.validate(self.peerDbArn, name: "peerDbArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-z0-9-_]{6,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case peerDbArn = "peerDbArn"
+        }
+    }
+
+    public struct SwitchoverAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was switched over.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database.
+        public let displayName: String?
+        /// The current status of the Autonomous Database after the switchover operation.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the status of the Autonomous Database after the switchover operation.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct SystemVersionSummary: AWSDecodableShape {
         /// The version of GI software.
         public let giVersion: String?
@@ -4820,6 +8160,20 @@ extension Odb {
         }
     }
 
+    public struct TransportableTablespace: AWSEncodableShape {
+        /// The URL of the transportable tablespace bundle to use when creating the Autonomous Database.
+        public let ttsBundleUrl: String?
+
+        @inlinable
+        public init(ttsBundleUrl: String? = nil) {
+            self.ttsBundleUrl = ttsBundleUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ttsBundleUrl = "ttsBundleUrl"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to remove tags from.
         public let resourceArn: String
@@ -4858,6 +8212,299 @@ extension Odb {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAutonomousDatabaseBackupInput: AWSEncodableShape {
+        /// The unique identifier of the Autonomous Database backup to update.
+        public let autonomousDatabaseBackupId: String
+        /// The retention period, in days, for the Autonomous Database backup.
+        public let retentionPeriodInDays: Int?
+
+        @inlinable
+        public init(autonomousDatabaseBackupId: String, retentionPeriodInDays: Int? = nil) {
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.retentionPeriodInDays = retentionPeriodInDays
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.autonomousDatabaseBackupId, key: "autonomousDatabaseBackupId")
+            try container.encodeIfPresent(self.retentionPeriodInDays, forKey: .retentionPeriodInDays)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, max: 64)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseBackupId, name: "autonomousDatabaseBackupId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionPeriodInDays = "retentionPeriodInDays"
+        }
+    }
+
+    public struct UpdateAutonomousDatabaseBackupOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database backup that was updated.
+        public let autonomousDatabaseBackupId: String
+        /// The user-friendly name of the Autonomous Database backup.
+        public let displayName: String?
+        /// The current status of the Autonomous Database backup.
+        public let status: ResourceStatus?
+        /// Additional information about the current status of the Autonomous Database backup, if applicable.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseBackupId: String, displayName: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseBackupId = "autonomousDatabaseBackupId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct UpdateAutonomousDatabaseInput: AWSEncodableShape {
+        /// The new password for the ADMIN user of the Autonomous Database.
+        public let adminPassword: String?
+        /// The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET, the admin password is retrieved from an Amazon Web Services Secrets Manager secret.
+        public let adminPasswordSource: AdminPasswordSource?
+        /// The configuration of the admin password source for the Autonomous Database.
+        public let adminPasswordSourceConfiguration: AdminPasswordSourceConfigurationInput?
+        /// The list of IP addresses that are allowed to access the Autonomous Database.
+        public let allowlistedIps: [String]?
+        /// The unique identifier of the Autonomous Database to update.
+        public let autonomousDatabaseId: String
+        /// The maintenance schedule type for the Autonomous Database.
+        public let autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType?
+        /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
+        public let autoRefreshFrequencyInSeconds: Int?
+        /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database.
+        public let autoRefreshPointLagInSeconds: Int?
+        /// The retention period, in days, for automatic backups of the Autonomous Database.
+        public let backupRetentionPeriodInDays: Int?
+        /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+        public let byolComputeCountLimit: Double?
+        /// The compute capacity, in number of ECPUs or OCPUs, to assign to the Autonomous Database.
+        public let computeCount: Double?
+        /// The number of CPU cores to allocate to the Autonomous Database.
+        public let cpuCoreCount: Int?
+        /// The list of customer contacts to receive operational notifications from OCI for the Autonomous Database.
+        public let customerContactsToSendToOCI: [CustomerContact]?
+        /// The Oracle Database edition to apply to the Autonomous Database.
+        public let databaseEdition: DatabaseEdition?
+        /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database.
+        public let dataStorageSizeInGBs: Int?
+        /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database.
+        public let dataStorageSizeInTBs: Int?
+        /// The new name of the Autonomous Database.
+        public let dbName: String?
+        /// The list of database management tools to enable for the Autonomous Database.
+        public let dbToolsDetails: [DatabaseTool]?
+        /// The Oracle Database software version to use for the Autonomous Database.
+        public let dbVersion: String?
+        /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+        public let dbWorkload: DbWorkload?
+        /// The new user-friendly name for the Autonomous Database.
+        public let displayName: String?
+        /// The configuration of the encryption key to use for the Autonomous Database.
+        public let encryptionKeyConfiguration: EncryptionKeyConfigurationInput?
+        /// The provider of the encryption key to use for the Autonomous Database.
+        public let encryptionKeyProvider: EncryptionKeyProviderInput?
+        /// Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
+        public let isAutoScalingEnabled: Bool?
+        /// Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+        public let isAutoScalingForStorageEnabled: Bool?
+        /// Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
+        public let isBackupRetentionLocked: Bool?
+        /// Specifies whether to disconnect the Autonomous Database from its peer database.
+        public let isDisconnectPeer: Bool?
+        /// Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
+        public let isLocalDataGuardEnabled: Bool?
+        /// Specifies whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+        public let isMtlsConnectionRequired: Bool?
+        /// Specifies whether the Autonomous Database is a refreshable clone.
+        public let isRefreshableClone: Bool?
+        /// The Oracle license model to apply to the Autonomous Database.
+        public let licenseModel: LicenseModel?
+        /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database.
+        public let localAdgAutoFailoverMaxDataLossLimit: Int?
+        /// The long-term backup schedule for the Autonomous Database.
+        public let longTermBackupSchedule: LongTermBackupSchedule?
+        /// The mode in which to open the Autonomous Database, either read-only or read/write.
+        public let openMode: OpenMode?
+        /// The unique identifier of the peer Autonomous Database.
+        public let peerDbId: String?
+        /// The permission level of the Autonomous Database.
+        public let permissionLevel: PermissionLevel?
+        /// The private endpoint IP address for the Autonomous Database.
+        public let privateEndpointIp: String?
+        /// The private endpoint label for the Autonomous Database.
+        public let privateEndpointLabel: String?
+        /// The refresh mode of the refreshable clone Autonomous Database.
+        public let refreshableMode: RefreshableMode?
+        /// The unique identifier of the resource pool leader Autonomous Database.
+        public let resourcePoolLeaderId: String?
+        /// The configuration of the resource pool for the Autonomous Database.
+        public let resourcePoolSummary: ResourcePoolSummary?
+        /// The list of scheduled start and stop times for the Autonomous Database.
+        public let scheduledOperations: [ScheduledOperationDetails]?
+        /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+        public let standbyAllowlistedIps: [String]?
+        /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+        public let standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource?
+        /// The date and time at which the automatic refresh of the refreshable clone Autonomous Database starts.
+        public let timeOfAutoRefreshStart: Date?
+
+        @inlinable
+        public init(adminPassword: String? = nil, adminPasswordSource: AdminPasswordSource? = nil, adminPasswordSourceConfiguration: AdminPasswordSourceConfigurationInput? = nil, allowlistedIps: [String]? = nil, autonomousDatabaseId: String, autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType? = nil, autoRefreshFrequencyInSeconds: Int? = nil, autoRefreshPointLagInSeconds: Int? = nil, backupRetentionPeriodInDays: Int? = nil, byolComputeCountLimit: Double? = nil, computeCount: Double? = nil, cpuCoreCount: Int? = nil, customerContactsToSendToOCI: [CustomerContact]? = nil, databaseEdition: DatabaseEdition? = nil, dataStorageSizeInGBs: Int? = nil, dataStorageSizeInTBs: Int? = nil, dbName: String? = nil, dbToolsDetails: [DatabaseTool]? = nil, dbVersion: String? = nil, dbWorkload: DbWorkload? = nil, displayName: String? = nil, encryptionKeyConfiguration: EncryptionKeyConfigurationInput? = nil, encryptionKeyProvider: EncryptionKeyProviderInput? = nil, isAutoScalingEnabled: Bool? = nil, isAutoScalingForStorageEnabled: Bool? = nil, isBackupRetentionLocked: Bool? = nil, isDisconnectPeer: Bool? = nil, isLocalDataGuardEnabled: Bool? = nil, isMtlsConnectionRequired: Bool? = nil, isRefreshableClone: Bool? = nil, licenseModel: LicenseModel? = nil, localAdgAutoFailoverMaxDataLossLimit: Int? = nil, longTermBackupSchedule: LongTermBackupSchedule? = nil, openMode: OpenMode? = nil, peerDbId: String? = nil, permissionLevel: PermissionLevel? = nil, privateEndpointIp: String? = nil, privateEndpointLabel: String? = nil, refreshableMode: RefreshableMode? = nil, resourcePoolLeaderId: String? = nil, resourcePoolSummary: ResourcePoolSummary? = nil, scheduledOperations: [ScheduledOperationDetails]? = nil, standbyAllowlistedIps: [String]? = nil, standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource? = nil, timeOfAutoRefreshStart: Date? = nil) {
+            self.adminPassword = adminPassword
+            self.adminPasswordSource = adminPasswordSource
+            self.adminPasswordSourceConfiguration = adminPasswordSourceConfiguration
+            self.allowlistedIps = allowlistedIps
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+            self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+            self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+            self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+            self.byolComputeCountLimit = byolComputeCountLimit
+            self.computeCount = computeCount
+            self.cpuCoreCount = cpuCoreCount
+            self.customerContactsToSendToOCI = customerContactsToSendToOCI
+            self.databaseEdition = databaseEdition
+            self.dataStorageSizeInGBs = dataStorageSizeInGBs
+            self.dataStorageSizeInTBs = dataStorageSizeInTBs
+            self.dbName = dbName
+            self.dbToolsDetails = dbToolsDetails
+            self.dbVersion = dbVersion
+            self.dbWorkload = dbWorkload
+            self.displayName = displayName
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyProvider = encryptionKeyProvider
+            self.isAutoScalingEnabled = isAutoScalingEnabled
+            self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+            self.isBackupRetentionLocked = isBackupRetentionLocked
+            self.isDisconnectPeer = isDisconnectPeer
+            self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+            self.isMtlsConnectionRequired = isMtlsConnectionRequired
+            self.isRefreshableClone = isRefreshableClone
+            self.licenseModel = licenseModel
+            self.localAdgAutoFailoverMaxDataLossLimit = localAdgAutoFailoverMaxDataLossLimit
+            self.longTermBackupSchedule = longTermBackupSchedule
+            self.openMode = openMode
+            self.peerDbId = peerDbId
+            self.permissionLevel = permissionLevel
+            self.privateEndpointIp = privateEndpointIp
+            self.privateEndpointLabel = privateEndpointLabel
+            self.refreshableMode = refreshableMode
+            self.resourcePoolLeaderId = resourcePoolLeaderId
+            self.resourcePoolSummary = resourcePoolSummary
+            self.scheduledOperations = scheduledOperations
+            self.standbyAllowlistedIps = standbyAllowlistedIps
+            self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+            self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+        }
+
+        public func validate(name: String) throws {
+            try self.adminPasswordSourceConfiguration?.validate(name: "\(name).adminPasswordSourceConfiguration")
+            try self.validate(self.allowlistedIps, name: "allowlistedIps", parent: name, max: 1024)
+            try self.validate(self.allowlistedIps, name: "allowlistedIps", parent: name, min: 1)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, max: 2048)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, min: 6)
+            try self.validate(self.autonomousDatabaseId, name: "autonomousDatabaseId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.encryptionKeyConfiguration?.validate(name: "\(name).encryptionKeyConfiguration")
+            try self.validate(self.peerDbId, name: "peerDbId", parent: name, max: 2048)
+            try self.validate(self.peerDbId, name: "peerDbId", parent: name, min: 6)
+            try self.validate(self.peerDbId, name: "peerDbId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.resourcePoolLeaderId, name: "resourcePoolLeaderId", parent: name, max: 2048)
+            try self.validate(self.resourcePoolLeaderId, name: "resourcePoolLeaderId", parent: name, min: 6)
+            try self.validate(self.resourcePoolLeaderId, name: "resourcePoolLeaderId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.standbyAllowlistedIps, name: "standbyAllowlistedIps", parent: name, max: 1024)
+            try self.validate(self.standbyAllowlistedIps, name: "standbyAllowlistedIps", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adminPassword = "adminPassword"
+            case adminPasswordSource = "adminPasswordSource"
+            case adminPasswordSourceConfiguration = "adminPasswordSourceConfiguration"
+            case allowlistedIps = "allowlistedIps"
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case autonomousMaintenanceScheduleType = "autonomousMaintenanceScheduleType"
+            case autoRefreshFrequencyInSeconds = "autoRefreshFrequencyInSeconds"
+            case autoRefreshPointLagInSeconds = "autoRefreshPointLagInSeconds"
+            case backupRetentionPeriodInDays = "backupRetentionPeriodInDays"
+            case byolComputeCountLimit = "byolComputeCountLimit"
+            case computeCount = "computeCount"
+            case cpuCoreCount = "cpuCoreCount"
+            case customerContactsToSendToOCI = "customerContactsToSendToOCI"
+            case databaseEdition = "databaseEdition"
+            case dataStorageSizeInGBs = "dataStorageSizeInGBs"
+            case dataStorageSizeInTBs = "dataStorageSizeInTBs"
+            case dbName = "dbName"
+            case dbToolsDetails = "dbToolsDetails"
+            case dbVersion = "dbVersion"
+            case dbWorkload = "dbWorkload"
+            case displayName = "displayName"
+            case encryptionKeyConfiguration = "encryptionKeyConfiguration"
+            case encryptionKeyProvider = "encryptionKeyProvider"
+            case isAutoScalingEnabled = "isAutoScalingEnabled"
+            case isAutoScalingForStorageEnabled = "isAutoScalingForStorageEnabled"
+            case isBackupRetentionLocked = "isBackupRetentionLocked"
+            case isDisconnectPeer = "isDisconnectPeer"
+            case isLocalDataGuardEnabled = "isLocalDataGuardEnabled"
+            case isMtlsConnectionRequired = "isMtlsConnectionRequired"
+            case isRefreshableClone = "isRefreshableClone"
+            case licenseModel = "licenseModel"
+            case localAdgAutoFailoverMaxDataLossLimit = "localAdgAutoFailoverMaxDataLossLimit"
+            case longTermBackupSchedule = "longTermBackupSchedule"
+            case openMode = "openMode"
+            case peerDbId = "peerDbId"
+            case permissionLevel = "permissionLevel"
+            case privateEndpointIp = "privateEndpointIp"
+            case privateEndpointLabel = "privateEndpointLabel"
+            case refreshableMode = "refreshableMode"
+            case resourcePoolLeaderId = "resourcePoolLeaderId"
+            case resourcePoolSummary = "resourcePoolSummary"
+            case scheduledOperations = "scheduledOperations"
+            case standbyAllowlistedIps = "standbyAllowlistedIps"
+            case standbyAllowlistedIpsSource = "standbyAllowlistedIpsSource"
+            case timeOfAutoRefreshStart = "timeOfAutoRefreshStart"
+        }
+    }
+
+    public struct UpdateAutonomousDatabaseOutput: AWSDecodableShape {
+        /// The unique identifier of the Autonomous Database that was updated.
+        public let autonomousDatabaseId: String
+        /// The user-friendly name of the Autonomous Database that was updated.
+        public let displayName: String?
+        /// The current status of the Autonomous Database.
+        public let status: AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the Autonomous Database, if applicable.
+        public let statusReason: String?
+
+        @inlinable
+        public init(autonomousDatabaseId: String, displayName: String? = nil, status: AutonomousDatabaseResourceStatus? = nil, statusReason: String? = nil) {
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.displayName = displayName
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autonomousDatabaseId = "autonomousDatabaseId"
+            case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
     }
 
     public struct UpdateCloudExadataInfrastructureInput: AWSEncodableShape {
@@ -5161,6 +8808,24 @@ extension Odb {
         }
     }
 
+    public struct WalletPasswordSourceSummary: AWSDecodableShape {
+        /// The source of the password for the Autonomous Database wallet.
+        public let passwordSource: WalletPasswordSource?
+        /// The configuration of the password source for the Autonomous Database wallet.
+        public let passwordSourceConfiguration: WalletPasswordSourceConfiguration?
+
+        @inlinable
+        public init(passwordSource: WalletPasswordSource? = nil, passwordSourceConfiguration: WalletPasswordSourceConfiguration? = nil) {
+            self.passwordSource = passwordSource
+            self.passwordSourceConfiguration = passwordSourceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passwordSource = "passwordSource"
+            case passwordSourceConfiguration = "passwordSourceConfiguration"
+        }
+    }
+
     public struct ZeroEtlAccess: AWSDecodableShape {
         /// The CIDR block for the Zero-ETL access.
         public let cidr: String?
@@ -5176,6 +8841,88 @@ extension Odb {
         private enum CodingKeys: String, CodingKey {
             case cidr = "cidr"
             case status = "status"
+        }
+    }
+
+    public struct AdminPasswordSourceConfiguration: AWSDecodableShape {
+        /// The configuration for a customer-managed Amazon Web Services Secrets Manager secret used as the admin password source.
+        public let customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration?
+
+        @inlinable
+        public init(customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration? = nil) {
+            self.customerManagedAwsSecret = customerManagedAwsSecret
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedAwsSecret = "customerManagedAwsSecret"
+        }
+    }
+
+    public struct AdminPasswordSourceConfigurationInput: AWSEncodableShape {
+        /// The configuration for using a customer-managed Amazon Web Services Secrets Manager secret as the admin password source.
+        public let customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput?
+
+        @inlinable
+        public init(customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput? = nil) {
+            self.customerManagedAwsSecret = customerManagedAwsSecret
+        }
+
+        public func validate(name: String) throws {
+            try self.customerManagedAwsSecret?.validate(name: "\(name).customerManagedAwsSecret")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedAwsSecret = "customerManagedAwsSecret"
+        }
+    }
+
+    public struct EncryptionKeyConfigurationInput: AWSEncodableShape {
+        /// The configuration of the Amazon Web Services Key Management Service (KMS) encryption key to use.
+        public let awsEncryptionKey: AwsEncryptionKeyConfigurationInput?
+
+        @inlinable
+        public init(awsEncryptionKey: AwsEncryptionKeyConfigurationInput? = nil) {
+            self.awsEncryptionKey = awsEncryptionKey
+        }
+
+        public func validate(name: String) throws {
+            try self.awsEncryptionKey?.validate(name: "\(name).awsEncryptionKey")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsEncryptionKey = "awsEncryptionKey"
+        }
+    }
+
+    public struct WalletPasswordSourceConfiguration: AWSDecodableShape {
+        /// The configuration for a customer-managed Amazon Web Services Secrets Manager secret used as the wallet password source.
+        public let customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration?
+
+        @inlinable
+        public init(customerManagedAwsSecret: CustomerManagedAwsSecretConfiguration? = nil) {
+            self.customerManagedAwsSecret = customerManagedAwsSecret
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedAwsSecret = "customerManagedAwsSecret"
+        }
+    }
+
+    public struct WalletPasswordSourceConfigurationInput: AWSEncodableShape {
+        /// The configuration for using a customer-managed Amazon Web Services Secrets Manager secret as the wallet password source.
+        public let customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput?
+
+        @inlinable
+        public init(customerManagedAwsSecret: CustomerManagedAwsSecretConfigurationInput? = nil) {
+            self.customerManagedAwsSecret = customerManagedAwsSecret
+        }
+
+        public func validate(name: String) throws {
+            try self.customerManagedAwsSecret?.validate(name: "\(name).customerManagedAwsSecret")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedAwsSecret = "customerManagedAwsSecret"
         }
     }
 }

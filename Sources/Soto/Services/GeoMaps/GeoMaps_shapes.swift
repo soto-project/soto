@@ -37,6 +37,8 @@ extension GeoMaps {
     }
 
     public enum ContourDensity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "High"
+        case low = "Low"
         case medium = "Medium"
         public var description: String { return self.rawValue }
     }
@@ -95,6 +97,7 @@ extension GeoMaps {
 
     public enum Traffic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "All"
+        case congestion = "Congestion"
         public var description: String { return self.rawValue }
     }
 
@@ -181,7 +184,7 @@ extension GeoMaps {
     }
 
     public struct GetSpritesRequest: AWSEncodableShape {
-        /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
+        /// Sets the color tone for the map sprites, such as dark and light. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
         public let colorScheme: ColorScheme
         ///  Sprites API: The name of the sprite ﬁle to retrieve, following pattern sprites(@2x)?\.(png|json). Example: sprites.png
         public let fileName: String
@@ -248,7 +251,7 @@ extension GeoMaps {
         public let boundingBox: String?
         /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set.  Cannot be used with Zoom and or Radius   Example: 49.295,-123.108
         public let center: String?
-        /// Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
+        /// Sets the color tone for the map, such as dark and light. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
         public let colorScheme: ColorScheme?
         /// Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat]  Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B   Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and multiPolgyon.
         public let compactOverlay: String?
@@ -395,21 +398,21 @@ extension GeoMaps {
     public struct GetStyleDescriptorRequest: AWSEncodableShape {
         /// Adjusts how building details are rendered on the map. The following building styles are currently supported:    Buildings3D: Displays buildings as three-dimensional extrusions on the map.    Buildings3D is valid only for the Standard and Monochrome map styles.
         public let buildings: Buildings?
-        /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
+        /// Sets the color tone for the map, such as dark and light. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
         public let colorScheme: ColorScheme?
-        /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard, Monochrome, and Hybrid map styles.
+        /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite.
         public let contourDensity: ContourDensity?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
+        /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
         public let politicalView: String?
-        /// Style specifies the desired map style.
+        /// Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values.
         public let style: MapStyle
-        /// Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.    Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.    Hillshade is valid only for the Standard and Monochrome map styles.
+        /// Adjusts how physical terrain details are rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.    Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.    Hillshade is valid only for the Standard and Monochrome map styles.
         public let terrain: Terrain?
-        /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
+        /// Displays real-time traffic information overlay on map, such as incident events and flow events. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite.
         public let traffic: Traffic?
-        /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid only for the Standard map style.
+        /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite.
         public let travelModes: [TravelMode]?
 
         @inlinable
@@ -482,13 +485,13 @@ extension GeoMaps {
     }
 
     public struct GetTileRequest: AWSEncodableShape {
-        /// A list of optional additional parameters such as map styles that can be requested for each result.
+        /// A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let additionalFeatures: [TileAdditionalFeature]?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
+        /// Specifies the desired tile set. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
         public let tileset: String
-        /// The X axis value for the map tile. Must be between 0 and 19.
+        /// The X axis value for the map tile.
         public let x: String
         /// The Y axis value for the map tile.
         public let y: String

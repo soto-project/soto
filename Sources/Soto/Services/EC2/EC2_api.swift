@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS EC2 service.
 ///
-/// Amazon Elastic Compute Cloud You can access the features of Amazon Elastic Compute Cloud (Amazon EC2) programmatically. For more information, see the Amazon EC2 Developer Guide.
+/// Amazon Elastic Compute Cloud This is the Amazon EC2 API Reference. It provides descriptions, API request parameters, and the XML response for each of the Amazon EC2 Query API actions. Note that the Amazon EC2 API includes actions for Amazon EC2 plus additional services, such as Amazon EBS and Amazon VPC.  Learn more    To learn about using the Query API, see  Using the API for Amazon EC2.   To learn about the permissions required to call an Amazon EC2 API action, see  Actions, resources, and condition keys for Amazon EC2.   To get the list of API actions by service and resource, see  Actions by service.   To get the alphabetical list of API actions, see  .   To get descriptions of the API error codes, see  Error codes for the Amazon EC2 API.   Alternatively, use one of the following methods to access the Amazon EC2 API, instead of using the Query API directly:    Amazon Web Services CLI Command Reference - ec2 commands     CloudFormation - Amazon EC2 resource type reference     Amazon Web Services Tools for PowerShell Cmdlet Reference - Amazon EC2 cmdlets     Amazon Web Services SDKs
 public struct EC2: AWSService {
     // MARK: Member variables
 
@@ -224,6 +224,38 @@ public struct EC2: AWSService {
             targetConfigurations: targetConfigurations
         )
         return try await self.acceptReservedInstancesExchangeQuote(input, logger: logger)
+    }
+
+    /// Accepts a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner must accept the attachment request before the Client VPN endpoint can route traffic through the Transit Gateway.
+    @Sendable
+    @inlinable
+    public func acceptTransitGatewayClientVpnAttachment(_ input: AcceptTransitGatewayClientVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptTransitGatewayClientVpnAttachmentResult {
+        try await self.client.execute(
+            operation: "AcceptTransitGatewayClientVpnAttachment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Accepts a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner must accept the attachment request before the Client VPN endpoint can route traffic through the Transit Gateway.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - transitGatewayAttachmentId: The ID of the Transit Gateway attachment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptTransitGatewayClientVpnAttachment(
+        dryRun: Bool? = nil,
+        transitGatewayAttachmentId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AcceptTransitGatewayClientVpnAttachmentResult {
+        let input = AcceptTransitGatewayClientVpnAttachmentRequest(
+            dryRun: dryRun, 
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.acceptTransitGatewayClientVpnAttachment(input, logger: logger)
     }
 
     /// Accepts a request to associate subnets with a transit gateway multicast domain.
@@ -504,6 +536,7 @@ public struct EC2: AWSService {
     ///   - availabilityZone: The Availability Zone in which to allocate the Dedicated Host.
     ///   - availabilityZoneId: The ID of the Availability Zone.
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
+    ///   - cpuOptions: The CPU configuration options to apply to the Dedicated Host.
     ///   - hostMaintenance: Indicates whether to enable or disable host maintenance for the Dedicated Host. For more information, see Host maintenance in the Amazon EC2 User Guide.
     ///   - hostRecovery: Indicates whether to enable or disable host recovery for the Dedicated Host. Host recovery is disabled by default. For more information, see  Host recovery in the Amazon EC2 User Guide. Default: off
     ///   - instanceFamily: Specifies the instance family to be supported by the Dedicated Hosts. If you specify an instance family, the Dedicated Hosts support multiple instance types within that instance family. If you want the Dedicated Hosts to support a specific instance type only, omit this parameter and specify InstanceType instead. You cannot specify InstanceFamily and InstanceType in the same request.
@@ -519,6 +552,7 @@ public struct EC2: AWSService {
         availabilityZone: String? = nil,
         availabilityZoneId: String? = nil,
         clientToken: String? = nil,
+        cpuOptions: HostCpuOptionsRequest? = nil,
         hostMaintenance: HostMaintenance? = nil,
         hostRecovery: HostRecovery? = nil,
         instanceFamily: String? = nil,
@@ -534,6 +568,7 @@ public struct EC2: AWSService {
             availabilityZone: availabilityZone, 
             availabilityZoneId: availabilityZoneId, 
             clientToken: clientToken, 
+            cpuOptions: cpuOptions, 
             hostMaintenance: hostMaintenance, 
             hostRecovery: hostRecovery, 
             instanceFamily: instanceFamily, 
@@ -570,6 +605,7 @@ public struct EC2: AWSService {
     ///   - ipamPoolId: The ID of the IPAM pool from which you would like to allocate a CIDR.
     ///   - netmaskLength: The netmask length of the CIDR you would like to allocate from the IPAM pool. Note the following:   If there is no DefaultNetmaskLength allocation rule set on the pool, you must specify either the NetmaskLength or the CIDR.   If the DefaultNetmaskLength allocation rule is set on the pool, you can specify either the NetmaskLength or the CIDR and the DefaultNetmaskLength allocation rule will be ignored.   Possible netmask lengths for IPv4 addresses are 0 - 32. Possible netmask lengths for IPv6 addresses are 0 - 128.
     ///   - previewNextCidr: A preview of the next available CIDR in a pool.
+    ///   - tagSpecifications: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value. If you specify tags, the request is authorized against the allocation resource in addition to the pool resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func allocateIpamPoolCidr(
@@ -582,6 +618,7 @@ public struct EC2: AWSService {
         ipamPoolId: String? = nil,
         netmaskLength: Int? = nil,
         previewNextCidr: Bool? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AllocateIpamPoolCidrResult {
         let input = AllocateIpamPoolCidrRequest(
@@ -593,7 +630,8 @@ public struct EC2: AWSService {
             dryRun: dryRun, 
             ipamPoolId: ipamPoolId, 
             netmaskLength: netmaskLength, 
-            previewNextCidr: previewNextCidr
+            previewNextCidr: previewNextCidr, 
+            tagSpecifications: tagSpecifications
         )
         return try await self.allocateIpamPoolCidr(input, logger: logger)
     }
@@ -865,13 +903,17 @@ public struct EC2: AWSService {
     /// Associates a target network with a Client VPN endpoint. A target network is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy. If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint (ModifyClientVpnEndpoint) and change the VPC that's associated with it.
     ///
     /// Parameters:
+    ///   - availabilityZone: The Availability Zone name for the Transit Gateway association. Required if when associating an Availability Zone with a Client VPN endpoint that uses a Transit Gateway. You cannot specify both SubnetId and AvailabilityZone.
+    ///   - availabilityZoneId: The Availability Zone ID for the Transit Gateway association. Required if when associating an Availability Zone with a Client VPN endpoint that uses a Transit Gateway. You cannot specify both AvailabilityZone and AvailabilityZoneId.
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - clientVpnEndpointId: The ID of the Client VPN endpoint.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - subnetId: The ID of the subnet to associate with the Client VPN endpoint.
+    ///   - subnetId: The ID of the subnet to associate with the Client VPN endpoint. Required for VPC-based endpoints. For Transit Gateway-based endpoints, use AvailabilityZone or AvailabilityZoneId instead.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateClientVpnTargetNetwork(
+        availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
         clientToken: String? = AssociateClientVpnTargetNetworkRequest.idempotencyToken(),
         clientVpnEndpointId: String? = nil,
         dryRun: Bool? = nil,
@@ -879,6 +921,8 @@ public struct EC2: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssociateClientVpnTargetNetworkResult {
         let input = AssociateClientVpnTargetNetworkRequest(
+            availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
             clientToken: clientToken, 
             clientVpnEndpointId: clientVpnEndpointId, 
             dryRun: dryRun, 
@@ -1567,6 +1611,41 @@ public struct EC2: AWSService {
         return try await self.attachClassicLinkVpc(input, logger: logger)
     }
 
+    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images created through CreateImage, and CopyImage. Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs.
+    @Sendable
+    @inlinable
+    public func attachImageWatermark(_ input: AttachImageWatermarkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachImageWatermarkResult {
+        try await self.client.execute(
+            operation: "AttachImageWatermark", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images created through CreateImage, and CopyImage. Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
+    ///   - imageId: The ID of the AMI.
+    ///   - watermarkName: The name for the watermark. Combined with the caller's account ID to form the WatermarkKey (accountId:watermarkName). Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func attachImageWatermark(
+        dryRun: Bool? = nil,
+        imageId: String? = nil,
+        watermarkName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AttachImageWatermarkResult {
+        let input = AttachImageWatermarkRequest(
+            dryRun: dryRun, 
+            imageId: imageId, 
+            watermarkName: watermarkName
+        )
+        return try await self.attachImageWatermark(input, logger: logger)
+    }
+
     /// Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity
     /// 		        between the internet and the VPC. For more information, see Internet gateways in the
     /// 		        Amazon VPC User Guide.
@@ -1933,7 +2012,7 @@ public struct EC2: AWSService {
         return try await self.authorizeSecurityGroupIngress(input, logger: logger)
     }
 
-    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS.
+    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is no longer supported. To create an AMI, use CreateImage. For more information, see  Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func bundleInstance(_ input: BundleInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BundleInstanceResult {
@@ -1946,7 +2025,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS.
+    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is no longer supported. To create an AMI, use CreateImage. For more information, see  Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
@@ -2001,11 +2080,18 @@ public struct EC2: AWSService {
     }
 
     /// Cancels the specified Capacity Reservation, releases the reserved capacity, and
-    /// 			changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
-    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation
-    /// 					during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the
-    /// 			commitment duration is waived, and you can cancel it as soon as it enters the
-    /// 				active state. Instances running in the reserved capacity continue running until you stop them.
+    /// 			changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     scheduled — requires a cancellation quote. Use
+    /// 					CreateCapacityReservationCancellationQuote to generate a quote,
+    /// 					then pass the quote ID with ApplyCancellationCharges set to
+    /// 					commitment-wind-down. The cancellation charge depends on how
+    /// 					close the reservation is to its start date.    active and there is no commitment duration or the commitment
+    /// 					duration has elapsed.    active during the commitment duration — requires a
+    /// 					cancellation quote. Use
+    /// 					CreateCapacityReservationCancellationQuote to generate a quote,
+    /// 					then pass the quote ID with ApplyCancellationCharges set to
+    /// 					commitment-wind-down. The Capacity Reservation transitions to
+    /// 					cancelling while charges are applied.    delayed — the commitment duration is waived, so no
+    /// 					cancellation charge applies.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  Instances running in the reserved capacity continue running until you stop them.
     /// 			Stopped instances that target the Capacity Reservation can no longer launch. Modify
     /// 			these instances to either target a different Capacity Reservation, launch On-Demand
     /// 			Instance capacity, or run in any open Capacity Reservation that has matching attributes
@@ -2023,29 +2109,42 @@ public struct EC2: AWSService {
         )
     }
     /// Cancels the specified Capacity Reservation, releases the reserved capacity, and
-    /// 			changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
-    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation
-    /// 					during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the
-    /// 			commitment duration is waived, and you can cancel it as soon as it enters the
-    /// 				active state. Instances running in the reserved capacity continue running until you stop them.
+    /// 			changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     scheduled — requires a cancellation quote. Use
+    /// 					CreateCapacityReservationCancellationQuote to generate a quote,
+    /// 					then pass the quote ID with ApplyCancellationCharges set to
+    /// 					commitment-wind-down. The cancellation charge depends on how
+    /// 					close the reservation is to its start date.    active and there is no commitment duration or the commitment
+    /// 					duration has elapsed.    active during the commitment duration — requires a
+    /// 					cancellation quote. Use
+    /// 					CreateCapacityReservationCancellationQuote to generate a quote,
+    /// 					then pass the quote ID with ApplyCancellationCharges set to
+    /// 					commitment-wind-down. The Capacity Reservation transitions to
+    /// 					cancelling while charges are applied.    delayed — the commitment duration is waived, so no
+    /// 					cancellation charge applies.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  Instances running in the reserved capacity continue running until you stop them.
     /// 			Stopped instances that target the Capacity Reservation can no longer launch. Modify
     /// 			these instances to either target a different Capacity Reservation, launch On-Demand
     /// 			Instance capacity, or run in any open Capacity Reservation that has matching attributes
     /// 			and sufficient capacity.
     ///
     /// Parameters:
+    ///   - applyCancellationCharges: Specifies the cancellation charge type to apply when cancelling a future-dated Capacity
     ///   - capacityReservationId: The ID of the Capacity Reservation to be cancelled.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - quoteId: The ID of the cancellation quote to use for the cancellation. You can generate a
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelCapacityReservation(
+        applyCancellationCharges: ApplyCancellationCharges? = nil,
         capacityReservationId: String? = nil,
         dryRun: Bool? = nil,
+        quoteId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CancelCapacityReservationResult {
         let input = CancelCapacityReservationRequest(
+            applyCancellationCharges: applyCancellationCharges, 
             capacityReservationId: capacityReservationId, 
-            dryRun: dryRun
+            dryRun: dryRun, 
+            quoteId: quoteId
         )
         return try await self.cancelCapacityReservation(input, logger: logger)
     }
@@ -2816,6 +2915,50 @@ public struct EC2: AWSService {
         return try await self.createCapacityReservationBySplitting(input, logger: logger)
     }
 
+    /// Generates a cancellation quote for a future-dated Capacity Reservation that is
+    /// 			within its commitment duration. The quote includes the cancellation terms and a quote ID
+    /// 			that you can pass to the CancelCapacityReservation action. Cancellation
+    /// 			quotes are valid for 24 hours.
+    @Sendable
+    @inlinable
+    public func createCapacityReservationCancellationQuote(_ input: CreateCapacityReservationCancellationQuoteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityReservationCancellationQuoteResult {
+        try await self.client.execute(
+            operation: "CreateCapacityReservationCancellationQuote", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates a cancellation quote for a future-dated Capacity Reservation that is
+    /// 			within its commitment duration. The quote includes the cancellation terms and a quote ID
+    /// 			that you can pass to the CancelCapacityReservation action. Cancellation
+    /// 			quotes are valid for 24 hours.
+    ///
+    /// Parameters:
+    ///   - capacityReservationId: The ID of the Capacity Reservation.
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensure Idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - tagSpecifications: The tags to apply to the cancellation quote.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCapacityReservationCancellationQuote(
+        capacityReservationId: String? = nil,
+        clientToken: String? = CreateCapacityReservationCancellationQuoteRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCapacityReservationCancellationQuoteResult {
+        let input = CreateCapacityReservationCancellationQuoteRequest(
+            capacityReservationId: capacityReservationId, 
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createCapacityReservationCancellationQuote(input, logger: logger)
+    }
+
     /// Creates a Capacity Reservation Fleet. For more information, see Create a
     /// 				Capacity Reservation Fleet in the
     /// 			Amazon EC2 User Guide.
@@ -2950,6 +3093,7 @@ public struct EC2: AWSService {
     ///   - splitTunnel: Indicates whether split-tunnel is enabled on the Client VPN endpoint. By default, split-tunnel on a VPN endpoint is disabled. For information about split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the
     ///   - tagSpecifications: The tags to apply to the Client VPN endpoint during creation.
     ///   - trafficIpAddressType: The IP address type for traffic within the Client VPN tunnel. Valid values are ipv4 (default) for IPv4 traffic only, ipv6 for IPv6 addressing only, or dual-stack for both IPv4 and IPv6 traffic. When set to dual-stack, clients can access both IPv4 and IPv6 resources through the VPN .
+    ///   - transitGatewayConfiguration: The Transit Gateway configuration for the Client VPN endpoint. Use this parameter to associate the endpoint with a Transit Gateway instead of a VPC. You cannot specify both TransitGatewayConfiguration and VpcId/SecurityGroupIds.
     ///   - transportProtocol: The transport protocol to be used by the VPN session. Default value: udp
     ///   - vpcId: The ID of the VPC to associate with the Client VPN endpoint. If no security group IDs are specified in the request, the default security group for the VPC is applied.
     ///   - vpnPort: The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443
@@ -2975,6 +3119,7 @@ public struct EC2: AWSService {
         splitTunnel: Bool? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         trafficIpAddressType: TrafficIpAddressType? = nil,
+        transitGatewayConfiguration: TransitGatewayConfigurationInputStructure? = nil,
         transportProtocol: TransportProtocol? = nil,
         vpcId: String? = nil,
         vpnPort: Int? = nil,
@@ -3000,6 +3145,7 @@ public struct EC2: AWSService {
             splitTunnel: splitTunnel, 
             tagSpecifications: tagSpecifications, 
             trafficIpAddressType: trafficIpAddressType, 
+            transitGatewayConfiguration: transitGatewayConfiguration, 
             transportProtocol: transportProtocol, 
             vpcId: vpcId, 
             vpnPort: vpnPort
@@ -3400,8 +3546,9 @@ public struct EC2: AWSService {
     ///   - launchTemplateConfigs: The configuration for the EC2 Fleet.
     ///   - onDemandOptions: Describes the configuration of On-Demand Instances in an EC2 Fleet.
     ///   - replaceUnhealthyInstances: Indicates whether EC2 Fleet should replace unhealthy Spot Instances. Supported only for fleets of type maintain. For more information, see EC2 Fleet health checks in the Amazon EC2 User Guide.
+    ///   - reservedCapacityOptions: Defines EC2 Fleet preferences for utilizing reserved capacity when DefaultTargetCapacityType is set to reserved-capacity. Supported only for fleets of type instant.
     ///   - spotOptions: Describes the configuration of Spot Instances in an EC2 Fleet.
-    ///   - tagSpecifications: The key-value pair for tagging the EC2 Fleet request on creation. For more information, see  Tag your resources. If the fleet type is instant, specify a resource type of fleet  to tag the fleet or instance to tag the instances at launch. If the fleet type is maintain or request, specify a resource type of fleet to tag the fleet. You cannot specify a resource type of instance. To tag instances at launch, specify the tags in a launch template.
+    ///   - tagSpecifications: The key-value pair for tagging the EC2 Fleet request on creation. For more information, see  Tag your resources. If the fleet type is instant, specify a resource type of fleet  to tag the fleet, instance to tag the instances at launch, volume to tag the volumes at launch, or network-interface to tag the network interfaces at launch. If the fleet type is maintain or request, specify a resource type of fleet to tag the fleet. You cannot specify a resource type of instance, volume, or network-interface. To tag instances at launch, specify the tags in a launch template.
     ///   - targetCapacitySpecification: The number of units to request.
     ///   - terminateInstancesWithExpiration: Indicates whether running instances should be terminated when the EC2 Fleet expires.
     ///   - type: The fleet type. The default value is maintain.    maintain - The EC2 Fleet places an asynchronous request for your desired capacity, and continues to maintain your desired Spot capacity by replenishing interrupted Spot Instances.    request - The EC2 Fleet places an asynchronous one-time request for your desired capacity, but does submit Spot requests in alternative capacity pools if Spot capacity is unavailable, and does not maintain Spot capacity if Spot Instances are interrupted.    instant - The EC2 Fleet places a synchronous one-time request for your desired capacity, and returns errors for any instances that could not be launched.   For more information, see EC2 Fleet request types in the Amazon EC2 User Guide.
@@ -3417,6 +3564,7 @@ public struct EC2: AWSService {
         launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil,
         onDemandOptions: OnDemandOptionsRequest? = nil,
         replaceUnhealthyInstances: Bool? = nil,
+        reservedCapacityOptions: ReservedCapacityOptionsRequest? = nil,
         spotOptions: SpotOptionsRequest? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil,
@@ -3434,6 +3582,7 @@ public struct EC2: AWSService {
             launchTemplateConfigs: launchTemplateConfigs, 
             onDemandOptions: onDemandOptions, 
             replaceUnhealthyInstances: replaceUnhealthyInstances, 
+            reservedCapacityOptions: reservedCapacityOptions, 
             spotOptions: spotOptions, 
             tagSpecifications: tagSpecifications, 
             targetCapacitySpecification: targetCapacitySpecification, 
@@ -3473,6 +3622,7 @@ public struct EC2: AWSService {
     ///   - maxAggregationInterval: The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.  The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
     ///   - resourceIds: The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 1000 for the other resource types.
     ///   - resourceType: The type of resource to monitor.
+    ///   - tagFieldSpecifications: The tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
     ///   - tagSpecifications: The tags to apply to the flow logs.
     ///   - trafficType: The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
     ///   - logger: Logger use during operation
@@ -3490,6 +3640,7 @@ public struct EC2: AWSService {
         maxAggregationInterval: Int? = nil,
         resourceIds: [String]? = nil,
         resourceType: FlowLogsResourceType? = nil,
+        tagFieldSpecifications: [TagFieldSpecificationRequest]? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         trafficType: TrafficType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3507,6 +3658,7 @@ public struct EC2: AWSService {
             maxAggregationInterval: maxAggregationInterval, 
             resourceIds: resourceIds, 
             resourceType: resourceType, 
+            tagFieldSpecifications: tagFieldSpecifications, 
             tagSpecifications: tagSpecifications, 
             trafficType: trafficType
         )
@@ -5122,7 +5274,7 @@ public struct EC2: AWSService {
         return try await self.createNetworkInterfacePermission(input, logger: logger)
     }
 
-    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. For more information, see Placement groups in the Amazon EC2 User Guide.
+    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. A precision-time placement group places instances on supported hardware with direct access to high-precision time sources in Amazon Web Services infrastructure. For more information, see Placement groups in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createPlacementGroup(_ input: CreatePlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePlacementGroupResult {
@@ -5135,13 +5287,14 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. For more information, see Placement groups in the Amazon EC2 User Guide.
+    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. A precision-time placement group places instances on supported hardware with direct access to high-precision time sources in Amazon Web Services infrastructure. For more information, see Placement groups in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - groupName: A name for the placement group. Must be unique within the scope of your account for the Region. Constraints: Up to 255 ASCII characters
     ///   - linkedGroupId: Reserved for future use.
     ///   - operator: Reserved for internal use.
+    ///   - parentGroupId: The ID of a parent placement group. Valid only when Strategy is set to cluster.
     ///   - partitionCount: The number of partitions. Valid only when Strategy is set to partition.
     ///   - spreadLevel: Determines how placement groups spread instances.    Host – You can use host only with Outpost placement groups.   Rack – No usage restrictions.
     ///   - strategy: The placement strategy.
@@ -5153,6 +5306,7 @@ public struct EC2: AWSService {
         groupName: String? = nil,
         linkedGroupId: String? = nil,
         operator: OperatorRequest? = nil,
+        parentGroupId: String? = nil,
         partitionCount: Int? = nil,
         spreadLevel: SpreadLevel? = nil,
         strategy: PlacementStrategy? = nil,
@@ -5164,6 +5318,7 @@ public struct EC2: AWSService {
             groupName: groupName, 
             linkedGroupId: linkedGroupId, 
             operator: `operator`, 
+            parentGroupId: parentGroupId, 
             partitionCount: partitionCount, 
             spreadLevel: spreadLevel, 
             strategy: strategy, 
@@ -5207,7 +5362,7 @@ public struct EC2: AWSService {
         return try await self.createPublicIpv4Pool(input, logger: logger)
     }
 
-    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, or that is restored from an AMI  that has the same key characteristics as that of the instance. For more information, see Replace a root volume in the Amazon EC2 User Guide.
+    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, that is restored from an AMI  that has the same key characteristics as that of the instance, or that is replaced by  a specified volume. For more information, see Replace a root volume in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createReplaceRootVolumeTask(_ input: CreateReplaceRootVolumeTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplaceRootVolumeTaskResult {
@@ -5220,16 +5375,17 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, or that is restored from an AMI  that has the same key characteristics as that of the instance. For more information, see Replace a root volume in the Amazon EC2 User Guide.
+    /// Replaces the EBS-backed root volume for a running instance with a new  volume that is restored to the original root volume's launch state, that is restored to a  specific snapshot taken from the original root volume, that is restored from an AMI  that has the same key characteristics as that of the instance, or that is replaced by  a specified volume. For more information, see Replace a root volume in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request.  If you do not specify a client token, a randomly generated token is used for the request  to ensure idempotency. For more information, see Ensuring idempotency.
     ///   - deleteReplacedRootVolume: Indicates whether to automatically delete the original root volume after the root volume  replacement task completes. To delete the original root volume, specify true.  If you choose to keep the original root volume after the replacement task completes, you must  manually delete it when you no longer need it.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - imageId: The ID of the AMI to use to restore the root volume. The specified AMI must have the  same product code, billing information, architecture type, and virtualization type as  that of the instance. If you want to restore the replacement volume from a specific snapshot, or if you want  to restore it to its launch state, omit this parameter.
+    ///   - imageId: The ID of the AMI to use to restore the root volume. The specified AMI must have the  same product code, billing information, architecture type, and virtualization type as  that of the instance. If you want to restore the replacement volume from a specific snapshot, if you want  to restore it to its launch state, or if you want to replace the root volume with a  specified volume, omit this parameter.
     ///   - instanceId: The ID of the instance for which to replace the root volume.
-    ///   - snapshotId: The ID of the snapshot from which to restore the replacement root volume. The  specified snapshot must be a snapshot that you previously created from the original  root volume. If you want to restore the replacement root volume to the initial launch state,  or if you want to restore the replacement root volume from an AMI, omit this  parameter.
+    ///   - snapshotId: The ID of the snapshot from which to restore the replacement root volume. The  specified snapshot must be a snapshot that you previously created from the original  root volume. If you want to restore the replacement root volume to the initial launch state,  if you want to restore the replacement root volume from an AMI, or if you want to  replace the root volume with a specified volume, omit this parameter.
     ///   - tagSpecifications: The tags to apply to the root volume replacement task.
+    ///   - volumeId: The ID of the volume to use as the replacement root volume. The specified volume must  be in the same Availability Zone as the instance, must be in the available state, and must not be attached to an instance. If the original root volume is encrypted, the specified volume must also be encrypted. If you want to restore the replacement root volume from a specific snapshot, an AMI,  or to its launch state, omit this parameter.
     ///   - volumeInitializationRate: Specifies the Amazon EBS Provisioned Rate for Volume Initialization (volume initialization rate), in MiB/s, at which to download  the snapshot blocks from Amazon S3 to the replacement root volume. This is also known as  volume initialization. Specifying a volume initialization rate ensures that  the volume is initialized at a predictable and consistent rate after creation. Omit this parameter if:   You want to create the volume using fast snapshot restore. You must specify a snapshot  that is enabled for fast snapshot restore. In this case, the volume is fully initialized at  creation.  If you specify a snapshot that is enabled for fast snapshot restore and a volume initialization rate,  the volume will be initialized at the specified rate instead of fast snapshot restore.    You want to create a volume that is initialized at the default rate.   For more information, see  Initialize Amazon EBS volumes in the Amazon EC2 User Guide. Valid range: 100 - 300 MiB/s
     ///   - logger: Logger use during operation
     @inlinable
@@ -5241,6 +5397,7 @@ public struct EC2: AWSService {
         instanceId: String? = nil,
         snapshotId: String? = nil,
         tagSpecifications: [TagSpecification]? = nil,
+        volumeId: String? = nil,
         volumeInitializationRate: Int64? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateReplaceRootVolumeTaskResult {
@@ -5252,6 +5409,7 @@ public struct EC2: AWSService {
             instanceId: instanceId, 
             snapshotId: snapshotId, 
             tagSpecifications: tagSpecifications, 
+            volumeId: volumeId, 
             volumeInitializationRate: volumeInitializationRate
         )
         return try await self.createReplaceRootVolumeTask(input, logger: logger)
@@ -6591,6 +6749,47 @@ public struct EC2: AWSService {
             transitGatewayId: transitGatewayId
         )
         return try await self.createTransitGatewayPolicyTable(input, logger: logger)
+    }
+
+    /// Creates an entry in a transit gateway policy table to route matching traffic to a specified route table.
+    @Sendable
+    @inlinable
+    public func createTransitGatewayPolicyTableEntry(_ input: CreateTransitGatewayPolicyTableEntryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransitGatewayPolicyTableEntryResult {
+        try await self.client.execute(
+            operation: "CreateTransitGatewayPolicyTableEntry", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an entry in a transit gateway policy table to route matching traffic to a specified route table.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - policyRule: The matching criteria for the policy table entry.
+    ///   - policyRuleNumber: The rule number for the policy table entry. Lower rule numbers are evaluated first and take precedence.
+    ///   - targetRouteTableId: The ID of the transit gateway route table to use for traffic matching this rule.
+    ///   - transitGatewayPolicyTableId: The ID of the transit gateway policy table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTransitGatewayPolicyTableEntry(
+        dryRun: Bool? = nil,
+        policyRule: TransitGatewayRequestPolicyRule? = nil,
+        policyRuleNumber: String? = nil,
+        targetRouteTableId: String? = nil,
+        transitGatewayPolicyTableId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTransitGatewayPolicyTableEntryResult {
+        let input = CreateTransitGatewayPolicyTableEntryRequest(
+            dryRun: dryRun, 
+            policyRule: policyRule, 
+            policyRuleNumber: policyRuleNumber, 
+            targetRouteTableId: targetRouteTableId, 
+            transitGatewayPolicyTableId: transitGatewayPolicyTableId
+        )
+        return try await self.createTransitGatewayPolicyTableEntry(input, logger: logger)
     }
 
     /// Creates a reference (route) to a prefix list in a specified transit gateway route table.
@@ -9063,7 +9262,7 @@ public struct EC2: AWSService {
         return try await self.deleteNetworkInterfacePermission(input, logger: logger)
     }
 
-    /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. For more information, see Placement groups in the Amazon EC2 User Guide.
+    /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. You cannot delete a placement group that is a parent of a cluster placement group. Delete the cluster placement groups first. For more information, see Placement groups in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func deletePlacementGroup(_ input: DeletePlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -9076,7 +9275,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. For more information, see Placement groups in the Amazon EC2 User Guide.
+    /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. You cannot delete a placement group that is a parent of a cluster placement group. Delete the cluster placement groups first. For more information, see Placement groups in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9762,6 +9961,38 @@ public struct EC2: AWSService {
         return try await self.deleteTransitGateway(input, logger: logger)
     }
 
+    /// Deletes a Transit Gateway attachment for a Client VPN endpoint. The Transit Gateway owner can delete the attachment to remove the association between the Client VPN endpoint and the Transit Gateway.
+    @Sendable
+    @inlinable
+    public func deleteTransitGatewayClientVpnAttachment(_ input: DeleteTransitGatewayClientVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTransitGatewayClientVpnAttachmentResult {
+        try await self.client.execute(
+            operation: "DeleteTransitGatewayClientVpnAttachment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Transit Gateway attachment for a Client VPN endpoint. The Transit Gateway owner can delete the attachment to remove the association between the Client VPN endpoint and the Transit Gateway.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - transitGatewayAttachmentId: The ID of the Transit Gateway attachment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTransitGatewayClientVpnAttachment(
+        dryRun: Bool? = nil,
+        transitGatewayAttachmentId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTransitGatewayClientVpnAttachmentResult {
+        let input = DeleteTransitGatewayClientVpnAttachmentRequest(
+            dryRun: dryRun, 
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.deleteTransitGatewayClientVpnAttachment(input, logger: logger)
+    }
+
     /// Deletes the specified Connect attachment. You must first delete any Connect peers for the attachment.
     @Sendable
     @inlinable
@@ -9987,6 +10218,41 @@ public struct EC2: AWSService {
             transitGatewayPolicyTableId: transitGatewayPolicyTableId
         )
         return try await self.deleteTransitGatewayPolicyTable(input, logger: logger)
+    }
+
+    /// Deletes the specified transit gateway policy table entry.
+    @Sendable
+    @inlinable
+    public func deleteTransitGatewayPolicyTableEntry(_ input: DeleteTransitGatewayPolicyTableEntryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTransitGatewayPolicyTableEntryResult {
+        try await self.client.execute(
+            operation: "DeleteTransitGatewayPolicyTableEntry", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified transit gateway policy table entry.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - policyRuleNumber: The rule number of the policy table entry to delete.
+    ///   - transitGatewayPolicyTableId: The ID of the transit gateway policy table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTransitGatewayPolicyTableEntry(
+        dryRun: Bool? = nil,
+        policyRuleNumber: String? = nil,
+        transitGatewayPolicyTableId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTransitGatewayPolicyTableEntryResult {
+        let input = DeleteTransitGatewayPolicyTableEntryRequest(
+            dryRun: dryRun, 
+            policyRuleNumber: policyRuleNumber, 
+            transitGatewayPolicyTableId: transitGatewayPolicyTableId
+        )
+        return try await self.deleteTransitGatewayPolicyTableEntry(input, logger: logger)
     }
 
     /// Deletes a reference (route) to a prefix list in a specified transit gateway route table.
@@ -10999,6 +11265,35 @@ public struct EC2: AWSService {
         return try await self.describeAccountAttributes(input, logger: logger)
     }
 
+    /// Describes the account-level VPC Encryption Control configuration for your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func describeAccountVpcEncryptionControl(_ input: DescribeAccountVpcEncryptionControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountVpcEncryptionControlResult {
+        try await self.client.execute(
+            operation: "DescribeAccountVpcEncryptionControl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the account-level VPC Encryption Control configuration for your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAccountVpcEncryptionControl(
+        dryRun: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAccountVpcEncryptionControlResult {
+        let input = DescribeAccountVpcEncryptionControlRequest(
+            dryRun: dryRun
+        )
+        return try await self.describeAccountVpcEncryptionControl(input, logger: logger)
+    }
+
     /// Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP addresses in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for 14 days after the transfers have been accepted.
     @Sendable
     @inlinable
@@ -11612,6 +11907,51 @@ public struct EC2: AWSService {
             role: role
         )
         return try await self.describeCapacityReservationBillingRequests(input, logger: logger)
+    }
+
+    /// Describes one or more Capacity Reservation cancellation quotes. The results describe
+    /// 			only the quotes that you have previously generated by using the
+    /// 			CreateCapacityReservationCancellationQuote action.
+    @Sendable
+    @inlinable
+    public func describeCapacityReservationCancellationQuotes(_ input: DescribeCapacityReservationCancellationQuotesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityReservationCancellationQuotesResult {
+        try await self.client.execute(
+            operation: "DescribeCapacityReservationCancellationQuotes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more Capacity Reservation cancellation quotes. The results describe
+    /// 			only the quotes that you have previously generated by using the
+    /// 			CreateCapacityReservationCancellationQuote action.
+    ///
+    /// Parameters:
+    ///   - capacityReservationCancellationQuoteIds: The IDs of the cancellation quotes to describe.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters. Filter names and values are case-sensitive.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
+    ///   - nextToken: The token to use to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCapacityReservationCancellationQuotes(
+        capacityReservationCancellationQuoteIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCapacityReservationCancellationQuotesResult {
+        let input = DescribeCapacityReservationCancellationQuotesRequest(
+            capacityReservationCancellationQuoteIds: capacityReservationCancellationQuoteIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeCapacityReservationCancellationQuotes(input, logger: logger)
     }
 
     /// Describes one or more Capacity Reservation Fleets.
@@ -13118,7 +13458,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -13570,6 +13910,7 @@ public struct EC2: AWSService {
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -13579,6 +13920,7 @@ public struct EC2: AWSService {
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
         includeAllInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -13588,6 +13930,7 @@ public struct EC2: AWSService {
             dryRun: dryRun, 
             filters: filters, 
             includeAllInstances: includeAllInstances, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -13680,7 +14023,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceTypeOfferings(input, logger: logger)
     }
 
-    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results.
+    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results. To include instance types that are not supported in the current Region, set IncludeUnsupportedInRegion to true.
     @Sendable
     @inlinable
     public func describeInstanceTypes(_ input: DescribeInstanceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTypesResult {
@@ -13693,11 +14036,12 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results.
+    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results. To include instance types that are not supported in the current Region, set IncludeUnsupportedInRegion to true.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.attachment-limit-type - The type of Amazon EBS volume attachment limit  (shared | dedicated).    ebs-info.maximum-ebs-attachments - The maximum number of Amazon EBS volumes that  can be attached to the instance type.    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - A Boolean that indicates whether this instance type can be used under the Amazon Web Services Free Tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.flexible-ena-queues-support - Indicates whether an instance supports flexible ENA queues (supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    reboot-migration-support - Indicates whether enabling reboot migration is supported (supported | unsupported).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot | capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - includeUnsupportedInRegion: If true, the response includes instance types that are not supported in the current Region, in addition to the supported types. Default: false.
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -13706,6 +14050,7 @@ public struct EC2: AWSService {
     public func describeInstanceTypes(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeUnsupportedInRegion: Bool? = nil,
         instanceTypes: [InstanceType]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -13714,6 +14059,7 @@ public struct EC2: AWSService {
         let input = DescribeInstanceTypesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeUnsupportedInRegion: includeUnsupportedInRegion, 
             instanceTypes: instanceTypes, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -13739,6 +14085,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -13747,6 +14094,7 @@ public struct EC2: AWSService {
     public func describeInstances(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -13755,6 +14103,7 @@ public struct EC2: AWSService {
         let input = DescribeInstancesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -13920,6 +14269,47 @@ public struct EC2: AWSService {
         return try await self.describeIpamPolicies(input, logger: logger)
     }
 
+    /// Describes IPAM pool allocations. You can describe all allocations owned by you across all pools, or you can describe specific allocations by ID. If you specify IpamPoolAllocationIds, the results include only the specified allocations. If you do not specify IpamPoolAllocationIds, the results include all allocations owned by you. You can use Filters to narrow the results.  This action returns only allocations directly owned by you. To view all allocations in a pool you own or that has been shared with you, including allocations owned by other accounts, use GetIpamPoolAllocations.
+    @Sendable
+    @inlinable
+    public func describeIpamPoolAllocations(_ input: DescribeIpamPoolAllocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIpamPoolAllocationsResult {
+        try await self.client.execute(
+            operation: "DescribeIpamPoolAllocations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes IPAM pool allocations. You can describe all allocations owned by you across all pools, or you can describe specific allocations by ID. If you specify IpamPoolAllocationIds, the results include only the specified allocations. If you do not specify IpamPoolAllocationIds, the results include all allocations owned by you. You can use Filters to narrow the results.  This action returns only allocations directly owned by you. To view all allocations in a pool you own or that has been shared with you, including allocations owned by other accounts, use GetIpamPoolAllocations.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
+    ///   - ipamPoolAllocationIds: The IDs of the IPAM pool allocations you want to describe.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeIpamPoolAllocations(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        ipamPoolAllocationIds: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeIpamPoolAllocationsResult {
+        let input = DescribeIpamPoolAllocationsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            ipamPoolAllocationIds: ipamPoolAllocationIds, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeIpamPoolAllocations(input, logger: logger)
+    }
+
     /// Get information about your IPAM pools.
     @Sendable
     @inlinable
@@ -13939,7 +14329,7 @@ public struct EC2: AWSService {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamPoolIds: The IDs of the IPAM pools you would like information on.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -14147,7 +14537,7 @@ public struct EC2: AWSService {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamScopeIds: The IDs of the scopes you want information on.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -14188,7 +14578,7 @@ public struct EC2: AWSService {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamIds: The IDs of the IPAMs you want information on.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -14312,6 +14702,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters.    create-time - The time the launch template version was created.    ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O.    http-endpoint - Indicates whether the HTTP metadata endpoint on your instances is enabled (enabled | disabled).    http-protocol-ipv4 - Indicates whether the IPv4 endpoint for the instance metadata service is enabled (enabled | disabled).    host-resource-group-arn - The ARN of the host resource group in which to launch the instances.    http-tokens - The state of token usage for your instance metadata requests (optional | required).    iam-instance-profile - The ARN of the IAM instance profile.    image-id - The ID of the AMI.    instance-type - The instance type.    is-default-version - A boolean that indicates whether the launch template version is the default version.    kernel-id - The kernel ID.    license-configuration-arn - The ARN of the license configuration.    network-card-index - The index of the network card.    ram-disk-id - The RAM disk ID.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - launchTemplateId: The ID of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template ID or the launch template name, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter.
     ///   - launchTemplateName: The name of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template name or the launch template ID, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200.
@@ -14325,6 +14716,7 @@ public struct EC2: AWSService {
     public func describeLaunchTemplateVersions(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         launchTemplateId: String? = nil,
         launchTemplateName: String? = nil,
         maxResults: Int? = nil,
@@ -14338,6 +14730,7 @@ public struct EC2: AWSService {
         let input = DescribeLaunchTemplateVersionsRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             launchTemplateId: launchTemplateId, 
             launchTemplateName: launchTemplateName, 
             maxResults: maxResults, 
@@ -14368,6 +14761,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters.    create-time - The time the launch template was created.    launch-template-name - The name of the launch template.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - launchTemplateIds: One or more launch template IDs.
     ///   - launchTemplateNames: One or more launch template names.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200.
@@ -14377,6 +14771,7 @@ public struct EC2: AWSService {
     public func describeLaunchTemplates(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         launchTemplateIds: [String]? = nil,
         launchTemplateNames: [String]? = nil,
         maxResults: Int? = nil,
@@ -14386,6 +14781,7 @@ public struct EC2: AWSService {
         let input = DescribeLaunchTemplatesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             launchTemplateIds: launchTemplateIds, 
             launchTemplateNames: launchTemplateNames, 
             maxResults: maxResults, 
@@ -15199,6 +15595,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    availability-zone-id - The ID of the Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | evs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
     ///   - networkInterfaceIds: The network interface IDs. Default: Describes all your network interfaces.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -15207,6 +15604,7 @@ public struct EC2: AWSService {
     public func describeNetworkInterfaces(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         networkInterfaceIds: [String]? = nil,
         nextToken: String? = nil,
@@ -15215,6 +15613,7 @@ public struct EC2: AWSService {
         let input = DescribeNetworkInterfacesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             networkInterfaceIds: networkInterfaceIds, 
             nextToken: nextToken
@@ -15280,7 +15679,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    group-name - The name of the placement group.    group-arn - The Amazon Resource Name (ARN) of the placement group.    spread-level - The spread level for the placement group (host | rack).     state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.
+    ///   - filters: The filters.    group-name - The name of the placement group.    group-arn - The Amazon Resource Name (ARN) of the placement group.    spread-level - The spread level for the placement group (host | rack).     state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition | precision-time).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.
     ///   - groupIds: The IDs of the placement groups.
     ///   - groupNames: The names of the placement groups. Constraints:   You can specify a name only if the placement group is owned by your account.   If a placement group is shared with your account, specifying the name results in an error. You must use the GroupId parameter instead.
     ///   - logger: Logger use during operation
@@ -17715,6 +18114,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - volumeIds: The IDs of the volumes. Default: Describes all your volumes.
@@ -17723,6 +18123,7 @@ public struct EC2: AWSService {
     public func describeVolumeStatus(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         volumeIds: [String]? = nil,
@@ -17731,6 +18132,7 @@ public struct EC2: AWSService {
         let input = DescribeVolumeStatusRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             volumeIds: volumeIds
@@ -17756,6 +18158,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    availability-zone-id - The ID of the Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    fast-restored - Indicates whether the volume was created from a  snapshot that is enabled for fast snapshot restore (true |  false).    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true 			| false)    operator.managed - A Boolean that indicates whether this is a managed volume.    operator.principal - The principal that manages the volume. Only valid for managed volumes, where managed is true.    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 |  st1 | sc1| standard)
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - volumeIds: The volume IDs. If not specified, then all volumes are included in the response.
@@ -17764,6 +18167,7 @@ public struct EC2: AWSService {
     public func describeVolumes(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         volumeIds: [String]? = nil,
@@ -17772,6 +18176,7 @@ public struct EC2: AWSService {
         let input = DescribeVolumesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             volumeIds: volumeIds
@@ -17797,6 +18202,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    modification-state - The current modification state (modifying |  optimizing | completed | failed).    original-iops - The original IOPS rate of the volume.    original-size - The original size of the volume, in GiB.    original-volume-type - The original volume type of the volume (standard |  io1 | io2 | gp2 | sc1 | st1).    originalMultiAttachEnabled - Indicates whether Multi-Attach support was enabled (true | false).    start-time - The modification start time.    target-iops - The target IOPS rate of the volume.    target-size - The target size of the volume, in GiB.    target-volume-type - The target volume type of the volume (standard |  io1 | io2 | gp2 | sc1 | st1).    targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false).    volume-id - The ID of the volume.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of results (up to a limit of 500) to be returned in a paginated request. For more information, see Pagination.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - volumeIds: The IDs of the volumes.
@@ -17805,6 +18211,7 @@ public struct EC2: AWSService {
     public func describeVolumesModifications(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         volumeIds: [String]? = nil,
@@ -17813,6 +18220,7 @@ public struct EC2: AWSService {
         let input = DescribeVolumesModificationsRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             volumeIds: volumeIds
@@ -18556,6 +18964,41 @@ public struct EC2: AWSService {
             vpcId: vpcId
         )
         return try await self.detachClassicLinkVpc(input, logger: logger)
+    }
+
+    /// Removes a watermark from the specified AMI. This is an idempotent operation. It succeeds even if the watermark does not exist on the image. Removing a watermark from an image does not affect derivative images that already carry the watermark. Only the AMI owner can detach watermarks.
+    @Sendable
+    @inlinable
+    public func detachImageWatermark(_ input: DetachImageWatermarkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachImageWatermarkResult {
+        try await self.client.execute(
+            operation: "DetachImageWatermark", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes a watermark from the specified AMI. This is an idempotent operation. It succeeds even if the watermark does not exist on the image. Removing a watermark from an image does not affect derivative images that already carry the watermark. Only the AMI owner can detach watermarks.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
+    ///   - imageId: The ID of the AMI.
+    ///   - watermarkKey: The watermark key to remove, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func detachImageWatermark(
+        dryRun: Bool? = nil,
+        imageId: String? = nil,
+        watermarkKey: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DetachImageWatermarkResult {
+        let input = DetachImageWatermarkRequest(
+            dryRun: dryRun, 
+            imageId: imageId, 
+            watermarkKey: watermarkKey
+        )
+        return try await self.detachImageWatermark(input, logger: logger)
     }
 
     /// Detaches an internet gateway from a VPC, disabling connectivity between the internet
@@ -20558,7 +21001,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - ipamPolicyId: The ID of the IPAM policy to enable.
-    ///   - organizationTargetId: The ID of the Amazon Web Services Organizations target for which to enable the IPAM policy. This parameter is required only when IPAM is integrated with Amazon Web Services Organizations. When IPAM is not integrated with Amazon Web Services Organizations, omit this parameter and the policy will apply to the current account. A target can be an individual Amazon Web Services account or an entity within an Amazon Web Services Organization to which an IPAM policy can be applied.
+    ///   - organizationTargetId: A target can be an individual Amazon Web Services account or an entity within an Amazon Web Services Organization to which an IPAM policy can be applied. The ID of the Amazon Web Services Organizations target for which to enable the IPAM policy. This parameter is required only when IPAM is integrated with Amazon Web Services Organizations. When IPAM is not integrated with Amazon Web Services Organizations, omit this parameter and the policy will apply to the current account.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableIpamPolicy(
@@ -21394,6 +21837,41 @@ public struct EC2: AWSService {
             startTime: startTime
         )
         return try await self.getCapacityManagerMetricDimensions(input, logger: logger)
+    }
+
+    /// Retrieves the tag keys that are currently being monitored by EC2 Capacity Manager. Monitored tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values.
+    @Sendable
+    @inlinable
+    public func getCapacityManagerMonitoredTagKeys(_ input: GetCapacityManagerMonitoredTagKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapacityManagerMonitoredTagKeysResult {
+        try await self.client.execute(
+            operation: "GetCapacityManagerMonitoredTagKeys", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the tag keys that are currently being monitored by EC2 Capacity Manager. Monitored tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. If not specified, up to 1000 results are returned.
+    ///   - nextToken: The token for the next page of results. Use the value returned from a previous call to retrieve additional results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCapacityManagerMonitoredTagKeys(
+        dryRun: Bool? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCapacityManagerMonitoredTagKeysResult {
+        let input = GetCapacityManagerMonitoredTagKeysRequest(
+            dryRun: dryRun, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getCapacityManagerMonitoredTagKeys(input, logger: logger)
     }
 
     /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is
@@ -22348,7 +22826,7 @@ public struct EC2: AWSService {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamPoolId: The ID of the IPAM pool you want the CIDR for.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - nextToken: The token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -22518,7 +22996,7 @@ public struct EC2: AWSService {
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamPoolId: The ID of the IPAM pool that the resource is in.
     ///   - ipamScopeId: The ID of the scope that the resource is in.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - nextToken: The token for the next page of results.
     ///   - resourceId: The ID of the resource.
     ///   - resourceOwner: The ID of the Amazon Web Services account that owns the resource.
@@ -22663,6 +23141,35 @@ public struct EC2: AWSService {
             targetVersion: targetVersion
         )
         return try await self.getManagedPrefixListEntries(input, logger: logger)
+    }
+
+    /// Retrieves the managed resource visibility configuration for the account. The response indicates whether managed resources are hidden or visible by default.
+    @Sendable
+    @inlinable
+    public func getManagedResourceVisibility(_ input: GetManagedResourceVisibilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedResourceVisibilityResult {
+        try await self.client.execute(
+            operation: "GetManagedResourceVisibility", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the managed resource visibility configuration for the account. The response indicates whether managed resources are hidden or visible by default.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getManagedResourceVisibility(
+        dryRun: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetManagedResourceVisibilityResult {
+        let input = GetManagedResourceVisibilityRequest(
+            dryRun: dryRun
+        )
+        return try await self.getManagedResourceVisibility(input, logger: logger)
     }
 
     /// Gets the findings for the specified Network Access Scope analysis.
@@ -23294,7 +23801,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters associated with the transit gateway policy table.
+    ///   - filters: One or more filters. The possible values are:    policy-rule-number - The rule number for the transit gateway policy table entry.    target-route-table-id - The ID of the target route table.    policy-rule.source-ip - The source CIDR block for the policy rule.    policy-rule.destination-ip - The destination CIDR block for the policy rule.    policy-rule.source-port - The source port or port range for the policy rule.    policy-rule.destination-port - The destination port or port range for the policy rule.    policy-rule.protocol - The protocol for the policy rule.    policy-rule.meta-data.key - The metadata key for the policy rule.    policy-rule.meta-data.value - The metadata value for the policy rule.
     ///   - maxResults: The maximum number of results to return with a single call.
     ///   - nextToken: The token for the next page of results.
     ///   - transitGatewayPolicyTableId: The ID of the transit gateway policy table.
@@ -24135,6 +24642,62 @@ public struct EC2: AWSService {
         return try await self.lockSnapshot(input, logger: logger)
     }
 
+    /// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func modifyAccountVpcEncryptionControl(_ input: ModifyAccountVpcEncryptionControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyAccountVpcEncryptionControlResult {
+        try await self.client.execute(
+            operation: "ModifyAccountVpcEncryptionControl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - egressOnlyInternetGateway: Specifies whether to exclude egress-only internet gateway resource from account-level encryption enforcement.
+    ///   - elasticFileSystem: Specifies whether to exclude Elastic File System service from account-level encryption enforcement.
+    ///   - internetGateway: Specifies whether to exclude internet gateway resource from account-level encryption enforcement.
+    ///   - lambda: Specifies whether to exclude Lambda service from account-level encryption enforcement.
+    ///   - mode: The encryption mode for the account encryption control configuration.
+    ///   - natGateway: Specifies whether to exclude NAT gateway resource from account-level encryption enforcement.
+    ///   - virtualPrivateGateway: Specifies whether to exclude virtual private gateway resource from account-level encryption enforcement.
+    ///   - vpcLattice: Specifies whether to exclude VPC Lattice service from account-level encryption enforcement.
+    ///   - vpcPeering: Specifies whether to exclude VPC peering connection resource from account-level encryption enforcement.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyAccountVpcEncryptionControl(
+        dryRun: Bool? = nil,
+        egressOnlyInternetGateway: VpcEncryptionControlExclusionStateInput? = nil,
+        elasticFileSystem: VpcEncryptionControlExclusionStateInput? = nil,
+        internetGateway: VpcEncryptionControlExclusionStateInput? = nil,
+        lambda: VpcEncryptionControlExclusionStateInput? = nil,
+        mode: AccountVpcEncryptionControlMode? = nil,
+        natGateway: VpcEncryptionControlExclusionStateInput? = nil,
+        virtualPrivateGateway: VpcEncryptionControlExclusionStateInput? = nil,
+        vpcLattice: VpcEncryptionControlExclusionStateInput? = nil,
+        vpcPeering: VpcEncryptionControlExclusionStateInput? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyAccountVpcEncryptionControlResult {
+        let input = ModifyAccountVpcEncryptionControlRequest(
+            dryRun: dryRun, 
+            egressOnlyInternetGateway: egressOnlyInternetGateway, 
+            elasticFileSystem: elasticFileSystem, 
+            internetGateway: internetGateway, 
+            lambda: lambda, 
+            mode: mode, 
+            natGateway: natGateway, 
+            virtualPrivateGateway: virtualPrivateGateway, 
+            vpcLattice: vpcLattice, 
+            vpcPeering: vpcPeering
+        )
+        return try await self.modifyAccountVpcEncryptionControl(input, logger: logger)
+    }
+
     /// Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications.
     @Sendable
     @inlinable
@@ -24360,6 +24923,7 @@ public struct EC2: AWSService {
     ///   - serverCertificateArn: The ARN of the server certificate to be used. The server certificate must be provisioned in
     ///   - sessionTimeoutHours: The maximum VPN session duration time in hours. Valid values: 8 | 10 | 12 | 24  Default value: 24
     ///   - splitTunnel: Indicates whether the VPN is split-tunnel. For information about split-tunnel VPN endpoints, see Split-tunnel Client VPN endpoint in the  	Client VPN Administrator Guide.
+    ///   - transitGatewayConfiguration: The Transit Gateway configuration for the Client VPN endpoint. This option is currently not supported.
     ///   - vpcId: The ID of the VPC to associate with the Client VPN endpoint.
     ///   - vpnPort: The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443
     ///   - logger: Logger use during operation
@@ -24379,6 +24943,7 @@ public struct EC2: AWSService {
         serverCertificateArn: String? = nil,
         sessionTimeoutHours: Int? = nil,
         splitTunnel: Bool? = nil,
+        transitGatewayConfiguration: TransitGatewayConfigurationInputStructure? = nil,
         vpcId: String? = nil,
         vpnPort: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -24398,6 +24963,7 @@ public struct EC2: AWSService {
             serverCertificateArn: serverCertificateArn, 
             sessionTimeoutHours: sessionTimeoutHours, 
             splitTunnel: splitTunnel, 
+            transitGatewayConfiguration: transitGatewayConfiguration, 
             vpcId: vpcId, 
             vpnPort: vpnPort
         )
@@ -24770,6 +25336,7 @@ public struct EC2: AWSService {
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - ebsOptimized: Specifies whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance.
     ///   - enaSupport: Set to true to enable enhanced networking with ENA for the instance. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable.
+    ///   - enclaveOptions: Enables or disables the instance for Amazon Web Services Nitro Enclaves. For more information, see the Amazon Web Services Nitro Enclaves User Guide.
     ///   - groups: Replaces the security groups of the instance with the specified security groups. You must specify the ID of at least one security group, even if it's just the default security group for the VPC.
     ///   - instanceId: The ID of the instance.
     ///   - instanceInitiatedShutdownBehavior: Specifies whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown).
@@ -24790,6 +25357,7 @@ public struct EC2: AWSService {
         dryRun: Bool? = nil,
         ebsOptimized: AttributeBooleanValue? = nil,
         enaSupport: AttributeBooleanValue? = nil,
+        enclaveOptions: EnclaveOptionsRequest? = nil,
         groups: [String]? = nil,
         instanceId: String? = nil,
         instanceInitiatedShutdownBehavior: AttributeValue? = nil,
@@ -24810,6 +25378,7 @@ public struct EC2: AWSService {
             dryRun: dryRun, 
             ebsOptimized: ebsOptimized, 
             enaSupport: enaSupport, 
+            enclaveOptions: enclaveOptions, 
             groups: groups, 
             instanceId: instanceId, 
             instanceInitiatedShutdownBehavior: instanceInitiatedShutdownBehavior, 
@@ -25432,6 +26001,41 @@ public struct EC2: AWSService {
         return try await self.modifyIpamPool(input, logger: logger)
     }
 
+    /// Modifies the description of an IPAM pool allocation. For more information, see Modify an IPAM pool allocation in the Amazon VPC IPAM User Guide.
+    @Sendable
+    @inlinable
+    public func modifyIpamPoolAllocation(_ input: ModifyIpamPoolAllocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyIpamPoolAllocationResult {
+        try await self.client.execute(
+            operation: "ModifyIpamPoolAllocation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the description of an IPAM pool allocation. For more information, see Modify an IPAM pool allocation in the Amazon VPC IPAM User Guide.
+    ///
+    /// Parameters:
+    ///   - description: The new description for the IPAM pool allocation. If you submit a null value, the description is removed from the allocation.
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - ipamPoolAllocationId: The ID of the IPAM pool allocation you want to modify.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyIpamPoolAllocation(
+        description: String? = nil,
+        dryRun: Bool? = nil,
+        ipamPoolAllocationId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyIpamPoolAllocationResult {
+        let input = ModifyIpamPoolAllocationRequest(
+            description: description, 
+            dryRun: dryRun, 
+            ipamPoolAllocationId: ipamPoolAllocationId
+        )
+        return try await self.modifyIpamPoolAllocation(input, logger: logger)
+    }
+
     /// Modifies an IPAM prefix list resolver. You can update the description and CIDR selection rules. Changes to rules will trigger re-evaluation and potential updates to associated prefix lists.
     @Sendable
     @inlinable
@@ -25779,6 +26383,38 @@ public struct EC2: AWSService {
             removeEntries: removeEntries
         )
         return try await self.modifyManagedPrefixList(input, logger: logger)
+    }
+
+    /// Modifies the managed resource visibility configuration for the account. Use this operation to control whether managed resources are hidden or visible by default. Visibility settings are account-wide and affect all IAM principals uniformly. Hidden resources remain fully operational and billable.
+    @Sendable
+    @inlinable
+    public func modifyManagedResourceVisibility(_ input: ModifyManagedResourceVisibilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyManagedResourceVisibilityResult {
+        try await self.client.execute(
+            operation: "ModifyManagedResourceVisibility", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the managed resource visibility configuration for the account. Use this operation to control whether managed resources are hidden or visible by default. Visibility settings are account-wide and affect all IAM principals uniformly. Hidden resources remain fully operational and billable.
+    ///
+    /// Parameters:
+    ///   - defaultVisibility: The default visibility setting for managed resources. Valid values: hidden | visible.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyManagedResourceVisibility(
+        defaultVisibility: ManagedResourceDefaultVisibility? = nil,
+        dryRun: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyManagedResourceVisibilityResult {
+        let input = ModifyManagedResourceVisibilityRequest(
+            defaultVisibility: defaultVisibility, 
+            dryRun: dryRun
+        )
+        return try await self.modifyManagedResourceVisibility(input, logger: logger)
     }
 
     /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance.
@@ -26441,6 +27077,47 @@ public struct EC2: AWSService {
             transitGatewayMeteringPolicyId: transitGatewayMeteringPolicyId
         )
         return try await self.modifyTransitGatewayMeteringPolicy(input, logger: logger)
+    }
+
+    /// Modifies the specified transit gateway policy table entry.
+    @Sendable
+    @inlinable
+    public func modifyTransitGatewayPolicyTableEntry(_ input: ModifyTransitGatewayPolicyTableEntryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyTransitGatewayPolicyTableEntryResult {
+        try await self.client.execute(
+            operation: "ModifyTransitGatewayPolicyTableEntry", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the specified transit gateway policy table entry.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - policyRule: The updated matching criteria for the policy table entry. Unspecified fields retain their current values.
+    ///   - policyRuleNumber: The rule number of the policy table entry to modify.
+    ///   - targetRouteTableId: The ID of the transit gateway route table to use for traffic matching this rule.
+    ///   - transitGatewayPolicyTableId: The ID of the transit gateway policy table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyTransitGatewayPolicyTableEntry(
+        dryRun: Bool? = nil,
+        policyRule: TransitGatewayRequestPolicyRule? = nil,
+        policyRuleNumber: String? = nil,
+        targetRouteTableId: String? = nil,
+        transitGatewayPolicyTableId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyTransitGatewayPolicyTableEntryResult {
+        let input = ModifyTransitGatewayPolicyTableEntryRequest(
+            dryRun: dryRun, 
+            policyRule: policyRule, 
+            policyRuleNumber: policyRuleNumber, 
+            targetRouteTableId: targetRouteTableId, 
+            transitGatewayPolicyTableId: transitGatewayPolicyTableId
+        )
+        return try await self.modifyTransitGatewayPolicyTableEntry(input, logger: logger)
     }
 
     /// Modifies a reference (route) to a prefix list in a specified transit gateway route table.
@@ -27188,6 +27865,47 @@ public struct EC2: AWSService {
         return try await self.modifyVpcEndpointConnectionNotification(input, logger: logger)
     }
 
+    /// Modifies the billing account for VPC endpoint usage/charges.
+    @Sendable
+    @inlinable
+    public func modifyVpcEndpointPayerResponsibility(_ input: ModifyVpcEndpointPayerResponsibilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyVpcEndpointPayerResponsibilityResult {
+        try await self.client.execute(
+            operation: "ModifyVpcEndpointPayerResponsibility", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the billing account for VPC endpoint usage/charges.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - payerResponsibility: The Amazon Web Services account to which the usage of VPC endpoint is charged.
+    ///   - scope: The scope of usage/charges for which the billing account is being modified.
+    ///   - serviceId: The ID of the VPC endpoint service.
+    ///   - vpcEndpointId: The ID of the VPC endpoint.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyVpcEndpointPayerResponsibility(
+        dryRun: Bool? = nil,
+        payerResponsibility: PayerResponsibilityType? = nil,
+        scope: PayerResponsibilityScope? = nil,
+        serviceId: String? = nil,
+        vpcEndpointId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyVpcEndpointPayerResponsibilityResult {
+        let input = ModifyVpcEndpointPayerResponsibilityRequest(
+            dryRun: dryRun, 
+            payerResponsibility: payerResponsibility, 
+            scope: scope, 
+            serviceId: serviceId, 
+            vpcEndpointId: vpcEndpointId
+        )
+        return try await self.modifyVpcEndpointPayerResponsibility(input, logger: logger)
+    }
+
     /// Modifies the attributes of the specified VPC endpoint service configuration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name.
     @Sendable
     @inlinable
@@ -27467,6 +28185,7 @@ public struct EC2: AWSService {
     ///   - localIpv6NetworkCidr: The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0
     ///   - remoteIpv4NetworkCidr: The IPv4 CIDR on the Amazon Web Services side of the VPN connection. Default: 0.0.0.0/0
     ///   - remoteIpv6NetworkCidr: The IPv6 CIDR on the Amazon Web Services side of the VPN connection. Default: ::/0
+    ///   - tunnelBandwidth: The desired bandwidth specification for the VPN connection. standard supports up to 1.25 Gbps per tunnel, while large supports up to 5 Gbps per tunnel. Large bandwidth is only available for VPN connections attached to a transit gateway or to Cloud WAN. The default value is standard.
     ///   - vpnConnectionId: The ID of the Site-to-Site VPN connection.
     ///   - logger: Logger use during operation
     @inlinable
@@ -27476,6 +28195,7 @@ public struct EC2: AWSService {
         localIpv6NetworkCidr: String? = nil,
         remoteIpv4NetworkCidr: String? = nil,
         remoteIpv6NetworkCidr: String? = nil,
+        tunnelBandwidth: VpnTunnelBandwidth? = nil,
         vpnConnectionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyVpnConnectionOptionsResult {
@@ -27485,6 +28205,7 @@ public struct EC2: AWSService {
             localIpv6NetworkCidr: localIpv6NetworkCidr, 
             remoteIpv4NetworkCidr: remoteIpv4NetworkCidr, 
             remoteIpv6NetworkCidr: remoteIpv6NetworkCidr, 
+            tunnelBandwidth: tunnelBandwidth, 
             vpnConnectionId: vpnConnectionId
         )
         return try await self.modifyVpnConnectionOptions(input, logger: logger)
@@ -28352,6 +29073,38 @@ public struct EC2: AWSService {
         return try await self.rejectCapacityReservationBillingOwnership(input, logger: logger)
     }
 
+    /// Rejects a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner can reject the attachment request to prevent the Client VPN endpoint from routing traffic through the Transit Gateway.
+    @Sendable
+    @inlinable
+    public func rejectTransitGatewayClientVpnAttachment(_ input: RejectTransitGatewayClientVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectTransitGatewayClientVpnAttachmentResult {
+        try await self.client.execute(
+            operation: "RejectTransitGatewayClientVpnAttachment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Rejects a Transit Gateway attachment request for a Client VPN endpoint. The Transit Gateway owner can reject the attachment request to prevent the Client VPN endpoint from routing traffic through the Transit Gateway.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - transitGatewayAttachmentId: The ID of the Transit Gateway attachment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rejectTransitGatewayClientVpnAttachment(
+        dryRun: Bool? = nil,
+        transitGatewayAttachmentId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RejectTransitGatewayClientVpnAttachmentResult {
+        let input = RejectTransitGatewayClientVpnAttachmentRequest(
+            dryRun: dryRun, 
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.rejectTransitGatewayClientVpnAttachment(input, logger: logger)
+    }
+
     /// Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
     @Sendable
     @inlinable
@@ -28670,7 +29423,7 @@ public struct EC2: AWSService {
         return try await self.replaceIamInstanceProfileAssociation(input, logger: logger)
     }
 
-    /// Sets or replaces the criteria for Allowed AMIs.  The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account.  For more information, see Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs in Amazon EC2 User Guide.
+    /// Sets or replaces the criteria for Allowed AMIs. The ImageCriteria can include up to:   10 ImageCriterion     The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account.  For more information, see Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs in Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func replaceImageCriteriaInAllowedImagesSettings(_ input: ReplaceImageCriteriaInAllowedImagesSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplaceImageCriteriaInAllowedImagesSettingsResult {
@@ -28683,7 +29436,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Sets or replaces the criteria for Allowed AMIs.  The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account.  For more information, see Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs in Amazon EC2 User Guide.
+    /// Sets or replaces the criteria for Allowed AMIs. The ImageCriteria can include up to:   10 ImageCriterion     The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account.  For more information, see Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs in Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
@@ -30565,6 +31318,44 @@ public struct EC2: AWSService {
         return try await self.unmonitorInstances(input, logger: logger)
     }
 
+    /// Activates or deactivates tag keys for monitoring by EC2 Capacity Manager. Activated tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values.
+    @Sendable
+    @inlinable
+    public func updateCapacityManagerMonitoredTagKeys(_ input: UpdateCapacityManagerMonitoredTagKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapacityManagerMonitoredTagKeysResult {
+        try await self.client.execute(
+            operation: "UpdateCapacityManagerMonitoredTagKeys", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Activates or deactivates tag keys for monitoring by EC2 Capacity Manager. Activated tag keys are included as dimensions in capacity metric data, enabling you to group and filter metrics by tag values.
+    ///
+    /// Parameters:
+    ///   - activateTagKeys: The tag keys to activate for monitoring. Once activated, these tag keys will be included as dimensions in capacity metric data.
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - deactivateTagKeys: The tag keys to deactivate. Deactivated tag keys will no longer be included as dimensions in capacity metric data.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCapacityManagerMonitoredTagKeys(
+        activateTagKeys: [String]? = nil,
+        clientToken: String? = UpdateCapacityManagerMonitoredTagKeysRequest.idempotencyToken(),
+        deactivateTagKeys: [String]? = nil,
+        dryRun: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCapacityManagerMonitoredTagKeysResult {
+        let input = UpdateCapacityManagerMonitoredTagKeysRequest(
+            activateTagKeys: activateTagKeys, 
+            clientToken: clientToken, 
+            deactivateTagKeys: deactivateTagKeys, 
+            dryRun: dryRun
+        )
+        return try await self.updateCapacityManagerMonitoredTagKeys(input, logger: logger)
+    }
+
     /// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate
     /// data from all accounts in your Amazon Web Services Organization or only from the current account.
     @Sendable
@@ -32365,7 +33156,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -32679,6 +33470,7 @@ extension EC2 {
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - logger: Logger used for logging
@@ -32687,6 +33479,7 @@ extension EC2 {
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
         includeAllInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -32695,6 +33488,7 @@ extension EC2 {
             dryRun: dryRun, 
             filters: filters, 
             includeAllInstances: includeAllInstances, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults
         )
@@ -32813,6 +33607,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.attachment-limit-type - The type of Amazon EBS volume attachment limit  (shared | dedicated).    ebs-info.maximum-ebs-attachments - The maximum number of Amazon EBS volumes that  can be attached to the instance type.    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - A Boolean that indicates whether this instance type can be used under the Amazon Web Services Free Tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.flexible-ena-queues-support - Indicates whether an instance supports flexible ENA queues (supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    reboot-migration-support - Indicates whether enabling reboot migration is supported (supported | unsupported).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot | capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - includeUnsupportedInRegion: If true, the response includes instance types that are not supported in the current Region, in addition to the supported types. Default: false.
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - logger: Logger used for logging
@@ -32820,6 +33615,7 @@ extension EC2 {
     public func describeInstanceTypesPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeUnsupportedInRegion: Bool? = nil,
         instanceTypes: [InstanceType]? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -32827,6 +33623,7 @@ extension EC2 {
         let input = DescribeInstanceTypesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeUnsupportedInRegion: includeUnsupportedInRegion, 
             instanceTypes: instanceTypes, 
             maxResults: maxResults
         )
@@ -32856,6 +33653,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - logger: Logger used for logging
@@ -32863,6 +33661,7 @@ extension EC2 {
     public func describeInstancesPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -32870,6 +33669,7 @@ extension EC2 {
         let input = DescribeInstancesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults
         )
@@ -32919,6 +33719,49 @@ extension EC2 {
         return self.describeInternetGatewaysPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeIpamPoolAllocations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeIpamPoolAllocationsPaginator(
+        _ input: DescribeIpamPoolAllocationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeIpamPoolAllocationsRequest, DescribeIpamPoolAllocationsResult> {
+        return .init(
+            input: input,
+            command: self.describeIpamPoolAllocations,
+            inputKey: \DescribeIpamPoolAllocationsRequest.nextToken,
+            outputKey: \DescribeIpamPoolAllocationsResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeIpamPoolAllocations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
+    ///   - ipamPoolAllocationIds: The IDs of the IPAM pool allocations you want to describe.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeIpamPoolAllocationsPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        ipamPoolAllocationIds: [String]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeIpamPoolAllocationsRequest, DescribeIpamPoolAllocationsResult> {
+        let input = DescribeIpamPoolAllocationsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            ipamPoolAllocationIds: ipamPoolAllocationIds, 
+            maxResults: maxResults
+        )
+        return self.describeIpamPoolAllocationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeIpamPools(_:logger:)``.
     ///
     /// - Parameters:
@@ -32943,7 +33786,7 @@ extension EC2 {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamPoolIds: The IDs of the IPAM pools you would like information on.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeIpamPoolsPaginator(
@@ -33161,7 +34004,7 @@ extension EC2 {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamScopeIds: The IDs of the scopes you want information on.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeIpamScopesPaginator(
@@ -33204,7 +34047,7 @@ extension EC2 {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamIds: The IDs of the IPAMs you want information on.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeIpamsPaginator(
@@ -33289,6 +34132,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters.    create-time - The time the launch template version was created.    ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O.    http-endpoint - Indicates whether the HTTP metadata endpoint on your instances is enabled (enabled | disabled).    http-protocol-ipv4 - Indicates whether the IPv4 endpoint for the instance metadata service is enabled (enabled | disabled).    host-resource-group-arn - The ARN of the host resource group in which to launch the instances.    http-tokens - The state of token usage for your instance metadata requests (optional | required).    iam-instance-profile - The ARN of the IAM instance profile.    image-id - The ID of the AMI.    instance-type - The instance type.    is-default-version - A boolean that indicates whether the launch template version is the default version.    kernel-id - The kernel ID.    license-configuration-arn - The ARN of the license configuration.    network-card-index - The index of the network card.    ram-disk-id - The RAM disk ID.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - launchTemplateId: The ID of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template ID or the launch template name, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter.
     ///   - launchTemplateName: The name of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template name or the launch template ID, but not both. To describe all the latest or default launch template versions in your account, you must omit this parameter.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200.
@@ -33301,6 +34145,7 @@ extension EC2 {
     public func describeLaunchTemplateVersionsPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         launchTemplateId: String? = nil,
         launchTemplateName: String? = nil,
         maxResults: Int? = nil,
@@ -33313,6 +34158,7 @@ extension EC2 {
         let input = DescribeLaunchTemplateVersionsRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             launchTemplateId: launchTemplateId, 
             launchTemplateName: launchTemplateName, 
             maxResults: maxResults, 
@@ -33347,6 +34193,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters.    create-time - The time the launch template was created.    launch-template-name - The name of the launch template.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - launchTemplateIds: One or more launch template IDs.
     ///   - launchTemplateNames: One or more launch template names.
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200.
@@ -33355,6 +34202,7 @@ extension EC2 {
     public func describeLaunchTemplatesPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         launchTemplateIds: [String]? = nil,
         launchTemplateNames: [String]? = nil,
         maxResults: Int? = nil,
@@ -33363,6 +34211,7 @@ extension EC2 {
         let input = DescribeLaunchTemplatesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             launchTemplateIds: launchTemplateIds, 
             launchTemplateNames: launchTemplateNames, 
             maxResults: maxResults
@@ -34136,6 +34985,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    availability-zone-id - The ID of the Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | evs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
     ///   - networkInterfaceIds: The network interface IDs. Default: Describes all your network interfaces.
     ///   - logger: Logger used for logging
@@ -34143,6 +34993,7 @@ extension EC2 {
     public func describeNetworkInterfacesPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         networkInterfaceIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -34150,6 +35001,7 @@ extension EC2 {
         let input = DescribeNetworkInterfacesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             networkInterfaceIds: networkInterfaceIds
         )
@@ -36208,6 +37060,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - volumeIds: The IDs of the volumes. Default: Describes all your volumes.
     ///   - logger: Logger used for logging
@@ -36215,6 +37068,7 @@ extension EC2 {
     public func describeVolumeStatusPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         volumeIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -36222,6 +37076,7 @@ extension EC2 {
         let input = DescribeVolumeStatusRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             volumeIds: volumeIds
         )
@@ -36251,6 +37106,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    availability-zone-id - The ID of the Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    fast-restored - Indicates whether the volume was created from a  snapshot that is enabled for fast snapshot restore (true |  false).    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true 			| false)    operator.managed - A Boolean that indicates whether this is a managed volume.    operator.principal - The principal that manages the volume. Only valid for managed volumes, where managed is true.    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 |  st1 | sc1| standard)
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - volumeIds: The volume IDs. If not specified, then all volumes are included in the response.
     ///   - logger: Logger used for logging
@@ -36258,6 +37114,7 @@ extension EC2 {
     public func describeVolumesPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         volumeIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -36265,6 +37122,7 @@ extension EC2 {
         let input = DescribeVolumesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             volumeIds: volumeIds
         )
@@ -36294,6 +37152,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    modification-state - The current modification state (modifying |  optimizing | completed | failed).    original-iops - The original IOPS rate of the volume.    original-size - The original size of the volume, in GiB.    original-volume-type - The original volume type of the volume (standard |  io1 | io2 | gp2 | sc1 | st1).    originalMultiAttachEnabled - Indicates whether Multi-Attach support was enabled (true | false).    start-time - The modification start time.    target-iops - The target IOPS rate of the volume.    target-size - The target size of the volume, in GiB.    target-volume-type - The target volume type of the volume (standard |  io1 | io2 | gp2 | sc1 | st1).    targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false).    volume-id - The ID of the volume.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of results (up to a limit of 500) to be returned in a paginated request. For more information, see Pagination.
     ///   - volumeIds: The IDs of the volumes.
     ///   - logger: Logger used for logging
@@ -36301,6 +37160,7 @@ extension EC2 {
     public func describeVolumesModificationsPaginator(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         volumeIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -36308,6 +37168,7 @@ extension EC2 {
         let input = DescribeVolumesModificationsRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             volumeIds: volumeIds
         )
@@ -36885,6 +37746,43 @@ extension EC2 {
         return self.getCapacityManagerMetricDimensionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getCapacityManagerMonitoredTagKeys(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCapacityManagerMonitoredTagKeysPaginator(
+        _ input: GetCapacityManagerMonitoredTagKeysRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCapacityManagerMonitoredTagKeysRequest, GetCapacityManagerMonitoredTagKeysResult> {
+        return .init(
+            input: input,
+            command: self.getCapacityManagerMonitoredTagKeys,
+            inputKey: \GetCapacityManagerMonitoredTagKeysRequest.nextToken,
+            outputKey: \GetCapacityManagerMonitoredTagKeysResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getCapacityManagerMonitoredTagKeys(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. If not specified, up to 1000 results are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCapacityManagerMonitoredTagKeysPaginator(
+        dryRun: Bool? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetCapacityManagerMonitoredTagKeysRequest, GetCapacityManagerMonitoredTagKeysResult> {
+        let input = GetCapacityManagerMonitoredTagKeysRequest(
+            dryRun: dryRun, 
+            maxResults: maxResults
+        )
+        return self.getCapacityManagerMonitoredTagKeysPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getGroupsForCapacityReservation(_:logger:)``.
     ///
     /// - Parameters:
@@ -37188,7 +38086,7 @@ extension EC2 {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamPoolId: The ID of the IPAM pool you want the CIDR for.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - logger: Logger used for logging
     @inlinable
     public func getIpamPoolCidrsPaginator(
@@ -37364,7 +38262,7 @@ extension EC2 {
     ///   - filters: One or more filters for the request. For more information about filtering, see Filtering CLI output.
     ///   - ipamPoolId: The ID of the IPAM pool that the resource is in.
     ///   - ipamScopeId: The ID of the scope that the resource is in.
-    ///   - maxResults: The maximum number of results to return in the request.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
     ///   - resourceId: The ID of the resource.
     ///   - resourceOwner: The ID of the Amazon Web Services account that owns the resource.
     ///   - resourceTag: The resource tag.
@@ -37745,6 +38643,49 @@ extension EC2 {
             transitGatewayPolicyTableId: transitGatewayPolicyTableId
         )
         return self.getTransitGatewayPolicyTableAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getTransitGatewayPolicyTableEntries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getTransitGatewayPolicyTableEntriesPaginator(
+        _ input: GetTransitGatewayPolicyTableEntriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetTransitGatewayPolicyTableEntriesRequest, GetTransitGatewayPolicyTableEntriesResult> {
+        return .init(
+            input: input,
+            command: self.getTransitGatewayPolicyTableEntries,
+            inputKey: \GetTransitGatewayPolicyTableEntriesRequest.nextToken,
+            outputKey: \GetTransitGatewayPolicyTableEntriesResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getTransitGatewayPolicyTableEntries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters. The possible values are:    policy-rule-number - The rule number for the transit gateway policy table entry.    target-route-table-id - The ID of the target route table.    policy-rule.source-ip - The source CIDR block for the policy rule.    policy-rule.destination-ip - The destination CIDR block for the policy rule.    policy-rule.source-port - The source port or port range for the policy rule.    policy-rule.destination-port - The destination port or port range for the policy rule.    policy-rule.protocol - The protocol for the policy rule.    policy-rule.meta-data.key - The metadata key for the policy rule.    policy-rule.meta-data.value - The metadata value for the policy rule.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - transitGatewayPolicyTableId: The ID of the transit gateway policy table.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getTransitGatewayPolicyTableEntriesPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        transitGatewayPolicyTableId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetTransitGatewayPolicyTableEntriesRequest, GetTransitGatewayPolicyTableEntriesResult> {
+        let input = GetTransitGatewayPolicyTableEntriesRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            transitGatewayPolicyTableId: transitGatewayPolicyTableId
+        )
+        return self.getTransitGatewayPolicyTableEntriesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``getTransitGatewayPrefixListReferences(_:logger:)``.
@@ -38698,6 +39639,7 @@ extension EC2.DescribeInstanceStatusRequest: AWSPaginateToken {
             dryRun: self.dryRun,
             filters: self.filters,
             includeAllInstances: self.includeAllInstances,
+            includeManagedResources: self.includeManagedResources,
             instanceIds: self.instanceIds,
             maxResults: self.maxResults,
             nextToken: token
@@ -38738,6 +39680,7 @@ extension EC2.DescribeInstanceTypesRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeUnsupportedInRegion: self.includeUnsupportedInRegion,
             instanceTypes: self.instanceTypes,
             maxResults: self.maxResults,
             nextToken: token
@@ -38751,6 +39694,7 @@ extension EC2.DescribeInstancesRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             instanceIds: self.instanceIds,
             maxResults: self.maxResults,
             nextToken: token
@@ -38765,6 +39709,19 @@ extension EC2.DescribeInternetGatewaysRequest: AWSPaginateToken {
             dryRun: self.dryRun,
             filters: self.filters,
             internetGatewayIds: self.internetGatewayIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeIpamPoolAllocationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIpamPoolAllocationsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPoolAllocationIds: self.ipamPoolAllocationIds,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -38882,6 +39839,7 @@ extension EC2.DescribeLaunchTemplateVersionsRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             launchTemplateId: self.launchTemplateId,
             launchTemplateName: self.launchTemplateName,
             maxResults: self.maxResults,
@@ -38900,6 +39858,7 @@ extension EC2.DescribeLaunchTemplatesRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             launchTemplateIds: self.launchTemplateIds,
             launchTemplateNames: self.launchTemplateNames,
             maxResults: self.maxResults,
@@ -39139,6 +40098,7 @@ extension EC2.DescribeNetworkInterfacesRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             networkInterfaceIds: self.networkInterfaceIds,
             nextToken: token
@@ -39767,6 +40727,7 @@ extension EC2.DescribeVolumeStatusRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             nextToken: token,
             volumeIds: self.volumeIds
@@ -39780,6 +40741,7 @@ extension EC2.DescribeVolumesModificationsRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             nextToken: token,
             volumeIds: self.volumeIds
@@ -39793,6 +40755,7 @@ extension EC2.DescribeVolumesRequest: AWSPaginateToken {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             nextToken: token,
             volumeIds: self.volumeIds
@@ -39969,6 +40932,17 @@ extension EC2.GetCapacityManagerMetricDimensionsRequest: AWSPaginateToken {
             metricNames: self.metricNames,
             nextToken: token,
             startTime: self.startTime
+        )
+    }
+}
+
+extension EC2.GetCapacityManagerMonitoredTagKeysRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.GetCapacityManagerMonitoredTagKeysRequest {
+        return .init(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -40225,6 +41199,19 @@ extension EC2.GetTransitGatewayMulticastDomainAssociationsRequest: AWSPaginateTo
 extension EC2.GetTransitGatewayPolicyTableAssociationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayPolicyTableAssociationsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayPolicyTableId: self.transitGatewayPolicyTableId
+        )
+    }
+}
+
+extension EC2.GetTransitGatewayPolicyTableEntriesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.GetTransitGatewayPolicyTableEntriesRequest {
         return .init(
             dryRun: self.dryRun,
             filters: self.filters,
@@ -40662,7 +41649,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -40723,7 +41710,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -40836,6 +41823,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -40844,6 +41832,7 @@ extension EC2 {
     public func waitUntilInstanceExists(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -40852,6 +41841,7 @@ extension EC2 {
         let input = DescribeInstancesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -40888,6 +41878,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -40896,6 +41887,7 @@ extension EC2 {
     public func waitUntilInstanceRunning(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -40904,6 +41896,7 @@ extension EC2 {
         let input = DescribeInstancesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -40938,6 +41931,7 @@ extension EC2 {
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -40947,6 +41941,7 @@ extension EC2 {
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
         includeAllInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -40956,6 +41951,7 @@ extension EC2 {
             dryRun: dryRun, 
             filters: filters, 
             includeAllInstances: includeAllInstances, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -40990,6 +41986,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -40998,6 +41995,7 @@ extension EC2 {
     public func waitUntilInstanceStopped(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -41006,6 +42004,7 @@ extension EC2 {
         let input = DescribeInstancesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -41040,6 +42039,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -41048,6 +42048,7 @@ extension EC2 {
     public func waitUntilInstanceTerminated(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -41056,6 +42057,7 @@ extension EC2 {
         let input = DescribeInstancesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -41288,6 +42290,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    availability-zone-id - The ID of the Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | evs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
     ///   - networkInterfaceIds: The network interface IDs. Default: Describes all your network interfaces.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -41296,6 +42299,7 @@ extension EC2 {
     public func waitUntilNetworkInterfaceAvailable(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         networkInterfaceIds: [String]? = nil,
         nextToken: String? = nil,
@@ -41304,6 +42308,7 @@ extension EC2 {
         let input = DescribeNetworkInterfacesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             networkInterfaceIds: networkInterfaceIds, 
             nextToken: nextToken
@@ -41977,6 +42982,7 @@ extension EC2 {
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -41986,6 +42992,7 @@ extension EC2 {
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
         includeAllInstances: Bool? = nil,
+        includeManagedResources: Bool? = nil,
         instanceIds: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -41995,6 +43002,7 @@ extension EC2 {
             dryRun: dryRun, 
             filters: filters, 
             includeAllInstances: includeAllInstances, 
+            includeManagedResources: includeManagedResources, 
             instanceIds: instanceIds, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -42028,6 +43036,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    availability-zone-id - The ID of the Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    fast-restored - Indicates whether the volume was created from a  snapshot that is enabled for fast snapshot restore (true |  false).    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true 			| false)    operator.managed - A Boolean that indicates whether this is a managed volume.    operator.principal - The principal that manages the volume. Only valid for managed volumes, where managed is true.    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 |  st1 | sc1| standard)
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - volumeIds: The volume IDs. If not specified, then all volumes are included in the response.
@@ -42036,6 +43045,7 @@ extension EC2 {
     public func waitUntilVolumeAvailable(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         volumeIds: [String]? = nil,
@@ -42044,6 +43054,7 @@ extension EC2 {
         let input = DescribeVolumesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             volumeIds: volumeIds
@@ -42077,6 +43088,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    availability-zone-id - The ID of the Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    fast-restored - Indicates whether the volume was created from a  snapshot that is enabled for fast snapshot restore (true |  false).    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true 			| false)    operator.managed - A Boolean that indicates whether this is a managed volume.    operator.principal - The principal that manages the volume. Only valid for managed volumes, where managed is true.    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 |  st1 | sc1| standard)
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - volumeIds: The volume IDs. If not specified, then all volumes are included in the response.
@@ -42085,6 +43097,7 @@ extension EC2 {
     public func waitUntilVolumeDeleted(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         volumeIds: [String]? = nil,
@@ -42093,6 +43106,7 @@ extension EC2 {
         let input = DescribeVolumesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             volumeIds: volumeIds
@@ -42126,6 +43140,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    availability-zone-id - The ID of the Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    fast-restored - Indicates whether the volume was created from a  snapshot that is enabled for fast snapshot restore (true |  false).    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true 			| false)    operator.managed - A Boolean that indicates whether this is a managed volume.    operator.principal - The principal that manages the volume. Only valid for managed volumes, where managed is true.    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 |  st1 | sc1| standard)
+    ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - maxResults: The maximum number of items to return for this request.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - volumeIds: The volume IDs. If not specified, then all volumes are included in the response.
@@ -42134,6 +43149,7 @@ extension EC2 {
     public func waitUntilVolumeInUse(
         dryRun: Bool? = nil,
         filters: [Filter]? = nil,
+        includeManagedResources: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         volumeIds: [String]? = nil,
@@ -42142,6 +43158,7 @@ extension EC2 {
         let input = DescribeVolumesRequest(
             dryRun: dryRun, 
             filters: filters, 
+            includeManagedResources: includeManagedResources, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             volumeIds: volumeIds

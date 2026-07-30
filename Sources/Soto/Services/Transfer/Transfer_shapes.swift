@@ -75,6 +75,12 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectorsIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "DUALSTACK"
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomStepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failure = "FAILURE"
         case success = "SUCCESS"
@@ -276,6 +282,12 @@ extension Transfer {
     public enum WebAppEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `public` = "PUBLIC"
         case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebAppVpcEndpointIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "DUALSTACK"
+        case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
 
@@ -662,6 +674,8 @@ extension Transfer {
         public let as2Config: As2ConnectorConfig?
         /// Specifies the egress configuration for the connector, which determines how traffic is routed from the connector to the SFTP server. When set to VPC, enables routing through customer VPCs using VPC_LATTICE for private connectivity.
         public let egressConfig: ConnectorEgressConfig?
+        /// Specifies the IP address type for the connector's network connections. When set to IPV4, the connector uses IPv4 addresses only. When set to DUALSTACK, the connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+        public let ipAddressType: ConnectorsIpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies the name of the security policy for the connector.
@@ -674,10 +688,11 @@ extension Transfer {
         public let url: String?
 
         @inlinable
-        public init(accessRole: String, as2Config: As2ConnectorConfig? = nil, egressConfig: ConnectorEgressConfig? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String? = nil) {
+        public init(accessRole: String, as2Config: As2ConnectorConfig? = nil, egressConfig: ConnectorEgressConfig? = nil, ipAddressType: ConnectorsIpAddressType? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.as2Config = as2Config
             self.egressConfig = egressConfig
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.sftpConfig = sftpConfig
@@ -709,6 +724,7 @@ extension Transfer {
             case accessRole = "AccessRole"
             case as2Config = "As2Config"
             case egressConfig = "EgressConfig"
+            case ipAddressType = "IpAddressType"
             case loggingRole = "LoggingRole"
             case securityPolicyName = "SecurityPolicyName"
             case sftpConfig = "SftpConfig"
@@ -2247,6 +2263,8 @@ extension Transfer {
         public let egressType: ConnectorEgressType
         /// Error message providing details when the connector is in ERRORED status. Contains information to help troubleshoot connector creation or operation failures.
         public let errorMessage: String?
+        /// IP address type for the connector's network connections. When set to IPV4, the connector uses IPv4 addresses only. When set to DUALSTACK, the connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+        public let ipAddressType: ConnectorsIpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
         /// The text name of the security policy for the specified connector.
@@ -2263,7 +2281,7 @@ extension Transfer {
         public let url: String?
 
         @inlinable
-        public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, egressConfig: DescribedConnectorEgressConfig? = nil, egressType: ConnectorEgressType, errorMessage: String? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, serviceManagedEgressIpAddresses: [String]? = nil, sftpConfig: SftpConnectorConfig? = nil, status: ConnectorStatus, tags: [Tag]? = nil, url: String? = nil) {
+        public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, egressConfig: DescribedConnectorEgressConfig? = nil, egressType: ConnectorEgressType, errorMessage: String? = nil, ipAddressType: ConnectorsIpAddressType? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, serviceManagedEgressIpAddresses: [String]? = nil, sftpConfig: SftpConnectorConfig? = nil, status: ConnectorStatus, tags: [Tag]? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.arn = arn
             self.as2Config = as2Config
@@ -2271,6 +2289,7 @@ extension Transfer {
             self.egressConfig = egressConfig
             self.egressType = egressType
             self.errorMessage = errorMessage
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses
@@ -2288,6 +2307,7 @@ extension Transfer {
             case egressConfig = "EgressConfig"
             case egressType = "EgressType"
             case errorMessage = "ErrorMessage"
+            case ipAddressType = "IpAddressType"
             case loggingRole = "LoggingRole"
             case securityPolicyName = "SecurityPolicyName"
             case serviceManagedEgressIpAddresses = "ServiceManagedEgressIpAddresses"
@@ -4624,7 +4644,6 @@ extension Transfer {
             try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
             try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
-            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
             try self.validate(self.outputDirectoryPath, name: "outputDirectoryPath", parent: name, max: 1024)
             try self.validate(self.outputDirectoryPath, name: "outputDirectoryPath", parent: name, min: 1)
@@ -5341,6 +5360,8 @@ extension Transfer {
         public let connectorId: String
         /// Updates the egress configuration for the connector, allowing you to modify how traffic is routed from the connector to the SFTP server. Changes to VPC configuration may require connector restart.
         public let egressConfig: UpdateConnectorEgressConfig?
+        /// Specifies the IP address type for the connector's network connections. When set to IPV4, the connector uses IPv4 addresses only. When set to DUALSTACK, the connector supports both IPv4 and IPv6 addresses, with IPv6 preferred when available.
+        public let ipAddressType: ConnectorsIpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies the name of the security policy for the connector.
@@ -5351,11 +5372,12 @@ extension Transfer {
         public let url: String?
 
         @inlinable
-        public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, egressConfig: UpdateConnectorEgressConfig? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, url: String? = nil) {
+        public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, egressConfig: UpdateConnectorEgressConfig? = nil, ipAddressType: ConnectorsIpAddressType? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.as2Config = as2Config
             self.connectorId = connectorId
             self.egressConfig = egressConfig
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.sftpConfig = sftpConfig
@@ -5385,6 +5407,7 @@ extension Transfer {
             case as2Config = "As2Config"
             case connectorId = "ConnectorId"
             case egressConfig = "EgressConfig"
+            case ipAddressType = "IpAddressType"
             case loggingRole = "LoggingRole"
             case securityPolicyName = "SecurityPolicyName"
             case sftpConfig = "SftpConfig"
@@ -5853,15 +5876,19 @@ extension Transfer {
     }
 
     public struct UpdateWebAppVpcConfig: AWSEncodableShape {
+        /// The IP address type for the web app's VPC endpoint. This determines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6.
+        public let ipAddressType: WebAppVpcEndpointIpAddressType?
         /// The list of subnet IDs within the VPC where the web app endpoint should be deployed during the update operation.
         public let subnetIds: [String]?
 
         @inlinable
-        public init(subnetIds: [String]? = nil) {
+        public init(ipAddressType: WebAppVpcEndpointIpAddressType? = nil, subnetIds: [String]? = nil) {
+            self.ipAddressType = ipAddressType
             self.subnetIds = subnetIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "IpAddressType"
             case subnetIds = "SubnetIds"
         }
     }
@@ -5889,6 +5916,8 @@ extension Transfer {
     }
 
     public struct WebAppVpcConfig: AWSEncodableShape {
+        /// The IP address type for the web app's VPC endpoint. This determines whether the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6.
+        public let ipAddressType: WebAppVpcEndpointIpAddressType?
         /// The list of security group IDs that control access to the web app endpoint. These security groups determine which sources can access the endpoint based on IP addresses and port configurations.
         public let securityGroupIds: [String]?
         /// The list of subnet IDs within the VPC where the web app endpoint will be deployed. These subnets must be in the same VPC specified in the VpcId parameter.
@@ -5897,7 +5926,8 @@ extension Transfer {
         public let vpcId: String?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(ipAddressType: WebAppVpcEndpointIpAddressType? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.ipAddressType = ipAddressType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -5912,6 +5942,7 @@ extension Transfer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "IpAddressType"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
             case vpcId = "VpcId"

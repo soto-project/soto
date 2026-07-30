@@ -219,16 +219,19 @@ public struct EMR: AWSService {
     /// Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters.
     ///
     /// Parameters:
+    ///   - clusterId: The ID of the cluster that scopes the tag operation. Required when the resource being tagged is a session-scoped resource.
     ///   - resourceId: The Amazon EMR resource identifier to which tags will be added. For example, a cluster identifier or an Amazon EMR Studio ID.
     ///   - tags: A list of tags to associate with a resource. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
     ///   - logger: Logger use during operation
     @inlinable
     public func addTags(
+        clusterId: String? = nil,
         resourceId: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AddTagsOutput {
         let input = AddTagsInput(
+            clusterId: clusterId, 
             resourceId: resourceId, 
             tags: tags
         )
@@ -1005,6 +1008,70 @@ public struct EMR: AWSService {
         return try await self.getPersistentAppUIPresignedURL(input, logger: logger)
     }
 
+    /// Returns detailed information about a session.
+    @Sendable
+    @inlinable
+    public func getSession(_ input: GetSessionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionOutput {
+        try await self.client.execute(
+            operation: "GetSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed information about a session.
+    ///
+    /// Parameters:
+    ///   - clusterId: The ID of the cluster that the session belongs to.
+    ///   - sessionId: The ID of the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSession(
+        clusterId: String? = nil,
+        sessionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSessionOutput {
+        let input = GetSessionInput(
+            clusterId: clusterId, 
+            sessionId: sessionId
+        )
+        return try await self.getSession(input, logger: logger)
+    }
+
+    /// Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one.
+    @Sendable
+    @inlinable
+    public func getSessionEndpoint(_ input: GetSessionEndpointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEndpointOutput {
+        try await self.client.execute(
+            operation: "GetSessionEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one.
+    ///
+    /// Parameters:
+    ///   - clusterId: The ID of the cluster that the session belongs to.
+    ///   - sessionId: The ID of the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSessionEndpoint(
+        clusterId: String? = nil,
+        sessionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSessionEndpointOutput {
+        let input = GetSessionEndpointInput(
+            clusterId: clusterId, 
+            sessionId: sessionId
+        )
+        return try await self.getSessionEndpoint(input, logger: logger)
+    }
+
     /// Fetches mapping details for the specified Amazon EMR Studio and identity (user or group).
     @Sendable
     @inlinable
@@ -1330,6 +1397,44 @@ public struct EMR: AWSService {
             marker: marker
         )
         return try await self.listSecurityConfigurations(input, logger: logger)
+    }
+
+    /// Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first.
+    @Sendable
+    @inlinable
+    public func listSessions(_ input: ListSessionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsOutput {
+        try await self.client.execute(
+            operation: "ListSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first.
+    ///
+    /// Parameters:
+    ///   - clusterId: The ID of the cluster to list sessions for.
+    ///   - maxResults: The maximum number of sessions to return in each page of results.
+    ///   - nextToken: The pagination token returned by a previous ListSessions call. Use it to retrieve the next page of results.
+    ///   - sessionStates: An optional filter that limits the results to sessions in the specified states.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSessions(
+        clusterId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sessionStates: [SessionState]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSessionsOutput {
+        let input = ListSessionsInput(
+            clusterId: clusterId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sessionStates: sessionStates
+        )
+        return try await self.listSessions(input, logger: logger)
     }
 
     /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates. You can specify a maximum of 10 stepIDs. The CLI automatically paginates results to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker, which is a pagination token that indicates the next set of steps to retrieve.
@@ -1799,16 +1904,19 @@ public struct EMR: AWSService {
     /// Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters.  The following example removes the stack tag with value Prod from a cluster:
     ///
     /// Parameters:
+    ///   - clusterId: The ID of the cluster that scopes the tag operation. Required when the resource being untagged is a session-scoped resource.
     ///   - resourceId: The Amazon EMR resource identifier from which tags will be removed. For example, a cluster identifier or an Amazon EMR Studio ID.
     ///   - tagKeys: A list of tag keys to remove from the resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeTags(
+        clusterId: String? = nil,
         resourceId: String? = nil,
         tagKeys: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RemoveTagsOutput {
         let input = RemoveTagsInput(
+            clusterId: clusterId, 
             resourceId: resourceId, 
             tagKeys: tagKeys
         )
@@ -1859,7 +1967,9 @@ public struct EMR: AWSService {
     ///   - scaleDownBehavior: Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR releases 4.1.0 and later, and is the default for releases of Amazon EMR earlier than 5.1.0.
     ///   - securityConfiguration: The name of a security configuration to apply to the cluster.
     ///   - serviceRole: The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf. If you've created a custom service role path, you must specify it for the service role when you launch your cluster.
+    ///   - sessionEnabled: Indicates whether Spark Connect sessions are enabled on the cluster. When set to true, you can start Spark Connect sessions using the StartSession operation.
     ///   - stepConcurrencyLevel: Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
+    ///   - stepExecutionRoleArn: The Amazon Resource Name (ARN) of the runtime role for steps specified in the RunJobFlow request. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:iam::account-id:role/role-name. For example, arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN. This parameter applies only to steps included in the Steps parameter of this RunJobFlow request. It does not apply to steps added later to the cluster.
     ///   - steps: A list of steps to run.
     ///   - supportedProducts:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.
     ///   - tags: A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
@@ -1895,7 +2005,9 @@ public struct EMR: AWSService {
         scaleDownBehavior: ScaleDownBehavior? = nil,
         securityConfiguration: String? = nil,
         serviceRole: String? = nil,
+        sessionEnabled: Bool? = nil,
         stepConcurrencyLevel: Int? = nil,
+        stepExecutionRoleArn: String? = nil,
         steps: [StepConfig]? = nil,
         supportedProducts: [String]? = nil,
         tags: [Tag]? = nil,
@@ -1931,7 +2043,9 @@ public struct EMR: AWSService {
             scaleDownBehavior: scaleDownBehavior, 
             securityConfiguration: securityConfiguration, 
             serviceRole: serviceRole, 
+            sessionEnabled: sessionEnabled, 
             stepConcurrencyLevel: stepConcurrencyLevel, 
+            stepExecutionRoleArn: stepExecutionRoleArn, 
             steps: steps, 
             supportedProducts: supportedProducts, 
             tags: tags, 
@@ -2130,6 +2244,56 @@ public struct EMR: AWSService {
         return try await self.startNotebookExecution(input, logger: logger)
     }
 
+    /// Creates and starts a new Spark Connect session on the specified cluster. The cluster must be in the RUNNING or WAITING state and have sessions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later.
+    @Sendable
+    @inlinable
+    public func startSession(_ input: StartSessionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSessionOutput {
+        try await self.client.execute(
+            operation: "StartSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates and starts a new Spark Connect session on the specified cluster. The cluster must be in the RUNNING or WAITING state and have sessions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client request token, the service returns the original response without performing the operation again.
+    ///   - clusterId: The ID of the cluster on which to start the session.
+    ///   - engineConfigurations: The configuration overrides for the session. Only runtime configuration overrides are supported.
+    ///   - executionRoleArn: The execution role ARN for the session. Amazon EMR uses this role to access Amazon Web Services resources on your behalf during session execution.
+    ///   - monitoringConfiguration: The monitoring configuration that controls where session logs are published, such as Amazon S3, CloudWatch, or managed logging.
+    ///   - name: An optional name for the session.
+    ///   - sessionIdleTimeoutInMinutes: The idle timeout, in minutes. If the session is idle for this duration, Amazon EMR EC2 automatically terminates it.
+    ///   - tags: The tags to assign to the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startSession(
+        clientRequestToken: String? = nil,
+        clusterId: String? = nil,
+        engineConfigurations: [Configuration]? = nil,
+        executionRoleArn: String? = nil,
+        monitoringConfiguration: SessionMonitoringConfiguration? = nil,
+        name: String? = nil,
+        sessionIdleTimeoutInMinutes: Int64? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartSessionOutput {
+        let input = StartSessionInput(
+            clientRequestToken: clientRequestToken, 
+            clusterId: clusterId, 
+            engineConfigurations: engineConfigurations, 
+            executionRoleArn: executionRoleArn, 
+            monitoringConfiguration: monitoringConfiguration, 
+            name: name, 
+            sessionIdleTimeoutInMinutes: sessionIdleTimeoutInMinutes, 
+            tags: tags
+        )
+        return try await self.startSession(input, logger: logger)
+    }
+
     /// Stops a notebook execution.
     @Sendable
     @inlinable
@@ -2186,6 +2350,38 @@ public struct EMR: AWSService {
             jobFlowIds: jobFlowIds
         )
         return try await self.terminateJobFlows(input, logger: logger)
+    }
+
+    /// Terminates an active session. After you call this operation, the session enters the TERMINATING state and then transitions to TERMINATED.
+    @Sendable
+    @inlinable
+    public func terminateSession(_ input: TerminateSessionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateSessionOutput {
+        try await self.client.execute(
+            operation: "TerminateSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Terminates an active session. After you call this operation, the session enters the TERMINATING state and then transitions to TERMINATED.
+    ///
+    /// Parameters:
+    ///   - clusterId: The ID of the cluster that the session belongs to.
+    ///   - sessionId: The ID of the session to terminate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func terminateSession(
+        clusterId: String? = nil,
+        sessionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TerminateSessionOutput {
+        let input = TerminateSessionInput(
+            clusterId: clusterId, 
+            sessionId: sessionId
+        )
+        return try await self.terminateSession(input, logger: logger)
     }
 
     /// Updates an Amazon EMR Studio configuration, including attributes such as name, description, and subnets.
@@ -2592,6 +2788,46 @@ extension EMR {
         return self.listSecurityConfigurationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSessionsPaginator(
+        _ input: ListSessionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSessionsInput, ListSessionsOutput> {
+        return .init(
+            input: input,
+            command: self.listSessions,
+            inputKey: \ListSessionsInput.nextToken,
+            outputKey: \ListSessionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterId: The ID of the cluster to list sessions for.
+    ///   - maxResults: The maximum number of sessions to return in each page of results.
+    ///   - sessionStates: An optional filter that limits the results to sessions in the specified states.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSessionsPaginator(
+        clusterId: String? = nil,
+        maxResults: Int? = nil,
+        sessionStates: [SessionState]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSessionsInput, ListSessionsOutput> {
+        let input = ListSessionsInput(
+            clusterId: clusterId, 
+            maxResults: maxResults, 
+            sessionStates: sessionStates
+        )
+        return self.listSessionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSteps(_:logger:)``.
     ///
     /// - Parameters:
@@ -2822,6 +3058,18 @@ extension EMR.ListSecurityConfigurationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EMR.ListSecurityConfigurationsInput {
         return .init(
             marker: token
+        )
+    }
+}
+
+extension EMR.ListSessionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EMR.ListSessionsInput {
+        return .init(
+            clusterId: self.clusterId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionStates: self.sessionStates
         )
     }
 }

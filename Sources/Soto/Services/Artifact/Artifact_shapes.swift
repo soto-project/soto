@@ -49,6 +49,49 @@ extension Artifact {
         public var description: String { return self.rawValue }
     }
 
+    public enum FeedbackRating: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case thumbsDown = "THUMBS_DOWN"
+        case thumbsUp = "THUMBS_UP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeedbackReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case irrelevantResponse = "IRRELEVANT_RESPONSE"
+        case other = "OTHER"
+        case partialResponse = "PARTIAL_RESPONSE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case file = "FILE"
+        case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InquiryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case humanReview = "HUMAN_REVIEW"
+        case processing = "PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InquiryStatusMessage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completedWithErrors = "Compliance inquiry processing is complete. One or more queries encountered errors during processing."
+        case humanReviewInProgress = "Human review is in progress."
+        case inProgress = "Compliance inquiry processing is in-progress."
+        case internalError = "An internal error occurred while processing the inquiry. Try again at a later time."
+        case malwareDetectedError = "Malware was detected on the file. Provide a new file and try again."
+        case success = "Compliance inquiry processing is complete."
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InquirySupportMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiOnly = "AI_ONLY"
+        case fullSupport = "FULL_SUPPORT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotificationSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notSubscribed = "NOT_SUBSCRIBED"
         case subscribed = "SUBSCRIBED"
@@ -58,6 +101,28 @@ extension Artifact {
     public enum PublishedState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case published = "PUBLISHED"
         case unpublished = "UNPUBLISHED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryStatusMessage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inProgress = "Query processing is in-progress."
+        case internalError = "An internal error occurred while processing the query. Try again at a later time."
+        case pendingHumanReview = "Query is pending human review."
+        case restricted = "Query contains restricted or unsupported content."
+        case success = "Query processing is complete."
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReviewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ai = "AI"
+        case human = "HUMAN"
         public var description: String { return self.rawValue }
     }
 
@@ -78,6 +143,39 @@ extension Artifact {
         public var description: String { return self.rawValue }
     }
 
+    public enum InquiryContent: AWSEncodableShape, Sendable {
+        /// File content with multiple questions.
+        case fileContent(InquiryFileContent)
+        /// Single text query for AI-generated answer.
+        case query(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .fileContent(let value):
+                try container.encode(value, forKey: .fileContent)
+            case .query(let value):
+                try container.encode(value, forKey: .query)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .fileContent(let value):
+                try value.validate(name: "\(name).fileContent")
+            case .query(let value):
+                try self.validate(value, name: "query", parent: name, max: 2048)
+                try self.validate(value, name: "query", parent: name, min: 1)
+                try self.validate(value, name: "query", parent: name, pattern: "^[^<>]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileContent = "fileContent"
+            case query = "query"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AccountSettings: AWSDecodableShape {
@@ -91,6 +189,28 @@ extension Artifact {
 
         private enum CodingKeys: String, CodingKey {
             case notificationSubscriptionStatus = "notificationSubscriptionStatus"
+        }
+    }
+
+    public struct Citation: AWSDecodableShape {
+        /// Content text from the compliance source.
+        public let sourceContent: String?
+        /// Label identifying the compliance source.
+        public let sourceLabel: String?
+        /// Link to the compliance source.
+        public let sourceLink: String?
+
+        @inlinable
+        public init(sourceContent: String? = nil, sourceLabel: String? = nil, sourceLink: String? = nil) {
+            self.sourceContent = sourceContent
+            self.sourceLabel = sourceLabel
+            self.sourceLink = sourceLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceContent = "sourceContent"
+            case sourceLabel = "sourceLabel"
+            case sourceLink = "sourceLink"
         }
     }
 
@@ -112,6 +232,69 @@ extension Artifact {
             case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
+        }
+    }
+
+    public struct CreateComplianceInquiryRequest: AWSEncodableShape {
+        /// Idempotency token for the request.
+        public let clientToken: String?
+        /// Content for creating a compliance inquiry - either a single query or file content.
+        public let inquiryContent: InquiryContent
+        /// Title of the inquiry.
+        public let name: String
+        /// Support mode for inquiry processing. Only supported for file upload mode. Defaults to AI_ONLY if not specified.
+        public let supportMode: InquirySupportMode?
+        /// Tags to associate with the compliance inquiry resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateComplianceInquiryRequest.idempotencyToken(), inquiryContent: InquiryContent, name: String, supportMode: InquirySupportMode? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.inquiryContent = inquiryContent
+            self.name = name
+            self.supportMode = supportMode
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\w\\-]+$")
+            try self.inquiryContent.validate(name: "\(name).inquiryContent")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s_.:/=+\\-@]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case inquiryContent = "inquiryContent"
+            case name = "name"
+            case supportMode = "supportMode"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateComplianceInquiryResponse: AWSDecodableShape {
+        /// Summary information about the created compliance inquiry.
+        public let complianceInquirySummary: InquirySummary?
+        /// Tags associated with the compliance inquiry resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(complianceInquirySummary: InquirySummary? = nil, tags: [String: String]? = nil) {
+            self.complianceInquirySummary = complianceInquirySummary
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceInquirySummary = "complianceInquirySummary"
+            case tags = "tags"
         }
     }
 
@@ -179,6 +362,50 @@ extension Artifact {
         }
     }
 
+    public struct ExportComplianceInquiryRequest: AWSEncodableShape {
+        /// Unique resource ID for the compliance inquiry.
+        public let complianceInquiryId: String
+        /// When true, include citations in the exported document.
+        public let includeCitations: Bool?
+        /// List of query identifiers to include in the export.
+        public let queryIdentifiers: [Int]?
+
+        @inlinable
+        public init(complianceInquiryId: String, includeCitations: Bool? = nil, queryIdentifiers: [Int]? = nil) {
+            self.complianceInquiryId = complianceInquiryId
+            self.includeCitations = includeCitations
+            self.queryIdentifiers = queryIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.complianceInquiryId, name: "complianceInquiryId", parent: name, pattern: "^compliance-inquiry-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceInquiryId = "complianceInquiryId"
+            case includeCitations = "includeCitations"
+            case queryIdentifiers = "queryIdentifiers"
+        }
+    }
+
+    public struct ExportComplianceInquiryResponse: AWSDecodableShape {
+        /// Presigned S3 URL to access the exported compliance inquiry report.
+        public let documentPresignedUrl: String?
+        /// Tags associated with the compliance inquiry resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(documentPresignedUrl: String? = nil, tags: [String: String]? = nil) {
+            self.documentPresignedUrl = documentPresignedUrl
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentPresignedUrl = "documentPresignedUrl"
+            case tags = "tags"
+        }
+    }
+
     public struct GetAccountSettingsRequest: AWSEncodableShape {
         public init() {}
     }
@@ -193,6 +420,46 @@ extension Artifact {
 
         private enum CodingKeys: String, CodingKey {
             case accountSettings = "accountSettings"
+        }
+    }
+
+    public struct GetComplianceInquiryMetadataRequest: AWSEncodableShape {
+        /// Unique resource ID for the compliance inquiry.
+        public let complianceInquiryId: String
+
+        @inlinable
+        public init(complianceInquiryId: String) {
+            self.complianceInquiryId = complianceInquiryId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.complianceInquiryId, key: "complianceInquiryId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.complianceInquiryId, name: "complianceInquiryId", parent: name, pattern: "^compliance-inquiry-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetComplianceInquiryMetadataResponse: AWSDecodableShape {
+        /// Detailed information about the compliance inquiry.
+        public let complianceInquiryDetail: InquiryDetail?
+        /// Tags associated with the compliance inquiry resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(complianceInquiryDetail: InquiryDetail? = nil, tags: [String: String]? = nil) {
+            self.complianceInquiryDetail = complianceInquiryDetail
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceInquiryDetail = "complianceInquiryDetail"
+            case tags = "tags"
         }
     }
 
@@ -330,6 +597,119 @@ extension Artifact {
         }
     }
 
+    public struct InquiryDetail: AWSDecodableShape {
+        /// ARN of the compliance inquiry resource.
+        public let arn: String
+        /// Timestamp indicating when the resource was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// Unique resource ID for the compliance inquiry.
+        public let id: String
+        /// Type of inquiry content (text or file).
+        public let inputSource: InputSource
+        /// Title of the inquiry.
+        public let name: String
+        /// Current processing status of the inquiry.
+        public let status: InquiryStatus
+        /// Status message providing additional context.
+        public let statusMessage: InquiryStatusMessage
+        /// Support mode for this inquiry. AI_ONLY provides AI-generated responses. FULL_SUPPORT includes human expert review.
+        public let supportMode: InquirySupportMode?
+        /// Timestamp indicating when the resource was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(arn: String, createdAt: Date, id: String, inputSource: InputSource, name: String, status: InquiryStatus, statusMessage: InquiryStatusMessage, supportMode: InquirySupportMode? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.inputSource = inputSource
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+            self.supportMode = supportMode
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case inputSource = "inputSource"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case supportMode = "supportMode"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct InquiryFileContent: AWSEncodableShape {
+        /// Binary content of the uploaded file.
+        public let content: AWSBase64Data
+        /// List of file sections/sheets to process.
+        public let fileSections: [String]?
+
+        @inlinable
+        public init(content: AWSBase64Data, fileSections: [String]? = nil) {
+            self.content = content
+            self.fileSections = fileSections
+        }
+
+        public func validate(name: String) throws {
+            try self.fileSections?.forEach {
+                try validate($0, name: "fileSections[]", parent: name, max: 256)
+                try validate($0, name: "fileSections[]", parent: name, min: 1)
+                try validate($0, name: "fileSections[]", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case fileSections = "fileSections"
+        }
+    }
+
+    public struct InquirySummary: AWSDecodableShape {
+        /// ARN of the compliance inquiry resource.
+        public let arn: String
+        /// Timestamp indicating when the resource was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// Unique resource ID for the compliance inquiry.
+        public let id: String
+        /// Type of inquiry content (text or file).
+        public let inputSource: InputSource
+        /// Title of the inquiry.
+        public let name: String
+        /// Current processing status of the inquiry.
+        public let status: InquiryStatus
+        /// Status message providing additional context.
+        public let statusMessage: InquiryStatusMessage
+
+        @inlinable
+        public init(arn: String, createdAt: Date, id: String, inputSource: InputSource, name: String, status: InquiryStatus, statusMessage: InquiryStatusMessage) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.inputSource = inputSource
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case inputSource = "inputSource"
+            case name = "name"
+            case status = "status"
+            case statusMessage = "statusMessage"
+        }
+    }
+
     public struct InternalServerException: AWSErrorShape {
         public let message: String
         /// Number of seconds in which the caller can retry the request.
@@ -350,6 +730,105 @@ extension Artifact {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct ListComplianceInquiriesRequest: AWSEncodableShape {
+        /// Maximum number of resources to return in the paginated response.
+        public let maxResults: Int?
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListComplianceInquiriesResponse: AWSDecodableShape {
+        /// List of compliance inquiry resources.
+        public let complianceInquiries: [InquirySummary]?
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+
+        @inlinable
+        public init(complianceInquiries: [InquirySummary]? = nil, nextToken: String? = nil) {
+            self.complianceInquiries = complianceInquiries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case complianceInquiries = "complianceInquiries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListComplianceInquiryQueriesRequest: AWSEncodableShape {
+        /// Unique resource ID for the compliance inquiry.
+        public let complianceInquiryId: String
+        /// Maximum number of resources to return in the paginated response.
+        public let maxResults: Int?
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+
+        @inlinable
+        public init(complianceInquiryId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.complianceInquiryId = complianceInquiryId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.complianceInquiryId, key: "complianceInquiryId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.complianceInquiryId, name: "complianceInquiryId", parent: name, pattern: "^compliance-inquiry-[a-zA-Z0-9]{16}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListComplianceInquiryQueriesResponse: AWSDecodableShape {
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+        /// List of compliance query summaries.
+        public let queries: [QuerySummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, queries: [QuerySummary]? = nil) {
+            self.nextToken = nextToken
+            self.queries = queries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case queries = "queries"
         }
     }
 
@@ -499,6 +978,44 @@ extension Artifact {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[^<>]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// Tags associated with the resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct PutAccountSettingsRequest: AWSEncodableShape {
         /// Desired notification subscription status.
         public let notificationSubscriptionStatus: NotificationSubscriptionStatus?
@@ -523,6 +1040,116 @@ extension Artifact {
 
         private enum CodingKeys: String, CodingKey {
             case accountSettings = "accountSettings"
+        }
+    }
+
+    public struct PutComplianceInquiryFeedbackRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// An optional comment for the feedback.
+        public let comment: String?
+        /// The unique identifier for the compliance inquiry.
+        public let complianceInquiryId: String
+        /// The sequential identifier of the query to provide feedback on.
+        public let queryIdentifier: Int?
+        /// The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN.
+        public let rating: FeedbackRating
+        /// The reason codes that describe why you rated the response. Valid values are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE.
+        public let reasonCodes: [FeedbackReasonCode]?
+        /// The response revision ID. Use this value to prevent submitting feedback on a stale response.
+        public let responseRevisionId: Int?
+
+        @inlinable
+        public init(clientToken: String? = PutComplianceInquiryFeedbackRequest.idempotencyToken(), comment: String? = nil, complianceInquiryId: String, queryIdentifier: Int? = nil, rating: FeedbackRating, reasonCodes: [FeedbackReasonCode]? = nil, responseRevisionId: Int? = nil) {
+            self.clientToken = clientToken
+            self.comment = comment
+            self.complianceInquiryId = complianceInquiryId
+            self.queryIdentifier = queryIdentifier
+            self.rating = rating
+            self.reasonCodes = reasonCodes
+            self.responseRevisionId = responseRevisionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.comment, name: "comment", parent: name, max: 1000)
+            try self.validate(self.comment, name: "comment", parent: name, min: 1)
+            try self.validate(self.comment, name: "comment", parent: name, pattern: "^[a-zA-Z0-9\\s.,;:!?'\\-()/@#&+=]+$")
+            try self.validate(self.complianceInquiryId, name: "complianceInquiryId", parent: name, pattern: "^compliance-inquiry-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case comment = "comment"
+            case complianceInquiryId = "complianceInquiryId"
+            case queryIdentifier = "queryIdentifier"
+            case rating = "rating"
+            case reasonCodes = "reasonCodes"
+            case responseRevisionId = "responseRevisionId"
+        }
+    }
+
+    public struct PutComplianceInquiryFeedbackResponse: AWSDecodableShape {
+        /// The timestamp when the feedback was submitted.
+        @CustomCoding<ISO8601DateCoder>
+        public var submittedAt: Date
+
+        @inlinable
+        public init(submittedAt: Date) {
+            self.submittedAt = submittedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case submittedAt = "submittedAt"
+        }
+    }
+
+    public struct QuerySummary: AWSDecodableShape {
+        /// Supporting citations for the response.
+        public let citations: [Citation]?
+        /// Timestamp when the query was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The actual query text.
+        public let query: String
+        /// Sequential identifier of the query within the inquiry.
+        public let queryIdentifier: Int
+        /// Generated response to the query.
+        public let response: String?
+        /// Type of review for the response.
+        public let reviewType: ReviewType?
+        /// Current processing status of the query.
+        public let status: QueryStatus
+        /// Descriptive status message.
+        public let statusMessage: QueryStatusMessage
+        /// Ordered list of response version history entries, oldest first.
+        public let updatedResponseVersions: [ResponseVersion]?
+
+        @inlinable
+        public init(citations: [Citation]? = nil, createdAt: Date, query: String, queryIdentifier: Int, response: String? = nil, reviewType: ReviewType? = nil, status: QueryStatus, statusMessage: QueryStatusMessage, updatedResponseVersions: [ResponseVersion]? = nil) {
+            self.citations = citations
+            self.createdAt = createdAt
+            self.query = query
+            self.queryIdentifier = queryIdentifier
+            self.response = response
+            self.reviewType = reviewType
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedResponseVersions = updatedResponseVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case citations = "citations"
+            case createdAt = "createdAt"
+            case query = "query"
+            case queryIdentifier = "queryIdentifier"
+            case response = "response"
+            case reviewType = "reviewType"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updatedResponseVersions = "updatedResponseVersions"
         }
     }
 
@@ -714,6 +1341,25 @@ extension Artifact {
         }
     }
 
+    public struct ResponseVersion: AWSDecodableShape {
+        /// The response text for this version.
+        public let responseText: String
+        /// ISO 8601 timestamp of when this edit was made.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(responseText: String, timestamp: Date) {
+            self.responseText = responseText
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseText = "responseText"
+            case timestamp = "timestamp"
+        }
+    }
+
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let message: String
         /// Code for the affected quota.
@@ -741,6 +1387,48 @@ extension Artifact {
             case resourceType = "resourceType"
             case serviceCode = "serviceCode"
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// Tags to add to the resource.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[^<>]*$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9\\s_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\s_.:/=+\\-@]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ThrottlingException: AWSErrorShape {
@@ -774,6 +1462,45 @@ extension Artifact {
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        /// Tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^[^<>]*$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[a-zA-Z0-9\\s_.:/=+\\-@]*$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ValidationException: AWSErrorShape {

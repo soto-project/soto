@@ -1488,7 +1488,7 @@ extension Firehose {
         public func validate(name: String) throws {
             try self.validate(self.keyARN, name: "keyARN", parent: name, max: 512)
             try self.validate(self.keyARN, name: "keyARN", parent: name, min: 1)
-            try self.validate(self.keyARN, name: "keyARN", parent: name, pattern: "^arn:.*:kms:[a-zA-Z0-9\\-]+:\\d{12}:(key|alias)/[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.keyARN, name: "keyARN", parent: name, pattern: "^arn:.*:kms:[a-zA-Z0-9\\-]+:\\d{12}:key/[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

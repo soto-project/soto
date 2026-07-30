@@ -144,6 +144,8 @@ extension SESv2 {
         case awsSesSaEast1 = "AWS_SES_SA_EAST_1"
         case awsSesUsEast1 = "AWS_SES_US_EAST_1"
         case awsSesUsEast2 = "AWS_SES_US_EAST_2"
+        case awsSesUsGovEast1 = "AWS_SES_US_GOV_EAST_1"
+        case awsSesUsGovWest1 = "AWS_SES_US_GOV_WEST_1"
         case awsSesUsWest1 = "AWS_SES_US_WEST_1"
         case awsSesUsWest2 = "AWS_SES_US_WEST_2"
         case external = "EXTERNAL"
@@ -292,6 +294,14 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enterprise = "ENTERPRISE"
+        case essentials = "ESSENTIALS"
+        case none = "NONE"
+        case pro = "PRO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueryErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case internalFailure = "INTERNAL_FAILURE"
@@ -393,6 +403,12 @@ extension SESv2 {
     public enum SuppressionListReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bounce = "BOUNCE"
         case complaint = "COMPLAINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionListScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case tenant = "TENANT"
         public var description: String { return self.rawValue }
     }
 
@@ -793,9 +809,9 @@ extension SESv2 {
     }
 
     public struct CloudWatchDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   Can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-), at signs (@), and periods (.).   It can contain no more than 256 characters.
+        /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   Can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-), at signs (@), and periods (.).   It can contain no more than 255 characters.
         public let defaultDimensionValue: String
-        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
+        /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 255 characters.
         public let dimensionName: String
         /// The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail or SendRawEmail API, choose messageTag. To use your own email headers, choose emailHeader. To use link tags, choose linkTags.
         public let dimensionValueSource: DimensionValueSource
@@ -964,6 +980,7 @@ extension SESv2 {
         public let reputationOptions: ReputationOptions?
         /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
         public let sendingOptions: SendingOptions?
+        /// An object that contains information about the suppression list preferences for the configuration set. You can optionally include a SuppressionScope to override the tenant or account suppression scope for emails sent using this configuration set.
         public let suppressionOptions: SuppressionOptions?
         /// An array of objects that define the tags (keys and values) to associate with the configuration set.
         public let tags: [Tag]?
@@ -1442,13 +1459,16 @@ extension SESv2 {
     }
 
     public struct CreateTenantRequest: AWSEncodableShape {
+        /// An object that contains information about the suppression list preferences for the tenant. Use this to configure tenant-level suppression at creation time.
+        public let suppressionAttributes: TenantSuppressionAttributes?
         /// An array of objects that define the tags (keys and values) to associate with the tenant
         public let tags: [Tag]?
         /// The name of the tenant to create. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
         public let tenantName: String
 
         @inlinable
-        public init(tags: [Tag]? = nil, tenantName: String) {
+        public init(suppressionAttributes: TenantSuppressionAttributes? = nil, tags: [Tag]? = nil, tenantName: String) {
+            self.suppressionAttributes = suppressionAttributes
             self.tags = tags
             self.tenantName = tenantName
         }
@@ -1458,6 +1478,7 @@ extension SESv2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case suppressionAttributes = "SuppressionAttributes"
             case tags = "Tags"
             case tenantName = "TenantName"
         }
@@ -1495,6 +1516,7 @@ extension SESv2 {
         public let createdTimestamp: Date?
         /// The status of email sending capability for the tenant.
         public let sendingStatus: SendingStatus?
+        public let suppressionAttributes: TenantSuppressionAttributes?
         /// An array of objects that define the tags (keys and values) associated with the tenant.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the tenant.
@@ -1505,9 +1527,10 @@ extension SESv2 {
         public let tenantName: String?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, sendingStatus: SendingStatus? = nil, tags: [Tag]? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
+        public init(createdTimestamp: Date? = nil, sendingStatus: SendingStatus? = nil, suppressionAttributes: TenantSuppressionAttributes? = nil, tags: [Tag]? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.sendingStatus = sendingStatus
+            self.suppressionAttributes = suppressionAttributes
             self.tags = tags
             self.tenantArn = tenantArn
             self.tenantId = tenantId
@@ -1517,6 +1540,7 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case sendingStatus = "SendingStatus"
+            case suppressionAttributes = "SuppressionAttributes"
             case tags = "Tags"
             case tenantArn = "TenantArn"
             case tenantId = "TenantId"
@@ -1915,18 +1939,26 @@ extension SESv2 {
     }
 
     public struct DeleteSuppressedDestinationRequest: AWSEncodableShape {
-        /// The suppressed email destination to remove from the account suppression list.
+        /// The suppressed email destination to remove from the suppression list for your account or for the specified tenant.
         public let emailAddress: String
+        /// The name of the tenant whose suppression list you want to remove the address from. If you omit this parameter, the address is removed from the account-level suppression list.
+        public let tenantName: String?
 
         @inlinable
-        public init(emailAddress: String) {
+        public init(emailAddress: String, tenantName: String? = nil) {
             self.emailAddress = emailAddress
+            self.tenantName = tenantName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.emailAddress, key: "EmailAddress")
+            request.encodeQuery(self.tenantName, key: "TenantName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2089,7 +2121,7 @@ extension SESv2 {
         public let lastKeyGenerationTimestamp: Date?
         /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.
         public let nextSigningKeyLength: DkimSigningKeyLength?
-        /// A string that indicates how DKIM was configured for the identity. These are the possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).    AWS_SES_AF_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_5 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
+        /// A string that indicates how DKIM was configured for the identity. These are the possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).    AWS_SES_AF_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_5 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).
         public let signingAttributesOrigin: DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public let signingEnabled: Bool?
@@ -2125,7 +2157,7 @@ extension SESv2 {
     }
 
     public struct DkimSigningAttributes: AWSEncodableShape {
-        /// The attribute to use for configuring DKIM for the identity depends on the operation:    For PutEmailIdentityDkimSigningAttributes:    None of the values are allowed - use the  SigningAttributesOrigin  parameter instead      For CreateEmailIdentity when replicating a parent identity's DKIM configuration:    Allowed values: All values except AWS_SES and EXTERNAL         AWS_SES – Configure DKIM for the identity by using Easy DKIM.     EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).     AWS_SES_AF_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_5 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Configure DKIM for the identity by replicating from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
+        /// The attribute to use for configuring DKIM for the identity depends on the operation:    For PutEmailIdentityDkimSigningAttributes:    None of the values are allowed - use the  SigningAttributesOrigin  parameter instead      For CreateEmailIdentity when replicating a parent identity's DKIM configuration:    Allowed values: All values except AWS_SES and EXTERNAL         AWS_SES – Configure DKIM for the identity by using Easy DKIM.     EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).     AWS_SES_AF_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_5 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Configure DKIM for the identity by replicating from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).
         public let domainSigningAttributesOrigin: DkimSigningAttributesOrigin?
         /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
         public let domainSigningPrivateKey: String?
@@ -2673,6 +2705,8 @@ extension SESv2 {
         public let details: AccountDetails?
         /// The reputation status of your Amazon SES account. The status can be one of the following:    HEALTHY – There are no reputation-related issues that currently impact your account.    PROBATION – We've identified potential issues with your Amazon SES account. We're placing your account under review while you work on correcting these issues.    SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.
         public let enforcementStatus: String?
+        /// The pricing attributes that apply to your Amazon SES account, including the currently active pricing plan and any scheduled change.
+        public let pricingAttributes: PricingAttributes?
         /// Indicates whether or not your account has production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities.  If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
         public let productionAccessEnabled: Bool?
         /// Indicates whether or not email sending is enabled for your Amazon SES account in the current Amazon Web Services Region.
@@ -2685,10 +2719,11 @@ extension SESv2 {
         public let vdmAttributes: VdmAttributes?
 
         @inlinable
-        public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, details: AccountDetails? = nil, enforcementStatus: String? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil, vdmAttributes: VdmAttributes? = nil) {
+        public init(dedicatedIpAutoWarmupEnabled: Bool? = nil, details: AccountDetails? = nil, enforcementStatus: String? = nil, pricingAttributes: PricingAttributes? = nil, productionAccessEnabled: Bool? = nil, sendingEnabled: Bool? = nil, sendQuota: SendQuota? = nil, suppressionAttributes: SuppressionAttributes? = nil, vdmAttributes: VdmAttributes? = nil) {
             self.dedicatedIpAutoWarmupEnabled = dedicatedIpAutoWarmupEnabled
             self.details = details
             self.enforcementStatus = enforcementStatus
+            self.pricingAttributes = pricingAttributes
             self.productionAccessEnabled = productionAccessEnabled
             self.sendingEnabled = sendingEnabled
             self.sendQuota = sendQuota
@@ -2700,6 +2735,7 @@ extension SESv2 {
             case dedicatedIpAutoWarmupEnabled = "DedicatedIpAutoWarmupEnabled"
             case details = "Details"
             case enforcementStatus = "EnforcementStatus"
+            case pricingAttributes = "PricingAttributes"
             case productionAccessEnabled = "ProductionAccessEnabled"
             case sendingEnabled = "SendingEnabled"
             case sendQuota = "SendQuota"
@@ -2801,7 +2837,7 @@ extension SESv2 {
         public let reputationOptions: ReputationOptions?
         /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
         public let sendingOptions: SendingOptions?
-        /// An object that contains information about the suppression list preferences for your account.
+        /// An object that contains information about the suppression list preferences for your account or for a specific tenant.
         public let suppressionOptions: SuppressionOptions?
         /// An array of objects that define the tags (keys and values) that are associated with the configuration set.
         public let tags: [Tag]?
@@ -3745,18 +3781,26 @@ extension SESv2 {
     }
 
     public struct GetSuppressedDestinationRequest: AWSEncodableShape {
-        /// The email address that's on the account suppression list.
+        /// The email address that's on the suppression list for your account or for the specified tenant.
         public let emailAddress: String
+        /// The name of the tenant whose suppression list you want to query. If you omit this parameter, the operation targets the account-level suppression list.
+        public let tenantName: String?
 
         @inlinable
-        public init(emailAddress: String) {
+        public init(emailAddress: String, tenantName: String? = nil) {
             self.emailAddress = emailAddress
+            self.tenantName = tenantName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.emailAddress, key: "EmailAddress")
+            request.encodeQuery(self.tenantName, key: "TenantName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4713,18 +4757,21 @@ extension SESv2 {
         public let nextToken: String?
         /// The number of results to show in a single call to ListSuppressedDestinations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int?
-        /// The factors that caused the email address to be added to .
+        /// The factors that caused the email address to be added to the suppression list for your account or for a specific tenant.
         public let reasons: [SuppressionListReason]?
         /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.
         public let startDate: Date?
+        /// The name of the tenant whose suppression list you want to retrieve. If you omit this parameter, the operation targets the account-level suppression list.
+        public let tenantName: String?
 
         @inlinable
-        public init(endDate: Date? = nil, nextToken: String? = nil, pageSize: Int? = nil, reasons: [SuppressionListReason]? = nil, startDate: Date? = nil) {
+        public init(endDate: Date? = nil, nextToken: String? = nil, pageSize: Int? = nil, reasons: [SuppressionListReason]? = nil, startDate: Date? = nil, tenantName: String? = nil) {
             self.endDate = endDate
             self.nextToken = nextToken
             self.pageSize = pageSize
             self.reasons = reasons
             self.startDate = startDate
+            self.tenantName = tenantName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4735,13 +4782,18 @@ extension SESv2 {
             request.encodeQuery(self.pageSize, key: "PageSize")
             request.encodeQuery(self.reasons, key: "Reason")
             request.encodeQuery(self.startDate, key: "StartDate")
+            request.encodeQuery(self.tenantName, key: "TenantName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListSuppressedDestinationsResponse: AWSDecodableShape {
-        /// A token that indicates that there are additional email addresses on the suppression list for your account. To view additional suppressed addresses, issue another request to ListSuppressedDestinations, and pass this token in the NextToken parameter.
+        /// A token that indicates that there are additional email addresses on the suppression list for your account or for the specified tenant. To view additional suppressed addresses, issue another request to ListSuppressedDestinations, and pass this token in the NextToken parameter.
         public let nextToken: String?
         /// A list of summaries, each containing a summary for a suppressed email destination.
         public let suppressedDestinationSummaries: [SuppressedDestinationSummary]?
@@ -5284,6 +5336,24 @@ extension SESv2 {
         }
     }
 
+    public struct PricingAttributes: AWSDecodableShape {
+        /// The pricing plan that is currently active on your Amazon SES account.
+        public let currentPlan: PricingPlan?
+        /// The pricing plan that will become active at the start of the next billing cycle, if a scheduled change has been requested. This field is empty when no scheduled change is pending.
+        public let nextPlan: PricingPlan?
+
+        @inlinable
+        public init(currentPlan: PricingPlan? = nil, nextPlan: PricingPlan? = nil) {
+            self.currentPlan = currentPlan
+            self.nextPlan = nextPlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentPlan = "CurrentPlan"
+            case nextPlan = "NextPlan"
+        }
+    }
+
     public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
         public let autoWarmupEnabled: Bool?
@@ -5351,6 +5421,24 @@ extension SESv2 {
     }
 
     public struct PutAccountDetailsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutAccountPricingAttributesRequest: AWSEncodableShape {
+        /// The pricing plan to apply to your Amazon SES account. Can be one of the following:    NONE – No pricing plan is applied; billing follows per-feature pricing.    ESSENTIALS – Baseline Amazon SES capabilities and select premium features.    PRO – Includes everything in ESSENTIALS, plus additional premium features for growing senders.    ENTERPRISE – Includes everything in PRO, plus features intended for large-scale senders.
+        public let plan: PricingPlan
+
+        @inlinable
+        public init(plan: PricingPlan) {
+            self.plan = plan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case plan = "Plan"
+        }
+    }
+
+    public struct PutAccountPricingAttributesResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -5548,15 +5636,18 @@ extension SESv2 {
     public struct PutConfigurationSetSuppressionOptionsRequest: AWSEncodableShape {
         /// The name of the configuration set to change the suppression list preferences for.
         public let configurationSetName: String
-        /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
+        /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account or for a specific tenant. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
+        /// The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this configuration set. Can be one of the following:    TENANT – Use the tenant's suppression list.    ACCOUNT – Use the account-level suppression list.
+        public let suppressionScope: SuppressionListScope?
         /// An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region.
         public let validationOptions: SuppressionValidationOptions?
 
         @inlinable
-        public init(configurationSetName: String, suppressedReasons: [SuppressionListReason]? = nil, validationOptions: SuppressionValidationOptions? = nil) {
+        public init(configurationSetName: String, suppressedReasons: [SuppressionListReason]? = nil, suppressionScope: SuppressionListScope? = nil, validationOptions: SuppressionValidationOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.suppressedReasons = suppressedReasons
+            self.suppressionScope = suppressionScope
             self.validationOptions = validationOptions
         }
 
@@ -5565,11 +5656,13 @@ extension SESv2 {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
             try container.encodeIfPresent(self.suppressedReasons, forKey: .suppressedReasons)
+            try container.encodeIfPresent(self.suppressionScope, forKey: .suppressionScope)
             try container.encodeIfPresent(self.validationOptions, forKey: .validationOptions)
         }
 
         private enum CodingKeys: String, CodingKey {
             case suppressedReasons = "SuppressedReasons"
+            case suppressionScope = "SuppressionScope"
             case validationOptions = "ValidationOptions"
         }
     }
@@ -5934,24 +6027,62 @@ extension SESv2 {
     }
 
     public struct PutSuppressedDestinationRequest: AWSEncodableShape {
-        /// The email address that should be added to the suppression list for your account.
+        /// The email address that should be added to the suppression list for your account or for the specified tenant.
         public let emailAddress: String
-        /// The factors that should cause the email address to be added to the suppression list for your account.
+        /// The factors that should cause the email address to be added to the suppression list for your account or for the specified tenant.
         public let reason: SuppressionListReason
+        /// The name of the tenant whose suppression list you want to add the address to. If you omit this parameter, the address is added to the account-level suppression list.
+        public let tenantName: String?
 
         @inlinable
-        public init(emailAddress: String, reason: SuppressionListReason) {
+        public init(emailAddress: String, reason: SuppressionListReason, tenantName: String? = nil) {
             self.emailAddress = emailAddress
             self.reason = reason
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case emailAddress = "EmailAddress"
             case reason = "Reason"
+            case tenantName = "TenantName"
         }
     }
 
     public struct PutSuppressedDestinationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutTenantSuppressionAttributesRequest: AWSEncodableShape {
+        /// A list that contains the reasons that email addresses are automatically added to the suppression list for the tenant. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce.
+        public let suppressedReasons: [SuppressionListReason]?
+        /// The suppression scope for the tenant. Specify TENANT to use the tenant's own suppression list, or ACCOUNT to use the account-level suppression list.  If you don't specify a suppression scope, the tenant defaults to ACCOUNT scope and uses the account-level suppression list.
+        public let suppressionScope: SuppressionListScope?
+        /// The name of the tenant to configure suppression list preferences for.
+        public let tenantName: String
+
+        @inlinable
+        public init(suppressedReasons: [SuppressionListReason]? = nil, suppressionScope: SuppressionListScope? = nil, tenantName: String) {
+            self.suppressedReasons = suppressedReasons
+            self.suppressionScope = suppressionScope
+            self.tenantName = tenantName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tenantName, name: "tenantName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suppressedReasons = "SuppressedReasons"
+            case suppressionScope = "SuppressionScope"
+            case tenantName = "TenantName"
+        }
+    }
+
+    public struct PutTenantSuppressionAttributesResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -6467,21 +6598,24 @@ extension SESv2 {
     }
 
     public struct SuppressedDestination: AWSDecodableShape {
-        /// An optional value that can contain additional information about the reasons that the address was added to the suppression list for your account.
+        /// An optional value that can contain additional information about the reasons that the address was added to the suppression list for your account or for a specific tenant.
         public let attributes: SuppressedDestinationAttributes?
-        /// The email address that is on the suppression list for your account.
+        /// The email address that is on the suppression list for your account or for a specific tenant.
         public let emailAddress: String
         /// The date and time when the suppressed destination was last updated, shown in Unix time format.
         public let lastUpdateTime: Date
-        /// The reason that the address was added to the suppression list for your account.
+        /// The reason that the address was added to the suppression list for your account or for a specific tenant.
         public let reason: SuppressionListReason
+        /// The name of the tenant that the suppressed destination belongs to. This field is present only when the suppressed destination is on a tenant's suppression list.
+        public let tenantName: String?
 
         @inlinable
-        public init(attributes: SuppressedDestinationAttributes? = nil, emailAddress: String, lastUpdateTime: Date, reason: SuppressionListReason) {
+        public init(attributes: SuppressedDestinationAttributes? = nil, emailAddress: String, lastUpdateTime: Date, reason: SuppressionListReason, tenantName: String? = nil) {
             self.attributes = attributes
             self.emailAddress = emailAddress
             self.lastUpdateTime = lastUpdateTime
             self.reason = reason
+            self.tenantName = tenantName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6489,13 +6623,14 @@ extension SESv2 {
             case emailAddress = "EmailAddress"
             case lastUpdateTime = "LastUpdateTime"
             case reason = "Reason"
+            case tenantName = "TenantName"
         }
     }
 
     public struct SuppressedDestinationAttributes: AWSDecodableShape {
-        /// A unique identifier that's generated when an email address is added to the suppression list for your account.
+        /// A unique identifier that's generated when an email address is added to the suppression list for your account or for a specific tenant.
         public let feedbackId: String?
-        /// The unique identifier of the email message that caused the email address to be added to the suppression list for your account.
+        /// The unique identifier of the email message that caused the email address to be added to the suppression list for your account or for a specific tenant.
         public let messageId: String?
 
         @inlinable
@@ -6511,11 +6646,11 @@ extension SESv2 {
     }
 
     public struct SuppressedDestinationSummary: AWSDecodableShape {
-        /// The email address that's on the suppression list for your account.
+        /// The email address that's on the suppression list for your account or for a specific tenant.
         public let emailAddress: String
         /// The date and time when the suppressed destination was last updated, shown in Unix time format.
         public let lastUpdateTime: Date
-        /// The reason that the address was added to the suppression list for your account.
+        /// The reason that the address was added to the suppression list for your account or for a specific tenant.
         public let reason: SuppressionListReason
 
         @inlinable
@@ -6596,18 +6731,22 @@ extension SESv2 {
     }
 
     public struct SuppressionOptions: AWSEncodableShape & AWSDecodableShape {
-        /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
+        /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account or for a specific tenant. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
+        /// The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this configuration set. Can be one of the following:    TENANT – Use the tenant's suppression list.    ACCOUNT – Use the account-level suppression list.
+        public let suppressionScope: SuppressionListScope?
         public let validationOptions: SuppressionValidationOptions?
 
         @inlinable
-        public init(suppressedReasons: [SuppressionListReason]? = nil, validationOptions: SuppressionValidationOptions? = nil) {
+        public init(suppressedReasons: [SuppressionListReason]? = nil, suppressionScope: SuppressionListScope? = nil, validationOptions: SuppressionValidationOptions? = nil) {
             self.suppressedReasons = suppressedReasons
+            self.suppressionScope = suppressionScope
             self.validationOptions = validationOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case suppressedReasons = "SuppressedReasons"
+            case suppressionScope = "SuppressionScope"
             case validationOptions = "ValidationOptions"
         }
     }
@@ -6736,6 +6875,8 @@ extension SESv2 {
         public let createdTimestamp: Date?
         /// The status of sending capability for the tenant.
         public let sendingStatus: SendingStatus?
+        /// An object that contains information about the suppression list preferences for the tenant.
+        public let suppressionAttributes: TenantSuppressionAttributes?
         /// An array of objects that define the tags (keys and values) associated with the tenant.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the tenant.
@@ -6746,9 +6887,10 @@ extension SESv2 {
         public let tenantName: String?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, sendingStatus: SendingStatus? = nil, tags: [Tag]? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
+        public init(createdTimestamp: Date? = nil, sendingStatus: SendingStatus? = nil, suppressionAttributes: TenantSuppressionAttributes? = nil, tags: [Tag]? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.sendingStatus = sendingStatus
+            self.suppressionAttributes = suppressionAttributes
             self.tags = tags
             self.tenantArn = tenantArn
             self.tenantId = tenantId
@@ -6758,6 +6900,7 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case sendingStatus = "SendingStatus"
+            case suppressionAttributes = "SuppressionAttributes"
             case tags = "Tags"
             case tenantArn = "TenantArn"
             case tenantId = "TenantId"
@@ -6806,6 +6949,24 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct TenantSuppressionAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// A list that contains the reasons that email addresses are automatically added to the suppression list for the tenant. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce.
+        public let suppressedReasons: [SuppressionListReason]?
+        /// The suppression scope for the tenant. Can be one of the following:    TENANT – The tenant uses its own suppression list.    ACCOUNT – The tenant uses the account-level suppression list.    If you don't specify a suppression scope, the tenant defaults to ACCOUNT scope and uses the account-level suppression list.
+        public let suppressionScope: SuppressionListScope?
+
+        @inlinable
+        public init(suppressedReasons: [SuppressionListReason]? = nil, suppressionScope: SuppressionListScope? = nil) {
+            self.suppressedReasons = suppressedReasons
+            self.suppressionScope = suppressionScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case suppressedReasons = "SuppressedReasons"
+            case suppressionScope = "SuppressionScope"
         }
     }
 

@@ -140,6 +140,35 @@ public struct Bedrock: AWSService {
 
     // MARK: API Calls
 
+    /// Deletes one or more advanced prompt optimization jobs.
+    @Sendable
+    @inlinable
+    public func batchDeleteAdvancedPromptOptimizationJob(_ input: BatchDeleteAdvancedPromptOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteAdvancedPromptOptimizationJobResponse {
+        try await self.client.execute(
+            operation: "BatchDeleteAdvancedPromptOptimizationJob", 
+            path: "/advanced-prompt-optimization-job/batch-delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes one or more advanced prompt optimization jobs.
+    ///
+    /// Parameters:
+    ///   - jobIdentifiers: A list of advanced prompt optimization job identifiers (ARNs or IDs) to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteAdvancedPromptOptimizationJob(
+        jobIdentifiers: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDeleteAdvancedPromptOptimizationJobResponse {
+        let input = BatchDeleteAdvancedPromptOptimizationJobRequest(
+            jobIdentifiers: jobIdentifiers
+        )
+        return try await self.batchDeleteAdvancedPromptOptimizationJob(input, logger: logger)
+    }
+
     /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
     @Sendable
     @inlinable
@@ -199,6 +228,56 @@ public struct Bedrock: AWSService {
             policyArn: policyArn
         )
         return try await self.cancelAutomatedReasoningPolicyBuildWorkflow(input, logger: logger)
+    }
+
+    /// Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria.
+    @Sendable
+    @inlinable
+    public func createAdvancedPromptOptimizationJob(_ input: CreateAdvancedPromptOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAdvancedPromptOptimizationJobResponse {
+        try await self.client.execute(
+            operation: "CreateAdvancedPromptOptimizationJob", 
+            path: "/advanced-prompt-optimization-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an advanced prompt optimization job. The job optimizes your prompt templates for specific models using your evaluation dataset and criteria.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    ///   - encryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key used for encrypting the output data. If not specified, the output is encrypted with an Amazon-owned KMS key.
+    ///   - inputConfig: Specifies the S3 location of your JSONL input file containing prompt templates and evaluation samples.
+    ///   - jobDescription: A description of the advanced prompt optimization job.
+    ///   - jobName: A name for the advanced prompt optimization job.
+    ///   - modelConfigurations: A list of model configurations specifying the target models for prompt optimization. You can specify up to 5 models.
+    ///   - outputConfig: Specifies the S3 location where optimization results will be stored.
+    ///   - tags: Tags to associate with the advanced prompt optimization job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAdvancedPromptOptimizationJob(
+        clientToken: String? = CreateAdvancedPromptOptimizationJobRequest.idempotencyToken(),
+        encryptionKeyArn: String? = nil,
+        inputConfig: AdvancedPromptOptimizationInputConfig,
+        jobDescription: String? = nil,
+        jobName: String,
+        modelConfigurations: [ModelConfiguration],
+        outputConfig: AdvancedPromptOptimizationOutputConfig,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAdvancedPromptOptimizationJobResponse {
+        let input = CreateAdvancedPromptOptimizationJobRequest(
+            clientToken: clientToken, 
+            encryptionKeyArn: encryptionKeyArn, 
+            inputConfig: inputConfig, 
+            jobDescription: jobDescription, 
+            jobName: jobName, 
+            modelConfigurations: modelConfigurations, 
+            outputConfig: outputConfig, 
+            tags: tags
+        )
+        return try await self.createAdvancedPromptOptimizationJob(input, logger: logger)
     }
 
     /// Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application. To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
@@ -327,7 +406,7 @@ public struct Bedrock: AWSService {
         return try await self.createAutomatedReasoningPolicyVersion(input, logger: logger)
     }
 
-    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput. The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:    Creating - Initial state during validation and registration    Active - Model is ready for use in inference    Failed - Creation process encountered an error    Related APIs     GetCustomModel     ListCustomModels     DeleteCustomModel
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. You can provide the model data source in one of the following ways:    customModelDataSource — Specify a SageMaker AI model package ARN. Amazon Bedrock resolves the model package to retrieve the model artifacts. This is the preferred method for new SageMaker AI training outputs.    modelSourceConfig — Specify an Amazon S3 URI pointing to the Amazon-managed Amazon S3 bucket containing your model artifacts.   To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput. The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:    Creating - Initial state during validation and registration    Active - Model is ready for use in inference    Failed - Creation process encountered an error    Related APIs     GetCustomModel     ListCustomModels     DeleteCustomModel
     @Sendable
     @inlinable
     public func createCustomModel(_ input: CreateCustomModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomModelResponse {
@@ -340,28 +419,31 @@ public struct Bedrock: AWSService {
             logger: logger
         )
     }
-    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput. The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:    Creating - Initial state during validation and registration    Active - Model is ready for use in inference    Failed - Creation process encountered an error    Related APIs     GetCustomModel     ListCustomModels     DeleteCustomModel
+    /// Creates a new custom model in Amazon Bedrock. After the model is active, you can use it for inference. You can provide the model data source in one of the following ways:    customModelDataSource — Specify a SageMaker AI model package ARN. Amazon Bedrock resolves the model package to retrieve the model artifacts. This is the preferred method for new SageMaker AI training outputs.    modelSourceConfig — Specify an Amazon S3 URI pointing to the Amazon-managed Amazon S3 bucket containing your model artifacts.   To use the model for inference, you must purchase Provisioned Throughput for it. You can't use On-demand inference with these custom models. For more information about Provisioned Throughput, see Provisioned Throughput. The model appears in ListCustomModels with a customizationType of imported. To track the status of the new model, you use the GetCustomModel API operation. The model can be in the following states:    Creating - Initial state during validation and registration    Active - Model is ready for use in inference    Failed - Creation process encountered an error    Related APIs     GetCustomModel     ListCustomModels     DeleteCustomModel
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
+    ///   - customModelDataSource: The data source for the custom model. Use this field to specify a SageMaker AI model package ARN as the source for your custom model. Amazon Bedrock resolves the model package to retrieve the model artifacts. You can specify either customModelDataSource or modelSourceConfig, but not both.
     ///   - modelKmsKeyArn: The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model.  If you provide a customer managed KMS key, your Amazon Bedrock service role must have permissions to use it. For more information see Encryption of imported models.
     ///   - modelName: A unique name for the custom model.
     ///   - modelSourceConfig: The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts.
     ///   - modelTags: A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see Tagging resources in the Amazon Bedrock User Guide.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide. This field is required when you use modelSourceConfig with an Amazon S3 data source. It is not required when you use customModelDataSource with a model package ARN, because Amazon Bedrock uses its own credentials to access the model artifacts.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCustomModel(
         clientRequestToken: String? = CreateCustomModelRequest.idempotencyToken(),
+        customModelDataSource: CustomModelDataSource? = nil,
         modelKmsKeyArn: String? = nil,
         modelName: String,
-        modelSourceConfig: ModelDataSource,
+        modelSourceConfig: ModelDataSource? = nil,
         modelTags: [Tag]? = nil,
         roleArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCustomModelResponse {
         let input = CreateCustomModelRequest(
             clientRequestToken: clientRequestToken, 
+            customModelDataSource: customModelDataSource, 
             modelKmsKeyArn: modelKmsKeyArn, 
             modelName: modelName, 
             modelSourceConfig: modelSourceConfig, 
@@ -1421,6 +1503,35 @@ public struct Bedrock: AWSService {
         return try await self.deleteProvisionedModelThroughput(input, logger: logger)
     }
 
+    /// Deletes a previously created Bedrock resource policy.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/resource-policy/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a previously created Bedrock resource policy.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the Bedrock resource to which this resource policy applies.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourcePolicyResponse {
+        let input = DeleteResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
     /// Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
     @Sendable
     @inlinable
@@ -1477,6 +1588,61 @@ public struct Bedrock: AWSService {
             policyArn: policyArn
         )
         return try await self.exportAutomatedReasoningPolicyVersion(input, logger: logger)
+    }
+
+    /// Returns the account-wide data retention mode for Amazon Bedrock.
+    @Sendable
+    @inlinable
+    public func getAccountDataRetention(_ input: GetAccountDataRetentionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountDataRetentionResponse {
+        try await self.client.execute(
+            operation: "GetAccountDataRetention", 
+            path: "/data-retention", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the account-wide data retention mode for Amazon Bedrock.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountDataRetention(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountDataRetentionResponse {
+        let input = GetAccountDataRetentionRequest(
+        )
+        return try await self.getAccountDataRetention(input, logger: logger)
+    }
+
+    /// Gets information about an advanced prompt optimization job.
+    @Sendable
+    @inlinable
+    public func getAdvancedPromptOptimizationJob(_ input: GetAdvancedPromptOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdvancedPromptOptimizationJobResponse {
+        try await self.client.execute(
+            operation: "GetAdvancedPromptOptimizationJob", 
+            path: "/advanced-prompt-optimization-jobs/{jobIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about an advanced prompt optimization job.
+    ///
+    /// Parameters:
+    ///   - jobIdentifier: The ARN or ID of the advanced prompt optimization job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAdvancedPromptOptimizationJob(
+        jobIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAdvancedPromptOptimizationJobResponse {
+        let input = GetAdvancedPromptOptimizationJobRequest(
+            jobIdentifier: jobIdentifier
+        )
+        return try await self.getAdvancedPromptOptimizationJob(input, logger: logger)
     }
 
     /// Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
@@ -2173,6 +2339,35 @@ public struct Bedrock: AWSService {
         return try await self.getProvisionedModelThroughput(input, logger: logger)
     }
 
+    /// Gets the resource policy document for a Bedrock resource
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/resource-policy/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the resource policy document for a Bedrock resource
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the Bedrock resource to which this resource policy applies.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResponse {
+        let input = GetResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
+    }
+
     /// Get usecase for model access.
     @Sendable
     @inlinable
@@ -2197,6 +2392,44 @@ public struct Bedrock: AWSService {
         let input = GetUseCaseForModelAccessRequest(
         )
         return try await self.getUseCaseForModelAccess(input, logger: logger)
+    }
+
+    /// Lists the advanced prompt optimization jobs in your account.
+    @Sendable
+    @inlinable
+    public func listAdvancedPromptOptimizationJobs(_ input: ListAdvancedPromptOptimizationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAdvancedPromptOptimizationJobsResponse {
+        try await self.client.execute(
+            operation: "ListAdvancedPromptOptimizationJobs", 
+            path: "/advanced-prompt-optimization-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the advanced prompt optimization jobs in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, use this token in a subsequent request to get the next set of results.
+    ///   - sortBy: The field to sort the results by.
+    ///   - sortOrder: The sort order for the results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAdvancedPromptOptimizationJobs(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortBy: SortJobsBy? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAdvancedPromptOptimizationJobsResponse {
+        let input = ListAdvancedPromptOptimizationJobsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return try await self.listAdvancedPromptOptimizationJobs(input, logger: logger)
     }
 
     /// Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
@@ -3081,6 +3314,35 @@ public struct Bedrock: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Sets the account-wide data retention mode for Amazon Bedrock.
+    @Sendable
+    @inlinable
+    public func putAccountDataRetention(_ input: PutAccountDataRetentionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountDataRetentionResponse {
+        try await self.client.execute(
+            operation: "PutAccountDataRetention", 
+            path: "/data-retention", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the account-wide data retention mode for Amazon Bedrock.
+    ///
+    /// Parameters:
+    ///   - mode: The data retention mode to set for the account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccountDataRetention(
+        mode: DataRetentionMode,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAccountDataRetentionResponse {
+        let input = PutAccountDataRetentionRequest(
+            mode: mode
+        )
+        return try await self.putAccountDataRetention(input, logger: logger)
+    }
+
     /// Sets the account-level enforced guardrail configuration.
     @Sendable
     @inlinable
@@ -3140,6 +3402,38 @@ public struct Bedrock: AWSService {
             loggingConfig: loggingConfig
         )
         return try await self.putModelInvocationLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Adds a resource policy for a Bedrock resource.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/resource-policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds a resource policy for a Bedrock resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The ARN of the Bedrock resource to which this resource policy applies.
+    ///   - resourcePolicy: The JSON string representing the Bedrock resource policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        resourceArn: String,
+        resourcePolicy: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResponse {
+        let input = PutResourcePolicyRequest(
+            resourceArn: resourceArn, 
+            resourcePolicy: resourcePolicy
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
     }
 
     /// Put usecase for model access.
@@ -3277,6 +3571,35 @@ public struct Bedrock: AWSService {
             testCaseIds: testCaseIds
         )
         return try await self.startAutomatedReasoningPolicyTestWorkflow(input, logger: logger)
+    }
+
+    /// Stops an advanced prompt optimization job that is in progress.
+    @Sendable
+    @inlinable
+    public func stopAdvancedPromptOptimizationJob(_ input: StopAdvancedPromptOptimizationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAdvancedPromptOptimizationJobResponse {
+        try await self.client.execute(
+            operation: "StopAdvancedPromptOptimizationJob", 
+            path: "/advanced-prompt-optimization-jobs/{jobIdentifier}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops an advanced prompt optimization job that is in progress.
+    ///
+    /// Parameters:
+    ///   - jobIdentifier: The ARN or ID of the advanced prompt optimization job to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopAdvancedPromptOptimizationJob(
+        jobIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopAdvancedPromptOptimizationJobResponse {
+        let input = StopAdvancedPromptOptimizationJobRequest(
+            jobIdentifier: jobIdentifier
+        )
+        return try await self.stopAdvancedPromptOptimizationJob(input, logger: logger)
     }
 
     /// Stops an evaluation job that is current being created or running.
@@ -3737,6 +4060,46 @@ extension Bedrock {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Bedrock {
+    /// Return PaginatorSequence for operation ``listAdvancedPromptOptimizationJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAdvancedPromptOptimizationJobsPaginator(
+        _ input: ListAdvancedPromptOptimizationJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAdvancedPromptOptimizationJobsRequest, ListAdvancedPromptOptimizationJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listAdvancedPromptOptimizationJobs,
+            inputKey: \ListAdvancedPromptOptimizationJobsRequest.nextToken,
+            outputKey: \ListAdvancedPromptOptimizationJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAdvancedPromptOptimizationJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - sortBy: The field to sort the results by.
+    ///   - sortOrder: The sort order for the results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAdvancedPromptOptimizationJobsPaginator(
+        maxResults: Int? = nil,
+        sortBy: SortJobsBy? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAdvancedPromptOptimizationJobsRequest, ListAdvancedPromptOptimizationJobsResponse> {
+        let input = ListAdvancedPromptOptimizationJobsRequest(
+            maxResults: maxResults, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return self.listAdvancedPromptOptimizationJobsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAutomatedReasoningPolicies(_:logger:)``.
     ///
     /// - Parameters:
@@ -4554,6 +4917,18 @@ extension Bedrock {
             statusEquals: statusEquals
         )
         return self.listProvisionedModelThroughputsPaginator(input, logger: logger)
+    }
+}
+
+extension Bedrock.ListAdvancedPromptOptimizationJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListAdvancedPromptOptimizationJobsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
     }
 }
 

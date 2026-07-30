@@ -146,6 +146,13 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
+    public enum RandomKeyMaxLength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bytes16 = "BYTES_16"
+        case bytes24 = "BYTES_24"
+        case bytes8 = "BYTES_8"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RandomKeySendVariantMask: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case variantMask82 = "VARIANT_MASK_82"
         case variantMask82C0 = "VARIANT_MASK_82C0"
@@ -157,6 +164,7 @@ extension PaymentCryptographyData {
         case emv2000 = "EMV2000"
         case emvCommonSessionKey = "EMV_COMMON_SESSION_KEY"
         case mastercardSessionKey = "MASTERCARD_SESSION_KEY"
+        case unionPay = "UNION_PAY"
         case visa = "VISA"
         public var description: String { return self.rawValue }
     }
@@ -695,6 +703,8 @@ extension PaymentCryptographyData {
         case emvCommon(SessionKeyEmvCommon)
         /// Parameters to derive session key for a Mastercard payment card for ARQC verification.
         case mastercard(SessionKeyMastercard)
+        /// Parameters to derive session key for a UnionPay payment card for Authorization Request Cryptogram (ARQC) generation and verification.
+        case unionPay(SessionKeyUnionPay)
         /// Parameters to derive session key for a Visa payment cardfor ARQC verification.
         case visa(SessionKeyVisa)
 
@@ -709,6 +719,8 @@ extension PaymentCryptographyData {
                 try container.encode(value, forKey: .emvCommon)
             case .mastercard(let value):
                 try container.encode(value, forKey: .mastercard)
+            case .unionPay(let value):
+                try container.encode(value, forKey: .unionPay)
             case .visa(let value):
                 try container.encode(value, forKey: .visa)
             }
@@ -724,6 +736,8 @@ extension PaymentCryptographyData {
                 try value.validate(name: "\(name).emvCommon")
             case .mastercard(let value):
                 try value.validate(name: "\(name).mastercard")
+            case .unionPay(let value):
+                try value.validate(name: "\(name).unionPay")
             case .visa(let value):
                 try value.validate(name: "\(name).visa")
             }
@@ -734,6 +748,7 @@ extension PaymentCryptographyData {
             case emv2000 = "Emv2000"
             case emvCommon = "EmvCommon"
             case mastercard = "Mastercard"
+            case unionPay = "UnionPay"
             case visa = "Visa"
         }
     }
@@ -1678,7 +1693,7 @@ extension PaymentCryptographyData {
     }
 
     public struct GenerateAs2805KekValidationInput: AWSEncodableShape {
-        /// Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+        /// Defines whether to generate a KEK validation request or KEK validation response for node-to-node initialization.
         public let kekValidationType: As2805KekValidationType
         /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography uses for node-to-node initialization
         public let keyIdentifier: String
@@ -1729,6 +1744,64 @@ extension PaymentCryptographyData {
             case keyCheckValue = "KeyCheckValue"
             case randomKeyReceive = "RandomKeyReceive"
             case randomKeySend = "RandomKeySend"
+        }
+    }
+
+    public struct GenerateAuthRequestCryptogramInput: AWSEncodableShape {
+        /// The keyARN of the IMK-AC (TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS) that Amazon Web Services Payment Cryptography uses to generate the ARQC.
+        public let keyIdentifier: String
+        /// The method to use when deriving the major encryption key for ARQC generation within Amazon Web Services Payment Cryptography.
+        public let majorKeyDerivationMode: MajorKeyDerivationMode
+        /// The attributes and values to use for deriving a session key for ARQC generation within Amazon Web Services Payment Cryptography.
+        public let sessionKeyDerivationAttributes: SessionKeyDerivation
+        /// The transaction data that Amazon Web Services Payment Cryptography uses for ARQC generation. The same transaction data is used for ARQC verification by the issuer using VerifyAuthRequestCryptogram.
+        public let transactionData: String
+
+        @inlinable
+        public init(keyIdentifier: String, majorKeyDerivationMode: MajorKeyDerivationMode, sessionKeyDerivationAttributes: SessionKeyDerivation, transactionData: String) {
+            self.keyIdentifier = keyIdentifier
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.sessionKeyDerivationAttributes = sessionKeyDerivationAttributes
+            self.transactionData = transactionData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.sessionKeyDerivationAttributes.validate(name: "\(name).sessionKeyDerivationAttributes")
+            try self.validate(self.transactionData, name: "transactionData", parent: name, max: 1024)
+            try self.validate(self.transactionData, name: "transactionData", parent: name, min: 2)
+            try self.validate(self.transactionData, name: "transactionData", parent: name, pattern: "^[0-9a-fA-F]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyIdentifier = "KeyIdentifier"
+            case majorKeyDerivationMode = "MajorKeyDerivationMode"
+            case sessionKeyDerivationAttributes = "SessionKeyDerivationAttributes"
+            case transactionData = "TransactionData"
+        }
+    }
+
+    public struct GenerateAuthRequestCryptogramOutput: AWSDecodableShape {
+        /// The Authorization Request Cryptogram (ARQC) generated by Amazon Web Services Payment Cryptography using the specified key and transaction data.
+        public let authRequestCryptogram: String
+        /// The keyARN of the IMK-AC that Amazon Web Services Payment Cryptography uses for ARQC generation.
+        public let keyArn: String
+        /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
+        public let keyCheckValue: String
+
+        @inlinable
+        public init(authRequestCryptogram: String, keyArn: String, keyCheckValue: String) {
+            self.authRequestCryptogram = authRequestCryptogram
+            self.keyArn = keyArn
+            self.keyCheckValue = keyCheckValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authRequestCryptogram = "AuthRequestCryptogram"
+            case keyArn = "KeyArn"
+            case keyCheckValue = "KeyCheckValue"
         }
     }
 
@@ -1918,7 +1991,7 @@ extension PaymentCryptographyData {
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
             try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
-            try self.validate(self.macLength, name: "macLength", parent: name, max: 16)
+            try self.validate(self.macLength, name: "macLength", parent: name, max: 32)
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
             try self.validate(self.messageData, name: "messageData", parent: name, max: 8192)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)
@@ -2293,19 +2366,23 @@ extension PaymentCryptographyData {
     public struct KekValidationRequest: AWSEncodableShape {
         /// The key derivation algorithm to use for generating a KEK validation request.
         public let deriveKeyAlgorithm: SymmetricKeyAlgorithm
+        /// The maximum length of the random key to generate for a KEK validation request.
+        public let randomKeyMaxLength: RandomKeyMaxLength?
 
         @inlinable
-        public init(deriveKeyAlgorithm: SymmetricKeyAlgorithm) {
+        public init(deriveKeyAlgorithm: SymmetricKeyAlgorithm, randomKeyMaxLength: RandomKeyMaxLength? = nil) {
             self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.randomKeyMaxLength = randomKeyMaxLength
         }
 
         private enum CodingKeys: String, CodingKey {
             case deriveKeyAlgorithm = "DeriveKeyAlgorithm"
+            case randomKeyMaxLength = "RandomKeyMaxLength"
         }
     }
 
     public struct KekValidationResponse: AWSEncodableShape {
-        /// The random key for generating a KEK validation response.
+        /// The random key send value received from the initiating node to generate a KEK validation response.
         public let randomKeySend: String
 
         @inlinable
@@ -2315,8 +2392,8 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, max: 48)
-            try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, min: 32)
-            try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, pattern: "^(?:[0-9a-fA-F]{32}|[0-9a-fA-F]{48})$")
+            try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, min: 16)
+            try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, pattern: "^(?:[0-9a-fA-F]{16}|[0-9a-fA-F]{32}|[0-9a-fA-F]{48})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2675,7 +2752,7 @@ extension PaymentCryptographyData {
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
             try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.unpredictableNumber, name: "unpredictableNumber", parent: name, max: 8)
-            try self.validate(self.unpredictableNumber, name: "unpredictableNumber", parent: name, min: 2)
+            try self.validate(self.unpredictableNumber, name: "unpredictableNumber", parent: name, min: 8)
             try self.validate(self.unpredictableNumber, name: "unpredictableNumber", parent: name, pattern: "^[0-9a-fA-F]+$")
         }
 
@@ -2684,6 +2761,40 @@ extension PaymentCryptographyData {
             case panSequenceNumber = "PanSequenceNumber"
             case primaryAccountNumber = "PrimaryAccountNumber"
             case unpredictableNumber = "UnpredictableNumber"
+        }
+    }
+
+    public struct SessionKeyUnionPay: AWSEncodableShape {
+        /// The transaction counter that the terminal provides during transaction processing. This value is in hexadecimal format. For example, enter a decimal counter of 109 as 006D.
+        public let applicationTransactionCounter: String
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). If not used, enter 00.
+        public let panSequenceNumber: String
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        public let primaryAccountNumber: String
+
+        @inlinable
+        public init(applicationTransactionCounter: String, panSequenceNumber: String, primaryAccountNumber: String) {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, max: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, min: 4)
+            try self.validate(self.applicationTransactionCounter, name: "applicationTransactionCounter", parent: name, pattern: "^[0-9a-fA-F]+$")
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, max: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, min: 2)
+            try self.validate(self.panSequenceNumber, name: "panSequenceNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationTransactionCounter = "ApplicationTransactionCounter"
+            case panSequenceNumber = "PanSequenceNumber"
+            case primaryAccountNumber = "PrimaryAccountNumber"
         }
     }
 
@@ -3125,7 +3236,7 @@ extension PaymentCryptographyData {
             try self.validate(self.mac, name: "mac", parent: name, max: 128)
             try self.validate(self.mac, name: "mac", parent: name, min: 4)
             try self.validate(self.mac, name: "mac", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
-            try self.validate(self.macLength, name: "macLength", parent: name, max: 16)
+            try self.validate(self.macLength, name: "macLength", parent: name, max: 32)
             try self.validate(self.macLength, name: "macLength", parent: name, min: 4)
             try self.validate(self.messageData, name: "messageData", parent: name, max: 8192)
             try self.validate(self.messageData, name: "messageData", parent: name, min: 2)

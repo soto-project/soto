@@ -57,7 +57,7 @@ extension Pricing {
         public let maxResults: Int?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextToken: String?
-        /// The code for the service whose information you want to retrieve, such as AmazonEC2. You can use  the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
+        /// The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
         public let serviceCode: String?
 
         @inlinable
@@ -106,11 +106,11 @@ extension Pricing {
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The product metadata field that you want to filter on. You can filter by just the  service code to see all products for a specific service, filter  by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the  volumeType attribute name to get the prices for only Amazon EC2 volumes.
+        /// The product metadata field that you want to filter on. You can filter by just the service code to see all products for a specific service, filter by just the attribute name to see a specific attribute for multiple services, or use both a service code and an attribute name to retrieve only products that match both fields. Valid values include: ServiceCode, and all attribute names For example, you can filter by the AmazonEC2 service code and the volumeType attribute name to get the prices for only Amazon EC2 volumes.
         public let field: String
-        /// The type of filter that you want to use. Valid values are:    TERM_MATCH: Returns only  products that match both the given filter field and the given value.    EQUALS: Returns products that have a field value exactly matching the provided value.    CONTAINS: Returns products where the field value contains the provided value as a substring.    ANY_OF: Returns products where the field value is any of the provided values.    NONE_OF: Returns products where the field value is not any of the provided values.
+        /// The type of filter that you want to use. Valid values are:    TERM_MATCH: Returns only products that match both the given filter field and the given value.    EQUALS: Returns products that have a field value exactly matching the provided value.    CONTAINS: Returns products where the field value contains the provided value as a substring.    ANY_OF: Returns products where the field value is any of the provided values.    NONE_OF: Returns products where the field value is not any of the provided values.
         public let type: FilterType
-        /// The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2. If you're filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume. For ANY_OF and NONE_OF filter types, you can provide multiple values as a comma-separated string. For example, t2.micro,t2.small,t2.medium or Compute optimized, GPU instance, Micro instances.
+        /// The service code or attribute value that you want to filter by. If you're filtering by service code this is the actual service code, such as AmazonEC2. If you're filtering by attribute name, this is the attribute value that you want the returned products to match, such as a Provisioned IOPS volume.
         public let value: String
 
         @inlinable
@@ -141,7 +141,7 @@ extension Pricing {
         public let maxResults: Int?
         /// The pagination token that indicates the next set of results that you want to retrieve.
         public let nextToken: String?
-        /// The service code for the service whose attributes you want to retrieve. For example, if you want  the retrieve an EC2 attribute, use AmazonEC2.
+        /// The service code for the service whose attributes you want to retrieve. For example, if you want the retrieve an EC2 attribute, use AmazonEC2.
         public let serviceCode: String
 
         @inlinable
@@ -153,7 +153,7 @@ extension Pricing {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
@@ -166,7 +166,7 @@ extension Pricing {
     }
 
     public struct GetAttributeValuesResponse: AWSDecodableShape {
-        /// The list of values for an attribute. For example, Throughput Optimized HDD and  Provisioned IOPS are two available values for the AmazonEC2 volumeType.
+        /// The list of values for an attribute. For example, Throughput Optimized HDD and Provisioned IOPS are two available values for the AmazonEC2 volumeType.
         public let attributeValues: [AttributeValue]?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
@@ -269,7 +269,7 @@ extension Pricing {
         public let formatVersion: String?
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
-        /// The list of products that match your filters. The list contains both the product metadata and  the price information.
+        /// The list of products that match your filters. The list contains both the product metadata and the price information.
         public let priceList: [String]?
 
         @inlinable
@@ -297,7 +297,7 @@ extension Pricing {
         public let nextToken: String?
         /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from GetAttributeValues API.
         public let regionCode: String?
-        /// The service code or the Savings Plan service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plan price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
+        /// The service code or the Savings Plans service code for the attributes that you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists, use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute Savings Plans price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings Plans price lists, use MachineLearningSavingsPlans.
         public let serviceCode: String
 
         @inlinable
@@ -351,11 +351,11 @@ extension Pricing {
     public struct PriceList: AWSDecodableShape {
         /// The three alphabetical character ISO-4217 currency code the Price List files are denominated in.
         public let currencyCode: String?
-        /// The format you want to retrieve your Price List files. The FileFormat can be obtained from the  ListPriceList response.
+        /// The format you want to retrieve your Price List files. The FileFormat can be obtained from the  ListPriceList  response.
         public let fileFormats: [String]?
-        /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the  ListPriceList response.
+        /// The unique identifier that maps to where your Price List files are located. PriceListArn can be obtained from the  ListPriceList  response.
         public let priceListArn: String?
-        /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from  GetAttributeValues API.
+        /// This is used to filter the Price List by Amazon Web Services Region. For example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If nothing is specified, you retrieve price lists for all applicable Regions. The available RegionCode list can be retrieved from  GetAttributeValues  API.
         public let regionCode: String?
 
         @inlinable

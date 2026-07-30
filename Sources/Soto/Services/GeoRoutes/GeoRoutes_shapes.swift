@@ -139,6 +139,25 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouteAccessibilityAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case wheelchair = "Wheelchair"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteAccessibilityAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "Available"
+        case limited = "Limited"
+        case unavailable = "Unavailable"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteAttributionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disclaimer = "Disclaimer"
+        case tariff = "Tariff"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RouteDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case east = "East"
         case north = "North"
@@ -170,14 +189,16 @@ extension GeoRoutes {
         case other = "Other"
         case potentialViolatedVehicleRestrictionUsage = "PotentialViolatedVehicleRestrictionUsage"
         case seasonalClosure = "SeasonalClosure"
+        case violatedAvoidAreas = "ViolatedAvoidAreas"
         case violatedAvoidFerry = "ViolatedAvoidFerry"
         case violatedAvoidRailFerry = "ViolatedAvoidRailFerry"
+        case violatedVehicleRestriction = "ViolatedVehicleRestriction"
         public var description: String { return self.rawValue }
     }
 
     public enum RouteFerryTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arrive = "Arrive"
         case `continue` = "Continue"
+        case arrive = "Arrive"
         case depart = "Depart"
         public var description: String { return self.rawValue }
     }
@@ -197,9 +218,20 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouteIntermodalEnabledLegs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entireRoute = "EntireRoute"
+        case firstLeg = "FirstLeg"
+        case lastLeg = "LastLeg"
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RouteLegAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bookings = "Bookings"
         case elevation = "Elevation"
         case incidents = "Incidents"
+        case intermediateStops = "IntermediateStops"
+        case nextDepartures = "NextDepartures"
         case passThroughWaypoints = "PassThroughWaypoints"
         case summary = "Summary"
         case tolls = "Tolls"
@@ -211,11 +243,25 @@ extension GeoRoutes {
     }
 
     public enum RouteLegTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aerialTramway = "AerialTramway"
+        case airplane = "Airplane"
+        case bus = "Bus"
+        case busRapidTransit = "BusRapidTransit"
         case car = "Car"
         case carShuttleTrain = "CarShuttleTrain"
+        case cityTrain = "CityTrain"
         case ferry = "Ferry"
+        case funicularRailway = "FunicularRailway"
+        case highSpeedTrain = "HighSpeedTrain"
+        case intercityTrain = "IntercityTrain"
+        case interregionalTrain = "InterregionalTrain"
+        case lightRail = "LightRail"
+        case monorail = "Monorail"
         case pedestrian = "Pedestrian"
+        case privateBus = "PrivateBus"
+        case regionalTrain = "RegionalTrain"
         case scooter = "Scooter"
+        case subway = "Subway"
         case truck = "Truck"
         public var description: String { return self.rawValue }
     }
@@ -223,6 +269,9 @@ extension GeoRoutes {
     public enum RouteLegType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ferry = "Ferry"
         case pedestrian = "Pedestrian"
+        case rental = "Rental"
+        case taxi = "Taxi"
+        case transit = "Transit"
         case vehicle = "Vehicle"
         public var description: String { return self.rawValue }
     }
@@ -283,18 +332,68 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum RoutePedestrianAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case wait = "Wait"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RoutePedestrianNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
         case other = "Other"
+        case violatedAvoidAreas = "ViolatedAvoidAreas"
         case violatedAvoidDirtRoad = "ViolatedAvoidDirtRoad"
         case violatedAvoidTunnel = "ViolatedAvoidTunnel"
         case violatedPedestrianOption = "ViolatedPedestrianOption"
         public var description: String { return self.rawValue }
     }
 
+    public enum RoutePedestrianPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessPoint = "AccessPoint"
+        case dockingStation = "DockingStation"
+        case parkingLot = "ParkingLot"
+        case station = "Station"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RoutePedestrianTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arrive = "Arrive"
         case `continue` = "Continue"
+        case arrive = "Arrive"
+        case depart = "Depart"
+        case keep = "Keep"
+        case roundaboutEnter = "RoundaboutEnter"
+        case roundaboutExit = "RoundaboutExit"
+        case roundaboutPass = "RoundaboutPass"
+        case turn = "Turn"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteRentalAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case park = "Park"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteRentalBeforeTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case setup = "Setup"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteRentalMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "All"
+        case car = "Car"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteRentalPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessPoint = "AccessPoint"
+        case dockingStation = "DockingStation"
+        case parkingLot = "ParkingLot"
+        case station = "Station"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteRentalTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `continue` = "Continue"
+        case arrive = "Arrive"
         case depart = "Depart"
         case exit = "Exit"
         case keep = "Keep"
@@ -309,7 +408,10 @@ extension GeoRoutes {
 
     public enum RouteResponseNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mainLanguageNotFound = "MainLanguageNotFound"
+        case noTransitStationsFound = "NoTransitStationsFound"
         case other = "Other"
+        case transitDataUnavailable = "TransitDataUnavailable"
+        case transitRouteUnavailable = "TransitRouteUnavailable"
         case travelTimeExceedsDriverWorkHours = "TravelTimeExceedsDriverWorkHours"
         public var description: String { return self.rawValue }
     }
@@ -422,6 +524,49 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouteTaxiAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case park = "Park"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTaxiBeforeTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case wait = "Wait"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTaxiMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "All"
+        case car = "Car"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTaxiNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
+        case other = "Other"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTaxiPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessPoint = "AccessPoint"
+        case station = "Station"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTaxiTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `continue` = "Continue"
+        case arrive = "Arrive"
+        case depart = "Depart"
+        case exit = "Exit"
+        case keep = "Keep"
+        case ramp = "Ramp"
+        case roundaboutEnter = "RoundaboutEnter"
+        case roundaboutExit = "RoundaboutExit"
+        case roundaboutPass = "RoundaboutPass"
+        case turn = "Turn"
+        case uTurn = "UTurn"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RouteTollPassValidityPeriodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case annual = "Annual"
         case days = "Days"
@@ -448,10 +593,109 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouteTransitAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deboard = "Deboard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitBeforeTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case board = "Board"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitIncidentEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delayed = "Delayed"
+        case detoured = "Detoured"
+        case other = "Other"
+        case serviceAdded = "ServiceAdded"
+        case serviceCancelled = "ServiceCancelled"
+        case serviceModified = "ServiceModified"
+        case serviceReduced = "ServiceReduced"
+        case stopMoved = "StopMoved"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitIncidentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accident = "Accident"
+        case construction = "Construction"
+        case demonstration = "Demonstration"
+        case holiday = "Holiday"
+        case maintenance = "Maintenance"
+        case medicalEmergency = "MedicalEmergency"
+        case other = "Other"
+        case policeActivity = "PoliceActivity"
+        case strike = "Strike"
+        case technicalProblem = "TechnicalProblem"
+        case weather = "Weather"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitIntermediateStopAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noEntry = "NoEntry"
+        case noExit = "NoExit"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aerialTramway = "AerialTramway"
+        case airplane = "Airplane"
+        case all = "All"
+        case bus = "Bus"
+        case busRapidTransit = "BusRapidTransit"
+        case cityTrain = "CityTrain"
+        case ferry = "Ferry"
+        case funicularRailway = "FunicularRailway"
+        case highSpeedTrain = "HighSpeedTrain"
+        case intercityTrain = "IntercityTrain"
+        case interregionalTrain = "InterregionalTrain"
+        case lightRail = "LightRail"
+        case monorail = "Monorail"
+        case privateBus = "PrivateBus"
+        case regionalTrain = "RegionalTrain"
+        case subway = "Subway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
+        case intermediateStopsUnavailable = "IntermediateStopsUnavailable"
+        case noSchedule = "NoSchedule"
+        case other = "Other"
+        case potentialViolatedVehicleRestrictionUsage = "PotentialViolatedVehicleRestrictionUsage"
+        case scheduledTimes = "ScheduledTimes"
+        case seasonalClosure = "SeasonalClosure"
+        case violatedAvoidAreas = "ViolatedAvoidAreas"
+        case violatedAvoidFerry = "ViolatedAvoidFerry"
+        case violatedAvoidRailFerry = "ViolatedAvoidRailFerry"
+        case violatedExcludedTransitMode = "ViolatedExcludedTransitMode"
+        case violatedVehicleRestriction = "ViolatedVehicleRestriction"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case station = "Station"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case depart = "Depart"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteTransitTripStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case added = "Added"
+        case cancelled = "Cancelled"
+        case replaced = "Replaced"
+        case scheduled = "Scheduled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RouteTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case car = "Car"
+        case intermodal = "Intermodal"
         case pedestrian = "Pedestrian"
         case scooter = "Scooter"
+        case transit = "Transit"
         case truck = "Truck"
         public var description: String { return self.rawValue }
     }
@@ -473,6 +717,11 @@ extension GeoRoutes {
         case sharp = "Sharp"
         case slight = "Slight"
         case typical = "Typical"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteVehicleAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case park = "Park"
         public var description: String { return self.rawValue }
     }
 
@@ -499,6 +748,12 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouteVehicleMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "All"
+        case car = "Car"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RouteVehicleNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
         case other = "Other"
@@ -511,6 +766,7 @@ extension GeoRoutes {
         case tollTransponder = "TollTransponder"
         case tollsDataTemporarilyUnavailable = "TollsDataTemporarilyUnavailable"
         case tollsDataUnavailable = "TollsDataUnavailable"
+        case travelTimeExceedsDriverWorkHours = "TravelTimeExceedsDriverWorkHours"
         case violatedAvoidControlledAccessHighway = "ViolatedAvoidControlledAccessHighway"
         case violatedAvoidDifficultTurns = "ViolatedAvoidDifficultTurns"
         case violatedAvoidDirtRoad = "ViolatedAvoidDirtRoad"
@@ -530,9 +786,17 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouteVehiclePlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessPoint = "AccessPoint"
+        case dockingStation = "DockingStation"
+        case parkingLot = "ParkingLot"
+        case station = "Station"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RouteVehicleTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arrive = "Arrive"
         case `continue` = "Continue"
+        case arrive = "Arrive"
         case continueHighway = "ContinueHighway"
         case depart = "Depart"
         case enterHighway = "EnterHighway"
@@ -544,6 +808,13 @@ extension GeoRoutes {
         case roundaboutPass = "RoundaboutPass"
         case turn = "Turn"
         case uTurn = "UTurn"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteWebLinkDeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case android = "Android"
+        case ios = "Ios"
+        case web = "Web"
         public var description: String { return self.rawValue }
     }
 
@@ -580,9 +851,7 @@ extension GeoRoutes {
     }
 
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        ///     The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse = "CannotParse"
-        ///     The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
         case fieldValidationFailed = "FieldValidationFailed"
         /// The required input is missing.
         case missing = "Missing"
@@ -655,41 +924,41 @@ extension GeoRoutes {
     // MARK: Shapes
 
     public struct CalculateIsolinesRequest: AWSEncodableShape {
-        /// Features that are allowed while calculating an isoline.
+        /// Enables special road types or features that should be considered for routing even if they might be restricted by default for the selected travel mode. These include high-occupancy vehicle and toll lanes.
         public let allow: IsolineAllowOptions?
-        /// Time of arrival at the destination. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Determine areas from which Destination can be reached by this time, taking into account predicted traffic conditions and working backward to account for congestion patterns. This attribute cannot be used together with DepartureTime or DepartNow. Specified as an ISO-8601 timestamp with timezone offset. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let arrivalTime: String?
-        /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+        /// Specifies road types, features, or areas to avoid (if possible) when calculating reachable areas. These are treated as preferences rather than strict constraints—if a route cannot be calculated without using an avoided feature, that avoidance preference may be ignored.
         public let avoid: IsolineAvoidanceOptions?
-        /// Uses the current time as the time of departure.
+        /// When true, uses the current time as the departure time and takes current traffic conditions into account. This attribute cannot be used together with DepartureTime or ArrivalTime.
         public let departNow: Bool?
-        /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Determine areas that can be reached when departing at this time, taking into account predicted traffic conditions. This attribute cannot be used together with ArrivalTime or DepartNow. Specified as an ISO-8601 timestamp with timezone offset. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String?
-        /// The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude].
+        /// An optional destination point, specified as [longitude, latitude] coordinates. When provided, the service calculates areas from which this destination can be reached within the specified thresholds. This reverses the usual isoline calculation to show areas that could reach your location, rather than areas you could reach from your location. Either Origin or Destination must be provided.
         public let destination: [Double]?
-        /// Destination related options.
+        /// Options that control how the destination point is matched to the road network and how routes can approach it. These options help improve travel time accuracy by accounting for real-world access to the destination.
         public let destinationOptions: IsolineDestinationOptions?
-        /// The format of the returned IsolineGeometry.  Default Value:FlexiblePolyline
+        /// The format of the returned IsolineGeometry.  Default value:FlexiblePolyline
         public let isolineGeometryFormat: GeometryFormat?
-        /// Defines the granularity of the returned Isoline.
+        /// Controls the detail level of the generated isolines. Higher granularity produces smoother shapes but requires more processing time and results in larger responses.
         public let isolineGranularity: IsolineGranularityOptions?
-        /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
+        /// An Amazon Location Service API Key with access to this action. If omitted, the request must be signed using Signature Version 4.
         public let key: String?
-        /// Specifies the optimization criteria for when calculating an isoline. AccurateCalculation generates an isoline of higher granularity that is more precise. FastCalculation generates an isoline faster by reducing the granularity, and in turn the quality of the isoline. BalancedCalculation generates an isoline by balancing between quality and performance.  Default Value: BalancedCalculation
+        /// Controls the trade-off between calculation speed and isoline precision. Choose  FastCalculation for quicker results with less detail, AccurateCalculation for more precise results, or BalancedCalculation for a middle ground. Default value: BalancedCalculation
         public let optimizeIsolineFor: IsolineOptimizationObjective?
-        /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
+        /// Determines whether routes prioritize shortest travel time (FastestRoute) or shortest physical distance (ShortestRoute) when calculating reachable areas. Default value: FastestRoute
         public let optimizeRoutingFor: RoutingObjective?
-        /// The start position for the route.
+        /// The starting point for isoline calculations, specified as [longitude, latitude] coordinates. For example, this could be a store location, service center, or any point from which you want to calculate reachable areas. Either Origin or Destination must be provided.
         public let origin: [Double]?
-        /// Origin related options.
+        /// Options that control how the origin point is matched to the road network and how routes can depart from it. These options help improve travel time accuracy by accounting for real-world access from the origin.
         public let originOptions: IsolineOriginOptions?
-        /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested.  You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
+        /// The distance or time thresholds used to determine reachable areas. You can specify up to five thresholds (which all must be the same type) to calculate multiple isolines in a single request. For example, to determine the areas that are reachable within 10 and 20 minutes of the origin, specify time thresholds of 600 and 1200 seconds. You incur a calculation charge for each threshold. Using a large number of thresholds in a request can lead to unexpected charges. For more information, see Routes pricing in the Amazon Location Service Developer Guide.
         public let thresholds: IsolineThresholds
-        /// Traffic related options.
+        /// Configures how real-time and historical traffic data affects isoline calculations. Traffic patterns can significantly impact reachable areas, especially during peak hours.
         public let traffic: IsolineTrafficOptions?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.   The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
+        /// The mode of transportation to use for calculations. This affects which road types or features can be used, estimated speed, and the traffic levels that are applied.    Car—Standard passenger vehicle routing using roads accessible to cars    Pedestrian—Walking routes using pedestrian paths, sidewalks, and crossings    Scooter—Light two-wheeled vehicle routing using roads and paths accessible to scooters    Truck—Commercial truck routing considering vehicle dimensions, weight restrictions, and hazardous material regulations    The mode Scooter also applies to motorcycles; set this to Scooter when calculating isolines for motorcycles.  Default value: Car
         public let travelMode: IsolineTravelMode?
-        /// Travel mode related options for the provided travel mode.
+        /// Additional attributes that refine how reachable areas are calculated based on specific vehicle characteristics. These options help produce more accurate results by accounting for real-world constraints and capabilities. For example:   For trucks (Truck), specify dimensions, weight limits, and hazardous cargo restrictions to ensure isolines only include roads that can physically and legally accommodate the vehicle   For cars (Car), set maximum speed capabilities or indicate high-occupancy vehicle eligibility to better estimate reachable areas   For scooters (Scooter), specify engine type and speed limitations to more accurately model their travel capabilities   Without these options, calculations use default assumptions that may not match your specific use case.
         public let travelModeOptions: IsolineTravelModeOptions?
 
         @inlinable
@@ -776,19 +1045,19 @@ extension GeoRoutes {
     }
 
     public struct CalculateIsolinesResponse: AWSDecodableShape {
-        /// Time of arrival at the destination. This parameter is returned only if the Destination parameters was provided in the request.  Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Time of arrival at the destination, used for traffic calculations. This attribute is returned only if the Destination and ArrivalTime attributes were provided in the request. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let arrivalTime: String?
-        /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Time of departure from the origin, used for traffic calculations. This attribute is returned when Origin was provided in the request and either a specific departure time was requested (DepartureTime) or DepartNow was set to true. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String?
-        /// The format of the returned IsolineGeometry.  Default Value:FlexiblePolyline
+        /// The format of the returned geometries, matching the format specified in the request. Either  FlexiblePolyline for compact encoding or Simple for GeoJSON-compatible coordinates. Default value:FlexiblePolyline
         public let isolineGeometryFormat: GeometryFormat
-        /// Calculated isolines and associated properties.
+        /// Reachable areas, or isolines, for each threshold specified in the request.
         public let isolines: [Isoline]
-        /// The pricing bucket for which the query is charged at.
+        /// The pricing bucket applied to this calculation. Different buckets apply based on the travel mode and thresholds used.
         public let pricingBucket: String
-        /// Snapped destination that was used for the Isoline calculation.
+        /// The actual point on the road network used for calculations, which may differ from the requested destination if Destination was not directly on a road.
         public let snappedDestination: [Double]?
-        /// Snapped origin that was used for the Isoline calculation.
+        /// The actual point on the road network used for calculations, which may differ from the requested origin if Origin was not directly on a road.
         public let snappedOrigin: [Double]?
 
         @inlinable
@@ -827,33 +1096,33 @@ extension GeoRoutes {
     public struct CalculateRouteMatrixRequest: AWSEncodableShape {
         /// Features that are allowed while calculating a route.
         public let allow: RouteMatrixAllowOptions?
-        /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+        ///  Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only TollRoads, Ferries, and ControlledAccessHighways.
         public let avoid: RouteMatrixAvoidanceOptions?
         /// Uses the current time as the time of departure.
         public let departNow: Bool?
-        /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String?
-        /// List of destinations for the route.  Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. See  Amazon Location's pricing page for more information.
+        /// List of destinations for the route in World Geodetic System (WGS 84) format: [longitude, latitude].  Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. For more information, see Routes pricing in the Amazon Location Service Developer Guide.  The maximum number of destinations depends on the routing boundary configuration:   With RoutingBoundary.Geometry set: maximum 500 destinations   With RoutingBoundary.Unbounded set to true: maximum 100 destinations   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: maximum 350 destinations   The total matrix size (origins × destinations) must not exceed:   With RoutingBoundary.Geometry: 160,000   With RoutingBoundary.Unbounded: 100   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: 122,500
         public let destinations: [RouteMatrixDestination]
-        /// Features to be strictly excluded while calculating the route.
+        ///  Features to be strictly excluded while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let exclude: RouteMatrixExclusionOptions?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
+        /// Controls the trade-off between finding the shortest travel time (FastestRoute) and the shortest distance (ShortestRoute) when calculating reachable areas. Default value: FastestRoute
         public let optimizeRoutingFor: RoutingObjective?
-        /// The position in longitude and latitude for the origin.  Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
+        /// List of origins for the route in World Geodetic System (WGS 84) format: [longitude, latitude].  Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. For more information, see Routes pricing in the Amazon Location Service Developer Guide.  The maximum number of origins depends on the routing boundary configuration:   With RoutingBoundary.Geometry set: maximum 500 origins   With RoutingBoundary.Unbounded set to true: maximum 15 origins   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: maximum 350 origins   The total matrix size (origins × destinations) must not exceed:   With RoutingBoundary.Geometry: 160,000   With RoutingBoundary.Unbounded: 100   For GrabMaps customers in ap-southeast-1 and ap-southeast-5: 122,500
         public let origins: [RouteMatrixOrigin]
-        /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid.  When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
-        public let routingBoundary: RouteMatrixBoundary
-        /// Traffic related options.
+        ///  Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Unbounded set to true.  Default value: Unbounded set to true   When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
+        public let routingBoundary: RouteMatrixBoundary?
+        ///  Traffic related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let traffic: RouteMatrixTrafficOptions?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+        ///  Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Car, Pedestrian, and Scooter.  Default value: Car
         public let travelMode: RouteMatrixTravelMode?
-        /// Travel mode related options for the provided travel mode.
+        ///  Travel mode related options for the provided travel mode. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let travelModeOptions: RouteMatrixTravelModeOptions?
 
         @inlinable
-        public init(allow: RouteMatrixAllowOptions? = nil, avoid: RouteMatrixAvoidanceOptions? = nil, departNow: Bool? = nil, departureTime: String? = nil, destinations: [RouteMatrixDestination], exclude: RouteMatrixExclusionOptions? = nil, key: String? = nil, optimizeRoutingFor: RoutingObjective? = nil, origins: [RouteMatrixOrigin], routingBoundary: RouteMatrixBoundary, traffic: RouteMatrixTrafficOptions? = nil, travelMode: RouteMatrixTravelMode? = nil, travelModeOptions: RouteMatrixTravelModeOptions? = nil) {
+        public init(allow: RouteMatrixAllowOptions? = nil, avoid: RouteMatrixAvoidanceOptions? = nil, departNow: Bool? = nil, departureTime: String? = nil, destinations: [RouteMatrixDestination], exclude: RouteMatrixExclusionOptions? = nil, key: String? = nil, optimizeRoutingFor: RoutingObjective? = nil, origins: [RouteMatrixOrigin], routingBoundary: RouteMatrixBoundary? = nil, traffic: RouteMatrixTrafficOptions? = nil, travelMode: RouteMatrixTravelMode? = nil, travelModeOptions: RouteMatrixTravelModeOptions? = nil) {
             self.allow = allow
             self.avoid = avoid
             self.departNow = departNow
@@ -881,7 +1150,7 @@ extension GeoRoutes {
             request.encodeQuery(self.key, key: "key")
             try container.encodeIfPresent(self.optimizeRoutingFor, forKey: .optimizeRoutingFor)
             try container.encode(self.origins, forKey: .origins)
-            try container.encode(self.routingBoundary, forKey: .routingBoundary)
+            try container.encodeIfPresent(self.routingBoundary, forKey: .routingBoundary)
             try container.encodeIfPresent(self.traffic, forKey: .traffic)
             try container.encodeIfPresent(self.travelMode, forKey: .travelMode)
             try container.encodeIfPresent(self.travelModeOptions, forKey: .travelModeOptions)
@@ -898,7 +1167,7 @@ extension GeoRoutes {
             try self.origins.forEach {
                 try $0.validate(name: "\(name).origins[]")
             }
-            try self.routingBoundary.validate(name: "\(name).routingBoundary")
+            try self.routingBoundary?.validate(name: "\(name).routingBoundary")
             try self.traffic?.validate(name: "\(name).traffic")
             try self.travelModeOptions?.validate(name: "\(name).travelModeOptions")
         }
@@ -926,7 +1195,7 @@ extension GeoRoutes {
         public let pricingBucket: String
         /// The calculated route matrix containing the results for all pairs of Origins to Destination positions. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destination positions.
         public let routeMatrix: [[RouteMatrixEntry]]
-        /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid.  When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
+        /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid.  When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
         public let routingBoundary: RouteMatrixBoundary
 
         @inlinable
@@ -954,55 +1223,55 @@ extension GeoRoutes {
     }
 
     public struct CalculateRoutesRequest: AWSEncodableShape {
-        /// Features that are allowed while calculating a route.
+        ///  Features that are allowed while calculating a route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let allow: RouteAllowOptions?
-        /// Time of arrival at the destination. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        ///  Time of arrival at the destination. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let arrivalTime: String?
-        /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
+        ///  Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only ControlledAccessHighways, Ferries, and TollRoads
         public let avoid: RouteAvoidanceOptions?
         /// Uses the current time as the time of departure.
         public let departNow: Bool?
-        /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String?
         /// The final position for the route. In the World Geodetic System (WGS 84) format: [longitude, latitude].
         public let destination: [Double]
-        /// Destination related options.
+        ///  Destination related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let destinationOptions: RouteDestinationOptions?
-        /// Driver related options.
+        ///  Driver related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let driver: RouteDriverOptions?
-        /// Features to be strictly excluded while calculating the route.
+        ///  Features to be strictly excluded while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let exclude: RouteExclusionOptions?
         /// Measurement system to be used for instructions within steps in the response.
         public let instructionsMeasurementSystem: MeasurementSystem?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// List of languages for instructions within steps in the response.  Instructions in the requested language are returned only if they are available.
+        ///  List of languages for instructions within steps in the response. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   Instructions in the requested language are returned only if they are available.
         public let languages: [String]?
-        /// A list of optional additional parameters such as timezone that can be requested for each result.    Elevation: Retrieves the elevation information for each location.    Incidents: Provides information on traffic incidents along the route.    PassThroughWaypoints: Indicates waypoints that are passed through without stopping.    Summary: Returns a summary of the route, including distance and duration.    Tolls: Supplies toll cost information along the route.    TravelStepInstructions: Provides step-by-step instructions for travel along the route.    TruckRoadTypes: Returns information about road types suitable for trucks.    TypicalDuration: Gives typical travel duration based on historical data.    Zones: Specifies the time zone information for each waypoint.
+        ///  A list of optional additional parameters such as timezone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only PassThroughWaypoints, Summary, and TravelStepInstructions     Elevation: Retrieves the elevation information for each location.    Incidents: Provides information on traffic incidents along the route.    PassThroughWaypoints: Indicates waypoints that are passed through without stopping.    Summary: Returns a summary of the route, including distance and duration.    Tolls: Supplies toll cost information along the route.    TravelStepInstructions: Provides step-by-step instructions for travel along the route.    TruckRoadTypes: Returns information about road types suitable for trucks.    TypicalDuration: Gives typical travel duration based on historical data.    Zones: Specifies the time zone information for each waypoint.
         public let legAdditionalFeatures: [RouteLegAdditionalFeature]?
-        /// Specifies the format of the geometry returned for each leg of the route. You can choose between two different geometry encoding formats.  FlexiblePolyline: A compact and precise encoding format for the leg geometry. For more information on the format, see the GitHub repository for  FlexiblePolyline .  Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
+        /// Specifies the format of the geometry returned for each leg of the route. You can choose between two different geometry encoding formats.  FlexiblePolyline: A compact and precise encoding format for the leg geometry. For more information on the format, see the GitHub repository for https://github.com/aws-geospatial/polyline.  Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
         public let legGeometryFormat: GeometryFormat?
-        /// Maximum number of alternative routes to be provided in the response, if available.
+        /// Maximum number of alternative routes to be provided in the response, if available. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only up to 3 alternative routes.
         public let maxAlternatives: Int?
-        /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
+        /// Controls the trade-off between achieving the shortest travel time (FastestRoute) and achieving the shortest physical distance ((ShortestRoute) when calculating each route in the matrix. Default value: FastestRoute
         public let optimizeRoutingFor: RoutingObjective?
-        /// The start position for the route.
+        /// The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let origin: [Double]
-        /// Origin related options.
+        ///  Specifies how the origin point should be matched to the road network and any routing constraints that apply when the traveler is departing the origin. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let originOptions: RouteOriginOptions?
-        /// A list of optional features such as SpeedLimit that can be requested for a Span. A span is a section of a Leg for which the requested features have the same values.
+        ///  A list of optional features such as SpeedLimit that can be requested for a Span. A span is a section of a Leg for which the requested features have the same values. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let spanAdditionalFeatures: [RouteSpanAdditionalFeature]?
-        /// Toll related options.
+        ///  Toll related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let tolls: RouteTollOptions?
-        /// Traffic related options.
+        ///  Traffic related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let traffic: RouteTrafficOptions?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+        ///  Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Car, Pedestrian, and Scooter values.  Default value: Car
         public let travelMode: RouteTravelMode?
-        /// Travel mode related options for the provided travel mode.
+        ///  Travel mode related options for the provided travel mode. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Car and Pedestrian travel mode options.
         public let travelModeOptions: RouteTravelModeOptions?
-        /// Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system.
+        /// Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions Default does not return any steps.
         public let travelStepType: RouteTravelStepType?
-        /// List of waypoints between the Origin and Destination.
+        ///  List of waypoints between the Origin and Destination. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions max length is 100.  Max length: 23
         public let waypoints: [RouteWaypoint]?
 
         @inlinable
@@ -1078,7 +1347,7 @@ extension GeoRoutes {
                 try validate($0, name: "languages[]", parent: name, max: 35)
                 try validate($0, name: "languages[]", parent: name, min: 2)
             }
-            try self.validate(self.legAdditionalFeatures, name: "legAdditionalFeatures", parent: name, max: 9)
+            try self.validate(self.legAdditionalFeatures, name: "legAdditionalFeatures", parent: name, max: 12)
             try self.validate(self.origin, name: "origin", parent: name, max: 2)
             try self.validate(self.origin, name: "origin", parent: name, min: 2)
             try self.originOptions?.validate(name: "\(name).originOptions")
@@ -1122,7 +1391,7 @@ extension GeoRoutes {
     public struct CalculateRoutesResponse: AWSDecodableShape {
         /// Specifies the format of the geometry returned for each leg of the route.
         public let legGeometryFormat: GeometryFormat
-        /// Notices are additional information returned that indicate issues that occurred during route calculation.
+        ///  Notices are additional information returned that indicate issues that occurred during route calculation. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let notices: [RouteResponseNotice]
         /// The pricing bucket for which the query is charged at.
         public let pricingBucket: String
@@ -1154,9 +1423,9 @@ extension GeoRoutes {
     }
 
     public struct Circle: AWSEncodableShape & AWSDecodableShape {
-        /// Center of the Circle defined in longitude and latitude coordinates. Example: [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
+        /// Center of the Circle in World Geodetic System (WGS 84) format: [longitude, latitude]. Example: [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         public let center: [Double]
-        /// Radius of the Circle.  Unit: meters
+        /// Radius of the Circle.  Unit: meters  Valid Range: Minimum value of 0. Maximum value of 200000.
         public let radius: Double
 
         @inlinable
@@ -1203,13 +1472,13 @@ extension GeoRoutes {
     }
 
     public struct Isoline: AWSDecodableShape {
-        /// Isolines may contain multiple components, if these components are connected by ferry links. These components are returned as separate polygons while the ferry links are returned as connections.
+        /// Lines connecting separate parts of the reachable area that can be reached within the same threshold. These occur when areas are reachable but not contiguous, such as when separated by water or unroutable areas. When present, these lines represent actual transportation network segments (such as ferry routes or bridges) that connect the separated areas.
         public let connections: [IsolineConnection]
-        /// Distance threshold corresponding to the calculated Isoline.
+        /// The travel distance in meters used to calculate this isoline, if distance-based thresholds were specified in the request.
         public let distanceThreshold: Int64?
-        /// Geometries for the Calculated isolines.
+        /// The shapes that define the reachable area, provided in the requested geometry format.
         public let geometries: [IsolineShapeGeometry]
-        /// Time threshold corresponding to the calculated isoline.
+        /// The travel time in seconds used to calculate this isoline, if time-based thresholds were specified in the request.
         public let timeThreshold: Int64?
 
         @inlinable
@@ -1229,9 +1498,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineAllowOptions: AWSEncodableShape {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating an isoline. Default value: false
+        /// When true, allows the use of HOT (high-occupancy toll) lanes, which may affect travel times and reachable areas. Default value: false
         public let hot: Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating an isoline. Default value: false
+        /// When true, allows the use of HOV (high-occupancy vehicle) lanes, which may affect travel times and reachable areas. Default value: false
         public let hov: Bool?
 
         @inlinable
@@ -1247,9 +1516,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineAvoidanceArea: AWSEncodableShape {
-        /// Exceptions to the provided avoidance geometry, to be included while calculating an isoline.
+        /// Areas within the primary avoidance geometry where travel is allowed. For example, you might want to avoid a neighborhood but allow travel on a major road that passes through it.
         public let except: [IsolineAvoidanceAreaGeometry]?
-        /// Geometry of the area to be avoided.
+        /// The primary area to avoid, specified using a bounding box, corridor, polygon, or polyline corridor.
         public let geometry: IsolineAvoidanceAreaGeometry
 
         @inlinable
@@ -1272,15 +1541,15 @@ extension GeoRoutes {
     }
 
     public struct IsolineAvoidanceAreaGeometry: AWSEncodableShape {
-        /// Geometry defined as a bounding box. The first pair represents the X and Y coordinates (longitude and latitude,) of the southwest corner of the bounding box; the second pair represents the X and Y coordinates (longitude and latitude) of the northeast corner.
+        /// A rectangular area defined by its southwest and northeast corners: [min longitude, min latitude, max longitude, max latitude].
         public let boundingBox: [Double]?
-        /// Geometry defined as a corridor - a LineString with a radius that defines the width of the corridor.
+        /// A buffer zone around a line, defined by a series of coordinates and a radius in meters.
         public let corridor: Corridor?
-        /// A list of Polygon will be excluded for calculating isolines, the list can only contain 1 polygon.
+        /// A polygon defined by a list of coordinate rings. The first ring defines the outer boundary; subsequent rings will be ignored.
         public let polygon: [[[Double]]]?
-        /// Geometry defined as an encoded corridor – a polyline with a radius that defines the width of the corridor. For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// A buffer zone around a compressed polyline, defined by an encoded polyline string and a radius in meters. For more information on polyline encoding, see https://github.com/aws-geospatial/polyline.
         public let polylineCorridor: PolylineCorridor?
-        /// A list of PolylinePolygon's that are excluded for calculating isolines, the list can only contain 1 polygon. For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// A polygon defined by encoded polyline strings. The first string defines the outer boundary; subsequent strings will be ignored. For more information on polyline encoding, see https://github.com/aws-geospatial/polyline.
         public let polylinePolygon: [String]?
 
         @inlinable
@@ -1317,29 +1586,29 @@ extension GeoRoutes {
     }
 
     public struct IsolineAvoidanceOptions: AWSEncodableShape {
-        /// Areas to be avoided.
+        /// Specifies geographic areas to avoid where possible. Routes may still pass through these areas if no reasonable alternative exists.
         public let areas: [IsolineAvoidanceArea]?
-        /// Avoid car-shuttle-trains while calculating an isoline.
+        /// Indicates a preference to avoid car shuttle trains (auto trains) where possible. These may still be included if no reasonable alternative route exists.
         public let carShuttleTrains: Bool?
-        /// Avoid controlled access highways while calculating an isoline.
+        /// Indicates a preference to avoid controlled-access highways (such as interstate highways or motorways) where possible. If a viable route cannot be calculated using only local roads, controlled-access highways may still be included.
         public let controlledAccessHighways: Bool?
-        /// Avoid dirt roads while calculating an isoline.
+        /// Indicates a preference to avoid unpaved or dirt roads where possible. Routes may still include dirt roads if no reasonable paved alternative exists.
         public let dirtRoads: Bool?
-        /// Avoid ferries while calculating an isoline.
+        /// Indicates a preference to avoid ferries where possible. If a viable route cannot be calculated without using ferries, they may still be included.
         public let ferries: Bool?
-        /// Avoid roads that have seasonal closure while calculating an isoline.
+        /// Indicates a preference to avoid roads that may be subject to seasonal closures where possible. These roads may still be included if no reasonable year-round alternative exists.
         public let seasonalClosure: Bool?
-        /// Avoids roads where the specified toll transponders are the only mode of payment.
+        /// Indicates a preference to avoid toll roads where possible. If a viable route cannot be calculated without using toll roads, they may still be included.
         public let tollRoads: Bool?
-        /// Avoids roads where the specified toll transponders are the only mode of payment.
+        /// Indicates a preference to avoid roads that require electronic toll collection transponders where possible. These roads may still be included if no viable alternative route exists.
         public let tollTransponders: Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        /// For truck travel modes, indicates specific road classification types in Sweden ( BK1 through BK4) and Mexico (A2, A4, B2, B4, C, D, ET2, ET4) to avoid where possible. These road types may still be used if no reasonable alternative exists.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [String]?
-        /// Avoid tunnels while calculating an isoline.
+        /// Indicates a preference to avoid tunnels where possible. If a viable route cannot be calculated without using tunnels, they may still be included.
         public let tunnels: Bool?
-        /// Avoid U-turns for calculation on highways and motorways.
+        /// Indicates a preference to avoid U-turns where possible. U-turns may still be included if necessary to reach certain areas or when no reasonable alternative exists.
         public let uTurns: Bool?
-        /// Zone categories to be avoided.
+        /// Indicates types of regulated zones (such as congestion pricing or environmental zones) to avoid where possible. Routes may still pass through these zones if no reasonable alternative exists.
         public let zoneCategories: [IsolineAvoidanceZoneCategory]?
 
         @inlinable
@@ -1388,7 +1657,7 @@ extension GeoRoutes {
     }
 
     public struct IsolineAvoidanceZoneCategory: AWSEncodableShape {
-        /// Zone category to be avoided.
+        /// The type of regulated zone: CongestionPricing for toll zones based on traffic levels, Environmental for low-emission zones, or Vignette for areas requiring special permits or stickers.
         public let category: IsolineZoneCategory?
 
         @inlinable
@@ -1402,13 +1671,13 @@ extension GeoRoutes {
     }
 
     public struct IsolineCarOptions: AWSEncodableShape {
-        /// Engine type of the vehicle.
+        /// The type of engine powering the vehicle, which may affect route calculation due to road restrictions or vehicle characteristics.    INTERNAL_COMBUSTION—Standard gasoline or diesel engine.    ELECTRIC—Battery electric vehicle.    PLUGIN_HYBRID—Combination of electric and internal combustion engines with plug-in charging capability.
         public let engineType: IsolineEngineType?
-        /// The vehicle License Plate.
+        /// License plate information used in regions where road access or routing restrictions are based on license plate numbers.
         public let licensePlate: IsolineVehicleLicensePlate?
-        /// Maximum speed.  Unit: KilometersPerHour
+        /// The maximum speed of the vehicle in kilometers per hour. When specified, routes will not include roads with higher speed limits. Valid values range from 3.6 km/h (1 m/s) to 252 km/h (70 m/s).  Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. This can affect route calculations by enabling the use of high-occupancy vehicle (HOV) lanes where minimum occupancy requirements are met. Default value: 1
         public let occupancy: Int?
 
         @inlinable
@@ -1432,11 +1701,11 @@ extension GeoRoutes {
     }
 
     public struct IsolineConnection: AWSDecodableShape {
-        /// Index of the polygon corresponding to the "from" component of the connection. The polygon is available from Isoline[].Geometries.
+        /// The index of the starting polygon in the isoline's Geometries list.
         public let fromPolygonIndex: Int
-        /// The isoline geometry.
+        /// The shape of the connection, representing the actual path through the transportation network that links the polygons.
         public let geometry: IsolineConnectionGeometry
-        /// Index of the polygon corresponding to the "to" component of the connection. The polygon is available from Isoline[].Geometries.
+        /// The index of the ending polygon in the isoline's Geometries list.
         public let toPolygonIndex: Int
 
         @inlinable
@@ -1454,9 +1723,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineConnectionGeometry: AWSDecodableShape {
-        /// An ordered list of positions used to plot a route on a map.  LineString and Polyline are mutually exclusive properties.
+        /// A series of [longitude, latitude] coordinate pairs defining the connection path when Simple geometry format is requested. These coordinates can be directly used as the coordinates array in a GeoJSON LineString without transformation.  LineString and Polyline are mutually exclusive properties.
         public let lineString: [[Double]]?
-        /// An ordered list of positions used to plot a route on a map in a lossy compression format.  LineString and Polyline are mutually exclusive properties.
+        /// An encoded representation of the connection path when FlexiblePolyline geometry format is requested. This provides a more compact representation suitable for transmission and storage. To convert to GeoJSON, first decode to obtain coordinate pairs, then use those coordinates as the coordinates array in a GeoJSON LineString.  LineString and Polyline are mutually exclusive properties.
         public let polyline: String?
 
         @inlinable
@@ -1472,13 +1741,13 @@ extension GeoRoutes {
     }
 
     public struct IsolineDestinationOptions: AWSEncodableShape {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        /// The distance in meters from the destination point within which certain routing actions (such as U-turns or left turns across traffic) are restricted. This helps generate more practical routes by avoiding potentially dangerous maneuvers near the endpoint.
         public let avoidActionsForDistance: Int64?
-        /// GPS Heading at the position.
+        /// The initial direction of travel in degrees (0-360, where 0 is north). This can affect which road segments are considered accessible from the starting point.
         public let heading: Double?
-        /// Options to configure matching the provided position to the road network.
+        /// Controls how the destination point is matched to the road network, including search radius and name-based matching preferences.
         public let matching: IsolineMatchingOptions?
-        /// Options to configure matching the provided position to a side of the street.
+        /// Specifies which side of the street should be considered accessible, which is important when building entrances or parking access points are only reachable from one side of the road.
         public let sideOfStreet: IsolineSideOfStreetOptions?
 
         @inlinable
@@ -1507,9 +1776,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineGranularityOptions: AWSEncodableShape {
-        /// Maximum number of points of returned Isoline.
+        /// The maximum number of points used to define each isoline. Higher values create smoother, more detailed shapes.
         public let maxPoints: Int?
-        /// Maximum resolution of the returned isoline.  Unit: meters
+        /// The maximum distance in meters between points along the isoline. Smaller values create more detailed shapes.  Unit: meters
         public let maxResolution: Int64?
 
         @inlinable
@@ -1530,13 +1799,13 @@ extension GeoRoutes {
     }
 
     public struct IsolineMatchingOptions: AWSEncodableShape {
-        /// Attempts to match the provided position to a road similar to the provided name.
+        /// The expected street name near the point. Helps disambiguate matching when multiple roads are within range.
         public let nameHint: String?
-        /// If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the highway/bridge/tunnel/sliproad.  Unit: meters
+        /// The maximum distance in meters that a point can be from a road while still being considered "on" that road. Points further than this distance require explicit matching.  Unit: meters
         public let onRoadThreshold: Int64?
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy.  Unit: Meters
+        /// The maximum distance in meters to search for roads to match to. Points with no roads within this radius will fail to match. The roads that are considered within this radius are determined by the specified Strategy   Unit: meters
         public let radius: Int64?
-        /// Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road.
+        /// Determines how points are matched to the road network. MatchAny finds the nearest viable road segment, while MatchMostSignificantRoad prioritizes major roads.
         public let strategy: MatchingStrategy?
 
         @inlinable
@@ -1563,13 +1832,13 @@ extension GeoRoutes {
     }
 
     public struct IsolineOriginOptions: AWSEncodableShape {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        /// The distance in meters from the origin point within which certain routing actions (such as U-turns or left turns across traffic) are restricted. This helps generate more practical routes by avoiding potentially dangerous maneuvers near the starting point.
         public let avoidActionsForDistance: Int64?
-        /// GPS Heading at the position.
+        /// Initial direction of travel in degrees (0-360, where 0 is north). This affects which road segments are considered accessible from the starting point and is particularly useful when the origin is on a divided road or at a complex intersection.
         public let heading: Double?
-        /// Options to configure matching the provided position to the road network.
+        /// Controls how the origin point is matched to the road network, including search radius and matching strategy.
         public let matching: IsolineMatchingOptions?
-        /// Options to configure matching the provided position to a side of the street.
+        /// Controls which side of the street is considered accessible from the origin point, particularly important for divided roads where building entrances or parking access may only be available from one direction.
         public let sideOfStreet: IsolineSideOfStreetOptions?
 
         @inlinable
@@ -1598,13 +1867,13 @@ extension GeoRoutes {
     }
 
     public struct IsolineScooterOptions: AWSEncodableShape {
-        /// Engine type of the vehicle.
+        /// The type of engine powering the vehicle, which may affect route calculation due to road restrictions or vehicle characteristics.    INTERNAL_COMBUSTION—Standard gasoline or diesel engine.    ELECTRIC—Battery electric vehicle.    PLUGIN_HYBRID—Combination of electric and internal combustion engines with plug-in charging capability.
         public let engineType: IsolineEngineType?
-        /// The vehicle License Plate.
+        /// License plate information used in regions where road access or routing restrictions are based on license plate numbers.
         public let licensePlate: IsolineVehicleLicensePlate?
-        /// Maximum speed specified.  Unit: KilometersPerHour
+        /// The maximum speed of the vehicle in kilometers per hour. When specified, routes will not include roads with higher speed limits. Valid values range from 3.6 km/h (1 m/s) to 252 km/h (70 m/s).  Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. This can affect route calculations by enabling the use of high-occupancy vehicle (HOV) lanes where minimum occupancy requirements are met. Default value: 1
         public let occupancy: Int?
 
         @inlinable
@@ -1628,9 +1897,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineShapeGeometry: AWSDecodableShape {
-        /// A list of Isoline Polygons, for each isoline polygon, it contains polygons of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings).
+        /// A series of coordinate rings defining the reachable area when Simple geometry format is requested. Each ring is a list of [longitude, latitude] coordinate pairs. The first ring defines the outer boundary; subsequent rings define holes representing unreachable areas.  Polygon and PolylinePolygon are mutually exclusive properties.
         public let polygon: [[[Double]]]?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// An encoded representation of the reachable area when FlexiblePolyline geometry format is requested. Provides a compact representation suitable for transmission and storage. The first string defines the outer boundary; subsequent strings define holes representing unreachable areas. For more information on polyline encoding, see https://github.com/aws-geospatial/polyline.  Polygon and PolylinePolygon are mutually exclusive properties.
         public let polylinePolygon: [String]?
 
         @inlinable
@@ -1646,9 +1915,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineSideOfStreetOptions: AWSEncodableShape {
-        /// Position defined as [longitude, latitude].
+        /// The [longitude, latitude] coordinates of the point that should be matched to a specific side of the street.
         public let position: [Double]
-        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default Value: DividedStreetOnly
+        /// Controls whether side-of-street matching is applied to any street (AnyStreet) or only to divided roads (DividedStreetOnly). This is important when the exact side of the street matters - for example, if a building entrance is only accessible from one side of a divided highway, or if a parking lot can only be entered from northbound lanes. Without correct side-of-street matching, travel time estimates may be inaccurate because they don't account for necessary U-turns or detours to reach the correct side. Default value: DividedStreetOnly
         public let useWith: SideOfStreetMatchingStrategy?
 
         @inlinable
@@ -1669,9 +1938,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineThresholds: AWSEncodableShape {
-        /// Distance to be used for the isoline calculation.
+        /// List of travel distances in meters. For example, [1000, 2000, 5000] would calculate areas reachable within 1, 2, and 5 kilometers.
         public let distance: [Int64]?
-        /// Time to be used for the isoline calculation.
+        /// List of travel times in seconds. For example, [300, 600, 900] would calculate areas reachable within 5, 10, and 15 minutes.
         public let time: [Int64]?
 
         @inlinable
@@ -1702,9 +1971,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineTrafficOptions: AWSEncodableShape {
-        /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data.   Unit: seconds
+        /// The duration in seconds that real-time congestion data is considered valid before reverting to historical traffic patterns. This helps balance between using current conditions and more predictable historical data when calculating travel times.  Unit: seconds
         public let flowEventThresholdOverride: Int64?
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Controls whether traffic data is used in calculations. UseTrafficData considers both real-time congestion and historical patterns, while IgnoreTrafficData calculates routes based solely on road types and speed limits. Using traffic data provides more accurate real-world estimates but may produce different results at different times of day. Default value: UseTrafficData
         public let usage: TrafficUsage?
 
         @inlinable
@@ -1725,9 +1994,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineTrailerOptions: AWSEncodableShape {
-        /// Total number of axles of the vehicle.
+        /// The total number of axles across all trailers. Used for weight distribution calculations and road restrictions.
         public let axleCount: Int?
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// The number of trailers being pulled. Affects which roads can be used based on local regulations. Default value: 0
         public let trailerCount: Int?
 
         @inlinable
@@ -1743,11 +2012,11 @@ extension GeoRoutes {
     }
 
     public struct IsolineTravelModeOptions: AWSEncodableShape {
-        /// Travel mode options when the provided travel mode is "Car"
+        /// Options specific to passenger vehicle routing (Car, such as vehicle characteristics and license plate restrictions.
         public let car: IsolineCarOptions?
-        /// Travel mode options when the provided travel mode is Scooter   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
+        /// Options specific to scooter routing (Scooter, such as vehicle characteristics and license plate restrictions.  When using the Scooter travel mode, controlled-access highways are automatically avoided unless explicitly allowed.
         public let scooter: IsolineScooterOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Options specific to commercial truck routing (Truck, including vehicle dimensions, weight limits, and hazardous cargo specifications.
         public let truck: IsolineTruckOptions?
 
         @inlinable
@@ -1771,43 +2040,43 @@ extension GeoRoutes {
     }
 
     public struct IsolineTruckOptions: AWSEncodableShape {
-        /// Total number of axles of the vehicle.
+        /// The total number of axles on the vehicle. Required for certain road restrictions and weight limit calculations.
         public let axleCount: Int?
-        /// Engine type of the vehicle.
+        /// The type of engine powering the vehicle, which may affect route calculation due to road restrictions or vehicle characteristics.    INTERNAL_COMBUSTION—Standard gasoline or diesel engine.    ELECTRIC—Battery electric vehicle.    PLUGIN_HYBRID—Combination of electric and internal combustion engines with plug-in charging capability.
         public let engineType: IsolineEngineType?
-        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: Kilograms
+        /// The gross vehicle weight (the maximum weight a vehicle can safely operate at, as specified by the manufacturer) in kilograms. Used to avoid roads with weight restrictions and ensure compliance with maximum allowed vehicle weight regulations.  Unit: kilograms
         public let grossWeight: Int64?
-        /// List of Hazardous cargo contained in the vehicle.
+        /// Types of hazardous materials being transported. This affects which roads and tunnels can be used based on local regulations.    Combustible—Materials that can burn readily    Corrosive—Materials that can destroy or irreversibly damage other substances    Explosive—Materials that can produce an explosion by chemical reaction    Flammable—Materials that can easily ignite    Gas—Hazardous materials in gaseous form    HarmfulToWater—Materials that pose a risk to water sources if released    Organic—Hazardous organic compounds    Other—Hazardous materials not covered by other categories    Poison—Toxic materials    PoisonousInhalation—Materials that are toxic when inhaled    Radioactive—Materials that emit ionizing radiation
         public let hazardousCargos: [IsolineHazardousCargoType]?
-        /// Height of the vehicle.  Unit: centimeters
+        /// The vehicle height in centimeters. Used to avoid routes with low bridges or other height restrictions.  Unit: centimeters
         public let height: Int64?
-        /// Height of the vehicle above its first axle.  Unit: centimeters
+        /// The height in centimeters measured from the ground to the highest point above the first axle. Used for specific bridge and tunnel clearance restrictions.  Unit: centimeters
         public let heightAboveFirstAxle: Int64?
-        /// Kingpin to rear axle length of the vehicle.  Unit: centimeters
+        /// The kingpin to rear axle (KPRA) length in centimeters. Used to determine if the vehicle can safely navigate turns and intersections.  Unit: centimeters
         public let kpraLength: Int64?
-        /// Length of the vehicle.  Unit: centimeters
+        /// The total vehicle length in centimeters. Used to avoid roads with length restrictions and determine if the vehicle can safely navigate turns.  Unit: centimeters
         public let length: Int64?
-        /// The vehicle License Plate.
+        /// License plate information used in regions where road access or routing restrictions are based on license plate numbers.
         public let licensePlate: IsolineVehicleLicensePlate?
-        /// Maximum speed specified.  Unit: KilometersPerHour
+        /// The maximum speed in kilometers per hour at which the vehicle can or is permitted to travel. This affects travel time calculations and may result in different reachable areas compared to using default speed limits. Value must be between 3.6 and 252 kilometers per hour.  Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. This can affect route calculations by enabling the use of high-occupancy vehicle (HOV) lanes where minimum occupancy requirements are met. Default value: 1
         public let occupancy: Int?
-        /// Payload capacity of the vehicle and trailers attached.  Unit: kilograms
+        /// The maximum cargo weight in kilograms that the vehicle (including attached trailers) is rated to carry.  Unit: kilograms
         public let payloadCapacity: Int64?
-        /// Number of tires on the vehicle.
+        /// The total number of tires on the vehicle.
         public let tireCount: Int?
-        /// Trailer options corresponding to the vehicle.
+        /// Optional specifications for attached trailers. When provided, trailer characteristics affect route calculations to ensure compliance with trailer-specific restrictions such as length limits, weight distribution requirements, and access restrictions for multi-trailer configurations.
         public let trailer: IsolineTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck  for rigid body trucks, or Tractor for tractor-trailer combinations.
         public let truckType: IsolineTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
+        /// The heaviest weight per axle in kilograms, regardless of axle type or grouping. Used for roads with axle-weight restrictions in regions where regulations don't distinguish between different axle configurations.  Unit: kilograms
         public let weightPerAxle: Int64?
-        /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type.  Unit: Kilograms
+        /// Specifies the total weight for different axle group configurations. Used in regions where regulations set different weight limits based on axle group types.  Unit: kilograms
         public let weightPerAxleGroup: WeightPerAxleGroup?
-        /// Width of the vehicle.  Unit: centimeters
+        /// The vehicle width in centimeters. Used to avoid routes with width restrictions.  Unit: centimeters
         public let width: Int64?
 
         @inlinable
@@ -1881,7 +2150,7 @@ extension GeoRoutes {
     }
 
     public struct IsolineVehicleLicensePlate: AWSEncodableShape {
-        /// The last character of the License Plate.
+        /// The last character of the vehicle's license plate. Used to determine road access restrictions in regions with license plate-based traffic management systems.
         public let lastCharacter: String?
 
         @inlinable
@@ -1929,19 +2198,19 @@ extension GeoRoutes {
         public let exclude: WaypointOptimizationExclusionOptions?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Specifies the optimization criteria for the calculated sequence. Default Value: FastestRoute.
+        /// Specifies the optimization criteria for the calculated sequence. Default value: FastestRoute.
         public let optimizeSequencingFor: WaypointOptimizationSequencingObjective?
-        /// The start position for the route.
+        /// The start position for the route in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let origin: [Double]
         /// Origin related options.
         public let originOptions: WaypointOptimizationOriginOptions?
         /// Traffic-related options.
         public let traffic: WaypointOptimizationTrafficOptions?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
         public let travelMode: WaypointOptimizationTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: WaypointOptimizationTravelModeOptions?
-        /// List of waypoints between the Origin and Destination.
+        /// List of waypoints between the Origin and Destination, in World Geodetic System (WGS 84) format: [longitude, latitude]. The maximum number of waypoints allowed per request:   Maximum 50 waypoints per request   Maximum 20 waypoints when using constraints (AccessHours, AppointmentTime, ServiceDuration, Heading, SideOfStreet, Before)
         public let waypoints: [WaypointOptimizationWaypoint]?
 
         @inlinable
@@ -1985,7 +2254,6 @@ extension GeoRoutes {
 
         public func validate(name: String) throws {
             try self.avoid?.validate(name: "\(name).avoid")
-            try self.clustering?.validate(name: "\(name).clustering")
             try self.validate(self.departureTime, name: "departureTime", parent: name, pattern: "^([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9])$")
             try self.validate(self.destination, name: "destination", parent: name, max: 2)
             try self.validate(self.destination, name: "destination", parent: name, min: 2)
@@ -2072,7 +2340,7 @@ extension GeoRoutes {
     public struct PolylineCorridor: AWSEncodableShape {
         /// An ordered list of positions used to plot a route on a map in a lossy compression format.  LineString and Polyline are mutually exclusive properties.
         public let polyline: String
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy.  Unit: Meters
+        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy.  Unit: meters
         public let radius: Int
 
         @inlinable
@@ -2156,9 +2424,9 @@ extension GeoRoutes {
     public struct RoadSnapTracePoint: AWSEncodableShape {
         /// GPS Heading at the position.
         public let heading: Double?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
-        /// Speed at the specified trace point .  Unit: KilometersPerHour
+        /// Speed at the specified trace point .  Unit: kilometers per hour
         public let speed: Double?
         /// Timestamp of the event.
         public let timestamp: String?
@@ -2189,7 +2457,7 @@ extension GeoRoutes {
     }
 
     public struct RoadSnapTrailerOptions: AWSEncodableShape {
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public let trailerCount: Int?
 
         @inlinable
@@ -2203,7 +2471,7 @@ extension GeoRoutes {
     }
 
     public struct RoadSnapTravelModeOptions: AWSEncodableShape {
-        /// Travel mode options when the provided travel mode is "Truck".
+        /// Travel mode options when the provided travel mode is Truck.
         public let truck: RoadSnapTruckOptions?
 
         @inlinable
@@ -2221,7 +2489,7 @@ extension GeoRoutes {
     }
 
     public struct RoadSnapTruckOptions: AWSEncodableShape {
-        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: kilograms
         public let grossWeight: Int64?
         /// List of Hazardous cargos contained in the vehicle.
         public let hazardousCargos: [RoadSnapHazardousCargoType]?
@@ -2233,7 +2501,7 @@ extension GeoRoutes {
         public let trailer: RoadSnapTrailerOptions?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
-        /// Width of the vehicle in centimenters.
+        /// Width of the vehicle in centimeters.
         public let width: Int64?
 
         @inlinable
@@ -2294,6 +2562,34 @@ extension GeoRoutes {
         }
     }
 
+    public struct RouteAccessPointDetails: AWSDecodableShape {
+        /// Wheelchair accessibility information for the access point.
+        public let accessibility: RouteAccessibilityAvailabilityDetails?
+
+        @inlinable
+        public init(accessibility: RouteAccessibilityAvailabilityDetails? = nil) {
+            self.accessibility = accessibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessibility = "Accessibility"
+        }
+    }
+
+    public struct RouteAccessibilityAvailabilityDetails: AWSDecodableShape {
+        /// Wheelchair accessibility status.
+        public let wheelchair: RouteAccessibilityAvailability?
+
+        @inlinable
+        public init(wheelchair: RouteAccessibilityAvailability? = nil) {
+            self.wheelchair = wheelchair
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wheelchair = "Wheelchair"
+        }
+    }
+
     public struct RouteAllowOptions: AWSEncodableShape {
         /// Allow Hot (High Occupancy Toll) lanes while calculating the route. Default value: false
         public let hot: Bool?
@@ -2309,6 +2605,24 @@ extension GeoRoutes {
         private enum CodingKeys: String, CodingKey {
             case hot = "Hot"
             case hov = "Hov"
+        }
+    }
+
+    public struct RouteAttribution: AWSDecodableShape {
+        /// The type of the attribution link.
+        public let attributionType: RouteAttributionType?
+        /// The URL to an external resource.
+        public let webLink: RouteWebLink
+
+        @inlinable
+        public init(attributionType: RouteAttributionType? = nil, webLink: RouteWebLink) {
+            self.attributionType = attributionType
+            self.webLink = webLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributionType = "AttributionType"
+            case webLink = "WebLink"
         }
     }
 
@@ -2345,7 +2659,7 @@ extension GeoRoutes {
         public let polygon: [[[Double]]]?
         /// Geometry defined as an encoded corridor - an encoded polyline with a radius that defines the width of the corridor.
         public let polylineCorridor: PolylineCorridor?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see https://github.com/aws-geospatial/polyline.
         public let polylinePolygon: [String]?
 
         @inlinable
@@ -2382,29 +2696,29 @@ extension GeoRoutes {
     }
 
     public struct RouteAvoidanceOptions: AWSEncodableShape {
-        /// Areas to be avoided.
+        ///  Areas to be avoided. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let areas: [RouteAvoidanceArea]?
-        /// Avoid car-shuttle-trains while calculating the route.
+        ///  Avoid car-shuttle-trains while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let carShuttleTrains: Bool?
         /// Avoid controlled access highways while calculating the route.
         public let controlledAccessHighways: Bool?
-        /// Avoid dirt roads while calculating the route.
+        ///  Avoid dirt roads while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let dirtRoads: Bool?
         /// Avoid ferries while calculating the route.
         public let ferries: Bool?
-        /// Avoid roads that have seasonal closure while calculating the route.
+        ///  Avoid roads that have seasonal closure while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let seasonalClosure: Bool?
         /// Avoids roads where the specified toll transponders are the only mode of payment.
         public let tollRoads: Bool?
-        /// Avoids roads where the specified toll transponders are the only mode of payment.
+        ///  Avoids roads where the specified toll transponders are the only mode of payment. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let tollTransponders: Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        ///  Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [String]?
-        /// Avoid tunnels while calculating the route.
+        ///  Avoid tunnels while calculating the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let tunnels: Bool?
-        /// Avoid U-turns for calculation on highways and motorways.
+        ///  Avoid U-turns for calculation on highways and motorways. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let uTurns: Bool?
-        /// Zone categories to be avoided.
+        ///  Zone categories to be avoided. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let zoneCategories: [RouteAvoidanceZoneCategory]?
 
         @inlinable
@@ -2467,13 +2781,13 @@ extension GeoRoutes {
     }
 
     public struct RouteCarOptions: AWSEncodableShape {
-        /// Engine type of the vehicle.
+        ///  Engine type of the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let engineType: RouteEngineType?
         /// The vehicle License Plate.
         public let licensePlate: RouteVehicleLicensePlate?
-        /// Maximum speed specified.  Unit: KilometersPerHour
+        ///  Maximum speed specified. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        ///  The number of occupants in the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Default value: 1
         public let occupancy: Int?
 
         @inlinable
@@ -2493,6 +2807,28 @@ extension GeoRoutes {
             case licensePlate = "LicensePlate"
             case maxSpeed = "MaxSpeed"
             case occupancy = "Occupancy"
+        }
+    }
+
+    public struct RouteChargeStepDetails: AWSDecodableShape {
+        /// Estimated vehicle battery charge before this step (in kWh).
+        public let arrivalCharge: Double?
+        /// Maximum charging power available to the vehicle.  Unit: KwH
+        public let consumablePower: Double?
+        /// Details that are specific to a Charge step.  Unit: KwH
+        public let desiredCharge: Double?
+
+        @inlinable
+        public init(arrivalCharge: Double? = nil, consumablePower: Double? = nil, desiredCharge: Double? = nil) {
+            self.arrivalCharge = arrivalCharge
+            self.consumablePower = consumablePower
+            self.desiredCharge = desiredCharge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arrivalCharge = "ArrivalCharge"
+            case consumablePower = "ConsumablePower"
+            case desiredCharge = "DesiredCharge"
         }
     }
 
@@ -2537,7 +2873,7 @@ extension GeoRoutes {
     }
 
     public struct RouteDestinationOptions: AWSEncodableShape {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        /// The distance in meters from the destination point within which certain routing actions (such as U-turns or left turns across traffic) are restricted. This helps generate more practical routes by avoiding potentially dangerous maneuvers near the endpoint.
         public let avoidActionsForDistance: Int64?
         /// Avoid U-turns for calculation on highways and motorways.
         public let avoidUTurns: Bool?
@@ -2747,9 +3083,9 @@ extension GeoRoutes {
     }
 
     public struct RouteFerryArrival: AWSDecodableShape {
-        /// The place details.
+        /// Place details corresponding to the arrival.
         public let place: RouteFerryPlace
-        /// The time.
+        /// The arrival time.
         public let time: String?
 
         @inlinable
@@ -2787,9 +3123,9 @@ extension GeoRoutes {
     }
 
     public struct RouteFerryDeparture: AWSDecodableShape {
-        /// The place details.
+        /// Place details corresponding to the departure.
         public let place: RouteFerryPlace
-        /// The time.
+        /// The departure time.
         public let time: String?
 
         @inlinable
@@ -2873,9 +3209,9 @@ extension GeoRoutes {
     }
 
     public struct RouteFerryOverviewSummary: AWSDecodableShape {
-        /// Distance of the step.
+        /// Distance of the entire leg.  Unit: meters
         public let distance: Int64
-        /// Duration of the step.  Unit: seconds
+        /// Duration of the entire leg.  Unit: seconds
         public let duration: Int64
 
         @inlinable
@@ -2895,7 +3231,7 @@ extension GeoRoutes {
         public let name: String?
         /// Position provided in the request.
         public let originalPosition: [Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
         /// Index of the waypoint in the request.
         public let waypointIndex: Int?
@@ -2925,7 +3261,7 @@ extension GeoRoutes {
         public let duration: Int64?
         /// Offset in the leg geometry corresponding to the start of this span.
         public let geometryOffset: Int?
-        /// Provides an array of names of the ferry span in available languages.
+        /// Names of the ferry span in available languages.
         public let names: [LocalizedString]?
         /// 2-3 letter Region code corresponding to the Span. This is either a province or a state.
         public let region: String?
@@ -3012,6 +3348,201 @@ extension GeoRoutes {
         }
     }
 
+    public struct RouteIntermodalOptions: AWSEncodableShape {
+        /// Accessibility attributes to consider when calculating the route.
+        public let accessibilityAttributes: [RouteAccessibilityAttribute]?
+        /// Maximum number of transfers allowed when calculating the route.
+        public let maxTransfers: Int?
+        /// Options for the pedestrian leg of the intermodal route.
+        public let pedestrian: RouteIntermodalPedestrianOptions?
+        /// Options for the rental leg of the intermodal route.
+        public let rental: RouteIntermodalRentalOptions?
+        /// Options for the taxi leg of the intermodal route.
+        public let taxi: RouteIntermodalTaxiOptions?
+        /// Options for the transit leg of the intermodal route.
+        public let transit: RouteIntermodalTransitOptions?
+        /// Options for the vehicle leg of the intermodal route.
+        public let vehicle: RouteIntermodalVehicleOptions?
+
+        @inlinable
+        public init(accessibilityAttributes: [RouteAccessibilityAttribute]? = nil, maxTransfers: Int? = nil, pedestrian: RouteIntermodalPedestrianOptions? = nil, rental: RouteIntermodalRentalOptions? = nil, taxi: RouteIntermodalTaxiOptions? = nil, transit: RouteIntermodalTransitOptions? = nil, vehicle: RouteIntermodalVehicleOptions? = nil) {
+            self.accessibilityAttributes = accessibilityAttributes
+            self.maxTransfers = maxTransfers
+            self.pedestrian = pedestrian
+            self.rental = rental
+            self.taxi = taxi
+            self.transit = transit
+            self.vehicle = vehicle
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessibilityAttributes, name: "accessibilityAttributes", parent: name, max: 1)
+            try self.pedestrian?.validate(name: "\(name).pedestrian")
+            try self.rental?.validate(name: "\(name).rental")
+            try self.taxi?.validate(name: "\(name).taxi")
+            try self.transit?.validate(name: "\(name).transit")
+            try self.vehicle?.validate(name: "\(name).vehicle")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessibilityAttributes = "AccessibilityAttributes"
+            case maxTransfers = "MaxTransfers"
+            case pedestrian = "Pedestrian"
+            case rental = "Rental"
+            case taxi = "Taxi"
+            case transit = "Transit"
+            case vehicle = "Vehicle"
+        }
+    }
+
+    public struct RouteIntermodalPedestrianOptions: AWSEncodableShape {
+        /// Maximum walking distance allowed.  Unit: meters
+        public let maxDistance: Int64?
+        /// Walking speed.  Unit: kilometers per hour
+        public let speed: Double?
+
+        @inlinable
+        public init(maxDistance: Int64? = nil, speed: Double? = nil) {
+            self.maxDistance = maxDistance
+            self.speed = speed
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxDistance, name: "maxDistance", parent: name, max: 4294967295)
+            try self.validate(self.maxDistance, name: "maxDistance", parent: name, min: 0)
+            try self.validate(self.speed, name: "speed", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxDistance = "MaxDistance"
+            case speed = "Speed"
+        }
+    }
+
+    public struct RouteIntermodalRentalOptions: AWSEncodableShape {
+        /// Allowed rental transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public let allowedModes: [RouteRentalMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:    FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.    LastLeg - Enable this leg type for the last non-pedestrian leg of the route.    EntireRoute - Enable this leg type for the entire route.    None - Disable this leg type entirely.
+        public let enabledFor: [RouteIntermodalEnabledLegs]?
+        /// Excluded rental transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public let excludedModes: [RouteRentalMode]?
+
+        @inlinable
+        public init(allowedModes: [RouteRentalMode]? = nil, enabledFor: [RouteIntermodalEnabledLegs]? = nil, excludedModes: [RouteRentalMode]? = nil) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, max: 1)
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, min: 1)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, max: 2)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, min: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, max: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedModes = "AllowedModes"
+            case enabledFor = "EnabledFor"
+            case excludedModes = "ExcludedModes"
+        }
+    }
+
+    public struct RouteIntermodalTaxiOptions: AWSEncodableShape {
+        /// Allowed taxi transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public let allowedModes: [RouteTaxiMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:    FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.    LastLeg - Enable this leg type for the last non-pedestrian leg of the route.    EntireRoute - Enable this leg type for the entire route.    None - Disable this leg type entirely.
+        public let enabledFor: [RouteIntermodalEnabledLegs]?
+        /// Excluded taxi transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public let excludedModes: [RouteTaxiMode]?
+
+        @inlinable
+        public init(allowedModes: [RouteTaxiMode]? = nil, enabledFor: [RouteIntermodalEnabledLegs]? = nil, excludedModes: [RouteTaxiMode]? = nil) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, max: 1)
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, min: 1)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, max: 2)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, min: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, max: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedModes = "AllowedModes"
+            case enabledFor = "EnabledFor"
+            case excludedModes = "ExcludedModes"
+        }
+    }
+
+    public struct RouteIntermodalTransitOptions: AWSEncodableShape {
+        /// Allowed transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public let allowedModes: [RouteTransitMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:    FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.    LastLeg - Enable this leg type for the last non-pedestrian leg of the route.    EntireRoute - Enable this leg type for the entire route.    None - Disable this leg type entirely.
+        public let enabledFor: [RouteIntermodalEnabledLegs]?
+        /// Excluded transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public let excludedModes: [RouteTransitMode]?
+
+        @inlinable
+        public init(allowedModes: [RouteTransitMode]? = nil, enabledFor: [RouteIntermodalEnabledLegs]? = nil, excludedModes: [RouteTransitMode]? = nil) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, max: 15)
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, min: 1)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, max: 2)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, min: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, max: 15)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedModes = "AllowedModes"
+            case enabledFor = "EnabledFor"
+            case excludedModes = "ExcludedModes"
+        }
+    }
+
+    public struct RouteIntermodalVehicleOptions: AWSEncodableShape {
+        /// Allowed vehicle transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public let allowedModes: [RouteVehicleMode]?
+        /// Specifies the portion of the route for which this leg type is enabled. By default, the leg type is enabled for all legs. Valid values:    FirstLeg - Enable this leg type for the first non-pedestrian leg of the route.    LastLeg - Enable this leg type for the last non-pedestrian leg of the route.    EntireRoute - Enable this leg type for the entire route.    None - Disable this leg type entirely.
+        public let enabledFor: [RouteIntermodalEnabledLegs]?
+        /// Excluded vehicle transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public let excludedModes: [RouteVehicleMode]?
+
+        @inlinable
+        public init(allowedModes: [RouteVehicleMode]? = nil, enabledFor: [RouteIntermodalEnabledLegs]? = nil, excludedModes: [RouteVehicleMode]? = nil) {
+            self.allowedModes = allowedModes
+            self.enabledFor = enabledFor
+            self.excludedModes = excludedModes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, max: 1)
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, min: 1)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, max: 2)
+            try self.validate(self.enabledFor, name: "enabledFor", parent: name, min: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, max: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedModes = "AllowedModes"
+            case enabledFor = "EnabledFor"
+            case excludedModes = "ExcludedModes"
+        }
+    }
+
     public struct RouteKeepStepDetails: AWSDecodableShape {
         /// Name of the intersection, if applicable to the step.
         public let intersection: [LocalizedString]
@@ -3039,15 +3570,21 @@ extension GeoRoutes {
     }
 
     public struct RouteLeg: AWSDecodableShape {
-        /// FerryLegDetails is populated when the Leg type is Ferry, and provides additional information that is specific
+        ///  FerryLegDetails is populated when the Leg type is Ferry, and provides additional information that is specific to ferry travel. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let ferryLegDetails: RouteFerryLegDetails?
         /// Geometry of the area to be avoided.
         public let geometry: RouteLegGeometry
-        /// List of languages for instructions within steps in the response.
+        ///  List of languages for instructions within steps in the response. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let language: String?
         /// Details related to the pedestrian leg.
         public let pedestrianLegDetails: RoutePedestrianLegDetails?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Details related to the rental leg.  Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+        public let rentalLegDetails: RouteRentalLegDetails?
+        /// Details related to the taxi leg.  Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+        public let taxiLegDetails: RouteTaxiLegDetails?
+        /// Details related to the transit leg.
+        public let transitLegDetails: RouteTransitLegDetails?
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
         public let travelMode: RouteLegTravelMode
         /// Type of the leg.
         public let type: RouteLegType
@@ -3055,11 +3592,14 @@ extension GeoRoutes {
         public let vehicleLegDetails: RouteVehicleLegDetails?
 
         @inlinable
-        public init(ferryLegDetails: RouteFerryLegDetails? = nil, geometry: RouteLegGeometry, language: String? = nil, pedestrianLegDetails: RoutePedestrianLegDetails? = nil, travelMode: RouteLegTravelMode, type: RouteLegType, vehicleLegDetails: RouteVehicleLegDetails? = nil) {
+        public init(ferryLegDetails: RouteFerryLegDetails? = nil, geometry: RouteLegGeometry, language: String? = nil, pedestrianLegDetails: RoutePedestrianLegDetails? = nil, rentalLegDetails: RouteRentalLegDetails? = nil, taxiLegDetails: RouteTaxiLegDetails? = nil, transitLegDetails: RouteTransitLegDetails? = nil, travelMode: RouteLegTravelMode, type: RouteLegType, vehicleLegDetails: RouteVehicleLegDetails? = nil) {
             self.ferryLegDetails = ferryLegDetails
             self.geometry = geometry
             self.language = language
             self.pedestrianLegDetails = pedestrianLegDetails
+            self.rentalLegDetails = rentalLegDetails
+            self.taxiLegDetails = taxiLegDetails
+            self.transitLegDetails = transitLegDetails
             self.travelMode = travelMode
             self.type = type
             self.vehicleLegDetails = vehicleLegDetails
@@ -3070,6 +3610,9 @@ extension GeoRoutes {
             case geometry = "Geometry"
             case language = "Language"
             case pedestrianLegDetails = "PedestrianLegDetails"
+            case rentalLegDetails = "RentalLegDetails"
+            case taxiLegDetails = "TaxiLegDetails"
+            case transitLegDetails = "TransitLegDetails"
             case travelMode = "TravelMode"
             case type = "Type"
             case vehicleLegDetails = "VehicleLegDetails"
@@ -3117,7 +3660,7 @@ extension GeoRoutes {
         public let nameHint: String?
         /// If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the highway/bridge/tunnel/sliproad.  Unit: meters
         public let onRoadThreshold: Int64?
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy.  Unit: Meters
+        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy.  Unit: meters
         public let radius: Int64?
         /// Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road.
         public let strategy: MatchingStrategy?
@@ -3164,9 +3707,9 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixAutoCircle: AWSEncodableShape & AWSDecodableShape {
-        /// The margin provided for the calculation.
+        /// The minimal distance, in meters, between any waypoint and the perimeter of the circle auto-defined for the boundary. Some margin is usually recommended so that the routing has enough leeway to travel from one waypoint to another optimally without conflicting with the routing boundary. The total of MaxRadius and Margin must be less than or equal to 200,000 meters.
         public let margin: Int64?
-        /// The maximum size of the radius provided for the calculation.
+        /// The maximum radius, in meters, that the auto-defined Circle boundary should have, before the Margin distance is added to the circle. The total of MaxRadius and Margin must be less than or equal to 200,000 meters.
         public let maxRadius: Int64?
 
         @inlinable
@@ -3211,7 +3754,7 @@ extension GeoRoutes {
         public let boundingBox: [Double]?
         /// Geometry defined as a polygon with only one linear ring.
         public let polygon: [[[Double]]]?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from second item to the last item (the inner rings). For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from second item to the last item (the inner rings). For more information on polyline encoding, see https://github.com/aws-geospatial/polyline.
         public let polylinePolygon: [String]?
 
         @inlinable
@@ -3345,13 +3888,13 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixBoundaryGeometry: AWSEncodableShape & AWSDecodableShape {
-        /// Provides the circle that was used while calculating the route.
+        ///  AutoCircle requests the route matrix service to define a Circle boundary that best attempts to include most waypoints (Origins and Destinations) using the AutoCircle settings. Any waypoints outside of the auto-defined Circle boundary will be considered out of the routing boundary, which results in a route matrix entry error.  AutoCircle is only used in the request to configure a Circle for the route calculation. The derived Circle will also be provided in the response.
         public let autoCircle: RouteMatrixAutoCircle?
-        /// Geometry defined as a bounding box. The first pair represents the X and Y coordinates (longitude and latitude,) of the southwest corner of the bounding box; the second pair represents the X and Y coordinates (longitude and latitude) of the northeast corner.
+        /// Geometry defined as a bounding box. The first pair represents the X and Y coordinates (longitude and latitude,) of the southwest corner of the bounding box; the second pair represents the X and Y coordinates (longitude and latitude) of the northeast corner. Diagonal distance of the bounding box must be less than or equal to 400,000 meters.
         public let boundingBox: [Double]?
-        /// Geometry defined as a circle. When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
+        /// Geometry defined as a circle. The circle defines the routing boundary area. Any waypoints outside the circle will result in a route matrix entry error. You can specify a Circle directly in the request, or it will be auto-derived when AutoCircle is used. When AutoCircle is set in the request, the response routing boundary will return Circle derived from the AutoCircle settings.
         public let circle: Circle?
-        /// Geometry defined as a polygon with only one linear ring.
+        /// Geometry defined as a polygon with only one linear ring. A linear ring is a closed sequence of four or more coordinates. The first and last coordinates are the same, forming a closed boundary. Each coordinate is a position in [longitude, latitude] format. The structure is an array of linear rings (only 1 allowed). Each linear ring is an array of coordinates (minimum 4), and each coordinate is an array of two doubles [longitude, latitude]. Maximum distance between any two vertices must be less than or equal to 400,000 meters.
         public let polygon: [[[Double]]]?
 
         @inlinable
@@ -3384,9 +3927,9 @@ extension GeoRoutes {
     public struct RouteMatrixCarOptions: AWSEncodableShape {
         /// The vehicle License Plate.
         public let licensePlate: RouteMatrixVehicleLicensePlate?
-        /// Maximum speed  Unit: KilometersPerHour
+        /// Maximum speed  Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public let occupancy: Int?
 
         @inlinable
@@ -3408,9 +3951,9 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixDestination: AWSEncodableShape {
-        /// Destination related options.
+        ///  Destination related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let options: RouteMatrixDestinationOptions?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
 
         @inlinable
@@ -3517,7 +4060,7 @@ extension GeoRoutes {
         public let nameHint: String?
         /// If the distance to a highway/bridge/tunnel/sliproad is within threshold, the waypoint will be snapped to the highway/bridge/tunnel/sliproad.  Unit: meters
         public let onRoadThreshold: Int64?
-        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy.  Unit: Meters
+        /// Considers all roads within the provided radius to match the provided destination to. The roads that are considered are determined by the provided Strategy.  Unit: meters
         public let radius: Int64?
         /// Strategy that defines matching of the position onto the road network. MatchAny considers all roads possible, whereas MatchMostSignificantRoad matches to the most significant road.
         public let strategy: MatchingStrategy?
@@ -3546,9 +4089,9 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixOrigin: AWSEncodableShape {
-        /// Origin related options.
+        ///  Origin related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let options: RouteMatrixOriginOptions?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
 
         @inlinable
@@ -3607,9 +4150,9 @@ extension GeoRoutes {
     public struct RouteMatrixScooterOptions: AWSEncodableShape {
         /// The vehicle License Plate.
         public let licensePlate: RouteMatrixVehicleLicensePlate?
-        /// Maximum speed.  Unit: KilometersPerHour
+        /// Maximum speed.  Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public let occupancy: Int?
 
         @inlinable
@@ -3631,9 +4174,9 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixSideOfStreetOptions: AWSEncodableShape {
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
-        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default Value: DividedStreetOnly
+        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default value: DividedStreetOnly
         public let useWith: SideOfStreetMatchingStrategy?
 
         @inlinable
@@ -3656,7 +4199,7 @@ extension GeoRoutes {
     public struct RouteMatrixTrafficOptions: AWSEncodableShape {
         /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data.
         public let flowEventThresholdOverride: Int64?
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Determines if traffic should be used or ignored while calculating the route. Default value: UseTrafficData
         public let usage: TrafficUsage?
 
         @inlinable
@@ -3677,7 +4220,7 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixTrailerOptions: AWSEncodableShape {
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public let trailerCount: Int?
 
         @inlinable
@@ -3691,11 +4234,11 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixTravelModeOptions: AWSEncodableShape {
-        /// Travel mode options when the provided travel mode is "Car"
+        /// Travel mode options when the provided travel mode is Car.
         public let car: RouteMatrixCarOptions?
-        /// Travel mode options when the provided travel mode is Scooter   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
+        /// Travel mode options when the provided travel mode is Scooter.   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public let scooter: RouteMatrixScooterOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Travel mode options when the provided travel mode is Truck.
         public let truck: RouteMatrixTruckOptions?
 
         @inlinable
@@ -3721,7 +4264,7 @@ extension GeoRoutes {
     public struct RouteMatrixTruckOptions: AWSEncodableShape {
         /// Total number of axles of the vehicle.
         public let axleCount: Int?
-        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: kilograms
         public let grossWeight: Int64?
         /// List of Hazardous cargo contained in the vehicle.
         public let hazardousCargos: [RouteMatrixHazardousCargoType]?
@@ -3733,19 +4276,19 @@ extension GeoRoutes {
         public let length: Int64?
         /// The vehicle License Plate.
         public let licensePlate: RouteMatrixVehicleLicensePlate?
-        /// Maximum speed  Unit: KilometersPerHour
+        /// Maximum speed  Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public let occupancy: Int?
         /// Payload capacity of the vehicle and trailers attached.  Unit: kilograms
         public let payloadCapacity: Int64?
         /// Trailer options corresponding to the vehicle.
         public let trailer: RouteMatrixTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public let truckType: RouteMatrixTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
+        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: kilograms
         public let weightPerAxle: Int64?
         /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type.
         public let weightPerAxleGroup: WeightPerAxleGroup?
@@ -3910,7 +4453,7 @@ extension GeoRoutes {
     public struct RoutePassThroughPlace: AWSDecodableShape {
         /// Position provided in the request.
         public let originalPosition: [Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
         /// Index of the waypoint in the request.
         public let waypointIndex: Int?
@@ -3932,7 +4475,7 @@ extension GeoRoutes {
     public struct RoutePassThroughWaypoint: AWSDecodableShape {
         /// Offset in the leg geometry corresponding to the start of this step.
         public let geometryOffset: Int?
-        /// The place details.
+        /// Place details corresponding to the pass-through waypoint.
         public let place: RoutePassThroughPlace
 
         @inlinable
@@ -3947,10 +4490,32 @@ extension GeoRoutes {
         }
     }
 
+    public struct RoutePedestrianAfterTravelStep: AWSDecodableShape {
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.  Only available when the TravelStepType is Default.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RoutePedestrianAfterTravelStepType
+
+        @inlinable
+        public init(duration: Int64, instruction: String? = nil, type: RoutePedestrianAfterTravelStepType) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
     public struct RoutePedestrianArrival: AWSDecodableShape {
-        /// The place details.
+        /// Place details corresponding to the arrival.
         public let place: RoutePedestrianPlace
-        /// The time.
+        /// The arrival time.
         public let time: String?
 
         @inlinable
@@ -3966,9 +4531,9 @@ extension GeoRoutes {
     }
 
     public struct RoutePedestrianDeparture: AWSDecodableShape {
-        /// The place details.
+        /// Place details corresponding to the departure.
         public let place: RoutePedestrianPlace
-        /// The time.
+        /// The departure time.
         public let time: String?
 
         @inlinable
@@ -3984,15 +4549,17 @@ extension GeoRoutes {
     }
 
     public struct RoutePedestrianLegDetails: AWSDecodableShape {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        public let afterTravelSteps: [RoutePedestrianAfterTravelStep]
         /// Details corresponding to the arrival for the leg.
         public let arrival: RoutePedestrianArrival
         /// Details corresponding to the departure for the leg.
         public let departure: RoutePedestrianDeparture
-        /// Notices are additional information returned that indicate issues that occurred during route calculation.
+        ///  Notices are additional information returned that indicate issues that occurred during route calculation. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let notices: [RoutePedestrianNotice]
         /// Waypoints that were passed through during the leg. This includes the waypoints that were configured with the PassThrough option.
         public let passThroughWaypoints: [RoutePassThroughWaypoint]
-        /// Spans that were computed for the requested SpanAdditionalFeatures.
+        ///  Spans that were computed for the requested SpanAdditionalFeatures. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let spans: [RoutePedestrianSpan]
         /// Summarized details of the leg.
         public let summary: RoutePedestrianSummary?
@@ -4000,7 +4567,8 @@ extension GeoRoutes {
         public let travelSteps: [RoutePedestrianTravelStep]
 
         @inlinable
-        public init(arrival: RoutePedestrianArrival, departure: RoutePedestrianDeparture, notices: [RoutePedestrianNotice], passThroughWaypoints: [RoutePassThroughWaypoint], spans: [RoutePedestrianSpan], summary: RoutePedestrianSummary? = nil, travelSteps: [RoutePedestrianTravelStep]) {
+        public init(afterTravelSteps: [RoutePedestrianAfterTravelStep], arrival: RoutePedestrianArrival, departure: RoutePedestrianDeparture, notices: [RoutePedestrianNotice], passThroughWaypoints: [RoutePassThroughWaypoint], spans: [RoutePedestrianSpan], summary: RoutePedestrianSummary? = nil, travelSteps: [RoutePedestrianTravelStep]) {
+            self.afterTravelSteps = afterTravelSteps
             self.arrival = arrival
             self.departure = departure
             self.notices = notices
@@ -4011,6 +4579,7 @@ extension GeoRoutes {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case afterTravelSteps = "AfterTravelSteps"
             case arrival = "Arrival"
             case departure = "Departure"
             case notices = "Notices"
@@ -4058,9 +4627,9 @@ extension GeoRoutes {
     }
 
     public struct RoutePedestrianOverviewSummary: AWSDecodableShape {
-        /// Distance of the step.
+        /// Distance of the entire leg.  Unit: meters
         public let distance: Int64
-        /// Duration of the step.
+        /// Duration of the entire leg.  Unit: seconds
         public let duration: Int64
 
         @inlinable
@@ -4076,31 +4645,43 @@ extension GeoRoutes {
     }
 
     public struct RoutePedestrianPlace: AWSDecodableShape {
+        /// Details of the access point.
+        public let accessPointDetails: RouteAccessPointDetails?
         /// The name of the place.
         public let name: String?
         /// Position provided in the request.
         public let originalPosition: [Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
         /// Options to configure matching the provided position to a side of the street.
         public let sideOfStreet: RouteSideOfStreet?
+        /// Details about the station.
+        public let stationDetails: RouteStationDetails?
+        /// The type of the place.
+        public let type: RoutePedestrianPlaceType?
         /// Index of the waypoint in the request.
         public let waypointIndex: Int?
 
         @inlinable
-        public init(name: String? = nil, originalPosition: [Double]? = nil, position: [Double], sideOfStreet: RouteSideOfStreet? = nil, waypointIndex: Int? = nil) {
+        public init(accessPointDetails: RouteAccessPointDetails? = nil, name: String? = nil, originalPosition: [Double]? = nil, position: [Double], sideOfStreet: RouteSideOfStreet? = nil, stationDetails: RouteStationDetails? = nil, type: RoutePedestrianPlaceType? = nil, waypointIndex: Int? = nil) {
+            self.accessPointDetails = accessPointDetails
             self.name = name
             self.originalPosition = originalPosition
             self.position = position
             self.sideOfStreet = sideOfStreet
+            self.stationDetails = stationDetails
+            self.type = type
             self.waypointIndex = waypointIndex
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointDetails = "AccessPointDetails"
             case name = "Name"
             case originalPosition = "OriginalPosition"
             case position = "Position"
             case sideOfStreet = "SideOfStreet"
+            case stationDetails = "StationDetails"
+            case type = "Type"
             case waypointIndex = "WaypointIndex"
         }
     }
@@ -4114,9 +4695,9 @@ extension GeoRoutes {
         public let distance: Int64?
         /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.  Unit: seconds
         public let duration: Int64?
-        /// Dynamic speed details corresponding to the span.  Unit: KilometersPerHour
+        /// Dynamic speed details corresponding to the span.  Unit: kilometers per hour
         public let dynamicSpeed: RouteSpanDynamicSpeedDetails?
-        /// Functional classification of the road segment corresponding to the span.
+        /// A numerical value indicating the functional classification of the road segment corresponding to the span. Classification values are part of the hierarchical network that helps determine a logical and efficient route, and have the following definitions:   Roads that allow for high volume, maximum speed traffic movement between and through major metropolitan areas.   Roads that are used to channel traffic to functional class 1 roads for travel between and through cities in the shortest amount of time.   Roads that intersect functional class 2 roads and provide a high volume of traffic movement at a lower level of mobility than functional class 2 roads.   Roads that provide for a high volume of traffic movement at moderate speeds between neighborhoods.   Roads with volume and traffic movement below the level of any other functional class.
         public let functionalClassification: Int?
         /// Offset in the leg geometry corresponding to the start of this span.
         public let geometryOffset: Int?
@@ -4132,7 +4713,7 @@ extension GeoRoutes {
         public let roadAttributes: [RouteSpanRoadAttribute]?
         /// Designated route name or number corresponding to the span.
         public let routeNumbers: [RouteNumber]?
-        /// Speed limit details corresponding to the span.  Unit: KilometersPerHour
+        /// Speed limit details corresponding to the span.  Unit: kilometers per hour
         public let speedLimit: RouteSpanSpeedLimitDetails?
         /// Duration of the computed span under typical traffic congestion.  Unit: seconds
         public let typicalDuration: Int64?
@@ -4303,6 +4884,345 @@ extension GeoRoutes {
         }
     }
 
+    public struct RouteRentalAfterTravelStep: AWSDecodableShape {
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteRentalAfterTravelStepType
+
+        @inlinable
+        public init(duration: Int64, instruction: String? = nil, type: RouteRentalAfterTravelStepType) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
+    public struct RouteRentalAgency: AWSDecodableShape {
+        /// Name of the agency.
+        public let name: String
+        /// URL to the agency's website.
+        public let url: String?
+
+        @inlinable
+        public init(name: String, url: String? = nil) {
+            self.name = name
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case url = "Url"
+        }
+    }
+
+    public struct RouteRentalArrival: AWSDecodableShape {
+        /// Place details corresponding to the arrival.
+        public let place: RouteRentalPlace
+        /// The arrival time.
+        public let time: String?
+
+        @inlinable
+        public init(place: RouteRentalPlace, time: String? = nil) {
+            self.place = place
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case place = "Place"
+            case time = "Time"
+        }
+    }
+
+    public struct RouteRentalBeforeTravelStep: AWSDecodableShape {
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteRentalBeforeTravelStepType
+
+        @inlinable
+        public init(duration: Int64, instruction: String? = nil, type: RouteRentalBeforeTravelStepType) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
+    public struct RouteRentalDeparture: AWSDecodableShape {
+        /// Place details corresponding to the departure.
+        public let place: RouteRentalPlace
+        /// The departure time.
+        public let time: String?
+
+        @inlinable
+        public init(place: RouteRentalPlace, time: String? = nil) {
+            self.place = place
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case place = "Place"
+            case time = "Time"
+        }
+    }
+
+    public struct RouteRentalLegDetails: AWSDecodableShape {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        public let afterTravelSteps: [RouteRentalAfterTravelStep]
+        /// Details about the rental agency.
+        public let agency: RouteRentalAgency
+        /// Details corresponding to the arrival for the leg.
+        public let arrival: RouteRentalArrival
+        /// List of required attributions to display.
+        public let attributions: [RouteAttribution]
+        /// Steps of a leg that must be performed before the travel portion of the leg.
+        public let beforeTravelSteps: [RouteRentalBeforeTravelStep]
+        /// Web links to external ticket booking services for the rental.
+        public let bookingWebLinks: [RouteWebLink]
+        /// Details corresponding to the departure for the leg.
+        public let departure: RouteRentalDeparture
+        /// Summary of the rental leg.
+        public let summary: RouteRentalSummary?
+        /// Transport mode details for the rental leg.
+        public let transport: RouteRentalTransportModeDetails
+        /// Steps of a leg that must be performed during the travel portion of the leg.
+        public let travelSteps: [RouteRentalTravelStep]
+
+        @inlinable
+        public init(afterTravelSteps: [RouteRentalAfterTravelStep], agency: RouteRentalAgency, arrival: RouteRentalArrival, attributions: [RouteAttribution], beforeTravelSteps: [RouteRentalBeforeTravelStep], bookingWebLinks: [RouteWebLink], departure: RouteRentalDeparture, summary: RouteRentalSummary? = nil, transport: RouteRentalTransportModeDetails, travelSteps: [RouteRentalTravelStep]) {
+            self.afterTravelSteps = afterTravelSteps
+            self.agency = agency
+            self.arrival = arrival
+            self.attributions = attributions
+            self.beforeTravelSteps = beforeTravelSteps
+            self.bookingWebLinks = bookingWebLinks
+            self.departure = departure
+            self.summary = summary
+            self.transport = transport
+            self.travelSteps = travelSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterTravelSteps = "AfterTravelSteps"
+            case agency = "Agency"
+            case arrival = "Arrival"
+            case attributions = "Attributions"
+            case beforeTravelSteps = "BeforeTravelSteps"
+            case bookingWebLinks = "BookingWebLinks"
+            case departure = "Departure"
+            case summary = "Summary"
+            case transport = "Transport"
+            case travelSteps = "TravelSteps"
+        }
+    }
+
+    public struct RouteRentalOverviewSummary: AWSDecodableShape {
+        /// Distance of the entire leg.  Unit: meters
+        public let distance: Int64
+        /// Duration of the entire leg.  Unit: seconds
+        public let duration: Int64
+
+        @inlinable
+        public init(distance: Int64, duration: Int64) {
+            self.distance = distance
+            self.duration = duration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distance = "Distance"
+            case duration = "Duration"
+        }
+    }
+
+    public struct RouteRentalPlace: AWSDecodableShape {
+        /// Details of the access point.
+        public let accessPointDetails: RouteAccessPointDetails?
+        /// The name of the place.
+        public let name: String?
+        /// Position provided in the request.
+        public let originalPosition: [Double]?
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+        public let position: [Double]
+        /// Details about the station.
+        public let stationDetails: RouteStationDetails?
+        /// The type of the place.
+        public let type: RouteRentalPlaceType?
+        /// Index of the waypoint in the request.
+        public let waypointIndex: Int?
+
+        @inlinable
+        public init(accessPointDetails: RouteAccessPointDetails? = nil, name: String? = nil, originalPosition: [Double]? = nil, position: [Double], stationDetails: RouteStationDetails? = nil, type: RouteRentalPlaceType? = nil, waypointIndex: Int? = nil) {
+            self.accessPointDetails = accessPointDetails
+            self.name = name
+            self.originalPosition = originalPosition
+            self.position = position
+            self.stationDetails = stationDetails
+            self.type = type
+            self.waypointIndex = waypointIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointDetails = "AccessPointDetails"
+            case name = "Name"
+            case originalPosition = "OriginalPosition"
+            case position = "Position"
+            case stationDetails = "StationDetails"
+            case type = "Type"
+            case waypointIndex = "WaypointIndex"
+        }
+    }
+
+    public struct RouteRentalSummary: AWSDecodableShape {
+        /// Summary including duration and distance for the entire leg.
+        public let overview: RouteRentalOverviewSummary?
+        /// Summary including duration and distance for the travel portion of the leg only.
+        public let travelOnly: RouteRentalTravelOnlySummary?
+
+        @inlinable
+        public init(overview: RouteRentalOverviewSummary? = nil, travelOnly: RouteRentalTravelOnlySummary? = nil) {
+            self.overview = overview
+            self.travelOnly = travelOnly
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overview = "Overview"
+            case travelOnly = "TravelOnly"
+        }
+    }
+
+    public struct RouteRentalTransportModeDetails: AWSDecodableShape {
+        /// Number of available seats in the vehicle.
+        public let availableSeats: Int?
+        /// Human readable transport category.
+        public let category: String?
+        /// Color of the transport polyline and background for the transport name.
+        public let color: String?
+        /// Vehicle engine type.
+        public let engine: RouteEngineType?
+        /// Vehicle license plate number.
+        public let licensePlate: String?
+        /// Mode of the rental transport.
+        public let mode: RouteRentalMode
+        /// Vehicle model.
+        public let model: String?
+        /// Vehicle name or mobility provider name.
+        public let name: String?
+        /// Color of the transport name text.
+        public let textColor: String?
+
+        @inlinable
+        public init(availableSeats: Int? = nil, category: String? = nil, color: String? = nil, engine: RouteEngineType? = nil, licensePlate: String? = nil, mode: RouteRentalMode, model: String? = nil, name: String? = nil, textColor: String? = nil) {
+            self.availableSeats = availableSeats
+            self.category = category
+            self.color = color
+            self.engine = engine
+            self.licensePlate = licensePlate
+            self.mode = mode
+            self.model = model
+            self.name = name
+            self.textColor = textColor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableSeats = "AvailableSeats"
+            case category = "Category"
+            case color = "Color"
+            case engine = "Engine"
+            case licensePlate = "LicensePlate"
+            case mode = "Mode"
+            case model = "Model"
+            case name = "Name"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct RouteRentalTravelOnlySummary: AWSDecodableShape {
+        /// Duration of the travel portion of the rental leg.  Unit: seconds
+        public let duration: Int64
+
+        @inlinable
+        public init(duration: Int64) {
+            self.duration = duration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+        }
+    }
+
+    public struct RouteRentalTravelStep: AWSDecodableShape {
+        public let continueStepDetails: RouteContinueStepDetails?
+        /// Distance of the step.  Unit: meters
+        public let distance: Int64?
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        public let exitStepDetails: RouteExitStepDetails?
+        /// Offset in the leg geometry corresponding to the start of this step.
+        public let geometryOffset: Int?
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        public let keepStepDetails: RouteKeepStepDetails?
+        public let rampStepDetails: RouteRampStepDetails?
+        public let roundaboutEnterStepDetails: RouteRoundaboutEnterStepDetails?
+        public let roundaboutExitStepDetails: RouteRoundaboutExitStepDetails?
+        public let roundaboutPassStepDetails: RouteRoundaboutPassStepDetails?
+        public let turnStepDetails: RouteTurnStepDetails?
+        /// Type of the step.
+        public let type: RouteRentalTravelStepType
+        public let uTurnStepDetails: RouteUTurnStepDetails?
+
+        @inlinable
+        public init(continueStepDetails: RouteContinueStepDetails? = nil, distance: Int64? = nil, duration: Int64, exitStepDetails: RouteExitStepDetails? = nil, geometryOffset: Int? = nil, instruction: String? = nil, keepStepDetails: RouteKeepStepDetails? = nil, rampStepDetails: RouteRampStepDetails? = nil, roundaboutEnterStepDetails: RouteRoundaboutEnterStepDetails? = nil, roundaboutExitStepDetails: RouteRoundaboutExitStepDetails? = nil, roundaboutPassStepDetails: RouteRoundaboutPassStepDetails? = nil, turnStepDetails: RouteTurnStepDetails? = nil, type: RouteRentalTravelStepType, uTurnStepDetails: RouteUTurnStepDetails? = nil) {
+            self.continueStepDetails = continueStepDetails
+            self.distance = distance
+            self.duration = duration
+            self.exitStepDetails = exitStepDetails
+            self.geometryOffset = geometryOffset
+            self.instruction = instruction
+            self.keepStepDetails = keepStepDetails
+            self.rampStepDetails = rampStepDetails
+            self.roundaboutEnterStepDetails = roundaboutEnterStepDetails
+            self.roundaboutExitStepDetails = roundaboutExitStepDetails
+            self.roundaboutPassStepDetails = roundaboutPassStepDetails
+            self.turnStepDetails = turnStepDetails
+            self.type = type
+            self.uTurnStepDetails = uTurnStepDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continueStepDetails = "ContinueStepDetails"
+            case distance = "Distance"
+            case duration = "Duration"
+            case exitStepDetails = "ExitStepDetails"
+            case geometryOffset = "GeometryOffset"
+            case instruction = "Instruction"
+            case keepStepDetails = "KeepStepDetails"
+            case rampStepDetails = "RampStepDetails"
+            case roundaboutEnterStepDetails = "RoundaboutEnterStepDetails"
+            case roundaboutExitStepDetails = "RoundaboutExitStepDetails"
+            case roundaboutPassStepDetails = "RoundaboutPassStepDetails"
+            case turnStepDetails = "TurnStepDetails"
+            case type = "Type"
+            case uTurnStepDetails = "UTurnStepDetails"
+        }
+    }
+
     public struct RouteResponseNotice: AWSDecodableShape {
         /// Code corresponding to the issue.
         public let code: RouteResponseNoticeCode
@@ -4426,13 +5346,13 @@ extension GeoRoutes {
     }
 
     public struct RouteScooterOptions: AWSEncodableShape {
-        /// Engine type of the vehicle.
+        ///  Engine type of the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let engineType: RouteEngineType?
         /// The vehicle License Plate.
         public let licensePlate: RouteVehicleLicensePlate?
-        /// Maximum speed  Unit: KilometersPerHour
+        ///  Maximum speed Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        ///  The number of occupants in the vehicle. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Default value: 1
         public let occupancy: Int?
 
         @inlinable
@@ -4456,9 +5376,9 @@ extension GeoRoutes {
     }
 
     public struct RouteSideOfStreetOptions: AWSEncodableShape {
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
-        /// Strategy that defines when the side of street position should be used. Default Value: DividedStreetOnly
+        /// Strategy that defines when the side of street position should be used. Default value: DividedStreetOnly
         public let useWith: SideOfStreetMatchingStrategy?
 
         @inlinable
@@ -4511,11 +5431,11 @@ extension GeoRoutes {
     }
 
     public struct RouteSpanDynamicSpeedDetails: AWSDecodableShape {
-        /// Estimated speed while traversing the span without traffic congestion.  Unit: KilometersPerHour
+        /// Estimated speed while traversing the span without traffic congestion.  Unit: kilometers per hour
         public let bestCaseSpeed: Double?
         /// Estimated time to turn from this span into the next.   Unit: seconds
         public let turnDuration: Int64?
-        /// Estimated speed while traversing the span under typical traffic congestion.  Unit: KilometersPerHour
+        /// Estimated speed while traversing the span under typical traffic congestion.  Unit: kilometers per hour
         public let typicalSpeed: Double?
 
         @inlinable
@@ -4533,7 +5453,7 @@ extension GeoRoutes {
     }
 
     public struct RouteSpanSpeedLimitDetails: AWSDecodableShape {
-        /// Maximum speed.  Unit: KilometersPerHour
+        /// Maximum speed.  Unit: kilometers per hour
         public let maxSpeed: Double?
         /// If the span doesn't have a speed limit like the Autobahn.
         public let unlimited: Bool?
@@ -4547,6 +5467,28 @@ extension GeoRoutes {
         private enum CodingKeys: String, CodingKey {
             case maxSpeed = "MaxSpeed"
             case unlimited = "Unlimited"
+        }
+    }
+
+    public struct RouteStationDetails: AWSDecodableShape {
+        /// Wheelchair accessibility information for the station.
+        public let accessibility: RouteAccessibilityAvailabilityDetails?
+        /// Platform name or number.
+        public let platformName: String?
+        /// Short text or a number that identifies the station.
+        public let shortName: String?
+
+        @inlinable
+        public init(accessibility: RouteAccessibilityAvailabilityDetails? = nil, platformName: String? = nil, shortName: String? = nil) {
+            self.accessibility = accessibility
+            self.platformName = platformName
+            self.shortName = shortName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessibility = "Accessibility"
+            case platformName = "PlatformName"
+            case shortName = "ShortName"
         }
     }
 
@@ -4569,6 +5511,367 @@ extension GeoRoutes {
             case distance = "Distance"
             case duration = "Duration"
             case tolls = "Tolls"
+        }
+    }
+
+    public struct RouteTaxiAfterTravelStep: AWSDecodableShape {
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteTaxiAfterTravelStepType
+
+        @inlinable
+        public init(duration: Int64, instruction: String? = nil, type: RouteTaxiAfterTravelStepType) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
+    public struct RouteTaxiAgency: AWSDecodableShape {
+        /// Name of the agency.
+        public let name: String
+        /// URL to the agency's website.
+        public let url: String?
+
+        @inlinable
+        public init(name: String, url: String? = nil) {
+            self.name = name
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case url = "Url"
+        }
+    }
+
+    public struct RouteTaxiArrival: AWSDecodableShape {
+        /// Place details corresponding to the arrival.
+        public let place: RouteTaxiPlace
+        /// The arrival time.
+        public let time: String?
+
+        @inlinable
+        public init(place: RouteTaxiPlace, time: String? = nil) {
+            self.place = place
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case place = "Place"
+            case time = "Time"
+        }
+    }
+
+    public struct RouteTaxiBeforeTravelStep: AWSDecodableShape {
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteTaxiBeforeTravelStepType
+
+        @inlinable
+        public init(duration: Int64, instruction: String? = nil, type: RouteTaxiBeforeTravelStepType) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
+    public struct RouteTaxiDeparture: AWSDecodableShape {
+        /// Place details corresponding to the departure.
+        public let place: RouteTaxiPlace
+        /// The departure time.
+        public let time: String?
+
+        @inlinable
+        public init(place: RouteTaxiPlace, time: String? = nil) {
+            self.place = place
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case place = "Place"
+            case time = "Time"
+        }
+    }
+
+    public struct RouteTaxiLegDetails: AWSDecodableShape {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        public let afterTravelSteps: [RouteTaxiAfterTravelStep]
+        /// Details about the taxi agency.
+        public let agency: RouteTaxiAgency
+        /// Details corresponding to the arrival for the leg.
+        public let arrival: RouteTaxiArrival
+        /// List of required attributions to display.
+        public let attributions: [RouteAttribution]
+        /// Steps of a leg that must be performed before the travel portion of the leg.
+        public let beforeTravelSteps: [RouteTaxiBeforeTravelStep]
+        /// Web links to external ticket booking services for the taxi.
+        public let bookingWebLinks: [RouteWebLink]
+        /// Details corresponding to the departure for the leg.
+        public let departure: RouteTaxiDeparture
+        /// List of notices that indicate issues that occurred during route calculation.
+        public let notices: [RouteTaxiNotice]
+        /// Summary of the taxi leg.
+        public let summary: RouteTaxiSummary?
+        /// Transport mode details for the taxi leg.
+        public let transport: RouteTaxiTransportModeDetails
+        /// Steps of a leg that must be performed during the travel portion of the leg.
+        public let travelSteps: [RouteTaxiTravelStep]
+
+        @inlinable
+        public init(afterTravelSteps: [RouteTaxiAfterTravelStep], agency: RouteTaxiAgency, arrival: RouteTaxiArrival, attributions: [RouteAttribution], beforeTravelSteps: [RouteTaxiBeforeTravelStep], bookingWebLinks: [RouteWebLink], departure: RouteTaxiDeparture, notices: [RouteTaxiNotice], summary: RouteTaxiSummary? = nil, transport: RouteTaxiTransportModeDetails, travelSteps: [RouteTaxiTravelStep]) {
+            self.afterTravelSteps = afterTravelSteps
+            self.agency = agency
+            self.arrival = arrival
+            self.attributions = attributions
+            self.beforeTravelSteps = beforeTravelSteps
+            self.bookingWebLinks = bookingWebLinks
+            self.departure = departure
+            self.notices = notices
+            self.summary = summary
+            self.transport = transport
+            self.travelSteps = travelSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterTravelSteps = "AfterTravelSteps"
+            case agency = "Agency"
+            case arrival = "Arrival"
+            case attributions = "Attributions"
+            case beforeTravelSteps = "BeforeTravelSteps"
+            case bookingWebLinks = "BookingWebLinks"
+            case departure = "Departure"
+            case notices = "Notices"
+            case summary = "Summary"
+            case transport = "Transport"
+            case travelSteps = "TravelSteps"
+        }
+    }
+
+    public struct RouteTaxiNotice: AWSDecodableShape {
+        /// Code corresponding to the issue.
+        public let code: RouteTaxiNoticeCode
+        /// Impact corresponding to the issue. While Low impact notices can be safely ignored, High impact notices must be evaluated further to determine the impact.
+        public let impact: RouteNoticeImpact?
+
+        @inlinable
+        public init(code: RouteTaxiNoticeCode, impact: RouteNoticeImpact? = nil) {
+            self.code = code
+            self.impact = impact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case impact = "Impact"
+        }
+    }
+
+    public struct RouteTaxiOverviewSummary: AWSDecodableShape {
+        /// Distance of the entire leg.  Unit: meters
+        public let distance: Int64
+        /// Duration of the entire leg.  Unit: seconds
+        public let duration: Int64
+
+        @inlinable
+        public init(distance: Int64, duration: Int64) {
+            self.distance = distance
+            self.duration = duration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distance = "Distance"
+            case duration = "Duration"
+        }
+    }
+
+    public struct RouteTaxiPlace: AWSDecodableShape {
+        /// Details of the access point.
+        public let accessPointDetails: RouteAccessPointDetails?
+        /// The name of the place.
+        public let name: String?
+        /// Position provided in the request.
+        public let originalPosition: [Double]?
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+        public let position: [Double]
+        /// Details about the station.
+        public let stationDetails: RouteStationDetails?
+        /// The type of the place.
+        public let type: RouteTaxiPlaceType?
+        /// Index of the waypoint in the request.
+        public let waypointIndex: Int?
+
+        @inlinable
+        public init(accessPointDetails: RouteAccessPointDetails? = nil, name: String? = nil, originalPosition: [Double]? = nil, position: [Double], stationDetails: RouteStationDetails? = nil, type: RouteTaxiPlaceType? = nil, waypointIndex: Int? = nil) {
+            self.accessPointDetails = accessPointDetails
+            self.name = name
+            self.originalPosition = originalPosition
+            self.position = position
+            self.stationDetails = stationDetails
+            self.type = type
+            self.waypointIndex = waypointIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointDetails = "AccessPointDetails"
+            case name = "Name"
+            case originalPosition = "OriginalPosition"
+            case position = "Position"
+            case stationDetails = "StationDetails"
+            case type = "Type"
+            case waypointIndex = "WaypointIndex"
+        }
+    }
+
+    public struct RouteTaxiSummary: AWSDecodableShape {
+        /// Summary including duration and distance for the entire leg.
+        public let overview: RouteTaxiOverviewSummary?
+        /// Summary including duration and distance for the travel portion of the leg only.
+        public let travelOnly: RouteTaxiTravelOnlySummary?
+
+        @inlinable
+        public init(overview: RouteTaxiOverviewSummary? = nil, travelOnly: RouteTaxiTravelOnlySummary? = nil) {
+            self.overview = overview
+            self.travelOnly = travelOnly
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overview = "Overview"
+            case travelOnly = "TravelOnly"
+        }
+    }
+
+    public struct RouteTaxiTransportModeDetails: AWSDecodableShape {
+        /// Number of available seats in the vehicle.
+        public let availableSeats: Int?
+        /// Human readable transport category.
+        public let category: String?
+        /// Color of the transport polyline and background for the transport name.
+        public let color: String?
+        /// Vehicle engine type.
+        public let engine: RouteEngineType?
+        /// Vehicle license plate number.
+        public let licensePlate: String?
+        /// Mode of the taxi transport.
+        public let mode: RouteTaxiMode
+        /// Vehicle model.
+        public let model: String?
+        /// Vehicle name or mobility provider name.
+        public let name: String?
+        /// Color of the transport name text.
+        public let textColor: String?
+
+        @inlinable
+        public init(availableSeats: Int? = nil, category: String? = nil, color: String? = nil, engine: RouteEngineType? = nil, licensePlate: String? = nil, mode: RouteTaxiMode, model: String? = nil, name: String? = nil, textColor: String? = nil) {
+            self.availableSeats = availableSeats
+            self.category = category
+            self.color = color
+            self.engine = engine
+            self.licensePlate = licensePlate
+            self.mode = mode
+            self.model = model
+            self.name = name
+            self.textColor = textColor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableSeats = "AvailableSeats"
+            case category = "Category"
+            case color = "Color"
+            case engine = "Engine"
+            case licensePlate = "LicensePlate"
+            case mode = "Mode"
+            case model = "Model"
+            case name = "Name"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct RouteTaxiTravelOnlySummary: AWSDecodableShape {
+        /// Duration of the travel portion of the taxi leg.  Unit: seconds
+        public let duration: Int64
+
+        @inlinable
+        public init(duration: Int64) {
+            self.duration = duration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+        }
+    }
+
+    public struct RouteTaxiTravelStep: AWSDecodableShape {
+        public let continueStepDetails: RouteContinueStepDetails?
+        /// Distance of the step.  Unit: meters
+        public let distance: Int64?
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        public let exitStepDetails: RouteExitStepDetails?
+        /// Offset in the leg geometry corresponding to the start of this step.
+        public let geometryOffset: Int?
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        public let keepStepDetails: RouteKeepStepDetails?
+        public let rampStepDetails: RouteRampStepDetails?
+        public let roundaboutEnterStepDetails: RouteRoundaboutEnterStepDetails?
+        public let roundaboutExitStepDetails: RouteRoundaboutExitStepDetails?
+        public let roundaboutPassStepDetails: RouteRoundaboutPassStepDetails?
+        public let turnStepDetails: RouteTurnStepDetails?
+        /// Type of the step.
+        public let type: RouteTaxiTravelStepType
+        public let uTurnStepDetails: RouteUTurnStepDetails?
+
+        @inlinable
+        public init(continueStepDetails: RouteContinueStepDetails? = nil, distance: Int64? = nil, duration: Int64, exitStepDetails: RouteExitStepDetails? = nil, geometryOffset: Int? = nil, instruction: String? = nil, keepStepDetails: RouteKeepStepDetails? = nil, rampStepDetails: RouteRampStepDetails? = nil, roundaboutEnterStepDetails: RouteRoundaboutEnterStepDetails? = nil, roundaboutExitStepDetails: RouteRoundaboutExitStepDetails? = nil, roundaboutPassStepDetails: RouteRoundaboutPassStepDetails? = nil, turnStepDetails: RouteTurnStepDetails? = nil, type: RouteTaxiTravelStepType, uTurnStepDetails: RouteUTurnStepDetails? = nil) {
+            self.continueStepDetails = continueStepDetails
+            self.distance = distance
+            self.duration = duration
+            self.exitStepDetails = exitStepDetails
+            self.geometryOffset = geometryOffset
+            self.instruction = instruction
+            self.keepStepDetails = keepStepDetails
+            self.rampStepDetails = rampStepDetails
+            self.roundaboutEnterStepDetails = roundaboutEnterStepDetails
+            self.roundaboutExitStepDetails = roundaboutExitStepDetails
+            self.roundaboutPassStepDetails = roundaboutPassStepDetails
+            self.turnStepDetails = turnStepDetails
+            self.type = type
+            self.uTurnStepDetails = uTurnStepDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continueStepDetails = "ContinueStepDetails"
+            case distance = "Distance"
+            case duration = "Duration"
+            case exitStepDetails = "ExitStepDetails"
+            case geometryOffset = "GeometryOffset"
+            case instruction = "Instruction"
+            case keepStepDetails = "KeepStepDetails"
+            case rampStepDetails = "RampStepDetails"
+            case roundaboutEnterStepDetails = "RoundaboutEnterStepDetails"
+            case roundaboutExitStepDetails = "RoundaboutExitStepDetails"
+            case roundaboutPassStepDetails = "RoundaboutPassStepDetails"
+            case turnStepDetails = "TurnStepDetails"
+            case type = "Type"
+            case uTurnStepDetails = "UTurnStepDetails"
         }
     }
 
@@ -4685,7 +5988,7 @@ extension GeoRoutes {
     public struct RouteTollPaymentSite: AWSDecodableShape {
         /// Name of the payment site.
         public let name: String?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
 
         @inlinable
@@ -4855,7 +6158,7 @@ extension GeoRoutes {
     public struct RouteTrafficOptions: AWSEncodableShape {
         /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data.
         public let flowEventThresholdOverride: Int64?
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Specifies how traffic data should be used when calculating routes. Default Value: UseTrafficData   Traffic data usage depends on the time parameters in your route request:   When Usage is set to UseTrafficData:   If DepartNow is set to true, or if you specify DepartureTime or ArrivalTime, then all traffic data is considered (including live traffic and closures).   If DepartNow, DepartureTime, and ArrivalTime are all unspecified, then only long-term closures are considered, regardless of this setting.     When Usage is set to IgnoreTrafficData, then all traffic data is ignored regardless of the time parameters in your route request.
         public let usage: TrafficUsage?
 
         @inlinable
@@ -4878,7 +6181,7 @@ extension GeoRoutes {
     public struct RouteTrailerOptions: AWSEncodableShape {
         /// Total number of axles of the vehicle.
         public let axleCount: Int?
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public let trailerCount: Int?
 
         @inlinable
@@ -4890,6 +6193,559 @@ extension GeoRoutes {
         private enum CodingKeys: String, CodingKey {
             case axleCount = "AxleCount"
             case trailerCount = "TrailerCount"
+        }
+    }
+
+    public struct RouteTransitAfterTravelStep: AWSDecodableShape {
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteTransitAfterTravelStepType
+
+        @inlinable
+        public init(duration: Int64, instruction: String? = nil, type: RouteTransitAfterTravelStepType) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
+    public struct RouteTransitAgency: AWSDecodableShape {
+        /// Name of the agency.
+        public let name: String
+        /// URL to the agency's website.
+        public let url: String?
+
+        @inlinable
+        public init(name: String, url: String? = nil) {
+            self.name = name
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case url = "Url"
+        }
+    }
+
+    public struct RouteTransitArrival: AWSDecodableShape {
+        /// The delay from the scheduled arrival time.  Unit: seconds
+        public let delay: Int64?
+        /// Place details corresponding to the arrival.
+        public let place: RouteTransitPlace
+        /// The status of the arrival.
+        public let status: RouteTransitTripStatus?
+        /// The arrival time.
+        public let time: String?
+
+        @inlinable
+        public init(delay: Int64? = nil, place: RouteTransitPlace, status: RouteTransitTripStatus? = nil, time: String? = nil) {
+            self.delay = delay
+            self.place = place
+            self.status = status
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delay = "Delay"
+            case place = "Place"
+            case status = "Status"
+            case time = "Time"
+        }
+    }
+
+    public struct RouteTransitBeforeTravelStep: AWSDecodableShape {
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteTransitBeforeTravelStepType
+
+        @inlinable
+        public init(duration: Int64, instruction: String? = nil, type: RouteTransitBeforeTravelStepType) {
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
+    public struct RouteTransitDeparture: AWSDecodableShape {
+        /// The delay from the scheduled departure time.  Unit: seconds
+        public let delay: Int64?
+        /// Place details corresponding to the departure.
+        public let place: RouteTransitPlace
+        /// The status of the departure.
+        public let status: RouteTransitTripStatus?
+        /// The departure time.
+        public let time: String?
+
+        @inlinable
+        public init(delay: Int64? = nil, place: RouteTransitPlace, status: RouteTransitTripStatus? = nil, time: String? = nil) {
+            self.delay = delay
+            self.place = place
+            self.status = status
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delay = "Delay"
+            case place = "Place"
+            case status = "Status"
+            case time = "Time"
+        }
+    }
+
+    public struct RouteTransitIncident: AWSDecodableShape {
+        /// A human readable description of the incident.
+        public let description: String?
+        /// The effect of the incident on the transit service.
+        public let effect: RouteTransitIncidentEffect
+        /// The end time of the incident.
+        public let endTime: String?
+        /// The start time of the incident.
+        public let startTime: String?
+        /// Type of the incident.
+        public let type: RouteTransitIncidentType
+        /// URL to the original incident published at the agency website.
+        public let url: String?
+
+        @inlinable
+        public init(description: String? = nil, effect: RouteTransitIncidentEffect, endTime: String? = nil, startTime: String? = nil, type: RouteTransitIncidentType, url: String? = nil) {
+            self.description = description
+            self.effect = effect
+            self.endTime = endTime
+            self.startTime = startTime
+            self.type = type
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case effect = "Effect"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+            case type = "Type"
+            case url = "Url"
+        }
+    }
+
+    public struct RouteTransitIntermediateStop: AWSDecodableShape {
+        /// Attributes of the intermediate stop.
+        public let attributes: [RouteTransitIntermediateStopAttribute]?
+        /// Departure details for the intermediate stop.
+        public let departure: RouteTransitDeparture
+        /// Duration of the stop.  Unit: seconds
+        public let duration: Int64
+        /// Offset in the leg geometry corresponding to the start of this stop.
+        public let geometryOffset: Int?
+        /// Transport mode details at the intermediate stop.
+        public let transport: RouteTransitTransportModeDetails?
+
+        @inlinable
+        public init(attributes: [RouteTransitIntermediateStopAttribute]? = nil, departure: RouteTransitDeparture, duration: Int64, geometryOffset: Int? = nil, transport: RouteTransitTransportModeDetails? = nil) {
+            self.attributes = attributes
+            self.departure = departure
+            self.duration = duration
+            self.geometryOffset = geometryOffset
+            self.transport = transport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case departure = "Departure"
+            case duration = "Duration"
+            case geometryOffset = "GeometryOffset"
+            case transport = "Transport"
+        }
+    }
+
+    public struct RouteTransitLegDetails: AWSDecodableShape {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        public let afterTravelSteps: [RouteTransitAfterTravelStep]
+        /// Details about the transit agency.
+        public let agency: RouteTransitAgency?
+        /// Details corresponding to the arrival for the leg.
+        public let arrival: RouteTransitArrival
+        /// List of required attributions to display.
+        public let attributions: [RouteAttribution]
+        /// Steps of a leg that must be performed before the travel portion of the leg.
+        public let beforeTravelSteps: [RouteTransitBeforeTravelStep]
+        /// Web links to external ticket booking services for the transit.
+        public let bookingWebLinks: [RouteWebLink]
+        /// Details corresponding to the departure for the leg.
+        public let departure: RouteTransitDeparture
+        /// Incidents affecting this leg of the transit route.
+        public let incidents: [RouteTransitIncident]
+        /// Intermediate stops between departure and destination of the transit route.
+        public let intermediateStops: [RouteTransitIntermediateStop]
+        /// List of next departures that cover the same section of the route.
+        public let nextDepartures: [RouteTransitNextDeparture]
+        /// List of notices that indicate issues that occurred during route calculation.
+        public let notices: [RouteTransitNotice]
+        /// Waypoints that were passed through during the leg. This includes the waypoints that were configured with the PassThrough option. Not populated when the TravelMode is Transit or Intermodal.
+        public let passThroughWaypoints: [RoutePassThroughWaypoint]
+        /// Spans that were computed for the requested SpanAdditionalFeatures. Not populated when the TravelMode is Transit or Intermodal.
+        public let spans: [RouteTransitSpan]
+        /// Summary of the transit leg.
+        public let summary: RouteTransitSummary?
+        /// Transport mode details for the transit leg.
+        public let transport: RouteTransitTransportModeDetails
+        /// Steps of a leg that must be performed during the travel portion of the leg.
+        public let travelSteps: [RouteTransitTravelStep]
+
+        @inlinable
+        public init(afterTravelSteps: [RouteTransitAfterTravelStep], agency: RouteTransitAgency? = nil, arrival: RouteTransitArrival, attributions: [RouteAttribution], beforeTravelSteps: [RouteTransitBeforeTravelStep], bookingWebLinks: [RouteWebLink], departure: RouteTransitDeparture, incidents: [RouteTransitIncident], intermediateStops: [RouteTransitIntermediateStop], nextDepartures: [RouteTransitNextDeparture], notices: [RouteTransitNotice], passThroughWaypoints: [RoutePassThroughWaypoint], spans: [RouteTransitSpan], summary: RouteTransitSummary? = nil, transport: RouteTransitTransportModeDetails, travelSteps: [RouteTransitTravelStep]) {
+            self.afterTravelSteps = afterTravelSteps
+            self.agency = agency
+            self.arrival = arrival
+            self.attributions = attributions
+            self.beforeTravelSteps = beforeTravelSteps
+            self.bookingWebLinks = bookingWebLinks
+            self.departure = departure
+            self.incidents = incidents
+            self.intermediateStops = intermediateStops
+            self.nextDepartures = nextDepartures
+            self.notices = notices
+            self.passThroughWaypoints = passThroughWaypoints
+            self.spans = spans
+            self.summary = summary
+            self.transport = transport
+            self.travelSteps = travelSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterTravelSteps = "AfterTravelSteps"
+            case agency = "Agency"
+            case arrival = "Arrival"
+            case attributions = "Attributions"
+            case beforeTravelSteps = "BeforeTravelSteps"
+            case bookingWebLinks = "BookingWebLinks"
+            case departure = "Departure"
+            case incidents = "Incidents"
+            case intermediateStops = "IntermediateStops"
+            case nextDepartures = "NextDepartures"
+            case notices = "Notices"
+            case passThroughWaypoints = "PassThroughWaypoints"
+            case spans = "Spans"
+            case summary = "Summary"
+            case transport = "Transport"
+            case travelSteps = "TravelSteps"
+        }
+    }
+
+    public struct RouteTransitNextDeparture: AWSDecodableShape {
+        /// The delay from the scheduled departure time.  Unit: seconds
+        public let delay: Int64?
+        /// Platform name or number for the departure.
+        public let platformName: String?
+        /// The status of the departure.
+        public let status: RouteTransitTripStatus?
+        /// The departure time.
+        public let time: String
+        /// Transport mode details for this departure.
+        public let transport: RouteTransitTransportModeDetails?
+
+        @inlinable
+        public init(delay: Int64? = nil, platformName: String? = nil, status: RouteTransitTripStatus? = nil, time: String, transport: RouteTransitTransportModeDetails? = nil) {
+            self.delay = delay
+            self.platformName = platformName
+            self.status = status
+            self.time = time
+            self.transport = transport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delay = "Delay"
+            case platformName = "PlatformName"
+            case status = "Status"
+            case time = "Time"
+            case transport = "Transport"
+        }
+    }
+
+    public struct RouteTransitNotice: AWSDecodableShape {
+        /// Code corresponding to the issue.
+        public let code: RouteTransitNoticeCode
+        /// Impact corresponding to the issue. While Low impact notices can be safely ignored, High impact notices must be evaluated further to determine the impact.
+        public let impact: RouteNoticeImpact?
+
+        @inlinable
+        public init(code: RouteTransitNoticeCode, impact: RouteNoticeImpact? = nil) {
+            self.code = code
+            self.impact = impact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case impact = "Impact"
+        }
+    }
+
+    public struct RouteTransitOptions: AWSEncodableShape {
+        /// Accessibility attributes to consider when calculating the route.
+        public let accessibilityAttributes: [RouteAccessibilityAttribute]?
+        /// Allowed transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with ExcludedModes.
+        public let allowedModes: [RouteTransitMode]?
+        /// Excluded transit transport modes when calculating the route. By default, all transport modes are allowed. Cannot be used together with AllowedModes.
+        public let excludedModes: [RouteTransitMode]?
+        /// Maximum number of transfers allowed when calculating the route.
+        public let maxTransfers: Int?
+        /// Options for the pedestrian leg of the transit route.
+        public let pedestrian: RouteTransitPedestrianOptions?
+
+        @inlinable
+        public init(accessibilityAttributes: [RouteAccessibilityAttribute]? = nil, allowedModes: [RouteTransitMode]? = nil, excludedModes: [RouteTransitMode]? = nil, maxTransfers: Int? = nil, pedestrian: RouteTransitPedestrianOptions? = nil) {
+            self.accessibilityAttributes = accessibilityAttributes
+            self.allowedModes = allowedModes
+            self.excludedModes = excludedModes
+            self.maxTransfers = maxTransfers
+            self.pedestrian = pedestrian
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessibilityAttributes, name: "accessibilityAttributes", parent: name, max: 1)
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, max: 15)
+            try self.validate(self.allowedModes, name: "allowedModes", parent: name, min: 1)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, max: 15)
+            try self.validate(self.excludedModes, name: "excludedModes", parent: name, min: 1)
+            try self.pedestrian?.validate(name: "\(name).pedestrian")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessibilityAttributes = "AccessibilityAttributes"
+            case allowedModes = "AllowedModes"
+            case excludedModes = "ExcludedModes"
+            case maxTransfers = "MaxTransfers"
+            case pedestrian = "Pedestrian"
+        }
+    }
+
+    public struct RouteTransitOverviewSummary: AWSDecodableShape {
+        /// Distance of the entire leg.  Unit: meters
+        public let distance: Int64
+        /// Duration of the entire leg.  Unit: seconds
+        public let duration: Int64
+
+        @inlinable
+        public init(distance: Int64, duration: Int64) {
+            self.distance = distance
+            self.duration = duration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distance = "Distance"
+            case duration = "Duration"
+        }
+    }
+
+    public struct RouteTransitPedestrianOptions: AWSEncodableShape {
+        /// Maximum walking distance allowed.  Unit: meters
+        public let maxDistance: Int64?
+        /// Walking speed.  Unit: kilometers per hour
+        public let speed: Double?
+
+        @inlinable
+        public init(maxDistance: Int64? = nil, speed: Double? = nil) {
+            self.maxDistance = maxDistance
+            self.speed = speed
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxDistance, name: "maxDistance", parent: name, max: 4294967295)
+            try self.validate(self.maxDistance, name: "maxDistance", parent: name, min: 0)
+            try self.validate(self.speed, name: "speed", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxDistance = "MaxDistance"
+            case speed = "Speed"
+        }
+    }
+
+    public struct RouteTransitPlace: AWSDecodableShape {
+        /// The name of the place.
+        public let name: String?
+        /// Position provided in the request.
+        public let originalPosition: [Double]?
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+        public let position: [Double]
+        /// Details about the station.
+        public let stationDetails: RouteStationDetails?
+        /// The type of the place.
+        public let type: RouteTransitPlaceType?
+        /// Index of the waypoint in the request.
+        public let waypointIndex: Int?
+
+        @inlinable
+        public init(name: String? = nil, originalPosition: [Double]? = nil, position: [Double], stationDetails: RouteStationDetails? = nil, type: RouteTransitPlaceType? = nil, waypointIndex: Int? = nil) {
+            self.name = name
+            self.originalPosition = originalPosition
+            self.position = position
+            self.stationDetails = stationDetails
+            self.type = type
+            self.waypointIndex = waypointIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case originalPosition = "OriginalPosition"
+            case position = "Position"
+            case stationDetails = "StationDetails"
+            case type = "Type"
+            case waypointIndex = "WaypointIndex"
+        }
+    }
+
+    public struct RouteTransitSpan: AWSDecodableShape {
+        /// 3 letter Country code corresponding to the Span.
+        public let country: String?
+        /// Distance of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.  Unit: meters
+        public let distance: Int64?
+        /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.  Unit: seconds
+        public let duration: Int64?
+        /// Offset in the leg geometry corresponding to the start of this span.
+        public let geometryOffset: Int?
+        /// Names of the transit span in available languages.
+        public let names: [LocalizedString]?
+        /// 2-3 letter Region code corresponding to the Span. This is either a province or a state.
+        public let region: String?
+
+        @inlinable
+        public init(country: String? = nil, distance: Int64? = nil, duration: Int64? = nil, geometryOffset: Int? = nil, names: [LocalizedString]? = nil, region: String? = nil) {
+            self.country = country
+            self.distance = distance
+            self.duration = duration
+            self.geometryOffset = geometryOffset
+            self.names = names
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case country = "Country"
+            case distance = "Distance"
+            case duration = "Duration"
+            case geometryOffset = "GeometryOffset"
+            case names = "Names"
+            case region = "Region"
+        }
+    }
+
+    public struct RouteTransitSummary: AWSDecodableShape {
+        /// Summary including duration and distance for the entire leg.
+        public let overview: RouteTransitOverviewSummary?
+        /// Summary including duration and distance for the travel portion of the leg only.
+        public let travelOnly: RouteTransitTravelOnlySummary?
+
+        @inlinable
+        public init(overview: RouteTransitOverviewSummary? = nil, travelOnly: RouteTransitTravelOnlySummary? = nil) {
+            self.overview = overview
+            self.travelOnly = travelOnly
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case overview = "Overview"
+            case travelOnly = "TravelOnly"
+        }
+    }
+
+    public struct RouteTransitTransportModeDetails: AWSDecodableShape {
+        /// Wheelchair accessibility information for the transit vehicle.
+        public let accessibility: RouteAccessibilityAvailabilityDetails?
+        /// Color of the transport polyline and background for the transport name.
+        public let color: String?
+        /// Transit route headsign.
+        public let headsign: String?
+        /// Long name of the transit route.
+        public let longRouteName: String?
+        /// Mode of the transit transport.
+        public let mode: RouteTransitMode
+        /// Transit route name.
+        public let routeName: String?
+        /// Short name of the transit route.
+        public let shortRouteName: String?
+        /// Color of the transport name text.
+        public let textColor: String?
+
+        @inlinable
+        public init(accessibility: RouteAccessibilityAvailabilityDetails? = nil, color: String? = nil, headsign: String? = nil, longRouteName: String? = nil, mode: RouteTransitMode, routeName: String? = nil, shortRouteName: String? = nil, textColor: String? = nil) {
+            self.accessibility = accessibility
+            self.color = color
+            self.headsign = headsign
+            self.longRouteName = longRouteName
+            self.mode = mode
+            self.routeName = routeName
+            self.shortRouteName = shortRouteName
+            self.textColor = textColor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessibility = "Accessibility"
+            case color = "Color"
+            case headsign = "Headsign"
+            case longRouteName = "LongRouteName"
+            case mode = "Mode"
+            case routeName = "RouteName"
+            case shortRouteName = "ShortRouteName"
+            case textColor = "TextColor"
+        }
+    }
+
+    public struct RouteTransitTravelOnlySummary: AWSDecodableShape {
+        /// Duration of the travel portion of the transit leg.  Unit: seconds
+        public let duration: Int64
+
+        @inlinable
+        public init(duration: Int64) {
+            self.duration = duration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+        }
+    }
+
+    public struct RouteTransitTravelStep: AWSDecodableShape {
+        /// Distance of the step.  Unit: meters
+        public let distance: Int64?
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Offset in the leg geometry corresponding to the start of this step.
+        public let geometryOffset: Int?
+        /// Brief description of the step in the requested language.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteTransitTravelStepType
+
+        @inlinable
+        public init(distance: Int64? = nil, duration: Int64, geometryOffset: Int? = nil, instruction: String? = nil, type: RouteTransitTravelStepType) {
+            self.distance = distance
+            self.duration = duration
+            self.geometryOffset = geometryOffset
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distance = "Distance"
+            case duration = "Duration"
+            case geometryOffset = "GeometryOffset"
+            case instruction = "Instruction"
+            case type = "Type"
         }
     }
 
@@ -4908,34 +6764,44 @@ extension GeoRoutes {
     }
 
     public struct RouteTravelModeOptions: AWSEncodableShape {
-        /// Travel mode options when the provided travel mode is "Car"
+        /// Travel mode options when the provided travel mode is Car.
         public let car: RouteCarOptions?
-        /// Travel mode options when the provided travel mode is "Pedestrian"
+        /// Travel mode options when the provided travel mode is Intermodal.  Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+        public let intermodal: RouteIntermodalOptions?
+        /// Travel mode options when the provided travel mode is Pedestrian.
         public let pedestrian: RoutePedestrianOptions?
-        /// Travel mode options when the provided travel mode is Scooter   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
+        /// Travel mode options when the provided travel mode is Scooter.   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public let scooter: RouteScooterOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Travel mode options when the provided travel mode is Transit.  Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+        public let transit: RouteTransitOptions?
+        /// Travel mode options when the provided travel mode is Truck.
         public let truck: RouteTruckOptions?
 
         @inlinable
-        public init(car: RouteCarOptions? = nil, pedestrian: RoutePedestrianOptions? = nil, scooter: RouteScooterOptions? = nil, truck: RouteTruckOptions? = nil) {
+        public init(car: RouteCarOptions? = nil, intermodal: RouteIntermodalOptions? = nil, pedestrian: RoutePedestrianOptions? = nil, scooter: RouteScooterOptions? = nil, transit: RouteTransitOptions? = nil, truck: RouteTruckOptions? = nil) {
             self.car = car
+            self.intermodal = intermodal
             self.pedestrian = pedestrian
             self.scooter = scooter
+            self.transit = transit
             self.truck = truck
         }
 
         public func validate(name: String) throws {
             try self.car?.validate(name: "\(name).car")
+            try self.intermodal?.validate(name: "\(name).intermodal")
             try self.pedestrian?.validate(name: "\(name).pedestrian")
             try self.scooter?.validate(name: "\(name).scooter")
+            try self.transit?.validate(name: "\(name).transit")
             try self.truck?.validate(name: "\(name).truck")
         }
 
         private enum CodingKeys: String, CodingKey {
             case car = "Car"
+            case intermodal = "Intermodal"
             case pedestrian = "Pedestrian"
             case scooter = "Scooter"
+            case transit = "Transit"
             case truck = "Truck"
         }
     }
@@ -4945,7 +6811,7 @@ extension GeoRoutes {
         public let axleCount: Int?
         /// Engine type of the vehicle.
         public let engineType: RouteEngineType?
-        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: kilograms
         public let grossWeight: Int64?
         /// List of Hazardous cargo contained in the vehicle.
         public let hazardousCargos: [RouteHazardousCargoType]?
@@ -4959,9 +6825,9 @@ extension GeoRoutes {
         public let length: Int64?
         /// The vehicle License Plate.
         public let licensePlate: RouteVehicleLicensePlate?
-        /// Maximum speed  Unit: KilometersPerHour
+        /// Maximum speed  Unit: kilometers per hour
         public let maxSpeed: Double?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public let occupancy: Int?
         /// Payload capacity of the vehicle and trailers attached.  Unit: kilograms
         public let payloadCapacity: Int64?
@@ -4969,13 +6835,13 @@ extension GeoRoutes {
         public let tireCount: Int?
         /// Trailer options corresponding to the vehicle.
         public let trailer: RouteTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public let truckType: RouteTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
+        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: kilograms
         public let weightPerAxle: Int64?
-        /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type.  Unit: Kilograms
+        /// Specifies the total weight for the specified axle group. Meant for usage in countries that have different regulations based on the axle group type.  Unit: kilograms
         public let weightPerAxleGroup: WeightPerAxleGroup?
         /// Width of the vehicle.  Unit: centimeters
         public let width: Int64?
@@ -5102,10 +6968,36 @@ extension GeoRoutes {
         }
     }
 
+    public struct RouteVehicleAfterTravelStep: AWSDecodableShape {
+        /// Details that are specific to a Charge step.  Unit: KwH
+        public let chargeStepDetails: RouteChargeStepDetails?
+        /// Duration of the step.  Unit: seconds
+        public let duration: Int64
+        /// Brief description of the step in the requested language.  Only available when the TravelStepType is Default.
+        public let instruction: String?
+        /// Type of the step.
+        public let type: RouteVehicleAfterTravelStepType
+
+        @inlinable
+        public init(chargeStepDetails: RouteChargeStepDetails? = nil, duration: Int64, instruction: String? = nil, type: RouteVehicleAfterTravelStepType) {
+            self.chargeStepDetails = chargeStepDetails
+            self.duration = duration
+            self.instruction = instruction
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chargeStepDetails = "ChargeStepDetails"
+            case duration = "Duration"
+            case instruction = "Instruction"
+            case type = "Type"
+        }
+    }
+
     public struct RouteVehicleArrival: AWSDecodableShape {
-        /// The place details.
+        /// Place details corresponding to the arrival.
         public let place: RouteVehiclePlace
-        /// The time.
+        /// The arrival time.
         public let time: String?
 
         @inlinable
@@ -5121,7 +7013,7 @@ extension GeoRoutes {
     }
 
     public struct RouteVehicleDeparture: AWSDecodableShape {
-        /// The place details.
+        /// Place details corresponding to the departure.
         public let place: RouteVehiclePlace
         /// The departure time.
         public let time: String?
@@ -5169,33 +7061,36 @@ extension GeoRoutes {
     }
 
     public struct RouteVehicleLegDetails: AWSDecodableShape {
+        /// Steps of a leg that must be performed after the travel portion of the leg.
+        public let afterTravelSteps: [RouteVehicleAfterTravelStep]
         /// Details corresponding to the arrival for the leg.
         public let arrival: RouteVehicleArrival
         /// Details corresponding to the departure for the leg.
         public let departure: RouteVehicleDeparture
-        /// Incidents corresponding to this leg of the route.
+        ///  Incidents corresponding to this leg of the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let incidents: [RouteVehicleIncident]
-        /// Notices are additional information returned that indicate issues that occurred during route calculation.
+        ///  Notices are additional information returned that indicate issues that occurred during route calculation. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let notices: [RouteVehicleNotice]
         /// Waypoints that were passed through during the leg. This includes the waypoints that were configured with the PassThrough option.
         public let passThroughWaypoints: [RoutePassThroughWaypoint]
-        /// Spans that were computed for the requested SpanAdditionalFeatures.
+        ///  Spans that were computed for the requested SpanAdditionalFeatures. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let spans: [RouteVehicleSpan]
         /// Summarized details of the leg.
         public let summary: RouteVehicleSummary?
-        /// Toll related options.
+        ///  Toll related options. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let tolls: [RouteToll]
-        /// Toll systems are authorities that collect payments for the toll.
+        ///  Toll systems are authorities that collect payments for the toll. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let tollSystems: [RouteTollSystem]
         /// Steps of a leg that must be performed before the travel portion of the leg.
         public let travelSteps: [RouteVehicleTravelStep]
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        ///  Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [String]
-        /// Zones corresponding to this leg of the route.
+        ///  Zones corresponding to this leg of the route. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let zones: [RouteZone]
 
         @inlinable
-        public init(arrival: RouteVehicleArrival, departure: RouteVehicleDeparture, incidents: [RouteVehicleIncident], notices: [RouteVehicleNotice], passThroughWaypoints: [RoutePassThroughWaypoint], spans: [RouteVehicleSpan], summary: RouteVehicleSummary? = nil, tolls: [RouteToll], tollSystems: [RouteTollSystem], travelSteps: [RouteVehicleTravelStep], truckRoadTypes: [String], zones: [RouteZone]) {
+        public init(afterTravelSteps: [RouteVehicleAfterTravelStep], arrival: RouteVehicleArrival, departure: RouteVehicleDeparture, incidents: [RouteVehicleIncident], notices: [RouteVehicleNotice], passThroughWaypoints: [RoutePassThroughWaypoint], spans: [RouteVehicleSpan], summary: RouteVehicleSummary? = nil, tolls: [RouteToll], tollSystems: [RouteTollSystem], travelSteps: [RouteVehicleTravelStep], truckRoadTypes: [String], zones: [RouteZone]) {
+            self.afterTravelSteps = afterTravelSteps
             self.arrival = arrival
             self.departure = departure
             self.incidents = incidents
@@ -5211,6 +7106,7 @@ extension GeoRoutes {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case afterTravelSteps = "AfterTravelSteps"
             case arrival = "Arrival"
             case departure = "Departure"
             case incidents = "Incidents"
@@ -5283,11 +7179,11 @@ extension GeoRoutes {
     public struct RouteVehicleOverviewSummary: AWSDecodableShape {
         /// Total duration in free flowing traffic, which is the best case or shortest duration possible to cover the leg.  Unit: seconds
         public let bestCaseDuration: Int64?
-        /// Distance of the step.
+        /// Distance of the entire leg.  Unit: meters
         public let distance: Int64
-        /// Duration of the step.  Unit: seconds
+        /// Duration of the entire leg.  Unit: seconds
         public let duration: Int64
-        /// Duration of the computed span under typical traffic congestion.   Unit: seconds
+        /// Duration of the leg under typical traffic congestion.  Unit: seconds
         public let typicalDuration: Int64?
 
         @inlinable
@@ -5307,31 +7203,43 @@ extension GeoRoutes {
     }
 
     public struct RouteVehiclePlace: AWSDecodableShape {
+        /// Details of the access point.
+        public let accessPointDetails: RouteAccessPointDetails?
         /// The name of the place.
         public let name: String?
         /// Position provided in the request.
         public let originalPosition: [Double]?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
         /// Options to configure matching the provided position to a side of the street.
         public let sideOfStreet: RouteSideOfStreet?
+        /// Details about the station.
+        public let stationDetails: RouteStationDetails?
+        /// The type of the place.
+        public let type: RouteVehiclePlaceType?
         /// Index of the waypoint in the request.
         public let waypointIndex: Int?
 
         @inlinable
-        public init(name: String? = nil, originalPosition: [Double]? = nil, position: [Double], sideOfStreet: RouteSideOfStreet? = nil, waypointIndex: Int? = nil) {
+        public init(accessPointDetails: RouteAccessPointDetails? = nil, name: String? = nil, originalPosition: [Double]? = nil, position: [Double], sideOfStreet: RouteSideOfStreet? = nil, stationDetails: RouteStationDetails? = nil, type: RouteVehiclePlaceType? = nil, waypointIndex: Int? = nil) {
+            self.accessPointDetails = accessPointDetails
             self.name = name
             self.originalPosition = originalPosition
             self.position = position
             self.sideOfStreet = sideOfStreet
+            self.stationDetails = stationDetails
+            self.type = type
             self.waypointIndex = waypointIndex
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointDetails = "AccessPointDetails"
             case name = "Name"
             case originalPosition = "OriginalPosition"
             case position = "Position"
             case sideOfStreet = "SideOfStreet"
+            case stationDetails = "StationDetails"
+            case type = "Type"
             case waypointIndex = "WaypointIndex"
         }
     }
@@ -5347,9 +7255,9 @@ extension GeoRoutes {
         public let distance: Int64?
         /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.  Unit: seconds
         public let duration: Int64?
-        /// Dynamic speed details corresponding to the span.  Unit: KilometersPerHour
+        /// Dynamic speed details corresponding to the span.  Unit: kilometers per hour
         public let dynamicSpeed: RouteSpanDynamicSpeedDetails?
-        /// Functional classification of the road segment corresponding to the span.
+        /// A numerical value indicating the functional classification of the road segment corresponding to the span. Classification values are part of the hierarchical network that helps determine a logical and efficient route, and have the following definitions:   Roads that allow for high volume, maximum speed traffic movement between and through major metropolitan areas.   Roads that are used to channel traffic to functional class 1 roads for travel between and through cities in the shortest amount of time.   Roads that intersect functional class 2 roads and provide a high volume of traffic movement at a lower level of mobility than functional class 2 roads.   Roads that provide for a high volume of traffic movement at moderate speeds between neighborhoods.   Roads with volume and traffic movement below the level of any other functional class.
         public let functionalClassification: Int?
         /// Attributes corresponding to a gate. The gate is present at the end of the returned span.
         public let gate: RouteSpanGateAttribute?
@@ -5371,7 +7279,7 @@ extension GeoRoutes {
         public let routeNumbers: [RouteNumber]?
         /// Access attributes for a scooter corresponding to the span.
         public let scooterAccess: [RouteSpanScooterAccessAttribute]?
-        /// Speed limit details corresponding to the span.  Unit: KilometersPerHour
+        /// Speed limit details corresponding to the span.  Unit: kilometers per hour
         public let speedLimit: RouteSpanSpeedLimitDetails?
         /// Toll systems are authorities that collect payments for the toll.
         public let tollSystems: [Int]?
@@ -5461,7 +7369,7 @@ extension GeoRoutes {
         public let bestCaseDuration: Int64?
         /// Duration of the step.  Unit: seconds
         public let duration: Int64
-        /// Duration of the computed span under typical traffic congestion.  Unit: seconds
+        /// Duration of the leg under typical traffic congestion.  Unit: seconds
         public let typicalDuration: Int64?
 
         @inlinable
@@ -5583,27 +7491,27 @@ extension GeoRoutes {
         public let maxLength: Int64?
         /// The maximum load capacity of the vehicle.  Unit: kilograms
         public let maxPayloadCapacity: Int64?
-        /// The maximum weight of the route.  Unit: Kilograms
+        /// The maximum weight of the route.  Unit: kilograms
         public let maxWeight: RouteWeightConstraint?
-        /// The maximum weight per axle of the vehicle.  Unit: Kilograms
+        /// The maximum weight per axle of the vehicle.  Unit: kilograms
         public let maxWeightPerAxle: Int64?
-        /// The maximum weight per axle group of the vehicle.  Unit: Kilograms
+        /// The maximum weight per axle group of the vehicle.  Unit: kilograms
         public let maxWeightPerAxleGroup: WeightPerAxleGroup?
         /// The maximum width of the vehicle.
         public let maxWidth: Int64?
-        /// The number of occupants in the vehicle. Default Value: 1
+        /// The number of occupants in the vehicle. Default value: 1
         public let occupancy: RouteNoticeDetailRange?
         /// Access radius restrictions based on time.
         public let restrictedTimes: String?
         /// The time dependent constraint.
         public let timeDependent: Bool?
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public let trailerCount: RouteNoticeDetailRange?
         /// Travel mode corresponding to the leg.
         public let travelMode: Bool?
         /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadType: String?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public let truckType: RouteTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
@@ -5655,21 +7563,21 @@ extension GeoRoutes {
     }
 
     public struct RouteWaypoint: AWSEncodableShape {
-        /// Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination.
+        ///  Avoids actions for the provided distance. This is typically to consider for users in moving vehicles who may not have sufficient time to make an action at an origin or a destination. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let avoidActionsForDistance: Int64?
-        /// Avoid U-turns for calculation on highways and motorways.
+        ///  Avoid U-turns for calculation on highways and motorways. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let avoidUTurns: Bool?
-        /// GPS Heading at the position.
+        ///  GPS Heading at the position. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let heading: Double?
-        /// Options to configure matching the provided position to the road network.
+        ///  Options to configure matching the provided position to the road network. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let matching: RouteMatchingOptions?
-        /// If the waypoint should not be treated as a stop. If yes, the waypoint is passed through and doesn't split the route into different legs.
+        ///  If the waypoint should not be treated as a stop. If yes, the waypoint is passed through and doesn't split the route into different legs. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let passThrough: Bool?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
-        /// Options to configure matching the provided position to a side of the street.
+        ///  Options to configure matching the provided position to a side of the street. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let sideOfStreet: RouteSideOfStreetOptions?
-        /// Duration of the stop.  Unit: seconds
+        ///  Duration of the stop. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   Unit: seconds
         public let stopDuration: Int64?
 
         @inlinable
@@ -5709,10 +7617,36 @@ extension GeoRoutes {
         }
     }
 
+    public struct RouteWebLink: AWSDecodableShape {
+        /// The interactive or clickable portion of the text.
+        public let anchorText: String?
+        /// Text describing the URL.
+        public let description: String
+        /// Device type for which the link is intended.
+        public let deviceType: RouteWebLinkDeviceType?
+        /// The URL of the link.
+        public let url: String?
+
+        @inlinable
+        public init(anchorText: String? = nil, description: String, deviceType: RouteWebLinkDeviceType? = nil, url: String? = nil) {
+            self.anchorText = anchorText
+            self.description = description
+            self.deviceType = deviceType
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anchorText = "AnchorText"
+            case description = "Description"
+            case deviceType = "DeviceType"
+            case url = "Url"
+        }
+    }
+
     public struct RouteWeightConstraint: AWSDecodableShape {
         /// The type of constraint.
         public let type: RouteWeightConstraintType
-        /// The constraint value.  Unit: Kilograms
+        /// The constraint value.  Unit: kilograms
         public let value: Int64
 
         @inlinable
@@ -5748,13 +7682,13 @@ extension GeoRoutes {
     public struct SnapToRoadsRequest: AWSEncodableShape {
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Chooses what the returned SnappedGeometry format should be. Default Value: FlexiblePolyline
+        /// Chooses what the returned SnappedGeometry format should be. Default value: FlexiblePolyline
         public let snappedGeometryFormat: GeometryFormat?
         /// The radius around the provided tracepoint that is considered for snapping.  Unit: meters  Default value: 300
         public let snapRadius: Int64?
         /// List of trace points to be snapped onto the road network.
         public let tracePoints: [RoadSnapTracePoint]
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default value: Car
         public let travelMode: RoadSnapTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: RoadSnapTravelModeOptions?
@@ -6019,10 +7953,6 @@ extension GeoRoutes {
             self.drivingDistanceOptions = drivingDistanceOptions
         }
 
-        public func validate(name: String) throws {
-            try self.drivingDistanceOptions?.validate(name: "\(name).drivingDistanceOptions")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case algorithm = "Algorithm"
             case drivingDistanceOptions = "DrivingDistanceOptions"
@@ -6094,6 +8024,7 @@ extension GeoRoutes {
             try self.validate(self.heading, name: "heading", parent: name, min: 0.0)
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[^,;!]+$")
             try self.validate(self.serviceDuration, name: "serviceDuration", parent: name, max: 4294967295)
             try self.validate(self.serviceDuration, name: "serviceDuration", parent: name, min: 0)
             try self.sideOfStreet?.validate(name: "\(name).sideOfStreet")
@@ -6140,13 +8071,8 @@ extension GeoRoutes {
         public let drivingDistance: Int64
 
         @inlinable
-        public init(drivingDistance: Int64 = 0) {
+        public init(drivingDistance: Int64 = 5) {
             self.drivingDistance = drivingDistance
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.drivingDistance, name: "drivingDistance", parent: name, max: 4294967295)
-            try self.validate(self.drivingDistance, name: "drivingDistance", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6201,7 +8127,7 @@ extension GeoRoutes {
         public let failedConstraints: [WaypointOptimizationFailedConstraint]
         /// The waypoint Id.
         public let id: String
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
 
         @inlinable
@@ -6223,11 +8149,11 @@ extension GeoRoutes {
         public let arrivalTime: String?
         /// Index of the cluster the waypoint is associated with. The index is included in the response only if clustering was performed while processing the request.
         public let clusterIndex: Int?
-        /// Estimated time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Estimated time of departure from the origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String
         /// The waypoint Id.
         public let id: String
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
 
         @inlinable
@@ -6260,6 +8186,7 @@ extension GeoRoutes {
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[^,;!]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6268,7 +8195,7 @@ extension GeoRoutes {
     }
 
     public struct WaypointOptimizationPedestrianOptions: AWSEncodableShape {
-        /// Walking speed.  Unit: KilometersPerHour
+        /// Walking speed.  Unit: kilometers per hour
         public let speed: Double?
 
         @inlinable
@@ -6348,9 +8275,9 @@ extension GeoRoutes {
     }
 
     public struct WaypointOptimizationSideOfStreetOptions: AWSEncodableShape {
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
-        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default Value: DividedStreetOnly
+        /// Strategy that defines when the side of street position should be used. AnyStreet will always use the provided position. Default value: DividedStreetOnly
         public let useWith: SideOfStreetMatchingStrategy?
 
         @inlinable
@@ -6397,7 +8324,7 @@ extension GeoRoutes {
     }
 
     public struct WaypointOptimizationTrafficOptions: AWSEncodableShape {
-        /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
+        /// Determines if traffic should be used or ignored while calculating the route. Default value: UseTrafficData
         public let usage: TrafficUsage?
 
         @inlinable
@@ -6411,7 +8338,7 @@ extension GeoRoutes {
     }
 
     public struct WaypointOptimizationTrailerOptions: AWSEncodableShape {
-        /// Number of trailers attached to the vehicle. Default Value: 0
+        /// Number of trailers attached to the vehicle. Default value: 0
         public let trailerCount: Int?
 
         @inlinable
@@ -6425,9 +8352,9 @@ extension GeoRoutes {
     }
 
     public struct WaypointOptimizationTravelModeOptions: AWSEncodableShape {
-        /// Travel mode options when the provided travel mode is "Pedestrian"
+        /// Travel mode options when the provided travel mode is Pedestrian.
         public let pedestrian: WaypointOptimizationPedestrianOptions?
-        /// Travel mode options when the provided travel mode is "Truck"
+        /// Travel mode options when the provided travel mode is Truck.
         public let truck: WaypointOptimizationTruckOptions?
 
         @inlinable
@@ -6448,7 +8375,7 @@ extension GeoRoutes {
     }
 
     public struct WaypointOptimizationTruckOptions: AWSEncodableShape {
-        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: Kilograms
+        /// Gross weight of the vehicle including trailers, and goods at capacity.  Unit: kilograms
         public let grossWeight: Int64?
         /// List of Hazardous cargo contained in the vehicle.
         public let hazardousCargos: [WaypointOptimizationHazardousCargoType]?
@@ -6458,11 +8385,11 @@ extension GeoRoutes {
         public let length: Int64?
         /// Trailer options corresponding to the vehicle.
         public let trailer: WaypointOptimizationTrailerOptions?
-        /// Type of the truck.
+        /// The type of truck: LightTruck for smaller delivery vehicles,  StraightTruck for rigid body trucks, or Tractor for tractor-trailer combinations.
         public let truckType: WaypointOptimizationTruckType?
         /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
-        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
+        /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: kilograms
         public let weightPerAxle: Int64?
         /// Width of the vehicle.  Unit: centimeters
         public let width: Int64?
@@ -6519,7 +8446,7 @@ extension GeoRoutes {
         public let heading: Double?
         /// The waypoint Id.
         public let id: String?
-        /// Position defined as [longitude, latitude].
+        /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]
         /// Service time spent at the waypoint. At an appointment, the service time should be the appointment duration.  Unit: seconds
         public let serviceDuration: Int64?
@@ -6545,6 +8472,7 @@ extension GeoRoutes {
             try self.validate(self.heading, name: "heading", parent: name, min: 0.0)
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[^,;!]+$")
             try self.validate(self.position, name: "position", parent: name, max: 2)
             try self.validate(self.position, name: "position", parent: name, min: 2)
             try self.validate(self.serviceDuration, name: "serviceDuration", parent: name, max: 4294967295)
@@ -6565,15 +8493,15 @@ extension GeoRoutes {
     }
 
     public struct WeightPerAxleGroup: AWSEncodableShape & AWSDecodableShape {
-        /// Weight for quad axle group.  Unit: Kilograms
+        /// Total weight in kilograms for quad (four adjacent) axle configurations.  Unit: kilograms
         public let quad: Int64?
-        /// Weight for quad quint group.  Unit: Kilograms
+        /// Total weight in kilograms for quint (five adjacent) axle configurations.  Unit: kilograms
         public let quint: Int64?
-        /// Weight for single axle group.  Unit: Kilograms
+        /// Total weight in kilograms for single axle configurations.  Unit: kilograms
         public let single: Int64?
-        /// Weight for tandem axle group.  Unit: Kilograms
+        /// Total weight in kilograms for tandem (two adjacent) axle configurations.  Unit: kilograms
         public let tandem: Int64?
-        /// Weight for triple axle group.  Unit: Kilograms
+        /// Total weight in kilograms for triple (three adjacent) axle configurations.  Unit: kilograms
         public let triple: Int64?
 
         @inlinable

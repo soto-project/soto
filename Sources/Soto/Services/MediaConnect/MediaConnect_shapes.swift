@@ -206,6 +206,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum MediaLiveChannelPipelineId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pipeline0 = "PIPELINE_0"
+        case pipeline1 = "PIPELINE_1"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MediaLiveInputPipelineId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pipeline0 = "PIPELINE_0"
         case pipeline1 = "PIPELINE_1"
@@ -222,6 +228,12 @@ extension MediaConnect {
         case ancillaryData = "ancillary-data"
         case audio = "audio"
         case video = "video"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NdiOutputTimecodeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case embeddedTimecode = "EMBEDDED_TIMECODE"
+        case utcSystemTime = "UTC_SYSTEM_TIME"
         public var description: String { return self.rawValue }
     }
 
@@ -268,6 +280,11 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum RouterContentQualityAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contentLevel = "CONTENT_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RouterInputProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rist = "RIST"
         case rtp = "RTP"
@@ -306,6 +323,7 @@ extension MediaConnect {
     public enum RouterInputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failover = "FAILOVER"
         case mediaconnectFlow = "MEDIACONNECT_FLOW"
+        case medialiveChannel = "MEDIALIVE_CHANNEL"
         case merge = "MERGE"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
@@ -684,6 +702,7 @@ extension MediaConnect {
     public enum RouterInputConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         case failover(FailoverRouterInputConfiguration)
         case mediaConnectFlow(MediaConnectFlowRouterInputConfiguration)
+        case mediaLiveChannel(MediaLiveChannelRouterInputConfiguration)
         case merge(MergeRouterInputConfiguration)
         case standard(StandardRouterInputConfiguration)
 
@@ -703,6 +722,9 @@ extension MediaConnect {
             case .mediaConnectFlow:
                 let value = try container.decode(MediaConnectFlowRouterInputConfiguration.self, forKey: .mediaConnectFlow)
                 self = .mediaConnectFlow(value)
+            case .mediaLiveChannel:
+                let value = try container.decode(MediaLiveChannelRouterInputConfiguration.self, forKey: .mediaLiveChannel)
+                self = .mediaLiveChannel(value)
             case .merge:
                 let value = try container.decode(MergeRouterInputConfiguration.self, forKey: .merge)
                 self = .merge(value)
@@ -719,6 +741,8 @@ extension MediaConnect {
                 try container.encode(value, forKey: .failover)
             case .mediaConnectFlow(let value):
                 try container.encode(value, forKey: .mediaConnectFlow)
+            case .mediaLiveChannel(let value):
+                try container.encode(value, forKey: .mediaLiveChannel)
             case .merge(let value):
                 try container.encode(value, forKey: .merge)
             case .standard(let value):
@@ -732,6 +756,8 @@ extension MediaConnect {
                 try value.validate(name: "\(name).failover")
             case .mediaConnectFlow(let value):
                 try value.validate(name: "\(name).mediaConnectFlow")
+            case .mediaLiveChannel(let value):
+                try value.validate(name: "\(name).mediaLiveChannel")
             case .merge(let value):
                 try value.validate(name: "\(name).merge")
             case .standard(let value):
@@ -742,6 +768,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case failover = "failover"
             case mediaConnectFlow = "mediaConnectFlow"
+            case mediaLiveChannel = "mediaLiveChannel"
             case merge = "merge"
             case standard = "standard"
         }
@@ -862,6 +889,7 @@ extension MediaConnect {
     public enum RouterInputStreamDetails: AWSDecodableShape, Sendable {
         case failover(FailoverRouterInputStreamDetails)
         case mediaConnectFlow(MediaConnectFlowRouterInputStreamDetails)
+        case mediaLiveChannel(MediaLiveChannelRouterInputStreamDetails)
         case merge(MergeRouterInputStreamDetails)
         case standard(StandardRouterInputStreamDetails)
 
@@ -881,6 +909,9 @@ extension MediaConnect {
             case .mediaConnectFlow:
                 let value = try container.decode(MediaConnectFlowRouterInputStreamDetails.self, forKey: .mediaConnectFlow)
                 self = .mediaConnectFlow(value)
+            case .mediaLiveChannel:
+                let value = try container.decode(MediaLiveChannelRouterInputStreamDetails.self, forKey: .mediaLiveChannel)
+                self = .mediaLiveChannel(value)
             case .merge:
                 let value = try container.decode(MergeRouterInputStreamDetails.self, forKey: .merge)
                 self = .merge(value)
@@ -893,6 +924,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case failover = "failover"
             case mediaConnectFlow = "mediaConnectFlow"
+            case mediaLiveChannel = "mediaLiveChannel"
             case merge = "merge"
             case standard = "standard"
         }
@@ -1731,6 +1763,8 @@ extension MediaConnect {
         public let minLatency: Int?
         ///  The name of the output. This value must be unique within the current flow.
         public let name: String?
+        /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect uses EMBEDDED_TIMECODE.    EMBEDDED_TIMECODE (default) - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
+        public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public let ndiProgramName: String?
         /// A quality setting for the NDI Speed HQ encoder.
@@ -1758,7 +1792,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, outputTags: [String: String]? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, outputTags: [String: String]? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -1767,6 +1801,7 @@ extension MediaConnect {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputStatus = outputStatus
@@ -1795,6 +1830,7 @@ extension MediaConnect {
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
             case name = "name"
+            case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case outputStatus = "outputStatus"
@@ -2022,7 +2058,7 @@ extension MediaConnect {
     }
 
     public struct BlackFrames: AWSEncodableShape & AWSDecodableShape {
-        ///  Indicates whether the BlackFrames metric is enabled or disabled..
+        ///  Indicates whether the BlackFrames metric is enabled or disabled.
         public let state: State?
         ///  Specifies the number of consecutive seconds of black frames that triggers an event or alert.
         public let thresholdSeconds: Int?
@@ -2031,6 +2067,29 @@ extension MediaConnect {
         public init(state: State? = nil, thresholdSeconds: Int? = nil) {
             self.state = state
             self.thresholdSeconds = thresholdSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case thresholdSeconds = "thresholdSeconds"
+        }
+    }
+
+    public struct BlackFramesConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether black frames detection is enabled or disabled.
+        public let state: ContentQualityAnalysisState
+        /// The number of consecutive seconds of black frames that MediaConnect must detect before it reports an issue.
+        public let thresholdSeconds: Int
+
+        @inlinable
+        public init(state: ContentQualityAnalysisState, thresholdSeconds: Int) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thresholdSeconds, name: "thresholdSeconds", parent: name, max: 60)
+            try self.validate(self.thresholdSeconds, name: "thresholdSeconds", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2241,6 +2300,34 @@ extension MediaConnect {
         }
     }
 
+    public struct ContentQualityAnalysisFeatureConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for black frames detection.
+        public let blackFrames: BlackFramesConfiguration?
+        /// Settings for frozen frames detection.
+        public let frozenFrames: FrozenFramesConfiguration?
+        /// Settings for silent audio detection.
+        public let silentAudio: SilentAudioConfiguration?
+
+        @inlinable
+        public init(blackFrames: BlackFramesConfiguration? = nil, frozenFrames: FrozenFramesConfiguration? = nil, silentAudio: SilentAudioConfiguration? = nil) {
+            self.blackFrames = blackFrames
+            self.frozenFrames = frozenFrames
+            self.silentAudio = silentAudio
+        }
+
+        public func validate(name: String) throws {
+            try self.blackFrames?.validate(name: "\(name).blackFrames")
+            try self.frozenFrames?.validate(name: "\(name).frozenFrames")
+            try self.silentAudio?.validate(name: "\(name).silentAudio")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blackFrames = "blackFrames"
+            case frozenFrames = "frozenFrames"
+            case silentAudio = "silentAudio"
+        }
+    }
+
     public struct CreateBridgeRequest: AWSEncodableShape {
         /// An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
         public let egressGatewayBridge: AddEgressGatewayBridgeRequest?
@@ -2429,6 +2516,8 @@ extension MediaConnect {
         public let clientToken: String?
         /// The configuration settings for the router input, which can include the protocol, network interface, and other details.
         public let configuration: RouterInputConfiguration
+        /// The content quality analysis configuration for the router input.
+        public let contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration?
         /// The maintenance configuration settings for the router input, including preferred maintenance windows and schedules.
         public let maintenanceConfiguration: MaintenanceConfiguration?
         /// The maximum bitrate for the router input.
@@ -2447,10 +2536,11 @@ extension MediaConnect {
         public let transitEncryption: RouterInputTransitEncryption?
 
         @inlinable
-        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterInputRequest.idempotencyToken(), configuration: RouterInputConfiguration, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterInputTier, transitEncryption: RouterInputTransitEncryption? = nil) {
+        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterInputRequest.idempotencyToken(), configuration: RouterInputConfiguration, contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterInputTier, transitEncryption: RouterInputTransitEncryption? = nil) {
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
             self.configuration = configuration
+            self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
@@ -2462,7 +2552,10 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.configuration.validate(name: "\(name).configuration")
+            try self.contentQualityAnalysisConfiguration?.validate(name: "\(name).contentQualityAnalysisConfiguration")
             try self.transitEncryption?.validate(name: "\(name).transitEncryption")
         }
 
@@ -2470,6 +2563,7 @@ extension MediaConnect {
             case availabilityZone = "availabilityZone"
             case clientToken = "clientToken"
             case configuration = "configuration"
+            case contentQualityAnalysisConfiguration = "contentQualityAnalysisConfiguration"
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"
@@ -2514,6 +2608,11 @@ extension MediaConnect {
             self.name = name
             self.regionName = regionName
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2576,6 +2675,8 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.configuration.validate(name: "\(name).configuration")
         }
 
@@ -3682,6 +3783,29 @@ extension MediaConnect {
         public init(state: State? = nil, thresholdSeconds: Int? = nil) {
             self.state = state
             self.thresholdSeconds = thresholdSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case thresholdSeconds = "thresholdSeconds"
+        }
+    }
+
+    public struct FrozenFramesConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether frozen frames detection is enabled or disabled.
+        public let state: ContentQualityAnalysisState
+        /// The number of consecutive seconds of a frozen frame that MediaConnect must detect before it reports an issue.
+        public let thresholdSeconds: Int
+
+        @inlinable
+        public init(state: ContentQualityAnalysisState, thresholdSeconds: Int) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thresholdSeconds, name: "thresholdSeconds", parent: name, max: 60)
+            try self.validate(self.thresholdSeconds, name: "thresholdSeconds", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5139,6 +5263,40 @@ extension MediaConnect {
         public init() {}
     }
 
+    public struct MediaLiveChannelRouterInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the MediaLive channel to connect to this router input.
+        public let mediaLiveChannelArn: String?
+        /// The name of the MediaLive channel output to connect to this router input.
+        public let mediaLiveChannelOutputName: String?
+        /// The index of the MediaLive pipeline to connect to this router input.
+        public let mediaLivePipelineId: MediaLiveChannelPipelineId?
+        public let sourceTransitDecryption: MediaLiveTransitEncryption
+
+        @inlinable
+        public init(mediaLiveChannelArn: String? = nil, mediaLiveChannelOutputName: String? = nil, mediaLivePipelineId: MediaLiveChannelPipelineId? = nil, sourceTransitDecryption: MediaLiveTransitEncryption) {
+            self.mediaLiveChannelArn = mediaLiveChannelArn
+            self.mediaLiveChannelOutputName = mediaLiveChannelOutputName
+            self.mediaLivePipelineId = mediaLivePipelineId
+            self.sourceTransitDecryption = sourceTransitDecryption
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mediaLiveChannelArn, name: "mediaLiveChannelArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):medialive:[a-z0-9-]+:[0-9]{12}:channel:[a-zA-Z0-9]+$")
+            try self.sourceTransitDecryption.validate(name: "\(name).sourceTransitDecryption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaLiveChannelArn = "mediaLiveChannelArn"
+            case mediaLiveChannelOutputName = "mediaLiveChannelOutputName"
+            case mediaLivePipelineId = "mediaLivePipelineId"
+            case sourceTransitDecryption = "sourceTransitDecryption"
+        }
+    }
+
+    public struct MediaLiveChannelRouterInputStreamDetails: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct MediaLiveInputRouterOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The encryption configuration for the MediaLive input when connected to this router output.
         public let destinationTransitEncryption: MediaLiveTransitEncryption
@@ -6393,6 +6551,10 @@ extension MediaConnect {
         /// The Availability Zone of the router input.
         public let availabilityZone: String
         public let configuration: RouterInputConfiguration
+        /// The content quality analysis configuration for the router input.
+        public let contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration?
+        /// The type of content quality analysis applied to the router input.
+        public let contentQualityAnalysisType: RouterContentQualityAnalysisType?
         /// The timestamp when the router input was created.
         public let createdAt: Date
         /// The unique identifier of the router input.
@@ -6435,10 +6597,12 @@ extension MediaConnect {
         public let updatedAt: Date
 
         @inlinable
-        public init(arn: String, availabilityZone: String, configuration: RouterInputConfiguration, createdAt: Date, id: String, inputType: RouterInputType, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, maximumRoutedOutputs: Int? = nil, messages: [RouterInputMessage], name: String, regionName: String, routedOutputs: Int, routingScope: RoutingScope, state: RouterInputState, streamDetails: RouterInputStreamDetails, tags: [String: String], tier: RouterInputTier, transitEncryption: RouterInputTransitEncryption, updatedAt: Date) {
+        public init(arn: String, availabilityZone: String, configuration: RouterInputConfiguration, contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration? = nil, contentQualityAnalysisType: RouterContentQualityAnalysisType? = nil, createdAt: Date, id: String, inputType: RouterInputType, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, maximumRoutedOutputs: Int? = nil, messages: [RouterInputMessage], name: String, regionName: String, routedOutputs: Int, routingScope: RoutingScope, state: RouterInputState, streamDetails: RouterInputStreamDetails, tags: [String: String], tier: RouterInputTier, transitEncryption: RouterInputTransitEncryption, updatedAt: Date) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.configuration = configuration
+            self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
+            self.contentQualityAnalysisType = contentQualityAnalysisType
             self.createdAt = createdAt
             self.id = id
             self.inputType = inputType
@@ -6466,6 +6630,8 @@ extension MediaConnect {
             case arn = "arn"
             case availabilityZone = "availabilityZone"
             case configuration = "configuration"
+            case contentQualityAnalysisConfiguration = "contentQualityAnalysisConfiguration"
+            case contentQualityAnalysisType = "contentQualityAnalysisType"
             case createdAt = "createdAt"
             case id = "id"
             case inputType = "inputType"
@@ -6958,6 +7124,29 @@ extension MediaConnect {
         }
     }
 
+    public struct SilentAudioConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether silent audio detection is enabled or disabled.
+        public let state: ContentQualityAnalysisState
+        /// The number of consecutive seconds of silence that MediaConnect must detect before it reports an issue.
+        public let thresholdSeconds: Int
+
+        @inlinable
+        public init(state: ContentQualityAnalysisState, thresholdSeconds: Int) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thresholdSeconds, name: "thresholdSeconds", parent: name, max: 60)
+            try self.validate(self.thresholdSeconds, name: "thresholdSeconds", parent: name, min: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case thresholdSeconds = "thresholdSeconds"
+        }
+    }
+
     public struct Source: AWSDecodableShape {
         /// The ARN of the router output that's currently connected to this source.
         public let connectedRouterOutputArn: String?
@@ -6985,9 +7174,9 @@ extension MediaConnect {
         public let routerIntegrationState: State?
         /// The decryption configuration for the flow source when router integration is enabled.
         public let routerIntegrationTransitDecryption: FlowTransitEncryption?
-        ///  The IP address that the flow communicates with to initiate connection with the sender.
-        public let senderControlPort: Int?
         ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public let senderControlPort: Int?
+        ///  The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
         ///  The ARN of the source.
         public let sourceArn: String?
@@ -7716,6 +7905,8 @@ extension MediaConnect {
         public let maxSyncBuffer: Int?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
+        /// The timecode source for NDI output frames. For NDI outputs, this field is always present and defaults to EMBEDDED_TIMECODE.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
+        public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public let ndiProgramName: String?
         ///  The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
@@ -7740,12 +7931,13 @@ extension MediaConnect {
         public let streamId: String?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiProgramName: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
+            self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSourceSettings = ndiSourceSettings
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -7765,6 +7957,7 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case maxSyncBuffer = "maxSyncBuffer"
             case minLatency = "minLatency"
+            case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSourceSettings = "ndiSourceSettings"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
@@ -8412,6 +8605,8 @@ extension MediaConnect {
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
+        /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
+        public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public let ndiProgramName: String?
         /// A quality setting for the NDI Speed HQ encoder.
@@ -8441,7 +8636,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -8450,6 +8645,7 @@ extension MediaConnect {
             self.maxLatency = maxLatency
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
+            self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputArn = outputArn
@@ -8477,6 +8673,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.maxLatency, forKey: .maxLatency)
             try container.encodeIfPresent(self.mediaStreamOutputConfigurations, forKey: .mediaStreamOutputConfigurations)
             try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
+            try container.encodeIfPresent(self.ndiOutputTimecodeSource, forKey: .ndiOutputTimecodeSource)
             try container.encodeIfPresent(self.ndiProgramName, forKey: .ndiProgramName)
             try container.encodeIfPresent(self.ndiSpeedHqQuality, forKey: .ndiSpeedHqQuality)
             request.encodePath(self.outputArn, key: "OutputArn")
@@ -8506,6 +8703,7 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
+            case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case outputStatus = "outputStatus"
@@ -8862,6 +9060,8 @@ extension MediaConnect {
         public let arn: String
         /// The updated configuration settings for the router input. Changing the type of the configuration is not supported.
         public let configuration: RouterInputConfiguration?
+        /// The content quality analysis configuration for the router input.
+        public let contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration?
         /// The updated maintenance configuration settings for the router input, including any changes to preferred maintenance windows and schedules.
         public let maintenanceConfiguration: MaintenanceConfiguration?
         /// The updated maximum bitrate for the router input.
@@ -8876,9 +9076,10 @@ extension MediaConnect {
         public let transitEncryption: RouterInputTransitEncryption?
 
         @inlinable
-        public init(arn: String, configuration: RouterInputConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, routingScope: RoutingScope? = nil, tier: RouterInputTier? = nil, transitEncryption: RouterInputTransitEncryption? = nil) {
+        public init(arn: String, configuration: RouterInputConfiguration? = nil, contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, routingScope: RoutingScope? = nil, tier: RouterInputTier? = nil, transitEncryption: RouterInputTransitEncryption? = nil) {
             self.arn = arn
             self.configuration = configuration
+            self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
@@ -8892,6 +9093,7 @@ extension MediaConnect {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.arn, key: "Arn")
             try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.contentQualityAnalysisConfiguration, forKey: .contentQualityAnalysisConfiguration)
             try container.encodeIfPresent(self.maintenanceConfiguration, forKey: .maintenanceConfiguration)
             try container.encodeIfPresent(self.maximumBitrate, forKey: .maximumBitrate)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -8903,11 +9105,13 @@ extension MediaConnect {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerInput:[a-z0-9]{12}$")
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.contentQualityAnalysisConfiguration?.validate(name: "\(name).contentQualityAnalysisConfiguration")
             try self.transitEncryption?.validate(name: "\(name).transitEncryption")
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case contentQualityAnalysisConfiguration = "contentQualityAnalysisConfiguration"
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"
@@ -9196,6 +9400,24 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case window = "window"
+        }
+    }
+
+    public struct RouterContentQualityAnalysisConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The content quality analysis configuration.
+        public let contentLevel: ContentQualityAnalysisFeatureConfiguration?
+
+        @inlinable
+        public init(contentLevel: ContentQualityAnalysisFeatureConfiguration? = nil) {
+            self.contentLevel = contentLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.contentLevel?.validate(name: "\(name).contentLevel")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentLevel = "contentLevel"
         }
     }
 

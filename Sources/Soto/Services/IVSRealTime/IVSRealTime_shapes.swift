@@ -542,6 +542,8 @@ extension IVSRealTime {
         public let insecureIngest: Bool?
         /// Optional name that can be specified for the IngestConfiguration being created.
         public let name: String?
+        /// Indicates whether redundant ingest is enabled for the ingest configuration. Default: false.
+        public let redundantIngest: Bool?
         /// ARN of the stage with which the IngestConfiguration is associated.
         public let stageArn: String?
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented
@@ -551,11 +553,12 @@ extension IVSRealTime {
         public let userId: String?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, insecureIngest: Bool? = nil, name: String? = nil, stageArn: String? = nil, tags: [String: String]? = nil, userId: String? = nil) {
+        public init(attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, insecureIngest: Bool? = nil, name: String? = nil, redundantIngest: Bool? = nil, stageArn: String? = nil, tags: [String: String]? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.ingestProtocol = ingestProtocol
             self.insecureIngest = insecureIngest
             self.name = name
+            self.redundantIngest = redundantIngest
             self.stageArn = stageArn
             self.tags = tags
             self.userId = userId
@@ -580,6 +583,7 @@ extension IVSRealTime {
             case ingestProtocol = "ingestProtocol"
             case insecureIngest = "insecureIngest"
             case name = "name"
+            case redundantIngest = "redundantIngest"
             case stageArn = "stageArn"
             case tags = "tags"
             case userId = "userId"
@@ -1553,6 +1557,11 @@ extension IVSRealTime {
         public let name: String?
         /// ID of the participant within the stage.
         public let participantId: String
+        /// Indicates whether redundant ingest is enabled for the ingest configuration.
+        public let redundantIngest: Bool?
+        /// A list of redundant ingest credentials, present only when redundantIngest is set to true. See Redundant Ingest in
+        /// 	  IVS RTMP Publishing for details.
+        public let redundantIngestCredentials: [RedundantIngestCredential]?
         /// ARN of the stage with which the IngestConfiguration is associated.
         public let stageArn: String
         /// State of the ingest configuration. It is ACTIVE if a publisher currently is publishing to the stage associated with the ingest configuration.
@@ -1565,12 +1574,14 @@ extension IVSRealTime {
         public let userId: String?
 
         @inlinable
-        public init(arn: String, attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, stageArn: String, state: IngestConfigurationState, streamKey: String, tags: [String: String]? = nil, userId: String? = nil) {
+        public init(arn: String, attributes: [String: String]? = nil, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, redundantIngest: Bool? = nil, redundantIngestCredentials: [RedundantIngestCredential]? = nil, stageArn: String, state: IngestConfigurationState, streamKey: String, tags: [String: String]? = nil, userId: String? = nil) {
             self.arn = arn
             self.attributes = attributes
             self.ingestProtocol = ingestProtocol
             self.name = name
             self.participantId = participantId
+            self.redundantIngest = redundantIngest
+            self.redundantIngestCredentials = redundantIngestCredentials
             self.stageArn = stageArn
             self.state = state
             self.streamKey = streamKey
@@ -1584,6 +1595,8 @@ extension IVSRealTime {
             case ingestProtocol = "ingestProtocol"
             case name = "name"
             case participantId = "participantId"
+            case redundantIngest = "redundantIngest"
+            case redundantIngestCredentials = "redundantIngestCredentials"
             case stageArn = "stageArn"
             case state = "state"
             case streamKey = "streamKey"
@@ -1601,6 +1614,8 @@ extension IVSRealTime {
         public let name: String?
         /// ID of the participant within the stage.
         public let participantId: String
+        /// Indicates whether redundant ingest is enabled for the ingest configuration.
+        public let redundantIngest: Bool?
         /// ARN of the stage with which the IngestConfiguration is associated.
         public let stageArn: String
         /// State of the ingest configuration. It is ACTIVE if a publisher currently is publishing to the stage associated with the ingest configuration.
@@ -1609,11 +1624,12 @@ extension IVSRealTime {
         public let userId: String?
 
         @inlinable
-        public init(arn: String, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, stageArn: String, state: IngestConfigurationState, userId: String? = nil) {
+        public init(arn: String, ingestProtocol: IngestProtocol, name: String? = nil, participantId: String, redundantIngest: Bool? = nil, stageArn: String, state: IngestConfigurationState, userId: String? = nil) {
             self.arn = arn
             self.ingestProtocol = ingestProtocol
             self.name = name
             self.participantId = participantId
+            self.redundantIngest = redundantIngest
             self.stageArn = stageArn
             self.state = state
             self.userId = userId
@@ -1624,6 +1640,7 @@ extension IVSRealTime {
             case ingestProtocol = "ingestProtocol"
             case name = "name"
             case participantId = "participantId"
+            case redundantIngest = "redundantIngest"
             case stageArn = "stageArn"
             case state = "state"
             case userId = "userId"
@@ -2276,6 +2293,8 @@ extension IVSRealTime {
         /// ISO 8601 timestamp (returned as a string) when the participant first joined the stage session.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var firstJoinTime: Date?
+        /// The participant’s ingest configuration.
+        public let ingestConfigurationArn: String?
         /// The participant’s Internet Service Provider.
         public let ispName: String?
         /// The participant’s operating system.
@@ -2298,6 +2317,8 @@ extension IVSRealTime {
         public let recordingS3Prefix: String?
         /// The participant’s recording state.
         public let recordingState: ParticipantRecordingState?
+        /// Indicates whether redundant ingest is enabled for the participant.
+        public let redundantIngest: Bool?
         /// The participant's replication state.
         public let replicationState: ReplicationState?
         /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
@@ -2314,11 +2335,12 @@ extension IVSRealTime {
         public let userId: String?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, protocol: ParticipantProtocol? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, replicationState: ReplicationState? = nil, replicationType: ReplicationType? = nil, sdkVersion: String? = nil, sourceSessionId: String? = nil, sourceStageArn: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(attributes: [String: String]? = nil, browserName: String? = nil, browserVersion: String? = nil, firstJoinTime: Date? = nil, ingestConfigurationArn: String? = nil, ispName: String? = nil, osName: String? = nil, osVersion: String? = nil, participantId: String? = nil, protocol: ParticipantProtocol? = nil, published: Bool? = nil, recordingS3BucketName: String? = nil, recordingS3Prefix: String? = nil, recordingState: ParticipantRecordingState? = nil, redundantIngest: Bool? = nil, replicationState: ReplicationState? = nil, replicationType: ReplicationType? = nil, sdkVersion: String? = nil, sourceSessionId: String? = nil, sourceStageArn: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.attributes = attributes
             self.browserName = browserName
             self.browserVersion = browserVersion
             self.firstJoinTime = firstJoinTime
+            self.ingestConfigurationArn = ingestConfigurationArn
             self.ispName = ispName
             self.osName = osName
             self.osVersion = osVersion
@@ -2328,6 +2350,7 @@ extension IVSRealTime {
             self.recordingS3BucketName = recordingS3BucketName
             self.recordingS3Prefix = recordingS3Prefix
             self.recordingState = recordingState
+            self.redundantIngest = redundantIngest
             self.replicationState = replicationState
             self.replicationType = replicationType
             self.sdkVersion = sdkVersion
@@ -2342,6 +2365,7 @@ extension IVSRealTime {
             case browserName = "browserName"
             case browserVersion = "browserVersion"
             case firstJoinTime = "firstJoinTime"
+            case ingestConfigurationArn = "ingestConfigurationArn"
             case ispName = "ispName"
             case osName = "osName"
             case osVersion = "osVersion"
@@ -2351,6 +2375,7 @@ extension IVSRealTime {
             case recordingS3BucketName = "recordingS3BucketName"
             case recordingS3Prefix = "recordingS3Prefix"
             case recordingState = "recordingState"
+            case redundantIngest = "redundantIngest"
             case replicationState = "replicationState"
             case replicationType = "replicationType"
             case sdkVersion = "sdkVersion"
@@ -2423,12 +2448,16 @@ extension IVSRealTime {
         /// ISO 8601 timestamp (returned as a string) when the participant first joined the stage session.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var firstJoinTime: Date?
+        /// The participant’s ingest configuration.
+        public let ingestConfigurationArn: String?
         /// Unique identifier for this participant, assigned by IVS.
         public let participantId: String?
         /// Whether the participant ever published to the stage session.
         public let published: Bool?
         /// The participant’s recording state.
         public let recordingState: ParticipantRecordingState?
+        /// Indicates whether redundant ingest is enabled for the participant.
+        public let redundantIngest: Bool?
         /// The participant's replication state.
         public let replicationState: ReplicationState?
         /// Indicates if the participant has been replicated to another stage or is a replica from another stage. Default: NONE.
@@ -2443,11 +2472,13 @@ extension IVSRealTime {
         public let userId: String?
 
         @inlinable
-        public init(firstJoinTime: Date? = nil, participantId: String? = nil, published: Bool? = nil, recordingState: ParticipantRecordingState? = nil, replicationState: ReplicationState? = nil, replicationType: ReplicationType? = nil, sourceSessionId: String? = nil, sourceStageArn: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
+        public init(firstJoinTime: Date? = nil, ingestConfigurationArn: String? = nil, participantId: String? = nil, published: Bool? = nil, recordingState: ParticipantRecordingState? = nil, redundantIngest: Bool? = nil, replicationState: ReplicationState? = nil, replicationType: ReplicationType? = nil, sourceSessionId: String? = nil, sourceStageArn: String? = nil, state: ParticipantState? = nil, userId: String? = nil) {
             self.firstJoinTime = firstJoinTime
+            self.ingestConfigurationArn = ingestConfigurationArn
             self.participantId = participantId
             self.published = published
             self.recordingState = recordingState
+            self.redundantIngest = redundantIngest
             self.replicationState = replicationState
             self.replicationType = replicationType
             self.sourceSessionId = sourceSessionId
@@ -2458,9 +2489,11 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case firstJoinTime = "firstJoinTime"
+            case ingestConfigurationArn = "ingestConfigurationArn"
             case participantId = "participantId"
             case published = "published"
             case recordingState = "recordingState"
+            case redundantIngest = "redundantIngest"
             case replicationState = "replicationState"
             case replicationType = "replicationType"
             case sourceSessionId = "sourceSessionId"
@@ -2753,6 +2786,24 @@ extension IVSRealTime {
         private enum CodingKeys: String, CodingKey {
             case format = "format"
             case hlsConfiguration = "hlsConfiguration"
+        }
+    }
+
+    public struct RedundantIngestCredential: AWSDecodableShape {
+        /// ID of the participant within the stage.
+        public let participantId: String?
+        /// Ingest-key value.
+        public let streamKey: String?
+
+        @inlinable
+        public init(participantId: String? = nil, streamKey: String? = nil) {
+            self.participantId = participantId
+            self.streamKey = streamKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case participantId = "participantId"
+            case streamKey = "streamKey"
         }
     }
 
@@ -3173,12 +3224,19 @@ extension IVSRealTime {
     }
 
     public struct StartParticipantReplicationResponse: AWSDecodableShape {
+        /// See Access-Control-Allow-Origin in the MDN Web Docs.
         public let accessControlAllowOrigin: String?
+        /// See Access-Control-Expose-Headers in the MDN Web Docs.
         public let accessControlExposeHeaders: String?
+        /// See Cache-Control in the MDN Web Docs.
         public let cacheControl: String?
+        /// See Content-Security-Policy in the MDN Web Docs.
         public let contentSecurityPolicy: String?
+        /// See Strict-Transport-Security in the MDN Web Docs.
         public let strictTransportSecurity: String?
+        /// See X-Content-Type-Options in the MDN Web Docs.
         public let xContentTypeOptions: String?
+        /// See X-Frame-Options in the MDN Web Docs.
         public let xFrameOptions: String?
 
         @inlinable
@@ -3267,12 +3325,19 @@ extension IVSRealTime {
     }
 
     public struct StopParticipantReplicationResponse: AWSDecodableShape {
+        /// See Access-Control-Allow-Origin in the MDN Web Docs.
         public let accessControlAllowOrigin: String?
+        /// See Access-Control-Expose-Headers in the MDN Web Docs.
         public let accessControlExposeHeaders: String?
+        /// See Cache-Control in the MDN Web Docs.
         public let cacheControl: String?
+        /// See Content-Security-Policy in the MDN Web Docs.
         public let contentSecurityPolicy: String?
+        /// See Strict-Transport-Security in the MDN Web Docs.
         public let strictTransportSecurity: String?
+        /// See X-Content-Type-Options in the MDN Web Docs.
         public let xContentTypeOptions: String?
+        /// See X-Frame-Options in the MDN Web Docs.
         public let xFrameOptions: String?
 
         @inlinable
@@ -3432,12 +3497,15 @@ extension IVSRealTime {
     public struct UpdateIngestConfigurationRequest: AWSEncodableShape {
         /// ARN of the IngestConfiguration, for which the related stage ARN needs to be updated.
         public let arn: String
+        /// Indicates whether redundant ingest is enabled for the ingest configuration. Default: false.
+        public let redundantIngest: Bool?
         /// Stage ARN that needs to be updated.
         public let stageArn: String?
 
         @inlinable
-        public init(arn: String, stageArn: String? = nil) {
+        public init(arn: String, redundantIngest: Bool? = nil, stageArn: String? = nil) {
             self.arn = arn
+            self.redundantIngest = redundantIngest
             self.stageArn = stageArn
         }
 
@@ -3451,6 +3519,7 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case redundantIngest = "redundantIngest"
             case stageArn = "stageArn"
         }
     }

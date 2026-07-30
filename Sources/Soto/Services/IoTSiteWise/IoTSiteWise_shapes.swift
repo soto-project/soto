@@ -35,6 +35,13 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssetErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
@@ -164,6 +171,23 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComputeNodeErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case executionError = "EXECUTION_ERROR"
+        case internalFailure = "INTERNAL_FAILURE"
+        case timedOut = "TIMED_OUT"
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputeNodeExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case updateFailed = "UPDATE_FAILED"
@@ -178,13 +202,50 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataSegmentErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conflictingOperation = "CONFLICTING_OPERATION"
+        case internalFailure = "INTERNAL_FAILURE"
+        case limitExceeded = "LIMIT_EXCEEDED"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetEnrichmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fullyEnriched = "FULLY_ENRICHED"
+        case notEnriched = "NOT_ENRICHED"
+        case partiallyEnriched = "PARTIALLY_ENRICHED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetExportJobFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatasetExportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DatasetSourceFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeBase = "KNOWLEDGE_BASE"
+        case timeseries = "TIMESERIES"
         public var description: String { return self.rawValue }
     }
 
     public enum DatasetSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kendra = "KENDRA"
+        case sitewise = "SITEWISE"
         public var description: String { return self.rawValue }
     }
 
@@ -197,9 +258,24 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum DatasetTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case curated = "CURATED"
+        case external = "EXTERNAL"
+        case session = "SESSION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DetailedErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case incompatibleComputeLocation = "INCOMPATIBLE_COMPUTE_LOCATION"
         case incompatibleForwardingConfiguration = "INCOMPATIBLE_FORWARDING_CONFIGURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetailedPipelineErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case executionError = "EXECUTION_ERROR"
+        case internalFailure = "INTERNAL_FAILURE"
+        case timedOut = "TIMED_OUT"
+        case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -215,6 +291,22 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnrichmentJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnrichmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enriched = "ENRICHED"
+        case notEnriched = "NOT_ENRICHED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalFailure = "INTERNAL_FAILURE"
         case validationError = "VALIDATION_ERROR"
@@ -225,6 +317,13 @@ extension IoTSiteWise {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case annotation = "ANNOTATION"
+        case telemetry = "TELEMETRY"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
@@ -253,6 +352,11 @@ extension IoTSiteWise {
         case failed = "FAILED"
         case pending = "PENDING"
         case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eventDetection = "EVENT_DETECTION"
         public var description: String { return self.rawValue }
     }
 
@@ -311,6 +415,24 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum PipelineErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case executionError = "EXECUTION_ERROR"
+        case internalFailure = "INTERNAL_FAILURE"
+        case timedOut = "TIMED_OUT"
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PipelineExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PortalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -327,12 +449,39 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProcessingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case genericComputeProcessing = "GENERIC_COMPUTE_PROCESSING"
+        case hardwareAcceleratedProcessing = "HARDWARE_ACCELERATED_PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case units12 = "UNITS_12"
+        case units16 = "UNITS_16"
+        case units2 = "UNITS_2"
+        case units24 = "UNITS_24"
+        case units32 = "UNITS_32"
+        case units36 = "UNITS_36"
+        case units4 = "UNITS_4"
+        case units48 = "UNITS_48"
+        case units60 = "UNITS_60"
+        case units64 = "UNITS_64"
+        case units72 = "UNITS_72"
+        case units8 = "UNITS_8"
+        case units84 = "UNITS_84"
+        case units96 = "UNITS_96"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PropertyDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `struct` = "STRUCT"
+        case annotation = "ANNOTATION"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
         case integer = "INTEGER"
+        case json = "JSON"
         case string = "STRING"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
@@ -346,6 +495,16 @@ extension IoTSiteWise {
         case bad = "BAD"
         case good = "GOOD"
         case uncertain = "UNCERTAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canceled = "CANCELED"
+        case canceling = "CANCELING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
 
@@ -363,6 +522,21 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalFailure = "INTERNAL_FAILURE"
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case portal = "PORTAL"
         case project = "PROJECT"
@@ -375,6 +549,20 @@ extension IoTSiteWise {
         case int = "INT"
         case string = "STRING"
         case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deep = "DEEP"
+        case quick = "QUICK"
         public var description: String { return self.rawValue }
     }
 
@@ -407,10 +595,78 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum VideoDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mp4 = "VIDEO-MP4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WarmTierState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
+    }
+
+    public enum WorkspaceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcessingInput: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A dataset containing multiple items to process.
+        case dataset(DatasetItem)
+        /// List of individual timeseries items to process.
+        case timeseries([TimeseriesItem])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .dataset:
+                let value = try container.decode(DatasetItem.self, forKey: .dataset)
+                self = .dataset(value)
+            case .timeseries:
+                let value = try container.decode([TimeseriesItem].self, forKey: .timeseries)
+                self = .timeseries(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .dataset(let value):
+                try container.encode(value, forKey: .dataset)
+            case .timeseries(let value):
+                try container.encode(value, forKey: .timeseries)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .dataset(let value):
+                try value.validate(name: "\(name).dataset")
+            case .timeseries(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).timeseries[]")
+                }
+                try self.validate(value, name: "timeseries", parent: name, max: 100)
+                try self.validate(value, name: "timeseries", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataset = "dataset"
+            case timeseries = "timeseries"
+        }
     }
 
     public enum ResponseStream: AWSDecodableShape, Sendable {
@@ -674,6 +930,44 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case alarmRoleArn = "alarmRoleArn"
             case notificationLambdaArn = "notificationLambdaArn"
+        }
+    }
+
+    public struct Annotation: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ApplicationSummary: AWSDecodableShape {
+        /// ARN of the application
+        public let arn: String
+        /// Timestamp when the application was created
+        public let createdAt: Date
+        /// Unique identifier of the application
+        public let id: String
+        /// Name of the application
+        public let name: String
+        /// Current status of the application
+        public let status: ApplicationStatus
+        /// Name of the workspace this application belongs to
+        public let workspaceName: String
+
+        @inlinable
+        public init(arn: String, createdAt: Date, id: String, name: String, status: ApplicationStatus, workspaceName: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+            self.status = status
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -1110,7 +1404,7 @@ extension IoTSiteWise {
     }
 
     public struct AssetModelProperty: AWSEncodableShape & AWSDecodableShape {
-        /// The data type of the asset model property. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
+        /// The data type of the asset model property. The VIDEO, ANNOTATION, and JSON data types aren't supported for asset model properties. These types are used only by time series that store data for datasets in a workspace. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
         public let dataType: PropertyDataType
         /// The data type of the structure for this property. This parameter exists on properties that have the STRUCT data type.
         public let dataTypeSpec: String?
@@ -1228,7 +1522,7 @@ extension IoTSiteWise {
     }
 
     public struct AssetModelPropertyDefinition: AWSEncodableShape {
-        /// The data type of the property definition. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
+        /// The data type of the property definition. The VIDEO, ANNOTATION, and JSON data types aren't supported for asset model properties. These types are used only by time series that store data for datasets in a workspace. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this property.
         public let dataType: PropertyDataType
         /// The data type of the structure for this property. This parameter is required on properties that have the STRUCT data type. The options for this parameter depend on the type of the composite model in which you define this property. Use AWS/ALARM_STATE for alarm state in alarm composite models.
         public let dataTypeSpec: String?
@@ -1744,6 +2038,42 @@ extension IoTSiteWise {
         }
     }
 
+    public struct AssociateDataSegmentEntry: AWSEncodableShape {
+        /// The nanosecond-precision end time of the data segment to associate.
+        public let endTimestamp: TimeInNanos
+        /// The ID of the source dataset that contains the data segment.
+        public let sourceDatasetId: String
+        /// The nanosecond-precision start time of the data segment to associate.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(endTimestamp: TimeInNanos, sourceDatasetId: String, startTimestamp: TimeInNanos, timeSeriesId: String) {
+            self.endTimestamp = endTimestamp
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+
+        public func validate(name: String) throws {
+            try self.endTimestamp.validate(name: "\(name).endTimestamp")
+            try self.validate(self.sourceDatasetId, name: "sourceDatasetId", parent: name, max: 36)
+            try self.validate(self.sourceDatasetId, name: "sourceDatasetId", parent: name, min: 36)
+            try self.validate(self.sourceDatasetId, name: "sourceDatasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.startTimestamp.validate(name: "\(name).startTimestamp")
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 73)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, min: 36)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "endTimestamp"
+            case sourceDatasetId = "sourceDatasetId"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
     public struct AssociateTimeSeriesToAssetPropertyRequest: AWSEncodableShape {
         /// The alias that identifies the time series.
         public let alias: String
@@ -1858,6 +2188,77 @@ extension IoTSiteWise {
         }
     }
 
+    public struct BatchAssociateDataSegmentsToDatasetRequest: AWSEncodableShape {
+        /// The list of data segment entries to associate with the dataset.
+        public let associateDataSegmentEntries: [AssociateDataSegmentEntry]
+        /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+        public let clientToken: String?
+        /// The ID of the curated dataset to associate data segments with.
+        public let datasetId: String
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String
+
+        @inlinable
+        public init(associateDataSegmentEntries: [AssociateDataSegmentEntry], clientToken: String? = BatchAssociateDataSegmentsToDatasetRequest.idempotencyToken(), datasetId: String, workspaceName: String) {
+            self.associateDataSegmentEntries = associateDataSegmentEntries
+            self.clientToken = clientToken
+            self.datasetId = datasetId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.associateDataSegmentEntries, forKey: .associateDataSegmentEntries)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.workspaceName, forKey: .workspaceName)
+        }
+
+        public func validate(name: String) throws {
+            try self.associateDataSegmentEntries.forEach {
+                try $0.validate(name: "\(name).associateDataSegmentEntries[]")
+            }
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associateDataSegmentEntries = "associateDataSegmentEntries"
+            case clientToken = "clientToken"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct BatchAssociateDataSegmentsToDatasetResponse: AWSDecodableShape {
+        /// The ID of the dataset.
+        public let datasetId: String
+        /// The version of the dataset after association.
+        public let datasetVersion: String
+        /// A list of data segment associations that failed.
+        public let failedAssociations: [FailedDataSegmentAssociation]
+
+        @inlinable
+        public init(datasetId: String, datasetVersion: String, failedAssociations: [FailedDataSegmentAssociation]) {
+            self.datasetId = datasetId
+            self.datasetVersion = datasetVersion
+            self.failedAssociations = failedAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+            case datasetVersion = "datasetVersion"
+            case failedAssociations = "failedAssociations"
+        }
+    }
+
     public struct BatchAssociateProjectAssetsRequest: AWSEncodableShape {
         /// The IDs of the assets to be associated to the project.
         public let assetIds: [String]
@@ -1914,6 +2315,150 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case errors = "errors"
+        }
+    }
+
+    public struct BatchDeleteDatasetDataSegmentsRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+        public let clientToken: String?
+        /// The ID of the session dataset from which to delete data segments.
+        public let datasetId: String
+        /// The list of data segment entries to delete.
+        public let deleteDataSegmentEntries: [DeleteDataSegmentEntry]
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = BatchDeleteDatasetDataSegmentsRequest.idempotencyToken(), datasetId: String, deleteDataSegmentEntries: [DeleteDataSegmentEntry], workspaceName: String) {
+            self.clientToken = clientToken
+            self.datasetId = datasetId
+            self.deleteDataSegmentEntries = deleteDataSegmentEntries
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.deleteDataSegmentEntries, forKey: .deleteDataSegmentEntries)
+            try container.encode(self.workspaceName, forKey: .workspaceName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.deleteDataSegmentEntries.forEach {
+                try $0.validate(name: "\(name).deleteDataSegmentEntries[]")
+            }
+            try self.validate(self.deleteDataSegmentEntries, name: "deleteDataSegmentEntries", parent: name, max: 10)
+            try self.validate(self.deleteDataSegmentEntries, name: "deleteDataSegmentEntries", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case deleteDataSegmentEntries = "deleteDataSegmentEntries"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct BatchDeleteDatasetDataSegmentsResponse: AWSDecodableShape {
+        /// The ID of the dataset.
+        public let datasetId: String
+        /// The version of the dataset after deletion.
+        public let datasetVersion: String
+        /// A list of data segment deletions that failed.
+        public let errors: [FailedDataSegmentDeletion]
+
+        @inlinable
+        public init(datasetId: String, datasetVersion: String, errors: [FailedDataSegmentDeletion]) {
+            self.datasetId = datasetId
+            self.datasetVersion = datasetVersion
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+            case datasetVersion = "datasetVersion"
+            case errors = "errors"
+        }
+    }
+
+    public struct BatchDisassociateDataSegmentsFromDatasetRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+        public let clientToken: String?
+        /// The ID of the curated dataset to disassociate data segments from.
+        public let datasetId: String
+        /// The list of data segment entries to disassociate from the dataset.
+        public let disassociateDataSegmentEntries: [DisassociateDataSegmentEntry]
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = BatchDisassociateDataSegmentsFromDatasetRequest.idempotencyToken(), datasetId: String, disassociateDataSegmentEntries: [DisassociateDataSegmentEntry], workspaceName: String) {
+            self.clientToken = clientToken
+            self.datasetId = datasetId
+            self.disassociateDataSegmentEntries = disassociateDataSegmentEntries
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.disassociateDataSegmentEntries, forKey: .disassociateDataSegmentEntries)
+            try container.encode(self.workspaceName, forKey: .workspaceName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.disassociateDataSegmentEntries.forEach {
+                try $0.validate(name: "\(name).disassociateDataSegmentEntries[]")
+            }
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case disassociateDataSegmentEntries = "disassociateDataSegmentEntries"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct BatchDisassociateDataSegmentsFromDatasetResponse: AWSDecodableShape {
+        /// The ID of the dataset.
+        public let datasetId: String
+        /// The version of the dataset after disassociation.
+        public let datasetVersion: String
+        /// A list of data segment disassociations that failed.
+        public let failedDisassociations: [FailedDataSegmentDisassociation]
+
+        @inlinable
+        public init(datasetId: String, datasetVersion: String, failedDisassociations: [FailedDataSegmentDisassociation]) {
+            self.datasetId = datasetId
+            self.datasetVersion = datasetVersion
+            self.failedDisassociations = failedDisassociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+            case datasetVersion = "datasetVersion"
+            case failedDisassociations = "failedDisassociations"
         }
     }
 
@@ -2633,6 +3178,165 @@ extension IoTSiteWise {
         }
     }
 
+    public struct CancelEnrichmentJobRequest: AWSEncodableShape {
+        /// The unique identifier of the enrichment job to cancel. This is the jobId returned by CreateEnrichmentJob.
+        public let jobId: String
+        /// The name of the IoT SiteWise workspace containing the enrichment job to cancel.
+        public let workspaceName: String
+
+        @inlinable
+        public init(jobId: String, workspaceName: String) {
+            self.jobId = jobId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelEnrichmentJobResponse: AWSDecodableShape {
+        /// The unique identifier of the cancelled enrichment job.
+        public let jobId: String
+        /// The status of the enrichment job after cancellation. This will be CANCELLED, indicating the job
+        /// was successfully cancelled or was already in CANCELLED state (idempotent behavior).
+        public let status: EnrichmentJobStatus
+
+        @inlinable
+        public init(jobId: String, status: EnrichmentJobStatus) {
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case status = "status"
+        }
+    }
+
+    public struct CancelPipelineExecutionRequest: AWSEncodableShape {
+        /// The unique identifier of the pipeline execution.
+        public let pipelineExecutionId: String
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// A message describing why the pipeline execution is being cancelled.
+        public let reason: String?
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(pipelineExecutionId: String, pipelineName: String, reason: String? = nil, workspaceName: String) {
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineName = pipelineName
+            self.reason = reason
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineExecutionId, key: "pipelineExecutionId")
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            try container.encodeIfPresent(self.reason, forKey: .reason)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, max: 36)
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, min: 36)
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.reason, name: "reason", parent: name, max: 1024)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+        }
+    }
+
+    public struct CancelPipelineExecutionResponse: AWSDecodableShape {
+        /// The current execution state of the pipeline. Can only be CANCELLING or CANCELLED.
+        public let state: PipelineExecutionState
+
+        @inlinable
+        public init(state: PipelineExecutionState) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+        }
+    }
+
+    public struct CancelQueryRequest: AWSEncodableShape {
+        /// The unique identifier for the query execution to cancel.
+        public let queryId: String
+        /// The name of the workspace associated with the query.
+        public let workspaceName: String
+
+        @inlinable
+        public init(queryId: String, workspaceName: String) {
+            self.queryId = queryId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.queryId, key: "queryId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 64)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelQueryResponse: AWSDecodableShape {
+        /// The unique identifier for the cancelled query.
+        public let queryId: String
+        /// The current query status.
+        public let status: QueryStatus
+
+        @inlinable
+        public init(queryId: String, status: QueryStatus) {
+            self.queryId = queryId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "queryId"
+            case status = "status"
+        }
+    }
+
     public struct Citation: AWSDecodableShape {
         /// Contains the cited text from the data source.
         public let content: Content?
@@ -2659,6 +3363,24 @@ extension IoTSiteWise {
 
         @inlinable
         public init(name: String? = nil, type: ColumnType? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct ColumnInformation: AWSDecodableShape {
+        /// The name of the column.
+        public let name: String
+        /// The data type of the column. Valid values are STRING, DOUBLE, BOOLEAN, INTEGER, TIMESTAMP, and VARIANT.
+        public let type: String
+
+        @inlinable
+        public init(name: String, type: String) {
             self.name = name
             self.type = type
         }
@@ -2931,6 +3653,140 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ComputeNode: AWSEncodableShape & AWSDecodableShape {
+        /// The unique name for this compute node within the pipeline.
+        public let computeNodeName: String
+        /// A list of compute node names that must complete successfully before this node can start.
+        public let dependsOn: [String]?
+        /// Environment variables specific to this compute node. These override pipeline-level environment variables with the same key.
+        public let environmentVariables: [String: String]?
+        /// The name of the task to execute for this compute node.
+        public let taskName: String
+
+        @inlinable
+        public init(computeNodeName: String, dependsOn: [String]? = nil, environmentVariables: [String: String]? = nil, taskName: String) {
+            self.computeNodeName = computeNodeName
+            self.dependsOn = dependsOn
+            self.environmentVariables = environmentVariables
+            self.taskName = taskName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computeNodeName, name: "computeNodeName", parent: name, max: 64)
+            try self.validate(self.computeNodeName, name: "computeNodeName", parent: name, min: 1)
+            try self.validate(self.computeNodeName, name: "computeNodeName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.dependsOn?.forEach {
+                try validate($0, name: "dependsOn[]", parent: name, max: 64)
+                try validate($0, name: "dependsOn[]", parent: name, min: 1)
+                try validate($0, name: "dependsOn[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            }
+            try self.validate(self.dependsOn, name: "dependsOn", parent: name, max: 10)
+            try self.environmentVariables?.forEach {
+                try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
+                try validate($0.key, name: "environmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^(?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 20)
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 64)
+            try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
+            try self.validate(self.taskName, name: "taskName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeNodeName = "computeNodeName"
+            case dependsOn = "dependsOn"
+            case environmentVariables = "environmentVariables"
+            case taskName = "taskName"
+        }
+    }
+
+    public struct ComputeNodeExecutionDetails: AWSDecodableShape {
+        /// The name of the compute node.
+        public let computeNodeName: String
+        /// A list of compute node names that this node depends on.
+        public let dependsOn: [String]
+        /// The time the compute node execution completed, in Unix epoch time.
+        public let endTime: Date?
+        /// The fully resolved environment variables used for this compute node execution.
+        public let executionEnvironmentVariables: [String: String]?
+        /// The time the compute node execution started, in Unix epoch time.
+        public let startTime: Date?
+        /// The current execution status of the compute node.
+        public let status: ComputeNodeExecutionStatus
+        /// The ARN of the task.
+        public let taskArn: String
+        /// The name of the task executed for this compute node.
+        public let taskName: String
+        /// The task version that executed for this compute node.
+        public let taskVersion: String
+
+        @inlinable
+        public init(computeNodeName: String, dependsOn: [String], endTime: Date? = nil, executionEnvironmentVariables: [String: String]? = nil, startTime: Date? = nil, status: ComputeNodeExecutionStatus, taskArn: String, taskName: String, taskVersion: String) {
+            self.computeNodeName = computeNodeName
+            self.dependsOn = dependsOn
+            self.endTime = endTime
+            self.executionEnvironmentVariables = executionEnvironmentVariables
+            self.startTime = startTime
+            self.status = status
+            self.taskArn = taskArn
+            self.taskName = taskName
+            self.taskVersion = taskVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeNodeName = "computeNodeName"
+            case dependsOn = "dependsOn"
+            case endTime = "endTime"
+            case executionEnvironmentVariables = "executionEnvironmentVariables"
+            case startTime = "startTime"
+            case status = "status"
+            case taskArn = "taskArn"
+            case taskName = "taskName"
+            case taskVersion = "taskVersion"
+        }
+    }
+
+    public struct ComputeNodeExecutionStateDetails: AWSDecodableShape {
+        /// Classification of the failure.
+        public let code: ComputeNodeErrorCode
+        /// Detailed error entries to help diagnose the failure.
+        public let details: [DetailedPipelineError]?
+        /// Human-readable description of why the compute node failed.
+        public let message: String
+
+        @inlinable
+        public init(code: ComputeNodeErrorCode, details: [DetailedPipelineError]? = nil, message: String) {
+            self.code = code
+            self.details = details
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case details = "details"
+            case message = "message"
+        }
+    }
+
+    public struct ComputeNodeExecutionStatus: AWSDecodableShape {
+        /// Current state of the compute node execution.
+        public let state: ComputeNodeExecutionState
+        /// Additional information about the compute node's failure. Populated when the compute node has failed.
+        public let stateDetails: ComputeNodeExecutionStateDetails?
+
+        @inlinable
+        public init(state: ComputeNodeExecutionState, stateDetails: ComputeNodeExecutionStateDetails? = nil) {
+            self.state = state
+            self.stateDetails = stateDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case stateDetails = "stateDetails"
+        }
+    }
+
     public struct ConfigurationErrorDetails: AWSDecodableShape {
         /// The error code.
         public let code: ErrorCode
@@ -2985,6 +3841,62 @@ extension IoTSiteWise {
             case message = "message"
             case resourceArn = "resourceArn"
             case resourceId = "resourceId"
+        }
+    }
+
+    public struct ContainerTaskConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The command to execute in the container.
+        public let command: [String]?
+        /// The Amazon ECR image URI for the task container.
+        public let ecrUri: String
+        /// Environment variables passed to the container at runtime.
+        public let environmentVariables: [String: String]?
+        /// The processing type for compute resources.
+        public let processingType: ProcessingType
+        /// The processing unit allocation that determines the vCPU, memory, and GPU resources.
+        public let processingUnit: ProcessingUnit
+        /// The ARN of the IAM role that grants the containerized workload permissions to access AWS resources.
+        public let taskExecutionRole: String
+        /// The timeout in seconds for task execution. Default: 3600 (1 hour).
+        public let timeoutSeconds: Int64?
+
+        @inlinable
+        public init(command: [String]? = nil, ecrUri: String, environmentVariables: [String: String]? = nil, processingType: ProcessingType, processingUnit: ProcessingUnit, taskExecutionRole: String, timeoutSeconds: Int64? = nil) {
+            self.command = command
+            self.ecrUri = ecrUri
+            self.environmentVariables = environmentVariables
+            self.processingType = processingType
+            self.processingUnit = processingUnit
+            self.taskExecutionRole = taskExecutionRole
+            self.timeoutSeconds = timeoutSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ecrUri, name: "ecrUri", parent: name, max: 1024)
+            try self.validate(self.ecrUri, name: "ecrUri", parent: name, min: 1)
+            try self.validate(self.ecrUri, name: "ecrUri", parent: name, pattern: "^((\\d{12}\\.dkr\\.ecr\\.[a-z0-9-]+\\.[a-z.]+)|public\\.ecr\\.aws/[a-z][a-z0-9]+([._-][a-z0-9]+)*)/[a-z0-9]+((\\.||__|_|-+)[a-z0-9]+)*(/[a-z0-9]+((\\.||__|_|-+)[a-z0-9]+)*)*(:[a-zA-Z0-9._-]+|@sha256:[a-f0-9]{64})?$")
+            try self.environmentVariables?.forEach {
+                try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
+                try validate($0.key, name: "environmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^(?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 20)
+            try self.validate(self.taskExecutionRole, name: "taskExecutionRole", parent: name, max: 2048)
+            try self.validate(self.taskExecutionRole, name: "taskExecutionRole", parent: name, min: 20)
+            try self.validate(self.taskExecutionRole, name: "taskExecutionRole", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:iam::\\d{12}:role/[\\w+=,.@/-]+$")
+            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 86400)
+            try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "command"
+            case ecrUri = "ecrUri"
+            case environmentVariables = "environmentVariables"
+            case processingType = "processingType"
+            case processingUnit = "processingUnit"
+            case taskExecutionRole = "taskExecutionRole"
+            case timeoutSeconds = "timeoutSeconds"
         }
     }
 
@@ -3062,6 +3974,95 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case accessPolicyArn = "accessPolicyArn"
             case accessPolicyId = "accessPolicyId"
+        }
+    }
+
+    public struct CreateApplicationRequest: AWSEncodableShape {
+        /// Unique client token for idempotent request handling
+        public let clientToken: String?
+        /// Description of the application
+        public let description: String?
+        /// Identity Center Instance ARN to create the application in
+        public let idcInstanceArn: String
+        /// Name of the application
+        public let name: String
+        /// A list of key-value pairs that contain metadata for the application.
+        public let tags: [String: String]?
+        /// Name of the workspace to associate with the underlying Application
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, idcInstanceArn: String, name: String, tags: [String: String]? = nil, workspaceName: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.idcInstanceArn = idcInstanceArn
+            self.name = name
+            self.tags = tags
+            self.workspaceName = workspaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.idcInstanceArn, name: "idcInstanceArn", parent: name, max: 1600)
+            try self.validate(self.idcInstanceArn, name: "idcInstanceArn", parent: name, min: 1)
+            try self.validate(self.idcInstanceArn, name: "idcInstanceArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9](?:[A-Za-z0-9 ._()\\-]*[A-Za-z0-9._()\\-])?$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case idcInstanceArn = "idcInstanceArn"
+            case name = "name"
+            case tags = "tags"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct CreateApplicationResponse: AWSDecodableShape {
+        /// ARN of the application
+        public let arn: String
+        /// DNS subdomain for the application
+        public let dnsSubdomain: String
+        /// Unique identifier of the application
+        public let id: String
+        /// Name of the application
+        public let name: String
+        /// Current status of the application
+        public let status: ApplicationStatus
+
+        @inlinable
+        public init(arn: String, dnsSubdomain: String, id: String, name: String, status: ApplicationStatus) {
+            self.arn = arn
+            self.dnsSubdomain = dnsSubdomain
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case dnsSubdomain = "dnsSubdomain"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -3181,18 +4182,22 @@ extension IoTSiteWise {
         public let assetModelCompositeModelId: String
         /// The path to the composite model listing the parent composite models.
         public let assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment]
+        /// The ID of the asset model.
+        public let assetModelId: String?
         public let assetModelStatus: AssetModelStatus
 
         @inlinable
-        public init(assetModelCompositeModelId: String, assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment], assetModelStatus: AssetModelStatus) {
+        public init(assetModelCompositeModelId: String, assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment], assetModelId: String? = nil, assetModelStatus: AssetModelStatus) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelCompositeModelPath = assetModelCompositeModelPath
+            self.assetModelId = assetModelId
             self.assetModelStatus = assetModelStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetModelCompositeModelId = "assetModelCompositeModelId"
             case assetModelCompositeModelPath = "assetModelCompositeModelPath"
+            case assetModelId = "assetModelId"
             case assetModelStatus = "assetModelStatus"
         }
     }
@@ -3394,51 +4399,65 @@ extension IoTSiteWise {
     public struct CreateBulkImportJobRequest: AWSEncodableShape {
         /// If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are  computed. If set to false, historical data is ingested into IoT SiteWise as is.
         public let adaptiveIngestion: Bool?
+        /// The ID of the session dataset to ingest data into. Specify this field, together with workspaceName, to ingest data into a session dataset in a workspace.
+        public let datasetId: String?
         /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
         public let deleteFilesAfterImport: Bool?
         /// The Amazon S3 destination where errors associated with the job creation request are saved.
         public let errorReportLocation: ErrorReportLocation
-        /// The files in the specified Amazon S3 bucket that contain your data.
+        /// The files in the specified Amazon S3 bucket that contain your data. You can specify up to 100 files for each bulk import job. Each file supports the following size limits:   Parquet files – Up to 256 MiB.   Other file formats – Up to 5 GiB.
         public let files: [File]
         /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
-        public let jobConfiguration: JobConfiguration
+        public let jobConfiguration: JobConfiguration?
         /// The unique name that helps identify the job request.
         public let jobName: String
         /// The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data.
         public let jobRoleArn: String
+        /// The name of the workspace that contains the session dataset. Specify this field together with datasetId.
+        public let workspaceName: String?
 
         @inlinable
-        public init(adaptiveIngestion: Bool? = nil, deleteFilesAfterImport: Bool? = nil, errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration, jobName: String, jobRoleArn: String) {
+        public init(adaptiveIngestion: Bool? = nil, datasetId: String? = nil, deleteFilesAfterImport: Bool? = nil, errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration? = nil, jobName: String, jobRoleArn: String, workspaceName: String? = nil) {
             self.adaptiveIngestion = adaptiveIngestion
+            self.datasetId = datasetId
             self.deleteFilesAfterImport = deleteFilesAfterImport
             self.errorReportLocation = errorReportLocation
             self.files = files
             self.jobConfiguration = jobConfiguration
             self.jobName = jobName
             self.jobRoleArn = jobRoleArn
+            self.workspaceName = workspaceName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.errorReportLocation.validate(name: "\(name).errorReportLocation")
             try self.files.forEach {
                 try $0.validate(name: "\(name).files[]")
             }
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
-            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[\\p{L}\\p{N}\\p{Zs}._:/-]+$")
             try self.validate(self.jobRoleArn, name: "jobRoleArn", parent: name, max: 1600)
             try self.validate(self.jobRoleArn, name: "jobRoleArn", parent: name, min: 1)
             try self.validate(self.jobRoleArn, name: "jobRoleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:[a-zA-Z0-9-:\\/_\\.]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case adaptiveIngestion = "adaptiveIngestion"
+            case datasetId = "datasetId"
             case deleteFilesAfterImport = "deleteFilesAfterImport"
             case errorReportLocation = "errorReportLocation"
             case files = "files"
             case jobConfiguration = "jobConfiguration"
             case jobName = "jobName"
             case jobRoleArn = "jobRoleArn"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -3504,7 +4523,7 @@ extension IoTSiteWise {
             try self.validate(self.computationModelDescription, name: "computationModelDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
             try self.validate(self.computationModelName, name: "computationModelName", parent: name, max: 256)
             try self.validate(self.computationModelName, name: "computationModelName", parent: name, min: 1)
-            try self.validate(self.computationModelName, name: "computationModelName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@.]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3622,9 +4641,83 @@ extension IoTSiteWise {
         }
     }
 
+    public struct CreateDatasetExportJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The AWS SDKs and CLI populate this automatically.
+        public let clientToken: String?
+        /// The S3 URI where output clips will be written.
+        public let destinationS3Uri: String
+        /// The location where the error report will be written on failure.
+        public let errorReportLocation: ExportErrorReportLocation
+        /// The processing input source.
+        public let input: ProcessingInput
+        /// The name of the workspace in which to create the dataset export job.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = CreateDatasetExportJobRequest.idempotencyToken(), destinationS3Uri: String, errorReportLocation: ExportErrorReportLocation, input: ProcessingInput, workspaceName: String) {
+            self.clientToken = clientToken
+            self.destinationS3Uri = destinationS3Uri
+            self.errorReportLocation = errorReportLocation
+            self.input = input
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.destinationS3Uri, forKey: .destinationS3Uri)
+            try container.encode(self.errorReportLocation, forKey: .errorReportLocation)
+            try container.encode(self.input, forKey: .input)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.destinationS3Uri, name: "destinationS3Uri", parent: name, max: 1024)
+            try self.validate(self.destinationS3Uri, name: "destinationS3Uri", parent: name, min: 1)
+            try self.validate(self.destinationS3Uri, name: "destinationS3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+$")
+            try self.errorReportLocation.validate(name: "\(name).errorReportLocation")
+            try self.input.validate(name: "\(name).input")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case destinationS3Uri = "destinationS3Uri"
+            case errorReportLocation = "errorReportLocation"
+            case input = "input"
+        }
+    }
+
+    public struct CreateDatasetExportJobResponse: AWSDecodableShape {
+        /// The unique identifier for the dataset export job.
+        public let jobId: String
+        /// The name of the workspace in which the dataset export job was created.
+        public let workspaceName: String
+
+        @inlinable
+        public init(jobId: String, workspaceName: String) {
+            self.jobId = jobId
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case workspaceName = "workspaceName"
+        }
+    }
+
     public struct CreateDatasetRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The configuration for the dataset.
+        public let datasetConfig: DatasetConfig?
         /// A description about the dataset, and its functionality.
         public let datasetDescription: String?
         /// The ID of the dataset.
@@ -3633,33 +4726,49 @@ extension IoTSiteWise {
         public let datasetName: String
         /// The data source for the dataset.
         public let datasetSource: DatasetSource
+        /// The type of dataset: a session dataset, a curated dataset, or a connection to an external datasource.
+        public let datasetType: DatasetTypeEnum?
+        /// The metadata for the dataset, provided as key-value pairs.
+        public let metadata: [String: String]?
         /// A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
+        /// The name of the workspace that contains the dataset. Required for session and curated datasets. Omit this field for datasets that connect to an external datasource.
+        public let workspaceName: String?
 
         @inlinable
-        public init(clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String? = nil, datasetName: String, datasetSource: DatasetSource, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetConfig: DatasetConfig? = nil, datasetDescription: String? = nil, datasetId: String? = nil, datasetName: String, datasetSource: DatasetSource, datasetType: DatasetTypeEnum? = nil, metadata: [String: String]? = nil, tags: [String: String]? = nil, workspaceName: String? = nil) {
             self.clientToken = clientToken
+            self.datasetConfig = datasetConfig
             self.datasetDescription = datasetDescription
             self.datasetId = datasetId
             self.datasetName = datasetName
             self.datasetSource = datasetSource
+            self.datasetType = datasetType
+            self.metadata = metadata
             self.tags = tags
+            self.workspaceName = workspaceName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.datasetConfig?.validate(name: "\(name).datasetConfig")
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 2048)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 256)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
-            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@.]+$")
             try self.datasetSource.validate(name: "\(name).datasetSource")
+            try self.metadata?.forEach {
+                try validate($0.key, name: "metadata.key", parent: name, max: 128)
+                try validate($0.key, name: "metadata.key", parent: name, min: 1)
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, max: 2048)
+            }
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3667,15 +4776,22 @@ extension IoTSiteWise {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case datasetConfig = "datasetConfig"
             case datasetDescription = "datasetDescription"
             case datasetId = "datasetId"
             case datasetName = "datasetName"
             case datasetSource = "datasetSource"
+            case datasetType = "datasetType"
+            case metadata = "metadata"
             case tags = "tags"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -3698,6 +4814,73 @@ extension IoTSiteWise {
             case datasetArn = "datasetArn"
             case datasetId = "datasetId"
             case datasetStatus = "datasetStatus"
+        }
+    }
+
+    public struct CreateEnrichmentJobRequest: AWSEncodableShape {
+        /// Optional unique token that makes the operation idempotent. If you submit the same request with the
+        /// same token within the idempotency window, the service returns the original job without creating a
+        /// duplicate. Use a UUID or timestamp-based token for each unique request.
+        public let clientToken: String?
+        /// Configuration defining the type of enrichment analysis to perform and which video data to analyze.
+        /// Currently supports eventDetection for generating embeddings from video data for semantic search.
+        public let jobConfiguration: EnrichmentJobConfiguration
+        /// The name of the IoT SiteWise workspace containing the video data to analyze.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = CreateEnrichmentJobRequest.idempotencyToken(), jobConfiguration: EnrichmentJobConfiguration, workspaceName: String) {
+            self.clientToken = clientToken
+            self.jobConfiguration = jobConfiguration
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.jobConfiguration, forKey: .jobConfiguration)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.jobConfiguration.validate(name: "\(name).jobConfiguration")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case jobConfiguration = "jobConfiguration"
+        }
+    }
+
+    public struct CreateEnrichmentJobResponse: AWSDecodableShape {
+        /// Timestamp when the enrichment job was created in ISO 8601 format.
+        public let createdAt: Date
+        /// Unique identifier for the enrichment job. Use this ID with DescribeEnrichmentJob to monitor
+        /// progress or with CancelEnrichmentJob to cancel the job.
+        public let jobId: String
+        /// Initial status of the enrichment job, typically PENDING. The job will transition to RUNNING when
+        /// processing begins, then to a terminal state (COMPLETED, FAILED, TIMED_OUT, or CANCELLED).
+        /// Use DescribeEnrichmentJob to track status changes.
+        public let status: EnrichmentJobStatus
+
+        @inlinable
+        public init(createdAt: Date, jobId: String, status: EnrichmentJobStatus) {
+            self.createdAt = createdAt
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case jobId = "jobId"
+            case status = "status"
         }
     }
 
@@ -3759,6 +4942,116 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case gatewayArn = "gatewayArn"
             case gatewayId = "gatewayId"
+        }
+    }
+
+    public struct CreatePipelineRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// If you retry a request that completed successfully using the same client token, the server returns the
+        /// cached result from the original successful request without performing the operation again.
+        public let clientToken: String?
+        /// The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes.
+        public let computations: [ComputeNode]
+        /// A description of the pipeline.
+        public let description: String?
+        /// Environment variables shared across all compute nodes in the pipeline. Individual compute nodes can override these values with their own environment variables.
+        public let environmentVariables: [String: String]?
+        /// The name of the pipeline to create. Must be unique within the workspace.
+        public let pipelineName: String
+        /// A list of key-value pairs that contain metadata for the pipeline. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        public let tags: [String: String]?
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = CreatePipelineRequest.idempotencyToken(), computations: [ComputeNode], description: String? = nil, environmentVariables: [String: String]? = nil, pipelineName: String, tags: [String: String]? = nil, workspaceName: String) {
+            self.clientToken = clientToken
+            self.computations = computations
+            self.description = description
+            self.environmentVariables = environmentVariables
+            self.pipelineName = pipelineName
+            self.tags = tags
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.computations, forKey: .computations)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
+            try container.encode(self.pipelineName, forKey: .pipelineName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.computations.forEach {
+                try $0.validate(name: "\(name).computations[]")
+            }
+            try self.validate(self.computations, name: "computations", parent: name, max: 50)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.environmentVariables?.forEach {
+                try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
+                try validate($0.key, name: "environmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^(?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 20)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case computations = "computations"
+            case description = "description"
+            case environmentVariables = "environmentVariables"
+            case pipelineName = "pipelineName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePipelineResponse: AWSDecodableShape {
+        /// The ARN of the created pipeline.
+        public let pipelineArn: String
+        /// The name of the created pipeline.
+        public let pipelineName: String
+        /// The current lifecycle status of the pipeline.
+        public let status: ResourceStatus
+        /// The version of the newly created pipeline.
+        public let version: String
+
+        @inlinable
+        public init(pipelineArn: String, pipelineName: String, status: ResourceStatus, version: String) {
+            self.pipelineArn = pipelineArn
+            self.pipelineName = pipelineName
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineArn = "pipelineArn"
+            case pipelineName = "pipelineName"
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -3955,6 +5248,173 @@ extension IoTSiteWise {
         }
     }
 
+    public struct CreateTaskRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// If you retry a request that completed successfully using the same client token, the server returns the
+        /// cached result from the original successful request without performing the operation again.
+        public let clientToken: String?
+        /// A description of the task.
+        public let description: String?
+        /// A list of key-value pairs that contain metadata for the task. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        public let tags: [String: String]?
+        /// The task execution configuration. Specify a containerTaskConfiguration for custom container workloads.
+        public let taskConfiguration: TaskConfiguration
+        /// The name of the task to create. Must be unique within the workspace.
+        public let taskName: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = CreateTaskRequest.idempotencyToken(), description: String? = nil, tags: [String: String]? = nil, taskConfiguration: TaskConfiguration, taskName: String, workspaceName: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.tags = tags
+            self.taskConfiguration = taskConfiguration
+            self.taskName = taskName
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.taskConfiguration, forKey: .taskConfiguration)
+            try container.encode(self.taskName, forKey: .taskName)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.taskConfiguration.validate(name: "\(name).taskConfiguration")
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 64)
+            try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
+            try self.validate(self.taskName, name: "taskName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case tags = "tags"
+            case taskConfiguration = "taskConfiguration"
+            case taskName = "taskName"
+        }
+    }
+
+    public struct CreateTaskResponse: AWSDecodableShape {
+        /// The current lifecycle status of the task.
+        public let status: ResourceStatus
+        /// The ARN of the created task.
+        public let taskArn: String
+        /// The name of the created task.
+        public let taskName: String
+        /// The version of the newly created task.
+        public let version: String
+
+        @inlinable
+        public init(status: ResourceStatus, taskArn: String, taskName: String, version: String) {
+            self.status = status
+            self.taskArn = taskArn
+            self.taskName = taskName
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case taskArn = "taskArn"
+            case taskName = "taskName"
+            case version = "version"
+        }
+    }
+
+    public struct CreateWorkspaceRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+        public let clientToken: String?
+        /// The encryption configuration for the workspace.
+        public let encryptionConfiguration: WorkspaceEncryptionConfiguration
+        /// A list of key-value pairs that contain metadata for the workspace. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
+        public let tags: [String: String]?
+        /// A description for the workspace.
+        public let workspaceDescription: String?
+        /// The name of the workspace to create.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), encryptionConfiguration: WorkspaceEncryptionConfiguration, tags: [String: String]? = nil, workspaceDescription: String? = nil, workspaceName: String) {
+            self.clientToken = clientToken
+            self.encryptionConfiguration = encryptionConfiguration
+            self.tags = tags
+            self.workspaceDescription = workspaceDescription
+            self.workspaceName = workspaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.encryptionConfiguration.validate(name: "\(name).encryptionConfiguration")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, max: 2048)
+            try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, min: 1)
+            try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case tags = "tags"
+            case workspaceDescription = "workspaceDescription"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct CreateWorkspaceResponse: AWSDecodableShape {
+        /// The ARN of the workspace.
+        public let workspaceArn: String
+        /// The name of the workspace.
+        public let workspaceName: String
+        /// The status of the workspace, which is CREATING when the operation returns.
+        public let workspaceStatus: WorkspaceStatus
+
+        @inlinable
+        public init(workspaceArn: String, workspaceName: String, workspaceStatus: WorkspaceStatus) {
+            self.workspaceArn = workspaceArn
+            self.workspaceName = workspaceName
+            self.workspaceStatus = workspaceStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceArn = "workspaceArn"
+            case workspaceName = "workspaceName"
+            case workspaceStatus = "workspaceStatus"
+        }
+    }
+
     public struct Csv: AWSEncodableShape & AWSDecodableShape {
         /// The column names specified in the .csv file.
         public let columnNames: [ColumnName]
@@ -4076,6 +5536,92 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DataSegmentEnrichment: AWSDecodableShape {
+        /// The date the data segment was last enriched, in Unix epoch time.
+        public let lastEnrichedAt: Date?
+        /// The enrichment status of the data segment.
+        public let status: EnrichmentStatus
+
+        @inlinable
+        public init(lastEnrichedAt: Date? = nil, status: EnrichmentStatus) {
+            self.lastEnrichedAt = lastEnrichedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastEnrichedAt = "lastEnrichedAt"
+            case status = "status"
+        }
+    }
+
+    public struct DataSegmentRelationshipSummary: AWSDecodableShape {
+        /// The nanosecond-precision end time of the data segment.
+        public let endTimestamp: TimeInNanos
+        /// The ID of the source session dataset that contains the data segment.
+        public let sourceDatasetId: String
+        /// The nanosecond-precision start time of the data segment.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the curated dataset that references the data segment.
+        public let targetDatasetId: String
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(endTimestamp: TimeInNanos, sourceDatasetId: String, startTimestamp: TimeInNanos, targetDatasetId: String, timeSeriesId: String) {
+            self.endTimestamp = endTimestamp
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.targetDatasetId = targetDatasetId
+            self.timeSeriesId = timeSeriesId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "endTimestamp"
+            case sourceDatasetId = "sourceDatasetId"
+            case startTimestamp = "startTimestamp"
+            case targetDatasetId = "targetDatasetId"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
+    public struct DataSegmentSummary: AWSDecodableShape {
+        /// The alias of the time series.
+        public let alias: String
+        /// The data type of the time series.
+        public let dataType: PropertyDataType
+        /// The nanosecond-precision end time of the data segment.
+        public let endTimestamp: TimeInNanos
+        /// The enrichment information for the data segment.
+        public let enrichment: DataSegmentEnrichment?
+        /// The ID of the source dataset that contains the data segment.
+        public let sourceDatasetId: String
+        /// The nanosecond-precision start time of the data segment.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(alias: String, dataType: PropertyDataType, endTimestamp: TimeInNanos, enrichment: DataSegmentEnrichment? = nil, sourceDatasetId: String, startTimestamp: TimeInNanos, timeSeriesId: String) {
+            self.alias = alias
+            self.dataType = dataType
+            self.endTimestamp = endTimestamp
+            self.enrichment = enrichment
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case dataType = "dataType"
+            case endTimestamp = "endTimestamp"
+            case enrichment = "enrichment"
+            case sourceDatasetId = "sourceDatasetId"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
     public struct DataSetReference: AWSDecodableShape {
         /// The ARN of the dataset.  The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
         public let datasetArn: String?
@@ -4091,6 +5637,87 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
             case source = "source"
+        }
+    }
+
+    public struct DatasetConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The session configuration for a session-type dataset.
+        public let session: SessionConfig?
+
+        @inlinable
+        public init(session: SessionConfig? = nil) {
+            self.session = session
+        }
+
+        public func validate(name: String) throws {
+            try self.session?.validate(name: "\(name).session")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session = "session"
+        }
+    }
+
+    public struct DatasetEnrichment: AWSDecodableShape {
+        /// The enrichment status for video data in the dataset.
+        public let video: DatasetEnrichmentEntry?
+
+        @inlinable
+        public init(video: DatasetEnrichmentEntry? = nil) {
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case video = "video"
+        }
+    }
+
+    public struct DatasetEnrichmentEntry: AWSDecodableShape {
+        /// The date the data was last enriched, in Unix epoch time.
+        public let lastEnrichedAt: Date?
+        /// The enrichment status of the data type in the dataset.
+        public let status: DatasetEnrichmentStatus
+
+        @inlinable
+        public init(lastEnrichedAt: Date? = nil, status: DatasetEnrichmentStatus) {
+            self.lastEnrichedAt = lastEnrichedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastEnrichedAt = "lastEnrichedAt"
+            case status = "status"
+        }
+    }
+
+    public struct DatasetItem: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier for the dataset.
+        public let datasetId: String
+        /// The optional subset of data types to export. If omitted, all data types are exported.
+        public let exportDataTypes: [ExportDataType]?
+        /// The trim settings applied to all items in the dataset. When omitted, the full dataset time range is used.
+        public let trimSettings: TrimSettings?
+
+        @inlinable
+        public init(datasetId: String, exportDataTypes: [ExportDataType]? = nil, trimSettings: TrimSettings? = nil) {
+            self.datasetId = datasetId
+            self.exportDataTypes = exportDataTypes
+            self.trimSettings = trimSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.exportDataTypes, name: "exportDataTypes", parent: name, max: 3)
+            try self.validate(self.exportDataTypes, name: "exportDataTypes", parent: name, min: 1)
+            try self.trimSettings?.validate(name: "\(name).trimSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+            case exportDataTypes = "exportDataTypes"
+            case trimSettings = "trimSettings"
         }
     }
 
@@ -4142,35 +5769,47 @@ extension IoTSiteWise {
         public let arn: String
         /// The dataset creation date, in Unix epoch time.
         public let creationDate: Date
+        /// The type of dataset: a session dataset, a curated dataset, or a connection to an external datasource.
+        public let datasetType: DatasetTypeEnum?
         /// A description about the dataset, and its functionality.
         public let description: String
+        /// The enrichment status of the dataset.
+        public let enrichmentStatus: DatasetEnrichment?
         /// The ID of the dataset.
         public let id: String
         /// The date the dataset was last updated, in Unix epoch time.
         public let lastUpdateDate: Date
         /// The name of the dataset.
         public let name: String
+        /// The data source type of the dataset.
+        public let sourceType: DatasetSourceType?
         /// The status of the dataset. This contains the state and any error messages. The state is  ACTIVE when ready to use.
         public let status: DatasetStatus
 
         @inlinable
-        public init(arn: String, creationDate: Date, description: String, id: String, lastUpdateDate: Date, name: String, status: DatasetStatus) {
+        public init(arn: String, creationDate: Date, datasetType: DatasetTypeEnum? = nil, description: String, enrichmentStatus: DatasetEnrichment? = nil, id: String, lastUpdateDate: Date, name: String, sourceType: DatasetSourceType? = nil, status: DatasetStatus) {
             self.arn = arn
             self.creationDate = creationDate
+            self.datasetType = datasetType
             self.description = description
+            self.enrichmentStatus = enrichmentStatus
             self.id = id
             self.lastUpdateDate = lastUpdateDate
             self.name = name
+            self.sourceType = sourceType
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationDate = "creationDate"
+            case datasetType = "datasetType"
             case description = "description"
+            case enrichmentStatus = "enrichmentStatus"
             case id = "id"
             case lastUpdateDate = "lastUpdateDate"
             case name = "name"
+            case sourceType = "sourceType"
             case status = "status"
         }
     }
@@ -4236,6 +5875,41 @@ extension IoTSiteWise {
         public init() {}
     }
 
+    public struct DeleteApplicationRequest: AWSEncodableShape {
+        /// ID of the Application to delete
+        public let id: String
+        /// Name of the workspace to associate with the underlying Application
+        public let workspaceName: String
+
+        @inlinable
+        public init(id: String, workspaceName: String) {
+            self.id = id
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 36)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9-]{36}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteApplicationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteAssetModelCompositeModelRequest: AWSEncodableShape {
         /// The ID of a composite model on this asset model.
         public let assetModelCompositeModelId: String
@@ -4289,14 +5963,18 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAssetModelCompositeModelResponse: AWSDecodableShape {
+        /// The ID of the asset model.
+        public let assetModelId: String?
         public let assetModelStatus: AssetModelStatus
 
         @inlinable
-        public init(assetModelStatus: AssetModelStatus) {
+        public init(assetModelId: String? = nil, assetModelStatus: AssetModelStatus) {
+            self.assetModelId = assetModelId
             self.assetModelStatus = assetModelStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetModelId = "assetModelId"
             case assetModelStatus = "assetModelStatus"
         }
     }
@@ -4410,15 +6088,19 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAssetModelResponse: AWSDecodableShape {
+        /// The ID of the asset model.
+        public let assetModelId: String?
         /// The status of the asset model, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
         @inlinable
-        public init(assetModelStatus: AssetModelStatus) {
+        public init(assetModelId: String? = nil, assetModelStatus: AssetModelStatus) {
+            self.assetModelId = assetModelId
             self.assetModelStatus = assetModelStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetModelId = "assetModelId"
             case assetModelStatus = "assetModelStatus"
         }
     }
@@ -4455,15 +6137,19 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAssetResponse: AWSDecodableShape {
+        /// The ID of the asset.
+        public let assetId: String?
         /// The status of the asset, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
         @inlinable
-        public init(assetStatus: AssetStatus) {
+        public init(assetId: String? = nil, assetStatus: AssetStatus) {
+            self.assetId = assetId
             self.assetStatus = assetStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
             case assetStatus = "assetStatus"
         }
     }
@@ -4548,16 +6234,49 @@ extension IoTSiteWise {
         public init() {}
     }
 
+    public struct DeleteDataSegmentEntry: AWSEncodableShape {
+        /// The nanosecond-precision end time of the data segment to delete.
+        public let endTimestamp: TimeInNanos
+        /// The nanosecond-precision start time of the data segment to delete.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(endTimestamp: TimeInNanos, startTimestamp: TimeInNanos, timeSeriesId: String) {
+            self.endTimestamp = endTimestamp
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+
+        public func validate(name: String) throws {
+            try self.endTimestamp.validate(name: "\(name).endTimestamp")
+            try self.startTimestamp.validate(name: "\(name).startTimestamp")
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 36)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, min: 36)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "endTimestamp"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
     public struct DeleteDatasetRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The ID of the dataset.
         public let datasetId: String
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String?
 
         @inlinable
-        public init(clientToken: String? = DeleteDatasetRequest.idempotencyToken(), datasetId: String) {
+        public init(clientToken: String? = DeleteDatasetRequest.idempotencyToken(), datasetId: String, workspaceName: String? = nil) {
             self.clientToken = clientToken
             self.datasetId = datasetId
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4565,6 +6284,7 @@ extension IoTSiteWise {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodePath(self.datasetId, key: "datasetId")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
@@ -4574,6 +6294,9 @@ extension IoTSiteWise {
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4615,6 +6338,51 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePipelineRequest: AWSEncodableShape {
+        /// The name of the pipeline to delete.
+        public let pipelineName: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(pipelineName: String, workspaceName: String) {
+            self.pipelineName = pipelineName
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePipelineResponse: AWSDecodableShape {
+        /// The current lifecycle status of the pipeline.
+        public let status: ResourceStatus
+
+        @inlinable
+        public init(status: ResourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
     }
 
     public struct DeletePortalRequest: AWSEncodableShape {
@@ -4697,6 +6465,51 @@ extension IoTSiteWise {
         public init() {}
     }
 
+    public struct DeleteTaskRequest: AWSEncodableShape {
+        /// The name of the task to delete.
+        public let taskName: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(taskName: String, workspaceName: String) {
+            self.taskName = taskName
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskName, key: "taskName")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 64)
+            try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
+            try self.validate(self.taskName, name: "taskName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTaskResponse: AWSDecodableShape {
+        /// The current lifecycle status of the task.
+        public let status: ResourceStatus
+
+        @inlinable
+        public init(status: ResourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct DeleteTimeSeriesRequest: AWSEncodableShape {
         /// The alias that identifies the time series.
         public let alias: String?
@@ -4706,13 +6519,16 @@ extension IoTSiteWise {
         public let clientToken: String?
         /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let propertyId: String?
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(alias: String? = nil, assetId: String? = nil, clientToken: String? = DeleteTimeSeriesRequest.idempotencyToken(), propertyId: String? = nil) {
+        public init(alias: String? = nil, assetId: String? = nil, clientToken: String? = DeleteTimeSeriesRequest.idempotencyToken(), propertyId: String? = nil, workspaceName: String? = nil) {
             self.alias = alias
             self.assetId = assetId
             self.clientToken = clientToken
             self.propertyId = propertyId
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4722,6 +6538,7 @@ extension IoTSiteWise {
             request.encodeQuery(self.assetId, key: "assetId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodeQuery(self.propertyId, key: "propertyId")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
@@ -4736,10 +6553,58 @@ extension IoTSiteWise {
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+        }
+    }
+
+    public struct DeleteWorkspaceRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+        public let clientToken: String?
+        /// The name of the workspace to delete.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteWorkspaceRequest.idempotencyToken(), workspaceName: String) {
+            self.clientToken = clientToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkspaceResponse: AWSDecodableShape {
+        /// The status of the workspace after the deletion request, which is DELETING when the operation returns.
+        public let workspaceStatus: WorkspaceStatus
+
+        @inlinable
+        public init(workspaceStatus: WorkspaceStatus) {
+            self.workspaceStatus = workspaceStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceStatus = "workspaceStatus"
         }
     }
 
@@ -4860,6 +6725,87 @@ extension IoTSiteWise {
             case executionTime = "executionTime"
             case resolveTo = "resolveTo"
             case targetResource = "targetResource"
+        }
+    }
+
+    public struct DescribeApplicationRequest: AWSEncodableShape {
+        /// ID of the Application
+        public let id: String
+        /// Name of the workspace to associate with the underlying Application
+        public let workspaceName: String
+
+        @inlinable
+        public init(id: String, workspaceName: String) {
+            self.id = id
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 36)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9-]{36}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeApplicationResponse: AWSDecodableShape {
+        /// ARN of the application
+        public let arn: String
+        /// Timestamp when the application was created
+        public let createdAt: Date
+        /// Description of the application
+        public let description: String?
+        /// DNS subdomain for the application
+        public let dnsSubdomain: String
+        /// Unique identifier of the application
+        public let id: String
+        /// Identity Center Application ARN associated with this application
+        public let idcApplicationArn: String
+        /// Name of the application
+        public let name: String
+        /// Current status of the application
+        public let status: ApplicationStatus
+        /// Timestamp when the application was last updated
+        public let updatedAt: Date
+        /// Name of the workspace this application belongs to
+        public let workspaceName: String
+
+        @inlinable
+        public init(arn: String, createdAt: Date, description: String? = nil, dnsSubdomain: String, id: String, idcApplicationArn: String, name: String, status: ApplicationStatus, updatedAt: Date, workspaceName: String) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.dnsSubdomain = dnsSubdomain
+            self.id = id
+            self.idcApplicationArn = idcApplicationArn
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case dnsSubdomain = "dnsSubdomain"
+            case id = "id"
+            case idcApplicationArn = "idcApplicationArn"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -5376,22 +7322,29 @@ extension IoTSiteWise {
     public struct DescribeBulkImportJobRequest: AWSEncodableShape {
         /// The ID of the job.
         public let jobId: String
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(jobId: String) {
+        public init(jobId: String, workspaceName: String? = nil) {
             self.jobId = jobId
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 36)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5400,14 +7353,16 @@ extension IoTSiteWise {
     public struct DescribeBulkImportJobResponse: AWSDecodableShape {
         /// If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are  computed. If set to false, historical data is ingested into IoT SiteWise as is.
         public let adaptiveIngestion: Bool?
+        /// The ID of the dataset.
+        public let datasetId: String?
         /// If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
         public let deleteFilesAfterImport: Bool?
         /// The Amazon S3 destination where errors associated with the job creation request are saved.
         public let errorReportLocation: ErrorReportLocation
-        /// The files in the specified Amazon S3 bucket that contain your data.
+        /// The files in the specified Amazon S3 bucket that contain your data. You can specify up to 100 files for each bulk import job. Each file supports the following size limits:   Parquet files – Up to 256 MiB.   Other file formats – Up to 5 GiB.
         public let files: [File]
         /// Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
-        public let jobConfiguration: JobConfiguration
+        public let jobConfiguration: JobConfiguration?
         /// The date the job was created, in Unix epoch TIME.
         public let jobCreationDate: Date
         /// The ID of the job.
@@ -5420,10 +7375,13 @@ extension IoTSiteWise {
         public let jobRoleArn: String
         /// The status of the bulk import job can be one of following values:    PENDING – IoT SiteWise is waiting for the current bulk import job to finish.    CANCELLED – The bulk import job has been canceled.    RUNNING – IoT SiteWise is processing your request to import your data from Amazon S3.    COMPLETED – IoT SiteWise successfully completed your request to import data from Amazon S3.    FAILED – IoT SiteWise couldn't process your request to import data from Amazon S3. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.    COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
         public let jobStatus: JobStatus
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(adaptiveIngestion: Bool? = nil, deleteFilesAfterImport: Bool? = nil, errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration, jobCreationDate: Date, jobId: String, jobLastUpdateDate: Date, jobName: String, jobRoleArn: String, jobStatus: JobStatus) {
+        public init(adaptiveIngestion: Bool? = nil, datasetId: String? = nil, deleteFilesAfterImport: Bool? = nil, errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration? = nil, jobCreationDate: Date, jobId: String, jobLastUpdateDate: Date, jobName: String, jobRoleArn: String, jobStatus: JobStatus, workspaceName: String? = nil) {
             self.adaptiveIngestion = adaptiveIngestion
+            self.datasetId = datasetId
             self.deleteFilesAfterImport = deleteFilesAfterImport
             self.errorReportLocation = errorReportLocation
             self.files = files
@@ -5434,10 +7392,12 @@ extension IoTSiteWise {
             self.jobName = jobName
             self.jobRoleArn = jobRoleArn
             self.jobStatus = jobStatus
+            self.workspaceName = workspaceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case adaptiveIngestion = "adaptiveIngestion"
+            case datasetId = "datasetId"
             case deleteFilesAfterImport = "deleteFilesAfterImport"
             case errorReportLocation = "errorReportLocation"
             case files = "files"
@@ -5448,6 +7408,7 @@ extension IoTSiteWise {
             case jobName = "jobName"
             case jobRoleArn = "jobRoleArn"
             case jobStatus = "jobStatus"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -5657,25 +7618,112 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeDatasetExportJobRequest: AWSEncodableShape {
+        /// The unique identifier for the dataset export job.
+        public let jobId: String
+        /// The name of the workspace that contains the dataset export job.
+        public let workspaceName: String
+
+        @inlinable
+        public init(jobId: String, workspaceName: String) {
+            self.jobId = jobId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDatasetExportJobResponse: AWSDecodableShape {
+        /// The timestamp when the job completed, or null if the job is still running.
+        public let completedAt: Date?
+        /// The S3 URI where output clips are written.
+        public let destinationS3Uri: String
+        /// The location where the error report will be written on failure.
+        public let errorReportLocation: ExportErrorReportLocation
+        /// The processing input that was provided in the CreateDatasetExportJob request.
+        public let input: ProcessingInput
+        /// The unique identifier for the dataset export job.
+        public let jobId: String
+        /// The timestamp when the job started processing.
+        public let startedAt: Date
+        /// The current status of the dataset export job.
+        public let status: DatasetExportJobStatus
+        /// The name of the workspace that contains the dataset export job.
+        public let workspaceName: String
+
+        @inlinable
+        public init(completedAt: Date? = nil, destinationS3Uri: String, errorReportLocation: ExportErrorReportLocation, input: ProcessingInput, jobId: String, startedAt: Date, status: DatasetExportJobStatus, workspaceName: String) {
+            self.completedAt = completedAt
+            self.destinationS3Uri = destinationS3Uri
+            self.errorReportLocation = errorReportLocation
+            self.input = input
+            self.jobId = jobId
+            self.startedAt = startedAt
+            self.status = status
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "completedAt"
+            case destinationS3Uri = "destinationS3Uri"
+            case errorReportLocation = "errorReportLocation"
+            case input = "input"
+            case jobId = "jobId"
+            case startedAt = "startedAt"
+            case status = "status"
+            case workspaceName = "workspaceName"
+        }
+    }
+
     public struct DescribeDatasetRequest: AWSEncodableShape {
         /// The ID of the dataset.
         public let datasetId: String
+        /// The version of the dataset.
+        public let datasetVersion: String?
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String?
 
         @inlinable
-        public init(datasetId: String) {
+        public init(datasetId: String, datasetVersion: String? = nil, workspaceName: String? = nil) {
             self.datasetId = datasetId
+            self.datasetVersion = datasetVersion
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.datasetId, key: "datasetId")
+            request.encodeQuery(self.datasetVersion, key: "datasetVersion")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.datasetVersion, name: "datasetVersion", parent: name, max: 10)
+            try self.validate(self.datasetVersion, name: "datasetVersion", parent: name, min: 1)
+            try self.validate(self.datasetVersion, name: "datasetVersion", parent: name, pattern: "^(0|([1-9]{1}\\d*))$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5684,6 +7732,8 @@ extension IoTSiteWise {
     public struct DescribeDatasetResponse: AWSDecodableShape {
         /// The ARN of the dataset.  The format is arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}.
         public let datasetArn: String
+        /// The configuration for the dataset.
+        public let datasetConfig: DatasetConfig?
         /// The dataset creation date, in Unix epoch time.
         public let datasetCreationDate: Date
         /// A description about the dataset, and its functionality.
@@ -5698,12 +7748,21 @@ extension IoTSiteWise {
         public let datasetSource: DatasetSource
         /// The status of the dataset. This contains the state and any error messages.  State is CREATING after a successfull call to this API, and any associated error message. The state is  ACTIVE when ready to use.
         public let datasetStatus: DatasetStatus
+        /// The type of dataset: a session dataset, a curated dataset, or a connection to an external datasource.
+        public let datasetType: DatasetTypeEnum?
         /// The version of the dataset.
         public let datasetVersion: String?
+        /// The enrichment status of the dataset.
+        public let enrichmentStatus: DatasetEnrichment?
+        /// The metadata for the dataset.
+        public let metadata: [String: String]?
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String?
 
         @inlinable
-        public init(datasetArn: String, datasetCreationDate: Date, datasetDescription: String, datasetId: String, datasetLastUpdateDate: Date, datasetName: String, datasetSource: DatasetSource, datasetStatus: DatasetStatus, datasetVersion: String? = nil) {
+        public init(datasetArn: String, datasetConfig: DatasetConfig? = nil, datasetCreationDate: Date, datasetDescription: String, datasetId: String, datasetLastUpdateDate: Date, datasetName: String, datasetSource: DatasetSource, datasetStatus: DatasetStatus, datasetType: DatasetTypeEnum? = nil, datasetVersion: String? = nil, enrichmentStatus: DatasetEnrichment? = nil, metadata: [String: String]? = nil, workspaceName: String? = nil) {
             self.datasetArn = datasetArn
+            self.datasetConfig = datasetConfig
             self.datasetCreationDate = datasetCreationDate
             self.datasetDescription = datasetDescription
             self.datasetId = datasetId
@@ -5711,11 +7770,16 @@ extension IoTSiteWise {
             self.datasetName = datasetName
             self.datasetSource = datasetSource
             self.datasetStatus = datasetStatus
+            self.datasetType = datasetType
             self.datasetVersion = datasetVersion
+            self.enrichmentStatus = enrichmentStatus
+            self.metadata = metadata
+            self.workspaceName = workspaceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "datasetArn"
+            case datasetConfig = "datasetConfig"
             case datasetCreationDate = "datasetCreationDate"
             case datasetDescription = "datasetDescription"
             case datasetId = "datasetId"
@@ -5723,7 +7787,11 @@ extension IoTSiteWise {
             case datasetName = "datasetName"
             case datasetSource = "datasetSource"
             case datasetStatus = "datasetStatus"
+            case datasetType = "datasetType"
             case datasetVersion = "datasetVersion"
+            case enrichmentStatus = "enrichmentStatus"
+            case metadata = "metadata"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -5750,6 +7818,96 @@ extension IoTSiteWise {
             case configurationStatus = "configurationStatus"
             case encryptionType = "encryptionType"
             case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct DescribeEnrichmentJobRequest: AWSEncodableShape {
+        /// The unique identifier of the enrichment job to retrieve. This is the jobId returned by CreateEnrichmentJob.
+        public let jobId: String
+        /// The name of the IoT SiteWise workspace containing the enrichment job.
+        public let workspaceName: String
+
+        @inlinable
+        public init(jobId: String, workspaceName: String) {
+            self.jobId = jobId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 36)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeEnrichmentJobResponse: AWSDecodableShape {
+        /// Timestamp when the job was cancelled in ISO 8601 format. Only present if status is CANCELLED.
+        public let cancelledAt: Date?
+        /// Timestamp when the job completed successfully in ISO 8601 format. Only present if status is COMPLETED.
+        public let completedAt: Date?
+        /// Timestamp when the enrichment job was created in ISO 8601 format.
+        public let createdAt: Date
+        /// Human-readable error message explaining why the job failed. Only present if status is FAILED.
+        /// Use this information to diagnose configuration issues, permission problems, or data processing errors.
+        public let failureMessage: String?
+        /// The complete job configuration as originally submitted, including the analysis type and parameters.
+        /// For event detection jobs, this includes the dataset ID, time series identifier, and trim settings
+        /// defining the analysis time range.
+        public let jobConfiguration: EnrichmentJobConfiguration
+        /// The unique identifier of the enrichment job.
+        public let jobId: String
+        /// The type of enrichment job, derived from the job configuration. Currently EVENT_DETECTION is the only supported type.
+        public let jobType: JobType
+        /// Current status of the enrichment job. Possible values:
+        /// PENDING: Job is waiting to start processing
+        /// RUNNING: Job is actively processing video data
+        /// COMPLETED: Job finished successfully; embeddings available in IoT SiteWise
+        /// FAILED: Job encountered an error; see failureMessage for details
+        /// TIMED_OUT: Job exceeded maximum processing time limit
+        /// CANCELLED: Job was cancelled by user request
+        public let status: EnrichmentJobStatus
+        /// Timestamp when the job status was last updated in ISO 8601 format. Useful for tracking recent activity.
+        public let updatedAt: Date?
+        /// The name of the IoT SiteWise workspace containing the job.
+        public let workspaceName: String
+
+        @inlinable
+        public init(cancelledAt: Date? = nil, completedAt: Date? = nil, createdAt: Date, failureMessage: String? = nil, jobConfiguration: EnrichmentJobConfiguration, jobId: String, jobType: JobType, status: EnrichmentJobStatus, updatedAt: Date? = nil, workspaceName: String) {
+            self.cancelledAt = cancelledAt
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.failureMessage = failureMessage
+            self.jobConfiguration = jobConfiguration
+            self.jobId = jobId
+            self.jobType = jobType
+            self.status = status
+            self.updatedAt = updatedAt
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancelledAt = "cancelledAt"
+            case completedAt = "completedAt"
+            case createdAt = "createdAt"
+            case failureMessage = "failureMessage"
+            case jobConfiguration = "jobConfiguration"
+            case jobId = "jobId"
+            case jobType = "jobType"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -5954,7 +8112,27 @@ extension IoTSiteWise {
     }
 
     public struct DescribeLoggingOptionsRequest: AWSEncodableShape {
-        public init() {}
+        /// The name of the workspace.
+        public let workspaceName: String?
+
+        @inlinable
+        public init(workspaceName: String? = nil) {
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeLoggingOptionsResponse: AWSDecodableShape {
@@ -5968,6 +8146,198 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case loggingOptions = "loggingOptions"
+        }
+    }
+
+    public struct DescribePipelineExecutionRequest: AWSEncodableShape {
+        /// The maximum number of compute nodes to return per request. This is an upper bound; the actual number of results may be less. Default: 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The unique identifier of the pipeline execution.
+        public let pipelineExecutionId: String
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, pipelineExecutionId: String, pipelineName: String, workspaceName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineName = pipelineName
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.pipelineExecutionId, key: "pipelineExecutionId")
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, max: 36)
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, min: 36)
+            try self.validate(self.pipelineExecutionId, name: "pipelineExecutionId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribePipelineExecutionResponse: AWSDecodableShape {
+        /// A list of compute node execution details within this pipeline execution.
+        public let computeNodeExecutionDetails: [ComputeNodeExecutionDetails]
+        /// The time the pipeline execution completed, in Unix epoch time.
+        public let endTime: Date?
+        /// Scheduling priority for the execution. When not specified, defaults to lowest priority.
+        public let executionPriority: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The unique identifier of the pipeline execution.
+        public let pipelineExecutionId: String
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// The pipeline version this execution ran against.
+        public let pipelineVersion: String
+        /// The environment variables provided as input for the pipeline execution.
+        public let requestEnvironmentVariables: ExecutionEnvironmentVariables
+        /// The time the pipeline execution started, in Unix epoch time.
+        public let startTime: Date?
+        /// The current execution status of the pipeline.
+        public let status: PipelineExecutionStatus
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(computeNodeExecutionDetails: [ComputeNodeExecutionDetails], endTime: Date? = nil, executionPriority: Int? = nil, nextToken: String? = nil, pipelineExecutionId: String, pipelineName: String, pipelineVersion: String, requestEnvironmentVariables: ExecutionEnvironmentVariables, startTime: Date? = nil, status: PipelineExecutionStatus, workspaceName: String) {
+            self.computeNodeExecutionDetails = computeNodeExecutionDetails
+            self.endTime = endTime
+            self.executionPriority = executionPriority
+            self.nextToken = nextToken
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineName = pipelineName
+            self.pipelineVersion = pipelineVersion
+            self.requestEnvironmentVariables = requestEnvironmentVariables
+            self.startTime = startTime
+            self.status = status
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeNodeExecutionDetails = "computeNodeExecutionDetails"
+            case endTime = "endTime"
+            case executionPriority = "executionPriority"
+            case nextToken = "nextToken"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case pipelineVersion = "pipelineVersion"
+            case requestEnvironmentVariables = "requestEnvironmentVariables"
+            case startTime = "startTime"
+            case status = "status"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct DescribePipelineRequest: AWSEncodableShape {
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// The version number of the pipeline to retrieve. If not specified, returns the latest version.
+        public let pipelineVersion: String?
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(pipelineName: String, pipelineVersion: String? = nil, workspaceName: String) {
+            self.pipelineName = pipelineName
+            self.pipelineVersion = pipelineVersion
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            request.encodeQuery(self.pipelineVersion, key: "version")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.pipelineVersion, name: "pipelineVersion", parent: name, max: 10)
+            try self.validate(self.pipelineVersion, name: "pipelineVersion", parent: name, min: 1)
+            try self.validate(self.pipelineVersion, name: "pipelineVersion", parent: name, pattern: "^(0|([1-9]{1}\\d*))$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribePipelineResponse: AWSDecodableShape {
+        /// The list of compute nodes that form the pipeline DAG.
+        public let computations: [ComputeNode]
+        /// The time the pipeline was created, in Unix epoch time.
+        public let createdAt: Date
+        /// The description of the pipeline.
+        public let description: String?
+        /// The environment variables shared across all compute nodes in the pipeline.
+        public let environmentVariables: [String: String]?
+        /// The ARN of the pipeline.
+        public let pipelineArn: String
+        /// A unique name of the pipeline within the workspace.
+        public let pipelineName: String
+        /// The current lifecycle status of the pipeline.
+        public let status: ResourceStatus
+        /// The time the pipeline was last updated, in Unix epoch time.
+        public let updatedAt: Date
+        /// The version of the pipeline.
+        public let version: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(computations: [ComputeNode], createdAt: Date, description: String? = nil, environmentVariables: [String: String]? = nil, pipelineArn: String, pipelineName: String, status: ResourceStatus, updatedAt: Date, version: String, workspaceName: String) {
+            self.computations = computations
+            self.createdAt = createdAt
+            self.description = description
+            self.environmentVariables = environmentVariables
+            self.pipelineArn = pipelineArn
+            self.pipelineName = pipelineName
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computations = "computations"
+            case createdAt = "createdAt"
+            case description = "description"
+            case environmentVariables = "environmentVariables"
+            case pipelineArn = "pipelineArn"
+            case pipelineName = "pipelineName"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case version = "version"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -6135,6 +8505,144 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeQueryRequest: AWSEncodableShape {
+        /// The unique identifier for the query execution.
+        public let queryId: String
+        /// The name of the workspace associated with the query.
+        public let workspaceName: String
+
+        @inlinable
+        public init(queryId: String, workspaceName: String) {
+            self.queryId = queryId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.queryId, key: "queryId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 64)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeQueryResponse: AWSDecodableShape {
+        /// The date and time when the query reached a terminal state, in Unix epoch time. This field is present when the query status is COMPLETED, FAILED, or CANCELED.
+        public let completedAt: Date?
+        /// A human-readable error description. This field is present when the query status is FAILED.
+        public let errorMessage: String?
+        /// The unique identifier for the query execution.
+        public let queryId: String
+        /// The query execution statistics. This field is present when the query status is COMPLETED.
+        public let statistics: QueryStatistics?
+        /// The current query status.
+        public let status: QueryStatus
+        /// The date and time when the query was submitted, in Unix epoch time.
+        public let submittedAt: Date
+
+        @inlinable
+        public init(completedAt: Date? = nil, errorMessage: String? = nil, queryId: String, statistics: QueryStatistics? = nil, status: QueryStatus, submittedAt: Date) {
+            self.completedAt = completedAt
+            self.errorMessage = errorMessage
+            self.queryId = queryId
+            self.statistics = statistics
+            self.status = status
+            self.submittedAt = submittedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "completedAt"
+            case errorMessage = "errorMessage"
+            case queryId = "queryId"
+            case statistics = "statistics"
+            case status = "status"
+            case submittedAt = "submittedAt"
+        }
+    }
+
+    public struct DescribeSearchRequest: AWSEncodableShape {
+        /// The identifier of the search to describe.
+        public let searchId: String
+        /// The name of the workspace the search belongs to.
+        public let workspaceName: String
+
+        @inlinable
+        public init(searchId: String, workspaceName: String) {
+            self.searchId = searchId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.searchId, key: "searchId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.searchId, name: "searchId", parent: name, max: 36)
+            try self.validate(self.searchId, name: "searchId", parent: name, min: 23)
+            try self.validate(self.searchId, name: "searchId", parent: name, pattern: "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSearchResponse: AWSDecodableShape {
+        /// The group identifier associated with the search, if one was supplied on the request.
+        public let groupId: String?
+        /// The natural-language query that was submitted for the search.
+        public let queryStatement: String
+        /// The unique identifier of the search.
+        public let searchId: String
+        /// The search strategy used for the search.
+        public let searchType: SearchType
+        /// The time at which the search was started.
+        public let startedAt: Date?
+        /// The current status of the search.
+        public let status: SearchStatus
+        /// A human-readable explanation of the current status. Populated when the search has FAILED.
+        public let statusReason: String?
+        /// The name of the workspace the search runs against.
+        public let workspaceName: String
+
+        @inlinable
+        public init(groupId: String? = nil, queryStatement: String, searchId: String, searchType: SearchType, startedAt: Date? = nil, status: SearchStatus, statusReason: String? = nil, workspaceName: String) {
+            self.groupId = groupId
+            self.queryStatement = queryStatement
+            self.searchId = searchId
+            self.searchType = searchType
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "groupId"
+            case queryStatement = "queryStatement"
+            case searchId = "searchId"
+            case searchType = "searchType"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case workspaceName = "workspaceName"
+        }
+    }
+
     public struct DescribeStorageConfigurationRequest: AWSEncodableShape {
         public init() {}
     }
@@ -6184,6 +8692,90 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeTaskRequest: AWSEncodableShape {
+        /// The name of the task.
+        public let taskName: String
+        /// The version number of the task to retrieve. If not specified, returns the latest version.
+        public let taskVersion: String?
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(taskName: String, taskVersion: String? = nil, workspaceName: String) {
+            self.taskName = taskName
+            self.taskVersion = taskVersion
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskName, key: "taskName")
+            request.encodeQuery(self.taskVersion, key: "version")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 64)
+            try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
+            try self.validate(self.taskName, name: "taskName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.taskVersion, name: "taskVersion", parent: name, max: 10)
+            try self.validate(self.taskVersion, name: "taskVersion", parent: name, min: 1)
+            try self.validate(self.taskVersion, name: "taskVersion", parent: name, pattern: "^(0|([1-9]{1}\\d*))$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTaskResponse: AWSDecodableShape {
+        /// The time the task was created, in Unix epoch time.
+        public let createdAt: Date
+        /// The description of the task.
+        public let description: String?
+        /// The current lifecycle status of the task.
+        public let status: ResourceStatus
+        /// The ARN of the task.
+        public let taskArn: String
+        /// The task execution configuration. Contains a containerTaskConfiguration for custom container workloads.
+        public let taskConfiguration: TaskConfiguration
+        /// The name of the task.
+        public let taskName: String
+        /// The time the task was last updated, in Unix epoch time.
+        public let updatedAt: Date
+        /// The version of the task.
+        public let version: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, status: ResourceStatus, taskArn: String, taskConfiguration: TaskConfiguration, taskName: String, updatedAt: Date, version: String, workspaceName: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.status = status
+            self.taskArn = taskArn
+            self.taskConfiguration = taskConfiguration
+            self.taskName = taskName
+            self.updatedAt = updatedAt
+            self.version = version
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case status = "status"
+            case taskArn = "taskArn"
+            case taskConfiguration = "taskConfiguration"
+            case taskName = "taskName"
+            case updatedAt = "updatedAt"
+            case version = "version"
+            case workspaceName = "workspaceName"
+        }
+    }
+
     public struct DescribeTimeSeriesRequest: AWSEncodableShape {
         /// The alias that identifies the time series.
         public let alias: String?
@@ -6191,12 +8783,15 @@ extension IoTSiteWise {
         public let assetId: String?
         /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let propertyId: String?
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(alias: String? = nil, assetId: String? = nil, propertyId: String? = nil) {
+        public init(alias: String? = nil, assetId: String? = nil, propertyId: String? = nil, workspaceName: String? = nil) {
             self.alias = alias
             self.assetId = assetId
             self.propertyId = propertyId
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -6205,6 +8800,7 @@ extension IoTSiteWise {
             request.encodeQuery(self.alias, key: "alias")
             request.encodeQuery(self.assetId, key: "assetId")
             request.encodeQuery(self.propertyId, key: "propertyId")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
@@ -6216,6 +8812,9 @@ extension IoTSiteWise {
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 139)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 13)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^externalId:[a-zA-Z0-9_][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9_]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6240,9 +8839,11 @@ extension IoTSiteWise {
         public let timeSeriesId: String
         /// The date that the time series was last updated, in Unix epoch time.
         public let timeSeriesLastUpdateDate: Date
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesArn: String, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
+        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesArn: String, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date, workspaceName: String? = nil) {
             self.alias = alias
             self.assetId = assetId
             self.dataType = dataType
@@ -6252,6 +8853,7 @@ extension IoTSiteWise {
             self.timeSeriesCreationDate = timeSeriesCreationDate
             self.timeSeriesId = timeSeriesId
             self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate
+            self.workspaceName = workspaceName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6264,6 +8866,69 @@ extension IoTSiteWise {
             case timeSeriesCreationDate = "timeSeriesCreationDate"
             case timeSeriesId = "timeSeriesId"
             case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct DescribeWorkspaceRequest: AWSEncodableShape {
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(workspaceName: String) {
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeWorkspaceResponse: AWSDecodableShape {
+        /// The date the workspace was created, in Unix epoch time.
+        public let createdAt: Date
+        /// The encryption configuration information for the workspace.
+        public let encryptionConfiguration: WorkspaceEncryptionConfigurationInfo?
+        /// The date the workspace was last updated, in Unix epoch time.
+        public let updatedAt: Date
+        /// The ARN of the workspace.
+        public let workspaceArn: String
+        /// The description of the workspace.
+        public let workspaceDescription: String?
+        /// The name of the workspace.
+        public let workspaceName: String
+        /// The status of the workspace, which contains the state and any error message.
+        public let workspaceStatus: WorkspaceStatus
+
+        @inlinable
+        public init(createdAt: Date, encryptionConfiguration: WorkspaceEncryptionConfigurationInfo? = nil, updatedAt: Date, workspaceArn: String, workspaceDescription: String? = nil, workspaceName: String, workspaceStatus: WorkspaceStatus) {
+            self.createdAt = createdAt
+            self.encryptionConfiguration = encryptionConfiguration
+            self.updatedAt = updatedAt
+            self.workspaceArn = workspaceArn
+            self.workspaceDescription = workspaceDescription
+            self.workspaceName = workspaceName
+            self.workspaceStatus = workspaceStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case updatedAt = "updatedAt"
+            case workspaceArn = "workspaceArn"
+            case workspaceDescription = "workspaceDescription"
+            case workspaceName = "workspaceName"
+            case workspaceStatus = "workspaceStatus"
         }
     }
 
@@ -6275,6 +8940,24 @@ extension IoTSiteWise {
 
         @inlinable
         public init(code: DetailedErrorCode, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct DetailedPipelineError: AWSDecodableShape {
+        /// The error code.
+        public let code: DetailedPipelineErrorCode
+        /// The associated error message.
+        public let message: String
+
+        @inlinable
+        public init(code: DetailedPipelineErrorCode, message: String) {
             self.code = code
             self.message = message
         }
@@ -6334,6 +9017,42 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DisassociateDataSegmentEntry: AWSEncodableShape {
+        /// The nanosecond-precision end time of the data segment to disassociate.
+        public let endTimestamp: TimeInNanos
+        /// The ID of the source dataset that contains the data segment.
+        public let sourceDatasetId: String
+        /// The nanosecond-precision start time of the data segment to disassociate.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(endTimestamp: TimeInNanos, sourceDatasetId: String, startTimestamp: TimeInNanos, timeSeriesId: String) {
+            self.endTimestamp = endTimestamp
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+
+        public func validate(name: String) throws {
+            try self.endTimestamp.validate(name: "\(name).endTimestamp")
+            try self.validate(self.sourceDatasetId, name: "sourceDatasetId", parent: name, max: 36)
+            try self.validate(self.sourceDatasetId, name: "sourceDatasetId", parent: name, min: 36)
+            try self.validate(self.sourceDatasetId, name: "sourceDatasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.startTimestamp.validate(name: "\(name).startTimestamp")
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 73)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, min: 36)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "endTimestamp"
+            case sourceDatasetId = "sourceDatasetId"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
     public struct DisassociateTimeSeriesFromAssetPropertyRequest: AWSEncodableShape {
         /// The alias that identifies the time series.
         public let alias: String
@@ -6380,6 +9099,86 @@ extension IoTSiteWise {
         }
     }
 
+    public struct EnrichmentJobSummary: AWSDecodableShape {
+        /// Timestamp when the job was created in ISO 8601 format.
+        public let createdAt: Date
+        /// The dataset being enriched. Useful for filtering and identifying jobs without fetching the full
+        /// configuration. This allows you to quickly find all jobs related to a specific dataset.
+        public let datasetId: String
+        /// Unique identifier for the enrichment job.
+        public let jobId: String
+        /// The type of enrichment job. Currently EVENT_DETECTION is the only supported type.
+        public let jobType: JobType
+        /// The property alias (human-readable sensor name) of the time series being enriched.
+        /// Present when the job was created using a propertyAlias. Use this to identify which sensor the job analyzes.
+        public let propertyAlias: String?
+        /// Current status of the job: PENDING, RUNNING, COMPLETED, FAILED, TIMED_OUT, or CANCELLED.
+        /// Use this to quickly identify active jobs or jobs requiring attention.
+        public let status: EnrichmentJobStatus
+        /// The system identifier of the time series being enriched.
+        /// Present when the job was created using a timeSeriesId. Use this to identify which time series the job analyzes.
+        public let timeSeriesId: String?
+        /// Timestamp of the last job status change in ISO 8601 format. Use this to track recent activity
+        /// and identify stale jobs. For active jobs, this shows the last time the job transitioned to a new status.
+        public let updatedAt: Date?
+        /// The name of the IoT SiteWise workspace containing this job.
+        public let workspaceName: String
+
+        @inlinable
+        public init(createdAt: Date, datasetId: String, jobId: String, jobType: JobType, propertyAlias: String? = nil, status: EnrichmentJobStatus, timeSeriesId: String? = nil, updatedAt: Date? = nil, workspaceName: String) {
+            self.createdAt = createdAt
+            self.datasetId = datasetId
+            self.jobId = jobId
+            self.jobType = jobType
+            self.propertyAlias = propertyAlias
+            self.status = status
+            self.timeSeriesId = timeSeriesId
+            self.updatedAt = updatedAt
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case datasetId = "datasetId"
+            case jobId = "jobId"
+            case jobType = "jobType"
+            case propertyAlias = "propertyAlias"
+            case status = "status"
+            case timeSeriesId = "timeSeriesId"
+            case updatedAt = "updatedAt"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct EnrichmentTrimSettings: AWSEncodableShape & AWSDecodableShape {
+        /// End time for the video analysis time range in nanoseconds since Unix epoch (TimeInNanos format).
+        /// Data segments at or before this time are included in the enrichment.
+        /// Must be greater than startTime and within the dataset's time bounds.
+        public let endTime: TimeInNanos
+        /// Start time for the video analysis time range in nanoseconds since Unix epoch (TimeInNanos format).
+        /// Data segments at or after this time are included in the enrichment.
+        /// Must be within the dataset's time bounds.
+        /// Example (JavaScript): Date.parse('2024-01-01T00:00:00Z') * 1000000
+        /// Example (Python): int(datetime.timestamp() * 1e9)
+        public let startTime: TimeInNanos
+
+        @inlinable
+        public init(endTime: TimeInNanos, startTime: TimeInNanos) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.endTime.validate(name: "\(name).endTime")
+            try self.startTime.validate(name: "\(name).startTime")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
     public struct ErrorDetails: AWSDecodableShape {
         /// The error code.
         public let code: ErrorCode
@@ -6422,6 +9221,51 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case bucket = "bucket"
             case prefix = "prefix"
+        }
+    }
+
+    public struct EventDetection: AWSEncodableShape & AWSDecodableShape {
+        /// The IoT SiteWise dataset ID containing the video time-series data to analyze.
+        /// Query IoT SiteWise to discover available datasets in your workspace.
+        public let datasetId: String
+        /// Human-readable alias for the video time series to analyze (e.g., /camera/warehouse/zone-a).
+        /// Specify either propertyAlias or timeSeriesId, but not both.
+        /// Use this when you have configured friendly aliases in IoT SiteWise for better readability.
+        public let propertyAlias: String?
+        /// Unique system identifier for the video time series to analyze.
+        /// Specify either timeSeriesId or propertyAlias, but not both.
+        /// Use this when you have the system-generated time series identifier from IoT SiteWise.
+        public let timeSeriesId: String?
+        /// Time range settings defining which portion of the video time-series data to process.
+        /// Required to ensure predictable processing time and prevent analyzing unbounded datasets.
+        /// Start and end times must be within the dataset's time bounds.
+        public let trimSettings: EnrichmentTrimSettings
+
+        @inlinable
+        public init(datasetId: String, propertyAlias: String? = nil, timeSeriesId: String? = nil, trimSettings: EnrichmentTrimSettings) {
+            self.datasetId = datasetId
+            self.propertyAlias = propertyAlias
+            self.timeSeriesId = timeSeriesId
+            self.trimSettings = trimSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 73)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, min: 36)
+            try self.trimSettings.validate(name: "\(name).trimSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+            case propertyAlias = "propertyAlias"
+            case timeSeriesId = "timeSeriesId"
+            case trimSettings = "trimSettings"
         }
     }
 
@@ -6506,6 +9350,7 @@ extension IoTSiteWise {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10000)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
             try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "^[\\s\\S]+$")
         }
@@ -6537,6 +9382,41 @@ extension IoTSiteWise {
             case columns = "columns"
             case nextToken = "nextToken"
             case rows = "rows"
+        }
+    }
+
+    public struct ExecutionEnvironmentVariables: AWSEncodableShape & AWSDecodableShape {
+        /// Per-compute-node environment variable overrides. Each entry maps a compute node name to its environment variable overrides.
+        public let computeNodes: [String: [String: String]]?
+        /// Global environment variables that apply to all compute nodes in the pipeline execution.
+        public let global: [String: String]?
+
+        @inlinable
+        public init(computeNodes: [String: [String: String]]? = nil, global: [String: String]? = nil) {
+            self.computeNodes = computeNodes
+            self.global = global
+        }
+
+        public func validate(name: String) throws {
+            try self.computeNodes?.forEach {
+                try validate($0.key, name: "computeNodes.key", parent: name, max: 64)
+                try validate($0.key, name: "computeNodes.key", parent: name, min: 1)
+                try validate($0.key, name: "computeNodes.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+                try validate($0.value, name: "computeNodes[\"\($0.key)\"]", parent: name, max: 20)
+            }
+            try self.validate(self.computeNodes, name: "computeNodes", parent: name, max: 50)
+            try self.global?.forEach {
+                try validate($0.key, name: "global.key", parent: name, max: 255)
+                try validate($0.key, name: "global.key", parent: name, min: 1)
+                try validate($0.key, name: "global.key", parent: name, pattern: "^(?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "global[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.global, name: "global", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeNodes = "computeNodes"
+            case global = "global"
         }
     }
 
@@ -6599,6 +9479,56 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ExportErrorReportLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 URI prefix for the error report.
+        public let s3Uri: String
+
+        @inlinable
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct ExportJobSummary: AWSDecodableShape {
+        /// The timestamp when the job completed, or null if the job is still running.
+        public let completedAt: Date?
+        /// The S3 URI where output clips are written.
+        public let destinationS3Uri: String
+        /// The unique identifier for the dataset export job.
+        public let jobId: String
+        /// The timestamp when the job started processing.
+        public let startedAt: Date
+        /// The current status of the dataset export job.
+        public let status: DatasetExportJobStatus
+
+        @inlinable
+        public init(completedAt: Date? = nil, destinationS3Uri: String, jobId: String, startedAt: Date, status: DatasetExportJobStatus) {
+            self.completedAt = completedAt
+            self.destinationS3Uri = destinationS3Uri
+            self.jobId = jobId
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "completedAt"
+            case destinationS3Uri = "destinationS3Uri"
+            case jobId = "jobId"
+            case startedAt = "startedAt"
+            case status = "status"
+        }
+    }
+
     public struct ExpressionVariable: AWSEncodableShape & AWSDecodableShape {
         /// The friendly name of the variable to be used in the expression.
         public let name: String
@@ -6624,48 +9554,198 @@ extension IoTSiteWise {
         }
     }
 
+    public struct FailedDataSegmentAssociation: AWSDecodableShape {
+        /// The nanosecond-precision end time of the data segment.
+        public let endTimestamp: TimeInNanos
+        /// The error code for the failed association.
+        public let errorCode: DataSegmentErrorCode
+        /// The error message for the failed association.
+        public let errorMessage: String
+        /// The ID of the source dataset.
+        public let sourceDatasetId: String
+        /// The nanosecond-precision start time of the data segment.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(endTimestamp: TimeInNanos, errorCode: DataSegmentErrorCode, errorMessage: String, sourceDatasetId: String, startTimestamp: TimeInNanos, timeSeriesId: String) {
+            self.endTimestamp = endTimestamp
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "endTimestamp"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case sourceDatasetId = "sourceDatasetId"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
+    public struct FailedDataSegmentDeletion: AWSDecodableShape {
+        /// The nanosecond-precision end time of the data segment.
+        public let endTimestamp: TimeInNanos
+        /// The error code for the failed deletion.
+        public let errorCode: DataSegmentErrorCode
+        /// The error message for the failed deletion.
+        public let errorMessage: String
+        /// The nanosecond-precision start time of the data segment.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(endTimestamp: TimeInNanos, errorCode: DataSegmentErrorCode, errorMessage: String, startTimestamp: TimeInNanos, timeSeriesId: String) {
+            self.endTimestamp = endTimestamp
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "endTimestamp"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
+    public struct FailedDataSegmentDisassociation: AWSDecodableShape {
+        /// The nanosecond-precision end time of the data segment.
+        public let endTimestamp: TimeInNanos
+        /// The error code for the failed disassociation.
+        public let errorCode: DataSegmentErrorCode
+        /// The error message for the failed disassociation.
+        public let errorMessage: String
+        /// The ID of the source dataset.
+        public let sourceDatasetId: String
+        /// The nanosecond-precision start time of the data segment.
+        public let startTimestamp: TimeInNanos
+        /// The ID of the time series.
+        public let timeSeriesId: String
+
+        @inlinable
+        public init(endTimestamp: TimeInNanos, errorCode: DataSegmentErrorCode, errorMessage: String, sourceDatasetId: String, startTimestamp: TimeInNanos, timeSeriesId: String) {
+            self.endTimestamp = endTimestamp
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.sourceDatasetId = sourceDatasetId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "endTimestamp"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case sourceDatasetId = "sourceDatasetId"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
     public struct File: AWSEncodableShape & AWSDecodableShape {
+        /// The alias associated with the file's time series.
+        public let alias: String?
         /// The name of the Amazon S3 bucket from which data is imported.
         public let bucket: String
+        /// The file format of the data in S3.
+        public let fileFormat: FileFormat?
         /// The key of the Amazon S3 object that contains your data. Each object has a key that is a unique identifier. Each object has exactly one key.
         public let key: String
+        /// The nanosecond-precision start time for the file data.
+        public let startTime: TimeInNanos?
         /// The version ID to identify a specific version of the Amazon S3 object that contains your data.
         public let versionId: String?
 
         @inlinable
-        public init(bucket: String, key: String, versionId: String? = nil) {
+        public init(alias: String? = nil, bucket: String, fileFormat: FileFormat? = nil, key: String, startTime: TimeInNanos? = nil, versionId: String? = nil) {
+            self.alias = alias
             self.bucket = bucket
+            self.fileFormat = fileFormat
             self.key = key
+            self.startTime = startTime
             self.versionId = versionId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 2048)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.startTime?.validate(name: "\(name).startTime")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
             case bucket = "bucket"
+            case fileFormat = "fileFormat"
             case key = "key"
+            case startTime = "startTime"
             case versionId = "versionId"
         }
     }
 
     public struct FileFormat: AWSEncodableShape & AWSDecodableShape {
+        /// The annotation format configuration.
+        public let annotation: Annotation?
         /// The file is in .CSV format.
         public let csv: Csv?
+        /// The MP4 format configuration.
+        public let mp4: Mp4?
         /// The file is in parquet format.
         public let parquet: Parquet?
 
         @inlinable
-        public init(csv: Csv? = nil, parquet: Parquet? = nil) {
+        public init(annotation: Annotation? = nil, csv: Csv? = nil, mp4: Mp4? = nil, parquet: Parquet? = nil) {
+            self.annotation = annotation
             self.csv = csv
+            self.mp4 = mp4
             self.parquet = parquet
         }
 
         private enum CodingKeys: String, CodingKey {
+            case annotation = "annotation"
             case csv = "csv"
+            case mp4 = "mp4"
             case parquet = "parquet"
+        }
+    }
+
+    public struct FormatSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The target frame rate for the output.
+        public let framesPerSecond: Int?
+        /// The target height of the output, in pixels.
+        public let heightInPixels: Int?
+        /// The target width of the output, in pixels.
+        public let widthInPixels: Int?
+
+        @inlinable
+        public init(framesPerSecond: Int? = nil, heightInPixels: Int? = nil, widthInPixels: Int? = nil) {
+            self.framesPerSecond = framesPerSecond
+            self.heightInPixels = heightInPixels
+            self.widthInPixels = widthInPixels
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.framesPerSecond, name: "framesPerSecond", parent: name, min: 1)
+            try self.validate(self.heightInPixels, name: "heightInPixels", parent: name, min: 1)
+            try self.validate(self.widthInPixels, name: "widthInPixels", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case framesPerSecond = "framesPerSecond"
+            case heightInPixels = "heightInPixels"
+            case widthInPixels = "widthInPixels"
         }
     }
 
@@ -7002,6 +10082,101 @@ extension IoTSiteWise {
         }
     }
 
+    public struct GetCaptureDataRequest: AWSEncodableShape {
+        /// The end time for the video data range. Must be greater than startTime.
+        public let endTime: TimeInNanos
+        /// The optional format settings for the output.
+        public let formatSettings: FormatSettings?
+        /// The token from a previous response used to continue retrieving data.
+        public let nextToken: String?
+        /// The property alias that identifies the capture source. Mutually exclusive with timeSeriesId.
+        public let propertyAlias: String?
+        /// The start time for the video data range.
+        public let startTime: TimeInNanos
+        /// The time series ID that identifies the capture source. Mutually exclusive with propertyAlias.
+        public let timeSeriesId: String?
+        /// The name of the workspace that contains the capture source.
+        public let workspaceName: String
+
+        @inlinable
+        public init(endTime: TimeInNanos, formatSettings: FormatSettings? = nil, nextToken: String? = nil, propertyAlias: String? = nil, startTime: TimeInNanos, timeSeriesId: String? = nil, workspaceName: String) {
+            self.endTime = endTime
+            self.formatSettings = formatSettings
+            self.nextToken = nextToken
+            self.propertyAlias = propertyAlias
+            self.startTime = startTime
+            self.timeSeriesId = timeSeriesId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.endTime, forKey: .endTime)
+            try container.encodeIfPresent(self.formatSettings, forKey: .formatSettings)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.propertyAlias, forKey: .propertyAlias)
+            try container.encode(self.startTime, forKey: .startTime)
+            try container.encodeIfPresent(self.timeSeriesId, forKey: .timeSeriesId)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.endTime.validate(name: "\(name).endTime")
+            try self.formatSettings?.validate(name: "\(name).formatSettings")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.startTime.validate(name: "\(name).startTime")
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 73)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, min: 36)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case formatSettings = "formatSettings"
+            case nextToken = "nextToken"
+            case propertyAlias = "propertyAlias"
+            case startTime = "startTime"
+            case timeSeriesId = "timeSeriesId"
+        }
+    }
+
+    public struct GetCaptureDataResponse: AWSDecodableShape {
+        /// The binary video data.
+        public let data: AWSBase64Data
+        /// The type of the returned data.
+        public let dataType: VideoDataType
+        /// The actual end time of the returned data.
+        public let endTime: TimeInNanos
+        /// The token used to retrieve the next chunk. Absent if no more data is available.
+        public let nextToken: String?
+        /// The actual start time of the returned data.
+        public let startTime: TimeInNanos
+
+        @inlinable
+        public init(data: AWSBase64Data, dataType: VideoDataType, endTime: TimeInNanos, nextToken: String? = nil, startTime: TimeInNanos) {
+            self.data = data
+            self.dataType = dataType
+            self.endTime = endTime
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case dataType = "dataType"
+            case endTime = "endTime"
+            case nextToken = "nextToken"
+            case startTime = "startTime"
+        }
+    }
+
     public struct GetInterpolatedAssetPropertyValuesRequest: AWSEncodableShape {
         /// The ID of the asset, in UUID format.
         public let assetId: String?
@@ -7113,6 +10288,136 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case interpolatedAssetPropertyValues = "interpolatedAssetPropertyValues"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetQueryResultsRequest: AWSEncodableShape {
+        /// The maximum number of results to return for each paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The unique identifier for the query execution.
+        public let queryId: String
+        /// The name of the workspace associated with the query.
+        public let workspaceName: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, queryId: String, workspaceName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queryId = queryId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.queryId, key: "queryId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 64)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetQueryResultsResponse: AWSDecodableShape {
+        /// A list of column metadata for the query results. Each entry contains the column name and data type. Present when the query status is COMPLETED.
+        public let columnInfo: [ColumnInformation]?
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The result rows. Each row is a list of string column values, positional to match the columnInfo order. Present when the query status is COMPLETED.
+        public let rows: [[String]]?
+
+        @inlinable
+        public init(columnInfo: [ColumnInformation]? = nil, nextToken: String? = nil, rows: [[String]]? = nil) {
+            self.columnInfo = columnInfo
+            self.nextToken = nextToken
+            self.rows = rows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnInfo = "columnInfo"
+            case nextToken = "nextToken"
+            case rows = "rows"
+        }
+    }
+
+    public struct GetSearchResultsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single page. Valid range is 1 to 10,000; if
+        /// omitted, a service-defined default is used.
+        public let maxResults: Int?
+        /// The pagination token returned by a previous GetSearchResults call. Provide it to retrieve the
+        /// next page of results; omit it to retrieve the first page.
+        public let nextToken: String?
+        /// The identifier of the search whose results are retrieved.
+        public let searchId: String
+        /// The name of the workspace the search belongs to.
+        public let workspaceName: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, searchId: String, workspaceName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchId = searchId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.searchId, key: "searchId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.searchId, name: "searchId", parent: name, max: 36)
+            try self.validate(self.searchId, name: "searchId", parent: name, min: 23)
+            try self.validate(self.searchId, name: "searchId", parent: name, pattern: "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSearchResultsResponse: AWSDecodableShape {
+        /// The pagination token to use in a subsequent GetSearchResults call to retrieve the next page.
+        /// Absent when there are no more results.
+        public let nextToken: String?
+        /// A page of search results, ordered by descending relevance score.
+        public let searchResults: [SearchResult]
+
+        @inlinable
+        public init(nextToken: String? = nil, searchResults: [SearchResult]) {
+            self.nextToken = nextToken
+            self.searchResults = searchResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case searchResults = "searchResults"
         }
     }
 
@@ -7496,10 +10801,10 @@ extension IoTSiteWise {
 
     public struct JobConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The file format of the data in S3.
-        public let fileFormat: FileFormat
+        public let fileFormat: FileFormat?
 
         @inlinable
-        public init(fileFormat: FileFormat) {
+        public init(fileFormat: FileFormat? = nil) {
             self.fileFormat = fileFormat
         }
 
@@ -7703,16 +11008,64 @@ extension IoTSiteWise {
         /// A list that summarizes the actions associated with the specified asset.
         public let actionSummaries: [ActionSummary]
         /// The token for the next set of results, or null if there are no additional results.
-        public let nextToken: String
+        public let nextToken: String?
 
         @inlinable
-        public init(actionSummaries: [ActionSummary], nextToken: String) {
+        public init(actionSummaries: [ActionSummary], nextToken: String? = nil) {
             self.actionSummaries = actionSummaries
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionSummaries = "actionSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListApplicationsRequest: AWSEncodableShape {
+        /// Maximum number of results to return
+        public let maxResults: Int?
+        /// Next Page Token
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListApplicationsResponse: AWSDecodableShape {
+        /// List of applications
+        public let applications: [ApplicationSummary]
+        /// Next Page Token
+        public let nextToken: String?
+
+        @inlinable
+        public init(applications: [ApplicationSummary], nextToken: String? = nil) {
+            self.applications = applications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "applications"
             case nextToken = "nextToken"
         }
     }
@@ -8148,12 +11501,15 @@ extension IoTSiteWise {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(filter: ListBulkImportJobsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filter: ListBulkImportJobsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -8162,6 +11518,7 @@ extension IoTSiteWise {
             request.encodeQuery(self.filter, key: "filter")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
@@ -8170,6 +11527,9 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8459,27 +11819,224 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ListDatasetDataSegmentRelationshipsRequest: AWSEncodableShape {
+        /// The ID of the session dataset to list data segment relationships for.
+        public let datasetId: String
+        /// The maximum number of results to return for each paginated request. Default: 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String
+
+        @inlinable
+        public init(datasetId: String, maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String) {
+            self.datasetId = datasetId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDatasetDataSegmentRelationshipsResponse: AWSDecodableShape {
+        /// A list that summarizes each data segment relationship.
+        public let dataSegmentRelationshipSummaries: [DataSegmentRelationshipSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataSegmentRelationshipSummaries: [DataSegmentRelationshipSummary], nextToken: String? = nil) {
+            self.dataSegmentRelationshipSummaries = dataSegmentRelationshipSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSegmentRelationshipSummaries = "dataSegmentRelationshipSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDatasetDataSegmentsRequest: AWSEncodableShape {
+        /// The ID of the dataset.
+        public let datasetId: String
+        /// The version of the dataset to list data segments for.
+        public let datasetVersion: String?
+        /// The maximum number of results to return for each paginated request. Default: 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String
+
+        @inlinable
+        public init(datasetId: String, datasetVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String) {
+            self.datasetId = datasetId
+            self.datasetVersion = datasetVersion
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
+            request.encodeQuery(self.datasetVersion, key: "datasetVersion")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.datasetVersion, name: "datasetVersion", parent: name, max: 10)
+            try self.validate(self.datasetVersion, name: "datasetVersion", parent: name, min: 1)
+            try self.validate(self.datasetVersion, name: "datasetVersion", parent: name, pattern: "^(0|([1-9]{1}\\d*))$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDatasetDataSegmentsResponse: AWSDecodableShape {
+        /// A list that summarizes each data segment.
+        public let dataSegments: [DataSegmentSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataSegments: [DataSegmentSummary], nextToken: String? = nil) {
+            self.dataSegments = dataSegments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSegments = "dataSegments"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDatasetExportJobsRequest: AWSEncodableShape {
+        /// The optional filter that returns only jobs matching the given filter value. Defaults to ALL.
+        public let filter: DatasetExportJobFilter?
+        /// The maximum number of results to return for each paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The name of the workspace whose dataset export jobs should be listed.
+        public let workspaceName: String
+
+        @inlinable
+        public init(filter: DatasetExportJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.filter, key: "filter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDatasetExportJobsResponse: AWSDecodableShape {
+        /// A list of dataset export job summaries.
+        public let jobs: [ExportJobSummary]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobs: [ExportJobSummary], nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDatasetsRequest: AWSEncodableShape {
+        /// The type of dataset to filter by: a session dataset, a curated dataset, or a connection to an external datasource.
+        public let datasetType: DatasetTypeEnum?
         /// The maximum number of results to return for each paginated request.
         public let maxResults: Int?
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The type of data source for the dataset.
         public let sourceType: DatasetSourceType
+        /// The name of the workspace to filter datasets by.
+        public let workspaceName: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceType: DatasetSourceType) {
+        public init(datasetType: DatasetTypeEnum? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceType: DatasetSourceType, workspaceName: String? = nil) {
+            self.datasetType = datasetType
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sourceType = sourceType
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.datasetType, key: "datasetType")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.sourceType, key: "sourceType")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
@@ -8488,6 +12045,9 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8498,15 +12058,122 @@ extension IoTSiteWise {
         public let datasetSummaries: [DatasetSummary]
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(datasetSummaries: [DatasetSummary], nextToken: String? = nil) {
+        public init(datasetSummaries: [DatasetSummary], nextToken: String? = nil, workspaceName: String? = nil) {
             self.datasetSummaries = datasetSummaries
             self.nextToken = nextToken
+            self.workspaceName = workspaceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetSummaries = "datasetSummaries"
+            case nextToken = "nextToken"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct ListEnrichmentJobsRequest: AWSEncodableShape {
+        /// Filter jobs by dataset ID. Returns only jobs analyzing data from the specified dataset.
+        public let datasetId: String?
+        /// The inclusive end of the date range for filtering jobs by creation time. Jobs created on or before
+        /// this timestamp are included. Use ISO 8601 format (e.g., 2024-01-31T23:59:59Z).
+        public let endDate: Date?
+        /// Filter by enrichment job type. Currently only EVENT_DETECTION is supported.
+        /// Use this filter to future-proof queries when additional job types are added.
+        public let jobType: JobType?
+        /// Maximum number of jobs to return per page. Defaults to 50 if not specified.
+        /// Use smaller values for faster responses, larger values to reduce API calls.
+        public let maxResults: Int?
+        /// Pagination token from a previous ListEnrichmentJobs response. Include this token to retrieve the
+        /// next page of results. Omit for the first request.
+        public let nextToken: String?
+        /// Filter by property alias (human-readable sensor name). Specify either propertyAlias or timeSeriesId,
+        /// but not both. Returns only jobs analyzing the specified property alias.
+        public let propertyAlias: String?
+        /// The exclusive start of the date range for filtering jobs by creation time. Jobs created after this
+        /// timestamp are included. Use ISO 8601 format (e.g., 2024-01-01T00:00:00Z).
+        public let startDate: Date?
+        /// Filter by job status. Returns only jobs in the specified status.
+        /// Use RUNNING to find active jobs, or FAILED to identify jobs requiring attention.
+        public let status: EnrichmentJobStatus?
+        /// Filter by time series ID (system identifier). Specify either timeSeriesId or propertyAlias, but not
+        /// both. Returns only jobs analyzing the specified time series.
+        public let timeSeriesId: String?
+        /// The name of the IoT SiteWise workspace to list enrichment jobs from.
+        public let workspaceName: String
+
+        @inlinable
+        public init(datasetId: String? = nil, endDate: Date? = nil, jobType: JobType? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, startDate: Date? = nil, status: EnrichmentJobStatus? = nil, timeSeriesId: String? = nil, workspaceName: String) {
+            self.datasetId = datasetId
+            self.endDate = endDate
+            self.jobType = jobType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.propertyAlias = propertyAlias
+            self.startDate = startDate
+            self.status = status
+            self.timeSeriesId = timeSeriesId
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.datasetId, key: "datasetId")
+            request.encodeQuery(self.endDate, key: "endDate")
+            request.encodeQuery(self.jobType, key: "jobType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.propertyAlias, key: "propertyAlias")
+            request.encodeQuery(self.startDate, key: "startDate")
+            request.encodeQuery(self.status, key: "status")
+            request.encodeQuery(self.timeSeriesId, key: "timeSeriesId")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 73)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, min: 36)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEnrichmentJobsResponse: AWSDecodableShape {
+        /// Array of job summaries matching the filter criteria, ordered by creation time descending (newest first).
+        /// Each summary includes key identifiers (jobId, datasetId, propertyAlias/timeSeriesId) and status
+        /// information without the full job configuration. Use DescribeEnrichmentJob to retrieve complete details.
+        public let jobs: [EnrichmentJobSummary]
+        /// Pagination token to retrieve the next page of results. If present, more jobs exist that match the
+        /// filter criteria. Include this token in a subsequent ListEnrichmentJobs request to retrieve the next
+        /// page. If absent, you have retrieved all matching jobs.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobs: [EnrichmentJobSummary], nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
             case nextToken = "nextToken"
         }
     }
@@ -8691,6 +12358,153 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ListPipelineExecutionsRequest: AWSEncodableShape {
+        /// Inclusive lower bound on execution end time (ISO-8601).
+        /// Only executions with endTime &gt;= endTimeAfter are returned.
+        /// Cannot be combined with startTimeAfter or startTimeBefore.
+        /// Only matches executions in terminal states.
+        public let endTimeAfter: Date?
+        /// Exclusive upper bound on execution end time (ISO-8601).
+        /// Only executions with endTime &lt; endTimeBefore are returned.
+        /// Cannot be combined with startTimeAfter or startTimeBefore.
+        /// Only matches executions in terminal states.
+        public let endTimeBefore: Date?
+        /// The maximum number of results to return per request.
+        /// This is an upper bound; the actual number of results may be less. Default: 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// Inclusive lower bound on execution start time (ISO-8601).
+        /// Only executions with startTime &gt;= startTimeAfter are returned.
+        /// Cannot be combined with endTimeAfter or endTimeBefore.
+        public let startTimeAfter: Date?
+        /// Exclusive upper bound on execution start time (ISO-8601).
+        /// Only executions with startTime &lt; startTimeBefore are returned.
+        /// Cannot be combined with endTimeAfter or endTimeBefore.
+        public let startTimeBefore: Date?
+        /// Filter by execution state.
+        /// If not specified, executions in all states are returned.
+        public let state: PipelineExecutionState?
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(endTimeAfter: Date? = nil, endTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String, startTimeAfter: Date? = nil, startTimeBefore: Date? = nil, state: PipelineExecutionState? = nil, workspaceName: String) {
+            self.endTimeAfter = endTimeAfter
+            self.endTimeBefore = endTimeBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pipelineName = pipelineName
+            self.startTimeAfter = startTimeAfter
+            self.startTimeBefore = startTimeBefore
+            self.state = state
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTimeAfter, key: "endTimeAfter")
+            request.encodeQuery(self.endTimeBefore, key: "endTimeBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            request.encodeQuery(self.startTimeAfter, key: "startTimeAfter")
+            request.encodeQuery(self.startTimeBefore, key: "startTimeBefore")
+            request.encodeQuery(self.state, key: "state")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPipelineExecutionsResponse: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// A list that summarizes each pipeline execution.
+        public let pipelineExecutionSummaries: [PipelineExecutionSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, pipelineExecutionSummaries: [PipelineExecutionSummary]) {
+            self.nextToken = nextToken
+            self.pipelineExecutionSummaries = pipelineExecutionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pipelineExecutionSummaries = "pipelineExecutionSummaries"
+        }
+    }
+
+    public struct ListPipelinesRequest: AWSEncodableShape {
+        /// The maximum number of results to return for each paginated request. Default: 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPipelinesResponse: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// A list that summarizes each pipeline in the workspace.
+        public let pipelineSummaries: [PipelineSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, pipelineSummaries: [PipelineSummary]) {
+            self.nextToken = nextToken
+            self.pipelineSummaries = pipelineSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pipelineSummaries = "pipelineSummaries"
+        }
+    }
+
     public struct ListPortalsRequest: AWSEncodableShape {
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
@@ -8849,6 +12663,177 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ListQueriesRequest: AWSEncodableShape {
+        /// An optional filter to return only queries with the specified status. The value must be one of the supported query statuses: SUBMITTED, RUNNING, COMPLETED, FAILED, CANCELED, or CANCELING.
+        public let filter: String?
+        /// The maximum number of results to return for each paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The name of the workspace to list queries for.
+        public let workspaceName: String
+
+        @inlinable
+        public init(filter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.filter, key: "filter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filter, name: "filter", parent: name, max: 64)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQueriesResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of query summaries for the workspace.
+        public let queries: [QuerySummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, queries: [QuerySummary]) {
+            self.nextToken = nextToken
+            self.queries = queries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case queries = "queries"
+        }
+    }
+
+    public struct ListSearchesFilters: AWSEncodableShape {
+        /// Returns only searches whose groupId is one of the listed values.
+        public let groupIdFilter: [String]?
+        /// Returns only searches whose searchType is one of the listed values.
+        public let searchTypeFilter: [SearchType]?
+        /// Returns only searches started at or after this time.
+        public let startedAfter: Date?
+        /// Returns only searches started at or before this time.
+        public let startedBefore: Date?
+        /// Returns only searches whose status is one of the listed values.
+        public let statusFilter: [SearchStatus]?
+
+        @inlinable
+        public init(groupIdFilter: [String]? = nil, searchTypeFilter: [SearchType]? = nil, startedAfter: Date? = nil, startedBefore: Date? = nil, statusFilter: [SearchStatus]? = nil) {
+            self.groupIdFilter = groupIdFilter
+            self.searchTypeFilter = searchTypeFilter
+            self.startedAfter = startedAfter
+            self.startedBefore = startedBefore
+            self.statusFilter = statusFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.groupIdFilter?.forEach {
+                try validate($0, name: "groupIdFilter[]", parent: name, max: 36)
+                try validate($0, name: "groupIdFilter[]", parent: name, min: 2)
+                try validate($0, name: "groupIdFilter[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            }
+            try self.validate(self.groupIdFilter, name: "groupIdFilter", parent: name, max: 100)
+            try self.validate(self.groupIdFilter, name: "groupIdFilter", parent: name, min: 1)
+            try self.validate(self.searchTypeFilter, name: "searchTypeFilter", parent: name, max: 2)
+            try self.validate(self.searchTypeFilter, name: "searchTypeFilter", parent: name, min: 1)
+            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 4)
+            try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupIdFilter = "groupIdFilter"
+            case searchTypeFilter = "searchTypeFilter"
+            case startedAfter = "startedAfter"
+            case startedBefore = "startedBefore"
+            case statusFilter = "statusFilter"
+        }
+    }
+
+    public struct ListSearchesRequest: AWSEncodableShape {
+        /// Optional filters that restrict which searches are returned.
+        public let listSearchesFilters: ListSearchesFilters?
+        /// The maximum number of searches to return in a single page. Valid range is 1 to 1,000; if
+        /// omitted, a service-defined default is used.
+        public let maxResults: Int?
+        /// The pagination token returned by a previous ListSearches call. Provide it to retrieve the next
+        /// page; omit it to retrieve the first page.
+        public let nextToken: String?
+        /// The name of the workspace whose searches are listed.
+        public let workspaceName: String
+
+        @inlinable
+        public init(listSearchesFilters: ListSearchesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String) {
+            self.listSearchesFilters = listSearchesFilters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.listSearchesFilters, forKey: .listSearchesFilters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.listSearchesFilters?.validate(name: "\(name).listSearchesFilters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listSearchesFilters = "listSearchesFilters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSearchesResponse: AWSDecodableShape {
+        /// The pagination token to use in a subsequent ListSearches call to retrieve the next page. Absent
+        /// when there are no more searches.
+        public let nextToken: String?
+        /// A page of search summaries, most recently started first.
+        public let searchSummaries: [SearchSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, searchSummaries: [SearchSummary]) {
+            self.nextToken = nextToken
+            self.searchSummaries = searchSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case searchSummaries = "searchSummaries"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The ARN of the resource.
         public let resourceArn: String
@@ -8886,6 +12871,60 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ListTasksRequest: AWSEncodableShape {
+        /// The maximum number of results to return for each paginated request. Default: 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTasksResponse: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// A list that summarizes each task in the workspace.
+        public let taskSummaries: [TaskSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, taskSummaries: [TaskSummary]) {
+            self.nextToken = nextToken
+            self.taskSummaries = taskSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case taskSummaries = "taskSummaries"
+        }
+    }
+
     public struct ListTimeSeriesRequest: AWSEncodableShape {
         /// The alias prefix of the time series.
         public let aliasPrefix: String?
@@ -8897,14 +12936,17 @@ extension IoTSiteWise {
         public let nextToken: String?
         /// The type of the time series. The time series type can be one of the following values:    ASSOCIATED – The time series is associated with an asset property.    DISASSOCIATED – The time series isn't associated with any asset property.
         public let timeSeriesType: ListTimeSeriesType?
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(aliasPrefix: String? = nil, assetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, timeSeriesType: ListTimeSeriesType? = nil) {
+        public init(aliasPrefix: String? = nil, assetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, timeSeriesType: ListTimeSeriesType? = nil, workspaceName: String? = nil) {
             self.aliasPrefix = aliasPrefix
             self.assetId = assetId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.timeSeriesType = timeSeriesType
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -8915,6 +12957,7 @@ extension IoTSiteWise {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.timeSeriesType, key: "timeSeriesType")
+            request.encodeQuery(self.workspaceName, key: "workspaceName")
         }
 
         public func validate(name: String) throws {
@@ -8928,6 +12971,9 @@ extension IoTSiteWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8938,16 +12984,68 @@ extension IoTSiteWise {
         public let nextToken: String?
         /// One or more time series summaries to list.
         public let timeSeriesSummaries: [TimeSeriesSummary]
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(nextToken: String? = nil, timeSeriesSummaries: [TimeSeriesSummary]) {
+        public init(nextToken: String? = nil, timeSeriesSummaries: [TimeSeriesSummary], workspaceName: String? = nil) {
             self.nextToken = nextToken
             self.timeSeriesSummaries = timeSeriesSummaries
+            self.workspaceName = workspaceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case timeSeriesSummaries = "TimeSeriesSummaries"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct ListWorkspacesRequest: AWSEncodableShape {
+        /// The maximum number of results to return for each paginated request. Default: 50.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWorkspacesResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list that summarizes each workspace.
+        public let workspaceSummaries: [WorkspaceSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, workspaceSummaries: [WorkspaceSummary]) {
+            self.nextToken = nextToken
+            self.workspaceSummaries = workspaceSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case workspaceSummaries = "workspaceSummaries"
         }
     }
 
@@ -9105,6 +13203,10 @@ extension IoTSiteWise {
         }
     }
 
+    public struct Mp4: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct MultiLayerStorage: AWSEncodableShape & AWSDecodableShape {
         /// Contains information about a customer managed Amazon S3 bucket.
         public let customerManagedS3Storage: CustomerManagedS3Storage
@@ -9125,6 +13227,118 @@ extension IoTSiteWise {
 
     public struct Parquet: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct PipelineExecutionStateDetails: AWSDecodableShape {
+        /// Classification of the failure. Present when the execution failed.
+        public let code: PipelineErrorCode?
+        /// Per-step error entries to help diagnose a failed execution. Present when the execution failed.
+        public let details: [DetailedPipelineError]?
+        /// Human-readable description of the outcome. For a failed execution, this describes why it failed; for a cancelled execution, this is the reason you supplied when calling CancelPipelineExecution.
+        public let message: String
+
+        @inlinable
+        public init(code: PipelineErrorCode? = nil, details: [DetailedPipelineError]? = nil, message: String) {
+            self.code = code
+            self.details = details
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case details = "details"
+            case message = "message"
+        }
+    }
+
+    public struct PipelineExecutionStatus: AWSDecodableShape {
+        /// Current state of the pipeline execution.
+        public let state: PipelineExecutionState
+        /// Additional information about the execution outcome. Populated when the execution has terminated (failed or cancelled).
+        public let stateDetails: PipelineExecutionStateDetails?
+
+        @inlinable
+        public init(state: PipelineExecutionState, stateDetails: PipelineExecutionStateDetails? = nil) {
+            self.state = state
+            self.stateDetails = stateDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case stateDetails = "stateDetails"
+        }
+    }
+
+    public struct PipelineExecutionSummary: AWSDecodableShape {
+        /// The time the pipeline execution completed, in Unix epoch time.
+        public let endTime: Date?
+        /// Scheduling priority for the execution. When not specified, defaults to lowest priority.
+        public let executionPriority: Int?
+        /// The unique identifier of the pipeline execution.
+        public let pipelineExecutionId: String
+        /// The pipeline version this execution ran against.
+        public let pipelineVersion: String
+        /// The time the pipeline execution started, in Unix epoch time.
+        public let startTime: Date?
+        /// The current execution status of the pipeline.
+        public let status: PipelineExecutionStatus
+
+        @inlinable
+        public init(endTime: Date? = nil, executionPriority: Int? = nil, pipelineExecutionId: String, pipelineVersion: String, startTime: Date? = nil, status: PipelineExecutionStatus) {
+            self.endTime = endTime
+            self.executionPriority = executionPriority
+            self.pipelineExecutionId = pipelineExecutionId
+            self.pipelineVersion = pipelineVersion
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case executionPriority = "executionPriority"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineVersion = "pipelineVersion"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
+
+    public struct PipelineSummary: AWSDecodableShape {
+        /// The time the pipeline was created, in Unix epoch time.
+        public let createdAt: Date
+        /// The description of the pipeline.
+        public let description: String?
+        /// The ARN of the pipeline.
+        public let pipelineArn: String
+        /// The name of the pipeline.
+        public let pipelineName: String
+        /// The current lifecycle status of the pipeline.
+        public let status: ResourceStatus
+        /// The time the pipeline was last updated, in Unix epoch time.
+        public let updatedAt: Date
+        /// The version of the pipeline.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, pipelineArn: String, pipelineName: String, status: ResourceStatus, updatedAt: Date, version: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.pipelineArn = pipelineArn
+            self.pipelineName = pipelineName
+            self.status = status
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case pipelineArn = "pipelineArn"
+            case pipelineName = "pipelineName"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
     }
 
     public struct PortalResource: AWSEncodableShape & AWSDecodableShape {
@@ -9635,14 +13849,24 @@ extension IoTSiteWise {
     public struct PutLoggingOptionsRequest: AWSEncodableShape {
         /// The logging options to set.
         public let loggingOptions: LoggingOptions
+        /// The name of the workspace.
+        public let workspaceName: String?
 
         @inlinable
-        public init(loggingOptions: LoggingOptions) {
+        public init(loggingOptions: LoggingOptions, workspaceName: String? = nil) {
             self.loggingOptions = loggingOptions
+            self.workspaceName = workspaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case loggingOptions = "loggingOptions"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -9731,6 +13955,54 @@ extension IoTSiteWise {
         }
     }
 
+    public struct QueryStatistics: AWSDecodableShape {
+        /// The total number of bytes scanned during query execution.
+        public let bytesScanned: Int64
+        /// The total query execution time, in milliseconds.
+        public let executionTimeInMillis: Int64
+        /// The total number of rows returned by the query.
+        public let rowCount: Int64
+
+        @inlinable
+        public init(bytesScanned: Int64, executionTimeInMillis: Int64, rowCount: Int64) {
+            self.bytesScanned = bytesScanned
+            self.executionTimeInMillis = executionTimeInMillis
+            self.rowCount = rowCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesScanned = "bytesScanned"
+            case executionTimeInMillis = "executionTimeInMillis"
+            case rowCount = "rowCount"
+        }
+    }
+
+    public struct QuerySummary: AWSDecodableShape {
+        /// The date and time when the query reached a terminal state, in Unix epoch time.
+        public let completedAt: Date?
+        /// The unique identifier for the query execution.
+        public let queryId: String
+        /// The current query status.
+        public let status: QueryStatus
+        /// The date and time when the query was submitted, in Unix epoch time.
+        public let submittedAt: Date
+
+        @inlinable
+        public init(completedAt: Date? = nil, queryId: String, status: QueryStatus, submittedAt: Date) {
+            self.completedAt = completedAt
+            self.queryId = queryId
+            self.status = status
+            self.submittedAt = submittedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "completedAt"
+            case queryId = "queryId"
+            case status = "status"
+            case submittedAt = "submittedAt"
+        }
+    }
+
     public struct Reference: AWSDecodableShape {
         /// Contains the dataset reference information.
         public let dataset: DataSetReference?
@@ -9809,6 +14081,24 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ResourceError: AWSDecodableShape {
+        /// The error code.
+        public let code: ResourceErrorCode?
+        /// The error message.
+        public let message: String?
+
+        @inlinable
+        public init(code: ResourceErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSDecodableShape {
         public let message: String
 
@@ -9819,6 +14109,24 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct ResourceStatus: AWSDecodableShape {
+        /// Contains associated error information, if any.
+        public let error: ResourceError?
+        /// The current status of the resource.
+        public let state: ResourceState?
+
+        @inlinable
+        public init(error: ResourceError? = nil, state: ResourceState? = nil) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case state = "state"
         }
     }
 
@@ -9851,6 +14159,157 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case data = "data"
+        }
+    }
+
+    public struct SearchFilters: AWSEncodableShape {
+        /// Restricts the search to these datasets.
+        public let datasetIds: [String]?
+        /// Restricts the search to these time intervals.
+        public let timeIntervals: [TimeInterval]?
+        /// Restricts the search to these time series.
+        public let timeSeriesIds: [String]?
+
+        @inlinable
+        public init(datasetIds: [String]? = nil, timeIntervals: [TimeInterval]? = nil, timeSeriesIds: [String]? = nil) {
+            self.datasetIds = datasetIds
+            self.timeIntervals = timeIntervals
+            self.timeSeriesIds = timeSeriesIds
+        }
+
+        public func validate(name: String) throws {
+            try self.datasetIds?.forEach {
+                try validate($0, name: "datasetIds[]", parent: name, max: 36)
+                try validate($0, name: "datasetIds[]", parent: name, min: 36)
+                try validate($0, name: "datasetIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.datasetIds, name: "datasetIds", parent: name, max: 100)
+            try self.validate(self.datasetIds, name: "datasetIds", parent: name, min: 1)
+            try self.timeIntervals?.forEach {
+                try $0.validate(name: "\(name).timeIntervals[]")
+            }
+            try self.validate(self.timeIntervals, name: "timeIntervals", parent: name, max: 100)
+            try self.validate(self.timeIntervals, name: "timeIntervals", parent: name, min: 1)
+            try self.timeSeriesIds?.forEach {
+                try validate($0, name: "timeSeriesIds[]", parent: name, max: 73)
+                try validate($0, name: "timeSeriesIds[]", parent: name, min: 36)
+            }
+            try self.validate(self.timeSeriesIds, name: "timeSeriesIds", parent: name, max: 100)
+            try self.validate(self.timeSeriesIds, name: "timeSeriesIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetIds = "datasetIds"
+            case timeIntervals = "timeIntervals"
+            case timeSeriesIds = "timeSeriesIds"
+        }
+    }
+
+    public struct SearchResult: AWSDecodableShape {
+        /// The identifier of the dataset that contains the matching data.
+        public let datasetId: String
+        /// The end of the matching time-series segment, in nanoseconds since the Unix epoch.
+        public let endTimestamp: TimeInNanos
+        /// The relevance score of this result. Higher scores indicate a stronger match.
+        public let score: Float
+        /// The identifier of the search that produced this result.
+        public let searchId: String
+        /// The start of the matching time-series segment, in nanoseconds since the Unix epoch.
+        public let startTimestamp: TimeInNanos
+        /// The identifier of the time series that contains the matching data.
+        public let timeSeriesId: String
+        /// The timestamp of the most relevant point within the matching segment, in nanoseconds since the
+        /// Unix epoch.
+        public let topTimestamp: TimeInNanos
+        /// The name of the workspace the search ran against.
+        public let workspaceName: String
+
+        @inlinable
+        public init(datasetId: String, endTimestamp: TimeInNanos, score: Float, searchId: String, startTimestamp: TimeInNanos, timeSeriesId: String, topTimestamp: TimeInNanos, workspaceName: String) {
+            self.datasetId = datasetId
+            self.endTimestamp = endTimestamp
+            self.score = score
+            self.searchId = searchId
+            self.startTimestamp = startTimestamp
+            self.timeSeriesId = timeSeriesId
+            self.topTimestamp = topTimestamp
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+            case endTimestamp = "endTimestamp"
+            case score = "score"
+            case searchId = "searchId"
+            case startTimestamp = "startTimestamp"
+            case timeSeriesId = "timeSeriesId"
+            case topTimestamp = "topTimestamp"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct SearchSummary: AWSDecodableShape {
+        /// The group identifier associated with the search, if one was supplied on the request.
+        public let groupId: String?
+        /// The natural-language query that was submitted for the search.
+        public let queryStatement: String
+        /// The unique identifier of the search.
+        public let searchId: String
+        /// The search strategy used for the search.
+        public let searchType: SearchType
+        /// The time at which the search was started.
+        public let startedAt: Date?
+        /// The current status of the search.
+        public let status: SearchStatus
+        /// A human-readable explanation of the current status. Populated when the search has FAILED.
+        public let statusReason: String?
+        /// The name of the workspace the search runs against.
+        public let workspaceName: String
+
+        @inlinable
+        public init(groupId: String? = nil, queryStatement: String, searchId: String, searchType: SearchType, startedAt: Date? = nil, status: SearchStatus, statusReason: String? = nil, workspaceName: String) {
+            self.groupId = groupId
+            self.queryStatement = queryStatement
+            self.searchId = searchId
+            self.searchType = searchType
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "groupId"
+            case queryStatement = "queryStatement"
+            case searchId = "searchId"
+            case searchType = "searchType"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case workspaceName = "workspaceName"
+        }
+    }
+
+    public struct SessionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The nanosecond-precision end time of the session.
+        public let sessionEndTimestamp: TimeInNanos
+        /// The nanosecond-precision start time of the session.
+        public let sessionStartTimestamp: TimeInNanos
+
+        @inlinable
+        public init(sessionEndTimestamp: TimeInNanos, sessionStartTimestamp: TimeInNanos) {
+            self.sessionEndTimestamp = sessionEndTimestamp
+            self.sessionStartTimestamp = sessionStartTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.sessionEndTimestamp.validate(name: "\(name).sessionEndTimestamp")
+            try self.sessionStartTimestamp.validate(name: "\(name).sessionStartTimestamp")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionEndTimestamp = "sessionEndTimestamp"
+            case sessionStartTimestamp = "sessionStartTimestamp"
         }
     }
 
@@ -9907,6 +14366,222 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case kendra = "kendra"
+        }
+    }
+
+    public struct StartPipelineExecutionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// If you retry a request that completed successfully using the same client token, the server returns the
+        /// cached result from the original successful request without performing the operation again.
+        public let clientToken: String?
+        /// Runtime environment variable overrides for the execution. Includes global variables
+        /// that apply to all compute nodes and computeNodes for per-node overrides. These take the highest
+        /// priority in the environment variable hierarchy.
+        public let executionEnvironmentVariableOverrides: ExecutionEnvironmentVariables?
+        /// Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified.
+        public let executionPriority: Int?
+        /// The name of the pipeline to execute.
+        public let pipelineName: String
+        /// The name of the workspace containing the pipeline.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = StartPipelineExecutionRequest.idempotencyToken(), executionEnvironmentVariableOverrides: ExecutionEnvironmentVariables? = nil, executionPriority: Int? = nil, pipelineName: String, workspaceName: String) {
+            self.clientToken = clientToken
+            self.executionEnvironmentVariableOverrides = executionEnvironmentVariableOverrides
+            self.executionPriority = executionPriority
+            self.pipelineName = pipelineName
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.executionEnvironmentVariableOverrides, forKey: .executionEnvironmentVariableOverrides)
+            try container.encodeIfPresent(self.executionPriority, forKey: .executionPriority)
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.executionEnvironmentVariableOverrides?.validate(name: "\(name).executionEnvironmentVariableOverrides")
+            try self.validate(self.executionPriority, name: "executionPriority", parent: name, max: 2)
+            try self.validate(self.executionPriority, name: "executionPriority", parent: name, min: 0)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case executionEnvironmentVariableOverrides = "executionEnvironmentVariableOverrides"
+            case executionPriority = "executionPriority"
+        }
+    }
+
+    public struct StartPipelineExecutionResponse: AWSDecodableShape {
+        /// The unique identifier of the created pipeline execution.
+        public let pipelineExecutionId: String
+
+        @inlinable
+        public init(pipelineExecutionId: String) {
+            self.pipelineExecutionId = pipelineExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
+    public struct StartQueryRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The SQL query to execute against the workspace telemetry, annotations, data segment, and dataset data.
+        public let queryStatement: String
+        /// The name of the workspace to query.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = StartQueryRequest.idempotencyToken(), queryStatement: String, workspaceName: String) {
+            self.clientToken = clientToken
+            self.queryStatement = queryStatement
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.queryStatement, forKey: .queryStatement)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10240)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case queryStatement = "queryStatement"
+        }
+    }
+
+    public struct StartQueryResponse: AWSDecodableShape {
+        /// The unique identifier for the query execution.
+        public let queryId: String
+        /// The initial query status. The value is always SUBMITTED upon creation.
+        public let status: QueryStatus
+
+        @inlinable
+        public init(queryId: String, status: QueryStatus) {
+            self.queryId = queryId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "queryId"
+            case status = "status"
+        }
+    }
+
+    public struct StartSearchRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier you provide to ensure the request is idempotent. Repeating
+        /// a StartSearch call with the same clientToken returns the original search rather than starting
+        /// a new one. If omitted, the SDK autogenerates one.
+        public let clientToken: String?
+        /// An optional caller-supplied identifier used to group related searches together.
+        public let groupId: String?
+        /// The natural-language query describing the data to search for.
+        public let queryStatement: String
+        /// Optional filters that restrict the search to a subset of the workspace's data.
+        public let searchFilters: SearchFilters?
+        /// The search strategy to use. Defaults to QUICK when omitted.
+        public let searchType: SearchType?
+        /// The name of the workspace whose data is searched.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = StartSearchRequest.idempotencyToken(), groupId: String? = nil, queryStatement: String, searchFilters: SearchFilters? = nil, searchType: SearchType? = nil, workspaceName: String) {
+            self.clientToken = clientToken
+            self.groupId = groupId
+            self.queryStatement = queryStatement
+            self.searchFilters = searchFilters
+            self.searchType = searchType
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.groupId, forKey: .groupId)
+            try container.encode(self.queryStatement, forKey: .queryStatement)
+            try container.encodeIfPresent(self.searchFilters, forKey: .searchFilters)
+            try container.encodeIfPresent(self.searchType, forKey: .searchType)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 36)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 2)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 5000)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.searchFilters?.validate(name: "\(name).searchFilters")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case groupId = "groupId"
+            case queryStatement = "queryStatement"
+            case searchFilters = "searchFilters"
+            case searchType = "searchType"
+        }
+    }
+
+    public struct StartSearchResponse: AWSDecodableShape {
+        /// The group identifier associated with the search, if one was supplied on the request.
+        public let groupId: String?
+        /// The unique identifier assigned to the newly started search.
+        public let searchId: String
+        /// The initial status of the search. A newly started search is QUEUED.
+        public let status: SearchStatus
+        /// The name of the workspace the search runs against.
+        public let workspaceName: String
+
+        @inlinable
+        public init(groupId: String? = nil, searchId: String, status: SearchStatus, workspaceName: String) {
+            self.groupId = groupId
+            self.searchId = searchId
+            self.status = status
+            self.workspaceName = workspaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "groupId"
+            case searchId = "searchId"
+            case status = "status"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -9977,6 +14652,44 @@ extension IoTSiteWise {
         }
     }
 
+    public struct TaskSummary: AWSDecodableShape {
+        /// The time the task was created, in Unix epoch time.
+        public let createdAt: Date
+        /// The description of the task.
+        public let description: String?
+        /// The current lifecycle status of the task.
+        public let status: ResourceStatus
+        /// The ARN of the task.
+        public let taskArn: String
+        /// The name of the task.
+        public let taskName: String
+        /// The time the task was last updated, in Unix epoch time.
+        public let updatedAt: Date
+        /// The version of the task.
+        public let version: String
+
+        @inlinable
+        public init(createdAt: Date, description: String? = nil, status: ResourceStatus, taskArn: String, taskName: String, updatedAt: Date, version: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.status = status
+            self.taskArn = taskArn
+            self.taskName = taskName
+            self.updatedAt = updatedAt
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case status = "status"
+            case taskArn = "taskArn"
+            case taskName = "taskName"
+            case updatedAt = "updatedAt"
+            case version = "version"
+        }
+    }
+
     public struct ThrottlingException: AWSDecodableShape {
         public let message: String
 
@@ -10012,6 +14725,29 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case offsetInNanos = "offsetInNanos"
             case timeInSeconds = "timeInSeconds"
+        }
+    }
+
+    public struct TimeInterval: AWSEncodableShape {
+        /// The end of the time interval.
+        public let endTime: TimeInNanos
+        /// The start of the time interval.
+        public let startTime: TimeInNanos
+
+        @inlinable
+        public init(endTime: TimeInNanos, startTime: TimeInNanos) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.endTime.validate(name: "\(name).endTime")
+            try self.startTime.validate(name: "\(name).startTime")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
@@ -10058,6 +14794,42 @@ extension IoTSiteWise {
             case timeSeriesCreationDate = "timeSeriesCreationDate"
             case timeSeriesId = "timeSeriesId"
             case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"
+        }
+    }
+
+    public struct TimeseriesItem: AWSEncodableShape & AWSDecodableShape {
+        /// The optional format settings for the output.
+        public let formatSettings: FormatSettings?
+        /// The customer-friendly alias for the timeseries. Mutually exclusive with timeSeriesId.
+        public let propertyAlias: String?
+        /// The unique identifier for the timeseries. Mutually exclusive with propertyAlias.
+        public let timeSeriesId: String?
+        /// The trim settings for the time range to export. Required for VIDEO and TELEMETRY data types; optional for ANNOTATION data types.
+        public let trimSettings: TrimSettings?
+
+        @inlinable
+        public init(formatSettings: FormatSettings? = nil, propertyAlias: String? = nil, timeSeriesId: String? = nil, trimSettings: TrimSettings? = nil) {
+            self.formatSettings = formatSettings
+            self.propertyAlias = propertyAlias
+            self.timeSeriesId = timeSeriesId
+            self.trimSettings = trimSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.formatSettings?.validate(name: "\(name).formatSettings")
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 73)
+            try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, min: 36)
+            try self.trimSettings?.validate(name: "\(name).trimSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatSettings = "formatSettings"
+            case propertyAlias = "propertyAlias"
+            case timeSeriesId = "timeSeriesId"
+            case trimSettings = "trimSettings"
         }
     }
 
@@ -10135,6 +14907,29 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case computeLocation = "computeLocation"
             case forwardingConfig = "forwardingConfig"
+        }
+    }
+
+    public struct TrimSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The end time for the trim range. Must be greater than startTime.
+        public let endTime: TimeInNanos
+        /// The start time for the trim range.
+        public let startTime: TimeInNanos
+
+        @inlinable
+        public init(endTime: TimeInNanos, startTime: TimeInNanos) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.endTime.validate(name: "\(name).endTime")
+            try self.startTime.validate(name: "\(name).startTime")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
@@ -10342,16 +15137,20 @@ extension IoTSiteWise {
     public struct UpdateAssetModelCompositeModelResponse: AWSDecodableShape {
         /// The path to the composite model listing the parent composite models.
         public let assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment]
+        /// The ID of the asset model.
+        public let assetModelId: String?
         public let assetModelStatus: AssetModelStatus
 
         @inlinable
-        public init(assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment], assetModelStatus: AssetModelStatus) {
+        public init(assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment], assetModelId: String? = nil, assetModelStatus: AssetModelStatus) {
             self.assetModelCompositeModelPath = assetModelCompositeModelPath
+            self.assetModelId = assetModelId
             self.assetModelStatus = assetModelStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetModelCompositeModelPath = "assetModelCompositeModelPath"
+            case assetModelId = "assetModelId"
             case assetModelStatus = "assetModelStatus"
         }
     }
@@ -10452,15 +15251,19 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAssetModelResponse: AWSDecodableShape {
+        /// The ID of the asset model.
+        public let assetModelId: String?
         /// The status of the asset model, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
         @inlinable
-        public init(assetModelStatus: AssetModelStatus) {
+        public init(assetModelId: String? = nil, assetModelStatus: AssetModelStatus) {
+            self.assetModelId = assetModelId
             self.assetModelStatus = assetModelStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetModelId = "assetModelId"
             case assetModelStatus = "assetModelStatus"
         }
     }
@@ -10583,15 +15386,19 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAssetResponse: AWSDecodableShape {
+        /// The ID of the asset.
+        public let assetId: String?
         /// The status of the asset, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
         @inlinable
-        public init(assetStatus: AssetStatus) {
+        public init(assetId: String? = nil, assetStatus: AssetStatus) {
+            self.assetId = assetId
             self.assetStatus = assetStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
             case assetStatus = "assetStatus"
         }
     }
@@ -10650,7 +15457,7 @@ extension IoTSiteWise {
             try self.validate(self.computationModelId, name: "computationModelId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.computationModelName, name: "computationModelName", parent: name, max: 256)
             try self.validate(self.computationModelName, name: "computationModelName", parent: name, min: 1)
-            try self.validate(self.computationModelName, name: "computationModelName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.computationModelName, name: "computationModelName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@.]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10739,6 +15546,8 @@ extension IoTSiteWise {
     public struct UpdateDatasetRequest: AWSEncodableShape {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The updated configuration for the dataset.
+        public let datasetConfig: DatasetConfig?
         /// A description about the dataset, and its functionality.
         public let datasetDescription: String?
         /// The ID of the dataset.
@@ -10747,47 +15556,69 @@ extension IoTSiteWise {
         public let datasetName: String
         /// The data source for the dataset.
         public let datasetSource: DatasetSource
+        /// The updated metadata for the dataset.
+        public let metadata: [String: String]?
+        /// The name of the workspace that contains the dataset.
+        public let workspaceName: String?
 
         @inlinable
-        public init(clientToken: String? = UpdateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String, datasetName: String, datasetSource: DatasetSource) {
+        public init(clientToken: String? = UpdateDatasetRequest.idempotencyToken(), datasetConfig: DatasetConfig? = nil, datasetDescription: String? = nil, datasetId: String, datasetName: String, datasetSource: DatasetSource, metadata: [String: String]? = nil, workspaceName: String? = nil) {
             self.clientToken = clientToken
+            self.datasetConfig = datasetConfig
             self.datasetDescription = datasetDescription
             self.datasetId = datasetId
             self.datasetName = datasetName
             self.datasetSource = datasetSource
+            self.metadata = metadata
+            self.workspaceName = workspaceName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.datasetConfig, forKey: .datasetConfig)
             try container.encodeIfPresent(self.datasetDescription, forKey: .datasetDescription)
             request.encodePath(self.datasetId, key: "datasetId")
             try container.encode(self.datasetName, forKey: .datasetName)
             try container.encode(self.datasetSource, forKey: .datasetSource)
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
+            try container.encodeIfPresent(self.workspaceName, forKey: .workspaceName)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.datasetConfig?.validate(name: "\(name).datasetConfig")
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 2048)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 36)
             try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 256)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
-            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@]+$")
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[a-zA-Z0-9 _\\-#$*!@.]+$")
             try self.datasetSource.validate(name: "\(name).datasetSource")
+            try self.metadata?.forEach {
+                try validate($0.key, name: "metadata.key", parent: name, max: 128)
+                try validate($0.key, name: "metadata.key", parent: name, min: 1)
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, max: 2048)
+            }
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case datasetConfig = "datasetConfig"
             case datasetDescription = "datasetDescription"
             case datasetName = "datasetName"
             case datasetSource = "datasetSource"
+            case metadata = "metadata"
+            case workspaceName = "workspaceName"
         }
     }
 
@@ -10901,6 +15732,85 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayName = "gatewayName"
+        }
+    }
+
+    public struct UpdatePipelineRequest: AWSEncodableShape {
+        /// Updated list of compute nodes forming the pipeline DAG.
+        public let computations: [ComputeNode]?
+        /// A new description for the pipeline.
+        public let description: String?
+        /// Updated environment variables shared across all compute nodes.
+        public let environmentVariables: [String: String]?
+        /// The name of the pipeline to update.
+        public let pipelineName: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(computations: [ComputeNode]? = nil, description: String? = nil, environmentVariables: [String: String]? = nil, pipelineName: String, workspaceName: String) {
+            self.computations = computations
+            self.description = description
+            self.environmentVariables = environmentVariables
+            self.pipelineName = pipelineName
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.computations, forKey: .computations)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
+            request.encodePath(self.pipelineName, key: "pipelineName")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.computations?.forEach {
+                try $0.validate(name: "\(name).computations[]")
+            }
+            try self.validate(self.computations, name: "computations", parent: name, max: 50)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.environmentVariables?.forEach {
+                try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
+                try validate($0.key, name: "environmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "^(?!(?i)AWS_)[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 20)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, min: 1)
+            try self.validate(self.pipelineName, name: "pipelineName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computations = "computations"
+            case description = "description"
+            case environmentVariables = "environmentVariables"
+        }
+    }
+
+    public struct UpdatePipelineResponse: AWSDecodableShape {
+        /// The current lifecycle status of the pipeline.
+        public let status: ResourceStatus
+        /// The new version of the pipeline created by this update.
+        public let version: String
+
+        @inlinable
+        public init(status: ResourceStatus, version: String) {
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case version = "version"
         }
     }
 
@@ -11070,6 +15980,131 @@ extension IoTSiteWise {
         public init() {}
     }
 
+    public struct UpdateTaskRequest: AWSEncodableShape {
+        /// A new description for the task.
+        public let description: String?
+        /// The updated task execution configuration.
+        public let taskConfiguration: TaskConfiguration?
+        /// The name of the task to update.
+        public let taskName: String
+        /// The name of the workspace.
+        public let workspaceName: String
+
+        @inlinable
+        public init(description: String? = nil, taskConfiguration: TaskConfiguration? = nil, taskName: String, workspaceName: String) {
+            self.description = description
+            self.taskConfiguration = taskConfiguration
+            self.taskName = taskName
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.taskConfiguration, forKey: .taskConfiguration)
+            request.encodePath(self.taskName, key: "taskName")
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.taskConfiguration?.validate(name: "\(name).taskConfiguration")
+            try self.validate(self.taskName, name: "taskName", parent: name, max: 64)
+            try self.validate(self.taskName, name: "taskName", parent: name, min: 1)
+            try self.validate(self.taskName, name: "taskName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case taskConfiguration = "taskConfiguration"
+        }
+    }
+
+    public struct UpdateTaskResponse: AWSDecodableShape {
+        /// The current lifecycle status of the task.
+        public let status: ResourceStatus
+        /// The new version of the task created by this update.
+        public let version: String
+
+        @inlinable
+        public init(status: ResourceStatus, version: String) {
+            self.status = status
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case version = "version"
+        }
+    }
+
+    public struct UpdateWorkspaceRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+        public let clientToken: String?
+        /// The encryption configuration for the workspace. Omit this field to leave encryption unchanged. After a customer managed key configuration becomes active, the key can't be changed; supplying the same key is accepted.
+        public let encryptionConfiguration: WorkspaceEncryptionConfiguration?
+        /// A new description for the workspace.
+        public let workspaceDescription: String?
+        /// The name of the workspace to update.
+        public let workspaceName: String
+
+        @inlinable
+        public init(clientToken: String? = UpdateWorkspaceRequest.idempotencyToken(), encryptionConfiguration: WorkspaceEncryptionConfiguration? = nil, workspaceDescription: String? = nil, workspaceName: String) {
+            self.clientToken = clientToken
+            self.encryptionConfiguration = encryptionConfiguration
+            self.workspaceDescription = workspaceDescription
+            self.workspaceName = workspaceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
+            try container.encodeIfPresent(self.workspaceDescription, forKey: .workspaceDescription)
+            request.encodePath(self.workspaceName, key: "workspaceName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, max: 2048)
+            try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, min: 1)
+            try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, max: 64)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, min: 1)
+            try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case workspaceDescription = "workspaceDescription"
+        }
+    }
+
+    public struct UpdateWorkspaceResponse: AWSDecodableShape {
+        /// The status of the workspace after the update, which is UPDATING when the operation returns.
+        public let workspaceStatus: WorkspaceStatus
+
+        @inlinable
+        public init(workspaceStatus: WorkspaceStatus) {
+            self.workspaceStatus = workspaceStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceStatus = "workspaceStatus"
+        }
+    }
+
     public struct UserIdentity: AWSEncodableShape & AWSDecodableShape {
         /// The IAM Identity Center ID of the user.
         public let id: String
@@ -11169,6 +16204,151 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case numberOfDays = "numberOfDays"
             case unlimited = "unlimited"
+        }
+    }
+
+    public struct WorkspaceEncryptionConfiguration: AWSEncodableShape {
+        /// The encryption scheme for the workspace. SITEWISE_DEFAULT_ENCRYPTION encrypts data with the IoT SiteWise default key. KMS_BASED_ENCRYPTION encrypts data with the customer managed KMS key identified by kmsKeyId.
+        public let encryptionType: EncryptionType
+        /// The customer managed KMS key used when encryptionType is KMS_BASED_ENCRYPTION. Accepts a key ID, key ARN, or key alias. Required for KMS_BASED_ENCRYPTION; must be omitted for SITEWISE_DEFAULT_ENCRYPTION. After a workspace's customer managed key configuration becomes active, the key can't be changed.
+        public let kmsKeyId: String?
+
+        @inlinable
+        public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
+    public struct WorkspaceEncryptionConfigurationInfo: AWSDecodableShape {
+        /// The type of encryption used for the workspace.
+        public let encryptionType: EncryptionType
+        /// The key ARN of the KMS key used for KMS encryption if encryptionType is KMS_BASED_ENCRYPTION.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
+            self.encryptionType = encryptionType
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct WorkspaceErrorDetails: AWSDecodableShape {
+        /// The error code.
+        public let code: ErrorCode
+        /// The error message.
+        public let message: String
+
+        @inlinable
+        public init(code: ErrorCode, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct WorkspaceStatus: AWSDecodableShape {
+        /// Contains associated error information, if any.
+        public let error: WorkspaceErrorDetails?
+        /// The current state of the workspace.
+        public let state: WorkspaceState
+
+        @inlinable
+        public init(error: WorkspaceErrorDetails? = nil, state: WorkspaceState) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case state = "state"
+        }
+    }
+
+    public struct WorkspaceSummary: AWSDecodableShape {
+        /// The ARN of the workspace.
+        public let arn: String
+        /// The date the workspace was created, in Unix epoch time.
+        public let createdAt: Date
+        /// The name of the workspace.
+        public let name: String
+        /// The status of the workspace.
+        public let status: WorkspaceStatus
+        /// The date the workspace was last updated, in Unix epoch time.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(arn: String, createdAt: Date, name: String, status: WorkspaceStatus, updatedAt: Date) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct EnrichmentJobConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Event detection configuration that generates embeddings from video time-series data enabling
+        /// natural language similarity search on events. The service processes video data and creates
+        /// embeddings stored in IoT SiteWise for semantic querying.
+        public let eventDetection: EventDetection?
+
+        @inlinable
+        public init(eventDetection: EventDetection? = nil) {
+            self.eventDetection = eventDetection
+        }
+
+        public func validate(name: String) throws {
+            try self.eventDetection?.validate(name: "\(name).eventDetection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDetection = "eventDetection"
+        }
+    }
+
+    public struct TaskConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for running a custom container image on managed compute.
+        public let containerTaskConfiguration: ContainerTaskConfiguration?
+
+        @inlinable
+        public init(containerTaskConfiguration: ContainerTaskConfiguration? = nil) {
+            self.containerTaskConfiguration = containerTaskConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.containerTaskConfiguration?.validate(name: "\(name).containerTaskConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerTaskConfiguration = "containerTaskConfiguration"
         }
     }
 }

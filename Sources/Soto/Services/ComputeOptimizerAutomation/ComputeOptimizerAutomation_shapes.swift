@@ -45,17 +45,29 @@ extension ComputeOptimizerAutomation {
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case numericEquals = "NumericEquals"
+        case numericEqualsIfExists = "NumericEqualsIfExists"
         case numericGreaterThan = "NumericGreaterThan"
         case numericGreaterThanEquals = "NumericGreaterThanEquals"
+        case numericGreaterThanEqualsIfExists = "NumericGreaterThanEqualsIfExists"
+        case numericGreaterThanIfExists = "NumericGreaterThanIfExists"
         case numericLessThan = "NumericLessThan"
         case numericLessThanEquals = "NumericLessThanEquals"
+        case numericLessThanEqualsIfExists = "NumericLessThanEqualsIfExists"
+        case numericLessThanIfExists = "NumericLessThanIfExists"
         case numericNotEquals = "NumericNotEquals"
+        case numericNotEqualsIfExists = "NumericNotEqualsIfExists"
         case stringEquals = "StringEquals"
+        case stringEqualsIfExists = "StringEqualsIfExists"
         case stringEqualsIgnoreCase = "StringEqualsIgnoreCase"
+        case stringEqualsIgnoreCaseIfExists = "StringEqualsIgnoreCaseIfExists"
         case stringLike = "StringLike"
+        case stringLikeIfExists = "StringLikeIfExists"
         case stringNotEquals = "StringNotEquals"
+        case stringNotEqualsIfExists = "StringNotEqualsIfExists"
         case stringNotEqualsIgnoreCase = "StringNotEqualsIgnoreCase"
+        case stringNotEqualsIgnoreCaseIfExists = "StringNotEqualsIgnoreCaseIfExists"
         case stringNotLike = "StringNotLike"
+        case stringNotLikeIfExists = "StringNotLikeIfExists"
         public var description: String { return self.rawValue }
     }
 
@@ -733,7 +745,7 @@ extension ComputeOptimizerAutomation {
     }
 
     public struct DoubleCriteriaCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison operator to use, such as equals, greater than, less than, etc.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public let comparison: ComparisonOperator?
         /// The list of double values to compare against using the specified comparison operator.
         public let values: [Double]?
@@ -1049,7 +1061,7 @@ extension ComputeOptimizerAutomation {
     }
 
     public struct IntegerCriteriaCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison operator to use, such as equals, greater than, less than, etc.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public let comparison: ComparisonOperator?
         /// The list of integer values to compare against using the specified comparison operator.
         public let values: [Int]?
@@ -1810,7 +1822,7 @@ extension ComputeOptimizerAutomation {
     }
 
     public struct ResourceTagsCriteriaCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison operator used to evaluate the tag criteria, such as equals, not equals, or contains.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public let comparison: ComparisonOperator?
         /// The tag key to use for comparison when filtering resources.
         public let key: String?
@@ -1968,7 +1980,7 @@ extension ComputeOptimizerAutomation {
     }
 
     public struct StringCriteriaCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The comparison operator used to evaluate the string criteria, such as equals, not equals, or contains.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public let comparison: ComparisonOperator?
         /// List of string values to compare against when applying the criteria condition.
         public let values: [String]?

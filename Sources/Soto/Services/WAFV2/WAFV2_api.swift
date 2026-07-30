@@ -178,7 +178,7 @@ public struct WAFV2: AWSService {
     /// Associates a web ACL with a resource, to protect the resource.  Use this for all resource types except for Amazon CloudFront distributions. For Amazon CloudFront, call UpdateDistribution for the distribution and provide the Amazon Resource Name (ARN) of the web ACL in the web ACL ID. For information, see UpdateDistribution in the Amazon CloudFront Developer Guide.   Required permissions for customer-managed IAM policies  This call requires permissions that are specific to the protected resource type.  For details, see Permissions for AssociateWebACL in the WAF Developer Guide.   Temporary inconsistencies during updates  When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes.  The following are examples of the temporary inconsistencies that you might notice during change propagation:    After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group rules might be in effect in one area where the web ACL is used and not in another.   After you change a rule action setting, you might see the old action in some places and the new action in others.    After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id     For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     ///   - webACLArn: The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -366,6 +366,7 @@ public struct WAFV2: AWSService {
     ///   - capacity: The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation.  When you add or modify the rules in a rule group, WAF enforces this limit. You can check the capacity  for a set of rules using CheckCapacity. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule.  Simple rules that cost little to run use fewer WCUs than more complex rules
     ///   - customResponseBodies: A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group.  For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
     ///   - description: A description of the rule group that helps with identification.
+    ///   - monetizationConfig: The monetization configuration for the rule group. Provide this when any rule in the rule group uses the Monetize action.
     ///   - name: The name of the rule group. You cannot change the name of a rule group after you create it.
     ///   - rules: The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
     ///   - scope: Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
@@ -377,6 +378,7 @@ public struct WAFV2: AWSService {
         capacity: Int64,
         customResponseBodies: [String: CustomResponseBody]? = nil,
         description: String? = nil,
+        monetizationConfig: MonetizationConfig? = nil,
         name: String,
         rules: [Rule]? = nil,
         scope: Scope,
@@ -388,6 +390,7 @@ public struct WAFV2: AWSService {
             capacity: capacity, 
             customResponseBodies: customResponseBodies, 
             description: description, 
+            monetizationConfig: monetizationConfig, 
             name: name, 
             rules: rules, 
             scope: scope, 
@@ -397,7 +400,7 @@ public struct WAFV2: AWSService {
         return try await self.createRuleGroup(input, logger: logger)
     }
 
-    /// Creates a WebACL per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
+    /// Creates a WebACL per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
     @Sendable
     @inlinable
     public func createWebACL(_ input: CreateWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebACLResponse {
@@ -410,7 +413,7 @@ public struct WAFV2: AWSService {
             logger: logger
         )
     }
-    /// Creates a WebACL per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
+    /// Creates a WebACL per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.
     ///
     /// Parameters:
     ///   - applicationConfig: Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
@@ -421,6 +424,7 @@ public struct WAFV2: AWSService {
     ///   - dataProtectionConfig: Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
     ///   - defaultAction: The action to perform if none of the Rules contained in the WebACL match.
     ///   - description: A description of the web ACL that helps with identification.
+    ///   - monetizationConfig: The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the Monetize action.
     ///   - name: The name of the web ACL. You cannot change the name of a web ACL after you create it.
     ///   - onSourceDDoSProtectionConfig: Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
     ///   - rules: The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
@@ -439,6 +443,7 @@ public struct WAFV2: AWSService {
         dataProtectionConfig: DataProtectionConfig? = nil,
         defaultAction: DefaultAction,
         description: String? = nil,
+        monetizationConfig: MonetizationConfig? = nil,
         name: String,
         onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil,
         rules: [Rule]? = nil,
@@ -457,6 +462,7 @@ public struct WAFV2: AWSService {
             dataProtectionConfig: dataProtectionConfig, 
             defaultAction: defaultAction, 
             description: description, 
+            monetizationConfig: monetizationConfig, 
             name: name, 
             onSourceDDoSProtectionConfig: onSourceDDoSProtectionConfig, 
             rules: rules, 
@@ -863,7 +869,7 @@ public struct WAFV2: AWSService {
     /// Disassociates the specified resource from its web ACL association, if it has one.  Use this for all resource types except for Amazon CloudFront distributions. For Amazon CloudFront, call UpdateDistribution for the distribution and provide an empty web ACL ID. For information, see UpdateDistribution in the Amazon CloudFront API Reference.   Required permissions for customer-managed IAM policies  This call requires permissions that are specific to the protected resource type.  For details, see Permissions for DisassociateWebACL in the WAF Developer Guide.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id     For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateWebACL(
@@ -1186,6 +1192,153 @@ public struct WAFV2: AWSService {
         return try await self.getRegexPatternSet(input, logger: logger)
     }
 
+    /// Retrieves ranked monetization statistics. Use the StatisticType parameter to specify the ranking: TOP_SOURCES_BY_REVENUE for top sources by revenue, or TOP_PATHS_BY_REVENUE for top content paths by revenue. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    @Sendable
+    @inlinable
+    public func getRevenueStatistics(_ input: GetRevenueStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevenueStatisticsResponse {
+        try await self.client.execute(
+            operation: "GetRevenueStatistics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves ranked monetization statistics. Use the StatisticType parameter to specify the ranking: TOP_SOURCES_BY_REVENUE for top sources by revenue, or TOP_PATHS_BY_REVENUE for top content paths by revenue. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// Parameters:
+    ///   - currency: The currency for the revenue amounts in the response.
+    ///   - filters: Optional filters to narrow the results.
+    ///   - groupBy: The dimension to group results by: NAME, CATEGORY, INTENT, ORGANIZATION, or WEBACL. Required when StatisticType is TOP_SOURCES_BY_REVENUE. Not required for TOP_PATHS_BY_REVENUE, where results are grouped by content path. If StatisticType is TOP_SOURCES_BY_REVENUE and GroupBy is omitted, the request is rejected with a WAFInvalidParameterException.
+    ///   - limit: The maximum number of results to return.
+    ///   - nextMarker: When you get a paginated response, this marker indicates that additional results are available. Use it in a subsequent request to retrieve the next page of results.
+    ///   - scope: Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+    ///   - sortBy: The field to sort results by: REVENUE, PERCENTAGE, or NAME.
+    ///   - sortOrder: The sort order: ASC for ascending or DESC for descending.
+    ///   - statisticType:  TOP_SOURCES_BY_REVENUE ranks revenue from AI bot traffic, grouped by the dimension you specify in the GroupBy parameter (NAME, CATEGORY, INTENT, ORGANIZATION, or WEBACL); GroupBy is required for this statistic type. TOP_PATHS_BY_REVENUE ranks revenue by path.
+    ///   - timeWindow: The time range for the query. Specify start and end timestamps.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRevenueStatistics(
+        currency: Currency,
+        filters: [MonetizationFilter]? = nil,
+        groupBy: GroupByType? = nil,
+        limit: Int? = nil,
+        nextMarker: String? = nil,
+        scope: Scope,
+        sortBy: RankingSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statisticType: RankingStatisticType,
+        timeWindow: TimeWindow,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRevenueStatisticsResponse {
+        let input = GetRevenueStatisticsRequest(
+            currency: currency, 
+            filters: filters, 
+            groupBy: groupBy, 
+            limit: limit, 
+            nextMarker: nextMarker, 
+            scope: scope, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statisticType: statisticType, 
+            timeWindow: timeWindow
+        )
+        return try await self.getRevenueStatistics(input, logger: logger)
+    }
+
+    /// Retrieves a summary of monetization revenue for the specified time window. Returns total revenue, revenue by verification tier, total settlements, and total HTTP 402 responses served. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    @Sendable
+    @inlinable
+    public func getRevenueStatisticsSummary(_ input: GetRevenueStatisticsSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevenueStatisticsSummaryResponse {
+        try await self.client.execute(
+            operation: "GetRevenueStatisticsSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a summary of monetization revenue for the specified time window. Returns total revenue, revenue by verification tier, total settlements, and total HTTP 402 responses served. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// Parameters:
+    ///   - currency: The currency for the revenue amounts in the response. Currently only USDC is supported.
+    ///   - filters: Optional filters to narrow the results. You can filter by source name, category, organization, intent, verified status, content path, web ACL ARN, or currency mode.
+    ///   - scope: Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL). AI bot monetization is only available for CLOUDFRONT scope.
+    ///   - timeWindow: The time range for the revenue summary query. Specify start and end timestamps.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRevenueStatisticsSummary(
+        currency: Currency,
+        filters: [MonetizationFilter]? = nil,
+        scope: Scope,
+        timeWindow: TimeWindow,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRevenueStatisticsSummaryResponse {
+        let input = GetRevenueStatisticsSummaryRequest(
+            currency: currency, 
+            filters: filters, 
+            scope: scope, 
+            timeWindow: timeWindow
+        )
+        return try await self.getRevenueStatisticsSummary(input, logger: logger)
+    }
+
+    /// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    @Sendable
+    @inlinable
+    public func getRevenueStatisticsTimeSeries(_ input: GetRevenueStatisticsTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevenueStatisticsTimeSeriesResponse {
+        try await self.client.execute(
+            operation: "GetRevenueStatisticsTimeSeries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// Parameters:
+    ///   - currency: The currency for the amounts in the response.
+    ///   - filters: Optional filters to narrow the results.
+    ///   - groupBy: The dimension to group results by.
+    ///   - interval: The time interval for aggregating data points: MINUTELY, FIVE_MINUTELY, HOURLY, or DAILY.
+    ///   - limit: The maximum number of data points to return. Minimum: 1. Maximum: 10000.
+    ///   - nextMarker: When you get a paginated response, this marker indicates that additional results are available.
+    ///   - scope: Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+    ///   - statisticType: The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns.
+    ///   - timeWindow: The time range for the query. Specify start and end timestamps.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRevenueStatisticsTimeSeries(
+        currency: Currency,
+        filters: [MonetizationFilter]? = nil,
+        groupBy: GroupByType? = nil,
+        interval: IntervalType,
+        limit: Int? = nil,
+        nextMarker: String? = nil,
+        scope: Scope,
+        statisticType: TimeSeriesStatisticType,
+        timeWindow: TimeWindow,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRevenueStatisticsTimeSeriesResponse {
+        let input = GetRevenueStatisticsTimeSeriesRequest(
+            currency: currency, 
+            filters: filters, 
+            groupBy: groupBy, 
+            interval: interval, 
+            limit: limit, 
+            nextMarker: nextMarker, 
+            scope: scope, 
+            statisticType: statisticType, 
+            timeWindow: timeWindow
+        )
+        return try await self.getRevenueStatisticsTimeSeries(input, logger: logger)
+    }
+
     /// Retrieves the specified RuleGroup.
     @Sendable
     @inlinable
@@ -1375,7 +1528,7 @@ public struct WAFV2: AWSService {
     /// Retrieves the WebACL for the specified resource.  This call uses GetWebACL, to verify that your account has permission to access the retrieved web ACL.  If you get an error that indicates that your account isn't authorized to perform wafv2:GetWebACL on the resource,  that error won't be included in your CloudTrail event history.  For Amazon CloudFront, don't use this call. Instead, call the CloudFront action GetDistributionConfig. For information, see GetDistributionConfig in the Amazon CloudFront API Reference.   Required permissions for customer-managed IAM policies  This call requires permissions that are specific to the protected resource type.  For details, see Permissions for GetWebACLForResource in the WAF Developer Guide.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id     For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     ///   - logger: Logger use during operation
     @inlinable
     public func getWebACLForResource(
@@ -1744,6 +1897,56 @@ public struct WAFV2: AWSService {
             scope: scope
         )
         return try await self.listRuleGroups(input, logger: logger)
+    }
+
+    /// Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    @Sendable
+    @inlinable
+    public func listSettlementRecords(_ input: ListSettlementRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSettlementRecordsResponse {
+        try await self.client.execute(
+            operation: "ListSettlementRecords", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// Parameters:
+    ///   - currency: The currency for the amounts in the response.
+    ///   - filters: Optional filters to narrow the results. You can filter by payer address, status, source name, network, or other settlement fields.
+    ///   - limit: The maximum number of settlement records to return. Minimum: 1. Maximum: 100.
+    ///   - nextMarker: When you get a paginated response, this marker indicates that additional results are available.
+    ///   - scope: Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+    ///   - sortBy: The field to sort settlement records by: TIMESTAMP, AMOUNT, NAME, or STATUS.
+    ///   - sortOrder: The sort order: ASC for ascending or DESC for descending.
+    ///   - timeWindow: The time range for the query. Specify start and end timestamps.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSettlementRecords(
+        currency: Currency,
+        filters: [MonetizationFilter]? = nil,
+        limit: Int? = nil,
+        nextMarker: String? = nil,
+        scope: Scope,
+        sortBy: SettlementSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        timeWindow: TimeWindow,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSettlementRecordsResponse {
+        let input = ListSettlementRecordsRequest(
+            currency: currency, 
+            filters: filters, 
+            limit: limit, 
+            nextMarker: nextMarker, 
+            scope: scope, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            timeWindow: timeWindow
+        )
+        return try await self.listSettlementRecords(input, logger: logger)
     }
 
     /// Retrieves the TagInfoForResource for the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
@@ -2137,6 +2340,7 @@ public struct WAFV2: AWSService {
     ///   - description: A description of the rule group that helps with identification.
     ///   - id: A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     ///   - lockToken: A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+    ///   - monetizationConfig: The monetization configuration for the rule group. Provide this when any rule in the rule group uses the Monetize action.
     ///   - name: The name of the rule group. You cannot change the name of a rule group after you create it.
     ///   - rules: The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
     ///   - scope: Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
@@ -2148,6 +2352,7 @@ public struct WAFV2: AWSService {
         description: String? = nil,
         id: String,
         lockToken: String,
+        monetizationConfig: MonetizationConfig? = nil,
         name: String,
         rules: [Rule]? = nil,
         scope: Scope,
@@ -2159,6 +2364,7 @@ public struct WAFV2: AWSService {
             description: description, 
             id: id, 
             lockToken: lockToken, 
+            monetizationConfig: monetizationConfig, 
             name: name, 
             rules: rules, 
             scope: scope, 
@@ -2167,7 +2373,7 @@ public struct WAFV2: AWSService {
         return try await self.updateRuleGroup(input, logger: logger)
     }
 
-    /// Updates the specified WebACL. While updating a web ACL, WAF provides continuous coverage to the resources that you have associated with the web ACL.   This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call.  To modify a web ACL, do the following:    Retrieve it by calling GetWebACL    Update its settings as needed   Provide the complete web ACL specification to this call    A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.    Temporary inconsistencies during updates  When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes.  The following are examples of the temporary inconsistencies that you might notice during change propagation:    After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group rules might be in effect in one area where the web ACL is used and not in another.   After you change a rule action setting, you might see the old action in some places and the new action in others.    After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
+    /// Updates the specified WebACL. While updating a web ACL, WAF provides continuous coverage to the resources that you have associated with the web ACL.   This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call.  To modify a web ACL, do the following:    Retrieve it by calling GetWebACL    Update its settings as needed   Provide the complete web ACL specification to this call    A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.    Temporary inconsistencies during updates  When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes.  The following are examples of the temporary inconsistencies that you might notice during change propagation:    After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group rules might be in effect in one area where the web ACL is used and not in another.   After you change a rule action setting, you might see the old action in some places and the new action in others.    After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     @Sendable
     @inlinable
     public func updateWebACL(_ input: UpdateWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWebACLResponse {
@@ -2180,7 +2386,7 @@ public struct WAFV2: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified WebACL. While updating a web ACL, WAF provides continuous coverage to the resources that you have associated with the web ACL.   This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call.  To modify a web ACL, do the following:    Retrieve it by calling GetWebACL    Update its settings as needed   Provide the complete web ACL specification to this call    A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.    Temporary inconsistencies during updates  When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes.  The following are examples of the temporary inconsistencies that you might notice during change propagation:    After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group rules might be in effect in one area where the web ACL is used and not in another.   After you change a rule action setting, you might see the old action in some places and the new action in others.    After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
+    /// Updates the specified WebACL. While updating a web ACL, WAF provides continuous coverage to the resources that you have associated with the web ACL.   This operation completely replaces the mutable specifications that you already have for the web ACL with the ones that you provide to this call.  To modify a web ACL, do the following:    Retrieve it by calling GetWebACL    Update its settings as needed   Provide the complete web ACL specification to this call    A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, Amazon Web Services Verified Access instance, and Amazon Bedrock AgentCore Gateway.    Temporary inconsistencies during updates  When you create or change a web ACL or other WAF resources, the changes take a small amount of time to propagate to all areas where the resources are stored. The propagation time can be from a few seconds to a number of minutes.  The following are examples of the temporary inconsistencies that you might notice during change propagation:    After you create a web ACL, if you try to associate it with a resource, you might get an exception indicating that the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group rules might be in effect in one area where the web ACL is used and not in another.   After you change a rule action setting, you might see the old action in some places and the new action in others.    After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     ///
     /// Parameters:
     ///   - applicationConfig: Configures the ability for the WAF console to store and retrieve application attributes.  Application attributes help WAF give recommendations for protection packs. When using UpdateWebACL, ApplicationConfig follows these rules:   If you omit ApplicationConfig from the request, all existing entries in the web ACL are retained.   If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
@@ -2193,6 +2399,7 @@ public struct WAFV2: AWSService {
     ///   - description: A description of the web ACL that helps with identification.
     ///   - id: The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     ///   - lockToken: A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
+    ///   - monetizationConfig: The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the Monetize action.
     ///   - name: The name of the web ACL. You cannot change the name of a web ACL after you create it.
     ///   - onSourceDDoSProtectionConfig: Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
     ///   - rules: The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
@@ -2212,6 +2419,7 @@ public struct WAFV2: AWSService {
         description: String? = nil,
         id: String,
         lockToken: String,
+        monetizationConfig: MonetizationConfig? = nil,
         name: String,
         onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil,
         rules: [Rule]? = nil,
@@ -2231,6 +2439,7 @@ public struct WAFV2: AWSService {
             description: description, 
             id: id, 
             lockToken: lockToken, 
+            monetizationConfig: monetizationConfig, 
             name: name, 
             onSourceDDoSProtectionConfig: onSourceDDoSProtectionConfig, 
             rules: rules, 

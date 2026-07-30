@@ -67,14 +67,28 @@ extension PCS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExecutionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case everyBoot = "EVERY_BOOT"
+        case firstBootOnly = "FIRST_BOOT_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
         public var description: String { return self.rawValue }
     }
 
+    public enum OnError: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `continue` = "CONTINUE"
+        case stopSequence = "STOP_SEQUENCE"
+        case terminate = "TERMINATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PurchaseOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityBlock = "CAPACITY_BLOCK"
+        case interruptibleCapacityReservation = "INTERRUPTIBLE_CAPACITY_RESERVATION"
         case ondemand = "ONDEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
@@ -96,6 +110,12 @@ extension PCS {
 
     public enum SchedulerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case slurm = "SLURM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScriptCachingPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cacheOnce = "CACHE_ONCE"
+        case refreshOnReboot = "REFRESH_ON_REBOOT"
         public var description: String { return self.rawValue }
     }
 
@@ -165,6 +185,24 @@ extension PCS {
         }
     }
 
+    public struct CgroupCustomSetting: AWSEncodableShape & AWSDecodableShape {
+        /// PCS supports custom Cgroup settings for clusters. For more information, see Configuring custom Cgroup settings in PCS in the PCS User Guide.
+        public let parameterName: String
+        /// The values for the configured Cgroup settings.
+        public let parameterValue: String
+
+        @inlinable
+        public init(parameterName: String, parameterValue: String) {
+            self.parameterName = parameterName
+            self.parameterValue = parameterValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterName = "parameterName"
+            case parameterValue = "parameterValue"
+        }
+    }
+
     public struct Cluster: AWSDecodableShape {
         /// The unique Amazon Resource Name (ARN) of the cluster.
         public let arn: String
@@ -226,31 +264,39 @@ extension PCS {
         public let accounting: Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public let authKey: SlurmAuthKey?
+        /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
+        public let cgroupCustomSettings: [CgroupCustomSetting]?
         /// The JWT authentication configuration for Slurm REST API access.
         public let jwtAuth: JwtAuth?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
+        /// Additional SlurmDBD-specific configuration that directly maps to SlurmDBD settings.
+        public let slurmdbdCustomSettings: [SlurmdbdCustomSetting]?
         /// The Slurm REST API configuration for the cluster.
         public let slurmRest: SlurmRest?
 
         @inlinable
-        public init(accounting: Accounting? = nil, authKey: SlurmAuthKey? = nil, jwtAuth: JwtAuth? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmRest: SlurmRest? = nil) {
+        public init(accounting: Accounting? = nil, authKey: SlurmAuthKey? = nil, cgroupCustomSettings: [CgroupCustomSetting]? = nil, jwtAuth: JwtAuth? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmdbdCustomSettings: [SlurmdbdCustomSetting]? = nil, slurmRest: SlurmRest? = nil) {
             self.accounting = accounting
             self.authKey = authKey
+            self.cgroupCustomSettings = cgroupCustomSettings
             self.jwtAuth = jwtAuth
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmdbdCustomSettings = slurmdbdCustomSettings
             self.slurmRest = slurmRest
         }
 
         private enum CodingKeys: String, CodingKey {
             case accounting = "accounting"
             case authKey = "authKey"
+            case cgroupCustomSettings = "cgroupCustomSettings"
             case jwtAuth = "jwtAuth"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
+            case slurmdbdCustomSettings = "slurmdbdCustomSettings"
             case slurmRest = "slurmRest"
         }
     }
@@ -258,25 +304,33 @@ extension PCS {
     public struct ClusterSlurmConfigurationRequest: AWSEncodableShape {
         /// The accounting configuration includes configurable settings for Slurm accounting.
         public let accounting: AccountingRequest?
+        /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
+        public let cgroupCustomSettings: [CgroupCustomSetting]?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
+        /// Additional SlurmDBD-specific configuration that directly maps to SlurmDBD settings.
+        public let slurmdbdCustomSettings: [SlurmdbdCustomSetting]?
         /// The Slurm REST API configuration for the cluster.
         public let slurmRest: SlurmRestRequest?
 
         @inlinable
-        public init(accounting: AccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmRest: SlurmRestRequest? = nil) {
+        public init(accounting: AccountingRequest? = nil, cgroupCustomSettings: [CgroupCustomSetting]? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmdbdCustomSettings: [SlurmdbdCustomSetting]? = nil, slurmRest: SlurmRestRequest? = nil) {
             self.accounting = accounting
+            self.cgroupCustomSettings = cgroupCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmdbdCustomSettings = slurmdbdCustomSettings
             self.slurmRest = slurmRest
         }
 
         private enum CodingKeys: String, CodingKey {
             case accounting = "accounting"
+            case cgroupCustomSettings = "cgroupCustomSettings"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
+            case slurmdbdCustomSettings = "slurmdbdCustomSettings"
             case slurmRest = "slurmRest"
         }
     }
@@ -337,7 +391,9 @@ extension PCS {
         public let modifiedAt: Date
         /// The name that identifies the compute node group.
         public let name: String
-        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+        public let nodeLifecycleActions: NodeLifecycleActions?
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         public let scalingConfiguration: ScalingConfiguration
         public let slurmConfiguration: ComputeNodeGroupSlurmConfiguration?
@@ -348,7 +404,7 @@ extension PCS {
         public let subnetIds: [String]
 
         @inlinable
-        public init(amiId: String? = nil, arn: String, clusterId: String, createdAt: Date, customLaunchTemplate: CustomLaunchTemplate, errorInfo: [ErrorInfo]? = nil, iamInstanceProfileArn: String, id: String, instanceConfigs: [InstanceConfig], modifiedAt: Date, name: String, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfiguration, slurmConfiguration: ComputeNodeGroupSlurmConfiguration? = nil, spotOptions: SpotOptions? = nil, status: ComputeNodeGroupStatus, subnetIds: [String]) {
+        public init(amiId: String? = nil, arn: String, clusterId: String, createdAt: Date, customLaunchTemplate: CustomLaunchTemplate, errorInfo: [ErrorInfo]? = nil, iamInstanceProfileArn: String, id: String, instanceConfigs: [InstanceConfig], modifiedAt: Date, name: String, nodeLifecycleActions: NodeLifecycleActions? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfiguration, slurmConfiguration: ComputeNodeGroupSlurmConfiguration? = nil, spotOptions: SpotOptions? = nil, status: ComputeNodeGroupStatus, subnetIds: [String]) {
             self.amiId = amiId
             self.arn = arn
             self.clusterId = clusterId
@@ -360,6 +416,7 @@ extension PCS {
             self.instanceConfigs = instanceConfigs
             self.modifiedAt = modifiedAt
             self.name = name
+            self.nodeLifecycleActions = nodeLifecycleActions
             self.purchaseOption = purchaseOption
             self.scalingConfiguration = scalingConfiguration
             self.slurmConfiguration = slurmConfiguration
@@ -380,6 +437,7 @@ extension PCS {
             case instanceConfigs = "instanceConfigs"
             case modifiedAt = "modifiedAt"
             case name = "name"
+            case nodeLifecycleActions = "nodeLifecycleActions"
             case purchaseOption = "purchaseOption"
             case scalingConfiguration = "scalingConfiguration"
             case slurmConfiguration = "slurmConfiguration"
@@ -404,29 +462,37 @@ extension PCS {
     }
 
     public struct ComputeNodeGroupSlurmConfiguration: AWSDecodableShape {
+        /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
+        public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
         }
     }
 
     public struct ComputeNodeGroupSlurmConfigurationRequest: AWSEncodableShape {
+        /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
+        public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
         }
     }
@@ -572,7 +638,9 @@ extension PCS {
         public let iamInstanceProfileArn: String
         /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         public let instanceConfigs: [InstanceConfig]
-        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+        public let nodeLifecycleActions: NodeLifecycleActionsRequest?
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         public let scalingConfiguration: ScalingConfigurationRequest
@@ -585,7 +653,7 @@ extension PCS {
         public let tags: [String: String]?
 
         @inlinable
-        public init(amiId: String? = nil, clientToken: String? = CreateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupName: String, customLaunchTemplate: CustomLaunchTemplate, iamInstanceProfileArn: String, instanceConfigs: [InstanceConfig], purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest, slurmConfiguration: ComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String], tags: [String: String]? = nil) {
+        public init(amiId: String? = nil, clientToken: String? = CreateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupName: String, customLaunchTemplate: CustomLaunchTemplate, iamInstanceProfileArn: String, instanceConfigs: [InstanceConfig], nodeLifecycleActions: NodeLifecycleActionsRequest? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest, slurmConfiguration: ComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String], tags: [String: String]? = nil) {
             self.amiId = amiId
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
@@ -593,6 +661,7 @@ extension PCS {
             self.customLaunchTemplate = customLaunchTemplate
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.instanceConfigs = instanceConfigs
+            self.nodeLifecycleActions = nodeLifecycleActions
             self.purchaseOption = purchaseOption
             self.scalingConfiguration = scalingConfiguration
             self.slurmConfiguration = slurmConfiguration
@@ -610,6 +679,7 @@ extension PCS {
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, min: 3)
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, pattern: "^(?!pcs_)^[A-Za-z][A-Za-z0-9-]+$")
             try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/([!-~]{1,510}/)?([\\w+=,.@-]{1,128})$")
+            try self.nodeLifecycleActions?.validate(name: "\(name).nodeLifecycleActions")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -627,6 +697,7 @@ extension PCS {
             case customLaunchTemplate = "customLaunchTemplate"
             case iamInstanceProfileArn = "iamInstanceProfileArn"
             case instanceConfigs = "instanceConfigs"
+            case nodeLifecycleActions = "nodeLifecycleActions"
             case purchaseOption = "purchaseOption"
             case scalingConfiguration = "scalingConfiguration"
             case slurmConfiguration = "slurmConfiguration"
@@ -1247,6 +1318,114 @@ extension PCS {
         }
     }
 
+    public struct NodeLifecycleActions: AWSDecodableShape {
+        /// The caching policy for node lifecycle scripts. The default value is CACHE_ONCE. Valid values:    CACHE_ONCE – Downloads each script once and reuses it on subsequent boots.    REFRESH_ON_REBOOT – Downloads each script on every boot.
+        public let scriptCachingPolicy: ScriptCachingPolicy?
+        /// The lifecycle stages where you configure scripts to run.
+        public let stages: NodeLifecycleStages
+
+        @inlinable
+        public init(scriptCachingPolicy: ScriptCachingPolicy? = nil, stages: NodeLifecycleStages) {
+            self.scriptCachingPolicy = scriptCachingPolicy
+            self.stages = stages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scriptCachingPolicy = "scriptCachingPolicy"
+            case stages = "stages"
+        }
+    }
+
+    public struct NodeLifecycleActionsRequest: AWSEncodableShape {
+        /// The caching policy for node lifecycle scripts. The default value is CACHE_ONCE. Valid values:    CACHE_ONCE – Downloads each script once and reuses it on subsequent boots.    REFRESH_ON_REBOOT – Downloads each script on every boot.
+        public let scriptCachingPolicy: ScriptCachingPolicy?
+        /// The lifecycle stages where you configure scripts to run.
+        public let stages: NodeLifecycleStages
+
+        @inlinable
+        public init(scriptCachingPolicy: ScriptCachingPolicy? = nil, stages: NodeLifecycleStages) {
+            self.scriptCachingPolicy = scriptCachingPolicy
+            self.stages = stages
+        }
+
+        public func validate(name: String) throws {
+            try self.stages.validate(name: "\(name).stages")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scriptCachingPolicy = "scriptCachingPolicy"
+            case stages = "stages"
+        }
+    }
+
+    public struct NodeLifecycleScript: AWSEncodableShape & AWSDecodableShape {
+        /// The command-line arguments to pass to the script. You can specify up to 20 arguments, and each argument can be up to 256 characters long.
+        public let arguments: [String]?
+        /// The policy that determines when the script runs. The default value is FIRST_BOOT_ONLY. Valid values:    FIRST_BOOT_ONLY – Runs the script only the first time the compute node boots.    EVERY_BOOT – Runs the script every time the compute node boots, including reboots.
+        public let executionPolicy: ExecutionPolicy?
+        /// A unique name for the script. The name can be up to 64 characters long. Valid characters are letters, numbers, spaces, underscores (_), and hyphens (-). The first character must be a letter or a number.
+        public let name: String
+        /// The behavior when the script fails. The default value is TERMINATE. Valid values:    TERMINATE – Terminates the compute node.    STOP_SEQUENCE – Stops running subsequent scripts in the sequence but doesn't terminate the compute node.    CONTINUE – Ignores the error and continues running the next script.
+        public let onError: OnError?
+        /// The source location and integrity information for the script.
+        public let scriptSource: ScriptSource
+
+        @inlinable
+        public init(arguments: [String]? = nil, executionPolicy: ExecutionPolicy? = nil, name: String, onError: OnError? = nil, scriptSource: ScriptSource) {
+            self.arguments = arguments
+            self.executionPolicy = executionPolicy
+            self.name = name
+            self.onError = onError
+            self.scriptSource = scriptSource
+        }
+
+        public func validate(name: String) throws {
+            try self.arguments?.forEach {
+                try validate($0, name: "arguments[]", parent: name, max: 256)
+            }
+            try self.validate(self.arguments, name: "arguments", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arguments = "arguments"
+            case executionPolicy = "executionPolicy"
+            case name = "name"
+            case onError = "onError"
+            case scriptSource = "scriptSource"
+        }
+    }
+
+    public struct NodeLifecycleStages: AWSEncodableShape & AWSDecodableShape {
+        /// The scripts to run after PCS finishes setting up the compute node and before the Slurm daemon (slurmd) starts. Use this stage for tasks that must complete before the node accepts jobs, such as mounting shared storage, configuring networking, or installing software packages.
+        public let nodeBootstrapped: [NodeLifecycleScript]?
+        /// The scripts to run after the Slurm daemon (slurmd) starts and the compute node registers with the Slurm controller. Use this stage for tasks that require Slurm to be running, such as running Slurm commands.
+        public let nodeReady: [NodeLifecycleScript]?
+
+        @inlinable
+        public init(nodeBootstrapped: [NodeLifecycleScript]? = nil, nodeReady: [NodeLifecycleScript]? = nil) {
+            self.nodeBootstrapped = nodeBootstrapped
+            self.nodeReady = nodeReady
+        }
+
+        public func validate(name: String) throws {
+            try self.nodeBootstrapped?.forEach {
+                try $0.validate(name: "\(name).nodeBootstrapped[]")
+            }
+            try self.validate(self.nodeBootstrapped, name: "nodeBootstrapped", parent: name, max: 20)
+            try self.validate(self.nodeBootstrapped, name: "nodeBootstrapped", parent: name, min: 1)
+            try self.nodeReady?.forEach {
+                try $0.validate(name: "\(name).nodeReady[]")
+            }
+            try self.validate(self.nodeReady, name: "nodeReady", parent: name, max: 20)
+            try self.validate(self.nodeReady, name: "nodeReady", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeBootstrapped = "nodeBootstrapped"
+            case nodeReady = "nodeReady"
+        }
+    }
+
     public struct Queue: AWSDecodableShape {
         /// The unique Amazon Resource Name (ARN) of the queue.
         public let arn: String
@@ -1389,23 +1568,39 @@ extension PCS {
     }
 
     public struct RegisterComputeNodeGroupInstanceResponse: AWSDecodableShape {
+        /// The name of the cluster that the compute node registered into.
+        public let clusterName: String?
+        /// The ID of the compute node group that the compute node registered into.
+        public let computeNodeGroupId: String?
+        /// The name of the compute node group that the compute node registered into.
+        public let computeNodeGroupName: String?
         /// The list of endpoints available for interaction with the scheduler.
         public let endpoints: [Endpoint]
         /// The scheduler node ID for this instance.
         public let nodeID: String
+        /// The node lifecycle actions configured for the node group, including scripts to run when a compute node finishes bootstrapping or becomes ready to accept jobs.
+        public let nodeLifecycleActions: NodeLifecycleActions?
         /// For the Slurm scheduler, this is the shared Munge key the scheduler uses to authenticate compute node group instances.
         public let sharedSecret: String
 
         @inlinable
-        public init(endpoints: [Endpoint], nodeID: String, sharedSecret: String) {
+        public init(clusterName: String? = nil, computeNodeGroupId: String? = nil, computeNodeGroupName: String? = nil, endpoints: [Endpoint], nodeID: String, nodeLifecycleActions: NodeLifecycleActions? = nil, sharedSecret: String) {
+            self.clusterName = clusterName
+            self.computeNodeGroupId = computeNodeGroupId
+            self.computeNodeGroupName = computeNodeGroupName
             self.endpoints = endpoints
             self.nodeID = nodeID
+            self.nodeLifecycleActions = nodeLifecycleActions
             self.sharedSecret = sharedSecret
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case computeNodeGroupId = "computeNodeGroupId"
+            case computeNodeGroupName = "computeNodeGroupName"
             case endpoints = "endpoints"
             case nodeID = "nodeID"
+            case nodeLifecycleActions = "nodeLifecycleActions"
             case sharedSecret = "sharedSecret"
         }
     }
@@ -1470,7 +1665,7 @@ extension PCS {
     public struct Scheduler: AWSDecodableShape {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in PCS in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the UpdateCluster API action. For more information, see Updating the scheduler version on a cluster and Slurm versions in PCS in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
         public let version: String
 
         @inlinable
@@ -1488,7 +1683,7 @@ extension PCS {
     public struct SchedulerRequest: AWSEncodableShape {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in PCS in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in PCS in the PCS User Guide. Valid Values: 24.11 | 25.05 | 25.11
         public let version: String
 
         @inlinable
@@ -1500,6 +1695,28 @@ extension PCS {
         private enum CodingKeys: String, CodingKey {
             case type = "type"
             case version = "version"
+        }
+    }
+
+    public struct ScriptSource: AWSEncodableShape & AWSDecodableShape {
+        /// The SHA-256 checksum of the script content, as a 64-character hexadecimal string. This value is optional. When specified, PCS uses this value to verify the integrity of the downloaded script.
+        public let checksum: String?
+        /// The Amazon S3 version ID of the script. Use this value to pin the script to a specific version in a versioned Amazon S3 bucket. This value is only valid when scriptLocation is an Amazon S3 URI.
+        public let s3VersionId: String?
+        /// The location of the script. Specify either an Amazon S3 URI in the format s3://bucket-name/key or an HTTPS URL.
+        public let scriptLocation: String
+
+        @inlinable
+        public init(checksum: String? = nil, s3VersionId: String? = nil, scriptLocation: String) {
+            self.checksum = checksum
+            self.s3VersionId = s3VersionId
+            self.scriptLocation = scriptLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checksum = "checksum"
+            case s3VersionId = "s3VersionId"
+            case scriptLocation = "scriptLocation"
         }
     }
 
@@ -1593,6 +1810,24 @@ extension PCS {
 
         private enum CodingKeys: String, CodingKey {
             case mode = "mode"
+        }
+    }
+
+    public struct SlurmdbdCustomSetting: AWSEncodableShape & AWSDecodableShape {
+        /// PCS supports custom SlurmDBD settings for clusters. For more information, see Configuring custom SlurmDBD settings in PCS in the PCS User Guide.
+        public let parameterName: String
+        /// The values for the configured SlurmDBD settings.
+        public let parameterValue: String
+
+        @inlinable
+        public init(parameterName: String, parameterValue: String) {
+            self.parameterName = parameterName
+            self.parameterValue = parameterValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterName = "parameterName"
+            case parameterValue = "parameterValue"
         }
     }
 
@@ -1731,13 +1966,16 @@ extension PCS {
         public let clientToken: String?
         /// The name or ID of the cluster to update.
         public let clusterIdentifier: String
+        /// The scheduler configuration to update for the cluster. Use this to update the scheduler version. For more information, see Updating the scheduler version on a cluster in the PCS User Guide.
+        public let scheduler: UpdateSchedulerRequest?
         /// Additional options related to the Slurm scheduler.
         public let slurmConfiguration: UpdateClusterSlurmConfigurationRequest?
 
         @inlinable
-        public init(clientToken: String? = UpdateClusterRequest.idempotencyToken(), clusterIdentifier: String, slurmConfiguration: UpdateClusterSlurmConfigurationRequest? = nil) {
+        public init(clientToken: String? = UpdateClusterRequest.idempotencyToken(), clusterIdentifier: String, scheduler: UpdateSchedulerRequest? = nil, slurmConfiguration: UpdateClusterSlurmConfigurationRequest? = nil) {
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
+            self.scheduler = scheduler
             self.slurmConfiguration = slurmConfiguration
         }
 
@@ -1750,6 +1988,7 @@ extension PCS {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case clusterIdentifier = "clusterIdentifier"
+            case scheduler = "scheduler"
             case slurmConfiguration = "slurmConfiguration"
         }
     }
@@ -1770,25 +2009,33 @@ extension PCS {
     public struct UpdateClusterSlurmConfigurationRequest: AWSEncodableShape {
         /// The accounting configuration includes configurable settings for Slurm accounting.
         public let accounting: UpdateAccountingRequest?
+        /// Additional Cgroup-specific configuration that directly maps to Cgroup settings.
+        public let cgroupCustomSettings: [CgroupCustomSetting]?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
+        /// Additional SlurmDBD-specific configuration that directly maps to SlurmDBD settings.
+        public let slurmdbdCustomSettings: [SlurmdbdCustomSetting]?
         /// The Slurm REST API configuration for the cluster.
         public let slurmRest: UpdateSlurmRestRequest?
 
         @inlinable
-        public init(accounting: UpdateAccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmRest: UpdateSlurmRestRequest? = nil) {
+        public init(accounting: UpdateAccountingRequest? = nil, cgroupCustomSettings: [CgroupCustomSetting]? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmdbdCustomSettings: [SlurmdbdCustomSetting]? = nil, slurmRest: UpdateSlurmRestRequest? = nil) {
             self.accounting = accounting
+            self.cgroupCustomSettings = cgroupCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmdbdCustomSettings = slurmdbdCustomSettings
             self.slurmRest = slurmRest
         }
 
         private enum CodingKeys: String, CodingKey {
             case accounting = "accounting"
+            case cgroupCustomSettings = "cgroupCustomSettings"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
+            case slurmdbdCustomSettings = "slurmdbdCustomSettings"
             case slurmRest = "slurmRest"
         }
     }
@@ -1805,7 +2052,9 @@ extension PCS {
         public let customLaunchTemplate: CustomLaunchTemplate?
         /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
         public let iamInstanceProfileArn: String?
-        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+        public let nodeLifecycleActions: UpdateNodeLifecycleActionsRequest?
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
         public let purchaseOption: PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         public let scalingConfiguration: ScalingConfigurationRequest?
@@ -1816,13 +2065,14 @@ extension PCS {
         public let subnetIds: [String]?
 
         @inlinable
-        public init(amiId: String? = nil, clientToken: String? = UpdateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupIdentifier: String, customLaunchTemplate: CustomLaunchTemplate? = nil, iamInstanceProfileArn: String? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest? = nil, slurmConfiguration: UpdateComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String]? = nil) {
+        public init(amiId: String? = nil, clientToken: String? = UpdateComputeNodeGroupRequest.idempotencyToken(), clusterIdentifier: String, computeNodeGroupIdentifier: String, customLaunchTemplate: CustomLaunchTemplate? = nil, iamInstanceProfileArn: String? = nil, nodeLifecycleActions: UpdateNodeLifecycleActionsRequest? = nil, purchaseOption: PurchaseOption? = nil, scalingConfiguration: ScalingConfigurationRequest? = nil, slurmConfiguration: UpdateComputeNodeGroupSlurmConfigurationRequest? = nil, spotOptions: SpotOptions? = nil, subnetIds: [String]? = nil) {
             self.amiId = amiId
             self.clientToken = clientToken
             self.clusterIdentifier = clusterIdentifier
             self.computeNodeGroupIdentifier = computeNodeGroupIdentifier
             self.customLaunchTemplate = customLaunchTemplate
             self.iamInstanceProfileArn = iamInstanceProfileArn
+            self.nodeLifecycleActions = nodeLifecycleActions
             self.purchaseOption = purchaseOption
             self.scalingConfiguration = scalingConfiguration
             self.slurmConfiguration = slurmConfiguration
@@ -1837,6 +2087,7 @@ extension PCS {
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
             try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/([!-~]{1,510}/)?([\\w+=,.@-]{1,128})$")
+            try self.nodeLifecycleActions?.validate(name: "\(name).nodeLifecycleActions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1846,6 +2097,7 @@ extension PCS {
             case computeNodeGroupIdentifier = "computeNodeGroupIdentifier"
             case customLaunchTemplate = "customLaunchTemplate"
             case iamInstanceProfileArn = "iamInstanceProfileArn"
+            case nodeLifecycleActions = "nodeLifecycleActions"
             case purchaseOption = "purchaseOption"
             case scalingConfiguration = "scalingConfiguration"
             case slurmConfiguration = "slurmConfiguration"
@@ -1868,16 +2120,42 @@ extension PCS {
     }
 
     public struct UpdateComputeNodeGroupSlurmConfigurationRequest: AWSEncodableShape {
+        /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
+        public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
+        }
+    }
+
+    public struct UpdateNodeLifecycleActionsRequest: AWSEncodableShape {
+        /// The caching policy for node lifecycle scripts. The default value is CACHE_ONCE. Valid values:    CACHE_ONCE – Downloads each script once and reuses it on subsequent boots.    REFRESH_ON_REBOOT – Downloads each script on every boot.
+        public let scriptCachingPolicy: ScriptCachingPolicy?
+        /// The lifecycle stages where you configure scripts to run.
+        public let stages: NodeLifecycleStages
+
+        @inlinable
+        public init(scriptCachingPolicy: ScriptCachingPolicy? = nil, stages: NodeLifecycleStages) {
+            self.scriptCachingPolicy = scriptCachingPolicy
+            self.stages = stages
+        }
+
+        public func validate(name: String) throws {
+            try self.stages.validate(name: "\(name).stages")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scriptCachingPolicy = "scriptCachingPolicy"
+            case stages = "stages"
         }
     }
 
@@ -1942,6 +2220,20 @@ extension PCS {
 
         private enum CodingKeys: String, CodingKey {
             case slurmCustomSettings = "slurmCustomSettings"
+        }
+    }
+
+    public struct UpdateSchedulerRequest: AWSEncodableShape {
+        /// The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see Updating the scheduler version on a cluster in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11
+        public let version: String
+
+        @inlinable
+        public init(version: String) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
         }
     }
 

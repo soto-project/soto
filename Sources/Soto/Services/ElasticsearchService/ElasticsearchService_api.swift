@@ -334,6 +334,7 @@ public struct ElasticsearchService: AWSService {
     ///   - accessPolicies:  IAM access policy as a JSON-formatted string.
     ///   - advancedOptions:  Option to allow references to indices in an HTTP request body.  Must be false when configuring access to individual sub-resources.  By default, the value is true. See Configuration Advanced Options for more information.
     ///   - advancedSecurityOptions: Specifies advanced security options.
+    ///   - automatedSnapshotPauseOptions: Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
     ///   - autoTuneOptions: Specifies Auto-Tune options.
     ///   - cognitoOptions: Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
     ///   - deploymentStrategyOptions: Specifies the deployment strategy options.
@@ -343,10 +344,12 @@ public struct ElasticsearchService: AWSService {
     ///   - elasticsearchClusterConfig: Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster.
     ///   - elasticsearchVersion: String of format X.Y to specify version for the Elasticsearch domain eg. "1.5" or "2.3". For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
     ///   - encryptionAtRestOptions: Specifies the Encryption At Rest Options.
+    ///   - engineMode: The engine mode for the domain. For valid values and requirements, see DomainEngineMode.
     ///   - logPublishingOptions: Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
     ///   - nodeToNodeEncryptionOptions: Specifies the NodeToNodeEncryptionOptions.
     ///   - snapshotOptions: Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours.
     ///   - tagList: A list of Tag added during domain creation.
+    ///   - useCase: The primary use case for the domain. For valid values, see DomainUseCase.
     ///   - vpcOptions: Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
     ///   - logger: Logger use during operation
     @inlinable
@@ -354,6 +357,7 @@ public struct ElasticsearchService: AWSService {
         accessPolicies: String? = nil,
         advancedOptions: [String: String]? = nil,
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
+        automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil,
         autoTuneOptions: AutoTuneOptionsInput? = nil,
         cognitoOptions: CognitoOptions? = nil,
         deploymentStrategyOptions: DeploymentStrategyOptions? = nil,
@@ -363,10 +367,12 @@ public struct ElasticsearchService: AWSService {
         elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil,
         elasticsearchVersion: String? = nil,
         encryptionAtRestOptions: EncryptionAtRestOptions? = nil,
+        engineMode: DomainEngineMode? = nil,
         logPublishingOptions: [LogType: LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil,
         snapshotOptions: SnapshotOptions? = nil,
         tagList: [Tag]? = nil,
+        useCase: DomainUseCase? = nil,
         vpcOptions: VPCOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateElasticsearchDomainResponse {
@@ -374,6 +380,7 @@ public struct ElasticsearchService: AWSService {
             accessPolicies: accessPolicies, 
             advancedOptions: advancedOptions, 
             advancedSecurityOptions: advancedSecurityOptions, 
+            automatedSnapshotPauseOptions: automatedSnapshotPauseOptions, 
             autoTuneOptions: autoTuneOptions, 
             cognitoOptions: cognitoOptions, 
             deploymentStrategyOptions: deploymentStrategyOptions, 
@@ -383,10 +390,12 @@ public struct ElasticsearchService: AWSService {
             elasticsearchClusterConfig: elasticsearchClusterConfig, 
             elasticsearchVersion: elasticsearchVersion, 
             encryptionAtRestOptions: encryptionAtRestOptions, 
+            engineMode: engineMode, 
             logPublishingOptions: logPublishingOptions, 
             nodeToNodeEncryptionOptions: nodeToNodeEncryptionOptions, 
             snapshotOptions: snapshotOptions, 
             tagList: tagList, 
+            useCase: useCase, 
             vpcOptions: vpcOptions
         )
         return try await self.createElasticsearchDomain(input, logger: logger)
@@ -1678,6 +1687,7 @@ public struct ElasticsearchService: AWSService {
     ///   - accessPolicies: IAM access policy as a JSON-formatted string.
     ///   - advancedOptions: Modifies the advanced option to allow references to indices in an HTTP request body.  Must be false when configuring access to individual sub-resources.  By default, the value is true. See Configuration Advanced Options for more information.
     ///   - advancedSecurityOptions: Specifies advanced security options.
+    ///   - automatedSnapshotPauseOptions: Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
     ///   - autoTuneOptions: Specifies Auto-Tune options.
     ///   - cognitoOptions: Options to specify the Cognito user and identity pools for Kibana authentication. For more information, see Amazon Cognito Authentication for Kibana.
     ///   - deploymentStrategyOptions: Specifies the deployment strategy options.
@@ -1687,9 +1697,11 @@ public struct ElasticsearchService: AWSService {
     ///   - ebsOptions: Specify the type and size of the EBS volume that you want to use.
     ///   - elasticsearchClusterConfig: The type and number of instances to instantiate for the domain cluster.
     ///   - encryptionAtRestOptions: Specifies the Encryption At Rest Options.
+    ///   - engineMode: The engine mode for the domain. For valid values and requirements, see DomainEngineMode.
     ///   - logPublishingOptions: Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
     ///   - nodeToNodeEncryptionOptions: Specifies the NodeToNodeEncryptionOptions.
     ///   - snapshotOptions: Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
+    ///   - useCase: The primary use case for the domain. For valid values, see DomainUseCase.
     ///   - vpcOptions: Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
     ///   - logger: Logger use during operation
     @inlinable
@@ -1697,6 +1709,7 @@ public struct ElasticsearchService: AWSService {
         accessPolicies: String? = nil,
         advancedOptions: [String: String]? = nil,
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
+        automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil,
         autoTuneOptions: AutoTuneOptions? = nil,
         cognitoOptions: CognitoOptions? = nil,
         deploymentStrategyOptions: DeploymentStrategyOptions? = nil,
@@ -1706,9 +1719,11 @@ public struct ElasticsearchService: AWSService {
         ebsOptions: EBSOptions? = nil,
         elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil,
         encryptionAtRestOptions: EncryptionAtRestOptions? = nil,
+        engineMode: DomainEngineMode? = nil,
         logPublishingOptions: [LogType: LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil,
         snapshotOptions: SnapshotOptions? = nil,
+        useCase: DomainUseCase? = nil,
         vpcOptions: VPCOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateElasticsearchDomainConfigResponse {
@@ -1716,6 +1731,7 @@ public struct ElasticsearchService: AWSService {
             accessPolicies: accessPolicies, 
             advancedOptions: advancedOptions, 
             advancedSecurityOptions: advancedSecurityOptions, 
+            automatedSnapshotPauseOptions: automatedSnapshotPauseOptions, 
             autoTuneOptions: autoTuneOptions, 
             cognitoOptions: cognitoOptions, 
             deploymentStrategyOptions: deploymentStrategyOptions, 
@@ -1725,9 +1741,11 @@ public struct ElasticsearchService: AWSService {
             ebsOptions: ebsOptions, 
             elasticsearchClusterConfig: elasticsearchClusterConfig, 
             encryptionAtRestOptions: encryptionAtRestOptions, 
+            engineMode: engineMode, 
             logPublishingOptions: logPublishingOptions, 
             nodeToNodeEncryptionOptions: nodeToNodeEncryptionOptions, 
             snapshotOptions: snapshotOptions, 
+            useCase: useCase, 
             vpcOptions: vpcOptions
         )
         return try await self.updateElasticsearchDomainConfig(input, logger: logger)

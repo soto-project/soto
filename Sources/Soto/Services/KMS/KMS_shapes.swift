@@ -176,6 +176,22 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum KeyLastUsageTrackingOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case decrypt = "Decrypt"
+        case deriveSharedSecret = "DeriveSharedSecret"
+        case encrypt = "Encrypt"
+        case generateDataKey = "GenerateDataKey"
+        case generateDataKeyPair = "GenerateDataKeyPair"
+        case generateDataKeyPairWithoutPlaintext = "GenerateDataKeyPairWithoutPlaintext"
+        case generateDataKeyWithoutPlaintext = "GenerateDataKeyWithoutPlaintext"
+        case generateMac = "GenerateMac"
+        case reEncrypt = "ReEncrypt"
+        case sign = "Sign"
+        case verify = "Verify"
+        case verifyMac = "VerifyMac"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyManagerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case customer = "CUSTOMER"
@@ -505,12 +521,14 @@ extension KMS {
     }
 
     public struct CreateGrantRequest: AWSEncodableShape {
-        /// Specifies a grant constraint.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  KMS supports the EncryptionContextEquals and EncryptionContextSubset grant constraints, which allow the permissions in the grant only when the encryption context in the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the encryption context specified in the constraint.  The encryption context grant constraints are supported only on grant operations that include an EncryptionContext parameter, such as cryptographic operations on symmetric encryption KMS keys. Grants with grant constraints can include the DescribeKey and RetireGrant operations, but the constraint doesn't apply to these operations. If a grant with a grant constraint includes the CreateGrant operation, the constraint requires that any grants created with the CreateGrant permission have an equally strict or stricter encryption context constraint. You cannot use an encryption context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an encryption context. Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. For information about grant constraints, see Using grant constraints in the Key Management Service Developer Guide. For more information about encryption context, see Encryption context in the  Key Management Service Developer Guide .
+        /// Specifies a grant constraint.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  KMS supports the following grant constraints.    EncryptionContextEquals and EncryptionContextSubset — These encryption context grant constraints allow the permissions in the grant only when the encryption context in the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the encryption context specified in the constraint. Encryption context grant constraints are supported only on grant operations that include an EncryptionContext parameter, such as cryptographic operations on symmetric encryption KMS keys. You cannot use an encryption context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS keys. Operations with these keys don't support an encryption context. Grants with encryption context grant constraints can include the DescribeKey and RetireGrant operations, but the constraint doesn't apply to these operations. If a grant with an encryption context grant constraint includes the CreateGrant operation, the constraint requires that any grants created with the CreateGrant permission have an equally strict or stricter encryption context constraint.  Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. For more information about encryption context, see Encryption context in the  Key Management Service Developer Guide .    SourceArn — This grant constraint allows the permissions in the grant only when the request is made on behalf of a specific Amazon Web Services resource, identified by its Amazon Resource Name (ARN). This is effectively the same as having the aws:SourceArn global condition key in the grant. The SourceArn constraint is supported on grants for all types of KMS keys and can also be applied to the DescribeKey operation when specified in the request. However, it does not apply to RetireGrant operation.   For information about grant constraints, see Using grant constraints in the Key Management Service Developer Guide.
         public let constraints: GrantConstraints?
         /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide.
         public let dryRun: Bool?
-        /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide .
-        public let granteePrincipal: String
+        /// The identity that gets the permissions specified in the grant. To specify the grantee principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide . You must specify either GranteePrincipal or GranteeServicePrincipal, but not both.
+        public let granteePrincipal: String?
+        /// The Amazon Web Services service principal that gets the permissions specified in the grant.  When you specify a GranteeServicePrincipal, you must also specify a SourceArn grant constraint. In addition, you must specify either a RetiringPrincipal or a RetiringServicePrincipal.  You must specify either GranteePrincipal or GranteeServicePrincipal, but not both.
+        public let granteeServicePrincipal: String?
         /// A list of grant tokens.  Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// Identifies the KMS key for the grant. The grant gives principals permission to use this KMS key. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a
@@ -520,25 +538,33 @@ extension KMS {
         public let name: String?
         /// A list of operations that the grant permits.  This list must include only operations that are permitted in a grant. Also, the operation must be supported on the KMS key. For example, you cannot create a grant for a symmetric encryption KMS key that allows the Sign operation, or a grant for an asymmetric KMS key that allows the GenerateDataKey operation. If you try, KMS returns a ValidationError exception. For details, see Grant operations in the Key Management Service Developer Guide.
         public let operations: [GrantOperation]
-        /// The principal that has permission to use the RetireGrant operation to retire the grant.  To specify the principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide . The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see RevokeGrant and Retiring and revoking grants in the Key Management Service Developer Guide.
+        /// The principal that has permission to use the RetireGrant operation to retire the grant.  To specify the principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide . The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see RevokeGrant and Retiring and revoking grants in the Key Management Service Developer Guide.  You can specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
         public let retiringPrincipal: String?
+        /// The Amazon Web Services service principal that has permission to use the RetireGrant operation to retire the grant. You can specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
+        public let retiringServicePrincipal: String?
 
         @inlinable
-        public init(constraints: GrantConstraints? = nil, dryRun: Bool? = nil, granteePrincipal: String, grantTokens: [String]? = nil, keyId: String, name: String? = nil, operations: [GrantOperation], retiringPrincipal: String? = nil) {
+        public init(constraints: GrantConstraints? = nil, dryRun: Bool? = nil, granteePrincipal: String? = nil, granteeServicePrincipal: String? = nil, grantTokens: [String]? = nil, keyId: String, name: String? = nil, operations: [GrantOperation], retiringPrincipal: String? = nil, retiringServicePrincipal: String? = nil) {
             self.constraints = constraints
             self.dryRun = dryRun
             self.granteePrincipal = granteePrincipal
+            self.granteeServicePrincipal = granteeServicePrincipal
             self.grantTokens = grantTokens
             self.keyId = keyId
             self.name = name
             self.operations = operations
             self.retiringPrincipal = retiringPrincipal
+            self.retiringServicePrincipal = retiringServicePrincipal
         }
 
         public func validate(name: String) throws {
+            try self.constraints?.validate(name: "\(name).constraints")
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, max: 256)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, min: 1)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try self.validate(self.granteeServicePrincipal, name: "granteeServicePrincipal", parent: name, max: 128)
+            try self.validate(self.granteeServicePrincipal, name: "granteeServicePrincipal", parent: name, min: 1)
+            try self.validate(self.granteeServicePrincipal, name: "granteeServicePrincipal", parent: name, pattern: "^([A-Za-z0-9\\-]+)\\.([A-Za-z0-9\\-]+)(\\.[A-Za-z0-9\\-]+)+$")
             try self.grantTokens?.forEach {
                 try validate($0, name: "grantTokens[]", parent: name, max: 8192)
                 try validate($0, name: "grantTokens[]", parent: name, min: 1)
@@ -552,17 +578,22 @@ extension KMS {
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, max: 256)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, min: 1)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try self.validate(self.retiringServicePrincipal, name: "retiringServicePrincipal", parent: name, max: 128)
+            try self.validate(self.retiringServicePrincipal, name: "retiringServicePrincipal", parent: name, min: 1)
+            try self.validate(self.retiringServicePrincipal, name: "retiringServicePrincipal", parent: name, pattern: "^([A-Za-z0-9\\-]+)\\.([A-Za-z0-9\\-]+)(\\.[A-Za-z0-9\\-]+)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case constraints = "Constraints"
             case dryRun = "DryRun"
             case granteePrincipal = "GranteePrincipal"
+            case granteeServicePrincipal = "GranteeServicePrincipal"
             case grantTokens = "GrantTokens"
             case keyId = "KeyId"
             case name = "Name"
             case operations = "Operations"
             case retiringPrincipal = "RetiringPrincipal"
+            case retiringServicePrincipal = "RetiringServicePrincipal"
         }
     }
 
@@ -749,7 +780,7 @@ extension KMS {
         public let encryptionContext: [String: String]?
         /// A list of grant tokens.  Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you should use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String?
         /// A signed attestation document from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter supports the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK for Amazon Web Services Nitro Enclaves. It supports any Amazon Web Services SDK for Amazon Web Services NitroTPM.  When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
@@ -1689,6 +1720,51 @@ extension KMS {
         }
     }
 
+    public struct GetKeyLastUsageRequest: AWSEncodableShape {
+        /// Identifies the KMS key to get usage information for. To specify a KMS key, use its key ID or key ARN. Alias names are not supported. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
+        public let keyId: String
+
+        @inlinable
+        public init(keyId: String) {
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct GetKeyLastUsageResponse: AWSDecodableShape {
+        /// The date and time when the KMS key was created.
+        public let keyCreationDate: Date?
+        /// The globally unique identifier for the KMS key.
+        public let keyId: String?
+        /// Contains usage information about the last time the KMS key was used for a successful cryptographic operation. If the key has not been used since tracking began, this response element is empty.
+        public let keyLastUsage: KeyLastUsageData?
+        /// The date from which KMS began recording cryptographic activity for this key, or the date the KMS key was created, whichever is later.
+        public let trackingStartDate: Date?
+
+        @inlinable
+        public init(keyCreationDate: Date? = nil, keyId: String? = nil, keyLastUsage: KeyLastUsageData? = nil, trackingStartDate: Date? = nil) {
+            self.keyCreationDate = keyCreationDate
+            self.keyId = keyId
+            self.keyLastUsage = keyLastUsage
+            self.trackingStartDate = trackingStartDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyCreationDate = "KeyCreationDate"
+            case keyId = "KeyId"
+            case keyLastUsage = "KeyLastUsage"
+            case trackingStartDate = "TrackingStartDate"
+        }
+    }
+
     public struct GetKeyPolicyRequest: AWSEncodableShape {
         /// Gets the key policy for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
@@ -1924,26 +2000,38 @@ extension KMS {
         public let encryptionContextEquals: [String: String]?
         /// A list of key-value pairs that must be included in the encryption context of the cryptographic operation request. The grant allows the cryptographic operation only when the encryption context in the request includes the key-value pairs specified in this constraint, although it can include additional key-value pairs.
         public let encryptionContextSubset: [String: String]?
+        /// The  Amazon Resource Name (ARN) of an Amazon Web Services resource on behalf of which the request is made. This is effectively the same as having the aws:SourceArn global condition key in the grant. The SourceArn constraint ensures that the principal can use the KMS key only when the request is made on behalf of the specified resource.
+        public let sourceArn: String?
 
         @inlinable
-        public init(encryptionContextEquals: [String: String]? = nil, encryptionContextSubset: [String: String]? = nil) {
+        public init(encryptionContextEquals: [String: String]? = nil, encryptionContextSubset: [String: String]? = nil, sourceArn: String? = nil) {
             self.encryptionContextEquals = encryptionContextEquals
             self.encryptionContextSubset = encryptionContextSubset
+            self.sourceArn = sourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 512)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 20)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:[a-z0-9-]+:[a-z0-9-]*:[0-9]{12}:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionContextEquals = "EncryptionContextEquals"
             case encryptionContextSubset = "EncryptionContextSubset"
+            case sourceArn = "SourceArn"
         }
     }
 
     public struct GrantListEntry: AWSDecodableShape {
-        /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows.
+        /// The constraints on the grant, such as encryption context pairs or a SourceArn, that restrict the subsequent operations the grant allows.
         public let constraints: GrantConstraints?
         /// The date and time when the grant was created.
         public let creationDate: Date?
-        /// The identity that gets the permissions in the grant. The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an Amazon Web Services service, the GranteePrincipal field contains the service principal, which might represent several different grantee principals.
+        /// The identity that gets the permissions in the grant. When a grant is created with the GranteePrincipal field, the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, if the grantee principal is an Amazon Web Services service, the GranteePrincipal field contains an Amazon Web Services service principal, which might correspond to several different grantee principals, such as an IAM user, IAM role, or Amazon Web Services account.
         public let granteePrincipal: String?
+        /// The Amazon Web Services service principal that gets the permissions in the grant.
+        public let granteeServicePrincipal: String?
         /// The unique identifier for the grant.
         public let grantId: String?
         /// The Amazon Web Services account under which the grant was issued.
@@ -1956,30 +2044,36 @@ extension KMS {
         public let operations: [GrantOperation]?
         /// The principal that can retire the grant.
         public let retiringPrincipal: String?
+        /// The Amazon Web Services service principal that can retire the grant.
+        public let retiringServicePrincipal: String?
 
         @inlinable
-        public init(constraints: GrantConstraints? = nil, creationDate: Date? = nil, granteePrincipal: String? = nil, grantId: String? = nil, issuingAccount: String? = nil, keyId: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, retiringPrincipal: String? = nil) {
+        public init(constraints: GrantConstraints? = nil, creationDate: Date? = nil, granteePrincipal: String? = nil, granteeServicePrincipal: String? = nil, grantId: String? = nil, issuingAccount: String? = nil, keyId: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, retiringPrincipal: String? = nil, retiringServicePrincipal: String? = nil) {
             self.constraints = constraints
             self.creationDate = creationDate
             self.granteePrincipal = granteePrincipal
+            self.granteeServicePrincipal = granteeServicePrincipal
             self.grantId = grantId
             self.issuingAccount = issuingAccount
             self.keyId = keyId
             self.name = name
             self.operations = operations
             self.retiringPrincipal = retiringPrincipal
+            self.retiringServicePrincipal = retiringServicePrincipal
         }
 
         private enum CodingKeys: String, CodingKey {
             case constraints = "Constraints"
             case creationDate = "CreationDate"
             case granteePrincipal = "GranteePrincipal"
+            case granteeServicePrincipal = "GranteeServicePrincipal"
             case grantId = "GrantId"
             case issuingAccount = "IssuingAccount"
             case keyId = "KeyId"
             case name = "Name"
             case operations = "Operations"
             case retiringPrincipal = "RetiringPrincipal"
+            case retiringServicePrincipal = "RetiringServicePrincipal"
         }
     }
 
@@ -2057,6 +2151,32 @@ extension KMS {
         private enum CodingKeys: String, CodingKey {
             case keyId = "KeyId"
             case keyMaterialId = "KeyMaterialId"
+        }
+    }
+
+    public struct KeyLastUsageData: AWSDecodableShape {
+        /// The CloudTrail eventId associated with the last successful cryptographic operation. Absent if the key has not been used since KMS began tracking.
+        public let cloudTrailEventId: String?
+        /// The KMS request ID associated with the last successful cryptographic operation. Absent if the key has not been used since KMS began tracking.
+        public let kmsRequestId: String?
+        /// The last successful cryptographic operation the KMS key was used for. Absent if the key has not been used since KMS began tracking.
+        public let operation: KeyLastUsageTrackingOperation?
+        /// The date and time when the KMS key was most recently used for a successful cryptographic operation. Absent if the key has not been used since KMS began tracking.
+        public let timestamp: Date?
+
+        @inlinable
+        public init(cloudTrailEventId: String? = nil, kmsRequestId: String? = nil, operation: KeyLastUsageTrackingOperation? = nil, timestamp: Date? = nil) {
+            self.cloudTrailEventId = cloudTrailEventId
+            self.kmsRequestId = kmsRequestId
+            self.operation = operation
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudTrailEventId = "CloudTrailEventId"
+            case kmsRequestId = "KmsRequestId"
+            case operation = "Operation"
+            case timestamp = "Timestamp"
         }
     }
 
@@ -2278,8 +2398,10 @@ extension KMS {
     }
 
     public struct ListGrantsRequest: AWSEncodableShape {
-        /// Returns only grants where the specified principal is the grantee principal for the grant.
+        /// Returns only grants where the specified principal is the grantee principal for the grant. You can specify either GranteePrincipal or GranteeServicePrincipal, but not both.
         public let granteePrincipal: String?
+        /// Returns only grants where the specified Amazon Web Services service principal is the grantee service principal for the grant. This filter is only usable by callers in a service principal. You can specify either GranteePrincipal or GranteeServicePrincipal, but not both.
+        public let granteeServicePrincipal: String?
         /// Returns only the grant with the specified grant ID. The grant ID uniquely identifies the grant.
         public let grantId: String?
         /// Returns only grants for the specified KMS key. This parameter is required. Specify the key ID or key ARN of the KMS key. To specify a KMS key in a
@@ -2291,8 +2413,9 @@ extension KMS {
         public let marker: String?
 
         @inlinable
-        public init(granteePrincipal: String? = nil, grantId: String? = nil, keyId: String, limit: Int? = nil, marker: String? = nil) {
+        public init(granteePrincipal: String? = nil, granteeServicePrincipal: String? = nil, grantId: String? = nil, keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.granteePrincipal = granteePrincipal
+            self.granteeServicePrincipal = granteeServicePrincipal
             self.grantId = grantId
             self.keyId = keyId
             self.limit = limit
@@ -2303,6 +2426,9 @@ extension KMS {
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, max: 256)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, min: 1)
             try self.validate(self.granteePrincipal, name: "granteePrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try self.validate(self.granteeServicePrincipal, name: "granteeServicePrincipal", parent: name, max: 128)
+            try self.validate(self.granteeServicePrincipal, name: "granteeServicePrincipal", parent: name, min: 1)
+            try self.validate(self.granteeServicePrincipal, name: "granteeServicePrincipal", parent: name, pattern: "^([A-Za-z0-9\\-]+)\\.([A-Za-z0-9\\-]+)(\\.[A-Za-z0-9\\-]+)+$")
             try self.validate(self.grantId, name: "grantId", parent: name, max: 128)
             try self.validate(self.grantId, name: "grantId", parent: name, min: 1)
             try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
@@ -2316,6 +2442,7 @@ extension KMS {
 
         private enum CodingKeys: String, CodingKey {
             case granteePrincipal = "GranteePrincipal"
+            case granteeServicePrincipal = "GranteeServicePrincipal"
             case grantId = "GrantId"
             case keyId = "KeyId"
             case limit = "Limit"
@@ -2564,14 +2691,17 @@ extension KMS {
         public let limit: Int?
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
-        /// The retiring principal for which to list grants. Enter a principal in your Amazon Web Services account. To specify the retiring principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide .
-        public let retiringPrincipal: String
+        /// The retiring principal for which to list grants. Enter a principal in your Amazon Web Services account. To specify the retiring principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide . You must specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
+        public let retiringPrincipal: String?
+        /// The retiring service principal for which to list grants. This filter is only usable by callers in a service principal. You must specify either RetiringPrincipal or RetiringServicePrincipal, but not both.
+        public let retiringServicePrincipal: String?
 
         @inlinable
-        public init(limit: Int? = nil, marker: String? = nil, retiringPrincipal: String) {
+        public init(limit: Int? = nil, marker: String? = nil, retiringPrincipal: String? = nil, retiringServicePrincipal: String? = nil) {
             self.limit = limit
             self.marker = marker
             self.retiringPrincipal = retiringPrincipal
+            self.retiringServicePrincipal = retiringServicePrincipal
         }
 
         public func validate(name: String) throws {
@@ -2583,12 +2713,16 @@ extension KMS {
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, max: 256)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, min: 1)
             try self.validate(self.retiringPrincipal, name: "retiringPrincipal", parent: name, pattern: "^[\\w+=,.@:/-]+$")
+            try self.validate(self.retiringServicePrincipal, name: "retiringServicePrincipal", parent: name, max: 128)
+            try self.validate(self.retiringServicePrincipal, name: "retiringServicePrincipal", parent: name, min: 1)
+            try self.validate(self.retiringServicePrincipal, name: "retiringServicePrincipal", parent: name, pattern: "^([A-Za-z0-9\\-]+)\\.([A-Za-z0-9\\-]+)(\\.[A-Za-z0-9\\-]+)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case marker = "Marker"
             case retiringPrincipal = "RetiringPrincipal"
+            case retiringServicePrincipal = "RetiringServicePrincipal"
         }
     }
 
@@ -2694,7 +2828,7 @@ extension KMS {
         /// only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see
         /// Encryption context in the Key Management Service Developer Guide.
         public let sourceEncryptionContext: [String: String]?
-        /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you should use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let sourceKeyId: String?
 
         @inlinable
@@ -3075,7 +3209,7 @@ extension KMS {
         public let keyId: String
         /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
         public let message: AWSBase64Data
-        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm.  Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised.  When using ECC_NIST_EDWARDS25519 KMS keys:   ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW    ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST    When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
+        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm.  Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised.  When using ECC_NIST_EDWARDS25519 KMS keys:   ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW    ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST     When you specify the ED25519_PH_SHA_512 signing algorithm with MessageType:DIGEST, KMS still performs the SHA-512 prehash described in Step 1 of Section 7.8.1 in FIPS 186-5. This means the input is hashed twice: once by you and once by KMS.   When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
         public let messageType: MessageType?
         /// Specifies the signing algorithm to use when signing the message.  Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications.
         public let signingAlgorithm: SigningAlgorithmSpec
@@ -3244,7 +3378,7 @@ extension KMS {
         public let customKeyStoreId: String
         /// Enter the current password of the kmsuser crypto user (CU) in the CloudHSM cluster that is associated with the custom key store. This parameter is valid only for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. This parameter tells KMS the current password of the kmsuser crypto user (CU). It does not set or change the password of any users in the CloudHSM cluster. To change this value, the CloudHSM key store must be disconnected.
         public let keyStorePassword: String?
-        /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  To change this value, an CloudHSM key store must be disconnected. An external key store can be connected or disconnected.
+        /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  To change this value, the custom key store can be connected or disconnected.
         public let newCustomKeyStoreName: String?
         /// Changes the credentials that KMS uses to sign requests to the external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. You must specify both the AccessKeyId and SecretAccessKey value in the authentication credential, even if you are only updating one value. This parameter doesn't establish or change your authentication credentials on the proxy. It just tells KMS the credential that you established with your external key store proxy. For example, if you rotate the credential on your external key store proxy, you can use this parameter to update the credential in KMS. You can change this value when the external key store is connected or disconnected.
         public let xksProxyAuthenticationCredential: XksProxyAuthenticationCredentialType?
@@ -3445,7 +3579,7 @@ extension KMS {
         public let keyId: String
         /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
         public let message: AWSBase64Data
-        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm.  Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised.  When using ECC_NIST_EDWARDS25519 KMS keys:   ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW    ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST    When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
+        /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm.  Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised.  When using ECC_NIST_EDWARDS25519 KMS keys:   ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW    ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST     When you specify the ED25519_PH_SHA_512 signing algorithm with MessageType:DIGEST, KMS still performs the SHA-512 prehash described in Step 1 of Section 7.8.1 in FIPS 186-5. This means the input is hashed twice: once by you and once by KMS.   When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.   Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.   Signing algorithms that end in SHA_384 use the SHA_384 hashing algorithm.   Signing algorithms that end in SHA_512 use the SHA_512 hashing algorithm.   Signing algorithms that end in SHAKE_256 use the SHAKE_256 hashing algorithm.   SM2DSA uses the SM3 hashing algorithm. For details, see Offline verification with SM2 key pairs.
         public let messageType: MessageType?
         /// The signature that the Sign operation generated.
         public let signature: AWSBase64Data
@@ -3675,7 +3809,7 @@ public struct KMSErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The request was rejected because the custom key store contains KMS keys. After verifying that you do not need to use the KMS keys, use the ScheduleKeyDeletion operation to delete the KMS keys. After they are deleted, you can delete the custom key store.
     public static var customKeyStoreHasCMKsException: Self { .init(.customKeyStoreHasCMKsException) }
-    /// The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the DescribeCustomKeyStores operation. This exception is thrown under the following conditions:   You requested the ConnectCustomKeyStore operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it (DisconnectCustomKeyStore), then connect it (ConnectCustomKeyStore).   You requested the CreateKey operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.   You requested the DisconnectCustomKeyStore operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.   You requested the UpdateCustomKeyStore or DeleteCustomKeyStore operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.   You requested the GenerateRandom operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
+    /// The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the DescribeCustomKeyStores operation. This exception is thrown under the following conditions:   You requested the ConnectCustomKeyStore operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it (DisconnectCustomKeyStore), then connect it (ConnectCustomKeyStore).   You requested the CreateKey operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.   You requested the DisconnectCustomKeyStore operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.   You requested the UpdateCustomKeyStore or DeleteCustomKeyStore operation on a custom key store that is not disconnected. UpdateCustomKeyStore can be called on a custom key store in the CONNECTED state only to update NewCustomKeyStoreName. For all other properties, the custom key store ConnectionState must be DISCONNECTED.   You requested the GenerateRandom operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
     public static var customKeyStoreInvalidStateException: Self { .init(.customKeyStoreInvalidStateException) }
     /// The request was rejected because the specified custom key store name is already assigned to another custom key store in the account. Try again with a custom key store name that is unique in the account.
     public static var customKeyStoreNameInUseException: Self { .init(.customKeyStoreNameInUseException) }

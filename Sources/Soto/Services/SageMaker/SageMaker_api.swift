@@ -426,6 +426,150 @@ public struct SageMaker: AWSService {
         return try await self.batchReplaceClusterNodes(input, logger: logger)
     }
 
+    /// Creates a benchmark job that runs performance benchmarks against inference infrastructure using a predefined AI workload configuration. The benchmark job measures metrics such as latency, throughput, and cost for your generative AI inference endpoints.
+    @Sendable
+    @inlinable
+    public func createAIBenchmarkJob(_ input: CreateAIBenchmarkJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIBenchmarkJobResponse {
+        try await self.client.execute(
+            operation: "CreateAIBenchmarkJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a benchmark job that runs performance benchmarks against inference infrastructure using a predefined AI workload configuration. The benchmark job measures metrics such as latency, throughput, and cost for your generative AI inference endpoints.
+    ///
+    /// Parameters:
+    ///   - aiBenchmarkJobName: The name of the AI benchmark job. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region.
+    ///   - aiWorkloadConfigIdentifier: The name or Amazon Resource Name (ARN) of the AI workload configuration to use for this benchmark job.
+    ///   - benchmarkTarget: The target endpoint to benchmark. Specify a SageMaker endpoint by providing its name or Amazon Resource Name (ARN).
+    ///   - networkConfig: The network configuration for the benchmark job, including VPC settings.
+    ///   - outputConfig: The output configuration for the benchmark job, including the Amazon S3 location where benchmark results are stored.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
+    ///   - tags: The metadata that you apply to Amazon Web Services resources to help you categorize and organize them. Each tag consists of a key and a value, both of which you define.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIBenchmarkJob(
+        aiBenchmarkJobName: String? = nil,
+        aiWorkloadConfigIdentifier: String? = nil,
+        benchmarkTarget: AIBenchmarkTarget? = nil,
+        networkConfig: AIBenchmarkNetworkConfig? = nil,
+        outputConfig: AIBenchmarkOutputConfig? = nil,
+        roleArn: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIBenchmarkJobResponse {
+        let input = CreateAIBenchmarkJobRequest(
+            aiBenchmarkJobName: aiBenchmarkJobName, 
+            aiWorkloadConfigIdentifier: aiWorkloadConfigIdentifier, 
+            benchmarkTarget: benchmarkTarget, 
+            networkConfig: networkConfig, 
+            outputConfig: outputConfig, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createAIBenchmarkJob(input, logger: logger)
+    }
+
+    /// Creates a recommendation job that generates intelligent optimization recommendations for generative AI inference deployments. The job analyzes your model, workload configuration, and performance targets to recommend optimal instance types, model optimization techniques (such as quantization and speculative decoding), and deployment configurations.
+    @Sendable
+    @inlinable
+    public func createAIRecommendationJob(_ input: CreateAIRecommendationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIRecommendationJobResponse {
+        try await self.client.execute(
+            operation: "CreateAIRecommendationJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a recommendation job that generates intelligent optimization recommendations for generative AI inference deployments. The job analyzes your model, workload configuration, and performance targets to recommend optimal instance types, model optimization techniques (such as quantization and speculative decoding), and deployment configurations.
+    ///
+    /// Parameters:
+    ///   - adapterSource: The LoRA adapter source for the recommendation job. Specify either a list of model package ARNs or Amazon S3 URIs for your LoRA adapters. When this parameter is absent, the recommendation job runs without LoRA adapter support.
+    ///   - aiRecommendationJobName: The name of the AI recommendation job. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region.
+    ///   - aiWorkloadConfigIdentifier: The name or Amazon Resource Name (ARN) of the AI workload configuration to use for this recommendation job.
+    ///   - computeSpec: The compute resource specification for the recommendation job. You can specify up to 3 instance types to consider, and optionally provide capacity reservation configuration.
+    ///   - inferenceSpecification: The inference framework configuration. Specify the framework (such as LMI or vLLM) for the recommendation job.
+    ///   - modelSource: The source of the model to optimize. Specify the Amazon S3 location of the model artifacts.
+    ///   - optimizeModel: Whether to allow model optimization techniques such as quantization, speculative decoding, and kernel tuning. The default is true.
+    ///   - outputConfig: The output configuration for the recommendation job, including the Amazon S3 location for results and an optional model package group where the optimized model is registered.
+    ///   - performanceTarget: The performance targets for the recommendation job. Specify constraints on metrics such as time to first token (ttft-ms), throughput, or cost.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
+    ///   - tags: The metadata that you apply to Amazon Web Services resources to help you categorize and organize them.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIRecommendationJob(
+        adapterSource: AIAdapterSource? = nil,
+        aiRecommendationJobName: String? = nil,
+        aiWorkloadConfigIdentifier: String? = nil,
+        computeSpec: AIRecommendationComputeSpec? = nil,
+        inferenceSpecification: AIRecommendationInferenceSpecification? = nil,
+        modelSource: AIModelSource? = nil,
+        optimizeModel: Bool? = nil,
+        outputConfig: AIRecommendationOutputConfig? = nil,
+        performanceTarget: AIRecommendationPerformanceTarget? = nil,
+        roleArn: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIRecommendationJobResponse {
+        let input = CreateAIRecommendationJobRequest(
+            adapterSource: adapterSource, 
+            aiRecommendationJobName: aiRecommendationJobName, 
+            aiWorkloadConfigIdentifier: aiWorkloadConfigIdentifier, 
+            computeSpec: computeSpec, 
+            inferenceSpecification: inferenceSpecification, 
+            modelSource: modelSource, 
+            optimizeModel: optimizeModel, 
+            outputConfig: outputConfig, 
+            performanceTarget: performanceTarget, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createAIRecommendationJob(input, logger: logger)
+    }
+
+    /// Creates a reusable AI workload configuration that defines datasets, data sources, and benchmark tool settings for consistent performance testing of generative AI inference deployments on Amazon SageMaker AI.
+    @Sendable
+    @inlinable
+    public func createAIWorkloadConfig(_ input: CreateAIWorkloadConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIWorkloadConfigResponse {
+        try await self.client.execute(
+            operation: "CreateAIWorkloadConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a reusable AI workload configuration that defines datasets, data sources, and benchmark tool settings for consistent performance testing of generative AI inference deployments on Amazon SageMaker AI.
+    ///
+    /// Parameters:
+    ///   - aiWorkloadConfigName: The name of the AI workload configuration. The name must be unique within your Amazon Web Services account in the current Amazon Web Services Region.
+    ///   - aiWorkloadConfigs: The benchmark tool configuration and workload specification. Provide the specification as an inline YAML or JSON string.
+    ///   - datasetConfig: The dataset configuration for the workload. Specify input data channels with their data sources for benchmark workloads.
+    ///   - tags: The metadata that you apply to Amazon Web Services resources to help you categorize and organize them. Each tag consists of a key and a value, both of which you define. For more information, see Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIWorkloadConfig(
+        aiWorkloadConfigName: String? = nil,
+        aiWorkloadConfigs: AIWorkloadConfigs? = nil,
+        datasetConfig: AIDatasetConfig? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIWorkloadConfigResponse {
+        let input = CreateAIWorkloadConfigRequest(
+            aiWorkloadConfigName: aiWorkloadConfigName, 
+            aiWorkloadConfigs: aiWorkloadConfigs, 
+            datasetConfig: datasetConfig, 
+            tags: tags
+        )
+        return try await self.createAIWorkloadConfig(input, logger: logger)
+    }
+
     /// Creates an action. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking.
     @Sendable
     @inlinable
@@ -797,6 +941,7 @@ public struct SageMaker: AWSService {
     ///   - nodeRecovery: The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
     ///   - orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, supported values are "Eks" and "Slurm", which is to use an Amazon Elastic Kubernetes Service or Slurm cluster as the orchestrator.  If you specify the Orchestrator field, you must provide exactly one orchestrator configuration: either Eks or Slurm. Specifying both or providing an empty configuration returns a validation error.
     ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
+    ///   - restrictedInstanceGroupsConfig: The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
     ///   - tags: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
     ///   - tieredStorageConfig: The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
     ///   - vpcConfig: Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see Give SageMaker access to resources in your Amazon VPC.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
@@ -811,6 +956,7 @@ public struct SageMaker: AWSService {
         nodeRecovery: ClusterNodeRecovery? = nil,
         orchestrator: ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
+        restrictedInstanceGroupsConfig: ClusterRestrictedInstanceGroupsConfig? = nil,
         tags: [Tag]? = nil,
         tieredStorageConfig: ClusterTieredStorageConfig? = nil,
         vpcConfig: VpcConfig? = nil,
@@ -825,6 +971,7 @@ public struct SageMaker: AWSService {
             nodeRecovery: nodeRecovery, 
             orchestrator: orchestrator, 
             restrictedInstanceGroups: restrictedInstanceGroups, 
+            restrictedInstanceGroupsConfig: restrictedInstanceGroupsConfig, 
             tags: tags, 
             tieredStorageConfig: tieredStorageConfig, 
             vpcConfig: vpcConfig
@@ -1172,6 +1319,7 @@ public struct SageMaker: AWSService {
     ///   - defaultUserSettings: The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
     ///   - domainName: A name for the domain.
     ///   - domainSettings: A collection of Domain settings.
+    ///   - homeEfsFileSystemCreation: Indicates whether to create a home EFS file system for the domain. Defaults to Enabled. Set to Disabled to skip EFS creation and reduce domain creation time. You can enable EFS later by calling UpdateDomain.
     ///   - kmsKeyId: SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     ///   - subnetIds: The VPC subnets that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
     ///   - tagPropagation: Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
@@ -1187,6 +1335,7 @@ public struct SageMaker: AWSService {
         defaultUserSettings: UserSettings? = nil,
         domainName: String? = nil,
         domainSettings: DomainSettings? = nil,
+        homeEfsFileSystemCreation: HomeEfsFileSystemCreation? = nil,
         kmsKeyId: String? = nil,
         subnetIds: [String]? = nil,
         tagPropagation: TagPropagation? = nil,
@@ -1202,6 +1351,7 @@ public struct SageMaker: AWSService {
             defaultUserSettings: defaultUserSettings, 
             domainName: domainName, 
             domainSettings: domainSettings, 
+            homeEfsFileSystemCreation: homeEfsFileSystemCreation, 
             kmsKeyId: kmsKeyId, 
             subnetIds: subnetIds, 
             tagPropagation: tagPropagation, 
@@ -1394,7 +1544,7 @@ public struct SageMaker: AWSService {
     ///   - endpointConfigName: The name of the endpoint configuration. You specify this name in a CreateEndpoint request.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform actions on your behalf. For more information, see SageMaker AI Roles.   To be able to pass this role to Amazon SageMaker AI, the caller of this action must have the iam:PassRole permission.
     ///   - explainerConfig: A member of CreateEndpointConfig that enables explainers.
-    ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section Using Key Policies in Amazon Web Services KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
+    ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section Using Key Policies in Amazon Web Services KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, the KmsKeyId parameter does not encrypt instance local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
     ///   - metricsConfig: The configuration parameters for utilization metrics.
     ///   - productionVariants: An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
     ///   - shadowProductionVariants: An array of ProductionVariant objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants. If you use this field, you can only specify one variant for ProductionVariants and one variant for ShadowProductionVariants.
@@ -1909,6 +2059,7 @@ public struct SageMaker: AWSService {
     ///   - inferenceComponentName: A unique name to assign to the inference component.
     ///   - runtimeConfig: Runtime settings for a model that is deployed with an inference component.
     ///   - specification: Details about the resources to deploy with this inference component, including the model, container, and compute resources.
+    ///   - specifications: A list of specification objects for the inference component, one per instance type. Use this parameter when you want to deploy a different model or resource configuration for the inference component on each instance type. You can use either this parameter or the singular Specification parameter, but not both.
     ///   - tags: A list of key-value pairs associated with the model. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference.
     ///   - variantName: The name of an existing production variant where you host the inference component.
     ///   - logger: Logger use during operation
@@ -1918,6 +2069,7 @@ public struct SageMaker: AWSService {
         inferenceComponentName: String? = nil,
         runtimeConfig: InferenceComponentRuntimeConfig? = nil,
         specification: InferenceComponentSpecification? = nil,
+        specifications: [InferenceComponentSpecification]? = nil,
         tags: [Tag]? = nil,
         variantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1927,6 +2079,7 @@ public struct SageMaker: AWSService {
             inferenceComponentName: inferenceComponentName, 
             runtimeConfig: runtimeConfig, 
             specification: specification, 
+            specifications: specifications, 
             tags: tags, 
             variantName: variantName
         )
@@ -2040,6 +2193,50 @@ public struct SageMaker: AWSService {
             tags: tags
         )
         return try await self.createInferenceRecommendationsJob(input, logger: logger)
+    }
+
+    /// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access resources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn reinforcement learning with reward signals. Use the AgentRFTEvaluation category to evaluate a fine-tuned or base model by running multi-turn rollouts against a held-out prompt dataset and computing metrics such as pass@k and mean reward. Before creating a job, call ListJobSchemaVersions and DescribeJobSchemaVersion to retrieve the configuration schema for your job category. The JobConfigDocument must conform to the schema specified by JobConfigSchemaVersion. The following operations are related to CreateJob:    DescribeJob     ListJobs     StopJob     DeleteJob     ListJobSchemaVersions     DescribeJobSchemaVersion
+    @Sendable
+    @inlinable
+    public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResponse {
+        try await self.client.execute(
+            operation: "CreateJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a model customization job in Amazon SageMaker. A job runs a workload based on the job category and configuration you provide. You specify the job category, a schema-versioned configuration document, and an IAM role that grants Amazon SageMaker permission to access resources on your behalf. Use the AgentRFT category to fine-tune a model using multi-turn reinforcement learning with reward signals. Use the AgentRFTEvaluation category to evaluate a fine-tuned or base model by running multi-turn rollouts against a held-out prompt dataset and computing metrics such as pass@k and mean reward. Before creating a job, call ListJobSchemaVersions and DescribeJobSchemaVersion to retrieve the configuration schema for your job category. The JobConfigDocument must conform to the schema specified by JobConfigSchemaVersion. The following operations are related to CreateJob:    DescribeJob     ListJobs     StopJob     DeleteJob     ListJobSchemaVersions     DescribeJobSchemaVersion
+    ///
+    /// Parameters:
+    ///   - jobCategory: The category of the job. The category determines the type of workload that the job runs.
+    ///   - jobConfigDocument: The JSON configuration document for the job. The document must conform to the schema specified by JobConfigSchemaVersion. Use DescribeJobSchemaVersion to retrieve the schema for validation.
+    ///   - jobConfigSchemaVersion: The version of the configuration schema to use for the job configuration document. Use ListJobSchemaVersions to get available schema versions for a job category.
+    ///   - jobName: The name of the job. The name must be unique within your account and Amazon Web Services Region.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the job. The role must have the necessary permissions to access the resources required by the job configuration.
+    ///   - tags: An array of key-value pairs to apply to the job as tags. For more information, see Tagging Amazon Web Services Resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createJob(
+        jobCategory: JobCategory? = nil,
+        jobConfigDocument: String? = nil,
+        jobConfigSchemaVersion: String? = nil,
+        jobName: String? = nil,
+        roleArn: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateJobResponse {
+        let input = CreateJobRequest(
+            jobCategory: jobCategory, 
+            jobConfigDocument: jobConfigDocument, 
+            jobConfigSchemaVersion: jobConfigSchemaVersion, 
+            jobName: jobName, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createJob(input, logger: logger)
     }
 
     /// Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models.  You can select your workforce from one of three providers:   A private workforce that you create. It can include employees, contractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required.   One or more vendors that you select from the Amazon Web Services Marketplace. Vendors provide expertise in specific areas.    The Amazon Mechanical Turk workforce. This is the largest workforce, but it should only be used for public data or data that has been stripped of any personally identifiable information.   You can also use automated data labeling to reduce the number of data objects that need to be labeled by a human. Automated data labeling uses active learning to determine if a data object can be labeled by machine or if it needs to be sent to a human worker. For more information, see Using Automated Data Labeling. The data objects to be labeled are contained in an Amazon S3 bucket. You create a manifest file that describes the location of each object. For more information, see Using Input and Output Data. The output can be used as the manifest file for another labeling job or as training data for your machine learning models. You can use this operation to create a static labeling job or a streaming labeling job. A static labeling job stops if all data objects in the input manifest file identified in ManifestS3Uri have been labeled. A streaming labeling job runs perpetually until it is manually stopped, or remains idle for 10 days. You can send new data objects to an active (InProgress) streaming labeling job in real time. To learn how to create a static labeling job, see Create a Labeling Job (API)  in the Amazon SageMaker Developer Guide. To learn how to create a streaming labeling job, see Create a Streaming Labeling Job.
@@ -2468,6 +2665,7 @@ public struct SageMaker: AWSService {
     ///   - domain: The machine learning domain of your model package and its components. Common machine learning domains include computer vision and natural language processing.
     ///   - driftCheckBaselines: Represents the drift check baselines that can be used when the model monitor is set using the model package. For more information, see the topic on Drift Detection against Previous Baselines in SageMaker Pipelines in the Amazon SageMaker Developer Guide.
     ///   - inferenceSpecification: Specifies details about inference jobs that you can run with models based on this model package, including the following information:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the model package supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the model package supports for inference.
+    ///   - managedStorageType: The storage type of the model package.
     ///   - metadataProperties: 
     ///   - modelApprovalStatus: Whether the model is approved for deployment. This parameter is optional for versioned models, and does not apply to unversioned models. For versioned models, the value of this parameter must be set to Approved to deploy the model.
     ///   - modelCard: The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see Model package model card schema. For more information about the model card associated with the model package, see View the Details of a Model Version.
@@ -2495,6 +2693,7 @@ public struct SageMaker: AWSService {
         domain: String? = nil,
         driftCheckBaselines: DriftCheckBaselines? = nil,
         inferenceSpecification: InferenceSpecification? = nil,
+        managedStorageType: ManagedStorageType? = nil,
         metadataProperties: MetadataProperties? = nil,
         modelApprovalStatus: ModelApprovalStatus? = nil,
         modelCard: ModelPackageModelCard? = nil,
@@ -2522,6 +2721,7 @@ public struct SageMaker: AWSService {
             domain: domain, 
             driftCheckBaselines: driftCheckBaselines, 
             inferenceSpecification: inferenceSpecification, 
+            managedStorageType: managedStorageType, 
             metadataProperties: metadataProperties, 
             modelApprovalStatus: modelApprovalStatus, 
             modelCard: modelCard, 
@@ -2559,18 +2759,21 @@ public struct SageMaker: AWSService {
     /// Creates a model group. A model group contains a group of model versions.
     ///
     /// Parameters:
+    ///   - managedConfiguration: The managed configuration of the model package group.
     ///   - modelPackageGroupDescription: A description for the model group.
     ///   - modelPackageGroupName: The name of the model group.
     ///   - tags: A list of key value pairs associated with the model group. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createModelPackageGroup(
+        managedConfiguration: ManagedConfiguration? = nil,
         modelPackageGroupDescription: String? = nil,
         modelPackageGroupName: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateModelPackageGroupOutput {
         let input = CreateModelPackageGroupInput(
+            managedConfiguration: managedConfiguration, 
             modelPackageGroupDescription: modelPackageGroupDescription, 
             modelPackageGroupName: modelPackageGroupName, 
             tags: tags
@@ -2695,7 +2898,7 @@ public struct SageMaker: AWSService {
     ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
     ///   - lifecycleConfigName: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
     ///   - notebookInstanceName: The name of the new notebook instance.
-    ///   - platformIdentifier: The platform identifier of the notebook instance runtime environment. The default value is notebook-al2-v2.
+    ///   - platformIdentifier: The platform identifier of the notebook instance runtime environment. The default value is notebook-al2023-v1.
     ///   - roleArn:  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     ///   - rootAccess: Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
     ///   - securityGroupIds: The VPC security group IDs, in the form sg-xxxxxxxx. The security groups must be for the same VPC as specified in the subnet.
@@ -2810,6 +3013,7 @@ public struct SageMaker: AWSService {
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.  During model optimization, Amazon SageMaker AI needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker AI Roles.
     ///   - stoppingCondition: 
     ///   - tags: A list of key-value pairs associated with the optimization job. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
+    ///   - trainingPlanArns: The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. Currently, you can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see Reserve capacity with training plans.
     ///   - vpcConfig: A VPC in Amazon VPC that your optimized model has access to.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2824,6 +3028,7 @@ public struct SageMaker: AWSService {
         roleArn: String? = nil,
         stoppingCondition: StoppingCondition? = nil,
         tags: [Tag]? = nil,
+        trainingPlanArns: [String]? = nil,
         vpcConfig: OptimizationVpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateOptimizationJobResponse {
@@ -2838,6 +3043,7 @@ public struct SageMaker: AWSService {
             roleArn: roleArn, 
             stoppingCondition: stoppingCondition, 
             tags: tags, 
+            trainingPlanArns: trainingPlanArns, 
             vpcConfig: vpcConfig
         )
         return try await self.createOptimizationJob(input, logger: logger)
@@ -3773,6 +3979,93 @@ public struct SageMaker: AWSService {
             workteamName: workteamName
         )
         return try await self.createWorkteam(input, logger: logger)
+    }
+
+    /// Deletes the specified AI benchmark job.
+    @Sendable
+    @inlinable
+    public func deleteAIBenchmarkJob(_ input: DeleteAIBenchmarkJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIBenchmarkJobResponse {
+        try await self.client.execute(
+            operation: "DeleteAIBenchmarkJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified AI benchmark job.
+    ///
+    /// Parameters:
+    ///   - aiBenchmarkJobName: The name of the AI benchmark job to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIBenchmarkJob(
+        aiBenchmarkJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIBenchmarkJobResponse {
+        let input = DeleteAIBenchmarkJobRequest(
+            aiBenchmarkJobName: aiBenchmarkJobName
+        )
+        return try await self.deleteAIBenchmarkJob(input, logger: logger)
+    }
+
+    /// Deletes the specified AI recommendation job.
+    @Sendable
+    @inlinable
+    public func deleteAIRecommendationJob(_ input: DeleteAIRecommendationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIRecommendationJobResponse {
+        try await self.client.execute(
+            operation: "DeleteAIRecommendationJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified AI recommendation job.
+    ///
+    /// Parameters:
+    ///   - aiRecommendationJobName: The name of the AI recommendation job to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIRecommendationJob(
+        aiRecommendationJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIRecommendationJobResponse {
+        let input = DeleteAIRecommendationJobRequest(
+            aiRecommendationJobName: aiRecommendationJobName
+        )
+        return try await self.deleteAIRecommendationJob(input, logger: logger)
+    }
+
+    /// Deletes the specified AI workload configuration. You cannot delete a configuration that is referenced by an active benchmark job.
+    @Sendable
+    @inlinable
+    public func deleteAIWorkloadConfig(_ input: DeleteAIWorkloadConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIWorkloadConfigResponse {
+        try await self.client.execute(
+            operation: "DeleteAIWorkloadConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified AI workload configuration. You cannot delete a configuration that is referenced by an active benchmark job.
+    ///
+    /// Parameters:
+    ///   - aiWorkloadConfigName: The name of the AI workload configuration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIWorkloadConfig(
+        aiWorkloadConfigName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIWorkloadConfigResponse {
+        let input = DeleteAIWorkloadConfigRequest(
+            aiWorkloadConfigName: aiWorkloadConfigName
+        )
+        return try await self.deleteAIWorkloadConfig(input, logger: logger)
     }
 
     /// Deletes an action.
@@ -4719,6 +5012,38 @@ public struct SageMaker: AWSService {
         return try await self.deleteInferenceExperiment(input, logger: logger)
     }
 
+    /// Deletes a job. This operation is idempotent. If the job is currently running, you must stop it before deleting it by calling StopJob. The following operations are related to DeleteJob:    CreateJob     StopJob     DescribeJob
+    @Sendable
+    @inlinable
+    public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobResponse {
+        try await self.client.execute(
+            operation: "DeleteJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a job. This operation is idempotent. If the job is currently running, you must stop it before deleting it by calling StopJob. The following operations are related to DeleteJob:    CreateJob     StopJob     DescribeJob
+    ///
+    /// Parameters:
+    ///   - jobCategory: The category of the job to delete.
+    ///   - jobName: The name of the job to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteJob(
+        jobCategory: JobCategory? = nil,
+        jobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteJobResponse {
+        let input = DeleteJobRequest(
+            jobCategory: jobCategory, 
+            jobName: jobName
+        )
+        return try await self.deleteJob(input, logger: logger)
+    }
+
     /// Deletes an MLflow App.
     @Sendable
     @inlinable
@@ -5547,6 +5872,93 @@ public struct SageMaker: AWSService {
             deviceNames: deviceNames
         )
         return try await self.deregisterDevices(input, logger: logger)
+    }
+
+    /// Returns details of an AI benchmark job, including its status, configuration, target endpoint, and timing information.
+    @Sendable
+    @inlinable
+    public func describeAIBenchmarkJob(_ input: DescribeAIBenchmarkJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAIBenchmarkJobResponse {
+        try await self.client.execute(
+            operation: "DescribeAIBenchmarkJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details of an AI benchmark job, including its status, configuration, target endpoint, and timing information.
+    ///
+    /// Parameters:
+    ///   - aiBenchmarkJobName: The name of the AI benchmark job to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAIBenchmarkJob(
+        aiBenchmarkJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAIBenchmarkJobResponse {
+        let input = DescribeAIBenchmarkJobRequest(
+            aiBenchmarkJobName: aiBenchmarkJobName
+        )
+        return try await self.describeAIBenchmarkJob(input, logger: logger)
+    }
+
+    /// Returns details of an AI recommendation job, including its status, model source, performance targets, optimization recommendations, and deployment configurations.
+    @Sendable
+    @inlinable
+    public func describeAIRecommendationJob(_ input: DescribeAIRecommendationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAIRecommendationJobResponse {
+        try await self.client.execute(
+            operation: "DescribeAIRecommendationJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details of an AI recommendation job, including its status, model source, performance targets, optimization recommendations, and deployment configurations.
+    ///
+    /// Parameters:
+    ///   - aiRecommendationJobName: The name of the AI recommendation job to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAIRecommendationJob(
+        aiRecommendationJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAIRecommendationJobResponse {
+        let input = DescribeAIRecommendationJobRequest(
+            aiRecommendationJobName: aiRecommendationJobName
+        )
+        return try await self.describeAIRecommendationJob(input, logger: logger)
+    }
+
+    /// Returns details of an AI workload configuration, including the dataset configuration, benchmark tool settings, tags, and creation time.
+    @Sendable
+    @inlinable
+    public func describeAIWorkloadConfig(_ input: DescribeAIWorkloadConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAIWorkloadConfigResponse {
+        try await self.client.execute(
+            operation: "DescribeAIWorkloadConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details of an AI workload configuration, including the dataset configuration, benchmark tool settings, tags, and creation time.
+    ///
+    /// Parameters:
+    ///   - aiWorkloadConfigName: The name of the AI workload configuration to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAIWorkloadConfig(
+        aiWorkloadConfigName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAIWorkloadConfigResponse {
+        let input = DescribeAIWorkloadConfigRequest(
+            aiWorkloadConfigName: aiWorkloadConfigName
+        )
+        return try await self.describeAIWorkloadConfig(input, logger: logger)
     }
 
     /// Describes an action.
@@ -6653,6 +7065,70 @@ public struct SageMaker: AWSService {
         return try await self.describeInferenceRecommendationsJob(input, logger: logger)
     }
 
+    /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob:    CreateJob     ListJobs     StopJob     DeleteJob
+    @Sendable
+    @inlinable
+    public func describeJob(_ input: DescribeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobResponse {
+        try await self.client.execute(
+            operation: "DescribeJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed information about a job, including its current status, secondary status, configuration, and timestamps. Use SecondaryStatus for granular progress tracking and SecondaryStatusTransitions to see the full history of status changes with timestamps. The following operations are related to DescribeJob:    CreateJob     ListJobs     StopJob     DeleteJob
+    ///
+    /// Parameters:
+    ///   - jobCategory: The category of the job.
+    ///   - jobName: The name of the job to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeJob(
+        jobCategory: JobCategory? = nil,
+        jobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeJobResponse {
+        let input = DescribeJobRequest(
+            jobCategory: jobCategory, 
+            jobName: jobName
+        )
+        return try await self.describeJob(input, logger: logger)
+    }
+
+    /// Returns the JSON schema for a specified job category and schema version. Use this schema to validate your JobConfigDocument before calling CreateJob. If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion:    ListJobSchemaVersions     CreateJob
+    @Sendable
+    @inlinable
+    public func describeJobSchemaVersion(_ input: DescribeJobSchemaVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobSchemaVersionResponse {
+        try await self.client.execute(
+            operation: "DescribeJobSchemaVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the JSON schema for a specified job category and schema version. Use this schema to validate your JobConfigDocument before calling CreateJob. If you don't specify a schema version, the latest version is returned. The schema defines required fields, allowed values, and constraints for the job configuration. The following operations are related to DescribeJobSchemaVersion:    ListJobSchemaVersions     CreateJob
+    ///
+    /// Parameters:
+    ///   - jobCategory: The category of the job schema to describe.
+    ///   - jobConfigSchemaVersion: The version of the schema to retrieve. If not specified, the latest version is returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeJobSchemaVersion(
+        jobCategory: JobCategory? = nil,
+        jobConfigSchemaVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeJobSchemaVersionResponse {
+        let input = DescribeJobSchemaVersionRequest(
+            jobCategory: jobCategory, 
+            jobConfigSchemaVersion: jobConfigSchemaVersion
+        )
+        return try await self.describeJobSchemaVersion(input, logger: logger)
+    }
+
     /// Gets information about a labeling job.
     @Sendable
     @inlinable
@@ -6827,7 +7303,7 @@ public struct SageMaker: AWSService {
         return try await self.describeModelBiasJobDefinition(input, logger: logger)
     }
 
-    /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
+    /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.  To retrieve only metadata about a model card without requiring kms:Decrypt permission on the associated customer-managed Amazon Web Services KMS key, set IncludedData to MetadataOnly. The default is AllData, which returns the full model card Content and requires kms:Decrypt permission when a customer-managed key is configured.
     @Sendable
     @inlinable
     public func describeModelCard(_ input: DescribeModelCardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelCardResponse {
@@ -6840,19 +7316,22 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
+    /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.  To retrieve only metadata about a model card without requiring kms:Decrypt permission on the associated customer-managed Amazon Web Services KMS key, set IncludedData to MetadataOnly. The default is AllData, which returns the full model card Content and requires kms:Decrypt permission when a customer-managed key is configured.
     ///
     /// Parameters:
+    ///   - includedData: Specifies the level of model card data to include in the response. Use this parameter to call DescribeModelCard without requiring kms:Decrypt permission on the customer-managed Amazon Web Services KMS key.    AllData: Returns the full model card Content. This option requires kms:Decrypt permission on the customer-managed key, if one is associated with the model card. This is the default.    MetadataOnly: Returns the model card with sanitized Content that includes only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. For the list of fields preserved in the response, see Content.   If you don't specify a value, SageMaker returns AllData.
     ///   - modelCardName: The name or Amazon Resource Name (ARN) of the model card to describe.
     ///   - modelCardVersion: The version of the model card to describe. If a version is not provided, then the latest version of the model card is described.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeModelCard(
+        includedData: IncludedData? = nil,
         modelCardName: String? = nil,
         modelCardVersion: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeModelCardResponse {
         let input = DescribeModelCardRequest(
+            includedData: includedData, 
             modelCardName: modelCardName, 
             modelCardVersion: modelCardVersion
         )
@@ -6917,7 +7396,7 @@ public struct SageMaker: AWSService {
         return try await self.describeModelExplainabilityJobDefinition(input, logger: logger)
     }
 
-    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace.  If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API.  To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace.  If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API. To call this operation without requiring kms:Decrypt permission on the customer-managed key, set IncludedData to MetadataOnly; the response is returned with the embedded ModelCard.ModelCardContent field sanitized.  To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     @Sendable
     @inlinable
     public func describeModelPackage(_ input: DescribeModelPackageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeModelPackageOutput {
@@ -6930,17 +7409,20 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace.  If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API.  To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace.  If you provided a KMS Key ID when you created your model package, you will see the KMS Decrypt API call in your CloudTrail logs when you use this API. To call this operation without requiring kms:Decrypt permission on the customer-managed key, set IncludedData to MetadataOnly; the response is returned with the embedded ModelCard.ModelCardContent field sanitized.  To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     ///
     /// Parameters:
+    ///   - includedData: Specifies the level of model package data to include in the response. Use this parameter to call DescribeModelPackage on a model package that has an associated model card without requiring kms:Decrypt permission on the customer-managed KMS key associated with the embedded model card.    AllData: Returns the full model package response, including the unredacted ModelCard.ModelCardContent. This option requires kms:Decrypt permission on the customer-managed key, if one is associated with the embedded model card. This is the default.    MetadataOnly: Returns the full model package response, but with the embedded ModelCard.ModelCardContent sanitized to include only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. All other top-level response fields, including InferenceSpecification, ModelMetrics, DriftCheckBaselines, and SecurityConfig, are returned unchanged. For the list of fields preserved within ModelCardContent, see ModelCard.   If you don't specify a value, SageMaker returns AllData.
     ///   - modelPackageName: The name or Amazon Resource Name (ARN) of the model package to describe. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
     ///   - logger: Logger use during operation
     @inlinable
     public func describeModelPackage(
+        includedData: IncludedData? = nil,
         modelPackageName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeModelPackageOutput {
         let input = DescribeModelPackageInput(
+            includedData: includedData, 
             modelPackageName: modelPackageName
         )
         return try await self.describeModelPackage(input, logger: logger)
@@ -8083,6 +8565,153 @@ public struct SageMaker: AWSService {
             tags: tags
         )
         return try await self.importHubContent(input, logger: logger)
+    }
+
+    /// Returns a list of AI benchmark jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated.
+    @Sendable
+    @inlinable
+    public func listAIBenchmarkJobs(_ input: ListAIBenchmarkJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIBenchmarkJobsResponse {
+        try await self.client.execute(
+            operation: "ListAIBenchmarkJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of AI benchmark jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated.
+    ///
+    /// Parameters:
+    ///   - creationTimeAfter: A filter that returns only jobs created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only jobs created before the specified time.
+    ///   - maxResults: The maximum number of benchmark jobs to return in the response.
+    ///   - nameContains: A string in the job name. This filter returns only jobs whose name contains the specified string.
+    ///   - nextToken: If the previous call to ListAIBenchmarkJobs didn't return the full set of jobs, the call returns a token for getting the next set.
+    ///   - sortBy: The field to sort results by. The default is CreationTime.
+    ///   - sortOrder: The sort order for results. The default is Descending.
+    ///   - statusEquals: A filter that returns only benchmark jobs with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIBenchmarkJobs(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        sortBy: ListAIBenchmarkJobsSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: AIBenchmarkJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIBenchmarkJobsResponse {
+        let input = ListAIBenchmarkJobsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return try await self.listAIBenchmarkJobs(input, logger: logger)
+    }
+
+    /// Returns a list of AI recommendation jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated.
+    @Sendable
+    @inlinable
+    public func listAIRecommendationJobs(_ input: ListAIRecommendationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIRecommendationJobsResponse {
+        try await self.client.execute(
+            operation: "ListAIRecommendationJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of AI recommendation jobs in your account. You can filter the results by name, status, and creation time, and sort the results. The response is paginated.
+    ///
+    /// Parameters:
+    ///   - creationTimeAfter: A filter that returns only jobs created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only jobs created before the specified time.
+    ///   - maxResults: The maximum number of recommendation jobs to return in the response.
+    ///   - nameContains: A string in the job name. This filter returns only jobs whose name contains the specified string.
+    ///   - nextToken: If the previous call to ListAIRecommendationJobs didn't return the full set of jobs, the call returns a token for getting the next set.
+    ///   - sortBy: The field to sort results by. The default is CreationTime.
+    ///   - sortOrder: The sort order for results. The default is Descending.
+    ///   - statusEquals: A filter that returns only recommendation jobs with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIRecommendationJobs(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        sortBy: ListAIRecommendationJobsSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: AIRecommendationJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIRecommendationJobsResponse {
+        let input = ListAIRecommendationJobsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return try await self.listAIRecommendationJobs(input, logger: logger)
+    }
+
+    /// Returns a list of AI workload configurations in your account. You can filter the results by name and creation time, and sort the results. The response is paginated.
+    @Sendable
+    @inlinable
+    public func listAIWorkloadConfigs(_ input: ListAIWorkloadConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIWorkloadConfigsResponse {
+        try await self.client.execute(
+            operation: "ListAIWorkloadConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of AI workload configurations in your account. You can filter the results by name and creation time, and sort the results. The response is paginated.
+    ///
+    /// Parameters:
+    ///   - creationTimeAfter: A filter that returns only configurations created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only configurations created before the specified time.
+    ///   - maxResults: The maximum number of AI workload configurations to return in the response.
+    ///   - nameContains: A string in the configuration name. This filter returns only configurations whose name contains the specified string.
+    ///   - nextToken: If the previous call to ListAIWorkloadConfigs didn't return the full set of configurations, the call returns a token for getting the next set of configurations.
+    ///   - sortBy: The field to sort results by. The default is CreationTime.
+    ///   - sortOrder: The sort order for results. The default is Descending.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIWorkloadConfigs(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        sortBy: ListAIWorkloadConfigsSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIWorkloadConfigsResponse {
+        let input = ListAIWorkloadConfigsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return try await self.listAIWorkloadConfigs(input, logger: logger)
     }
 
     /// Lists the actions in your account and their properties.
@@ -10084,6 +10713,100 @@ public struct SageMaker: AWSService {
             statusEquals: statusEquals
         )
         return try await self.listInferenceRecommendationsJobs(input, logger: logger)
+    }
+
+    /// Lists available configuration schema versions for a specified job category. Use the schema versions with DescribeJobSchemaVersion to retrieve the full schema document. The following operations are related to ListJobSchemaVersions:    DescribeJobSchemaVersion     CreateJob
+    @Sendable
+    @inlinable
+    public func listJobSchemaVersions(_ input: ListJobSchemaVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobSchemaVersionsResponse {
+        try await self.client.execute(
+            operation: "ListJobSchemaVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists available configuration schema versions for a specified job category. Use the schema versions with DescribeJobSchemaVersion to retrieve the full schema document. The following operations are related to ListJobSchemaVersions:    DescribeJobSchemaVersion     CreateJob
+    ///
+    /// Parameters:
+    ///   - jobCategory: The category of job schemas to list.
+    ///   - maxResults: The maximum number of schema versions to return in the response. The default value is 5.
+    ///   - nextToken: If the previous response was truncated, this token retrieves the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listJobSchemaVersions(
+        jobCategory: JobCategory? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListJobSchemaVersionsResponse {
+        let input = ListJobSchemaVersionsRequest(
+            jobCategory: jobCategory, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listJobSchemaVersions(input, logger: logger)
+    }
+
+    /// Lists jobs in a specified category. You can filter results by creation time, last modified time, name, and status. Results are sorted by the field you specify in SortBy. Use pagination to retrieve large result sets efficiently. The following operations are related to ListJobs:    CreateJob     DescribeJob
+    @Sendable
+    @inlinable
+    public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResponse {
+        try await self.client.execute(
+            operation: "ListJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists jobs in a specified category. You can filter results by creation time, last modified time, name, and status. Results are sorted by the field you specify in SortBy. Use pagination to retrieve large result sets efficiently. The following operations are related to ListJobs:    CreateJob     DescribeJob
+    ///
+    /// Parameters:
+    ///   - creationTimeAfter: A filter that returns only jobs created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only jobs created before the specified time.
+    ///   - jobCategory: The category of jobs to list.
+    ///   - lastModifiedTimeAfter: A filter that returns only jobs modified after the specified time.
+    ///   - lastModifiedTimeBefore: A filter that returns only jobs modified before the specified time.
+    ///   - maxResults: The maximum number of jobs to return in the response. The default value is 50.
+    ///   - nameContains: A string in the job name to filter results. Only jobs whose name contains the specified string are returned.
+    ///   - nextToken: If the previous response was truncated, this token retrieves the next set of results.
+    ///   - sortBy: The field to sort results by.
+    ///   - sortOrder: The sort order for results. Valid values are Ascending and Descending.
+    ///   - statusEquals: A filter that returns only jobs with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listJobs(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        jobCategory: JobCategory? = nil,
+        lastModifiedTimeAfter: Date? = nil,
+        lastModifiedTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        nextToken: String? = nil,
+        sortBy: SortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: JobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListJobsResponse {
+        let input = ListJobsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            jobCategory: jobCategory, 
+            lastModifiedTimeAfter: lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: lastModifiedTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return try await self.listJobs(input, logger: logger)
     }
 
     /// Gets a list of labeling jobs.
@@ -12572,7 +13295,7 @@ public struct SageMaker: AWSService {
     ///   - instanceCount: The number of instances you want to reserve in the training plan offerings. This allows you to specify the quantity of compute resources needed for your SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity offerings that match your requirements.
     ///   - instanceType: The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
     ///   - startTimeAfter: A filter to search for training plan offerings with a start time after a specified date.
-    ///   - targetResources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
+    ///   - targetResources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints, Studio apps) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.   A training plan for Studio apps can be used to launch JupyterLab and Code Editor apps on reserved training plan capacity.
     ///   - trainingPlanArn: The Amazon Resource Name (ARN); of an existing training plan to search for extension offerings. When specified, the API returns extension offerings that can be used to extend the specified training plan.
     ///   - ultraServerCount: The number of UltraServers to search for.
     ///   - ultraServerType: The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
@@ -12672,6 +13395,38 @@ public struct SageMaker: AWSService {
             outputParameters: outputParameters
         )
         return try await self.sendPipelineExecutionStepSuccess(input, logger: logger)
+    }
+
+    /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see  Resilience-related Kubernetes labels by SageMaker HyperPod for details.
+    @Sendable
+    @inlinable
+    public func startClusterHealthCheck(_ input: StartClusterHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartClusterHealthCheckResponse {
+        try await self.client.execute(
+            operation: "StartClusterHealthCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see  Resilience-related Kubernetes labels by SageMaker HyperPod for details.
+    ///
+    /// Parameters:
+    ///   - clusterName: The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
+    ///   - deepHealthCheckConfigurations: A list of configurations containing instance group names, EC2 instance IDs, and deep health checks to perform.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startClusterHealthCheck(
+        clusterName: String,
+        deepHealthCheckConfigurations: [InstanceGroupHealthCheckConfiguration],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartClusterHealthCheckResponse {
+        let input = StartClusterHealthCheckRequest(
+            clusterName: clusterName, 
+            deepHealthCheckConfigurations: deepHealthCheckConfigurations
+        )
+        return try await self.startClusterHealthCheck(input, logger: logger)
     }
 
     /// Starts a stage in an edge deployment plan.
@@ -12904,6 +13659,64 @@ public struct SageMaker: AWSService {
         return try await self.startSession(input, logger: logger)
     }
 
+    /// Stops a running AI benchmark job.
+    @Sendable
+    @inlinable
+    public func stopAIBenchmarkJob(_ input: StopAIBenchmarkJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAIBenchmarkJobResponse {
+        try await self.client.execute(
+            operation: "StopAIBenchmarkJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running AI benchmark job.
+    ///
+    /// Parameters:
+    ///   - aiBenchmarkJobName: The name of the AI benchmark job to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopAIBenchmarkJob(
+        aiBenchmarkJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopAIBenchmarkJobResponse {
+        let input = StopAIBenchmarkJobRequest(
+            aiBenchmarkJobName: aiBenchmarkJobName
+        )
+        return try await self.stopAIBenchmarkJob(input, logger: logger)
+    }
+
+    /// Stops a running AI recommendation job.
+    @Sendable
+    @inlinable
+    public func stopAIRecommendationJob(_ input: StopAIRecommendationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAIRecommendationJobResponse {
+        try await self.client.execute(
+            operation: "StopAIRecommendationJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running AI recommendation job.
+    ///
+    /// Parameters:
+    ///   - aiRecommendationJobName: The name of the AI recommendation job to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopAIRecommendationJob(
+        aiRecommendationJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopAIRecommendationJobResponse {
+        let input = StopAIRecommendationJobRequest(
+            aiRecommendationJobName: aiRecommendationJobName
+        )
+        return try await self.stopAIRecommendationJob(input, logger: logger)
+    }
+
     /// A method for forcing a running job to shut down.
     @Sendable
     @inlinable
@@ -13120,6 +13933,38 @@ public struct SageMaker: AWSService {
             jobName: jobName
         )
         return try await self.stopInferenceRecommendationsJob(input, logger: logger)
+    }
+
+    /// Stops a running job. When you call StopJob, Amazon SageMaker sets the job status to Stopping. After the job stops, the status changes to Stopped. Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob. The following operations are related to StopJob:    CreateJob     DescribeJob     DeleteJob
+    @Sendable
+    @inlinable
+    public func stopJob(_ input: StopJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopJobResponse {
+        try await self.client.execute(
+            operation: "StopJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running job. When you call StopJob, Amazon SageMaker sets the job status to Stopping. After the job stops, the status changes to Stopped. Partial results may be available in the output location if the job was in progress. To delete a stopped job, call DeleteJob. The following operations are related to StopJob:    CreateJob     DescribeJob     DeleteJob
+    ///
+    /// Parameters:
+    ///   - jobCategory: The category of the job to stop.
+    ///   - jobName: The name of the job to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopJob(
+        jobCategory: JobCategory? = nil,
+        jobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopJobResponse {
+        let input = StopJobRequest(
+            jobCategory: jobCategory, 
+            jobName: jobName
+        )
+        return try await self.stopJob(input, logger: logger)
     }
 
     /// Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
@@ -13528,6 +14373,7 @@ public struct SageMaker: AWSService {
     ///   - nodeRecovery: The node recovery mode to be applied to the SageMaker HyperPod cluster.
     ///   - orchestrator: 
     ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
+    ///   - restrictedInstanceGroupsConfig: The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
     ///   - tieredStorageConfig: Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13541,6 +14387,7 @@ public struct SageMaker: AWSService {
         nodeRecovery: ClusterNodeRecovery? = nil,
         orchestrator: ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
+        restrictedInstanceGroupsConfig: ClusterRestrictedInstanceGroupsConfig? = nil,
         tieredStorageConfig: ClusterTieredStorageConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterResponse {
@@ -13554,6 +14401,7 @@ public struct SageMaker: AWSService {
             nodeRecovery: nodeRecovery, 
             orchestrator: orchestrator, 
             restrictedInstanceGroups: restrictedInstanceGroups, 
+            restrictedInstanceGroupsConfig: restrictedInstanceGroupsConfig, 
             tieredStorageConfig: tieredStorageConfig
         )
         return try await self.updateCluster(input, logger: logger)
@@ -13844,6 +14692,7 @@ public struct SageMaker: AWSService {
     ///   - defaultUserSettings: A collection of settings.
     ///   - domainId: The ID of the domain to be updated.
     ///   - domainSettingsForUpdate: A collection of DomainSettings configuration values to update.
+    ///   - homeEfsFileSystemCreation: Indicates whether to create a home EFS file system for the domain. You can change from Disabled to Enabled to provision EFS on demand, but you cannot change from Enabled to Disabled.
     ///   - subnetIds: The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
     ///   - tagPropagation: Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     ///   - vpcId: The identifier for the VPC used by the domain for network communication. Use this field only when adding VPC configuration to a SageMaker AI domain used in Amazon SageMaker Unified Studio that was created without VPC settings. SageMaker AI doesn't automatically apply VPC updates to existing applications. Stop and restart your applications to apply the changes.
@@ -13856,6 +14705,7 @@ public struct SageMaker: AWSService {
         defaultUserSettings: UserSettings? = nil,
         domainId: String? = nil,
         domainSettingsForUpdate: DomainSettingsForUpdate? = nil,
+        homeEfsFileSystemCreation: HomeEfsFileSystemCreation? = nil,
         subnetIds: [String]? = nil,
         tagPropagation: TagPropagation? = nil,
         vpcId: String? = nil,
@@ -13868,6 +14718,7 @@ public struct SageMaker: AWSService {
             defaultUserSettings: defaultUserSettings, 
             domainId: domainId, 
             domainSettingsForUpdate: domainSettingsForUpdate, 
+            homeEfsFileSystemCreation: homeEfsFileSystemCreation, 
             subnetIds: subnetIds, 
             tagPropagation: tagPropagation, 
             vpcId: vpcId
@@ -14317,6 +15168,7 @@ public struct SageMaker: AWSService {
     ///   - inferenceComponentName: The name of the inference component.
     ///   - runtimeConfig: Runtime settings for a model that is deployed with an inference component.
     ///   - specification: Details about the resources to deploy with this inference component, including the model, container, and compute resources.
+    ///   - specifications: A list of specification objects for the inference component, one per instance type. Use this parameter when you want to specify different model or resource configurations for the inference component on each instance type. You can use either this parameter or the singular Specification parameter, but not both.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInferenceComponent(
@@ -14324,13 +15176,15 @@ public struct SageMaker: AWSService {
         inferenceComponentName: String? = nil,
         runtimeConfig: InferenceComponentRuntimeConfig? = nil,
         specification: InferenceComponentSpecification? = nil,
+        specifications: [InferenceComponentSpecification]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateInferenceComponentOutput {
         let input = UpdateInferenceComponentInput(
             deploymentConfig: deploymentConfig, 
             inferenceComponentName: inferenceComponentName, 
             runtimeConfig: runtimeConfig, 
-            specification: specification
+            specification: specification, 
+            specifications: specifications
         )
         return try await self.updateInferenceComponent(input, logger: logger)
     }
@@ -15383,6 +16237,159 @@ extension SageMaker {
             trainingPlanArn: trainingPlanArn
         )
         return self.describeTrainingPlanExtensionHistoryPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIBenchmarkJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIBenchmarkJobsPaginator(
+        _ input: ListAIBenchmarkJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIBenchmarkJobsRequest, ListAIBenchmarkJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIBenchmarkJobs,
+            inputKey: \ListAIBenchmarkJobsRequest.nextToken,
+            outputKey: \ListAIBenchmarkJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIBenchmarkJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - creationTimeAfter: A filter that returns only jobs created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only jobs created before the specified time.
+    ///   - maxResults: The maximum number of benchmark jobs to return in the response.
+    ///   - nameContains: A string in the job name. This filter returns only jobs whose name contains the specified string.
+    ///   - sortBy: The field to sort results by. The default is CreationTime.
+    ///   - sortOrder: The sort order for results. The default is Descending.
+    ///   - statusEquals: A filter that returns only benchmark jobs with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIBenchmarkJobsPaginator(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        sortBy: ListAIBenchmarkJobsSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: AIBenchmarkJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIBenchmarkJobsRequest, ListAIBenchmarkJobsResponse> {
+        let input = ListAIBenchmarkJobsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return self.listAIBenchmarkJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIRecommendationJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIRecommendationJobsPaginator(
+        _ input: ListAIRecommendationJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIRecommendationJobsRequest, ListAIRecommendationJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIRecommendationJobs,
+            inputKey: \ListAIRecommendationJobsRequest.nextToken,
+            outputKey: \ListAIRecommendationJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIRecommendationJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - creationTimeAfter: A filter that returns only jobs created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only jobs created before the specified time.
+    ///   - maxResults: The maximum number of recommendation jobs to return in the response.
+    ///   - nameContains: A string in the job name. This filter returns only jobs whose name contains the specified string.
+    ///   - sortBy: The field to sort results by. The default is CreationTime.
+    ///   - sortOrder: The sort order for results. The default is Descending.
+    ///   - statusEquals: A filter that returns only recommendation jobs with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIRecommendationJobsPaginator(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        sortBy: ListAIRecommendationJobsSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: AIRecommendationJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIRecommendationJobsRequest, ListAIRecommendationJobsResponse> {
+        let input = ListAIRecommendationJobsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return self.listAIRecommendationJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIWorkloadConfigs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIWorkloadConfigsPaginator(
+        _ input: ListAIWorkloadConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIWorkloadConfigsRequest, ListAIWorkloadConfigsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIWorkloadConfigs,
+            inputKey: \ListAIWorkloadConfigsRequest.nextToken,
+            outputKey: \ListAIWorkloadConfigsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIWorkloadConfigs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - creationTimeAfter: A filter that returns only configurations created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only configurations created before the specified time.
+    ///   - maxResults: The maximum number of AI workload configurations to return in the response.
+    ///   - nameContains: A string in the configuration name. This filter returns only configurations whose name contains the specified string.
+    ///   - sortBy: The field to sort results by. The default is CreationTime.
+    ///   - sortOrder: The sort order for results. The default is Descending.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIWorkloadConfigsPaginator(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        sortBy: ListAIWorkloadConfigsSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIWorkloadConfigsRequest, ListAIWorkloadConfigsResponse> {
+        let input = ListAIWorkloadConfigsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return self.listAIWorkloadConfigsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listActions(_:logger:)``.
@@ -17288,6 +18295,104 @@ extension SageMaker {
             statusEquals: statusEquals
         )
         return self.listInferenceRecommendationsJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listJobSchemaVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobSchemaVersionsPaginator(
+        _ input: ListJobSchemaVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobSchemaVersionsRequest, ListJobSchemaVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listJobSchemaVersions,
+            inputKey: \ListJobSchemaVersionsRequest.nextToken,
+            outputKey: \ListJobSchemaVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listJobSchemaVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - jobCategory: The category of job schemas to list.
+    ///   - maxResults: The maximum number of schema versions to return in the response. The default value is 5.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobSchemaVersionsPaginator(
+        jobCategory: JobCategory? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListJobSchemaVersionsRequest, ListJobSchemaVersionsResponse> {
+        let input = ListJobSchemaVersionsRequest(
+            jobCategory: jobCategory, 
+            maxResults: maxResults
+        )
+        return self.listJobSchemaVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobsPaginator(
+        _ input: ListJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobsRequest, ListJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listJobs,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - creationTimeAfter: A filter that returns only jobs created after the specified time.
+    ///   - creationTimeBefore: A filter that returns only jobs created before the specified time.
+    ///   - jobCategory: The category of jobs to list.
+    ///   - lastModifiedTimeAfter: A filter that returns only jobs modified after the specified time.
+    ///   - lastModifiedTimeBefore: A filter that returns only jobs modified before the specified time.
+    ///   - maxResults: The maximum number of jobs to return in the response. The default value is 50.
+    ///   - nameContains: A string in the job name to filter results. Only jobs whose name contains the specified string are returned.
+    ///   - sortBy: The field to sort results by.
+    ///   - sortOrder: The sort order for results. Valid values are Ascending and Descending.
+    ///   - statusEquals: A filter that returns only jobs with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobsPaginator(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        jobCategory: JobCategory? = nil,
+        lastModifiedTimeAfter: Date? = nil,
+        lastModifiedTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        sortBy: SortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        statusEquals: JobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListJobsRequest, ListJobsResponse> {
+        let input = ListJobsRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            jobCategory: jobCategory, 
+            lastModifiedTimeAfter: lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: lastModifiedTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            statusEquals: statusEquals
+        )
+        return self.listJobsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listLabelingJobs(_:logger:)``.
@@ -19738,6 +20843,53 @@ extension SageMaker.DescribeTrainingPlanExtensionHistoryRequest: AWSPaginateToke
     }
 }
 
+extension SageMaker.ListAIBenchmarkJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAIBenchmarkJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension SageMaker.ListAIRecommendationJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAIRecommendationJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension SageMaker.ListAIWorkloadConfigsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListAIWorkloadConfigsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListActionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SageMaker.ListActionsRequest {
@@ -20316,6 +21468,36 @@ extension SageMaker.ListInferenceRecommendationsJobsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             modelNameEquals: self.modelNameEquals,
             modelPackageVersionArnEquals: self.modelPackageVersionArnEquals,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            statusEquals: self.statusEquals
+        )
+    }
+}
+
+extension SageMaker.ListJobSchemaVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListJobSchemaVersionsRequest {
+        return .init(
+            jobCategory: self.jobCategory,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SageMaker.ListJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListJobsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            jobCategory: self.jobCategory,
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter,
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore,
+            maxResults: self.maxResults,
             nameContains: self.nameContains,
             nextToken: token,
             sortBy: self.sortBy,

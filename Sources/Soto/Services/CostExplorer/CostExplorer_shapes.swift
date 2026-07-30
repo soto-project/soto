@@ -41,6 +41,7 @@ extension CostExplorer {
     public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customCommitment = "CUSTOM_COMMITMENT"
         case maxSavings = "MAX_SAVINGS"
+        case targetAverageCoverage = "TARGET_AVERAGE_COVERAGE"
         public var description: String { return self.rawValue }
     }
 
@@ -5122,17 +5123,20 @@ extension CostExplorer {
         public let analysisType: AnalysisType
         /// The time period associated with the analysis.
         public let lookBackTimePeriod: DateInterval
+        /// Specifies the target Savings Plans coverage as a percentage from 10 to 100. This field is required when AnalysisType is TARGET_AVERAGE_COVERAGE. It defines the target average hourly coverage that the recommended Savings Plans commitment should achieve over the lookback period.
+        public let savingsPlansTargetCoverage: Int?
         /// Savings Plans to include in the analysis.
         public let savingsPlansToAdd: [SavingsPlans]
         /// Savings Plans to exclude from the analysis.
         public let savingsPlansToExclude: [String]?
 
         @inlinable
-        public init(accountId: String? = nil, accountScope: AccountScope? = nil, analysisType: AnalysisType, lookBackTimePeriod: DateInterval, savingsPlansToAdd: [SavingsPlans], savingsPlansToExclude: [String]? = nil) {
+        public init(accountId: String? = nil, accountScope: AccountScope? = nil, analysisType: AnalysisType, lookBackTimePeriod: DateInterval, savingsPlansTargetCoverage: Int? = nil, savingsPlansToAdd: [SavingsPlans], savingsPlansToExclude: [String]? = nil) {
             self.accountId = accountId
             self.accountScope = accountScope
             self.analysisType = analysisType
             self.lookBackTimePeriod = lookBackTimePeriod
+            self.savingsPlansTargetCoverage = savingsPlansTargetCoverage
             self.savingsPlansToAdd = savingsPlansToAdd
             self.savingsPlansToExclude = savingsPlansToExclude
         }
@@ -5142,6 +5146,8 @@ extension CostExplorer {
             try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
             try self.lookBackTimePeriod.validate(name: "\(name).lookBackTimePeriod")
+            try self.validate(self.savingsPlansTargetCoverage, name: "savingsPlansTargetCoverage", parent: name, max: 100)
+            try self.validate(self.savingsPlansTargetCoverage, name: "savingsPlansTargetCoverage", parent: name, min: 10)
             try self.savingsPlansToAdd.forEach {
                 try $0.validate(name: "\(name).savingsPlansToAdd[]")
             }
@@ -5160,6 +5166,7 @@ extension CostExplorer {
             case accountScope = "AccountScope"
             case analysisType = "AnalysisType"
             case lookBackTimePeriod = "LookBackTimePeriod"
+            case savingsPlansTargetCoverage = "SavingsPlansTargetCoverage"
             case savingsPlansToAdd = "SavingsPlansToAdd"
             case savingsPlansToExclude = "SavingsPlansToExclude"
         }

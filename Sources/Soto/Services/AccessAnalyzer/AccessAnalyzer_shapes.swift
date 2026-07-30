@@ -1041,6 +1041,8 @@ extension AccessAnalyzer {
         /// The time at which the most recently analyzed resource was analyzed.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastResourceAnalyzedAt: Date?
+        /// The service principal that manages this analyzer (for example, securityhubv2.amazonaws.com). This field is only present for service-linked analyzers and is not included for customer-managed analyzers.
+        public let managedBy: String?
         /// The name of the analyzer.
         public let name: String
         /// The status of the analyzer. An Active analyzer successfully monitors supported resources and generates new findings. The analyzer is Disabled when a user action, such as removing trusted access for Identity and Access Management Access Analyzer from Organizations, causes the analyzer to stop generating new findings. The status is Creating when the analyzer creation is in progress and Failed when the analyzer creation has failed.
@@ -1053,12 +1055,13 @@ extension AccessAnalyzer {
         public let type: `Type`
 
         @inlinable
-        public init(arn: String, configuration: AnalyzerConfiguration? = nil, createdAt: Date, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: Date? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
+        public init(arn: String, configuration: AnalyzerConfiguration? = nil, createdAt: Date, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: Date? = nil, managedBy: String? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
             self.arn = arn
             self.configuration = configuration
             self.createdAt = createdAt
             self.lastResourceAnalyzed = lastResourceAnalyzed
             self.lastResourceAnalyzedAt = lastResourceAnalyzedAt
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.statusReason = statusReason
@@ -1072,6 +1075,7 @@ extension AccessAnalyzer {
             case createdAt = "createdAt"
             case lastResourceAnalyzed = "lastResourceAnalyzed"
             case lastResourceAnalyzedAt = "lastResourceAnalyzedAt"
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case statusReason = "statusReason"
@@ -1443,7 +1447,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
             try self.archiveRules?.forEach {
                 try $0.validate(name: "\(name).archiveRules[]")
             }
@@ -1503,7 +1507,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }
@@ -1516,6 +1520,52 @@ extension AccessAnalyzer {
             case clientToken = "clientToken"
             case filter = "filter"
             case ruleName = "ruleName"
+        }
+    }
+
+    public struct CreateServiceLinkedAnalyzerRequest: AWSEncodableShape {
+        /// Specifies the archive rules to add for the analyzer. Archive rules automatically archive findings that meet the criteria you define for the rule.
+        public let archiveRules: [InlineArchiveRule]?
+        /// A client token.
+        public let clientToken: String?
+        /// Specifies the configuration of the analyzer. The specified scope of unused access is used for the configuration.
+        public let configuration: AnalyzerConfiguration?
+        /// The type of analyzer to create. Valid values are ACCOUNT_UNUSED_ACCESS and ORGANIZATION_UNUSED_ACCESS.
+        public let type: `Type`
+
+        @inlinable
+        public init(archiveRules: [InlineArchiveRule]? = nil, clientToken: String? = CreateServiceLinkedAnalyzerRequest.idempotencyToken(), configuration: AnalyzerConfiguration? = nil, type: `Type`) {
+            self.archiveRules = archiveRules
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.archiveRules?.forEach {
+                try $0.validate(name: "\(name).archiveRules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveRules = "archiveRules"
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case type = "type"
+        }
+    }
+
+    public struct CreateServiceLinkedAnalyzerResponse: AWSDecodableShape {
+        /// The ARN of the service-linked analyzer that was created by the request. The analyzer name follows the format _AccessAnalyzerFor{ServiceName}-{Id} where Id is a randomly generated identifier.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
@@ -1576,7 +1626,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1608,10 +1658,38 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteServiceLinkedAnalyzerRequest: AWSEncodableShape {
+        /// The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format _AccessAnalyzerFor{ServiceName}-{Id}.
+        public let analyzerName: String
+        /// A client token.
+        public let clientToken: String?
+
+        @inlinable
+        public init(analyzerName: String, clientToken: String? = DeleteServiceLinkedAnalyzerRequest.idempotencyToken()) {
+            self.analyzerName = analyzerName
+            self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2192,7 +2270,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2234,7 +2312,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
             try self.validate(self.ruleName, name: "ruleName", parent: name, max: 255)
             try self.validate(self.ruleName, name: "ruleName", parent: name, min: 1)
             try self.validate(self.ruleName, name: "ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
@@ -3109,7 +3187,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4208,7 +4286,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4259,7 +4337,7 @@ extension AccessAnalyzer {
         public func validate(name: String) throws {
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, max: 255)
             try self.validate(self.analyzerName, name: "analyzerName", parent: name, min: 1)
-            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+            try self.validate(self.analyzerName, name: "analyzerName", parent: name, pattern: "^[A-Za-z_][A-Za-z0-9_.-]*$")
             try self.filter.forEach {
                 try $0.value.validate(name: "\(name).filter[\"\($0.key)\"]")
             }

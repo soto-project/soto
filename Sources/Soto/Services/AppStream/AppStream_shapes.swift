@@ -42,6 +42,13 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgentAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case computerInput = "COMPUTER_INPUT"
+        case computerVision = "COMPUTER_VISION"
+        case forwardMcpTools = "FORWARD_MCP_TOOLS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AgentSoftwareVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alwaysLatest = "ALWAYS_LATEST"
         case currentLatest = "CURRENT_LATEST"
@@ -116,6 +123,7 @@ extension AppStream {
         case completed = "COMPLETED"
         case exporting = "EXPORTING"
         case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
@@ -233,8 +241,16 @@ extension AppStream {
     }
 
     public enum ImageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case byol = "BYOL"
         case custom = "CUSTOM"
         case native = "NATIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceDrainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case draining = "DRAINING"
+        case notApplicable = "NOT_APPLICABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -281,6 +297,17 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScreenImageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jpeg = "JPEG"
+        case png = "PNG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScreenResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case w1280Xh720 = "W_1280xH_720"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SessionConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
         case notConnected = "NOT_CONNECTED"
@@ -307,6 +334,8 @@ extension AppStream {
 
     public enum StackAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessEndpoints = "ACCESS_ENDPOINTS"
+        case agentAccessConfig = "AGENT_ACCESS_CONFIG"
+        case contentRedirection = "CONTENT_REDIRECTION"
         case embedHostDomains = "EMBED_HOST_DOMAINS"
         case feedbackUrl = "FEEDBACK_URL"
         case iamRoleArn = "IAM_ROLE_ARN"
@@ -368,6 +397,13 @@ extension AppStream {
 
     public enum UsageReportSchedule: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daily = "DAILY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case viewOnly = "VIEW_ONLY"
+        case viewStop = "VIEW_STOP"
         public var description: String { return self.rawValue }
     }
 
@@ -445,6 +481,102 @@ extension AppStream {
             case subscriptionLastUsedDate = "SubscriptionLastUsedDate"
             case userArn = "UserArn"
             case userId = "UserId"
+        }
+    }
+
+    public struct AgentAccessConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.
+        public let s3BucketArn: String?
+        /// The image format for agent screen captures.
+        public let screenImageFormat: ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.
+        public let screenResolution: ScreenResolution?
+        /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public let screenshotsUploadEnabled: Bool?
+        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting.
+        public let settings: [AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
+        public let userControlMode: UserControlMode?
+
+        @inlinable
+        public init(s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+            self.userControlMode = userControlMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:s3:::[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9]$")
+            try self.validate(self.settings, name: "settings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketArn = "S3BucketArn"
+            case screenImageFormat = "ScreenImageFormat"
+            case screenResolution = "ScreenResolution"
+            case screenshotsUploadEnabled = "ScreenshotsUploadEnabled"
+            case settings = "Settings"
+            case userControlMode = "UserControlMode"
+        }
+    }
+
+    public struct AgentAccessConfigForUpdate: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored.
+        public let s3BucketArn: String?
+        /// The image format for agent screen captures.
+        public let screenImageFormat: ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.
+        public let screenResolution: ScreenResolution?
+        /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public let screenshotsUploadEnabled: Bool?
+        /// The list of agent access settings that define permissions for each agent action.
+        public let settings: [AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
+        public let userControlMode: UserControlMode?
+
+        @inlinable
+        public init(s3BucketArn: String? = nil, screenImageFormat: ScreenImageFormat? = nil, screenResolution: ScreenResolution? = nil, screenshotsUploadEnabled: Bool? = nil, settings: [AgentAccessSetting]? = nil, userControlMode: UserControlMode? = nil) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+            self.userControlMode = userControlMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:s3:::[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9]$")
+            try self.validate(self.settings, name: "settings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketArn = "S3BucketArn"
+            case screenImageFormat = "ScreenImageFormat"
+            case screenResolution = "ScreenResolution"
+            case screenshotsUploadEnabled = "ScreenshotsUploadEnabled"
+            case settings = "Settings"
+            case userControlMode = "UserControlMode"
+        }
+    }
+
+    public struct AgentAccessSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The agent action to configure. Valid values are COMPUTER_VISION, COMPUTER_INPUT, and FORWARD_MCP_TOOLS. If you enable COMPUTER_INPUT, you must also enable COMPUTER_VISION.
+        public let agentAction: AgentAction?
+        /// Whether the agent action is enabled or disabled.
+        public let permission: Permission?
+
+        @inlinable
+        public init(agentAction: AgentAction? = nil, permission: Permission? = nil) {
+            self.agentAction = agentAction
+            self.permission = permission
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentAction = "AgentAction"
+            case permission = "Permission"
         }
     }
 
@@ -1078,19 +1210,28 @@ extension AppStream {
         public let desired: Int?
         /// The total number of sessions slots that are either running or pending. This represents the total number of concurrent streaming sessions your fleet can support in a steady state. DesiredUserSessionCapacity = ActualUserSessionCapacity + PendingUserSessionCapacity This only applies to multi-session fleets.
         public let desiredUserSessions: Int?
+        /// The number of instances in drain mode. This only applies to multi-session fleets.
+        public let draining: Int?
+        /// The number of active user sessions on instances in drain mode. This only applies to multi-session fleets.
+        public let drainModeActiveUserSessions: Int?
+        /// The number of unused session slots on instances in drain mode that cannot be used for user session provisioning. This only applies to multi-session fleets.
+        public let drainModeUnusedUserSessions: Int?
         /// The number of instances in use for streaming.
         public let inUse: Int?
         /// The total number of simultaneous streaming instances that are running.
         public let running: Int?
 
         @inlinable
-        public init(activeUserSessions: Int? = nil, actualUserSessions: Int? = nil, available: Int? = nil, availableUserSessions: Int? = nil, desired: Int? = nil, desiredUserSessions: Int? = nil, inUse: Int? = nil, running: Int? = nil) {
+        public init(activeUserSessions: Int? = nil, actualUserSessions: Int? = nil, available: Int? = nil, availableUserSessions: Int? = nil, desired: Int? = nil, desiredUserSessions: Int? = nil, draining: Int? = nil, drainModeActiveUserSessions: Int? = nil, drainModeUnusedUserSessions: Int? = nil, inUse: Int? = nil, running: Int? = nil) {
             self.activeUserSessions = activeUserSessions
             self.actualUserSessions = actualUserSessions
             self.available = available
             self.availableUserSessions = availableUserSessions
             self.desired = desired
             self.desiredUserSessions = desiredUserSessions
+            self.draining = draining
+            self.drainModeActiveUserSessions = drainModeActiveUserSessions
+            self.drainModeUnusedUserSessions = drainModeUnusedUserSessions
             self.inUse = inUse
             self.running = running
         }
@@ -1102,8 +1243,29 @@ extension AppStream {
             case availableUserSessions = "AvailableUserSessions"
             case desired = "Desired"
             case desiredUserSessions = "DesiredUserSessions"
+            case draining = "Draining"
+            case drainModeActiveUserSessions = "DrainModeActiveUserSessions"
+            case drainModeUnusedUserSessions = "DrainModeUnusedUserSessions"
             case inUse = "InUse"
             case running = "Running"
+        }
+    }
+
+    public struct ContentRedirection: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for redirecting URLs from the remote desktop to the local client browser.
+        public let hostToClient: UrlRedirectionConfig?
+
+        @inlinable
+        public init(hostToClient: UrlRedirectionConfig? = nil) {
+            self.hostToClient = hostToClient
+        }
+
+        public func validate(name: String) throws {
+            try self.hostToClient?.validate(name: "\(name).hostToClient")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostToClient = "HostToClient"
         }
     }
 
@@ -1941,13 +2103,15 @@ extension AppStream {
         public let name: String?
         /// Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use.
         public let runtimeValidationConfig: RuntimeValidationConfig?
-        /// The ID of the EC2 AMI to import. The AMI must meet specific requirements including Windows Server 2022 Full Base, UEFI boot mode, TPM 2.0 support, and proper drivers.
+        /// The ID of the EC2 AMI to import.
         public let sourceAmiId: String?
         /// The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources.
         public let tags: [String: String]?
+        /// The ID of the Workspaces Image to import.
+        public let workspaceImageId: String?
 
         @inlinable
-        public init(agentSoftwareVersion: AgentSoftwareVersion? = nil, appCatalogConfig: [ApplicationConfig]? = nil, description: String? = nil, displayName: String? = nil, dryRun: Bool? = nil, iamRoleArn: String? = nil, name: String? = nil, runtimeValidationConfig: RuntimeValidationConfig? = nil, sourceAmiId: String? = nil, tags: [String: String]? = nil) {
+        public init(agentSoftwareVersion: AgentSoftwareVersion? = nil, appCatalogConfig: [ApplicationConfig]? = nil, description: String? = nil, displayName: String? = nil, dryRun: Bool? = nil, iamRoleArn: String? = nil, name: String? = nil, runtimeValidationConfig: RuntimeValidationConfig? = nil, sourceAmiId: String? = nil, tags: [String: String]? = nil, workspaceImageId: String? = nil) {
             self.agentSoftwareVersion = agentSoftwareVersion
             self.appCatalogConfig = appCatalogConfig
             self.description = description
@@ -1958,6 +2122,7 @@ extension AppStream {
             self.runtimeValidationConfig = runtimeValidationConfig
             self.sourceAmiId = sourceAmiId
             self.tags = tags
+            self.workspaceImageId = workspaceImageId
         }
 
         public func validate(name: String) throws {
@@ -1982,6 +2147,9 @@ extension AppStream {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.workspaceImageId, name: "workspaceImageId", parent: name, max: 67)
+            try self.validate(self.workspaceImageId, name: "workspaceImageId", parent: name, min: 12)
+            try self.validate(self.workspaceImageId, name: "workspaceImageId", parent: name, pattern: "^wsi-[0-9a-z]{8,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1995,6 +2163,7 @@ extension AppStream {
             case runtimeValidationConfig = "RuntimeValidationConfig"
             case sourceAmiId = "SourceAmiId"
             case tags = "Tags"
+            case workspaceImageId = "WorkspaceImageId"
         }
     }
 
@@ -2014,8 +2183,11 @@ extension AppStream {
     public struct CreateStackRequest: AWSEncodableShape {
         /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
+        /// The configuration for agent access on the stack. If specified, agent access is enabled for the stack.
+        public let agentAccessConfig: AgentAccessConfig?
         /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
         public let applicationSettings: ApplicationSettings?
+        public let contentRedirection: ContentRedirection?
         /// The description to display.
         public let description: String?
         /// The stack name to display.
@@ -2038,9 +2210,11 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettings? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
+            self.contentRedirection = contentRedirection
             self.description = description
             self.displayName = displayName
             self.embedHostDomains = embedHostDomains
@@ -2059,7 +2233,9 @@ extension AppStream {
             }
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
+            try self.agentAccessConfig?.validate(name: "\(name).agentAccessConfig")
             try self.applicationSettings?.validate(name: "\(name).applicationSettings")
+            try self.contentRedirection?.validate(name: "\(name).contentRedirection")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.embedHostDomains?.forEach {
@@ -2088,7 +2264,9 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case accessEndpoints = "AccessEndpoints"
+            case agentAccessConfig = "AgentAccessConfig"
             case applicationSettings = "ApplicationSettings"
+            case contentRedirection = "ContentRedirection"
             case description = "Description"
             case displayName = "DisplayName"
             case embedHostDomains = "EmbedHostDomains"
@@ -3818,6 +3996,28 @@ extension AppStream {
         }
     }
 
+    public struct DrainSessionInstanceRequest: AWSEncodableShape {
+        /// The identifier of the streaming session.
+        public let sessionId: String?
+
+        @inlinable
+        public init(sessionId: String? = nil) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct DrainSessionInstanceResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct EnableUserRequest: AWSEncodableShape {
         /// The authentication type for the user. You must specify USERPOOL.
         public let authenticationType: AuthenticationType?
@@ -4833,6 +5033,8 @@ extension AppStream {
         public let fleetName: String?
         /// The identifier of the streaming session.
         public let id: String?
+        /// The drain status of the instance hosting the streaming session. This only applies to multi-session fleets.
+        public let instanceDrainStatus: InstanceDrainStatus?
         /// The identifier for the instance hosting the session.
         public let instanceId: String?
         /// The time when the streaming session is set to expire. This time is based on the MaxUserDurationinSeconds value, which determines the maximum length of time that a streaming session can run. A streaming session might end earlier than the time specified in SessionMaxExpirationTime, when the DisconnectTimeOutInSeconds elapses or the user chooses to end his or her session. If the DisconnectTimeOutInSeconds elapses, or the user chooses to end his or her session, the streaming instance is terminated and the streaming session ends.
@@ -4849,11 +5051,12 @@ extension AppStream {
         public let userId: String?
 
         @inlinable
-        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String? = nil, id: String? = nil, instanceId: String? = nil, maxExpirationTime: Date? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String? = nil, startTime: Date? = nil, state: SessionState? = nil, userId: String? = nil) {
+        public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, fleetName: String? = nil, id: String? = nil, instanceDrainStatus: InstanceDrainStatus? = nil, instanceId: String? = nil, maxExpirationTime: Date? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, stackName: String? = nil, startTime: Date? = nil, state: SessionState? = nil, userId: String? = nil) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState
             self.fleetName = fleetName
             self.id = id
+            self.instanceDrainStatus = instanceDrainStatus
             self.instanceId = instanceId
             self.maxExpirationTime = maxExpirationTime
             self.networkAccessConfiguration = networkAccessConfiguration
@@ -4868,6 +5071,7 @@ extension AppStream {
             case connectionState = "ConnectionState"
             case fleetName = "FleetName"
             case id = "Id"
+            case instanceDrainStatus = "InstanceDrainStatus"
             case instanceId = "InstanceId"
             case maxExpirationTime = "MaxExpirationTime"
             case networkAccessConfiguration = "NetworkAccessConfiguration"
@@ -4921,10 +5125,14 @@ extension AppStream {
     public struct Stack: AWSDecodableShape {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
+        /// The agent access configuration of the stack, if agent access is enabled.
+        public let agentAccessConfig: AgentAccessConfig?
         /// The persistent application settings for users of the stack.
         public let applicationSettings: ApplicationSettingsResponse?
         /// The ARN of the stack.
         public let arn: String?
+        /// Configuration for bidirectional URL redirection between the streaming session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser.
+        public let contentRedirection: ContentRedirection?
         /// The time the stack was created.
         public let createdTime: Date?
         /// The description to display.
@@ -4949,10 +5157,12 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, contentRedirection: ContentRedirection? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
             self.arn = arn
+            self.contentRedirection = contentRedirection
             self.createdTime = createdTime
             self.description = description
             self.displayName = displayName
@@ -4968,8 +5178,10 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case accessEndpoints = "AccessEndpoints"
+            case agentAccessConfig = "AgentAccessConfig"
             case applicationSettings = "ApplicationSettings"
             case arn = "Arn"
+            case contentRedirection = "ContentRedirection"
             case createdTime = "CreatedTime"
             case description = "Description"
             case displayName = "DisplayName"
@@ -5849,10 +6061,13 @@ extension AppStream {
     public struct UpdateStackRequest: AWSEncodableShape {
         /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
+        /// The configuration for agent access on the stack. Specify this to update agent access settings. To remove agent access, use AttributesToDelete with the AGENT_ACCESS_CONFIG value.
+        public let agentAccessConfig: AgentAccessConfigForUpdate?
         /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
         public let applicationSettings: ApplicationSettings?
         /// The stack attributes to delete.
         public let attributesToDelete: [StackAttribute]?
+        public let contentRedirection: ContentRedirection?
         /// Deletes the storage connectors currently enabled for the stack.
         public let deleteStorageConnectors: Bool?
         /// The description to display.
@@ -5875,10 +6090,12 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
+            self.contentRedirection = contentRedirection
             self.deleteStorageConnectors = nil
             self.description = description
             self.displayName = displayName
@@ -5893,10 +6110,12 @@ extension AppStream {
 
         @available(*, deprecated, message: "Members deleteStorageConnectors have been deprecated")
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
             self.attributesToDelete = attributesToDelete
+            self.contentRedirection = contentRedirection
             self.deleteStorageConnectors = deleteStorageConnectors
             self.description = description
             self.displayName = displayName
@@ -5915,7 +6134,9 @@ extension AppStream {
             }
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, max: 4)
             try self.validate(self.accessEndpoints, name: "accessEndpoints", parent: name, min: 1)
+            try self.agentAccessConfig?.validate(name: "\(name).agentAccessConfig")
             try self.applicationSettings?.validate(name: "\(name).applicationSettings")
+            try self.contentRedirection?.validate(name: "\(name).contentRedirection")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.embedHostDomains?.forEach {
@@ -5935,8 +6156,10 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case accessEndpoints = "AccessEndpoints"
+            case agentAccessConfig = "AgentAccessConfig"
             case applicationSettings = "ApplicationSettings"
             case attributesToDelete = "AttributesToDelete"
+            case contentRedirection = "ContentRedirection"
             case deleteStorageConnectors = "DeleteStorageConnectors"
             case description = "Description"
             case displayName = "DisplayName"
@@ -6029,6 +6252,43 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case theme = "Theme"
+        }
+    }
+
+    public struct UrlRedirectionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// List of URL patterns that are allowed to be redirected. URLs matching these patterns will be redirected unless they also match a pattern in the denied list.
+        public let allowedUrls: [String]?
+        /// List of URL patterns that are denied from redirection. This list takes precedence over the allowed list.
+        public let deniedUrls: [String]?
+        /// Whether URL redirection is enabled for this direction.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(allowedUrls: [String]? = nil, deniedUrls: [String]? = nil, enabled: Bool? = nil) {
+            self.allowedUrls = allowedUrls
+            self.deniedUrls = deniedUrls
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedUrls?.forEach {
+                try validate($0, name: "allowedUrls[]", parent: name, max: 2048)
+                try validate($0, name: "allowedUrls[]", parent: name, min: 1)
+                try validate($0, name: "allowedUrls[]", parent: name, pattern: "^(\\*|https?://[^\\s,;]+)$")
+            }
+            try self.validate(self.allowedUrls, name: "allowedUrls", parent: name, max: 100)
+            try self.deniedUrls?.forEach {
+                try validate($0, name: "deniedUrls[]", parent: name, max: 2048)
+                try validate($0, name: "deniedUrls[]", parent: name, min: 1)
+                try validate($0, name: "deniedUrls[]", parent: name, pattern: "^(\\*|https?://[^\\s,;]+)$")
+            }
+            try self.validate(self.deniedUrls, name: "deniedUrls", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedUrls = "AllowedUrls"
+            case deniedUrls = "DeniedUrls"
+            case enabled = "Enabled"
         }
     }
 

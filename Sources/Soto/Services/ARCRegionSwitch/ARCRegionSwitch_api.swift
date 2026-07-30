@@ -538,7 +538,7 @@ public struct ARCRegionSwitch: AWSService {
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the Amazon Route 53 health check request.
     ///   - hostedZoneId: The hosted zone ID for the health checks.
-    ///   - maxResults: The number of objects that you want to return with this call.
+    ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     ///   - recordName: The record name for the health checks.
     ///   - logger: Logger use during operation
@@ -579,7 +579,7 @@ public struct ARCRegionSwitch: AWSService {
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
     ///   - hostedZoneId: The hosted zone ID for the health checks.
-    ///   - maxResults: The number of objects that you want to return with this call.
+    ///   - maxResults: The maximum number of results to return in the response.
     ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
     ///   - recordName: The record name for the health checks.
     ///   - logger: Logger use during operation
@@ -648,6 +648,7 @@ public struct ARCRegionSwitch: AWSService {
     ///
     /// Parameters:
     ///   - action: The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region).
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request and returns the result of the original successful request. If you don't provide a client token, the service automatically generates one. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - comment: An optional comment explaining why the plan execution is being started.
     ///   - latestVersion: A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
     ///   - mode: The plan execution mode. Valid values are graceful, for starting the execution in graceful mode, or ungraceful, for starting the execution in ungraceful mode.
@@ -658,6 +659,7 @@ public struct ARCRegionSwitch: AWSService {
     @inlinable
     public func startPlanExecution(
         action: ExecutionAction,
+        clientToken: String? = StartPlanExecutionRequest.idempotencyToken(),
         comment: String? = nil,
         latestVersion: String? = nil,
         mode: ExecutionMode? = nil,
@@ -668,6 +670,7 @@ public struct ARCRegionSwitch: AWSService {
     ) async throws -> StartPlanExecutionResponse {
         let input = StartPlanExecutionRequest(
             action: action, 
+            clientToken: clientToken, 
             comment: comment, 
             latestVersion: latestVersion, 
             mode: mode, 
@@ -1136,7 +1139,7 @@ extension ARCRegionSwitch {
     /// - Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the Amazon Route 53 health check request.
     ///   - hostedZoneId: The hosted zone ID for the health checks.
-    ///   - maxResults: The number of objects that you want to return with this call.
+    ///   - maxResults: The maximum number of results to return in the response.
     ///   - recordName: The record name for the health checks.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1179,7 +1182,7 @@ extension ARCRegionSwitch {
     /// - Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
     ///   - hostedZoneId: The hosted zone ID for the health checks.
-    ///   - maxResults: The number of objects that you want to return with this call.
+    ///   - maxResults: The maximum number of results to return in the response.
     ///   - recordName: The record name for the health checks.
     ///   - logger: Logger used for logging
     @inlinable

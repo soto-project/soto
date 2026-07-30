@@ -310,7 +310,7 @@ public struct SSM: AWSService {
     ///   - scheduleOffset: Number of days to wait after the scheduled day to run an association. For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify an offset of 3 to run the association each Sunday after the second Thursday of the month. For more information about cron schedules for associations, see Reference: Cron and rate expressions for Systems Manager in the Amazon Web Services Systems Manager User Guide.   To use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the system not to run an association immediately after you create it.
     ///   - syncCompliance: The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
     ///   - tags: Adds or overwrites one or more tags for a State Manager association. Tags are metadata that you can assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
-    ///   - targetLocations: A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.  The IncludeChildOrganizationUnits parameter is not supported by State Manager.
+    ///   - targetLocations: A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.  The TargetLocationAlarmConfiguration parameter is not supported by State Manager.
     ///   - targetMaps: A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     ///   - targets: The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Understanding targets and rate controls in State Manager associations in the Amazon Web Services Systems Manager User Guide.
     ///   - logger: Logger use during operation
@@ -397,6 +397,50 @@ public struct SSM: AWSService {
             entries: entries
         )
         return try await self.createAssociationBatch(input, logger: logger)
+    }
+
+    /// Creates a cloud connector that establishes a connection between Systems Manager and a third-party cloud environment.
+    @Sendable
+    @inlinable
+    public func createCloudConnector(_ input: CreateCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCloudConnectorResult {
+        try await self.client.execute(
+            operation: "CreateCloudConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a cloud connector that establishes a connection between Systems Manager and a third-party cloud environment.
+    ///
+    /// Parameters:
+    ///   - configConnectorArn: The ARN of the Amazon Web Services Config connector associated with this cloud connector.
+    ///   - configuration: The configuration details for connecting to the third-party cloud environment.
+    ///   - description: A description for the cloud connector.
+    ///   - displayName: A friendly name for the cloud connector.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the cloud connector uses to communicate with the third-party cloud environment.
+    ///   - tags: Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCloudConnector(
+        configConnectorArn: String,
+        configuration: CloudConnectorConfiguration,
+        description: String? = nil,
+        displayName: String,
+        roleArn: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCloudConnectorResult {
+        let input = CreateCloudConnectorRequest(
+            configConnectorArn: configConnectorArn, 
+            configuration: configuration, 
+            description: description, 
+            displayName: displayName, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createCloudConnector(input, logger: logger)
     }
 
     /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed nodes. For more information about SSM documents, including information about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide.
@@ -794,6 +838,35 @@ public struct SSM: AWSService {
             name: name
         )
         return try await self.deleteAssociation(input, logger: logger)
+    }
+
+    /// Deletes a cloud connector.
+    @Sendable
+    @inlinable
+    public func deleteCloudConnector(_ input: DeleteCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCloudConnectorResult {
+        try await self.client.execute(
+            operation: "DeleteCloudConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a cloud connector.
+    ///
+    /// Parameters:
+    ///   - cloudConnectorId: The ID of the cloud connector to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCloudConnector(
+        cloudConnectorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCloudConnectorResult {
+        let input = DeleteCloudConnectorRequest(
+            cloudConnectorId: cloudConnectorId
+        )
+        return try await self.deleteCloudConnector(input, logger: logger)
     }
 
     /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document.
@@ -2590,6 +2663,35 @@ public struct SSM: AWSService {
         return try await self.getCalendarState(input, logger: logger)
     }
 
+    /// Returns detailed information about a cloud connector.
+    @Sendable
+    @inlinable
+    public func getCloudConnector(_ input: GetCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCloudConnectorResult {
+        try await self.client.execute(
+            operation: "GetCloudConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed information about a cloud connector.
+    ///
+    /// Parameters:
+    ///   - cloudConnectorId: The ID of the cloud connector to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCloudConnector(
+        cloudConnectorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCloudConnectorResult {
+        let input = GetCloudConnectorRequest(
+            cloudConnectorId: cloudConnectorId
+        )
+        return try await self.getCloudConnector(input, logger: logger)
+    }
+
     /// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your resources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command.  GetCommandInvocation only gives the execution status of a plugin in a document. To get the command execution status on a specific managed node, use ListCommandInvocations. To get the command execution status across managed nodes, use ListCommands.
     @Sendable
     @inlinable
@@ -3138,7 +3240,7 @@ public struct SSM: AWSService {
         return try await self.getOpsSummary(input, logger: logger)
     }
 
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.   Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     @Sendable
     @inlinable
     public func getParameter(_ input: GetParameterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetParameterResult {
@@ -3151,7 +3253,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  To get information about more than one parameter at a time, use the GetParameters operation.   Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     ///
     /// Parameters:
     ///   - name: The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
@@ -3208,7 +3310,7 @@ public struct SSM: AWSService {
         return try await self.getParameterHistory(input, logger: logger)
     }
 
-    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
+    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     @Sendable
     @inlinable
     public func getParameters(_ input: GetParametersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetParametersResult {
@@ -3221,7 +3323,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
+    /// Get information about one or more parameters by specifying multiple parameter names.  To get information about a single parameter, you can use the GetParameter operation instead.  Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     ///
     /// Parameters:
     ///   - names: The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version".  The results for GetParameters requests are listed in alphabetical order in query responses.  For information about shared parameters, see Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
@@ -3329,7 +3431,7 @@ public struct SSM: AWSService {
     /// Retrieves the patch baseline that should be used for the specified patch group.
     ///
     /// Parameters:
-    ///   - operatingSystem: Returns the operating system rule specified for patch groups using the patch baseline.
+    ///   - operatingSystem: Returns the operating system rule specified for patch groups using the patch baseline. The default value is WINDOWS.
     ///   - patchGroup: The name of the patch group whose patch baseline should be retrieved.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3512,6 +3614,41 @@ public struct SSM: AWSService {
             nextToken: nextToken
         )
         return try await self.listAssociations(input, logger: logger)
+    }
+
+    /// Returns a list of cloud connectors in the current Amazon Web Services account and Amazon Web Services Region.
+    @Sendable
+    @inlinable
+    public func listCloudConnectors(_ input: ListCloudConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCloudConnectorsResult {
+        try await self.client.execute(
+            operation: "ListCloudConnectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of cloud connectors in the current Amazon Web Services account and Amazon Web Services Region.
+    ///
+    /// Parameters:
+    ///   - filters: One or more filters to limit the cloud connectors returned in the response.
+    ///   - maxResults: The maximum number of items to return for this call.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCloudConnectors(
+        filters: [CloudConnectorFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCloudConnectorsResult {
+        let input = ListCloudConnectorsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCloudConnectors(input, logger: logger)
     }
 
     /// An invocation is copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. ListCommandInvocations provide status about command execution.
@@ -4241,7 +4378,7 @@ public struct SSM: AWSService {
         return try await self.putInventory(input, logger: logger)
     }
 
-    /// Create or update a parameter in Parameter Store.
+    /// Create or update a parameter in Parameter Store.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     @Sendable
     @inlinable
     public func putParameter(_ input: PutParameterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutParameterResult {
@@ -4254,7 +4391,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Create or update a parameter in Parameter Store.
+    /// Create or update a parameter in Parameter Store.  Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see Changing Parameter Store throughput.
     ///
     /// Parameters:
     ///   - allowedPattern: A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$
@@ -5125,7 +5262,7 @@ public struct SSM: AWSService {
     ///   - scheduleExpression: The cron expression used to schedule the association that you want to update.
     ///   - scheduleOffset: Number of days to wait after the scheduled day to run an association. For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify an offset of 3 to run the association each Sunday after the second Thursday of the month. For more information about cron schedules for associations, see Reference: Cron and rate expressions for Systems Manager in the Amazon Web Services Systems Manager User Guide.   To use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the system not to run an association immediately after you create it.
     ///   - syncCompliance: The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
-    ///   - targetLocations: A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.  The IncludeChildOrganizationUnits parameter is not supported by State Manager.
+    ///   - targetLocations: A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.  The TargetLocationAlarmConfiguration parameter is not supported by State Manager.
     ///   - targetMaps: A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     ///   - targets: The targets of the association.
     ///   - logger: Logger use during operation
@@ -5215,6 +5352,44 @@ public struct SSM: AWSService {
             name: name
         )
         return try await self.updateAssociationStatus(input, logger: logger)
+    }
+
+    /// Updates an existing cloud connector with new configuration details.
+    @Sendable
+    @inlinable
+    public func updateCloudConnector(_ input: UpdateCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCloudConnectorResult {
+        try await self.client.execute(
+            operation: "UpdateCloudConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing cloud connector with new configuration details.
+    ///
+    /// Parameters:
+    ///   - cloudConnectorId: The ID of the cloud connector to update.
+    ///   - configuration: The updated configuration details for connecting to the third-party cloud environment.
+    ///   - description: A new description for the cloud connector.
+    ///   - displayName: A new friendly name for the cloud connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCloudConnector(
+        cloudConnectorId: String,
+        configuration: CloudConnectorConfiguration? = nil,
+        description: String? = nil,
+        displayName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCloudConnectorResult {
+        let input = UpdateCloudConnectorRequest(
+            cloudConnectorId: cloudConnectorId, 
+            configuration: configuration, 
+            description: description, 
+            displayName: displayName
+        )
+        return try await self.updateCloudConnector(input, logger: logger)
     }
 
     /// Updates one or more values for an SSM document.
@@ -5793,6 +5968,41 @@ public struct SSM: AWSService {
             settingValue: settingValue
         )
         return try await self.updateServiceSetting(input, logger: logger)
+    }
+
+    /// Validates the configuration and connectivity of a cloud connector.
+    @Sendable
+    @inlinable
+    public func validateCloudConnector(_ input: ValidateCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateCloudConnectorResult {
+        try await self.client.execute(
+            operation: "ValidateCloudConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Validates the configuration and connectivity of a cloud connector.
+    ///
+    /// Parameters:
+    ///   - cloudConnectorId: The ID of the cloud connector to validate.
+    ///   - maxResults: The maximum number of validation findings to return.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func validateCloudConnector(
+        cloudConnectorId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ValidateCloudConnectorResult {
+        let input = ValidateCloudConnectorRequest(
+            cloudConnectorId: cloudConnectorId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.validateCloudConnector(input, logger: logger)
     }
 }
 
@@ -7283,6 +7493,43 @@ extension SSM {
         return self.listAssociationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCloudConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCloudConnectorsPaginator(
+        _ input: ListCloudConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCloudConnectorsRequest, ListCloudConnectorsResult> {
+        return .init(
+            input: input,
+            command: self.listCloudConnectors,
+            inputKey: \ListCloudConnectorsRequest.nextToken,
+            outputKey: \ListCloudConnectorsResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCloudConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: One or more filters to limit the cloud connectors returned in the response.
+    ///   - maxResults: The maximum number of items to return for this call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCloudConnectorsPaginator(
+        filters: [CloudConnectorFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCloudConnectorsRequest, ListCloudConnectorsResult> {
+        let input = ListCloudConnectorsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listCloudConnectorsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCommandInvocations(_:logger:)``.
     ///
     /// - Parameters:
@@ -7799,6 +8046,43 @@ extension SSM {
         )
         return self.listResourceDataSyncPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``validateCloudConnector(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func validateCloudConnectorPaginator(
+        _ input: ValidateCloudConnectorRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ValidateCloudConnectorRequest, ValidateCloudConnectorResult> {
+        return .init(
+            input: input,
+            command: self.validateCloudConnector,
+            inputKey: \ValidateCloudConnectorRequest.nextToken,
+            outputKey: \ValidateCloudConnectorResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``validateCloudConnector(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - cloudConnectorId: The ID of the cloud connector to validate.
+    ///   - maxResults: The maximum number of validation findings to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func validateCloudConnectorPaginator(
+        cloudConnectorId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ValidateCloudConnectorRequest, ValidateCloudConnectorResult> {
+        let input = ValidateCloudConnectorRequest(
+            cloudConnectorId: cloudConnectorId, 
+            maxResults: maxResults
+        )
+        return self.validateCloudConnectorPaginator(input, logger: logger)
+    }
 }
 
 extension SSM.DescribeActivationsRequest: AWSPaginateToken {
@@ -8243,6 +8527,17 @@ extension SSM.ListAssociationsRequest: AWSPaginateToken {
     }
 }
 
+extension SSM.ListCloudConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SSM.ListCloudConnectorsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension SSM.ListCommandInvocationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SSM.ListCommandInvocationsRequest {
@@ -8394,6 +8689,17 @@ extension SSM.ListResourceDataSyncRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             syncType: self.syncType
+        )
+    }
+}
+
+extension SSM.ValidateCloudConnectorRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SSM.ValidateCloudConnectorRequest {
+        return .init(
+            cloudConnectorId: self.cloudConnectorId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

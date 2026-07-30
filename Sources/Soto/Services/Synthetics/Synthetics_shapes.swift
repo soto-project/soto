@@ -91,9 +91,22 @@ extension Synthetics {
         public var description: String { return self.rawValue }
     }
 
+    public enum LocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case primary = "Primary"
+        case replica = "Replica"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProvisionedResourceCleanupSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatic = "AUTOMATIC"
         case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inProgress = "InProgress"
+        case inSync = "InSync"
+        case inconsistent = "Inconsistent"
         public var description: String { return self.rawValue }
     }
 
@@ -109,6 +122,38 @@ extension Synthetics {
     }
 
     // MARK: Shapes
+
+    public struct AddReplicaLocationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary replica's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key.
+        public let kmsKeyArn: String?
+        /// The Amazon Web Services Region where the canary replica should be created, for example us-east-1.
+        public let location: String
+        /// The VPC configuration to use for the canary replica in this location. If not specified, the replica runs without VPC connectivity.
+        public let vpcConfig: VpcConfigInput?
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, location: String, vpcConfig: VpcConfigInput? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+            self.location = location
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:kms:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:key/[\\w\\-\\/]+$")
+            try self.validate(self.location, name: "location", parent: name, max: 20)
+            try self.validate(self.location, name: "location", parent: name, min: 1)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case location = "Location"
+            case vpcConfig = "VpcConfig"
+        }
+    }
 
     public struct ArtifactConfigInput: AWSEncodableShape {
         /// A structure that contains the configuration of the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.  Artifact encryption functionality is available only for canaries that use Synthetics runtime version  syn-nodejs-puppeteer-3.3 or later. For more information, see Encrypting canary artifacts
@@ -239,6 +284,10 @@ extension Synthetics {
         public let failureRetentionPeriodInDays: Int?
         /// The unique ID of this canary.
         public let id: String?
+        /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key.
+        public let kmsKeyArn: String?
+        /// If this canary is part of a multi-location configuration, this structure contains information about the canary's location type, primary location, and replicas.
+        public let multiLocationConfig: MultiLocationConfig?
         /// The name of the canary.
         public let name: String?
         /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If it is AUTOMATIC, the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
@@ -263,7 +312,7 @@ extension Synthetics {
         public let vpcConfig: VpcConfigOutput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeOutput? = nil, dryRunConfig: DryRunConfigOutput? = nil, engineArn: String? = nil, engineConfigs: [EngineConfig]? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, visualReferences: [VisualReferenceOutput]? = nil, vpcConfig: VpcConfigOutput? = nil) {
+        public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeOutput? = nil, dryRunConfig: DryRunConfigOutput? = nil, engineArn: String? = nil, engineConfigs: [EngineConfig]? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, kmsKeyArn: String? = nil, multiLocationConfig: MultiLocationConfig? = nil, name: String? = nil, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, visualReferences: [VisualReferenceOutput]? = nil, vpcConfig: VpcConfigOutput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.browserConfigs = browserConfigs
@@ -274,6 +323,8 @@ extension Synthetics {
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
+            self.multiLocationConfig = multiLocationConfig
             self.name = name
             self.provisionedResourceCleanup = provisionedResourceCleanup
             self.runConfig = runConfig
@@ -299,6 +350,8 @@ extension Synthetics {
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
             case id = "Id"
+            case kmsKeyArn = "KmsKeyArn"
+            case multiLocationConfig = "MultiLocationConfig"
             case name = "Name"
             case provisionedResourceCleanup = "ProvisionedResourceCleanup"
             case runConfig = "RunConfig"
@@ -443,6 +496,8 @@ extension Synthetics {
         public let dryRunConfig: CanaryDryRunConfigOutput?
         /// A unique ID that identifies this canary run.
         public let id: String?
+        /// The Amazon Web Services Region where this canary run was executed.
+        public let location: String?
         /// The name of the canary.
         public let name: String?
         /// The count in number of the retry attempt.
@@ -455,11 +510,12 @@ extension Synthetics {
         public let timeline: CanaryRunTimeline?
 
         @inlinable
-        public init(artifactS3Location: String? = nil, browserType: BrowserType? = nil, dryRunConfig: CanaryDryRunConfigOutput? = nil, id: String? = nil, name: String? = nil, retryAttempt: Int? = nil, scheduledRunId: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
+        public init(artifactS3Location: String? = nil, browserType: BrowserType? = nil, dryRunConfig: CanaryDryRunConfigOutput? = nil, id: String? = nil, location: String? = nil, name: String? = nil, retryAttempt: Int? = nil, scheduledRunId: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
             self.artifactS3Location = artifactS3Location
             self.browserType = browserType
             self.dryRunConfig = dryRunConfig
             self.id = id
+            self.location = location
             self.name = name
             self.retryAttempt = retryAttempt
             self.scheduledRunId = scheduledRunId
@@ -472,6 +528,7 @@ extension Synthetics {
             case browserType = "BrowserType"
             case dryRunConfig = "DryRunConfig"
             case id = "Id"
+            case location = "Location"
             case name = "Name"
             case retryAttempt = "RetryAttempt"
             case scheduledRunId = "ScheduledRunId"
@@ -697,6 +754,8 @@ extension Synthetics {
     }
 
     public struct CreateCanaryRequest: AWSEncodableShape {
+        /// A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica.  You can add up to 50 replica locations.
+        public let addReplicaLocations: [AddReplicaLocationInput]?
         /// A structure that contains the configuration for canary artifacts, including  the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
         public let artifactConfig: ArtifactConfigInput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
@@ -709,6 +768,8 @@ extension Synthetics {
         public let executionRoleArn: String
         /// The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let failureRetentionPeriodInDays: Int?
+        /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key.
+        public let kmsKeyArn: String?
         /// The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
         public let name: String
         /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
@@ -729,13 +790,15 @@ extension Synthetics {
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(addReplicaLocations: [AddReplicaLocationInput]? = nil, artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, kmsKeyArn: String? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
+            self.addReplicaLocations = addReplicaLocations
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.browserConfigs = browserConfigs
             self.code = code
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
+            self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.provisionedResourceCleanup = provisionedResourceCleanup
             self.resourcesToReplicateTags = resourcesToReplicateTags
@@ -748,6 +811,11 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.addReplicaLocations?.forEach {
+                try $0.validate(name: "\(name).addReplicaLocations[]")
+            }
+            try self.validate(self.addReplicaLocations, name: "addReplicaLocations", parent: name, max: 50)
+            try self.validate(self.addReplicaLocations, name: "addReplicaLocations", parent: name, min: 1)
             try self.artifactConfig?.validate(name: "\(name).artifactConfig")
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
@@ -759,6 +827,9 @@ extension Synthetics {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:kms:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:key/[\\w\\-\\/]+$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
@@ -782,12 +853,14 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addReplicaLocations = "AddReplicaLocations"
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
             case browserConfigs = "BrowserConfigs"
             case code = "Code"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
+            case kmsKeyArn = "KmsKeyArn"
             case name = "Name"
             case provisionedResourceCleanup = "ProvisionedResourceCleanup"
             case resourcesToReplicateTags = "ResourcesToReplicateTags"
@@ -1569,6 +1642,84 @@ extension Synthetics {
         }
     }
 
+    public struct MultiLocationConfig: AWSDecodableShape {
+        /// Indicates whether this canary is the Primary or a Replica in the multi-location configuration.
+        public let locationType: LocationType?
+        /// The Amazon Web Services Region where the primary canary is located.
+        public let primaryLocation: String?
+        /// A list of replicas for this canary. This field is present only for the primary location canary.
+        public let replicas: [Replica]?
+        /// The overall replication state of the canary across all replica locations. This field is present only for the primary location canary. Valid values are InProgress, InSync, and Inconsistent.
+        public let replicationState: ReplicationState?
+
+        @inlinable
+        public init(locationType: LocationType? = nil, primaryLocation: String? = nil, replicas: [Replica]? = nil, replicationState: ReplicationState? = nil) {
+            self.locationType = locationType
+            self.primaryLocation = primaryLocation
+            self.replicas = replicas
+            self.replicationState = replicationState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationType = "LocationType"
+            case primaryLocation = "PrimaryLocation"
+            case replicas = "Replicas"
+            case replicationState = "ReplicationState"
+        }
+    }
+
+    public struct Replica: AWSDecodableShape {
+        /// The current state of the canary in this replica location.
+        public let canaryState: CanaryState?
+        /// The date and time that the replica was last modified.
+        public let lastModified: Date?
+        /// The Amazon Web Services Region where this replica is located.
+        public let location: String?
+        /// A structure that contains information about the replication status of this replica.
+        public let replicationStatus: ReplicationStatus?
+        /// The VPC configuration for the canary replica in this location.
+        public let vpcConfig: VpcConfigOutput?
+
+        @inlinable
+        public init(canaryState: CanaryState? = nil, lastModified: Date? = nil, location: String? = nil, replicationStatus: ReplicationStatus? = nil, vpcConfig: VpcConfigOutput? = nil) {
+            self.canaryState = canaryState
+            self.lastModified = lastModified
+            self.location = location
+            self.replicationStatus = replicationStatus
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canaryState = "CanaryState"
+            case lastModified = "LastModified"
+            case location = "Location"
+            case replicationStatus = "ReplicationStatus"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct ReplicationStatus: AWSDecodableShape {
+        /// The replication state of the replica. Valid values are InProgress, InSync, and Inconsistent.
+        public let state: ReplicationState?
+        /// A description that provides more detail about the current replication state.
+        public let stateReason: String?
+        /// A code that provides more detail about the current replication state.
+        public let stateReasonCode: String?
+
+        @inlinable
+        public init(state: ReplicationState? = nil, stateReason: String? = nil, stateReasonCode: String? = nil) {
+            self.state = state
+            self.stateReason = stateReason
+            self.stateReasonCode = stateReasonCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case stateReason = "StateReason"
+            case stateReasonCode = "StateReasonCode"
+        }
+    }
+
     public struct RetryConfigInput: AWSEncodableShape {
         /// The maximum number of retries. The value must be less than or equal to 2.
         public let maxRetries: Int
@@ -1915,6 +2066,8 @@ extension Synthetics {
     }
 
     public struct UpdateCanaryRequest: AWSEncodableShape {
+        /// A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica.  You can add up to 50 replica locations.
+        public let addReplicaLocations: [AddReplicaLocationInput]?
         /// A structure that contains the configuration for canary artifacts,  including the encryption-at-rest settings for artifacts that  the canary uploads to Amazon S3.
         public let artifactConfig: ArtifactConfigInput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
@@ -1929,10 +2082,14 @@ extension Synthetics {
         public let executionRoleArn: String?
         /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
         public let failureRetentionPeriodInDays: Int?
+        /// The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key. If you omit this parameter, the service retains the existing value. To revert to the AWS-managed key, set this parameter to an empty string.
+        public let kmsKeyArn: String?
         /// The name of the canary that you want to update. To find the names of your  canaries, use DescribeCanaries. You cannot change the name of a canary that has already been created.
         public let name: String
         /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
         public let provisionedResourceCleanup: ProvisionedResourceCleanupSetting?
+        /// A list of locations (Amazon Web Services Regions) to remove as replicas for the canary. You must specify at least one location to remove. All replicas can be removed in a single API       call and you cannot remove the primary location.
+        public let removeReplicaLocations: [String]?
         /// A structure that contains the timeout value that is used for each individual run of the  canary.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
         public let runConfig: CanaryRunConfigInput?
         /// Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
@@ -1949,7 +2106,8 @@ extension Synthetics {
         public let vpcConfig: VpcConfigInput?
 
         @inlinable
-        public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeInput? = nil, dryRunId: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, visualReferences: [VisualReferenceInput]? = nil, vpcConfig: VpcConfigInput? = nil) {
+        public init(addReplicaLocations: [AddReplicaLocationInput]? = nil, artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, browserConfigs: [BrowserConfig]? = nil, code: CanaryCodeInput? = nil, dryRunId: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, kmsKeyArn: String? = nil, name: String, provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil, removeReplicaLocations: [String]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, visualReferences: [VisualReferenceInput]? = nil, vpcConfig: VpcConfigInput? = nil) {
+            self.addReplicaLocations = addReplicaLocations
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.browserConfigs = browserConfigs
@@ -1957,8 +2115,10 @@ extension Synthetics {
             self.dryRunId = dryRunId
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
+            self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.provisionedResourceCleanup = provisionedResourceCleanup
+            self.removeReplicaLocations = removeReplicaLocations
             self.runConfig = runConfig
             self.runtimeVersion = runtimeVersion
             self.schedule = schedule
@@ -1971,6 +2131,7 @@ extension Synthetics {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.addReplicaLocations, forKey: .addReplicaLocations)
             try container.encodeIfPresent(self.artifactConfig, forKey: .artifactConfig)
             try container.encodeIfPresent(self.artifactS3Location, forKey: .artifactS3Location)
             try container.encodeIfPresent(self.browserConfigs, forKey: .browserConfigs)
@@ -1978,8 +2139,10 @@ extension Synthetics {
             try container.encodeIfPresent(self.dryRunId, forKey: .dryRunId)
             try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encodeIfPresent(self.failureRetentionPeriodInDays, forKey: .failureRetentionPeriodInDays)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
             request.encodePath(self.name, key: "Name")
             try container.encodeIfPresent(self.provisionedResourceCleanup, forKey: .provisionedResourceCleanup)
+            try container.encodeIfPresent(self.removeReplicaLocations, forKey: .removeReplicaLocations)
             try container.encodeIfPresent(self.runConfig, forKey: .runConfig)
             try container.encodeIfPresent(self.runtimeVersion, forKey: .runtimeVersion)
             try container.encodeIfPresent(self.schedule, forKey: .schedule)
@@ -1990,6 +2153,11 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
+            try self.addReplicaLocations?.forEach {
+                try $0.validate(name: "\(name).addReplicaLocations[]")
+            }
+            try self.validate(self.addReplicaLocations, name: "addReplicaLocations", parent: name, max: 50)
+            try self.validate(self.addReplicaLocations, name: "addReplicaLocations", parent: name, min: 1)
             try self.artifactConfig?.validate(name: "\(name).artifactConfig")
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, max: 1024)
             try self.validate(self.artifactS3Location, name: "artifactS3Location", parent: name, min: 1)
@@ -2002,9 +2170,18 @@ extension Synthetics {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, max: 1024)
             try self.validate(self.failureRetentionPeriodInDays, name: "failureRetentionPeriodInDays", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:kms:[a-z]{2,4}(-[a-z]{2,4})?-[a-z]+-\\d{1}:\\d{12}:key/[\\w\\-\\/]+$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_\\-]+$")
+            try self.removeReplicaLocations?.forEach {
+                try validate($0, name: "removeReplicaLocations[]", parent: name, max: 20)
+                try validate($0, name: "removeReplicaLocations[]", parent: name, min: 1)
+                try validate($0, name: "removeReplicaLocations[]", parent: name, pattern: "^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$")
+            }
+            try self.validate(self.removeReplicaLocations, name: "removeReplicaLocations", parent: name, min: 1)
             try self.runConfig?.validate(name: "\(name).runConfig")
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, max: 1024)
             try self.validate(self.runtimeVersion, name: "runtimeVersion", parent: name, min: 1)
@@ -2021,6 +2198,7 @@ extension Synthetics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addReplicaLocations = "AddReplicaLocations"
             case artifactConfig = "ArtifactConfig"
             case artifactS3Location = "ArtifactS3Location"
             case browserConfigs = "BrowserConfigs"
@@ -2028,7 +2206,9 @@ extension Synthetics {
             case dryRunId = "DryRunId"
             case executionRoleArn = "ExecutionRoleArn"
             case failureRetentionPeriodInDays = "FailureRetentionPeriodInDays"
+            case kmsKeyArn = "KmsKeyArn"
             case provisionedResourceCleanup = "ProvisionedResourceCleanup"
+            case removeReplicaLocations = "RemoveReplicaLocations"
             case runConfig = "RunConfig"
             case runtimeVersion = "RuntimeVersion"
             case schedule = "Schedule"

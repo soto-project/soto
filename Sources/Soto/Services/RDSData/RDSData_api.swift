@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS RDSData service.
 ///
-/// RDS Data API Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora DB cluster. To run these statements, you use the RDS Data API (Data API). Data API is available with the following types of Aurora databases:   Aurora PostgreSQL - Serverless v2, provisioned, and Serverless v1   Aurora MySQL - Serverless v2, provisioned, and Serverless v1   For more information about the Data API, see Using RDS Data API in the Amazon Aurora User Guide.
+/// RDS Data API Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora DB cluster. To run these statements, you use the RDS Data API (Data API). Data API is available with the following types of Aurora databases:   Aurora PostgreSQL - Serverless and provisioned   Aurora MySQL - Serverless and provisioned   For more information about the Data API, see Using RDS Data API in the Amazon Aurora User Guide.
 public struct RDSData: AWSService {
     // MARK: Member variables
 
@@ -88,7 +88,7 @@ public struct RDSData: AWSService {
 
     // MARK: API Calls
 
-    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML  statement with different parameter sets. Bulk operations can provide a significant  performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parameter sets. However, the maximum size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this limit, the Data API returns an error and doesn't process the request. This 4-MiB limit includes the size of the HTTP headers and the JSON notation in the request. Thus, the number of parameter sets that you can include depends on a combination of factors, such as the size of the SQL statement and the size of each parameter set. The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
+    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parameter sets. However, the maximum size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this limit, the Data API returns an error and doesn't process the request. This 4-MiB limit includes the size of the HTTP headers and the JSON notation in the request. Thus, the number of parameter sets that you can include depends on a combination of factors, such as the size of the SQL statement and the size of each parameter set. The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
     @Sendable
     @inlinable
     public func batchExecuteStatement(_ input: BatchExecuteStatementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchExecuteStatementResponse {
@@ -101,11 +101,11 @@ public struct RDSData: AWSService {
             logger: logger
         )
     }
-    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML  statement with different parameter sets. Bulk operations can provide a significant  performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parameter sets. However, the maximum size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this limit, the Data API returns an error and doesn't process the request. This 4-MiB limit includes the size of the HTTP headers and the JSON notation in the request. Thus, the number of parameter sets that you can include depends on a combination of factors, such as the size of the SQL statement and the size of each parameter set. The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
+    /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parameter sets. However, the maximum size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this limit, the Data API returns an error and doesn't process the request. This 4-MiB limit includes the size of the HTTP headers and the JSON notation in the request. Thus, the number of parameter sets that you can include depends on a combination of factors, such as the size of the SQL statement and the size of each parameter set. The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
     ///
     /// Parameters:
     ///   - database: The name of the database.
-    ///   - parameterSets: The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided.  To execute a SQL statement with no parameters, use one of the following options:   Specify one or more empty parameter sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.    Array parameters are not supported.
+    ///   - parameterSets: The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided. To execute a SQL statement with no parameters, use one of the following options:   Specify one or more empty parameter sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.    Array parameters are not supported.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
     ///   - schema: The name of the database schema.  Currently, the schema parameter isn't supported.
     ///   - secretArn: The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.
@@ -208,7 +208,7 @@ public struct RDSData: AWSService {
         return try await self.commitTransaction(input, logger: logger)
     }
 
-    /// Runs one or more SQL statements.  This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters. For Aurora Serverless v1 DB clusters, the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
+    /// Runs one or more SQL statements.  This operation is deprecated. Please use the BatchExecuteStatement or ExecuteStatement operation.
     @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API.")
     @Sendable
     @inlinable
@@ -222,7 +222,7 @@ public struct RDSData: AWSService {
             logger: logger
         )
     }
-    /// Runs one or more SQL statements.  This operation isn't supported for Aurora Serverless v2 and provisioned DB clusters. For Aurora Serverless v1 DB clusters, the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
+    /// Runs one or more SQL statements.  This operation is deprecated. Please use the BatchExecuteStatement or ExecuteStatement operation.
     ///
     /// Parameters:
     ///   - awsSecretStoreArn: The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.
@@ -267,7 +267,7 @@ public struct RDSData: AWSService {
     /// Runs a SQL statement against a database.  If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated.
     ///
     /// Parameters:
-    ///   - continueAfterTimeout: A value that indicates whether to continue running the statement after  the call times out. By default, the statement stops running when the call  times out.  For DDL statements, we recommend continuing to run the statement after  the call times out. When a DDL statement terminates before it is finished  running, it can result in errors and possibly corrupted data structures.
+    ///   - continueAfterTimeout: A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out.  For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
     ///   - database: The name of the database.
     ///   - formatRecordsAs: A value that indicates whether to format the result set as a single JSON string. This parameter only applies to SELECT statements and is ignored for other types of statements. Allowed values are NONE and JSON. The default value is NONE. The result is returned in the formattedRecords field. For usage information about the JSON format for result sets, see Using the Data API in the Amazon Aurora User Guide.
     ///   - includeResultMetadata: A value that indicates whether to include metadata in the results.
@@ -275,7 +275,7 @@ public struct RDSData: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
     ///   - resultSetOptions: Options that control how the result set is returned.
     ///   - schema: The name of the database schema.  Currently, the schema parameter isn't supported.
-    ///   - secretArn: The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.
+    ///   - secretArn: The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret.  When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster. If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found. To avoid this, escape the exclamation mark (\!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command.
     ///   - sql: The SQL statement to run.
     ///   - transactionId: The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
     ///   - logger: Logger use during operation

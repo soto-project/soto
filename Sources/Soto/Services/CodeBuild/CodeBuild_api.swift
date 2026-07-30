@@ -1752,6 +1752,7 @@ public struct CodeBuild: AWSService {
     ///   - fleetOverride: A ProjectFleet object specified for this build that overrides the one defined in the build project.
     ///   - gitCloneDepthOverride: The user-defined depth of history, with a minimum value of 0, that overrides, for this build only, any previous depth of history defined in the build project.
     ///   - gitSubmodulesConfigOverride:  Information about the Git submodules configuration for this build of an CodeBuild build project.
+    ///   - hostKernelOverride: The host operating system kernel for this build that overrides the one specified in the build project.
     ///   - idempotencyToken: A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuild request. The token is included in the StartBuild request and is valid for 5 minutes. If you repeat the StartBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
     ///   - imageOverride: The name of an image for this build that overrides the one specified in the build project.
     ///   - imagePullCredentialsTypeOverride: The type of credentials CodeBuild uses to pull images in your build. There are two valid values:   CODEBUILD  Specifies that CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust CodeBuild's service principal.  SERVICE_ROLE  Specifies that CodeBuild uses your build project's service role.    When using a cross-account or private registry image, you must use SERVICE_ROLE credentials. When using an CodeBuild curated image, you must use CODEBUILD credentials.
@@ -1788,6 +1789,7 @@ public struct CodeBuild: AWSService {
         fleetOverride: ProjectFleet? = nil,
         gitCloneDepthOverride: Int? = nil,
         gitSubmodulesConfigOverride: GitSubmodulesConfig? = nil,
+        hostKernelOverride: HostKernel? = nil,
         idempotencyToken: String? = nil,
         imageOverride: String? = nil,
         imagePullCredentialsTypeOverride: ImagePullCredentialsType? = nil,
@@ -1824,6 +1826,7 @@ public struct CodeBuild: AWSService {
             fleetOverride: fleetOverride, 
             gitCloneDepthOverride: gitCloneDepthOverride, 
             gitSubmodulesConfigOverride: gitSubmodulesConfigOverride, 
+            hostKernelOverride: hostKernelOverride, 
             idempotencyToken: idempotencyToken, 
             imageOverride: imageOverride, 
             imagePullCredentialsTypeOverride: imagePullCredentialsTypeOverride, 

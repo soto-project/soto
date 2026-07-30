@@ -219,7 +219,7 @@ public struct Account: AWSService {
         return try await self.enableRegion(input, logger: logger)
     }
 
-    /// Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
+    /// Retrieves information about the specified account including its account name, account ID, account creation date and time, and account state. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
     @Sendable
     @inlinable
     public func getAccountInformation(_ input: GetAccountInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountInformationResponse {
@@ -232,7 +232,7 @@ public struct Account: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
+    /// Retrieves information about the specified account including its account name, account ID, account creation date and time, and account state. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
     ///
     /// Parameters:
     ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
@@ -365,6 +365,35 @@ public struct Account: AWSService {
             accountId: accountId
         )
         return try await self.getPrimaryEmail(input, logger: logger)
+    }
+
+    /// Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see Update the primary email address for your AWS account.
+    @Sendable
+    @inlinable
+    public func getPrimaryEmailUpdateStatus(_ input: GetPrimaryEmailUpdateStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPrimaryEmailUpdateStatusResponse {
+        try await self.client.execute(
+            operation: "GetPrimaryEmailUpdateStatus", 
+            path: "/getPrimaryEmailUpdateStatus", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status of the most recent primary email update for the specified account. For complete details about how to update the primary email address, see Update the primary email address for your AWS account.
+    ///
+    /// Parameters:
+    ///   - accountId: Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned. This operation can only be called from the management account or the delegated administrator account of an organization for a member account.  The management account can't specify its own AccountId.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPrimaryEmailUpdateStatus(
+        accountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPrimaryEmailUpdateStatusResponse {
+        let input = GetPrimaryEmailUpdateStatusRequest(
+            accountId: accountId
+        )
+        return try await self.getPrimaryEmailUpdateStatus(input, logger: logger)
     }
 
     /// Retrieves the opt-in status of a particular Region.

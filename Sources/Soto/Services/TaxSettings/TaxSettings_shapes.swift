@@ -32,6 +32,18 @@ extension TaxSettings {
         public var description: String { return self.rawValue }
     }
 
+    public enum ChileDocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invoice = "Invoice"
+        case receipt = "Receipt"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case business = "Business"
+        case individual = "Individual"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntityExemptionAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expired = "Expired"
         case none = "None"
@@ -91,6 +103,13 @@ extension TaxSettings {
         public var description: String { return self.rawValue }
     }
 
+    public enum PolandTaxRegistrationNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case euTaxRegistrationNumber = "EUTaxRegistrationNumber"
+        case localRegistrationNumber = "LocalRegistrationNumber"
+        case localTaxRegistrationNumber = "LocalTaxRegistrationNumber"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RegistrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case intraEu = "Intra-EU"
         case local = "Local"
@@ -134,7 +153,9 @@ extension TaxSettings {
         case cnpj = "CNPJ"
         case cpf = "CPF"
         case gst = "GST"
+        case nip = "NIP"
         case nric = "NRIC"
+        case pan = "PAN"
         case sst = "SST"
         case tin = "TIN"
         case vat = "VAT"
@@ -156,9 +177,11 @@ extension TaxSettings {
     public enum ValidationExceptionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expiredToken = "ExpiredToken"
         case fieldValidationFailed = "FieldValidationFailed"
+        case gstExistenceBlockSetPan = "GSTExistenceBlockSetPAN"
         case invalidToken = "InvalidToken"
         case malformedToken = "MalformedToken"
         case missingInput = "MissingInput"
+        case nonIndiaCustomerCanNotSetPan = "NonIndiaCustomerCanNotSetPAN"
         public var description: String { return self.rawValue }
     }
 
@@ -220,12 +243,18 @@ extension TaxSettings {
     }
 
     public struct AdditionalInfoRequest: AWSEncodableShape {
+        /// Additional tax information to specify for a TRN in Belgium.
+        public let belgiumAdditionalInfo: BelgiumAdditionalInfo?
         ///  Additional tax information associated with your TRN in Canada.
         public let canadaAdditionalInfo: CanadaAdditionalInfo?
+        ///  Additional tax information to specify for a TRN in Chile.
+        public let chileAdditionalInfo: ChileAdditionalInfo?
         /// Additional tax information to specify for a TRN in Egypt.
         public let egyptAdditionalInfo: EgyptAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Estonia.
         public let estoniaAdditionalInfo: EstoniaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in France.
+        public let franceAdditionalInfo: FranceAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Georgia.
         public let georgiaAdditionalInfo: GeorgiaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Greece.
@@ -240,6 +269,8 @@ extension TaxSettings {
         public let kenyaAdditionalInfo: KenyaAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Malaysia.
         public let malaysiaAdditionalInfo: MalaysiaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in the Philippines.
+        public let philippinesAdditionalInfo: PhilippinesAdditionalInfo?
         ///  Additional tax information associated with your TRN in Poland.
         public let polandAdditionalInfo: PolandAdditionalInfo?
         /// Additional tax information to specify for a TRN in Romania.
@@ -260,10 +291,13 @@ extension TaxSettings {
         public let vietnamAdditionalInfo: VietnamAdditionalInfo?
 
         @inlinable
-        public init(canadaAdditionalInfo: CanadaAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
+        public init(belgiumAdditionalInfo: BelgiumAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, chileAdditionalInfo: ChileAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, franceAdditionalInfo: FranceAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, philippinesAdditionalInfo: PhilippinesAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
+            self.belgiumAdditionalInfo = belgiumAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
+            self.chileAdditionalInfo = chileAdditionalInfo
             self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
+            self.franceAdditionalInfo = franceAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
             self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indonesiaAdditionalInfo = indonesiaAdditionalInfo
@@ -271,6 +305,7 @@ extension TaxSettings {
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
             self.romaniaAdditionalInfo = romaniaAdditionalInfo
             self.saudiArabiaAdditionalInfo = saudiArabiaAdditionalInfo
@@ -283,9 +318,12 @@ extension TaxSettings {
         }
 
         public func validate(name: String) throws {
+            try self.belgiumAdditionalInfo?.validate(name: "\(name).belgiumAdditionalInfo")
             try self.canadaAdditionalInfo?.validate(name: "\(name).canadaAdditionalInfo")
+            try self.chileAdditionalInfo?.validate(name: "\(name).chileAdditionalInfo")
             try self.egyptAdditionalInfo?.validate(name: "\(name).egyptAdditionalInfo")
             try self.estoniaAdditionalInfo?.validate(name: "\(name).estoniaAdditionalInfo")
+            try self.franceAdditionalInfo?.validate(name: "\(name).franceAdditionalInfo")
             try self.greeceAdditionalInfo?.validate(name: "\(name).greeceAdditionalInfo")
             try self.indonesiaAdditionalInfo?.validate(name: "\(name).indonesiaAdditionalInfo")
             try self.italyAdditionalInfo?.validate(name: "\(name).italyAdditionalInfo")
@@ -298,9 +336,12 @@ extension TaxSettings {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case belgiumAdditionalInfo = "belgiumAdditionalInfo"
             case canadaAdditionalInfo = "canadaAdditionalInfo"
+            case chileAdditionalInfo = "chileAdditionalInfo"
             case egyptAdditionalInfo = "egyptAdditionalInfo"
             case estoniaAdditionalInfo = "estoniaAdditionalInfo"
+            case franceAdditionalInfo = "franceAdditionalInfo"
             case georgiaAdditionalInfo = "georgiaAdditionalInfo"
             case greeceAdditionalInfo = "greeceAdditionalInfo"
             case indonesiaAdditionalInfo = "indonesiaAdditionalInfo"
@@ -308,6 +349,7 @@ extension TaxSettings {
             case italyAdditionalInfo = "italyAdditionalInfo"
             case kenyaAdditionalInfo = "kenyaAdditionalInfo"
             case malaysiaAdditionalInfo = "malaysiaAdditionalInfo"
+            case philippinesAdditionalInfo = "philippinesAdditionalInfo"
             case polandAdditionalInfo = "polandAdditionalInfo"
             case romaniaAdditionalInfo = "romaniaAdditionalInfo"
             case saudiArabiaAdditionalInfo = "saudiArabiaAdditionalInfo"
@@ -321,14 +363,20 @@ extension TaxSettings {
     }
 
     public struct AdditionalInfoResponse: AWSDecodableShape {
+        /// Additional tax information associated with your TRN in Belgium.
+        public let belgiumAdditionalInfo: BelgiumAdditionalInfo?
         /// Additional tax information associated with your TRN in Brazil. The Tax Settings API returns this information in your response when any additional information is present with your TRN in Brazil.
         public let brazilAdditionalInfo: BrazilAdditionalInfo?
         /// Additional tax information associated with your TRN in Canada.
         public let canadaAdditionalInfo: CanadaAdditionalInfo?
+        ///  Additional tax information associated with your TRN in Chile.
+        public let chileAdditionalInfo: ChileAdditionalInfo?
         /// Additional tax information to specify for a TRN in Egypt.
         public let egyptAdditionalInfo: EgyptAdditionalInfo?
-        ///  Additional tax information associated with your  TRN in Estonia.
+        ///  Additional tax information associated with your TRN in Estonia.
         public let estoniaAdditionalInfo: EstoniaAdditionalInfo?
+        /// Additional tax information associated with your TRN in France.
+        public let franceAdditionalInfo: FranceAdditionalInfo?
         ///  Additional tax information associated with your TRN in Georgia.
         public let georgiaAdditionalInfo: GeorgiaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Greece.
@@ -343,8 +391,10 @@ extension TaxSettings {
         public let italyAdditionalInfo: ItalyAdditionalInfo?
         /// Additional tax information associated with your TRN in Kenya.
         public let kenyaAdditionalInfo: KenyaAdditionalInfo?
-        ///  Additional tax information associated with your  TRN in Malaysia.
+        ///  Additional tax information associated with your TRN in Malaysia.
         public let malaysiaAdditionalInfo: MalaysiaAdditionalInfo?
+        /// Additional tax information associated with your TRN in the Philippines.
+        public let philippinesAdditionalInfo: PhilippinesAdditionalInfo?
         ///  Additional tax information associated with your TRN in Poland.
         public let polandAdditionalInfo: PolandAdditionalInfo?
         /// Additional tax information to specify for a TRN in Romania.
@@ -365,11 +415,14 @@ extension TaxSettings {
         public let vietnamAdditionalInfo: VietnamAdditionalInfo?
 
         @inlinable
-        public init(brazilAdditionalInfo: BrazilAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indiaAdditionalInfo: IndiaAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
+        public init(belgiumAdditionalInfo: BelgiumAdditionalInfo? = nil, brazilAdditionalInfo: BrazilAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, chileAdditionalInfo: ChileAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, franceAdditionalInfo: FranceAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indiaAdditionalInfo: IndiaAdditionalInfo? = nil, indonesiaAdditionalInfo: IndonesiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, philippinesAdditionalInfo: PhilippinesAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, uzbekistanAdditionalInfo: UzbekistanAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
+            self.belgiumAdditionalInfo = belgiumAdditionalInfo
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
+            self.chileAdditionalInfo = chileAdditionalInfo
             self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
+            self.franceAdditionalInfo = franceAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
             self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indiaAdditionalInfo = indiaAdditionalInfo
@@ -378,6 +431,7 @@ extension TaxSettings {
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
             self.romaniaAdditionalInfo = romaniaAdditionalInfo
             self.saudiArabiaAdditionalInfo = saudiArabiaAdditionalInfo
@@ -390,10 +444,13 @@ extension TaxSettings {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case belgiumAdditionalInfo = "belgiumAdditionalInfo"
             case brazilAdditionalInfo = "brazilAdditionalInfo"
             case canadaAdditionalInfo = "canadaAdditionalInfo"
+            case chileAdditionalInfo = "chileAdditionalInfo"
             case egyptAdditionalInfo = "egyptAdditionalInfo"
             case estoniaAdditionalInfo = "estoniaAdditionalInfo"
+            case franceAdditionalInfo = "franceAdditionalInfo"
             case georgiaAdditionalInfo = "georgiaAdditionalInfo"
             case greeceAdditionalInfo = "greeceAdditionalInfo"
             case indiaAdditionalInfo = "indiaAdditionalInfo"
@@ -402,6 +459,7 @@ extension TaxSettings {
             case italyAdditionalInfo = "italyAdditionalInfo"
             case kenyaAdditionalInfo = "kenyaAdditionalInfo"
             case malaysiaAdditionalInfo = "malaysiaAdditionalInfo"
+            case philippinesAdditionalInfo = "philippinesAdditionalInfo"
             case polandAdditionalInfo = "polandAdditionalInfo"
             case romaniaAdditionalInfo = "romaniaAdditionalInfo"
             case saudiArabiaAdditionalInfo = "saudiArabiaAdditionalInfo"
@@ -416,13 +474,13 @@ extension TaxSettings {
 
     public struct Address: AWSEncodableShape & AWSDecodableShape {
         /// The first line of the address.
-        public let addressLine1: String
+        public let addressLine1: String?
         /// The second line of the address, if applicable.
         public let addressLine2: String?
         ///  The third line of the address, if applicable. Currently, the Tax Settings API accepts the addressLine3 parameter only for Saudi Arabia. When you specify a TRN in Saudi Arabia, you must enter the addressLine3 and specify the building number for the address. For example, you might enter 1234.
         public let addressLine3: String?
         /// The city that the address is in.
-        public let city: String
+        public let city: String?
         /// The country code for the country that the address is in.
         public let countryCode: String
         /// The district or county the address is located.   For addresses in Brazil, this parameter uses the name of the neighborhood. When you set a TRN in Brazil, use districtOrCounty for the neighborhood name.
@@ -433,7 +491,7 @@ extension TaxSettings {
         public let stateOrRegion: String?
 
         @inlinable
-        public init(addressLine1: String, addressLine2: String? = nil, addressLine3: String? = nil, city: String, countryCode: String, districtOrCounty: String? = nil, postalCode: String, stateOrRegion: String? = nil) {
+        public init(addressLine1: String? = nil, addressLine2: String? = nil, addressLine3: String? = nil, city: String? = nil, countryCode: String, districtOrCounty: String? = nil, postalCode: String, stateOrRegion: String? = nil) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
             self.addressLine3 = addressLine3
@@ -675,6 +733,28 @@ extension TaxSettings {
         }
     }
 
+    public struct BelgiumAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the Mercurius e-invoicing box is enabled for business-to-government (B2G) invoicing in Belgium.
+        public let isMercuriusBoxEnabled: Bool?
+        /// The Peppol ID for electronic invoicing in Belgium.
+        public let peppolId: String?
+
+        @inlinable
+        public init(isMercuriusBoxEnabled: Bool? = nil, peppolId: String? = nil) {
+            self.isMercuriusBoxEnabled = isMercuriusBoxEnabled
+            self.peppolId = peppolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.peppolId, name: "peppolId", parent: name, pattern: "^[0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isMercuriusBoxEnabled = "isMercuriusBoxEnabled"
+            case peppolId = "peppolId"
+        }
+    }
+
     public struct BrazilAdditionalInfo: AWSDecodableShape {
         /// The Cadastro de Contribuintes Mobiliários (CCM) code for your TRN in Brazil. This only applies for a CNPJ tax type for the São Paulo municipality.
         public let ccmCode: String?
@@ -698,9 +778,9 @@ extension TaxSettings {
         public let canadaQuebecSalesTaxNumber: String?
         ///  Manitoba Retail Sales Tax ID number. Customers purchasing Amazon Web Services services for resale in Manitoba must provide a valid Retail Sales Tax ID number for Manitoba. Leave this blank if you do not have a Retail Sales Tax ID number in Manitoba or are not purchasing Amazon Web Services services for resale.
         public let canadaRetailSalesTaxNumber: String?
-        ///  The value for this parameter must be true if the provincialSalesTaxId value is provided for a TRN in British Columbia, Saskatchewan, or Manitoba provinces.  To claim a provincial sales tax (PST) and retail sales tax (RST) reseller exemption, you must confirm that purchases  from this account were made for resale. Otherwise, remove the PST or RST number from the provincialSalesTaxId parameter from your request.
+        ///  The value for this parameter must be true if the provincialSalesTaxId value is provided for a TRN in British Columbia, Saskatchewan, or Manitoba provinces.  To claim a provincial sales tax (PST) and retail sales tax (RST) reseller exemption, you must confirm that purchases from this account were made for resale. Otherwise, remove the PST or RST number from the provincialSalesTaxId parameter from your request.
         public let isResellerAccount: Bool?
-        ///  The provincial sales tax ID for your TRN in Canada. This parameter can represent the following:    Provincial sales tax ID number for British Columbia and Saskatchewan provinces   Manitoba retail sales tax ID number for Manitoba province   Quebec sales tax ID number for Quebec province   The Tax Setting API only accepts this parameter if the TRN is specified  for the previous provinces. For other provinces, the Tax Settings API doesn't accept this parameter.
+        ///  The provincial sales tax ID for your TRN in Canada. This parameter can represent the following:    Provincial sales tax ID number for British Columbia and Saskatchewan provinces   Manitoba retail sales tax ID number for Manitoba province   Quebec sales tax ID number for Quebec province   The Tax Setting API only accepts this parameter if the TRN is specified for the previous provinces. For other provinces, the Tax Settings API doesn't accept this parameter.
         public let provincialSalesTaxId: String?
 
         @inlinable
@@ -724,6 +804,30 @@ extension TaxSettings {
             case canadaRetailSalesTaxNumber = "canadaRetailSalesTaxNumber"
             case isResellerAccount = "isResellerAccount"
             case provincialSalesTaxId = "provincialSalesTaxId"
+        }
+    }
+
+    public struct ChileAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        ///  The business activity of the taxpayer in Chile.
+        public let businessActivity: String?
+        ///  The type of tax document. For Chile, this can be Invoice or Receipt.
+        public let documentType: ChileDocumentType?
+
+        @inlinable
+        public init(businessActivity: String? = nil, documentType: ChileDocumentType? = nil) {
+            self.businessActivity = businessActivity
+            self.documentType = documentType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.businessActivity, name: "businessActivity", parent: name, max: 200)
+            try self.validate(self.businessActivity, name: "businessActivity", parent: name, min: 1)
+            try self.validate(self.businessActivity, name: "businessActivity", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case businessActivity = "businessActivity"
+            case documentType = "documentType"
         }
     }
 
@@ -877,12 +981,30 @@ extension TaxSettings {
             try self.validate(self.documentFile, name: "documentFile", parent: name, max: 4194304)
             try self.validate(self.documentFile, name: "documentFile", parent: name, min: 1)
             try self.validate(self.documentName, name: "documentName", parent: name, max: 128)
-            try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^([A-Za-z0-9-_.]+).(pdf|jpg|png)$")
+            try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^([A-Za-z0-9_.-]+)\\.([pP][dD][fF]|[jJ][pP][gG]|[pP][nN][gG])$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case documentFile = "documentFile"
             case documentName = "documentName"
+        }
+    }
+
+    public struct FranceAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The SIREN number for the company in France. Must be a 9-digit number.
+        public let sirenNumber: String
+
+        @inlinable
+        public init(sirenNumber: String) {
+            self.sirenNumber = sirenNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sirenNumber, name: "sirenNumber", parent: name, pattern: "^[0-9]{9}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sirenNumber = "sirenNumber"
         }
     }
 
@@ -1110,15 +1232,18 @@ extension TaxSettings {
         public let cigNumber: String?
         ///  Additional tax information to specify for a TRN in Italy. This is managed by the Interministerial Committee for Economic Planning (CIPE) which characterizes every public investment project (Individual Project Code).
         public let cupNumber: String?
+        /// The customer type for tax registration in Italy. Valid values are Business or Individual.
+        public let customerType: CustomerType?
         ///  Additional tax information to specify for a TRN in Italy. Use CodiceDestinatario to receive your invoices via web service (API) or FTP.
         public let sdiAccountId: String?
         /// List of service tax codes for your TRN in Italy. You can use your customer tax code as part of a VAT Group.
         public let taxCode: String?
 
         @inlinable
-        public init(cigNumber: String? = nil, cupNumber: String? = nil, sdiAccountId: String? = nil, taxCode: String? = nil) {
+        public init(cigNumber: String? = nil, cupNumber: String? = nil, customerType: CustomerType? = nil, sdiAccountId: String? = nil, taxCode: String? = nil) {
             self.cigNumber = cigNumber
             self.cupNumber = cupNumber
+            self.customerType = customerType
             self.sdiAccountId = sdiAccountId
             self.taxCode = taxCode
         }
@@ -1133,6 +1258,7 @@ extension TaxSettings {
         private enum CodingKeys: String, CodingKey {
             case cigNumber = "cigNumber"
             case cupNumber = "cupNumber"
+            case customerType = "customerType"
             case sdiAccountId = "sdiAccountId"
             case taxCode = "taxCode"
         }
@@ -1307,7 +1433,7 @@ extension TaxSettings {
         public let businessRegistrationNumber: String?
         /// List of service tax codes for your TRN in Malaysia.
         public let serviceTaxCodes: [MalaysiaServiceTaxCode]?
-        /// The tax information number in Malaysia.   For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number. For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number.  For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
+        /// The tax information number in Malaysia.  For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number. For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number.  For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
         public let taxInformationNumber: String?
 
         @inlinable
@@ -1318,9 +1444,9 @@ extension TaxSettings {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessRegistrationNumber, name: "businessRegistrationNumber", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.businessRegistrationNumber, name: "businessRegistrationNumber", parent: name, pattern: "^([0-9]{12}|LL[0-9]{5})$")
             try self.validate(self.serviceTaxCodes, name: "serviceTaxCodes", parent: name, max: 4)
-            try self.validate(self.taxInformationNumber, name: "taxInformationNumber", parent: name, pattern: "^[A-Z]{1,2}[0-9]{1,11}$")
+            try self.validate(self.taxInformationNumber, name: "taxInformationNumber", parent: name, pattern: "^(IG|C|CS|P|D|F|FA|PT|TA|TC|TN|TR|TP|J|LE)[0-9]{10,13}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1330,16 +1456,33 @@ extension TaxSettings {
         }
     }
 
+    public struct PhilippinesAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the account is VAT-registered with the Philippines Bureau of Internal Revenue (BIR).
+        public let isVatRegistered: Bool?
+
+        @inlinable
+        public init(isVatRegistered: Bool? = nil) {
+            self.isVatRegistered = isVatRegistered
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isVatRegistered = "isVatRegistered"
+        }
+    }
+
     public struct PolandAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
         ///  The individual tax registration number (NIP). Individual NIP is valid for other taxes excluding VAT purposes.
         public let individualRegistrationNumber: String?
         ///  True if your business is a member of a VAT group with a NIP active for VAT purposes. Otherwise, this is false.
         public let isGroupVatEnabled: Bool?
+        /// The tax registration number type. Valid values are EUTaxRegistrationNumber, LocalTaxRegistrationNumber, or LocalRegistrationNumber.
+        public let taxRegistrationNumberType: PolandTaxRegistrationNumberType?
 
         @inlinable
-        public init(individualRegistrationNumber: String? = nil, isGroupVatEnabled: Bool? = nil) {
+        public init(individualRegistrationNumber: String? = nil, isGroupVatEnabled: Bool? = nil, taxRegistrationNumberType: PolandTaxRegistrationNumberType? = nil) {
             self.individualRegistrationNumber = individualRegistrationNumber
             self.isGroupVatEnabled = isGroupVatEnabled
+            self.taxRegistrationNumberType = taxRegistrationNumberType
         }
 
         public func validate(name: String) throws {
@@ -1349,6 +1492,7 @@ extension TaxSettings {
         private enum CodingKeys: String, CodingKey {
             case individualRegistrationNumber = "individualRegistrationNumber"
             case isGroupVatEnabled = "isGroupVatEnabled"
+            case taxRegistrationNumberType = "taxRegistrationNumberType"
         }
     }
 
@@ -2154,7 +2298,7 @@ extension TaxSettings {
         public func validate(name: String) throws {
             try self.validate(self.electronicTransactionCodeNumber, name: "electronicTransactionCodeNumber", parent: name, pattern: "^\\d{17}$")
             try self.validate(self.enterpriseIdentificationNumber, name: "enterpriseIdentificationNumber", parent: name, pattern: "^(\\d{10}|(\\d{10}-\\d{3}))$")
-            try self.validate(self.paymentVoucherNumber, name: "paymentVoucherNumber", parent: name, pattern: "^(\\d{17}|[A-Za-z]{3}\\d{13})$")
+            try self.validate(self.paymentVoucherNumber, name: "paymentVoucherNumber", parent: name, pattern: "^(\\d{17}|[A-Za-z]{3}\\d{13}|(?=[^A-Za-z]*[A-Za-z][^A-Za-z]*$)[0-9A-Za-z]{17})$")
             try self.validate(self.paymentVoucherNumberDate, name: "paymentVoucherNumberDate", parent: name, pattern: "^(\\d{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1]))$")
         }
 
@@ -2199,11 +2343,11 @@ public struct TaxSettingsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The access is denied for the Amazon Web ServicesSupport API.
+    /// The access is denied for the Amazon Web Services Support API.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Failed to upload the tax exemption document to Amazon Web ServicesSupport case.
+    /// Failed to upload the tax exemption document to Amazon Web Services Support case.
     public static var attachmentUploadException: Self { .init(.attachmentUploadException) }
-    /// You've exceeded the Amazon Web ServicesSupport case creation limit for your account.
+    /// You've exceeded the Amazon Web Services Support case creation limit for your account.
     public static var caseCreationLimitExceededException: Self { .init(.caseCreationLimitExceededException) }
     /// The exception when the input is creating conflict with the given state.
     public static var conflictException: Self { .init(.conflictException) }

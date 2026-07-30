@@ -229,6 +229,56 @@ extension Amp {
         }
     }
 
+    public enum Destination: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon Managed Service for Prometheus workspace to send metrics to.
+        case ampConfiguration(AmpConfiguration)
+        /// The CloudWatch dataset to send metrics to.
+        case cloudWatchConfiguration(CloudWatchConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .ampConfiguration:
+                let value = try container.decode(AmpConfiguration.self, forKey: .ampConfiguration)
+                self = .ampConfiguration(value)
+            case .cloudWatchConfiguration:
+                let value = try container.decode(CloudWatchConfiguration.self, forKey: .cloudWatchConfiguration)
+                self = .cloudWatchConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .ampConfiguration(let value):
+                try container.encode(value, forKey: .ampConfiguration)
+            case .cloudWatchConfiguration(let value):
+                try container.encode(value, forKey: .cloudWatchConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .ampConfiguration(let value):
+                try value.validate(name: "\(name).ampConfiguration")
+            case .cloudWatchConfiguration(let value):
+                try value.validate(name: "\(name).cloudWatchConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ampConfiguration = "ampConfiguration"
+            case cloudWatchConfiguration = "cloudWatchConfiguration"
+        }
+    }
+
     public enum IgnoreNearExpected: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The absolute amount by which values can differ from expected values before being considered anomalous.
         case amount(Double)
@@ -491,6 +541,24 @@ extension Amp {
             case modifiedAt = "modifiedAt"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct CloudWatchConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the CloudWatch dataset. To use the default dataset, specify arn:aws:cloudwatch:&lt;region&gt;:&lt;account-id&gt;:dataset/default.
+        public let datasetArn: String
+
+        @inlinable
+        public init(datasetArn: String) {
+            self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^arn:aws[-a-z]*:cloudwatch:[-a-z0-9]+:[0-9]{12}:dataset\\/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "datasetArn"
         }
     }
 
@@ -910,7 +978,7 @@ extension Amp {
         public let alias: String?
         /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The Amazon Managed Service for Prometheus workspace to send metrics to.
+        /// The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
         /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
@@ -2778,7 +2846,7 @@ extension Amp {
         public let arn: String
         /// The date and time that the scraper was created.
         public let createdAt: Date
-        /// The Amazon Managed Service for Prometheus workspace the scraper sends metrics to.
+        /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
@@ -2872,7 +2940,7 @@ extension Amp {
         public let arn: String
         /// The date and time that the scraper was created.
         public let createdAt: Date
-        /// The Amazon Managed Service for Prometheus workspace the scraper sends metrics to.
+        /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
@@ -3226,7 +3294,7 @@ extension Amp {
         public let alias: String?
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
-        /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
+        /// The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination?
         /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
@@ -3350,16 +3418,22 @@ extension Amp {
         public let clientToken: String?
         /// This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique.
         public let limitsPerLabelSet: [LimitsPerLabelSet]?
+        /// Specifies the time window in seconds for accepting out of order samples. Out of order samples older than this window are rejected.
+        public let outOfOrderTimeWindowInSeconds: Int?
         /// Specifies how many days that metrics will be retained in the workspace.
         public let retentionPeriodInDays: Int?
+        /// Specifies the duration in seconds to offset rule evaluation queries into the past. This allows ingested samples to be available before rule evaluation.
+        public let ruleQueryOffsetInSeconds: Int?
         /// The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation.
         public let workspaceId: String
 
         @inlinable
-        public init(clientToken: String? = UpdateWorkspaceConfigurationRequest.idempotencyToken(), limitsPerLabelSet: [LimitsPerLabelSet]? = nil, retentionPeriodInDays: Int? = nil, workspaceId: String) {
+        public init(clientToken: String? = UpdateWorkspaceConfigurationRequest.idempotencyToken(), limitsPerLabelSet: [LimitsPerLabelSet]? = nil, outOfOrderTimeWindowInSeconds: Int? = nil, retentionPeriodInDays: Int? = nil, ruleQueryOffsetInSeconds: Int? = nil, workspaceId: String) {
             self.clientToken = clientToken
             self.limitsPerLabelSet = limitsPerLabelSet
+            self.outOfOrderTimeWindowInSeconds = outOfOrderTimeWindowInSeconds
             self.retentionPeriodInDays = retentionPeriodInDays
+            self.ruleQueryOffsetInSeconds = ruleQueryOffsetInSeconds
             self.workspaceId = workspaceId
         }
 
@@ -3368,7 +3442,9 @@ extension Amp {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.limitsPerLabelSet, forKey: .limitsPerLabelSet)
+            try container.encodeIfPresent(self.outOfOrderTimeWindowInSeconds, forKey: .outOfOrderTimeWindowInSeconds)
             try container.encodeIfPresent(self.retentionPeriodInDays, forKey: .retentionPeriodInDays)
+            try container.encodeIfPresent(self.ruleQueryOffsetInSeconds, forKey: .ruleQueryOffsetInSeconds)
             request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
@@ -3387,7 +3463,9 @@ extension Amp {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case limitsPerLabelSet = "limitsPerLabelSet"
+            case outOfOrderTimeWindowInSeconds = "outOfOrderTimeWindowInSeconds"
             case retentionPeriodInDays = "retentionPeriodInDays"
+            case ruleQueryOffsetInSeconds = "ruleQueryOffsetInSeconds"
         }
     }
 
@@ -3481,21 +3559,29 @@ extension Amp {
     public struct WorkspaceConfigurationDescription: AWSDecodableShape {
         /// This is an array of structures, where each structure displays one label sets for the workspace and the limits for that label set.
         public let limitsPerLabelSet: [LimitsPerLabelSet]?
+        /// This field displays the out of order time window in seconds for accepting out of order samples.
+        public let outOfOrderTimeWindowInSeconds: Int?
         /// This field displays how many days that metrics are retained in the workspace.
         public let retentionPeriodInDays: Int?
+        /// This field displays the duration in seconds that rule evaluation queries are offset into the past.
+        public let ruleQueryOffsetInSeconds: Int?
         /// This structure displays the current status of the workspace configuration, and might also contain a reason for that status.
         public let status: WorkspaceConfigurationStatus
 
         @inlinable
-        public init(limitsPerLabelSet: [LimitsPerLabelSet]? = nil, retentionPeriodInDays: Int? = nil, status: WorkspaceConfigurationStatus) {
+        public init(limitsPerLabelSet: [LimitsPerLabelSet]? = nil, outOfOrderTimeWindowInSeconds: Int? = nil, retentionPeriodInDays: Int? = nil, ruleQueryOffsetInSeconds: Int? = nil, status: WorkspaceConfigurationStatus) {
             self.limitsPerLabelSet = limitsPerLabelSet
+            self.outOfOrderTimeWindowInSeconds = outOfOrderTimeWindowInSeconds
             self.retentionPeriodInDays = retentionPeriodInDays
+            self.ruleQueryOffsetInSeconds = ruleQueryOffsetInSeconds
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case limitsPerLabelSet = "limitsPerLabelSet"
+            case outOfOrderTimeWindowInSeconds = "outOfOrderTimeWindowInSeconds"
             case retentionPeriodInDays = "retentionPeriodInDays"
+            case ruleQueryOffsetInSeconds = "ruleQueryOffsetInSeconds"
             case status = "status"
         }
     }
@@ -3627,24 +3713,6 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case randomCutForest = "randomCutForest"
-        }
-    }
-
-    public struct Destination: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Managed Service for Prometheus workspace to send metrics to.
-        public let ampConfiguration: AmpConfiguration?
-
-        @inlinable
-        public init(ampConfiguration: AmpConfiguration? = nil) {
-            self.ampConfiguration = ampConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.ampConfiguration?.validate(name: "\(name).ampConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ampConfiguration = "ampConfiguration"
         }
     }
 

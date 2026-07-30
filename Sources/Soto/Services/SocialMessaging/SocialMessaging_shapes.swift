@@ -25,6 +25,19 @@ import Foundation
 extension SocialMessaging {
     // MARK: Enums
 
+    public enum MetaFlowCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case appointmentBooking = "APPOINTMENT_BOOKING"
+        case contactUs = "CONTACT_US"
+        case customerSupport = "CUSTOMER_SUPPORT"
+        case leadGeneration = "LEAD_GENERATION"
+        case other = "OTHER"
+        case shopping = "SHOPPING"
+        case signIn = "SIGN_IN"
+        case signUp = "SIGN_UP"
+        case survey = "SURVEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case complete = "COMPLETE"
         case incomplete = "INCOMPLETE"
@@ -56,20 +69,91 @@ extension SocialMessaging {
     }
 
     public struct AssociateWhatsAppBusinessAccountOutput: AWSDecodableShape {
+        /// The ID of the WhatsApp Business Account that was linked to your Amazon Web Services account.
+        public let linkedWhatsAppBusinessAccountId: String?
         /// Contains your WhatsApp registration status.
         public let signupCallbackResult: WhatsAppSignupCallbackResult?
         /// The status code for the response.
         public let statusCode: Int?
 
         @inlinable
-        public init(signupCallbackResult: WhatsAppSignupCallbackResult? = nil, statusCode: Int? = nil) {
+        public init(linkedWhatsAppBusinessAccountId: String? = nil, signupCallbackResult: WhatsAppSignupCallbackResult? = nil, statusCode: Int? = nil) {
+            self.linkedWhatsAppBusinessAccountId = linkedWhatsAppBusinessAccountId
             self.signupCallbackResult = signupCallbackResult
             self.statusCode = statusCode
         }
 
         private enum CodingKeys: String, CodingKey {
+            case linkedWhatsAppBusinessAccountId = "linkedWhatsAppBusinessAccountId"
             case signupCallbackResult = "signupCallbackResult"
             case statusCode = "statusCode"
+        }
+    }
+
+    public struct CreateWhatsAppFlowInput: AWSEncodableShape {
+        /// The categories that classify the business purpose of the Flow. At least one category is required.
+        public let categories: [MetaFlowCategory]
+        /// The ID of an existing Flow within the same WhatsApp Business Account to clone.
+        public let cloneFlowId: String?
+        /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.
+        public let flowJson: AWSBase64Data?
+        /// The name of the Flow. Must be unique within the WhatsApp Business Account.
+        public let flowName: String
+        /// The ID of the WhatsApp Business Account to associate with this Flow.
+        public let id: String
+        /// Set to true to publish the Flow immediately after creation. Requires a valid flowJson that passes Meta's validation.
+        public let publish: Bool?
+
+        @inlinable
+        public init(categories: [MetaFlowCategory], cloneFlowId: String? = nil, flowJson: AWSBase64Data? = nil, flowName: String, id: String, publish: Bool? = nil) {
+            self.categories = categories
+            self.cloneFlowId = cloneFlowId
+            self.flowJson = flowJson
+            self.flowName = flowName
+            self.id = id
+            self.publish = publish
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.categories, name: "categories", parent: name, max: 9)
+            try self.validate(self.categories, name: "categories", parent: name, min: 1)
+            try self.validate(self.cloneFlowId, name: "cloneFlowId", parent: name, max: 100)
+            try self.validate(self.cloneFlowId, name: "cloneFlowId", parent: name, min: 1)
+            try self.validate(self.cloneFlowId, name: "cloneFlowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.flowJson, name: "flowJson", parent: name, max: 10485760)
+            try self.validate(self.flowJson, name: "flowJson", parent: name, min: 1)
+            try self.validate(self.flowName, name: "flowName", parent: name, max: 200)
+            try self.validate(self.flowName, name: "flowName", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+            case cloneFlowId = "cloneFlowId"
+            case flowJson = "flowJson"
+            case flowName = "flowName"
+            case id = "id"
+            case publish = "publish"
+        }
+    }
+
+    public struct CreateWhatsAppFlowOutput: AWSDecodableShape {
+        /// The unique identifier assigned to the Flow by Meta.
+        public let flowId: String?
+        /// A list of validation errors returned by Meta, if any. Validation errors must be resolved before the Flow can be published.
+        public let validationErrors: [String]?
+
+        @inlinable
+        public init(flowId: String? = nil, validationErrors: [String]? = nil) {
+            self.flowId = flowId
+            self.validationErrors = validationErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowId = "flowId"
+            case validationErrors = "validationErrors"
         }
     }
 
@@ -205,6 +289,41 @@ extension SocialMessaging {
         }
     }
 
+    public struct DeleteWhatsAppFlowInput: AWSEncodableShape {
+        /// The unique identifier of the Flow to delete.
+        public let flowId: String
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+
+        @inlinable
+        public init(flowId: String, id: String) {
+            self.flowId = flowId
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.flowId, key: "flowId")
+            request.encodeQuery(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWhatsAppFlowOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteWhatsAppMessageMediaInput: AWSEncodableShape {
         /// The unique identifier of the media file to delete. Use the mediaId returned from PostWhatsAppMessageMedia.
         public let mediaId: String
@@ -292,6 +411,37 @@ extension SocialMessaging {
     }
 
     public struct DeleteWhatsAppMessageTemplateOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeprecateWhatsAppFlowInput: AWSEncodableShape {
+        /// The unique identifier of the Flow to deprecate.
+        public let flowId: String
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+
+        @inlinable
+        public init(flowId: String, id: String) {
+            self.flowId = flowId
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowId = "flowId"
+            case id = "id"
+        }
+    }
+
+    public struct DeprecateWhatsAppFlowOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -402,6 +552,148 @@ extension SocialMessaging {
         }
     }
 
+    public struct GetWhatsAppFlowInput: AWSEncodableShape {
+        /// The unique identifier of the Flow to retrieve.
+        public let flowId: String
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+
+        @inlinable
+        public init(flowId: String, id: String) {
+            self.flowId = flowId
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.flowId, key: "flowId")
+            request.encodeQuery(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWhatsAppFlowOutput: AWSDecodableShape {
+        /// The Meta application information associated with this Flow.
+        public let application: MetaFlowApplicationInfo?
+        /// The categories that classify the business purpose of the Flow.
+        public let categories: [MetaFlowCategory]?
+        /// The data API version for data exchange endpoint Flows.
+        public let dataApiVersion: String?
+        /// The endpoint URI for data exchange Flows, if configured.
+        public let endpointUri: String?
+        /// The unique identifier of the Flow.
+        public let flowId: String
+        /// The name of the Flow.
+        public let flowName: String
+        /// The lifecycle status of the Flow. Valid values are DRAFT, PUBLISHED, DEPRECATED, BLOCKED, and THROTTLED.
+        public let flowStatus: String
+        /// The health status information for this Flow from Meta.
+        public let healthStatus: MetaFlowHealthStatus?
+        /// The version of the Flow JSON schema used by this Flow (for example, 7.3).
+        public let jsonVersion: String?
+        /// The preview URL and its expiration timestamp for testing the Flow.
+        public let preview: MetaFlowPreviewInfo?
+        /// A list of validation errors from Meta, if any.
+        public let validationErrors: [String]?
+        /// The WhatsApp Business Account information from Meta associated with this Flow.
+        public let whatsAppBusinessAccount: MetaFlowWhatsAppBusinessAccountInfo?
+
+        @inlinable
+        public init(application: MetaFlowApplicationInfo? = nil, categories: [MetaFlowCategory]? = nil, dataApiVersion: String? = nil, endpointUri: String? = nil, flowId: String, flowName: String, flowStatus: String, healthStatus: MetaFlowHealthStatus? = nil, jsonVersion: String? = nil, preview: MetaFlowPreviewInfo? = nil, validationErrors: [String]? = nil, whatsAppBusinessAccount: MetaFlowWhatsAppBusinessAccountInfo? = nil) {
+            self.application = application
+            self.categories = categories
+            self.dataApiVersion = dataApiVersion
+            self.endpointUri = endpointUri
+            self.flowId = flowId
+            self.flowName = flowName
+            self.flowStatus = flowStatus
+            self.healthStatus = healthStatus
+            self.jsonVersion = jsonVersion
+            self.preview = preview
+            self.validationErrors = validationErrors
+            self.whatsAppBusinessAccount = whatsAppBusinessAccount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
+            case categories = "categories"
+            case dataApiVersion = "dataApiVersion"
+            case endpointUri = "endpointUri"
+            case flowId = "flowId"
+            case flowName = "flowName"
+            case flowStatus = "flowStatus"
+            case healthStatus = "healthStatus"
+            case jsonVersion = "jsonVersion"
+            case preview = "preview"
+            case validationErrors = "validationErrors"
+            case whatsAppBusinessAccount = "whatsAppBusinessAccount"
+        }
+    }
+
+    public struct GetWhatsAppFlowPreviewInput: AWSEncodableShape {
+        /// The unique identifier of the Flow to preview.
+        public let flowId: String
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+        /// Set to true to force generation of a new preview URL. Use this if the previous URL has been compromised or you want a fresh expiration period.
+        public let invalidate: Bool?
+
+        @inlinable
+        public init(flowId: String, id: String, invalidate: Bool? = nil) {
+            self.flowId = flowId
+            self.id = id
+            self.invalidate = invalidate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.flowId, key: "flowId")
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.invalidate, key: "invalidate")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWhatsAppFlowPreviewOutput: AWSDecodableShape {
+        /// The unique identifier of the Flow.
+        public let flowId: String
+        /// The preview URL and its expiration timestamp.
+        public let preview: MetaFlowPreviewInfo
+
+        @inlinable
+        public init(flowId: String, preview: MetaFlowPreviewInfo) {
+            self.flowId = flowId
+            self.preview = preview
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowId = "flowId"
+            case preview = "preview"
+        }
+    }
+
     public struct GetWhatsAppMessageMediaInput: AWSEncodableShape {
         /// The bucketName and key of the S3 media file.
         public let destinationS3File: S3File?
@@ -463,12 +755,18 @@ extension SocialMessaging {
         /// The ID of the WhatsApp Business Account associated with this template.
         public let id: String
         /// The numeric ID of the template assigned by Meta.
-        public let metaTemplateId: String
+        public let metaTemplateId: String?
+        /// The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+        public let templateLanguageCode: String?
+        /// The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
+        public let templateName: String?
 
         @inlinable
-        public init(id: String, metaTemplateId: String) {
+        public init(id: String, metaTemplateId: String? = nil, templateLanguageCode: String? = nil, templateName: String? = nil) {
             self.id = id
             self.metaTemplateId = metaTemplateId
+            self.templateLanguageCode = templateLanguageCode
+            self.templateName = templateName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -476,6 +774,8 @@ extension SocialMessaging {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.id, key: "id")
             request.encodeQuery(self.metaTemplateId, key: "metaTemplateId")
+            request.encodeQuery(self.templateLanguageCode, key: "templateLanguageCode")
+            request.encodeQuery(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -485,6 +785,10 @@ extension SocialMessaging {
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, max: 100)
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, min: 1)
             try self.validate(self.metaTemplateId, name: "metaTemplateId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.templateLanguageCode, name: "templateLanguageCode", parent: name, max: 6)
+            try self.validate(self.templateLanguageCode, name: "templateLanguageCode", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 512)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -628,6 +932,8 @@ extension SocialMessaging {
         public let id: String
         /// The date the WhatsApp Business Account was linked.
         public let linkDate: Date
+        /// The onboarding status for the Marketing Messages API. This value is fetched from Meta and indicates whether the WhatsApp Business Account is onboarded for Meta's Marketing Messages API.
+        public let marketingMessagesOnboardingStatus: String?
         /// The phone numbers associated with the Linked WhatsApp Business Account.
         public let phoneNumbers: [WhatsAppPhoneNumberSummary]
         /// The registration status of the linked WhatsApp Business Account.
@@ -638,11 +944,12 @@ extension SocialMessaging {
         public let wabaName: String
 
         @inlinable
-        public init(arn: String, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, phoneNumbers: [WhatsAppPhoneNumberSummary], registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
+        public init(arn: String, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, phoneNumbers: [WhatsAppPhoneNumberSummary], registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
             self.arn = arn
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
+            self.marketingMessagesOnboardingStatus = marketingMessagesOnboardingStatus
             self.phoneNumbers = phoneNumbers
             self.registrationStatus = registrationStatus
             self.wabaId = wabaId
@@ -654,6 +961,7 @@ extension SocialMessaging {
             case eventDestinations = "eventDestinations"
             case id = "id"
             case linkDate = "linkDate"
+            case marketingMessagesOnboardingStatus = "marketingMessagesOnboardingStatus"
             case phoneNumbers = "phoneNumbers"
             case registrationStatus = "registrationStatus"
             case wabaId = "wabaId"
@@ -696,6 +1004,8 @@ extension SocialMessaging {
         public let id: String
         /// The date the WhatsApp Business Account was linked.
         public let linkDate: Date
+        /// The onboarding status for the Marketing Messages API. This value is fetched from Meta and indicates whether the WhatsApp Business Account is onboarded for Meta's Marketing Messages API.
+        public let marketingMessagesOnboardingStatus: String?
         /// The registration status of the linked WhatsApp Business Account.
         public let registrationStatus: RegistrationStatus
         /// The WhatsApp Business Account ID provided by Meta.
@@ -704,11 +1014,12 @@ extension SocialMessaging {
         public let wabaName: String
 
         @inlinable
-        public init(arn: String, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
+        public init(arn: String, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
             self.arn = arn
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
+            self.marketingMessagesOnboardingStatus = marketingMessagesOnboardingStatus
             self.registrationStatus = registrationStatus
             self.wabaId = wabaId
             self.wabaName = wabaName
@@ -719,6 +1030,7 @@ extension SocialMessaging {
             case eventDestinations = "eventDestinations"
             case id = "id"
             case linkDate = "linkDate"
+            case marketingMessagesOnboardingStatus = "marketingMessagesOnboardingStatus"
             case registrationStatus = "registrationStatus"
             case wabaId = "wabaId"
             case wabaName = "wabaName"
@@ -810,6 +1122,121 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case statusCode = "statusCode"
             case tags = "tags"
+        }
+    }
+
+    public struct ListWhatsAppFlowAssetsInput: AWSEncodableShape {
+        /// The unique identifier of the Flow whose assets to list.
+        public let flowId: String
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowId: String, id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.flowId = flowId
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.flowId, key: "flowId")
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 600)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWhatsAppFlowAssetsOutput: AWSDecodableShape {
+        /// A list of Flow assets with download URLs.
+        public let flowAssets: [MetaFlowAsset]
+        /// The token to retrieve the next page of results, if any.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowAssets: [MetaFlowAsset], nextToken: String? = nil) {
+            self.flowAssets = flowAssets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowAssets = "flowAssets"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListWhatsAppFlowsInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account to list Flows for.
+        public let id: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 600)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWhatsAppFlowsOutput: AWSDecodableShape {
+        /// A list of Flow summaries.
+        public let flows: [MetaFlowSummary]
+        /// The token to retrieve the next page of results, if any.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flows: [MetaFlowSummary], nextToken: String? = nil) {
+            self.flows = flows
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flows = "flows"
+            case nextToken = "nextToken"
         }
     }
 
@@ -927,6 +1354,168 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case metaLibraryTemplates = "metaLibraryTemplates"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct MetaFlowApplicationInfo: AWSDecodableShape {
+        /// The unique identifier of the Meta application.
+        public let id: String
+        /// The URL link for the Meta application.
+        public let link: String?
+        /// The name of the Meta application.
+        public let name: String
+
+        @inlinable
+        public init(id: String, link: String? = nil, name: String) {
+            self.id = id
+            self.link = link
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case link = "link"
+            case name = "name"
+        }
+    }
+
+    public struct MetaFlowAsset: AWSDecodableShape {
+        /// The type of asset. Currently the only supported value is FLOW_JSON.
+        public let assetType: String
+        /// A presigned URL from Meta for downloading the asset. The URL expires after a short period.
+        public let downloadUrl: String
+        /// The filename of the asset (for example, flow.json).
+        public let name: String
+
+        @inlinable
+        public init(assetType: String, downloadUrl: String, name: String) {
+            self.assetType = assetType
+            self.downloadUrl = downloadUrl
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetType = "assetType"
+            case downloadUrl = "downloadUrl"
+            case name = "name"
+        }
+    }
+
+    public struct MetaFlowHealthEntity: AWSDecodableShape {
+        /// The messaging availability status for this entity (for example, AVAILABLE, LIMITED, or BLOCKED).
+        public let canSendMessage: String
+        /// The type of entity (for example, FLOW, WABA, BUSINESS, or APP).
+        public let entityType: String
+        /// The unique identifier of the entity.
+        public let id: String
+
+        @inlinable
+        public init(canSendMessage: String, entityType: String, id: String) {
+            self.canSendMessage = canSendMessage
+            self.entityType = entityType
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canSendMessage = "canSendMessage"
+            case entityType = "entityType"
+            case id = "id"
+        }
+    }
+
+    public struct MetaFlowHealthStatus: AWSDecodableShape {
+        /// The overall messaging availability status (for example, AVAILABLE, LIMITED, or BLOCKED).
+        public let canSendMessage: String
+        /// A list of health status entities with per-entity availability information.
+        public let entities: [MetaFlowHealthEntity]?
+
+        @inlinable
+        public init(canSendMessage: String, entities: [MetaFlowHealthEntity]? = nil) {
+            self.canSendMessage = canSendMessage
+            self.entities = entities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canSendMessage = "canSendMessage"
+            case entities = "entities"
+        }
+    }
+
+    public struct MetaFlowPreviewInfo: AWSDecodableShape {
+        /// The timestamp when the preview URL expires.
+        public let expiresAt: String
+        /// The web URL for previewing the Flow. Can be shared with stakeholders for review.
+        public let previewUrl: String
+
+        @inlinable
+        public init(expiresAt: String, previewUrl: String) {
+            self.expiresAt = expiresAt
+            self.previewUrl = previewUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiresAt = "expiresAt"
+            case previewUrl = "previewUrl"
+        }
+    }
+
+    public struct MetaFlowSummary: AWSDecodableShape {
+        /// The categories that classify the business purpose of the Flow.
+        public let flowCategories: [MetaFlowCategory]
+        /// The unique identifier of the Flow assigned by Meta.
+        public let flowId: String
+        /// The name of the Flow.
+        public let flowName: String
+        /// The lifecycle status of the Flow (DRAFT, PUBLISHED, DEPRECATED, BLOCKED, or THROTTLED).
+        public let flowStatus: String
+        /// A list of validation errors from Meta, if any.
+        public let validationErrors: [String]
+
+        @inlinable
+        public init(flowCategories: [MetaFlowCategory], flowId: String, flowName: String, flowStatus: String, validationErrors: [String]) {
+            self.flowCategories = flowCategories
+            self.flowId = flowId
+            self.flowName = flowName
+            self.flowStatus = flowStatus
+            self.validationErrors = validationErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowCategories = "flowCategories"
+            case flowId = "flowId"
+            case flowName = "flowName"
+            case flowStatus = "flowStatus"
+            case validationErrors = "validationErrors"
+        }
+    }
+
+    public struct MetaFlowWhatsAppBusinessAccountInfo: AWSDecodableShape {
+        /// The currency code for the WhatsApp Business Account (for example, USD).
+        public let currency: String?
+        /// The WhatsApp Business Account ID from Meta.
+        public let id: String
+        /// The message template namespace for the WhatsApp Business Account.
+        public let messageTemplateNamespace: String?
+        /// The name of the WhatsApp Business Account.
+        public let name: String
+        /// The timezone ID for the WhatsApp Business Account.
+        public let timezoneId: String?
+
+        @inlinable
+        public init(currency: String? = nil, id: String, messageTemplateNamespace: String? = nil, name: String, timezoneId: String? = nil) {
+            self.currency = currency
+            self.id = id
+            self.messageTemplateNamespace = messageTemplateNamespace
+            self.name = name
+            self.timezoneId = timezoneId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "currency"
+            case id = "id"
+            case messageTemplateNamespace = "messageTemplateNamespace"
+            case name = "name"
+            case timezoneId = "timezoneId"
         }
     }
 
@@ -1072,6 +1661,37 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case mediaId = "mediaId"
         }
+    }
+
+    public struct PublishWhatsAppFlowInput: AWSEncodableShape {
+        /// The unique identifier of the Flow to publish.
+        public let flowId: String
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+
+        @inlinable
+        public init(flowId: String, id: String) {
+            self.flowId = flowId
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowId = "flowId"
+            case id = "id"
+        }
+    }
+
+    public struct PublishWhatsAppFlowOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct PutWhatsAppBusinessAccountEventDestinationsInput: AWSEncodableShape {
@@ -1312,28 +1932,124 @@ extension SocialMessaging {
         }
     }
 
+    public struct UpdateWhatsAppFlowAssetsInput: AWSEncodableShape {
+        /// The unique identifier of the Flow whose assets to update.
+        public let flowId: String
+        /// The updated Flow JSON definition. Maximum size is 10 MB.
+        public let flowJson: AWSBase64Data
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+
+        @inlinable
+        public init(flowId: String, flowJson: AWSBase64Data, id: String) {
+            self.flowId = flowId
+            self.flowJson = flowJson
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.flowJson, name: "flowJson", parent: name, max: 10485760)
+            try self.validate(self.flowJson, name: "flowJson", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowId = "flowId"
+            case flowJson = "flowJson"
+            case id = "id"
+        }
+    }
+
+    public struct UpdateWhatsAppFlowAssetsOutput: AWSDecodableShape {
+        /// A list of validation errors returned by Meta, if any. Validation errors must be resolved before the Flow can be published.
+        public let validationErrors: [String]?
+
+        @inlinable
+        public init(validationErrors: [String]? = nil) {
+            self.validationErrors = validationErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationErrors = "validationErrors"
+        }
+    }
+
+    public struct UpdateWhatsAppFlowInput: AWSEncodableShape {
+        /// The updated categories for the Flow.
+        public let categories: [MetaFlowCategory]?
+        /// The unique identifier of the Flow to update.
+        public let flowId: String
+        /// The updated name for the Flow.
+        public let flowName: String?
+        /// The ID of the WhatsApp Business Account associated with this Flow.
+        public let id: String
+
+        @inlinable
+        public init(categories: [MetaFlowCategory]? = nil, flowId: String, flowName: String? = nil, id: String) {
+            self.categories = categories
+            self.flowId = flowId
+            self.flowName = flowName
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.categories, name: "categories", parent: name, max: 9)
+            try self.validate(self.categories, name: "categories", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
+            try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.flowName, name: "flowName", parent: name, max: 200)
+            try self.validate(self.flowName, name: "flowName", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+            case flowId = "flowId"
+            case flowName = "flowName"
+            case id = "id"
+        }
+    }
+
+    public struct UpdateWhatsAppFlowOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateWhatsAppMessageTemplateInput: AWSEncodableShape {
         /// When true, disables click tracking for call-to-action URL buttons in the template.
         public let ctaUrlLinkTrackingOptedOut: Bool?
         /// The ID of the WhatsApp Business Account associated with this template.
         public let id: String
         /// The numeric ID of the template assigned by Meta.
-        public let metaTemplateId: String
+        public let metaTemplateId: String?
         /// The format specification for parameters in the template, this can be either 'named' or 'positional'.
         public let parameterFormat: String?
         /// The new category for the template (for example, UTILITY or MARKETING).
         public let templateCategory: String?
         /// The updated components of the template as a JSON blob (maximum 3000 characters).
         public let templateComponents: AWSBase64Data?
+        /// The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+        public let templateLanguageCode: String?
+        /// The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
+        public let templateName: String?
 
         @inlinable
-        public init(ctaUrlLinkTrackingOptedOut: Bool? = nil, id: String, metaTemplateId: String, parameterFormat: String? = nil, templateCategory: String? = nil, templateComponents: AWSBase64Data? = nil) {
+        public init(ctaUrlLinkTrackingOptedOut: Bool? = nil, id: String, metaTemplateId: String? = nil, parameterFormat: String? = nil, templateCategory: String? = nil, templateComponents: AWSBase64Data? = nil, templateLanguageCode: String? = nil, templateName: String? = nil) {
             self.ctaUrlLinkTrackingOptedOut = ctaUrlLinkTrackingOptedOut
             self.id = id
             self.metaTemplateId = metaTemplateId
             self.parameterFormat = parameterFormat
             self.templateCategory = templateCategory
             self.templateComponents = templateComponents
+            self.templateLanguageCode = templateLanguageCode
+            self.templateName = templateName
         }
 
         public func validate(name: String) throws {
@@ -1349,6 +2065,10 @@ extension SocialMessaging {
             try self.validate(self.templateCategory, name: "templateCategory", parent: name, min: 1)
             try self.validate(self.templateComponents, name: "templateComponents", parent: name, max: 3000)
             try self.validate(self.templateComponents, name: "templateComponents", parent: name, min: 1)
+            try self.validate(self.templateLanguageCode, name: "templateLanguageCode", parent: name, max: 6)
+            try self.validate(self.templateLanguageCode, name: "templateLanguageCode", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 512)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1358,6 +2078,8 @@ extension SocialMessaging {
             case parameterFormat = "parameterFormat"
             case templateCategory = "templateCategory"
             case templateComponents = "templateComponents"
+            case templateLanguageCode = "templateLanguageCode"
+            case templateName = "templateName"
         }
     }
 

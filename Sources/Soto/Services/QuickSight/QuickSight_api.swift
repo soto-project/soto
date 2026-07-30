@@ -113,6 +113,38 @@ public struct QuickSight: AWSService {
         return try await self.batchCreateTopicReviewedAnswer(input, logger: logger)
     }
 
+    /// Deletes one or more knowledge bases.
+    @Sendable
+    @inlinable
+    public func batchDeleteKnowledgeBase(_ input: BatchDeleteKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteKnowledgeBaseResponse {
+        try await self.client.execute(
+            operation: "BatchDeleteKnowledgeBase", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases/batch-delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes one or more knowledge bases.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - knowledgeBaseIds: A list of knowledge base identifiers to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteKnowledgeBase(
+        awsAccountId: String,
+        knowledgeBaseIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDeleteKnowledgeBaseResponse {
+        let input = BatchDeleteKnowledgeBaseRequest(
+            awsAccountId: awsAccountId, 
+            knowledgeBaseIds: knowledgeBaseIds
+        )
+        return try await self.batchDeleteKnowledgeBase(input, logger: logger)
+    }
+
     /// Deletes reviewed answers for Q Topic.
     @Sendable
     @inlinable
@@ -361,6 +393,65 @@ public struct QuickSight: AWSService {
         return try await self.createActionConnector(input, logger: logger)
     }
 
+    /// Creates an agent in Amazon QuickSight.
+    @Sendable
+    @inlinable
+    public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
+        try await self.client.execute(
+            operation: "CreateAgent", 
+            path: "/accounts/{AwsAccountId}/agents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an agent in Amazon QuickSight.
+    ///
+    /// Parameters:
+    ///   - actionConnectors: The Amazon Resource Names (ARNs) of the action connectors to attach to the agent.
+    ///   - agentId: A unique identifier for the agent.
+    ///   - agentLifecycle: The lifecycle state of the agent. Valid values are PREVIEW and PUBLISHED.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agent.
+    ///   - customPromptInput: The custom prompt configuration for the agent.
+    ///   - description: A description of the agent.
+    ///   - iconId: The icon identifier for the agent.
+    ///   - name: The name of the agent.
+    ///   - spaces: The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+    ///   - starterPrompts: A list of starter prompts that are displayed to users when they begin interacting with the agent.
+    ///   - welcomeMessage: The welcome message that is displayed when a user starts a conversation with the agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAgent(
+        actionConnectors: [String]? = nil,
+        agentId: String,
+        agentLifecycle: AgentLifecycle? = nil,
+        awsAccountId: String,
+        customPromptInput: CustomPromptInput? = nil,
+        description: String? = nil,
+        iconId: String? = nil,
+        name: String,
+        spaces: [String]? = nil,
+        starterPrompts: [String]? = nil,
+        welcomeMessage: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAgentResponse {
+        let input = CreateAgentRequest(
+            actionConnectors: actionConnectors, 
+            agentId: agentId, 
+            agentLifecycle: agentLifecycle, 
+            awsAccountId: awsAccountId, 
+            customPromptInput: customPromptInput, 
+            description: description, 
+            iconId: iconId, 
+            name: name, 
+            spaces: spaces, 
+            starterPrompts: starterPrompts, 
+            welcomeMessage: welcomeMessage
+        )
+        return try await self.createAgent(input, logger: logger)
+    }
+
     /// Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an AnalysisDefinition.
     @Sendable
     @inlinable
@@ -477,6 +568,7 @@ public struct QuickSight: AWSService {
     ///   - awsAccountId: The ID of the Amazon Web Services account that you want to create the custom permissions profile in.
     ///   - capabilities: A set of actions to include in the custom permissions profile.
     ///   - customPermissionsName: The name of the custom permissions profile that you want to create.
+    ///   - governance: The governance configuration for the custom permissions profile. When governance controls are defined for a category, any capabilities in that category not explicitly set to ALLOW in Capabilities are denied. Even newly added capabilities in the category are implicitly disabled when Amazon Quick releases them.
     ///   - tags: The tags to associate with the custom permissions profile.
     ///   - logger: Logger use during operation
     @inlinable
@@ -484,6 +576,7 @@ public struct QuickSight: AWSService {
         awsAccountId: String,
         capabilities: Capabilities? = nil,
         customPermissionsName: String,
+        governance: Governance? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCustomPermissionsResponse {
@@ -491,6 +584,7 @@ public struct QuickSight: AWSService {
             awsAccountId: awsAccountId, 
             capabilities: capabilities, 
             customPermissionsName: customPermissionsName, 
+            governance: governance, 
             tags: tags
         )
         return try await self.createCustomPermissions(input, logger: logger)
@@ -703,6 +797,50 @@ public struct QuickSight: AWSService {
             vpcConnectionProperties: vpcConnectionProperties
         )
         return try await self.createDataSource(input, logger: logger)
+    }
+
+    /// Creates a new flow in the specified Amazon Web Services account. Creates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources.
+    @Sendable
+    @inlinable
+    public func createFlow(_ input: CreateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowResponse {
+        try await self.client.execute(
+            operation: "CreateFlow", 
+            path: "/accounts/{AwsAccountId}/flows", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new flow in the specified Amazon Web Services account. Creates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account where you want to create the flow.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: The description for the flow.
+    ///   - flowDefinition: The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change.  Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format.
+    ///   - name: The display name for the flow.
+    ///   - permissions: Initial permissions for the flow. If omitted, the flow is created without any permissions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createFlow(
+        awsAccountId: String,
+        clientToken: String? = CreateFlowRequest.idempotencyToken(),
+        description: String? = nil,
+        flowDefinition: AWSDocument,
+        name: String,
+        permissions: [Permission]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateFlowResponse {
+        let input = CreateFlowRequest(
+            awsAccountId: awsAccountId, 
+            clientToken: clientToken, 
+            description: description, 
+            flowDefinition: flowDefinition, 
+            name: name, 
+            permissions: permissions
+        )
+        return try await self.createFlow(input, logger: logger)
     }
 
     /// Creates an empty shared folder.
@@ -971,6 +1109,65 @@ public struct QuickSight: AWSService {
         return try await self.createIngestion(input, logger: logger)
     }
 
+    /// Creates a knowledge base from a specified data source. Supported data source connector types include:    S3_KNOWLEDGE_BASE – Uses an Amazon S3 bucket as the data source.    WEB_CRAWLER – Uses web pages indexed by the built-in web crawler as the data source.    GOOGLE_DRIVE – Uses Google Drive as the data source. Supports service account authentication only.    SHAREPOINT – Uses SharePoint as the data source. Supports two-legged OAuth only.    ONE_DRIVE – Uses OneDrive as the data source. Supports two-legged OAuth only.
+    @Sendable
+    @inlinable
+    public func createKnowledgeBase(_ input: CreateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKnowledgeBaseResponse {
+        try await self.client.execute(
+            operation: "CreateKnowledgeBase", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a knowledge base from a specified data source. Supported data source connector types include:    S3_KNOWLEDGE_BASE – Uses an Amazon S3 bucket as the data source.    WEB_CRAWLER – Uses web pages indexed by the built-in web crawler as the data source.    GOOGLE_DRIVE – Uses Google Drive as the data source. Supports service account authentication only.    SHAREPOINT – Uses SharePoint as the data source. Supports two-legged OAuth only.    ONE_DRIVE – Uses OneDrive as the data source. Supports two-legged OAuth only.
+    ///
+    /// Parameters:
+    ///   - accessControlConfiguration: The access control configuration for the knowledge base. If you don't specify this parameter, document-level ACLs are disabled.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - dataSourceArn: The Amazon Resource Name (ARN) of the data source for the knowledge base.
+    ///   - description: A description for the knowledge base. If you don't specify a description, the knowledge base is created without one.
+    ///   - knowledgeBaseConfiguration: 
+    ///   - knowledgeBaseId: The unique identifier for the knowledge base.
+    ///   - mediaExtractionConfiguration: 
+    ///   - name: The name of the knowledge base.
+    ///   - permissions: A list of resource permissions on the knowledge base. Each entry grants a specified Amazon QuickSight principal either owner or viewer access. If you don't specify permissions, only the primary owner (if provided) receives owner access.
+    ///   - primaryOwnerArn: The Amazon Resource Name (ARN) of the primary owner for the knowledge base. The specified user is always granted owner access, regardless of what is specified in the Permissions field. If you don't specify a primary owner, the knowledge base is created without one.
+    ///   - tags: The tags to assign to the knowledge base. If you don't specify tags, the knowledge base is created without tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createKnowledgeBase(
+        accessControlConfiguration: AccessControlConfiguration? = nil,
+        awsAccountId: String,
+        dataSourceArn: String,
+        description: String? = nil,
+        knowledgeBaseConfiguration: KnowledgeBaseConfiguration,
+        knowledgeBaseId: String,
+        mediaExtractionConfiguration: MediaExtractionConfiguration? = nil,
+        name: String,
+        permissions: [ResourcePermission]? = nil,
+        primaryOwnerArn: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateKnowledgeBaseResponse {
+        let input = CreateKnowledgeBaseRequest(
+            accessControlConfiguration: accessControlConfiguration, 
+            awsAccountId: awsAccountId, 
+            dataSourceArn: dataSourceArn, 
+            description: description, 
+            knowledgeBaseConfiguration: knowledgeBaseConfiguration, 
+            knowledgeBaseId: knowledgeBaseId, 
+            mediaExtractionConfiguration: mediaExtractionConfiguration, 
+            name: name, 
+            permissions: permissions, 
+            primaryOwnerArn: primaryOwnerArn, 
+            tags: tags
+        )
+        return try await self.createKnowledgeBase(input, logger: logger)
+    }
+
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight. A namespace allows you to isolate the Quick Sight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     @Sendable
     @inlinable
@@ -1007,6 +1204,68 @@ public struct QuickSight: AWSService {
             tags: tags
         )
         return try await self.createNamespace(input, logger: logger)
+    }
+
+    /// Creates an OAuthClientApplication.
+    @Sendable
+    @inlinable
+    public func createOAuthClientApplication(_ input: CreateOAuthClientApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOAuthClientApplicationResponse {
+        try await self.client.execute(
+            operation: "CreateOAuthClientApplication", 
+            path: "/accounts/{AwsAccountId}/oauth-client-applications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an OAuthClientApplication.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID.
+    ///   - clientId: The client ID of the OAuth application that is registered with the identity provider.
+    ///   - clientSecret: The client secret of the OAuth application that is registered with the identity provider.
+    ///   - dataSourceType: The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+    ///   - identityProviderVpcConnectionProperties: 
+    ///   - name: The display name for the OAuthClientApplication.
+    ///   - oAuthAuthorizationEndpointUrl: The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+    ///   - oAuthClientApplicationId: An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - oAuthClientAuthenticationType: The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN.
+    ///   - oAuthScopes: The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+    ///   - oAuthTokenEndpointUrl: The token endpoint URL of the identity provider that is used to obtain access tokens.
+    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the OAuthClientApplication.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createOAuthClientApplication(
+        awsAccountId: String,
+        clientId: String,
+        clientSecret: String,
+        dataSourceType: DataSourceType? = nil,
+        identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil,
+        name: String,
+        oAuthAuthorizationEndpointUrl: String? = nil,
+        oAuthClientApplicationId: String,
+        oAuthClientAuthenticationType: OAuthClientAuthenticationType,
+        oAuthScopes: String? = nil,
+        oAuthTokenEndpointUrl: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateOAuthClientApplicationResponse {
+        let input = CreateOAuthClientApplicationRequest(
+            awsAccountId: awsAccountId, 
+            clientId: clientId, 
+            clientSecret: clientSecret, 
+            dataSourceType: dataSourceType, 
+            identityProviderVpcConnectionProperties: identityProviderVpcConnectionProperties, 
+            name: name, 
+            oAuthAuthorizationEndpointUrl: oAuthAuthorizationEndpointUrl, 
+            oAuthClientApplicationId: oAuthClientApplicationId, 
+            oAuthClientAuthenticationType: oAuthClientAuthenticationType, 
+            oAuthScopes: oAuthScopes, 
+            oAuthTokenEndpointUrl: oAuthTokenEndpointUrl, 
+            tags: tags
+        )
+        return try await self.createOAuthClientApplication(input, logger: logger)
     }
 
     /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
@@ -1080,6 +1339,44 @@ public struct QuickSight: AWSService {
             role: role
         )
         return try await self.createRoleMembership(input, logger: logger)
+    }
+
+    /// Creates a new Amazon QuickSight space. A space is a collection of resources that can be used to organize and manage QuickSight assets.
+    @Sendable
+    @inlinable
+    public func createSpace(_ input: CreateSpaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSpaceResponse {
+        try await self.client.execute(
+            operation: "CreateSpace", 
+            path: "/v1/accounts/{AwsAccountId}/spaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new Amazon QuickSight space. A space is a collection of resources that can be used to organize and manage QuickSight assets.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - description: A description of the space.
+    ///   - name: A display name for the space.
+    ///   - spaceId: The ID of the space. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSpace(
+        awsAccountId: String,
+        description: String? = nil,
+        name: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSpaceResponse {
+        let input = CreateSpaceRequest(
+            awsAccountId: awsAccountId, 
+            description: description, 
+            name: name, 
+            spaceId: spaceId
+        )
+        return try await self.createSpace(input, logger: logger)
     }
 
     /// Creates a template either from a TemplateDefinition or from an existing Quick Sight analysis or template. You can use the resulting
@@ -1534,6 +1831,38 @@ public struct QuickSight: AWSService {
         return try await self.deleteActionConnector(input, logger: logger)
     }
 
+    /// Deletes an agent.
+    @Sendable
+    @inlinable
+    public func deleteAgent(_ input: DeleteAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentResponse {
+        try await self.client.execute(
+            operation: "DeleteAgent", 
+            path: "/accounts/{AwsAccountId}/agents/{AgentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an agent.
+    ///
+    /// Parameters:
+    ///   - agentId: The unique identifier for the agent to delete.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAgent(
+        agentId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAgentResponse {
+        let input = DeleteAgentRequest(
+            agentId: agentId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.deleteAgent(input, logger: logger)
+    }
+
     /// Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon Quick Sight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon Quick Sight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon Quick Sight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     @Sendable
     @inlinable
@@ -1830,6 +2159,38 @@ public struct QuickSight: AWSService {
         return try await self.deleteDefaultQBusinessApplication(input, logger: logger)
     }
 
+    /// Permanently deletes a flow from the specified Amazon Web Services account. This operation cannot be undone.
+    @Sendable
+    @inlinable
+    public func deleteFlow(_ input: DeleteFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlowResponse {
+        try await self.client.execute(
+            operation: "DeleteFlow", 
+            path: "/accounts/{AwsAccountId}/flows/{FlowId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Permanently deletes a flow from the specified Amazon Web Services account. This operation cannot be undone.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow that you are deleting.
+    ///   - flowId: The unique identifier of the flow to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteFlow(
+        awsAccountId: String,
+        flowId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteFlowResponse {
+        let input = DeleteFlowRequest(
+            awsAccountId: awsAccountId, 
+            flowId: flowId
+        )
+        return try await self.deleteFlow(input, logger: logger)
+    }
+
     /// Deletes an empty folder.
     @Sendable
     @inlinable
@@ -2040,6 +2401,38 @@ public struct QuickSight: AWSService {
         return try await self.deleteIdentityPropagationConfig(input, logger: logger)
     }
 
+    /// Deletes a knowledge base.
+    @Sendable
+    @inlinable
+    public func deleteKnowledgeBase(_ input: DeleteKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKnowledgeBaseResponse {
+        try await self.client.execute(
+            operation: "DeleteKnowledgeBase", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a knowledge base.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - knowledgeBaseId: The unique identifier for the knowledge base.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteKnowledgeBase(
+        awsAccountId: String,
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteKnowledgeBaseResponse {
+        let input = DeleteKnowledgeBaseRequest(
+            awsAccountId: awsAccountId, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.deleteKnowledgeBase(input, logger: logger)
+    }
+
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not  deleted. To delete these assets, you use the API operations for the relevant asset.
     @Sendable
     @inlinable
@@ -2070,6 +2463,38 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.deleteNamespace(input, logger: logger)
+    }
+
+    /// Deletes an OAuthClientApplication.
+    @Sendable
+    @inlinable
+    public func deleteOAuthClientApplication(_ input: DeleteOAuthClientApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOAuthClientApplicationResponse {
+        try await self.client.execute(
+            operation: "DeleteOAuthClientApplication", 
+            path: "/accounts/{AwsAccountId}/oauth-client-applications/{OAuthClientApplicationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an OAuthClientApplication.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID.
+    ///   - oAuthClientApplicationId: The ID of the OAuthClientApplication that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteOAuthClientApplication(
+        awsAccountId: String,
+        oAuthClientApplicationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteOAuthClientApplicationResponse {
+        let input = DeleteOAuthClientApplicationRequest(
+            awsAccountId: awsAccountId, 
+            oAuthClientApplicationId: oAuthClientApplicationId
+        )
+        return try await self.deleteOAuthClientApplication(input, logger: logger)
     }
 
     /// Deletes a refresh schedule from a dataset.
@@ -2178,6 +2603,38 @@ public struct QuickSight: AWSService {
             role: role
         )
         return try await self.deleteRoleMembership(input, logger: logger)
+    }
+
+    /// Deletes an Amazon QuickSight space.
+    @Sendable
+    @inlinable
+    public func deleteSpace(_ input: DeleteSpaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSpaceResponse {
+        try await self.client.execute(
+            operation: "DeleteSpace", 
+            path: "/v1/accounts/{AwsAccountId}/spaces/{SpaceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon QuickSight space.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - spaceId: The ID of the space that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSpace(
+        awsAccountId: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSpaceResponse {
+        let input = DeleteSpaceRequest(
+            awsAccountId: awsAccountId, 
+            spaceId: spaceId
+        )
+        return try await self.deleteSpace(input, logger: logger)
     }
 
     /// Deletes a template.
@@ -2720,6 +3177,70 @@ public struct QuickSight: AWSService {
         return try await self.describeActionConnectorPermissions(input, logger: logger)
     }
 
+    /// Describes an agent.
+    @Sendable
+    @inlinable
+    public func describeAgent(_ input: DescribeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentResponse {
+        try await self.client.execute(
+            operation: "DescribeAgent", 
+            path: "/accounts/{AwsAccountId}/agents/{AgentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes an agent.
+    ///
+    /// Parameters:
+    ///   - agentId: The unique identifier for the agent.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAgent(
+        agentId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAgentResponse {
+        let input = DescribeAgentRequest(
+            agentId: agentId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeAgent(input, logger: logger)
+    }
+
+    /// Describes the resource permissions for an agent.
+    @Sendable
+    @inlinable
+    public func describeAgentPermissions(_ input: DescribeAgentPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentPermissionsResponse {
+        try await self.client.execute(
+            operation: "DescribeAgentPermissions", 
+            path: "/accounts/{AwsAccountId}/agents/{AgentId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the resource permissions for an agent.
+    ///
+    /// Parameters:
+    ///   - agentId: The unique identifier for the agent.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAgentPermissions(
+        agentId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAgentPermissionsResponse {
+        let input = DescribeAgentPermissionsRequest(
+            agentId: agentId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeAgentPermissions(input, logger: logger)
+    }
+
     /// Provides a summary of the metadata for an analysis.
     @Sendable
     @inlinable
@@ -2878,6 +3399,50 @@ public struct QuickSight: AWSService {
             awsAccountId: awsAccountId
         )
         return try await self.describeAssetBundleImportJob(input, logger: logger)
+    }
+
+    /// Retrieves the status and details of a specified automation job, including its status and outputs.
+    @Sendable
+    @inlinable
+    public func describeAutomationJob(_ input: DescribeAutomationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAutomationJobResponse {
+        try await self.client.execute(
+            operation: "DescribeAutomationJob", 
+            path: "/accounts/{AwsAccountId}/automation-groups/{AutomationGroupId}/automations/{AutomationId}/jobs/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status and details of a specified automation job, including its status and outputs.
+    ///
+    /// Parameters:
+    ///   - automationGroupId: The ID of the automation group that contains the automation.
+    ///   - automationId: The ID of the automation that the job belongs to.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the automation job.
+    ///   - includeInputPayload: A Boolean value that indicates whether to include the input payload in the response. If set to true, the input payload will be included. If set to false, the input payload will be returned as null.
+    ///   - includeOutputPayload: A Boolean value that indicates whether to include the output payload in the response. If set to true, the output payload will be included. If set to false, the output payload will be returned as null.
+    ///   - jobId: The ID of the automation job to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAutomationJob(
+        automationGroupId: String,
+        automationId: String,
+        awsAccountId: String,
+        includeInputPayload: Bool? = nil,
+        includeOutputPayload: Bool? = nil,
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAutomationJobResponse {
+        let input = DescribeAutomationJobRequest(
+            automationGroupId: automationGroupId, 
+            automationId: automationId, 
+            awsAccountId: awsAccountId, 
+            includeInputPayload: includeInputPayload, 
+            includeOutputPayload: includeOutputPayload, 
+            jobId: jobId
+        )
+        return try await self.describeAutomationJob(input, logger: logger)
     }
 
     /// Describes a brand.
@@ -3411,6 +3976,41 @@ public struct QuickSight: AWSService {
         return try await self.describeDefaultQBusinessApplication(input, logger: logger)
     }
 
+    /// Returns the full details of a flow for the latest version of the requested publish state.
+    @Sendable
+    @inlinable
+    public func describeFlow(_ input: DescribeFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowResponse {
+        try await self.client.execute(
+            operation: "DescribeFlow", 
+            path: "/accounts/{AwsAccountId}/flows/{FlowId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the full details of a flow for the latest version of the requested publish state.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow that you are describing.
+    ///   - flowId: The unique identifier of the flow.
+    ///   - publishState: The publish state of the flow version to describe. Valid values are DRAFT, PUBLISHED,  or PENDING_APPROVAL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeFlow(
+        awsAccountId: String,
+        flowId: String,
+        publishState: FlowPublishState,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeFlowResponse {
+        let input = DescribeFlowRequest(
+            awsAccountId: awsAccountId, 
+            flowId: flowId, 
+            publishState: publishState
+        )
+        return try await self.describeFlow(input, logger: logger)
+    }
+
     /// Describes a folder.
     @Sendable
     @inlinable
@@ -3735,6 +4335,70 @@ public struct QuickSight: AWSService {
         return try await self.describeKeyRegistration(input, logger: logger)
     }
 
+    /// Describes a knowledge base.
+    @Sendable
+    @inlinable
+    public func describeKnowledgeBase(_ input: DescribeKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKnowledgeBaseResponse {
+        try await self.client.execute(
+            operation: "DescribeKnowledgeBase", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a knowledge base.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - knowledgeBaseId: The unique identifier for the knowledge base.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeKnowledgeBase(
+        awsAccountId: String,
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeKnowledgeBaseResponse {
+        let input = DescribeKnowledgeBaseRequest(
+            awsAccountId: awsAccountId, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.describeKnowledgeBase(input, logger: logger)
+    }
+
+    /// Describes the resource permissions for a knowledge base.
+    @Sendable
+    @inlinable
+    public func describeKnowledgeBasePermissions(_ input: DescribeKnowledgeBasePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKnowledgeBasePermissionsResponse {
+        try await self.client.execute(
+            operation: "DescribeKnowledgeBasePermissions", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the resource permissions for a knowledge base.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - knowledgeBaseId: The unique identifier for the knowledge base.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeKnowledgeBasePermissions(
+        awsAccountId: String,
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeKnowledgeBasePermissionsResponse {
+        let input = DescribeKnowledgeBasePermissionsRequest(
+            awsAccountId: awsAccountId, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.describeKnowledgeBasePermissions(input, logger: logger)
+    }
+
     /// Describes the current namespace.
     @Sendable
     @inlinable
@@ -3765,6 +4429,38 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.describeNamespace(input, logger: logger)
+    }
+
+    /// Describes an OAuthClientApplication.
+    @Sendable
+    @inlinable
+    public func describeOAuthClientApplication(_ input: DescribeOAuthClientApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOAuthClientApplicationResponse {
+        try await self.client.execute(
+            operation: "DescribeOAuthClientApplication", 
+            path: "/accounts/{AwsAccountId}/oauth-client-applications/{OAuthClientApplicationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes an OAuthClientApplication.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID.
+    ///   - oAuthClientApplicationId: The ID of the OAuthClientApplication that you want to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeOAuthClientApplication(
+        awsAccountId: String,
+        oAuthClientApplicationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeOAuthClientApplicationResponse {
+        let input = DescribeOAuthClientApplicationRequest(
+            awsAccountId: awsAccountId, 
+            oAuthClientApplicationId: oAuthClientApplicationId
+        )
+        return try await self.describeOAuthClientApplication(input, logger: logger)
     }
 
     /// Describes a personalization configuration.
@@ -3925,6 +4621,73 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.describeSelfUpgradeConfiguration(input, logger: logger)
+    }
+
+    /// Describes an Amazon QuickSight space.
+    @Sendable
+    @inlinable
+    public func describeSpace(_ input: DescribeSpaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSpaceResponse {
+        try await self.client.execute(
+            operation: "DescribeSpace", 
+            path: "/v1/accounts/{AwsAccountId}/spaces/{SpaceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes an Amazon QuickSight space.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - maxContributors: The maximum number of contributors to include in the response.
+    ///   - spaceId: The ID of the space that you want to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSpace(
+        awsAccountId: String,
+        maxContributors: Int? = nil,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSpaceResponse {
+        let input = DescribeSpaceRequest(
+            awsAccountId: awsAccountId, 
+            maxContributors: maxContributors, 
+            spaceId: spaceId
+        )
+        return try await self.describeSpace(input, logger: logger)
+    }
+
+    /// Describes the permissions for an Amazon QuickSight space.
+    @Sendable
+    @inlinable
+    public func describeSpacePermissions(_ input: DescribeSpacePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSpacePermissionsResponse {
+        try await self.client.execute(
+            operation: "DescribeSpacePermissions", 
+            path: "/v1/accounts/{AwsAccountId}/spaces/{SpaceId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the permissions for an Amazon QuickSight space.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - spaceId: The ID of the space that you want to describe permissions for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSpacePermissions(
+        awsAccountId: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSpacePermissionsResponse {
+        let input = DescribeSpacePermissionsRequest(
+            awsAccountId: awsAccountId, 
+            spaceId: spaceId
+        )
+        return try await self.describeSpacePermissions(input, logger: logger)
     }
 
     /// Describes a template's metadata.
@@ -4645,6 +5408,7 @@ public struct QuickSight: AWSService {
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that the user whose identity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account.
+    ///   - contextRegion: The region in which the context is to be used. Use this parameter to obtain an identity context for cross-region use. The specified region must meet the following conditions:   The region must be in the same Amazon Web Services partition as the region you are calling from. Cross-partition requests are not supported. For example, you cannot specify a region in the aws-cn partition when calling from a region in the aws partition.   It must be a valid Amazon QuickSight supported region.   The calling customer account must be enabled in the specified context region.   This parameter is not supported when calling from an opt-in region.
     ///   - namespace: The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified using Email or UserName.
     ///   - sessionExpiresAt: The timestamp at which the session will expire.
     ///   - userIdentifier: The identifier for the user whose identity context you want to retrieve.
@@ -4652,6 +5416,7 @@ public struct QuickSight: AWSService {
     @inlinable
     public func getIdentityContext(
         awsAccountId: String,
+        contextRegion: String? = nil,
         namespace: String? = nil,
         sessionExpiresAt: Date? = nil,
         userIdentifier: UserIdentifier,
@@ -4659,6 +5424,7 @@ public struct QuickSight: AWSService {
     ) async throws -> GetIdentityContextResponse {
         let input = GetIdentityContextRequest(
             awsAccountId: awsAccountId, 
+            contextRegion: contextRegion, 
             namespace: namespace, 
             sessionExpiresAt: sessionExpiresAt, 
             userIdentifier: userIdentifier
@@ -4737,6 +5503,41 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.listActionConnectors(input, logger: logger)
+    }
+
+    /// Lists all agents in an Amazon QuickSight account.
+    @Sendable
+    @inlinable
+    public func listAgents(_ input: ListAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentsResponse {
+        try await self.client.execute(
+            operation: "ListAgents", 
+            path: "/accounts/{AwsAccountId}/agents", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all agents in an Amazon QuickSight account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agents.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgents(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentsResponse {
+        let input = ListAgentsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAgents(input, logger: logger)
     }
 
     /// Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
@@ -5457,6 +6258,41 @@ public struct QuickSight: AWSService {
         return try await self.listIngestions(input, logger: logger)
     }
 
+    /// Lists all knowledge bases in an Amazon QuickSight account.
+    @Sendable
+    @inlinable
+    public func listKnowledgeBases(_ input: ListKnowledgeBasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKnowledgeBasesResponse {
+        try await self.client.execute(
+            operation: "ListKnowledgeBases", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all knowledge bases in an Amazon QuickSight account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listKnowledgeBases(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListKnowledgeBasesResponse {
+        let input = ListKnowledgeBasesRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listKnowledgeBases(input, logger: logger)
+    }
+
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     @Sendable
     @inlinable
@@ -5490,6 +6326,41 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.listNamespaces(input, logger: logger)
+    }
+
+    /// Lists all OAuthClientApplications in the current Amazon Web Services Region that belong to this Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listOAuthClientApplications(_ input: ListOAuthClientApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOAuthClientApplicationsResponse {
+        try await self.client.execute(
+            operation: "ListOAuthClientApplications", 
+            path: "/accounts/{AwsAccountId}/oauth-client-applications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all OAuthClientApplications in the current Amazon Web Services Region that belong to this Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: A pagination token that can be used in a subsequent request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listOAuthClientApplications(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListOAuthClientApplicationsResponse {
+        let input = ListOAuthClientApplicationsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listOAuthClientApplications(input, logger: logger)
     }
 
     /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
@@ -5601,6 +6472,73 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.listSelfUpgrades(input, logger: logger)
+    }
+
+    /// Lists the resources in an Amazon QuickSight space.
+    @Sendable
+    @inlinable
+    public func listSpaceResources(_ input: ListSpaceResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSpaceResourcesResponse {
+        try await self.client.execute(
+            operation: "ListSpaceResources", 
+            path: "/v1/accounts/{AwsAccountId}/spaces/{SpaceId}/resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the resources in an Amazon QuickSight space.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - spaceId: The ID of the space that you want to list resources for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSpaceResources(
+        awsAccountId: String,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSpaceResourcesResponse {
+        let input = ListSpaceResourcesRequest(
+            awsAccountId: awsAccountId, 
+            spaceId: spaceId
+        )
+        return try await self.listSpaceResources(input, logger: logger)
+    }
+
+    /// Lists all Amazon QuickSight spaces in an Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listSpaces(_ input: ListSpacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSpacesResponse {
+        try await self.client.execute(
+            operation: "ListSpaces", 
+            path: "/v1/accounts/{AwsAccountId}/spaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all Amazon QuickSight spaces in an Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the spaces.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSpaces(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSpacesResponse {
+        let input = ListSpacesRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSpaces(input, logger: logger)
     }
 
     /// Lists the tags assigned to a resource.
@@ -6035,6 +6973,53 @@ public struct QuickSight: AWSService {
         return try await self.listUsers(input, logger: logger)
     }
 
+    /// Lists per-user index capacity consumption for an account.
+    @Sendable
+    @inlinable
+    public func listUsersIndexCapacity(_ input: ListUsersIndexCapacityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersIndexCapacityResponse {
+        try await self.client.execute(
+            operation: "ListUsersIndexCapacity", 
+            path: "/accounts/{awsAccountId}/quick-index/user-capacity", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists per-user index capacity consumption for an account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the index capacity data.
+    ///   - filters: Filters to apply. Only one filter is supported per request. The userNameOrEmail and totalCapacityBytes filters are mutually exclusive.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - namespace: The namespace to scope the user search to. Required when the userNameOrEmail filter is present.
+    ///   - nextToken: The token for the next set of results, received from a previous call.
+    ///   - sortBy: The field to sort results by.
+    ///   - sortOrder: The sort order for results. Defaults to DESC if not specified.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listUsersIndexCapacity(
+        awsAccountId: String,
+        filters: [UserIndexCapacityFilter]? = nil,
+        maxResults: Int? = nil,
+        namespace: String? = nil,
+        nextToken: String? = nil,
+        sortBy: UserIndexCapacitySortBy? = nil,
+        sortOrder: UserIndexCapacitySortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListUsersIndexCapacityResponse {
+        let input = ListUsersIndexCapacityRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            namespace: namespace, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return try await self.listUsersIndexCapacity(input, logger: logger)
+    }
+
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an
     /// 				Amazon Web Services account.
     @Sendable
@@ -6284,6 +7269,44 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.searchActionConnectors(input, logger: logger)
+    }
+
+    /// Searches for agents based on specified filters.
+    @Sendable
+    @inlinable
+    public func searchAgents(_ input: SearchAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAgentsResponse {
+        try await self.client.execute(
+            operation: "SearchAgents", 
+            path: "/accounts/{AwsAccountId}/search/agents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for agents based on specified filters.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agents.
+    ///   - filters: The filters to apply when searching agents.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchAgents(
+        awsAccountId: String,
+        filters: [AgentSearchFilter],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchAgentsResponse {
+        let input = SearchAgentsRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchAgents(input, logger: logger)
     }
 
     /// Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
@@ -6559,6 +7582,85 @@ public struct QuickSight: AWSService {
         return try await self.searchGroups(input, logger: logger)
     }
 
+    /// Searches for a subset of knowledge bases based on specified filters.
+    @Sendable
+    @inlinable
+    public func searchKnowledgeBases(_ input: SearchKnowledgeBasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchKnowledgeBasesResponse {
+        try await self.client.execute(
+            operation: "SearchKnowledgeBases", 
+            path: "/v1/accounts/{AwsAccountId}/search/knowledge-bases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for a subset of knowledge bases based on specified filters.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - filters: The filters to apply when searching knowledge bases.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - sortBy: The sort configuration for the search results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchKnowledgeBases(
+        awsAccountId: String,
+        filters: [KnowledgeBaseSearchFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortBy: KnowledgeBaseSortBy? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchKnowledgeBasesResponse {
+        let input = SearchKnowledgeBasesRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortBy: sortBy
+        )
+        return try await self.searchKnowledgeBases(input, logger: logger)
+    }
+
+    /// Searches for Amazon QuickSight spaces that match the specified filters.
+    @Sendable
+    @inlinable
+    public func searchSpaces(_ input: SearchSpacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSpacesResponse {
+        try await self.client.execute(
+            operation: "SearchSpaces", 
+            path: "/v1/accounts/{AwsAccountId}/search/spaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for Amazon QuickSight spaces that match the specified filters.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the spaces.
+    ///   - filters: The filters to apply to the search.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchSpaces(
+        awsAccountId: String,
+        filters: [SpaceQuicksightSearchFilter],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchSpacesResponse {
+        let input = SearchSpacesRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchSpaces(input, logger: logger)
+    }
+
     /// Searches for any Q topic that exists in an Quick account.
     @Sendable
     @inlinable
@@ -6704,6 +7806,44 @@ public struct QuickSight: AWSService {
             overrideValidationStrategy: overrideValidationStrategy
         )
         return try await self.startAssetBundleImportJob(input, logger: logger)
+    }
+
+    /// Starts a new job for a specified automation. The job runs the automation with the provided input payload.
+    @Sendable
+    @inlinable
+    public func startAutomationJob(_ input: StartAutomationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAutomationJobResponse {
+        try await self.client.execute(
+            operation: "StartAutomationJob", 
+            path: "/accounts/{AwsAccountId}/automation-groups/{AutomationGroupId}/automations/{AutomationId}/jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a new job for a specified automation. The job runs the automation with the provided input payload.
+    ///
+    /// Parameters:
+    ///   - automationGroupId: The ID of the automation group that contains the automation to run.
+    ///   - automationId: The ID of the automation to run.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the automation.
+    ///   - inputPayload: The input payload for the automation job, provided as a JSON string.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAutomationJob(
+        automationGroupId: String,
+        automationId: String,
+        awsAccountId: String,
+        inputPayload: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAutomationJobResponse {
+        let input = StartAutomationJobRequest(
+            automationGroupId: automationGroupId, 
+            automationId: automationId, 
+            awsAccountId: awsAccountId, 
+            inputPayload: inputPayload
+        )
+        return try await self.startAutomationJob(input, logger: logger)
     }
 
     /// Starts an asynchronous job that generates a snapshot of a dashboard's output. You can request one or several of the following format configurations in each API call.   1 PDF   1 Excel workbook that includes up to 5 table or pivot table visuals   5 CSVs from table or pivot table visuals    Exporting CSV, Excel, or Pixel Perfect PDF reports requires Pixel Perfect Report Add-on.  The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the  DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred.  StartDashboardSnapshotJob API throttling  Quick Sight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Quick Sight throttles the API calls to maintin an optimal experience and reliability for all Quick Sight users.  Common throttling scenarios  The following list provides information about the most commin throttling scenarios that can occur.    A large number of SnapshotExport API jobs are running simultaneously on an Amazon Web Services account. When a new StartDashboardSnapshotJob is created and there are already 12 jobs with the RUNNING status, the new job request fails and returns a LimitExceededException error. Wait for a current job to comlpete before you resubmit the new job.    A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Quick Sight API in one second, a ThrottlingException is returned.   If your use case requires a higher throttling limit, contact your account admin or Amazon Web ServicesSupport to explore options to tailor a more optimal expereince for your account.  Best practices to handle throttling  If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Quick Sight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:   The dataset type (Direct Query or SPICE).   The size of the dataset.   The complexity of the calculated fields that are used in the dashboard.   The number of visuals that are on a sheet.   The types of visuals that are on the sheet.   The number of formats and snapshots that are requested in the job configuration.   The size of the generated snapshots.    Registered user support  You can generate snapshots for registered Quick Sight users by using the Snapshot Job APIs with identity-enhanced IAM role session credentials. This approach allows you to create snapshots on behalf of specific Quick Sight users while respecting their row-level security (RLS), column-level security (CLS), dynamic default parameters and dashboard parameter/filter settings. To generate snapshots for registered Quick Sight users, you need to:   Obtain identity-enhanced IAM role session credentials from Amazon Web Services Security Token Service (STS).   Use these credentials to call the Snapshot Job APIs.   Identity-enhanced credentials are credentials that contain information about the end user (e.g., registered Quick Sight user). If your Quick Sight users are backed by Amazon Web Services Identity Center, then you need to set up a trusted token issuer. Then, getting identity-enhanced IAM credentials for a Quick Sight user will look like the following:   Authenticate user with your OIDC compliant Identity Provider. You should get auth tokens back.   Use the OIDC API, CreateTokenWithIAM, to exchange auth tokens to IAM tokens. One of the resulted tokens will be identity token.   Call STS AssumeRole API as you normally would, but provide an extra ProvidedContexts parameter in the API request. The list of contexts must have a single trusted context assertion. The ProviderArn should be arn:aws:iam::aws:contextProvider/IdentityCenter while ContextAssertion will be the identity token you received in response from CreateTokenWithIAM   For more details, see IdC documentation on Identity-enhanced IAM role sessions. To obtain Identity-enhanced credentials for Quick Sight native users, IAM federated users, or Active Directory users, follow the steps below:   Call Quick Sight GetIdentityContext API to get identity token.   Call STS AssumeRole API as you normally would, but provide extra ProvidedContexts parameter in the API request. The list of contexts must have a single trusted context assertion. The ProviderArn should be arn:aws:iam::aws:contextProvider/QuickSight while ContextAssertion will be the identity token you received in response from GetIdentityContext   After obtaining the identity-enhanced IAM role session credentials, you can use them to start a job, describe the job and describe job result. You can use the same credentials as long as they haven't expired. All API requests made with these credentials are considered to be made by the impersonated Quick Sight user.  When using identity-enhanced session credentials, set the UserConfiguration request attribute to null. Otherwise, the request will be invalid.   Possible error scenarios  The request fails with an Access Denied error in the following scenarios:   The credentials have expired.   The impersonated Quick Sight user doesn't have access to the specified dashboard.   The impersonated Quick Sight user is restricted from exporting data in the selected formats. For more information about export restrictions, see Customizing access to Amazon Quick Sight capabilities.
@@ -7057,6 +8197,106 @@ public struct QuickSight: AWSService {
         return try await self.updateActionConnectorPermissions(input, logger: logger)
     }
 
+    /// Updates an existing agent.
+    @Sendable
+    @inlinable
+    public func updateAgent(_ input: UpdateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentResponse {
+        try await self.client.execute(
+            operation: "UpdateAgent", 
+            path: "/accounts/{AwsAccountId}/agents/{AgentId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing agent.
+    ///
+    /// Parameters:
+    ///   - actionConnectorsToAdd: The Amazon Resource Names (ARNs) of the action connectors to attach to the agent.
+    ///   - actionConnectorsToRemove: The Amazon Resource Names (ARNs) of the action connectors to detach from the agent.
+    ///   - agentId: The unique identifier for the agent to update.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agent.
+    ///   - customPromptInput: The custom prompt configuration for the agent.
+    ///   - description: A description of the agent.
+    ///   - iconId: The icon identifier for the agent.
+    ///   - name: The name of the agent.
+    ///   - spacesToAdd: The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+    ///   - spacesToRemove: The Amazon Resource Names (ARNs) of the spaces to detach from the agent.
+    ///   - starterPrompts: A list of starter prompts that are displayed to users when they begin interacting with the agent.
+    ///   - welcomeMessage: The welcome message that is displayed when a user starts a conversation with the agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAgent(
+        actionConnectorsToAdd: [String]? = nil,
+        actionConnectorsToRemove: [String]? = nil,
+        agentId: String,
+        awsAccountId: String,
+        customPromptInput: CustomPromptInput? = nil,
+        description: String? = nil,
+        iconId: String? = nil,
+        name: String,
+        spacesToAdd: [String]? = nil,
+        spacesToRemove: [String]? = nil,
+        starterPrompts: [String]? = nil,
+        welcomeMessage: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAgentResponse {
+        let input = UpdateAgentRequest(
+            actionConnectorsToAdd: actionConnectorsToAdd, 
+            actionConnectorsToRemove: actionConnectorsToRemove, 
+            agentId: agentId, 
+            awsAccountId: awsAccountId, 
+            customPromptInput: customPromptInput, 
+            description: description, 
+            iconId: iconId, 
+            name: name, 
+            spacesToAdd: spacesToAdd, 
+            spacesToRemove: spacesToRemove, 
+            starterPrompts: starterPrompts, 
+            welcomeMessage: welcomeMessage
+        )
+        return try await self.updateAgent(input, logger: logger)
+    }
+
+    /// Updates the resource permissions for an agent.
+    @Sendable
+    @inlinable
+    public func updateAgentPermissions(_ input: UpdateAgentPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentPermissionsResponse {
+        try await self.client.execute(
+            operation: "UpdateAgentPermissions", 
+            path: "/accounts/{AwsAccountId}/agents/{AgentId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the resource permissions for an agent.
+    ///
+    /// Parameters:
+    ///   - agentId: The unique identifier for the agent.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the agent.
+    ///   - grantPermissions: The resource permissions that you want to grant on the agent.
+    ///   - revokePermissions: The resource permissions that you want to revoke from the agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAgentPermissions(
+        agentId: String,
+        awsAccountId: String,
+        grantPermissions: [ResourcePermission]? = nil,
+        revokePermissions: [ResourcePermission]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAgentPermissionsResponse {
+        let input = UpdateAgentPermissionsRequest(
+            agentId: agentId, 
+            awsAccountId: awsAccountId, 
+            grantPermissions: grantPermissions, 
+            revokePermissions: revokePermissions
+        )
+        return try await self.updateAgentPermissions(input, logger: logger)
+    }
+
     /// Updates an analysis in Amazon Quick Sight
     @Sendable
     @inlinable
@@ -7298,18 +8538,21 @@ public struct QuickSight: AWSService {
     ///   - awsAccountId: The ID of the Amazon Web Services account that contains the custom permissions profile that you want to update.
     ///   - capabilities: A set of actions to include in the custom permissions profile.
     ///   - customPermissionsName: The name of the custom permissions profile that you want to update.
+    ///   - governance: The governance configuration for the custom permissions profile. The UpdateCustomPermissions operation replaces all existing Capabilities and Governance values. If you omit this parameter, Amazon Quick removes governance from the profile and the existing custom permission behavior applies.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCustomPermissions(
         awsAccountId: String,
         capabilities: Capabilities? = nil,
         customPermissionsName: String,
+        governance: Governance? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCustomPermissionsResponse {
         let input = UpdateCustomPermissionsRequest(
             awsAccountId: awsAccountId, 
             capabilities: capabilities, 
-            customPermissionsName: customPermissionsName
+            customPermissionsName: customPermissionsName, 
+            governance: governance
         )
         return try await self.updateCustomPermissions(input, logger: logger)
     }
@@ -7743,6 +8986,50 @@ public struct QuickSight: AWSService {
         return try await self.updateDefaultQBusinessApplication(input, logger: logger)
     }
 
+    /// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is provided, all existing steps are replaced with the new definition.
+    @Sendable
+    @inlinable
+    public func updateFlow(_ input: UpdateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowResponse {
+        try await self.client.execute(
+            operation: "UpdateFlow", 
+            path: "/accounts/{AwsAccountId}/flows/{FlowId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is provided, all existing steps are replaced with the new definition.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the flow that you are updating.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: Updated description for the flow. Omit to preserve the existing description.
+    ///   - flowDefinition: The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. When provided, all existing steps are replaced. Omit to preserve the existing definition.  Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format.
+    ///   - flowId: The unique identifier of the flow to update.
+    ///   - name: Updated display name for the flow. Omit to preserve the existing name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateFlow(
+        awsAccountId: String,
+        clientToken: String? = UpdateFlowRequest.idempotencyToken(),
+        description: String? = nil,
+        flowDefinition: AWSDocument? = nil,
+        flowId: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateFlowResponse {
+        let input = UpdateFlowRequest(
+            awsAccountId: awsAccountId, 
+            clientToken: clientToken, 
+            description: description, 
+            flowDefinition: flowDefinition, 
+            flowId: flowId, 
+            name: name
+        )
+        return try await self.updateFlow(input, logger: logger)
+    }
+
     /// Updates permissions against principals on a flow.
     @Sendable
     @inlinable
@@ -8048,6 +9335,150 @@ public struct QuickSight: AWSService {
         return try await self.updateKeyRegistration(input, logger: logger)
     }
 
+    /// Updates the properties of an existing knowledge base.
+    @Sendable
+    @inlinable
+    public func updateKnowledgeBase(_ input: UpdateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKnowledgeBaseResponse {
+        try await self.client.execute(
+            operation: "UpdateKnowledgeBase", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an existing knowledge base.
+    ///
+    /// Parameters:
+    ///   - accessControlConfiguration: The access control configuration for the knowledge base. If you don't specify this parameter, the existing setting is retained.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - description: A description for the knowledge base. If you don't specify a description, the existing description is retained.
+    ///   - isEmailNotificationOptedForIngestionFailures: Specifies whether email notifications are enabled for ingestion failures.
+    ///   - knowledgeBaseConfiguration: 
+    ///   - knowledgeBaseId: The unique identifier for the knowledge base.
+    ///   - mediaExtractionConfiguration: 
+    ///   - name: The name of the knowledge base. If you don't specify a name, the existing name is retained.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateKnowledgeBase(
+        accessControlConfiguration: AccessControlConfiguration? = nil,
+        awsAccountId: String,
+        description: String? = nil,
+        isEmailNotificationOptedForIngestionFailures: Bool? = nil,
+        knowledgeBaseConfiguration: KnowledgeBaseConfiguration? = nil,
+        knowledgeBaseId: String,
+        mediaExtractionConfiguration: MediaExtractionConfiguration? = nil,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateKnowledgeBaseResponse {
+        let input = UpdateKnowledgeBaseRequest(
+            accessControlConfiguration: accessControlConfiguration, 
+            awsAccountId: awsAccountId, 
+            description: description, 
+            isEmailNotificationOptedForIngestionFailures: isEmailNotificationOptedForIngestionFailures, 
+            knowledgeBaseConfiguration: knowledgeBaseConfiguration, 
+            knowledgeBaseId: knowledgeBaseId, 
+            mediaExtractionConfiguration: mediaExtractionConfiguration, 
+            name: name
+        )
+        return try await self.updateKnowledgeBase(input, logger: logger)
+    }
+
+    /// Updates the resource permissions for a knowledge base.
+    @Sendable
+    @inlinable
+    public func updateKnowledgeBasePermissions(_ input: UpdateKnowledgeBasePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKnowledgeBasePermissionsResponse {
+        try await self.client.execute(
+            operation: "UpdateKnowledgeBasePermissions", 
+            path: "/v1/accounts/{AwsAccountId}/knowledge-bases/{KnowledgeBaseId}/permissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the resource permissions for a knowledge base.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - grantPermissions: The resource permissions that you want to grant on the knowledge base.
+    ///   - knowledgeBaseId: The unique identifier for the knowledge base.
+    ///   - revokePermissions: The resource permissions that you want to revoke from the knowledge base.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateKnowledgeBasePermissions(
+        awsAccountId: String,
+        grantPermissions: [ResourcePermission]? = nil,
+        knowledgeBaseId: String,
+        revokePermissions: [ResourcePermission]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateKnowledgeBasePermissionsResponse {
+        let input = UpdateKnowledgeBasePermissionsRequest(
+            awsAccountId: awsAccountId, 
+            grantPermissions: grantPermissions, 
+            knowledgeBaseId: knowledgeBaseId, 
+            revokePermissions: revokePermissions
+        )
+        return try await self.updateKnowledgeBasePermissions(input, logger: logger)
+    }
+
+    /// Updates an OAuthClientApplication.
+    @Sendable
+    @inlinable
+    public func updateOAuthClientApplication(_ input: UpdateOAuthClientApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOAuthClientApplicationResponse {
+        try await self.client.execute(
+            operation: "UpdateOAuthClientApplication", 
+            path: "/accounts/{AwsAccountId}/oauth-client-applications/{OAuthClientApplicationId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an OAuthClientApplication.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID.
+    ///   - clientId: The client ID of the OAuth application that is registered with the identity provider.
+    ///   - clientSecret: The client secret of the OAuth application that is registered with the identity provider.
+    ///   - dataSourceType: The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+    ///   - identityProviderVpcConnectionProperties: 
+    ///   - name: The display name for the OAuthClientApplication.
+    ///   - oAuthAuthorizationEndpointUrl: The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+    ///   - oAuthClientApplicationId: The ID of the OAuthClientApplication that you want to update.
+    ///   - oAuthScopes: The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+    ///   - oAuthTokenEndpointUrl: The token endpoint URL of the identity provider that is used to obtain access tokens.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateOAuthClientApplication(
+        awsAccountId: String,
+        clientId: String? = nil,
+        clientSecret: String? = nil,
+        dataSourceType: DataSourceType? = nil,
+        identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil,
+        name: String,
+        oAuthAuthorizationEndpointUrl: String? = nil,
+        oAuthClientApplicationId: String,
+        oAuthScopes: String? = nil,
+        oAuthTokenEndpointUrl: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateOAuthClientApplicationResponse {
+        let input = UpdateOAuthClientApplicationRequest(
+            awsAccountId: awsAccountId, 
+            clientId: clientId, 
+            clientSecret: clientSecret, 
+            dataSourceType: dataSourceType, 
+            identityProviderVpcConnectionProperties: identityProviderVpcConnectionProperties, 
+            name: name, 
+            oAuthAuthorizationEndpointUrl: oAuthAuthorizationEndpointUrl, 
+            oAuthClientApplicationId: oAuthClientApplicationId, 
+            oAuthScopes: oAuthScopes, 
+            oAuthTokenEndpointUrl: oAuthTokenEndpointUrl
+        )
+        return try await self.updateOAuthClientApplication(input, logger: logger)
+    }
+
     ///  This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:   Dashboards can be shared publicly   This setting affects your entire Amazon Web Services account and all Quick Sight users    Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured.  Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see Using Quick with IAM in the Amazon Quick Sight User Guide.
     @Sendable
     @inlinable
@@ -8320,6 +9751,120 @@ public struct QuickSight: AWSService {
             selfUpgradeStatus: selfUpgradeStatus
         )
         return try await self.updateSelfUpgradeConfiguration(input, logger: logger)
+    }
+
+    /// Updates the metadata of an Amazon QuickSight space.
+    @Sendable
+    @inlinable
+    public func updateSpace(_ input: UpdateSpaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSpaceResponse {
+        try await self.client.execute(
+            operation: "UpdateSpace", 
+            path: "/v1/accounts/{AwsAccountId}/spaces/{SpaceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the metadata of an Amazon QuickSight space.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - description: A new description for the space.
+    ///   - name: A new display name for the space.
+    ///   - spaceId: The ID of the space that you want to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSpace(
+        awsAccountId: String,
+        description: String? = nil,
+        name: String? = nil,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSpaceResponse {
+        let input = UpdateSpaceRequest(
+            awsAccountId: awsAccountId, 
+            description: description, 
+            name: name, 
+            spaceId: spaceId
+        )
+        return try await self.updateSpace(input, logger: logger)
+    }
+
+    /// Updates the permissions for an Amazon QuickSight space.
+    @Sendable
+    @inlinable
+    public func updateSpacePermissions(_ input: UpdateSpacePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSpacePermissionsResponse {
+        try await self.client.execute(
+            operation: "UpdateSpacePermissions", 
+            path: "/v1/accounts/{AwsAccountId}/spaces/{SpaceId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the permissions for an Amazon QuickSight space.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - grantPermissions: The permissions that you want to grant on the space.
+    ///   - revokePermissions: The permissions that you want to revoke from the space.
+    ///   - spaceId: The ID of the space that you want to update permissions for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSpacePermissions(
+        awsAccountId: String,
+        grantPermissions: [ResourcePermission]? = nil,
+        revokePermissions: [ResourcePermission]? = nil,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSpacePermissionsResponse {
+        let input = UpdateSpacePermissionsRequest(
+            awsAccountId: awsAccountId, 
+            grantPermissions: grantPermissions, 
+            revokePermissions: revokePermissions, 
+            spaceId: spaceId
+        )
+        return try await self.updateSpacePermissions(input, logger: logger)
+    }
+
+    /// Adds or removes resources from an Amazon QuickSight space.
+    @Sendable
+    @inlinable
+    public func updateSpaceResources(_ input: UpdateSpaceResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSpaceResourcesResponse {
+        try await self.client.execute(
+            operation: "UpdateSpaceResources", 
+            path: "/v1/accounts/{AwsAccountId}/spaces/{SpaceId}/resources", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds or removes resources from an Amazon QuickSight space.
+    ///
+    /// Parameters:
+    ///   - addResources: A list of resources to add to the space.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the space.
+    ///   - removeResources: A list of resources to remove from the space.
+    ///   - spaceId: The ID of the space that you want to update resources for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSpaceResources(
+        addResources: [SpaceResourceOperation]? = nil,
+        awsAccountId: String,
+        removeResources: [SpaceResourceOperation]? = nil,
+        spaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSpaceResourcesResponse {
+        let input = UpdateSpaceResourcesRequest(
+            addResources: addResources, 
+            awsAccountId: awsAccountId, 
+            removeResources: removeResources, 
+            spaceId: spaceId
+        )
+        return try await self.updateSpaceResources(input, logger: logger)
     }
 
     /// Updates a template from an existing Amazon Quick Sight analysis or another template.
@@ -9660,6 +11205,43 @@ extension QuickSight {
         return self.listIngestionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listKnowledgeBases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listKnowledgeBasesPaginator(
+        _ input: ListKnowledgeBasesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListKnowledgeBasesRequest, ListKnowledgeBasesResponse> {
+        return .init(
+            input: input,
+            command: self.listKnowledgeBases,
+            inputKey: \ListKnowledgeBasesRequest.nextToken,
+            outputKey: \ListKnowledgeBasesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listKnowledgeBases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listKnowledgeBasesPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListKnowledgeBasesRequest, ListKnowledgeBasesResponse> {
+        let input = ListKnowledgeBasesRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listKnowledgeBasesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listNamespaces(_:logger:)``.
     ///
     /// - Parameters:
@@ -9695,6 +11277,43 @@ extension QuickSight {
             maxResults: maxResults
         )
         return self.listNamespacesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listOAuthClientApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOAuthClientApplicationsPaginator(
+        _ input: ListOAuthClientApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOAuthClientApplicationsRequest, ListOAuthClientApplicationsResponse> {
+        return .init(
+            input: input,
+            command: self.listOAuthClientApplications,
+            inputKey: \ListOAuthClientApplicationsRequest.nextToken,
+            outputKey: \ListOAuthClientApplicationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listOAuthClientApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The Amazon Web Services account ID.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOAuthClientApplicationsPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListOAuthClientApplicationsRequest, ListOAuthClientApplicationsResponse> {
+        let input = ListOAuthClientApplicationsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listOAuthClientApplicationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listRoleMemberships(_:logger:)``.
@@ -10417,6 +12036,49 @@ extension QuickSight {
         return self.searchGroupsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchKnowledgeBases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchKnowledgeBasesPaginator(
+        _ input: SearchKnowledgeBasesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchKnowledgeBasesRequest, SearchKnowledgeBasesResponse> {
+        return .init(
+            input: input,
+            command: self.searchKnowledgeBases,
+            inputKey: \SearchKnowledgeBasesRequest.nextToken,
+            outputKey: \SearchKnowledgeBasesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchKnowledgeBases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the knowledge base.
+    ///   - filters: The filters to apply when searching knowledge bases.
+    ///   - maxResults: The maximum number of results to return.
+    ///   - sortBy: The sort configuration for the search results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchKnowledgeBasesPaginator(
+        awsAccountId: String,
+        filters: [KnowledgeBaseSearchFilter]? = nil,
+        maxResults: Int? = nil,
+        sortBy: KnowledgeBaseSortBy? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchKnowledgeBasesRequest, SearchKnowledgeBasesResponse> {
+        let input = SearchKnowledgeBasesRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            sortBy: sortBy
+        )
+        return self.searchKnowledgeBasesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchTopics(_:logger:)``.
     ///
     /// - Parameters:
@@ -10704,9 +12366,31 @@ extension QuickSight.ListIngestionsRequest: AWSPaginateToken {
     }
 }
 
+extension QuickSight.ListKnowledgeBasesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListKnowledgeBasesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension QuickSight.ListNamespacesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.ListNamespacesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListOAuthClientApplicationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListOAuthClientApplicationsRequest {
         return .init(
             awsAccountId: self.awsAccountId,
             maxResults: self.maxResults,
@@ -10927,6 +12611,19 @@ extension QuickSight.SearchGroupsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             namespace: self.namespace,
             nextToken: token
+        )
+    }
+}
+
+extension QuickSight.SearchKnowledgeBasesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchKnowledgeBasesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
         )
     }
 }

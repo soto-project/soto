@@ -350,6 +350,7 @@ public struct LexModelsV2: AWSService {
     /// Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot.
     ///
     /// Parameters:
+    ///   - audioFillerSettings: Audio filler settings to configure for the new bot locale. When enabled, Amazon Lex plays a brief background audio filler during speech-to-speech interactions to mask processing delays. Requires unifiedSpeechSettings (speech-to-speech) to be configured on the bot locale.
     ///   - botId: The identifier of the bot to create the locale for.
     ///   - botVersion: The version of the bot to create the locale for. This can only be the draft version of the bot.
     ///   - description: A description of the bot locale. Use this to help identify the bot locale in lists.
@@ -363,6 +364,7 @@ public struct LexModelsV2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createBotLocale(
+        audioFillerSettings: AudioFillerSettings? = nil,
         botId: String,
         botVersion: String,
         description: String? = nil,
@@ -376,6 +378,7 @@ public struct LexModelsV2: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBotLocaleResponse {
         let input = CreateBotLocaleRequest(
+            audioFillerSettings: audioFillerSettings, 
             botId: botId, 
             botVersion: botVersion, 
             description: description, 
@@ -3968,6 +3971,7 @@ public struct LexModelsV2: AWSService {
     /// Updates the settings that a bot has for a specific locale.
     ///
     /// Parameters:
+    ///   - audioFillerSettings: Updated audio filler settings to apply to the bot locale. When enabled, requires unifiedSpeechSettings (speech-to-speech) to be configured on the bot locale.
     ///   - botId: The unique identifier of the bot that contains the locale.
     ///   - botVersion: The version of the bot that contains the locale to be updated. The version can only be the DRAFT version.
     ///   - description: The new description of the locale.
@@ -3981,6 +3985,7 @@ public struct LexModelsV2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBotLocale(
+        audioFillerSettings: AudioFillerSettings? = nil,
         botId: String,
         botVersion: String,
         description: String? = nil,
@@ -3994,6 +3999,7 @@ public struct LexModelsV2: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateBotLocaleResponse {
         let input = UpdateBotLocaleRequest(
+            audioFillerSettings: audioFillerSettings, 
             botId: botId, 
             botVersion: botVersion, 
             description: description, 

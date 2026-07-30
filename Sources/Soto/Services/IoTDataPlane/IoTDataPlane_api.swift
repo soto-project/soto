@@ -97,7 +97,7 @@ public struct IoTDataPlane: AWSService {
 
     // MARK: API Calls
 
-    /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
+    /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state. Requires permission to access the DeleteConnection action.
     @Sendable
     @inlinable
     public func deleteConnection(_ input: DeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -110,12 +110,12 @@ public struct IoTDataPlane: AWSService {
             logger: logger
         )
     }
-    /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
+    /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state. Requires permission to access the DeleteConnection action.
     ///
     /// Parameters:
-    ///   - cleanSession: Specifies whether to remove the client's session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state. By default, this is set to FALSE (preserves the session state).
-    ///   - clientId: The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($).
-    ///   - preventWillMessage: Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to allow publishing. By default, this is set to FALSE (allows publishing the LWT message).
+    ///   - cleanSession: Specifies whether to remove the client's persistent session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state for persistent sessions. For clean sessions this parameter will be ignored. By default, this is set to FALSE (preserves the session state).
+    ///   - clientId: The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+    ///   - preventWillMessage: Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to ensure that LWT is published. By default, this is set to FALSE (LWT message is published).
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteConnection(
@@ -162,6 +162,38 @@ public struct IoTDataPlane: AWSService {
             thingName: thingName
         )
         return try await self.deleteThingShadow(input, logger: logger)
+    }
+
+    /// Retrieves connection information for the specified MQTT client. Requires permission to access the GetConnection action.
+    @Sendable
+    @inlinable
+    public func getConnection(_ input: GetConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionResponse {
+        try await self.client.execute(
+            operation: "GetConnection", 
+            path: "/connections/{clientId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves connection information for the specified MQTT client. Requires permission to access the GetConnection action.
+    ///
+    /// Parameters:
+    ///   - clientId: The unique identifier of the MQTT client to retrieve connection information. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+    ///   - includeSocketInformation: Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp) should be included in the GetConnection response. Set to TRUE to include socket information. Set to FALSE to omit socket information. By default, this is set to FALSE. See the developer guide for how to authorize this parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnection(
+        clientId: String,
+        includeSocketInformation: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectionResponse {
+        let input = GetConnectionRequest(
+            clientId: clientId, 
+            includeSocketInformation: includeSocketInformation
+        )
+        return try await self.getConnection(input, logger: logger)
     }
 
     /// Gets the details of a single retained message for the specified topic. This action returns the message payload of the retained message, which can  incur messaging costs. To list only the topic names of the retained messages, call ListRetainedMessages. Requires permission to access the GetRetainedMessage action. For more information about messaging costs, see Amazon Web Services IoT Core pricing - Messaging.
@@ -292,6 +324,41 @@ public struct IoTDataPlane: AWSService {
         return try await self.listRetainedMessages(input, logger: logger)
     }
 
+    /// Returns a list of all subscriptions for MQTT clients with active sessions, including offline clients with persistent sessions. Requires permission to access the ListSubscriptions action.
+    @Sendable
+    @inlinable
+    public func listSubscriptions(_ input: ListSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubscriptionsResponse {
+        try await self.client.execute(
+            operation: "ListSubscriptions", 
+            path: "/connections/{clientId}/subscriptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of all subscriptions for MQTT clients with active sessions, including offline clients with persistent sessions. Requires permission to access the ListSubscriptions action.
+    ///
+    /// Parameters:
+    ///   - clientId: The unique identifier of the MQTT client to list subscriptions for. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+    ///   - maxResults: The maximum number of subscriptions to return in a single request. By default, this is set to 20.
+    ///   - nextToken: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSubscriptions(
+        clientId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSubscriptionsResponse {
+        let input = ListSubscriptionsRequest(
+            clientId: clientId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSubscriptions(input, logger: logger)
+    }
+
     /// Publishes an MQTT message. Requires permission to access the Publish action. For more information about MQTT messages, see  MQTT Protocol in the IoT Developer Guide. For more information about messaging costs, see Amazon Web Services IoT Core pricing - Messaging.
     @Sendable
     @inlinable
@@ -346,6 +413,62 @@ public struct IoTDataPlane: AWSService {
             userProperties: userProperties
         )
         return try await self.publish(input, logger: logger)
+    }
+
+    /// Sends an MQTT message directly to a specific client identified by its client ID.  SendDirectMessage targets a single client ID. The receiving client does not need to subscribe to the topic, but the receiver's policy must allow iot:Receive on the specified topic. Requires permission to access the SendDirectMessage action. For more information about messaging costs, see Amazon Web Services IoT Core pricing.
+    @Sendable
+    @inlinable
+    public func sendDirectMessage(_ input: SendDirectMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDirectMessageResponse {
+        try await self.client.execute(
+            operation: "SendDirectMessage", 
+            path: "/connections/{clientId}/messages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends an MQTT message directly to a specific client identified by its client ID.  SendDirectMessage targets a single client ID. The receiving client does not need to subscribe to the topic, but the receiver's policy must allow iot:Receive on the specified topic. Requires permission to access the SendDirectMessage action. For more information about messaging costs, see Amazon Web Services IoT Core pricing.
+    ///
+    /// Parameters:
+    ///   - clientId: The unique identifier of the MQTT client to send the message to. Client IDs must not exceed 128 characters and can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas.
+    ///   - confirmation: A Boolean value that specifies whether to wait for delivery confirmation from the receiving client. When set to true, the API delivers the message at QoS 1 and waits for the client to send a delivery confirmation (PUBACK) before returning a successful response. If delivery confirmation is not received within the specified timeout period, the API returns HTTP 504. When set to false, the API delivers the message at QoS 0 and returns after Amazon Web Services IoT Core attempts to deliver the message. Valid values: true | false  Default value: false
+    ///   - contentType: The MQTT5 content type property forwarded to the receiving client (for example, application/json).
+    ///   - correlationData: The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
+    ///   - payload: The message body. MQTT accepts text, binary, and empty (null) message payloads.
+    ///   - payloadFormatIndicator: An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
+    ///   - responseTopic: A UTF-8 encoded string that's used as the topic name for a response message. The response topic describes the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard characters. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas.
+    ///   - timeout: An integer that represents the maximum time, in seconds, to wait for a delivery confirmation (PUBACK) from the receiving client after the message has been delivered. This parameter is only used when confirmation is set to true. If confirmation is false, this parameter is ignored. The total API response time may be higher than this value due to internal processing. Set your HTTP client timeout to a value greater than this parameter. Valid range: 1 to 15 seconds. Default value: 5 seconds.
+    ///   - topic: The topic of the outbound MQTT Publish message to the receiving client. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas.
+    ///   - userProperties: A JSON string that contains an array of JSON objects. If you don't use Amazon Web Services SDK or CLI, you must encode the JSON string to base64 format before adding it to the HTTP header. userProperties is an HTTP header value in the API. For MQTT 3.1.1 clients, user properties are silently dropped. The following example userProperties parameter is a JSON string which represents two User Properties. Note that it needs to be base64-encoded:  [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendDirectMessage(
+        clientId: String,
+        confirmation: Bool? = nil,
+        contentType: String? = nil,
+        correlationData: String? = nil,
+        payload: AWSHTTPBody? = nil,
+        payloadFormatIndicator: PayloadFormatIndicator? = nil,
+        responseTopic: String? = nil,
+        timeout: Int? = nil,
+        topic: String,
+        userProperties: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendDirectMessageResponse {
+        let input = SendDirectMessageRequest(
+            clientId: clientId, 
+            confirmation: confirmation, 
+            contentType: contentType, 
+            correlationData: correlationData, 
+            payload: payload, 
+            payloadFormatIndicator: payloadFormatIndicator, 
+            responseTopic: responseTopic, 
+            timeout: timeout, 
+            topic: topic, 
+            userProperties: userProperties
+        )
+        return try await self.sendDirectMessage(input, logger: logger)
     }
 
     /// Updates the shadow for the specified thing. Requires permission to access the UpdateThingShadow action. For more information, see UpdateThingShadow in the IoT Developer Guide.
@@ -430,12 +553,60 @@ extension IoTDataPlane {
         )
         return self.listRetainedMessagesPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listSubscriptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubscriptionsPaginator(
+        _ input: ListSubscriptionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSubscriptionsRequest, ListSubscriptionsResponse> {
+        return .init(
+            input: input,
+            command: self.listSubscriptions,
+            inputKey: \ListSubscriptionsRequest.nextToken,
+            outputKey: \ListSubscriptionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSubscriptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clientId: The unique identifier of the MQTT client to list subscriptions for. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+    ///   - maxResults: The maximum number of subscriptions to return in a single request. By default, this is set to 20.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubscriptionsPaginator(
+        clientId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSubscriptionsRequest, ListSubscriptionsResponse> {
+        let input = ListSubscriptionsRequest(
+            clientId: clientId, 
+            maxResults: maxResults
+        )
+        return self.listSubscriptionsPaginator(input, logger: logger)
+    }
 }
 
 extension IoTDataPlane.ListRetainedMessagesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTDataPlane.ListRetainedMessagesRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension IoTDataPlane.ListSubscriptionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTDataPlane.ListSubscriptionsRequest {
+        return .init(
+            clientId: self.clientId,
             maxResults: self.maxResults,
             nextToken: token
         )

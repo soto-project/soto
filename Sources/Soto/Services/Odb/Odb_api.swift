@@ -143,6 +143,240 @@ public struct Odb: AWSService {
         return try await self.associateIamRoleToResource(input, logger: logger)
     }
 
+    /// Creates a new Autonomous Database.
+    @Sendable
+    @inlinable
+    public func createAutonomousDatabase(_ input: CreateAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "CreateAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - adminPassword: The password for the ADMIN user of the Autonomous Database.
+    ///   - adminPasswordSource: The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET, the admin password is retrieved from an Amazon Web Services Secrets Manager secret.
+    ///   - adminPasswordSourceConfiguration: The configuration of the admin password source for the Autonomous Database.
+    ///   - allowlistedIps: The list of IP addresses that are allowed to access the Autonomous Database.
+    ///   - autonomousMaintenanceScheduleType: The maintenance schedule type for the Autonomous Database.
+    ///   - backupRetentionPeriodInDays: The retention period, in days, for automatic backups of the Autonomous Database.
+    ///   - byolComputeCountLimit: The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+    ///   - characterSet: The character set to use for the Autonomous Database.
+    ///   - clientToken: A client-provided token to ensure the idempotency of the request.
+    ///   - computeCount: The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), to assign to the Autonomous Database.
+    ///   - cpuCoreCount: The number of CPU cores to allocate to the Autonomous Database.
+    ///   - customerContactsToSendToOCI: The list of customer contacts to receive operational notifications from Oracle Cloud Infrastructure (OCI) for the Autonomous Database.
+    ///   - databaseEdition: The Oracle Database edition to apply to the Autonomous Database.
+    ///   - dataStorageSizeInGBs: The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database.
+    ///   - dataStorageSizeInTBs: The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database.
+    ///   - dbName: The name of the Autonomous Database. The name must begin with an alphabetic character and can contain a maximum of 30 alphanumeric characters. Special characters are not permitted. The name must be unique in the Amazon Web Services account.
+    ///   - dbToolsDetails: The list of database management tools to enable for the Autonomous Database.
+    ///   - dbVersion: The Oracle Database software version to use for the Autonomous Database.
+    ///   - dbWorkload: The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+    ///   - displayName: The user-friendly name for the Autonomous Database. The name does not have to be unique.
+    ///   - encryptionKeyConfiguration: The configuration of the encryption key to use for the Autonomous Database.
+    ///   - encryptionKeyProvider: The provider of the encryption key to use for the Autonomous Database.
+    ///   - isAutoScalingEnabled: Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
+    ///   - isAutoScalingForStorageEnabled: Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+    ///   - isBackupRetentionLocked: Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
+    ///   - isLocalDataGuardEnabled: Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
+    ///   - isMtlsConnectionRequired: Specifies whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+    ///   - licenseModel: The Oracle license model to apply to the Autonomous Database.
+    ///   - ncharacterSet: The national character set to use for the Autonomous Database.
+    ///   - odbNetworkId: The unique identifier of the ODB network to be used for the Autonomous Database.
+    ///   - privateEndpointIp: The private endpoint IP address for the Autonomous Database.
+    ///   - privateEndpointLabel: The private endpoint label for the Autonomous Database.
+    ///   - resourcePoolLeaderId: The unique identifier of the resource pool leader Autonomous Database.
+    ///   - resourcePoolSummary: The configuration of the resource pool for the Autonomous Database.
+    ///   - scheduledOperations: The list of scheduled start and stop times for the Autonomous Database.
+    ///   - source: The source from which to create the Autonomous Database, such as a clone, backup, or cross-Region copy.
+    ///   - sourceConfiguration: The configuration details for the source used to create the Autonomous Database.
+    ///   - standbyAllowlistedIps: The list of IP addresses that are allowed to access the standby Autonomous Database.
+    ///   - standbyAllowlistedIpsSource: The source of the allowlisted IP addresses for the standby Autonomous Database.
+    ///   - tags: The list of resource tags to apply to the Autonomous Database. Each tag is a key-value pair with no predefined name, type, or namespace.
+    ///   - transportableTablespace: The transportable tablespace configuration to use when creating the Autonomous Database.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAutonomousDatabase(
+        adminPassword: String? = nil,
+        adminPasswordSource: AdminPasswordSource? = nil,
+        adminPasswordSourceConfiguration: AdminPasswordSourceConfigurationInput? = nil,
+        allowlistedIps: [String]? = nil,
+        autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType? = nil,
+        backupRetentionPeriodInDays: Int? = nil,
+        byolComputeCountLimit: Double? = nil,
+        characterSet: String? = nil,
+        clientToken: String? = CreateAutonomousDatabaseInput.idempotencyToken(),
+        computeCount: Double? = nil,
+        cpuCoreCount: Int? = nil,
+        customerContactsToSendToOCI: [CustomerContact]? = nil,
+        databaseEdition: DatabaseEdition? = nil,
+        dataStorageSizeInGBs: Int? = nil,
+        dataStorageSizeInTBs: Int? = nil,
+        dbName: String? = nil,
+        dbToolsDetails: [DatabaseTool]? = nil,
+        dbVersion: String? = nil,
+        dbWorkload: DbWorkload? = nil,
+        displayName: String? = nil,
+        encryptionKeyConfiguration: EncryptionKeyConfigurationInput? = nil,
+        encryptionKeyProvider: EncryptionKeyProviderInput? = nil,
+        isAutoScalingEnabled: Bool? = nil,
+        isAutoScalingForStorageEnabled: Bool? = nil,
+        isBackupRetentionLocked: Bool? = nil,
+        isLocalDataGuardEnabled: Bool? = nil,
+        isMtlsConnectionRequired: Bool? = nil,
+        licenseModel: LicenseModel? = nil,
+        ncharacterSet: String? = nil,
+        odbNetworkId: String? = nil,
+        privateEndpointIp: String? = nil,
+        privateEndpointLabel: String? = nil,
+        resourcePoolLeaderId: String? = nil,
+        resourcePoolSummary: ResourcePoolSummary? = nil,
+        scheduledOperations: [ScheduledOperationDetails]? = nil,
+        source: SourceType? = nil,
+        sourceConfiguration: SourceConfiguration? = nil,
+        standbyAllowlistedIps: [String]? = nil,
+        standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource? = nil,
+        tags: [String: String]? = nil,
+        transportableTablespace: TransportableTablespace? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAutonomousDatabaseOutput {
+        let input = CreateAutonomousDatabaseInput(
+            adminPassword: adminPassword, 
+            adminPasswordSource: adminPasswordSource, 
+            adminPasswordSourceConfiguration: adminPasswordSourceConfiguration, 
+            allowlistedIps: allowlistedIps, 
+            autonomousMaintenanceScheduleType: autonomousMaintenanceScheduleType, 
+            backupRetentionPeriodInDays: backupRetentionPeriodInDays, 
+            byolComputeCountLimit: byolComputeCountLimit, 
+            characterSet: characterSet, 
+            clientToken: clientToken, 
+            computeCount: computeCount, 
+            cpuCoreCount: cpuCoreCount, 
+            customerContactsToSendToOCI: customerContactsToSendToOCI, 
+            databaseEdition: databaseEdition, 
+            dataStorageSizeInGBs: dataStorageSizeInGBs, 
+            dataStorageSizeInTBs: dataStorageSizeInTBs, 
+            dbName: dbName, 
+            dbToolsDetails: dbToolsDetails, 
+            dbVersion: dbVersion, 
+            dbWorkload: dbWorkload, 
+            displayName: displayName, 
+            encryptionKeyConfiguration: encryptionKeyConfiguration, 
+            encryptionKeyProvider: encryptionKeyProvider, 
+            isAutoScalingEnabled: isAutoScalingEnabled, 
+            isAutoScalingForStorageEnabled: isAutoScalingForStorageEnabled, 
+            isBackupRetentionLocked: isBackupRetentionLocked, 
+            isLocalDataGuardEnabled: isLocalDataGuardEnabled, 
+            isMtlsConnectionRequired: isMtlsConnectionRequired, 
+            licenseModel: licenseModel, 
+            ncharacterSet: ncharacterSet, 
+            odbNetworkId: odbNetworkId, 
+            privateEndpointIp: privateEndpointIp, 
+            privateEndpointLabel: privateEndpointLabel, 
+            resourcePoolLeaderId: resourcePoolLeaderId, 
+            resourcePoolSummary: resourcePoolSummary, 
+            scheduledOperations: scheduledOperations, 
+            source: source, 
+            sourceConfiguration: sourceConfiguration, 
+            standbyAllowlistedIps: standbyAllowlistedIps, 
+            standbyAllowlistedIpsSource: standbyAllowlistedIpsSource, 
+            tags: tags, 
+            transportableTablespace: transportableTablespace
+        )
+        return try await self.createAutonomousDatabase(input, logger: logger)
+    }
+
+    /// Creates a new backup of the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func createAutonomousDatabaseBackup(_ input: CreateAutonomousDatabaseBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutonomousDatabaseBackupOutput {
+        try await self.client.execute(
+            operation: "CreateAutonomousDatabaseBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new backup of the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to back up.
+    ///   - clientToken: A client-provided token to ensure the idempotency of the request.
+    ///   - displayName: The user-friendly name for the Autonomous Database backup.
+    ///   - retentionPeriodInDays: The retention period, in days, for the Autonomous Database backup.
+    ///   - tags: The list of resource tags to apply to the Autonomous Database backup. Each tag is a key-value pair with no predefined name, type, or namespace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAutonomousDatabaseBackup(
+        autonomousDatabaseId: String,
+        clientToken: String? = CreateAutonomousDatabaseBackupInput.idempotencyToken(),
+        displayName: String? = nil,
+        retentionPeriodInDays: Int? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAutonomousDatabaseBackupOutput {
+        let input = CreateAutonomousDatabaseBackupInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            clientToken: clientToken, 
+            displayName: displayName, 
+            retentionPeriodInDays: retentionPeriodInDays, 
+            tags: tags
+        )
+        return try await self.createAutonomousDatabaseBackup(input, logger: logger)
+    }
+
+    /// Creates a new wallet for the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func createAutonomousDatabaseWallet(_ input: CreateAutonomousDatabaseWalletInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutonomousDatabaseWalletOutput {
+        try await self.client.execute(
+            operation: "CreateAutonomousDatabaseWallet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new wallet for the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to create a wallet for.
+    ///   - clientToken: A client-provided token to ensure the idempotency of the request.
+    ///   - password: The password to encrypt the keys inside the wallet.
+    ///   - passwordSource: The source of the password for encrypting the wallet. When set to CUSTOMER_MANAGED_AWS_SECRET, the password is retrieved from an Amazon Web Services Secrets Manager secret.
+    ///   - passwordSourceConfiguration: The configuration of the password source for the Autonomous Database wallet.
+    ///   - walletType: The type of wallet to create, either a regional wallet or an instance wallet.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAutonomousDatabaseWallet(
+        autonomousDatabaseId: String,
+        clientToken: String? = CreateAutonomousDatabaseWalletInput.idempotencyToken(),
+        password: String? = nil,
+        passwordSource: WalletPasswordSource? = nil,
+        passwordSourceConfiguration: WalletPasswordSourceConfigurationInput? = nil,
+        walletType: WalletType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAutonomousDatabaseWalletOutput {
+        let input = CreateAutonomousDatabaseWalletInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            clientToken: clientToken, 
+            password: password, 
+            passwordSource: passwordSource, 
+            passwordSourceConfiguration: passwordSourceConfiguration, 
+            walletType: walletType
+        )
+        return try await self.createAutonomousDatabaseWallet(input, logger: logger)
+    }
+
     /// Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
     @Sendable
     @inlinable
@@ -495,6 +729,64 @@ public struct Odb: AWSService {
         return try await self.createOdbPeeringConnection(input, logger: logger)
     }
 
+    /// Deletes the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func deleteAutonomousDatabase(_ input: DeleteAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "DeleteAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAutonomousDatabase(
+        autonomousDatabaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAutonomousDatabaseOutput {
+        let input = DeleteAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId
+        )
+        return try await self.deleteAutonomousDatabase(input, logger: logger)
+    }
+
+    /// Deletes the specified Autonomous Database backup.
+    @Sendable
+    @inlinable
+    public func deleteAutonomousDatabaseBackup(_ input: DeleteAutonomousDatabaseBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAutonomousDatabaseBackupOutput {
+        try await self.client.execute(
+            operation: "DeleteAutonomousDatabaseBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified Autonomous Database backup.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseBackupId: The unique identifier of the Autonomous Database backup to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAutonomousDatabaseBackup(
+        autonomousDatabaseBackupId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAutonomousDatabaseBackupOutput {
+        let input = DeleteAutonomousDatabaseBackupInput(
+            autonomousDatabaseBackupId: autonomousDatabaseBackupId
+        )
+        return try await self.deleteAutonomousDatabaseBackup(input, logger: logger)
+    }
+
     /// Deletes an Autonomous VM cluster.
     @Sendable
     @inlinable
@@ -676,6 +968,125 @@ public struct Odb: AWSService {
             resourceArn: resourceArn
         )
         return try await self.disassociateIamRoleFromResource(input, logger: logger)
+    }
+
+    /// Initiates a failover of the specified Autonomous Database to a standby peer database.
+    @Sendable
+    @inlinable
+    public func failoverAutonomousDatabase(_ input: FailoverAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> FailoverAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "FailoverAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a failover of the specified Autonomous Database to a standby peer database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to fail over.
+    ///   - peerDbArn: The Amazon Resource Name (ARN) of the peer Autonomous Database to fail over to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func failoverAutonomousDatabase(
+        autonomousDatabaseId: String,
+        peerDbArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> FailoverAutonomousDatabaseOutput {
+        let input = FailoverAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            peerDbArn: peerDbArn
+        )
+        return try await self.failoverAutonomousDatabase(input, logger: logger)
+    }
+
+    /// Gets information about a specific Autonomous Database.
+    @Sendable
+    @inlinable
+    public func getAutonomousDatabase(_ input: GetAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "GetAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a specific Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutonomousDatabase(
+        autonomousDatabaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutonomousDatabaseOutput {
+        let input = GetAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId
+        )
+        return try await self.getAutonomousDatabase(input, logger: logger)
+    }
+
+    /// Gets information about a specific Autonomous Database backup.
+    @Sendable
+    @inlinable
+    public func getAutonomousDatabaseBackup(_ input: GetAutonomousDatabaseBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutonomousDatabaseBackupOutput {
+        try await self.client.execute(
+            operation: "GetAutonomousDatabaseBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a specific Autonomous Database backup.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseBackupId: The unique identifier of the Autonomous Database backup to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutonomousDatabaseBackup(
+        autonomousDatabaseBackupId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutonomousDatabaseBackupOutput {
+        let input = GetAutonomousDatabaseBackupInput(
+            autonomousDatabaseBackupId: autonomousDatabaseBackupId
+        )
+        return try await self.getAutonomousDatabaseBackup(input, logger: logger)
+    }
+
+    /// Gets the wallet details for the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func getAutonomousDatabaseWalletDetails(_ input: GetAutonomousDatabaseWalletDetailsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutonomousDatabaseWalletDetailsOutput {
+        try await self.client.execute(
+            operation: "GetAutonomousDatabaseWalletDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the wallet details for the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to retrieve wallet details for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAutonomousDatabaseWalletDetails(
+        autonomousDatabaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAutonomousDatabaseWalletDetailsOutput {
+        let input = GetAutonomousDatabaseWalletDetailsInput(
+            autonomousDatabaseId: autonomousDatabaseId
+        )
+        return try await self.getAutonomousDatabaseWalletDetails(input, logger: logger)
     }
 
     /// Gets information about a specific Autonomous VM cluster.
@@ -961,17 +1372,233 @@ public struct Odb: AWSService {
     /// Initializes the ODB service for the first time in an account.
     ///
     /// Parameters:
+    ///   - autonomousDatabaseOciAwsSecretsManagerIntegration: Specifies whether to enable or disable the OCI service-account role for Amazon Web Services Secrets Manager integration with Autonomous Database.
     ///   - ociIdentityDomain: The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
     ///   - logger: Logger use during operation
     @inlinable
     public func initializeService(
+        autonomousDatabaseOciAwsSecretsManagerIntegration: Access? = nil,
         ociIdentityDomain: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InitializeServiceOutput {
         let input = InitializeServiceInput(
+            autonomousDatabaseOciAwsSecretsManagerIntegration: autonomousDatabaseOciAwsSecretsManagerIntegration, 
             ociIdentityDomain: ociIdentityDomain
         )
         return try await self.initializeService(input, logger: logger)
+    }
+
+    /// Lists the backups of the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func listAutonomousDatabaseBackups(_ input: ListAutonomousDatabaseBackupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutonomousDatabaseBackupsOutput {
+        try await self.client.execute(
+            operation: "ListAutonomousDatabaseBackups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the backups of the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database whose backups you want to list.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - status: The status of the Autonomous Database backups to return results for.
+    ///   - type: The type of the Autonomous Database backups to return results for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutonomousDatabaseBackups(
+        autonomousDatabaseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: AutonomousDatabaseBackupStatus? = nil,
+        type: AutonomousDatabaseBackupType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutonomousDatabaseBackupsOutput {
+        let input = ListAutonomousDatabaseBackupsInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status, 
+            type: type
+        )
+        return try await self.listAutonomousDatabaseBackups(input, logger: logger)
+    }
+
+    /// Lists the available character sets for Autonomous Databases.
+    @Sendable
+    @inlinable
+    public func listAutonomousDatabaseCharacterSets(_ input: ListAutonomousDatabaseCharacterSetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutonomousDatabaseCharacterSetsOutput {
+        try await self.client.execute(
+            operation: "ListAutonomousDatabaseCharacterSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the available character sets for Autonomous Databases.
+    ///
+    /// Parameters:
+    ///   - characterSetType: The type of character set to return results for, either the database character set or the national character set.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutonomousDatabaseCharacterSets(
+        characterSetType: CharacterSetType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutonomousDatabaseCharacterSetsOutput {
+        let input = ListAutonomousDatabaseCharacterSetsInput(
+            characterSetType: characterSetType, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAutonomousDatabaseCharacterSets(input, logger: logger)
+    }
+
+    /// Lists the clones of the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func listAutonomousDatabaseClones(_ input: ListAutonomousDatabaseClonesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutonomousDatabaseClonesOutput {
+        try await self.client.execute(
+            operation: "ListAutonomousDatabaseClones", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the clones of the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the source Autonomous Database whose clones you want to list.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutonomousDatabaseClones(
+        autonomousDatabaseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutonomousDatabaseClonesOutput {
+        let input = ListAutonomousDatabaseClonesInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAutonomousDatabaseClones(input, logger: logger)
+    }
+
+    /// Lists the peer databases of the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func listAutonomousDatabasePeers(_ input: ListAutonomousDatabasePeersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutonomousDatabasePeersOutput {
+        try await self.client.execute(
+            operation: "ListAutonomousDatabasePeers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the peer databases of the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database whose peer databases you want to list.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutonomousDatabasePeers(
+        autonomousDatabaseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutonomousDatabasePeersOutput {
+        let input = ListAutonomousDatabasePeersInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAutonomousDatabasePeers(input, logger: logger)
+    }
+
+    /// Lists the available Oracle Database software versions for Autonomous Databases.
+    @Sendable
+    @inlinable
+    public func listAutonomousDatabaseVersions(_ input: ListAutonomousDatabaseVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutonomousDatabaseVersionsOutput {
+        try await self.client.execute(
+            operation: "ListAutonomousDatabaseVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the available Oracle Database software versions for Autonomous Databases.
+    ///
+    /// Parameters:
+    ///   - dbWorkload: The intended use of the Autonomous Database to return versions for, such as transaction processing, data warehouse, JSON database, or APEX.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutonomousDatabaseVersions(
+        dbWorkload: DbWorkload? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutonomousDatabaseVersionsOutput {
+        let input = ListAutonomousDatabaseVersionsInput(
+            dbWorkload: dbWorkload, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAutonomousDatabaseVersions(input, logger: logger)
+    }
+
+    /// Returns information about the Autonomous Databases owned by your Amazon Web Services account in the current Amazon Web Services Region.
+    @Sendable
+    @inlinable
+    public func listAutonomousDatabases(_ input: ListAutonomousDatabasesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAutonomousDatabasesOutput {
+        try await self.client.execute(
+            operation: "ListAutonomousDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the Autonomous Databases owned by your Amazon Web Services account in the current Amazon Web Services Region.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAutonomousDatabases(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAutonomousDatabasesOutput {
+        let input = ListAutonomousDatabasesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAutonomousDatabases(input, logger: logger)
     }
 
     /// Lists all Autonomous VMs in an Autonomous VM cluster.
@@ -1388,6 +2015,38 @@ public struct Odb: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Reboots the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func rebootAutonomousDatabase(_ input: RebootAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "RebootAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Reboots the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to reboot.
+    ///   - isOnlineReboot: Specifies whether to perform an online reboot of the Autonomous Database without interrupting active connections.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rebootAutonomousDatabase(
+        autonomousDatabaseId: String,
+        isOnlineReboot: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RebootAutonomousDatabaseOutput {
+        let input = RebootAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            isOnlineReboot: isOnlineReboot
+        )
+        return try await self.rebootAutonomousDatabase(input, logger: logger)
+    }
+
     /// Reboots the specified DB node in a VM cluster.
     @Sendable
     @inlinable
@@ -1418,6 +2077,96 @@ public struct Odb: AWSService {
             dbNodeId: dbNodeId
         )
         return try await self.rebootDbNode(input, logger: logger)
+    }
+
+    /// Restores the specified Autonomous Database to a point in time.
+    @Sendable
+    @inlinable
+    public func restoreAutonomousDatabase(_ input: RestoreAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "RestoreAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Restores the specified Autonomous Database to a point in time.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to restore.
+    ///   - timestamp: The date and time to which to restore the Autonomous Database.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restoreAutonomousDatabase(
+        autonomousDatabaseId: String,
+        timestamp: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestoreAutonomousDatabaseOutput {
+        let input = RestoreAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            timestamp: timestamp
+        )
+        return try await self.restoreAutonomousDatabase(input, logger: logger)
+    }
+
+    /// Shrinks the storage of the specified Autonomous Database to reclaim unused space.
+    @Sendable
+    @inlinable
+    public func shrinkAutonomousDatabase(_ input: ShrinkAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ShrinkAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "ShrinkAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Shrinks the storage of the specified Autonomous Database to reclaim unused space.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to shrink.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func shrinkAutonomousDatabase(
+        autonomousDatabaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ShrinkAutonomousDatabaseOutput {
+        let input = ShrinkAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId
+        )
+        return try await self.shrinkAutonomousDatabase(input, logger: logger)
+    }
+
+    /// Starts the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func startAutonomousDatabase(_ input: StartAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "StartAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to start.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAutonomousDatabase(
+        autonomousDatabaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAutonomousDatabaseOutput {
+        let input = StartAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId
+        )
+        return try await self.startAutonomousDatabase(input, logger: logger)
     }
 
     /// Starts the specified DB node in a VM cluster.
@@ -1452,6 +2201,35 @@ public struct Odb: AWSService {
         return try await self.startDbNode(input, logger: logger)
     }
 
+    /// Stops the specified Autonomous Database.
+    @Sendable
+    @inlinable
+    public func stopAutonomousDatabase(_ input: StopAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "StopAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops the specified Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopAutonomousDatabase(
+        autonomousDatabaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopAutonomousDatabaseOutput {
+        let input = StopAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId
+        )
+        return try await self.stopAutonomousDatabase(input, logger: logger)
+    }
+
     /// Stops the specified DB node in a VM cluster.
     @Sendable
     @inlinable
@@ -1482,6 +2260,38 @@ public struct Odb: AWSService {
             dbNodeId: dbNodeId
         )
         return try await self.stopDbNode(input, logger: logger)
+    }
+
+    /// Performs a switchover of the specified Autonomous Database to a standby peer database.
+    @Sendable
+    @inlinable
+    public func switchoverAutonomousDatabase(_ input: SwitchoverAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SwitchoverAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "SwitchoverAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Performs a switchover of the specified Autonomous Database to a standby peer database.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to switch over.
+    ///   - peerDbArn: The Amazon Resource Name (ARN) of the peer Autonomous Database to switch over to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func switchoverAutonomousDatabase(
+        autonomousDatabaseId: String,
+        peerDbArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SwitchoverAutonomousDatabaseOutput {
+        let input = SwitchoverAutonomousDatabaseInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            peerDbArn: peerDbArn
+        )
+        return try await self.switchoverAutonomousDatabase(input, logger: logger)
     }
 
     /// Applies tags to the specified resource.
@@ -1546,6 +2356,199 @@ public struct Odb: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates the properties of an Autonomous Database.
+    @Sendable
+    @inlinable
+    public func updateAutonomousDatabase(_ input: UpdateAutonomousDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutonomousDatabaseOutput {
+        try await self.client.execute(
+            operation: "UpdateAutonomousDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an Autonomous Database.
+    ///
+    /// Parameters:
+    ///   - adminPassword: The new password for the ADMIN user of the Autonomous Database.
+    ///   - adminPasswordSource: The source of the admin password for the Autonomous Database. When set to CUSTOMER_MANAGED_AWS_SECRET, the admin password is retrieved from an Amazon Web Services Secrets Manager secret.
+    ///   - adminPasswordSourceConfiguration: The configuration of the admin password source for the Autonomous Database.
+    ///   - allowlistedIps: The list of IP addresses that are allowed to access the Autonomous Database.
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database to update.
+    ///   - autonomousMaintenanceScheduleType: The maintenance schedule type for the Autonomous Database.
+    ///   - autoRefreshFrequencyInSeconds: The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
+    ///   - autoRefreshPointLagInSeconds: The time lag, in seconds, between the refreshable clone and its source Autonomous Database.
+    ///   - backupRetentionPeriodInDays: The retention period, in days, for automatic backups of the Autonomous Database.
+    ///   - byolComputeCountLimit: The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+    ///   - computeCount: The compute capacity, in number of ECPUs or OCPUs, to assign to the Autonomous Database.
+    ///   - cpuCoreCount: The number of CPU cores to allocate to the Autonomous Database.
+    ///   - customerContactsToSendToOCI: The list of customer contacts to receive operational notifications from OCI for the Autonomous Database.
+    ///   - databaseEdition: The Oracle Database edition to apply to the Autonomous Database.
+    ///   - dataStorageSizeInGBs: The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database.
+    ///   - dataStorageSizeInTBs: The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database.
+    ///   - dbName: The new name of the Autonomous Database.
+    ///   - dbToolsDetails: The list of database management tools to enable for the Autonomous Database.
+    ///   - dbVersion: The Oracle Database software version to use for the Autonomous Database.
+    ///   - dbWorkload: The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+    ///   - displayName: The new user-friendly name for the Autonomous Database.
+    ///   - encryptionKeyConfiguration: The configuration of the encryption key to use for the Autonomous Database.
+    ///   - encryptionKeyProvider: The provider of the encryption key to use for the Autonomous Database.
+    ///   - isAutoScalingEnabled: Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
+    ///   - isAutoScalingForStorageEnabled: Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+    ///   - isBackupRetentionLocked: Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
+    ///   - isDisconnectPeer: Specifies whether to disconnect the Autonomous Database from its peer database.
+    ///   - isLocalDataGuardEnabled: Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
+    ///   - isMtlsConnectionRequired: Specifies whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+    ///   - isRefreshableClone: Specifies whether the Autonomous Database is a refreshable clone.
+    ///   - licenseModel: The Oracle license model to apply to the Autonomous Database.
+    ///   - localAdgAutoFailoverMaxDataLossLimit: The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database.
+    ///   - longTermBackupSchedule: The long-term backup schedule for the Autonomous Database.
+    ///   - openMode: The mode in which to open the Autonomous Database, either read-only or read/write.
+    ///   - peerDbId: The unique identifier of the peer Autonomous Database.
+    ///   - permissionLevel: The permission level of the Autonomous Database.
+    ///   - privateEndpointIp: The private endpoint IP address for the Autonomous Database.
+    ///   - privateEndpointLabel: The private endpoint label for the Autonomous Database.
+    ///   - refreshableMode: The refresh mode of the refreshable clone Autonomous Database.
+    ///   - resourcePoolLeaderId: The unique identifier of the resource pool leader Autonomous Database.
+    ///   - resourcePoolSummary: The configuration of the resource pool for the Autonomous Database.
+    ///   - scheduledOperations: The list of scheduled start and stop times for the Autonomous Database.
+    ///   - standbyAllowlistedIps: The list of IP addresses that are allowed to access the standby Autonomous Database.
+    ///   - standbyAllowlistedIpsSource: The source of the allowlisted IP addresses for the standby Autonomous Database.
+    ///   - timeOfAutoRefreshStart: The date and time at which the automatic refresh of the refreshable clone Autonomous Database starts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAutonomousDatabase(
+        adminPassword: String? = nil,
+        adminPasswordSource: AdminPasswordSource? = nil,
+        adminPasswordSourceConfiguration: AdminPasswordSourceConfigurationInput? = nil,
+        allowlistedIps: [String]? = nil,
+        autonomousDatabaseId: String,
+        autonomousMaintenanceScheduleType: AutonomousMaintenanceScheduleType? = nil,
+        autoRefreshFrequencyInSeconds: Int? = nil,
+        autoRefreshPointLagInSeconds: Int? = nil,
+        backupRetentionPeriodInDays: Int? = nil,
+        byolComputeCountLimit: Double? = nil,
+        computeCount: Double? = nil,
+        cpuCoreCount: Int? = nil,
+        customerContactsToSendToOCI: [CustomerContact]? = nil,
+        databaseEdition: DatabaseEdition? = nil,
+        dataStorageSizeInGBs: Int? = nil,
+        dataStorageSizeInTBs: Int? = nil,
+        dbName: String? = nil,
+        dbToolsDetails: [DatabaseTool]? = nil,
+        dbVersion: String? = nil,
+        dbWorkload: DbWorkload? = nil,
+        displayName: String? = nil,
+        encryptionKeyConfiguration: EncryptionKeyConfigurationInput? = nil,
+        encryptionKeyProvider: EncryptionKeyProviderInput? = nil,
+        isAutoScalingEnabled: Bool? = nil,
+        isAutoScalingForStorageEnabled: Bool? = nil,
+        isBackupRetentionLocked: Bool? = nil,
+        isDisconnectPeer: Bool? = nil,
+        isLocalDataGuardEnabled: Bool? = nil,
+        isMtlsConnectionRequired: Bool? = nil,
+        isRefreshableClone: Bool? = nil,
+        licenseModel: LicenseModel? = nil,
+        localAdgAutoFailoverMaxDataLossLimit: Int? = nil,
+        longTermBackupSchedule: LongTermBackupSchedule? = nil,
+        openMode: OpenMode? = nil,
+        peerDbId: String? = nil,
+        permissionLevel: PermissionLevel? = nil,
+        privateEndpointIp: String? = nil,
+        privateEndpointLabel: String? = nil,
+        refreshableMode: RefreshableMode? = nil,
+        resourcePoolLeaderId: String? = nil,
+        resourcePoolSummary: ResourcePoolSummary? = nil,
+        scheduledOperations: [ScheduledOperationDetails]? = nil,
+        standbyAllowlistedIps: [String]? = nil,
+        standbyAllowlistedIpsSource: StandbyAllowlistedIpsSource? = nil,
+        timeOfAutoRefreshStart: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAutonomousDatabaseOutput {
+        let input = UpdateAutonomousDatabaseInput(
+            adminPassword: adminPassword, 
+            adminPasswordSource: adminPasswordSource, 
+            adminPasswordSourceConfiguration: adminPasswordSourceConfiguration, 
+            allowlistedIps: allowlistedIps, 
+            autonomousDatabaseId: autonomousDatabaseId, 
+            autonomousMaintenanceScheduleType: autonomousMaintenanceScheduleType, 
+            autoRefreshFrequencyInSeconds: autoRefreshFrequencyInSeconds, 
+            autoRefreshPointLagInSeconds: autoRefreshPointLagInSeconds, 
+            backupRetentionPeriodInDays: backupRetentionPeriodInDays, 
+            byolComputeCountLimit: byolComputeCountLimit, 
+            computeCount: computeCount, 
+            cpuCoreCount: cpuCoreCount, 
+            customerContactsToSendToOCI: customerContactsToSendToOCI, 
+            databaseEdition: databaseEdition, 
+            dataStorageSizeInGBs: dataStorageSizeInGBs, 
+            dataStorageSizeInTBs: dataStorageSizeInTBs, 
+            dbName: dbName, 
+            dbToolsDetails: dbToolsDetails, 
+            dbVersion: dbVersion, 
+            dbWorkload: dbWorkload, 
+            displayName: displayName, 
+            encryptionKeyConfiguration: encryptionKeyConfiguration, 
+            encryptionKeyProvider: encryptionKeyProvider, 
+            isAutoScalingEnabled: isAutoScalingEnabled, 
+            isAutoScalingForStorageEnabled: isAutoScalingForStorageEnabled, 
+            isBackupRetentionLocked: isBackupRetentionLocked, 
+            isDisconnectPeer: isDisconnectPeer, 
+            isLocalDataGuardEnabled: isLocalDataGuardEnabled, 
+            isMtlsConnectionRequired: isMtlsConnectionRequired, 
+            isRefreshableClone: isRefreshableClone, 
+            licenseModel: licenseModel, 
+            localAdgAutoFailoverMaxDataLossLimit: localAdgAutoFailoverMaxDataLossLimit, 
+            longTermBackupSchedule: longTermBackupSchedule, 
+            openMode: openMode, 
+            peerDbId: peerDbId, 
+            permissionLevel: permissionLevel, 
+            privateEndpointIp: privateEndpointIp, 
+            privateEndpointLabel: privateEndpointLabel, 
+            refreshableMode: refreshableMode, 
+            resourcePoolLeaderId: resourcePoolLeaderId, 
+            resourcePoolSummary: resourcePoolSummary, 
+            scheduledOperations: scheduledOperations, 
+            standbyAllowlistedIps: standbyAllowlistedIps, 
+            standbyAllowlistedIpsSource: standbyAllowlistedIpsSource, 
+            timeOfAutoRefreshStart: timeOfAutoRefreshStart
+        )
+        return try await self.updateAutonomousDatabase(input, logger: logger)
+    }
+
+    /// Updates the properties of an Autonomous Database backup.
+    @Sendable
+    @inlinable
+    public func updateAutonomousDatabaseBackup(_ input: UpdateAutonomousDatabaseBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutonomousDatabaseBackupOutput {
+        try await self.client.execute(
+            operation: "UpdateAutonomousDatabaseBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an Autonomous Database backup.
+    ///
+    /// Parameters:
+    ///   - autonomousDatabaseBackupId: The unique identifier of the Autonomous Database backup to update.
+    ///   - retentionPeriodInDays: The retention period, in days, for the Autonomous Database backup.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAutonomousDatabaseBackup(
+        autonomousDatabaseBackupId: String,
+        retentionPeriodInDays: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAutonomousDatabaseBackupOutput {
+        let input = UpdateAutonomousDatabaseBackupInput(
+            autonomousDatabaseBackupId: autonomousDatabaseBackupId, 
+            retentionPeriodInDays: retentionPeriodInDays
+        )
+        return try await self.updateAutonomousDatabaseBackup(input, logger: logger)
     }
 
     /// Updates the properties of an Exadata infrastructure resource.
@@ -1697,6 +2700,231 @@ extension Odb {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Odb {
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseBackups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseBackupsPaginator(
+        _ input: ListAutonomousDatabaseBackupsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseBackupsInput, ListAutonomousDatabaseBackupsOutput> {
+        return .init(
+            input: input,
+            command: self.listAutonomousDatabaseBackups,
+            inputKey: \ListAutonomousDatabaseBackupsInput.nextToken,
+            outputKey: \ListAutonomousDatabaseBackupsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseBackups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database whose backups you want to list.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - status: The status of the Autonomous Database backups to return results for.
+    ///   - type: The type of the Autonomous Database backups to return results for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseBackupsPaginator(
+        autonomousDatabaseId: String,
+        maxResults: Int? = nil,
+        status: AutonomousDatabaseBackupStatus? = nil,
+        type: AutonomousDatabaseBackupType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseBackupsInput, ListAutonomousDatabaseBackupsOutput> {
+        let input = ListAutonomousDatabaseBackupsInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            maxResults: maxResults, 
+            status: status, 
+            type: type
+        )
+        return self.listAutonomousDatabaseBackupsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseCharacterSets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseCharacterSetsPaginator(
+        _ input: ListAutonomousDatabaseCharacterSetsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseCharacterSetsInput, ListAutonomousDatabaseCharacterSetsOutput> {
+        return .init(
+            input: input,
+            command: self.listAutonomousDatabaseCharacterSets,
+            inputKey: \ListAutonomousDatabaseCharacterSetsInput.nextToken,
+            outputKey: \ListAutonomousDatabaseCharacterSetsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseCharacterSets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - characterSetType: The type of character set to return results for, either the database character set or the national character set.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseCharacterSetsPaginator(
+        characterSetType: CharacterSetType? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseCharacterSetsInput, ListAutonomousDatabaseCharacterSetsOutput> {
+        let input = ListAutonomousDatabaseCharacterSetsInput(
+            characterSetType: characterSetType, 
+            maxResults: maxResults
+        )
+        return self.listAutonomousDatabaseCharacterSetsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseClones(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseClonesPaginator(
+        _ input: ListAutonomousDatabaseClonesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseClonesInput, ListAutonomousDatabaseClonesOutput> {
+        return .init(
+            input: input,
+            command: self.listAutonomousDatabaseClones,
+            inputKey: \ListAutonomousDatabaseClonesInput.nextToken,
+            outputKey: \ListAutonomousDatabaseClonesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseClones(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the source Autonomous Database whose clones you want to list.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseClonesPaginator(
+        autonomousDatabaseId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseClonesInput, ListAutonomousDatabaseClonesOutput> {
+        let input = ListAutonomousDatabaseClonesInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            maxResults: maxResults
+        )
+        return self.listAutonomousDatabaseClonesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutonomousDatabasePeers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabasePeersPaginator(
+        _ input: ListAutonomousDatabasePeersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabasePeersInput, ListAutonomousDatabasePeersOutput> {
+        return .init(
+            input: input,
+            command: self.listAutonomousDatabasePeers,
+            inputKey: \ListAutonomousDatabasePeersInput.nextToken,
+            outputKey: \ListAutonomousDatabasePeersOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutonomousDatabasePeers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - autonomousDatabaseId: The unique identifier of the Autonomous Database whose peer databases you want to list.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabasePeersPaginator(
+        autonomousDatabaseId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabasePeersInput, ListAutonomousDatabasePeersOutput> {
+        let input = ListAutonomousDatabasePeersInput(
+            autonomousDatabaseId: autonomousDatabaseId, 
+            maxResults: maxResults
+        )
+        return self.listAutonomousDatabasePeersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseVersionsPaginator(
+        _ input: ListAutonomousDatabaseVersionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseVersionsInput, ListAutonomousDatabaseVersionsOutput> {
+        return .init(
+            input: input,
+            command: self.listAutonomousDatabaseVersions,
+            inputKey: \ListAutonomousDatabaseVersionsInput.nextToken,
+            outputKey: \ListAutonomousDatabaseVersionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutonomousDatabaseVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dbWorkload: The intended use of the Autonomous Database to return versions for, such as transaction processing, data warehouse, JSON database, or APEX.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabaseVersionsPaginator(
+        dbWorkload: DbWorkload? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabaseVersionsInput, ListAutonomousDatabaseVersionsOutput> {
+        let input = ListAutonomousDatabaseVersionsInput(
+            dbWorkload: dbWorkload, 
+            maxResults: maxResults
+        )
+        return self.listAutonomousDatabaseVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAutonomousDatabases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabasesPaginator(
+        _ input: ListAutonomousDatabasesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabasesInput, ListAutonomousDatabasesOutput> {
+        return .init(
+            input: input,
+            command: self.listAutonomousDatabases,
+            inputKey: \ListAutonomousDatabasesInput.nextToken,
+            outputKey: \ListAutonomousDatabasesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAutonomousDatabases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAutonomousDatabasesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAutonomousDatabasesInput, ListAutonomousDatabasesOutput> {
+        let input = ListAutonomousDatabasesInput(
+            maxResults: maxResults
+        )
+        return self.listAutonomousDatabasesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAutonomousVirtualMachines(_:logger:)``.
     ///
     /// - Parameters:
@@ -2102,6 +3330,73 @@ extension Odb {
             shape: shape
         )
         return self.listSystemVersionsPaginator(input, logger: logger)
+    }
+}
+
+extension Odb.ListAutonomousDatabaseBackupsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListAutonomousDatabaseBackupsInput {
+        return .init(
+            autonomousDatabaseId: self.autonomousDatabaseId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status,
+            type: self.type
+        )
+    }
+}
+
+extension Odb.ListAutonomousDatabaseCharacterSetsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListAutonomousDatabaseCharacterSetsInput {
+        return .init(
+            characterSetType: self.characterSetType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Odb.ListAutonomousDatabaseClonesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListAutonomousDatabaseClonesInput {
+        return .init(
+            autonomousDatabaseId: self.autonomousDatabaseId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Odb.ListAutonomousDatabasePeersInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListAutonomousDatabasePeersInput {
+        return .init(
+            autonomousDatabaseId: self.autonomousDatabaseId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Odb.ListAutonomousDatabaseVersionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListAutonomousDatabaseVersionsInput {
+        return .init(
+            dbWorkload: self.dbWorkload,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Odb.ListAutonomousDatabasesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListAutonomousDatabasesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

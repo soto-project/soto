@@ -126,7 +126,7 @@ public struct GeoMaps: AWSService {
     ///  GetSprites returns the map's sprites. For more information, see Style iconography with sprites in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - colorScheme: Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
+    ///   - colorScheme: Sets the color tone for the map sprites, such as dark and light. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
     ///   - fileName:  Sprites API: The name of the sprite ﬁle to retrieve, following pattern sprites(@2x)?\.(png|json). Example: sprites.png
     ///   - style: Style specifies the desired map style for the Sprites APIs.
     ///   - variant: Optimizes map styles for specific use case or industry. You can choose allowed variant only with Standard map style. Example: Default   Valid values for Variant are case sensitive.
@@ -148,7 +148,7 @@ public struct GeoMaps: AWSService {
         return try await self.getSprites(input, logger: logger)
     }
 
-    ///  GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
+    ///  This operation is not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.    GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
     @Sendable
     @inlinable
     public func getStaticMap(_ input: GetStaticMapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStaticMapResponse {
@@ -161,13 +161,13 @@ public struct GeoMaps: AWSService {
             logger: logger
         )
     }
-    ///  GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
+    ///  This operation is not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.    GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
     ///
     /// Parameters:
     ///   - boundedPositions: Takes in two or more pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], with each coordinate separated by a comma. The API will generate an image to encompass all of the provided coordinates.   Cannot be used with Zoom and or Radius   Example: 97.170451,78.039098,99.045536,27.176178
     ///   - boundingBox: Takes in two pairs of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image.  Example: -123.17075,49.26959,-123.08125,49.31429
     ///   - center: Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set.  Cannot be used with Zoom and or Radius   Example: 49.295,-123.108
-    ///   - colorScheme: Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
+    ///   - colorScheme: Sets the color tone for the map, such as dark and light. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
     ///   - compactOverlay: Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat]  Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B   Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and multiPolgyon.
     ///   - cropLabels: It is a flag that takes in true or false. It prevents the labels that are on the edge of the image from being cut or obscured.
     ///   - fileName: The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$. Example: map, map@2x
@@ -251,14 +251,14 @@ public struct GeoMaps: AWSService {
     ///
     /// Parameters:
     ///   - buildings: Adjusts how building details are rendered on the map. The following building styles are currently supported:    Buildings3D: Displays buildings as three-dimensional extrusions on the map.    Buildings3D is valid only for the Standard and Monochrome map styles.
-    ///   - colorScheme: Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
-    ///   - contourDensity: Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard, Monochrome, and Hybrid map styles.
+    ///   - colorScheme: Sets the color tone for the map, such as dark and light. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
+    ///   - contourDensity: Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - politicalView: Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
-    ///   - style: Style specifies the desired map style.
-    ///   - terrain: Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.    Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.    Hillshade is valid only for the Standard and Monochrome map styles.
-    ///   - traffic: Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
-    ///   - travelModes: Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid only for the Standard map style.
+    ///   - politicalView: Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
+    ///   - style: Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values.
+    ///   - terrain: Adjusts how physical terrain details are rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.    Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.    Hillshade is valid only for the Standard and Monochrome map styles.
+    ///   - traffic: Displays real-time traffic information overlay on map, such as incident events and flow events. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite.
+    ///   - travelModes: Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite.
     ///   - logger: Logger use during operation
     @inlinable
     public func getStyleDescriptor(
@@ -287,7 +287,7 @@ public struct GeoMaps: AWSService {
         return try await self.getStyleDescriptor(input, logger: logger)
     }
 
-    ///  GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Developer Guide.
+    ///  GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func getTile(_ input: GetTileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTileResponse {
@@ -300,13 +300,13 @@ public struct GeoMaps: AWSService {
             logger: logger
         )
     }
-    ///  GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Developer Guide.
+    ///  GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - additionalFeatures: A list of optional additional parameters such as map styles that can be requested for each result.
+    ///   - additionalFeatures: A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - tileset: Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
-    ///   - x: The X axis value for the map tile. Must be between 0 and 19.
+    ///   - tileset: Specifies the desired tile set. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
+    ///   - x: The X axis value for the map tile.
     ///   - y: The Y axis value for the map tile.
     ///   - z: The zoom value for the map tile.
     ///   - logger: Logger use during operation

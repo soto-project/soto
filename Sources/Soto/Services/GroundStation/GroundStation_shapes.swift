@@ -162,15 +162,15 @@ extension GroundStation {
     }
 
     public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// Provided KMS key is invalid
+        /// Provided KMS key is invalid.
         case kmsKeyInvalid = "KMS_KEY_INVALID"
-        /// Provided spacecraft identifiers such as spacecraft NORAD Id are invalid
+        /// Provided spacecraft identifiers such as spacecraft NORAD ID are invalid.
         case metadataInvalid = "METADATA_INVALID"
-        /// Start, end, or expiration time(s) are invalid for the provided ephemeris
+        /// Start, end, or expiration time(s) are invalid for the provided ephemeris.
         case timeRangeInvalid = "TIME_RANGE_INVALID"
-        /// Provided ephemeris defines invalid spacecraft trajectory
+        /// Provided ephemeris defines invalid spacecraft trajectory.
         case trajectoryInvalid = "TRAJECTORY_INVALID"
-        /// Internal Service Error occurred while processing ephemeris
+        /// Internal service error occurred while processing ephemeris.
         case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
@@ -206,6 +206,12 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaintenanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case planned = "PLANNED"
+        case unplanned = "UNPLANNED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Polarization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case leftHand = "LEFT_HAND"
         case none = "NONE"
@@ -213,8 +219,42 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReservationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contact = "CONTACT"
+        case maintenance = "MAINTENANCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TelemetrySinkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kinesisDataStream = "KINESIS_DATA_STREAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VersionFailureReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azelEphemerisInvalidStatus = "AZEL_EPHEMERIS_INVALID_STATUS"
+        case azelEphemerisNotFound = "AZEL_EPHEMERIS_NOT_FOUND"
+        case azelEphemerisTimeRangeInvalid = "AZEL_EPHEMERIS_TIME_RANGE_INVALID"
+        case azelEphemerisWrongGroundStation = "AZEL_EPHEMERIS_WRONG_GROUND_STATION"
+        case ephemerisNotEnabled = "EPHEMERIS_NOT_ENABLED"
+        case ephemerisNotFound = "EPHEMERIS_NOT_FOUND"
+        case ephemerisTimeRangeInvalid = "EPHEMERIS_TIME_RANGE_INVALID"
+        case internalError = "INTERNAL_ERROR"
+        case invalidSatelliteArn = "INVALID_SATELLITE_ARN"
+        case invalidUpdateContactRequest = "INVALID_UPDATE_CONTACT_REQUEST"
+        case notOnboardedToAzelEphemeris = "NOT_ONBOARDED_TO_AZEL_EPHEMERIS"
+        case satelliteDoesNotMatchEphemeris = "SATELLITE_DOES_NOT_MATCH_EPHEMERIS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The version is the current active version of the contact.
+        case active = "ACTIVE"
+        /// The version update failed.
+        case failedToUpdate = "FAILED_TO_UPDATE"
+        /// The version has been replaced by a newer version.
+        case superseded = "SUPERSEDED"
+        /// The version is being applied to the contact.
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -553,6 +593,97 @@ extension GroundStation {
         }
     }
 
+    public enum ProgramTrackSettings: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Program track settings for AzElEphemeris.
+        case azEl(AzElProgramTrackSettings)
+        /// Program track settings for OEMEphemeris.
+        case oem(OemProgramTrackSettings)
+        /// Program track settings for TLEEphemeris.
+        case tle(TleProgramTrackSettings)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .azEl:
+                let value = try container.decode(AzElProgramTrackSettings.self, forKey: .azEl)
+                self = .azEl(value)
+            case .oem:
+                let value = try container.decode(OemProgramTrackSettings.self, forKey: .oem)
+                self = .oem(value)
+            case .tle:
+                let value = try container.decode(TleProgramTrackSettings.self, forKey: .tle)
+                self = .tle(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .azEl(let value):
+                try container.encode(value, forKey: .azEl)
+            case .oem(let value):
+                try container.encode(value, forKey: .oem)
+            case .tle(let value):
+                try container.encode(value, forKey: .tle)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .azEl(let value):
+                try value.validate(name: "\(name).azEl")
+            case .oem(let value):
+                try value.validate(name: "\(name).oem")
+            case .tle(let value):
+                try value.validate(name: "\(name).tle")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azEl = "azEl"
+            case oem = "oem"
+            case tle = "tle"
+        }
+    }
+
+    public enum ReservationDetails: AWSDecodableShape, Sendable {
+        /// Details of a contact reservation.
+        case contact(ContactReservationDetails)
+        /// Details of a maintenance reservation.
+        case maintenance(MaintenanceReservationDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .contact:
+                let value = try container.decode(ContactReservationDetails.self, forKey: .contact)
+                self = .contact(value)
+            case .maintenance:
+                let value = try container.decode(MaintenanceReservationDetails.self, forKey: .maintenance)
+                self = .maintenance(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contact = "contact"
+            case maintenance = "maintenance"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AgentDetails: AWSEncodableShape {
@@ -681,6 +812,28 @@ extension GroundStation {
         }
     }
 
+    public struct AntennaListItem: AWSDecodableShape {
+        /// Name of the antenna.
+        public let antennaName: String
+        /// Name of the ground station the antenna is associated with.
+        public let groundStationName: String
+        /// Region of the antenna.
+        public let region: String
+
+        @inlinable
+        public init(antennaName: String, groundStationName: String, region: String) {
+            self.antennaName = antennaName
+            self.groundStationName = groundStationName
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case antennaName = "antennaName"
+            case groundStationName = "groundStationName"
+            case region = "region"
+        }
+    }
+
     public struct AntennaUplinkConfig: AWSEncodableShape & AWSDecodableShape {
         /// Information about the uplink spectral Config.
         public let spectrumConfig: UplinkSpectrumConfig
@@ -754,9 +907,9 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.data.validate(name: "\(name).data")
-            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 97)
             try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
-            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
+            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,97}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1038,9 +1191,9 @@ extension GroundStation {
         public let maximumElevation: Elevation?
         /// ARN of a mission profile.
         public let missionProfileArn: String?
-        /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+        /// End time in UTC of the post-pass period, at which you receive a CloudWatch event indicating the pass has finished.
         public let postPassEndTime: Date?
-        /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+        /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch event indicating an upcoming pass.
         public let prePassStartTime: Date?
         /// Region of a contact.
         public let region: String?
@@ -1050,13 +1203,15 @@ extension GroundStation {
         public let startTime: Date?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
+        /// Version information for a contact.
+        public let version: ContactVersion?
         ///  Projected time in UTC your satellite will set below the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. This field is not present for contacts with a SCHEDULING or SCHEDULED status.
         public let visibilityEndTime: Date?
         ///  Projected time in UTC your satellite will rise above the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. This field is not present for contacts with a SCHEDULING or SCHEDULED status.
         public let visibilityStartTime: Date?
 
         @inlinable
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: Date? = nil, ephemeris: EphemerisResponseData? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: Date? = nil, ephemeris: EphemerisResponseData? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, version: ContactVersion? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.endTime = endTime
@@ -1071,6 +1226,7 @@ extension GroundStation {
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.tags = tags
+            self.version = version
             self.visibilityEndTime = visibilityEndTime
             self.visibilityStartTime = visibilityStartTime
         }
@@ -1090,12 +1246,31 @@ extension GroundStation {
             case satelliteArn = "satelliteArn"
             case startTime = "startTime"
             case tags = "tags"
+            case version = "version"
             case visibilityEndTime = "visibilityEndTime"
             case visibilityStartTime = "visibilityStartTime"
         }
     }
 
     public struct ContactIdResponse: AWSDecodableShape {
+        /// UUID of a contact.
+        public let contactId: String?
+        /// Version ID of a contact.
+        public let versionId: Int?
+
+        @inlinable
+        public init(contactId: String? = nil, versionId: Int? = nil) {
+            self.contactId = contactId
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "contactId"
+            case versionId = "versionId"
+        }
+    }
+
+    public struct ContactReservationDetails: AWSDecodableShape {
         /// UUID of a contact.
         public let contactId: String?
 
@@ -1106,6 +1281,48 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case contactId = "contactId"
+        }
+    }
+
+    public struct ContactVersion: AWSDecodableShape {
+        /// Time the contact version was activated in UTC. A version is activated when it becomes the current active version of the contact.
+        public let activated: Date?
+        /// Time the contact version was created in UTC.
+        public let created: Date?
+        /// List of failure codes for the contact version.
+        public let failureCodes: [VersionFailureReasonCode]?
+        /// Failure message for the contact version.
+        public let failureMessage: String?
+        /// Time the contact version was last updated in UTC.
+        public let lastUpdated: Date?
+        /// Status of the contact version.
+        public let status: VersionStatus?
+        /// Time the contact version was superseded in UTC. A version is superseded when a newer version becomes active.
+        public let superseded: Date?
+        /// Version ID of a contact.
+        public let versionId: Int?
+
+        @inlinable
+        public init(activated: Date? = nil, created: Date? = nil, failureCodes: [VersionFailureReasonCode]? = nil, failureMessage: String? = nil, lastUpdated: Date? = nil, status: VersionStatus? = nil, superseded: Date? = nil, versionId: Int? = nil) {
+            self.activated = activated
+            self.created = created
+            self.failureCodes = failureCodes
+            self.failureMessage = failureMessage
+            self.lastUpdated = lastUpdated
+            self.status = status
+            self.superseded = superseded
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activated = "activated"
+            case created = "created"
+            case failureCodes = "failureCodes"
+            case failureMessage = "failureMessage"
+            case lastUpdated = "lastUpdated"
+            case status = "status"
+            case superseded = "superseded"
+            case versionId = "versionId"
         }
     }
 
@@ -1282,13 +1499,13 @@ extension GroundStation {
     }
 
     public struct CreateMissionProfileRequest: AWSEncodableShape {
-        /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
+        /// Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int?
-        /// Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
+        /// Amount of time prior to contact start you'd like to receive a Ground Station Contact State Change event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
         /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
         public let dataflowEdges: [[String]]
-        /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+        /// Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int
         /// Name of a mission profile.
         public let name: String
@@ -1602,6 +1819,7 @@ extension GroundStation {
 
     public struct DependencyException: AWSErrorShape {
         public let message: String?
+        /// Name of the parameter that caused the exception.
         public let parameterName: String?
 
         @inlinable
@@ -1659,11 +1877,11 @@ extension GroundStation {
         public let maximumElevation: Elevation?
         /// ARN of a mission profile.
         public let missionProfileArn: String?
-        /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+        /// End time in UTC of the post-pass period, at which you receive a CloudWatch event indicating the pass has finished.
         public let postPassEndTime: Date?
-        /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+        /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch event indicating an upcoming pass.
         public let prePassStartTime: Date?
-        /// Region of a contact.
+        /// Region where the ReserveContact API was called to schedule this contact.
         public let region: String?
         /// ARN of a satellite.
         public let satelliteArn: String?
@@ -1673,13 +1891,15 @@ extension GroundStation {
         public let tags: [String: String]?
         /// Tracking configuration overrides specified when the contact was reserved.
         public let trackingOverrides: TrackingOverrides?
+        /// Version information for a contact.
+        public let version: ContactVersion?
         ///  Projected time in UTC your satellite will set below the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
         public let visibilityEndTime: Date?
         ///  Projected time in UTC your satellite will rise above the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
         public let visibilityStartTime: Date?
 
         @inlinable
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: Date? = nil, ephemeris: EphemerisResponseData? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, trackingOverrides: TrackingOverrides? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: Date? = nil, ephemeris: EphemerisResponseData? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, trackingOverrides: TrackingOverrides? = nil, version: ContactVersion? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.dataflowList = dataflowList
@@ -1696,6 +1916,7 @@ extension GroundStation {
             self.startTime = startTime
             self.tags = tags
             self.trackingOverrides = trackingOverrides
+            self.version = version
             self.visibilityEndTime = visibilityEndTime
             self.visibilityStartTime = visibilityStartTime
         }
@@ -1717,6 +1938,123 @@ extension GroundStation {
             case startTime = "startTime"
             case tags = "tags"
             case trackingOverrides = "trackingOverrides"
+            case version = "version"
+            case visibilityEndTime = "visibilityEndTime"
+            case visibilityStartTime = "visibilityStartTime"
+        }
+    }
+
+    public struct DescribeContactVersionRequest: AWSEncodableShape {
+        /// UUID of a contact.
+        public let contactId: String
+        /// Version ID of a contact.
+        public let versionId: Int
+
+        @inlinable
+        public init(contactId: String, versionId: Int) {
+            self.contactId = contactId
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactId, key: "contactId")
+            request.encodePath(self.versionId, key: "versionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeContactVersionResponse: AWSDecodableShape {
+        /// UUID of a contact.
+        public let contactId: String?
+        /// Status of a contact.
+        public let contactStatus: ContactStatus?
+        /// List describing source and destination details for each dataflow edge.
+        public let dataflowList: [DataflowDetail]?
+        /// End time of a contact in UTC.
+        public let endTime: Date?
+        /// The ephemeris that determines antenna pointing directions for the contact.
+        public let ephemeris: EphemerisResponseData?
+        /// Error message for a contact.
+        public let errorMessage: String?
+        /// Ground station for a contact.
+        public let groundStation: String?
+        /// Maximum elevation angle of a contact.
+        public let maximumElevation: Elevation?
+        /// ARN of the contact's mission profile.
+        public let missionProfileArn: String?
+        /// End time in UTC of the post-pass period, at which you receive a CloudWatch event indicating the pass has finished.
+        public let postPassEndTime: Date?
+        /// Start time in UTC of the pre-pass period, at which you receive a CloudWatch event indicating an upcoming pass.
+        public let prePassStartTime: Date?
+        /// Region where the ReserveContact API was called to schedule this contact.
+        public let region: String?
+        /// ARN of a satellite.
+        public let satelliteArn: String?
+        /// Start time of a contact in UTC.
+        public let startTime: Date?
+        /// Tags assigned to a contact.
+        public let tags: [String: String]?
+        /// Tracking configuration overrides applied to this contact version. For the initial version, these are the overrides specified when the contact was reserved. For subsequent versions, these are the overrides associated with that specific version update.
+        public let trackingOverrides: TrackingOverrides?
+        /// Version information for a contact.
+        public let version: ContactVersion?
+        ///  Projected time in UTC your satellite will set below the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
+        public let visibilityEndTime: Date?
+        ///  Projected time in UTC your satellite will rise above the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
+        public let visibilityStartTime: Date?
+
+        @inlinable
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: Date? = nil, ephemeris: EphemerisResponseData? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, trackingOverrides: TrackingOverrides? = nil, version: ContactVersion? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
+            self.contactId = contactId
+            self.contactStatus = contactStatus
+            self.dataflowList = dataflowList
+            self.endTime = endTime
+            self.ephemeris = ephemeris
+            self.errorMessage = errorMessage
+            self.groundStation = groundStation
+            self.maximumElevation = maximumElevation
+            self.missionProfileArn = missionProfileArn
+            self.postPassEndTime = postPassEndTime
+            self.prePassStartTime = prePassStartTime
+            self.region = region
+            self.satelliteArn = satelliteArn
+            self.startTime = startTime
+            self.tags = tags
+            self.trackingOverrides = trackingOverrides
+            self.version = version
+            self.visibilityEndTime = visibilityEndTime
+            self.visibilityStartTime = visibilityStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "contactId"
+            case contactStatus = "contactStatus"
+            case dataflowList = "dataflowList"
+            case endTime = "endTime"
+            case ephemeris = "ephemeris"
+            case errorMessage = "errorMessage"
+            case groundStation = "groundStation"
+            case maximumElevation = "maximumElevation"
+            case missionProfileArn = "missionProfileArn"
+            case postPassEndTime = "postPassEndTime"
+            case prePassStartTime = "prePassStartTime"
+            case region = "region"
+            case satelliteArn = "satelliteArn"
+            case startTime = "startTime"
+            case tags = "tags"
+            case trackingOverrides = "trackingOverrides"
+            case version = "version"
             case visibilityEndTime = "visibilityEndTime"
             case visibilityStartTime = "visibilityStartTime"
         }
@@ -2495,13 +2833,13 @@ extension GroundStation {
     }
 
     public struct GetMissionProfileResponse: AWSDecodableShape {
-        /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+        /// Amount of time after a contact ends that you'd like to receive a CloudWatch event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int?
-        /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+        /// Amount of time prior to contact start you'd like to receive a CloudWatch event indicating an upcoming pass.
         public let contactPrePassDurationSeconds: Int?
         /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
         public let dataflowEdges: [[String]]?
-        /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+        /// Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?
         /// ARN of a mission profile.
         public let missionProfileArn: String?
@@ -2611,7 +2949,7 @@ extension GroundStation {
     }
 
     public struct GroundStationData: AWSDecodableShape {
-        /// UUID of a ground station.
+        /// ID of a ground station.
         public let groundStationId: String?
         /// Name of a ground station.
         public let groundStationName: String?
@@ -2629,6 +2967,40 @@ extension GroundStation {
             case groundStationId = "groundStationId"
             case groundStationName = "groundStationName"
             case region = "region"
+        }
+    }
+
+    public struct GroundStationReservationListItem: AWSDecodableShape {
+        /// Name of an antenna.
+        public let antennaName: String
+        /// End time of a ground station reservation in UTC.
+        public let endTime: Date
+        /// ID of a ground station.
+        public let groundStationId: String
+        /// Details of a ground station reservation.
+        public let reservationDetails: ReservationDetails
+        /// Type of a ground station reservation.
+        public let reservationType: ReservationType
+        /// Start time of a ground station reservation in UTC.
+        public let startTime: Date
+
+        @inlinable
+        public init(antennaName: String, endTime: Date, groundStationId: String, reservationDetails: ReservationDetails, reservationType: ReservationType, startTime: Date) {
+            self.antennaName = antennaName
+            self.endTime = endTime
+            self.groundStationId = groundStationId
+            self.reservationDetails = reservationDetails
+            self.reservationType = reservationType
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case antennaName = "antennaName"
+            case endTime = "endTime"
+            case groundStationId = "groundStationId"
+            case reservationDetails = "reservationDetails"
+            case reservationType = "reservationType"
+            case startTime = "startTime"
         }
     }
 
@@ -2670,6 +3042,7 @@ extension GroundStation {
 
     public struct InvalidParameterException: AWSErrorShape {
         public let message: String?
+        /// Name of the invalid parameter.
         public let parameterName: String?
 
         @inlinable
@@ -2708,6 +3081,61 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case kinesisDataStreamArn = "kinesisDataStreamArn"
             case kinesisRoleArn = "kinesisRoleArn"
+        }
+    }
+
+    public struct ListAntennasRequest: AWSEncodableShape {
+        /// ID of a ground station.
+        public let groundStationId: String
+        /// Maximum number of antennas returned.
+        public let maxResults: Int?
+        /// Next token returned in the request of a previous ListAntennas call. Used to get the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(groundStationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.groundStationId = groundStationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groundStationId, key: "groundStationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groundStationId, name: "groundStationId", parent: name, max: 97)
+            try self.validate(self.groundStationId, name: "groundStationId", parent: name, min: 4)
+            try self.validate(self.groundStationId, name: "groundStationId", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,97}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAntennasResponse: AWSDecodableShape {
+        /// List of antennas.
+        public let antennaList: [AntennaListItem]
+        /// Next token to be used in a subsequent ListAntennas call to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(antennaList: [AntennaListItem], nextToken: String? = nil) {
+            self.antennaList = antennaList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case antennaList = "antennaList"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2759,6 +3187,61 @@ extension GroundStation {
         }
     }
 
+    public struct ListContactVersionsRequest: AWSEncodableShape {
+        /// UUID of a contact.
+        public let contactId: String
+        /// Maximum number of contact versions returned.
+        public let maxResults: Int?
+        /// Next token returned in the request of a previous ListContactVersions call. Used to get the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contactId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contactId = contactId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactId, key: "contactId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListContactVersionsResponse: AWSDecodableShape {
+        /// List of contact versions.
+        public let contactVersionsList: [ContactVersion]?
+        /// Next token to be used in a subsequent ListContactVersions call to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contactVersionsList: [ContactVersion]? = nil, nextToken: String? = nil) {
+            self.contactVersionsList = contactVersionsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactVersionsList = "contactVersionsList"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListContactsRequest: AWSEncodableShape {
         /// End time of a contact in UTC.
         public let endTime: Date
@@ -2794,9 +3277,9 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.ephemeris?.validate(name: "\(name).ephemeris")
-            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 97)
             try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
-            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
+            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,97}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, max: 138)
@@ -2965,6 +3448,73 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case ephemerides = "ephemerides"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListGroundStationReservationsRequest: AWSEncodableShape {
+        /// End time of the reservation window in UTC.
+        public let endTime: Date
+        /// ID of a ground station.
+        public let groundStationId: String
+        /// Maximum number of ground station reservations returned.
+        public let maxResults: Int?
+        /// Next token returned in the request of a previous ListGroundStationReservations call. Used to get the next page of results.
+        public let nextToken: String?
+        /// Types of reservations to filter by.
+        public let reservationTypes: [ReservationType]?
+        /// Start time of the reservation window in UTC.
+        public let startTime: Date
+
+        @inlinable
+        public init(endTime: Date, groundStationId: String, maxResults: Int? = nil, nextToken: String? = nil, reservationTypes: [ReservationType]? = nil, startTime: Date) {
+            self.endTime = endTime
+            self.groundStationId = groundStationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.reservationTypes = reservationTypes
+            self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodePath(self.groundStationId, key: "groundStationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.reservationTypes, key: "reservationTypes")
+            request.encodeQuery(self.startTime, key: "startTime")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groundStationId, name: "groundStationId", parent: name, max: 97)
+            try self.validate(self.groundStationId, name: "groundStationId", parent: name, min: 4)
+            try self.validate(self.groundStationId, name: "groundStationId", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,97}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListGroundStationReservationsResponse: AWSDecodableShape {
+        /// Next token to be used in a subsequent ListGroundStationReservations call to retrieve the next page of results.
+        public let nextToken: String?
+        /// List of ground station reservations.
+        public let reservationList: [GroundStationReservationListItem]
+
+        @inlinable
+        public init(nextToken: String? = nil, reservationList: [GroundStationReservationListItem]) {
+            self.nextToken = nextToken
+            self.reservationList = reservationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reservationList = "reservationList"
         }
     }
 
@@ -3157,6 +3707,20 @@ extension GroundStation {
         }
     }
 
+    public struct MaintenanceReservationDetails: AWSDecodableShape {
+        /// Type of maintenance.
+        public let maintenanceType: MaintenanceType
+
+        @inlinable
+        public init(maintenanceType: MaintenanceType) {
+            self.maintenanceType = maintenanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceType = "maintenanceType"
+        }
+    }
+
     public struct MissionProfileIdResponse: AWSDecodableShape {
         /// UUID of a mission profile.
         public let missionProfileId: String?
@@ -3218,6 +3782,26 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case oemData = "oemData"
             case s3Object = "s3Object"
+        }
+    }
+
+    public struct OemProgramTrackSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Unique identifier of the OEM ephemeris.
+        public let ephemerisId: String
+
+        @inlinable
+        public init(ephemerisId: String) {
+            self.ephemerisId = ephemerisId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerisId = "ephemerisId"
         }
     }
 
@@ -3336,9 +3920,9 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 97)
             try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
-            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
+            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,97}$")
             try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, max: 138)
             try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, min: 89)
             try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mission-profile/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -3361,6 +3945,7 @@ extension GroundStation {
 
     public struct ResourceLimitExceededException: AWSErrorShape {
         public let message: String?
+        /// Name of the parameter that exceeded the resource limit.
         public let parameterName: String?
 
         @inlinable
@@ -3617,10 +4202,10 @@ extension GroundStation {
         public func validate(name: String) throws {
             try self.validate(self.tleLine1, name: "tleLine1", parent: name, max: 69)
             try self.validate(self.tleLine1, name: "tleLine1", parent: name, min: 69)
-            try self.validate(self.tleLine1, name: "tleLine1", parent: name, pattern: "^1 [ 0-9]{5}[A-Z] [ 0-9]{5}[ A-Z]{3} [ 0-9]{5}[.][ 0-9]{8} (?:(?:[ 0+-][.][ 0-9]{8})|(?: [ +-][.][ 0-9]{7})) [ +-][ 0-9]{5}[+-][ 0-9] [ +-][ 0-9]{5}[+-][ 0-9] [ 0-9] [ 0-9]{4}[ 0-9]$")
+            try self.validate(self.tleLine1, name: "tleLine1", parent: name, pattern: "^1 [ 0-9A-HJ-NP-Z][ 0-9]{4}[A-Z] [ 0-9]{5}[ A-Z]{3} [ 0-9]{5}[.][ 0-9]{8} (?:(?:[ 0+-][.][ 0-9]{8})|(?: [ +-][.][ 0-9]{7})) [ +-][ 0-9]{5}[+-][ 0-9] [ +-][ 0-9]{5}[+-][ 0-9] [ 0-9] [ 0-9]{4}[ 0-9]$")
             try self.validate(self.tleLine2, name: "tleLine2", parent: name, max: 69)
             try self.validate(self.tleLine2, name: "tleLine2", parent: name, min: 69)
-            try self.validate(self.tleLine2, name: "tleLine2", parent: name, pattern: "^2 [ 0-9]{5} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{7} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{2}[.][ 0-9]{13}[ 0-9]$")
+            try self.validate(self.tleLine2, name: "tleLine2", parent: name, pattern: "^2 [ 0-9A-HJ-NP-Z][ 0-9]{4} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{7} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{3}[.][ 0-9]{4} [ 0-9]{2}[.][ 0-9]{13}[ 0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3753,6 +4338,26 @@ extension GroundStation {
         }
     }
 
+    public struct TleProgramTrackSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Unique identifier of the TLE ephemeris.
+        public let ephemerisId: String
+
+        @inlinable
+        public init(ephemerisId: String) {
+            self.ephemerisId = ephemerisId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerisId = "ephemerisId"
+        }
+    }
+
     public struct TrackingConfig: AWSEncodableShape & AWSDecodableShape {
         /// Current setting for autotrack.
         public let autotrack: Criticality
@@ -3769,15 +4374,15 @@ extension GroundStation {
 
     public struct TrackingOverrides: AWSEncodableShape & AWSDecodableShape {
         /// Program track settings to override for antenna tracking during the contact.
-        public let programTrackSettings: ProgramTrackSettings
+        public let programTrackSettings: ProgramTrackSettings?
 
         @inlinable
-        public init(programTrackSettings: ProgramTrackSettings) {
+        public init(programTrackSettings: ProgramTrackSettings? = nil) {
             self.programTrackSettings = programTrackSettings
         }
 
         public func validate(name: String) throws {
-            try self.programTrackSettings.validate(name: "\(name).programTrackSettings")
+            try self.programTrackSettings?.validate(name: "\(name).programTrackSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3926,6 +4531,70 @@ extension GroundStation {
         }
     }
 
+    public struct UpdateContactRequest: AWSEncodableShape {
+        /// A client token is a unique, case-sensitive string of up to 64 ASCII characters. It is generated by the client to ensure idempotent operations, allowing safe retries without unintended side effects.
+        public let clientToken: String?
+        /// UUID of a contact.
+        public let contactId: String
+        /// ARN of a satellite.
+        public let satelliteArn: String?
+        public let trackingOverrides: TrackingOverrides?
+
+        @inlinable
+        public init(clientToken: String? = UpdateContactRequest.idempotencyToken(), contactId: String, satelliteArn: String? = nil, trackingOverrides: TrackingOverrides? = nil) {
+            self.clientToken = clientToken
+            self.contactId = contactId
+            self.satelliteArn = satelliteArn
+            self.trackingOverrides = trackingOverrides
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.contactId, key: "contactId")
+            try container.encodeIfPresent(self.satelliteArn, forKey: .satelliteArn)
+            try container.encodeIfPresent(self.trackingOverrides, forKey: .trackingOverrides)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, max: 132)
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, min: 82)
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, pattern: "^arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satellite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.trackingOverrides?.validate(name: "\(name).trackingOverrides")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case satelliteArn = "satelliteArn"
+            case trackingOverrides = "trackingOverrides"
+        }
+    }
+
+    public struct UpdateContactResponse: AWSDecodableShape {
+        /// UUID of a contact.
+        public let contactId: String?
+        /// Version ID of a contact.
+        public let versionId: Int?
+
+        @inlinable
+        public init(contactId: String? = nil, versionId: Int? = nil) {
+            self.contactId = contactId
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "contactId"
+            case versionId = "versionId"
+        }
+    }
+
     public struct UpdateEphemerisRequest: AWSEncodableShape {
         /// Enable or disable the ephemeris. Changing this value doesn't require re-validation.
         public let enabled: Bool
@@ -3972,13 +4641,13 @@ extension GroundStation {
     }
 
     public struct UpdateMissionProfileRequest: AWSEncodableShape {
-        /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
+        /// Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
         public let contactPostPassDurationSeconds: Int?
-        /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
+        /// Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
         public let contactPrePassDurationSeconds: Int?
         /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
         public let dataflowEdges: [[String]]?
-        /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+        /// Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
         public let minimumViableContactDurationSeconds: Int?
         /// UUID of a mission profile.
         public let missionProfileId: String
@@ -4209,24 +4878,6 @@ extension GroundStation {
 
         @inlinable
         public init(azEl: AzElEphemerisFilter? = nil) {
-            self.azEl = azEl
-        }
-
-        public func validate(name: String) throws {
-            try self.azEl?.validate(name: "\(name).azEl")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case azEl = "azEl"
-        }
-    }
-
-    public struct ProgramTrackSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Program track settings for AzElEphemeris.
-        public let azEl: AzElProgramTrackSettings?
-
-        @inlinable
-        public init(azEl: AzElProgramTrackSettings? = nil) {
             self.azEl = azEl
         }
 

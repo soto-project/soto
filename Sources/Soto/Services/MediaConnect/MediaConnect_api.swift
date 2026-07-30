@@ -529,6 +529,7 @@ public struct MediaConnect: AWSService {
     ///   - availabilityZone: The Availability Zone where you want to create the router input. This must be a valid Availability Zone for the region specified by regionName, or the current region if no regionName is provided.
     ///   - clientToken: A unique identifier for the request to ensure idempotency.
     ///   - configuration: The configuration settings for the router input, which can include the protocol, network interface, and other details.
+    ///   - contentQualityAnalysisConfiguration: The content quality analysis configuration for the router input.
     ///   - maintenanceConfiguration: The maintenance configuration settings for the router input, including preferred maintenance windows and schedules.
     ///   - maximumBitrate: The maximum bitrate for the router input.
     ///   - name: The name of the router input.
@@ -543,6 +544,7 @@ public struct MediaConnect: AWSService {
         availabilityZone: String? = nil,
         clientToken: String? = CreateRouterInputRequest.idempotencyToken(),
         configuration: RouterInputConfiguration,
+        contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration? = nil,
         maintenanceConfiguration: MaintenanceConfiguration? = nil,
         maximumBitrate: Int64,
         name: String,
@@ -557,6 +559,7 @@ public struct MediaConnect: AWSService {
             availabilityZone: availabilityZone, 
             clientToken: clientToken, 
             configuration: configuration, 
+            contentQualityAnalysisConfiguration: contentQualityAnalysisConfiguration, 
             maintenanceConfiguration: maintenanceConfiguration, 
             maximumBitrate: maximumBitrate, 
             name: name, 
@@ -2630,6 +2633,7 @@ public struct MediaConnect: AWSService {
     ///   - maxLatency:  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     ///   - mediaStreamOutputConfigurations:  The media streams that are associated with the output, and the parameters for those associations.
     ///   - minLatency:  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+    ///   - ndiOutputTimecodeSource: Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
     ///   - ndiProgramName:  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
     ///   - ndiSpeedHqQuality: A quality setting for the NDI Speed HQ encoder.
     ///   - outputArn:  The ARN of the output that you want to update.
@@ -2655,6 +2659,7 @@ public struct MediaConnect: AWSService {
         maxLatency: Int? = nil,
         mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Int? = nil,
+        ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil,
         ndiProgramName: String? = nil,
         ndiSpeedHqQuality: Int? = nil,
         outputArn: String,
@@ -2680,6 +2685,7 @@ public struct MediaConnect: AWSService {
             maxLatency: maxLatency, 
             mediaStreamOutputConfigurations: mediaStreamOutputConfigurations, 
             minLatency: minLatency, 
+            ndiOutputTimecodeSource: ndiOutputTimecodeSource, 
             ndiProgramName: ndiProgramName, 
             ndiSpeedHqQuality: ndiSpeedHqQuality, 
             outputArn: outputArn, 
@@ -2843,6 +2849,7 @@ public struct MediaConnect: AWSService {
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the router input that you want to update.
     ///   - configuration: The updated configuration settings for the router input. Changing the type of the configuration is not supported.
+    ///   - contentQualityAnalysisConfiguration: The content quality analysis configuration for the router input.
     ///   - maintenanceConfiguration: The updated maintenance configuration settings for the router input, including any changes to preferred maintenance windows and schedules.
     ///   - maximumBitrate: The updated maximum bitrate for the router input.
     ///   - name: The updated name for the router input.
@@ -2854,6 +2861,7 @@ public struct MediaConnect: AWSService {
     public func updateRouterInput(
         arn: String,
         configuration: RouterInputConfiguration? = nil,
+        contentQualityAnalysisConfiguration: RouterContentQualityAnalysisConfiguration? = nil,
         maintenanceConfiguration: MaintenanceConfiguration? = nil,
         maximumBitrate: Int64? = nil,
         name: String? = nil,
@@ -2865,6 +2873,7 @@ public struct MediaConnect: AWSService {
         let input = UpdateRouterInputRequest(
             arn: arn, 
             configuration: configuration, 
+            contentQualityAnalysisConfiguration: contentQualityAnalysisConfiguration, 
             maintenanceConfiguration: maintenanceConfiguration, 
             maximumBitrate: maximumBitrate, 
             name: name, 

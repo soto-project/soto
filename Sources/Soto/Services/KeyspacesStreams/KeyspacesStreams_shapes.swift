@@ -25,6 +25,12 @@ import Foundation
 extension KeyspacesStreams {
     // MARK: Enums
 
+    public enum IteratorPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case atTip = "AT_TIP"
+        case behindTip = "BEHIND_TIP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case replication = "REPLICATION"
         case ttl = "TTL"
@@ -272,17 +278,21 @@ extension KeyspacesStreams {
     public struct GetRecordsOutput: AWSDecodableShape {
         ///  An array of change data records retrieved from the specified shard. Each record represents a single data modification (insert, update, or delete) to a row in the Amazon Keyspaces table. Records include the primary key columns and information about what data was modified.
         public let changeRecords: [Record]?
+        ///  Provides information about the current iterator at the time GetRecords request was processed by Keyspaces.
+        public let iteratorDescription: IteratorDescription?
         ///  The next position in the shard from which to start sequentially reading data records. If null, the shard has been closed and the requested iterator will not return any more data.
         public let nextShardIterator: String?
 
         @inlinable
-        public init(changeRecords: [Record]? = nil, nextShardIterator: String? = nil) {
+        public init(changeRecords: [Record]? = nil, iteratorDescription: IteratorDescription? = nil, nextShardIterator: String? = nil) {
             self.changeRecords = changeRecords
+            self.iteratorDescription = iteratorDescription
             self.nextShardIterator = nextShardIterator
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeRecords = "changeRecords"
+            case iteratorDescription = "iteratorDescription"
             case nextShardIterator = "nextShardIterator"
         }
     }
@@ -413,6 +423,20 @@ extension KeyspacesStreams {
             case streamStatus = "streamStatus"
             case streamViewType = "streamViewType"
             case tableName = "tableName"
+        }
+    }
+
+    public struct IteratorDescription: AWSDecodableShape {
+        ///  Indicates the current iterator's position within the shard. The possible values are:     AT_TIP - No more records are currently available.    BEHIND_TIP - Additional records may be available.   Stream progresses in absence of customer records. BEHIND_TIP with an empty changeRecords list indicates the stream is progressing but no customer records are available at this position. Continue polling normally.
+        public let iteratorPosition: IteratorPosition?
+
+        @inlinable
+        public init(iteratorPosition: IteratorPosition? = nil) {
+            self.iteratorPosition = iteratorPosition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iteratorPosition = "iteratorPosition"
         }
     }
 

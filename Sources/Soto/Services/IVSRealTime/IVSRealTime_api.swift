@@ -140,6 +140,7 @@ public struct IVSRealTime: AWSService {
     ///   - ingestProtocol: Type of ingest protocol that the user employs to broadcast. If this is set to RTMP, insecureIngest must be set to true.
     ///   - insecureIngest: Whether the stage allows insecure RTMP ingest. This must be set to true, if ingestProtocol is set to RTMP. Default: false.
     ///   - name: Optional name that can be specified for the IngestConfiguration being created.
+    ///   - redundantIngest: Indicates whether redundant ingest is enabled for the ingest configuration. Default: false.
     ///   - stageArn: ARN of the stage with which the IngestConfiguration is associated.
     ///   - tags: Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented
     ///   - userId: Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -150,6 +151,7 @@ public struct IVSRealTime: AWSService {
         ingestProtocol: IngestProtocol,
         insecureIngest: Bool? = nil,
         name: String? = nil,
+        redundantIngest: Bool? = nil,
         stageArn: String? = nil,
         tags: [String: String]? = nil,
         userId: String? = nil,
@@ -160,6 +162,7 @@ public struct IVSRealTime: AWSService {
             ingestProtocol: ingestProtocol, 
             insecureIngest: insecureIngest, 
             name: name, 
+            redundantIngest: redundantIngest, 
             stageArn: stageArn, 
             tags: tags, 
             userId: userId
@@ -1380,16 +1383,19 @@ public struct IVSRealTime: AWSService {
     ///
     /// Parameters:
     ///   - arn: ARN of the IngestConfiguration, for which the related stage ARN needs to be updated.
+    ///   - redundantIngest: Indicates whether redundant ingest is enabled for the ingest configuration. Default: false.
     ///   - stageArn: Stage ARN that needs to be updated.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateIngestConfiguration(
         arn: String,
+        redundantIngest: Bool? = nil,
         stageArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateIngestConfigurationResponse {
         let input = UpdateIngestConfigurationRequest(
             arn: arn, 
+            redundantIngest: redundantIngest, 
             stageArn: stageArn
         )
         return try await self.updateIngestConfiguration(input, logger: logger)

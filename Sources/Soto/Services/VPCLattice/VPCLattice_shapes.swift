@@ -85,6 +85,14 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceConfigDnsResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Enable private DNS resolution within VPC for resources behind this resource gateway
+        case inVpc = "IN_VPC"
+        /// Use public DNS resolution for resources behind this resource gateway
+        case `public` = "PUBLIC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceConfigurationIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Dualstack ip address type for dns type resource configs
         case dualstack = "DUALSTACK"
@@ -1052,6 +1060,8 @@ extension VPCLattice {
         public let ipv4AddressesPerEni: Int?
         /// The name of the resource gateway.
         public let name: String
+        /// Indicates how DNS is resolved for resource configurations associated to this resource gateway. ResourceConfigDnsResolution is set at creation time and cannot be changed.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
+        public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
         public let securityGroupIds: [String]?
         /// The IDs of the VPC subnets in which to create the resource gateway.
@@ -1062,11 +1072,12 @@ extension VPCLattice {
         public let vpcIdentifier: String?
 
         @inlinable
-        public init(clientToken: String? = CreateResourceGatewayRequest.idempotencyToken(), ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, name: String, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcIdentifier: String? = nil) {
+        public init(clientToken: String? = CreateResourceGatewayRequest.idempotencyToken(), ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, name: String, resourceConfigDnsResolution: ResourceConfigDnsResolution? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, vpcIdentifier: String? = nil) {
             self.clientToken = clientToken
             self.ipAddressType = ipAddressType
             self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.name = name
+            self.resourceConfigDnsResolution = resourceConfigDnsResolution
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.tags = tags
@@ -1107,6 +1118,7 @@ extension VPCLattice {
             case ipAddressType = "ipAddressType"
             case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case name = "name"
+            case resourceConfigDnsResolution = "resourceConfigDnsResolution"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case tags = "tags"
@@ -1125,6 +1137,8 @@ extension VPCLattice {
         public let ipv4AddressesPerEni: Int?
         /// The name of the resource gateway.
         public let name: String?
+        /// The DNS resolution type for resource configurations that are associated with this resource gateway.
+        public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The IDs of the security groups for the resource gateway.
         public let securityGroupIds: [String]?
         /// The status of the resource gateway.
@@ -1135,12 +1149,13 @@ extension VPCLattice {
         public let vpcIdentifier: String?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, name: String? = nil, resourceConfigDnsResolution: ResourceConfigDnsResolution? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
             self.arn = arn
             self.id = id
             self.ipAddressType = ipAddressType
             self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.name = name
+            self.resourceConfigDnsResolution = resourceConfigDnsResolution
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.subnetIds = subnetIds
@@ -1153,6 +1168,7 @@ extension VPCLattice {
             case ipAddressType = "ipAddressType"
             case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case name = "name"
+            case resourceConfigDnsResolution = "resourceConfigDnsResolution"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
             case subnetIds = "subnetIds"
@@ -1610,17 +1626,20 @@ extension VPCLattice {
         public let clientToken: String?
         /// The custom domain name of the service.
         public let customDomainName: String?
+        /// The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.
+        public let idleTimeoutSeconds: Int?
         /// The name of the service. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// The tags for the service.
         public let tags: [String: String]?
 
         @inlinable
-        public init(authType: AuthType? = nil, certificateArn: String? = nil, clientToken: String? = CreateServiceRequest.idempotencyToken(), customDomainName: String? = nil, name: String, tags: [String: String]? = nil) {
+        public init(authType: AuthType? = nil, certificateArn: String? = nil, clientToken: String? = CreateServiceRequest.idempotencyToken(), customDomainName: String? = nil, idleTimeoutSeconds: Int? = nil, name: String, tags: [String: String]? = nil) {
             self.authType = authType
             self.certificateArn = certificateArn
             self.clientToken = clientToken
             self.customDomainName = customDomainName
+            self.idleTimeoutSeconds = idleTimeoutSeconds
             self.name = name
             self.tags = tags
         }
@@ -1633,6 +1652,8 @@ extension VPCLattice {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
             try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 255)
             try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 3)
+            try self.validate(self.idleTimeoutSeconds, name: "idleTimeoutSeconds", parent: name, max: 600)
+            try self.validate(self.idleTimeoutSeconds, name: "idleTimeoutSeconds", parent: name, min: 60)
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!svc-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
@@ -1649,6 +1670,7 @@ extension VPCLattice {
             case certificateArn = "certificateArn"
             case clientToken = "clientToken"
             case customDomainName = "customDomainName"
+            case idleTimeoutSeconds = "idleTimeoutSeconds"
             case name = "name"
             case tags = "tags"
         }
@@ -1667,19 +1689,22 @@ extension VPCLattice {
         public let dnsEntry: DnsEntry?
         /// The ID of the service.
         public let id: String?
+        /// The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.
+        public let idleTimeoutSeconds: Int?
         /// The name of the service.
         public let name: String?
         /// The status. If the status is CREATE_FAILED, you must delete and recreate the service.
         public let status: ServiceStatus?
 
         @inlinable
-        public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, name: String? = nil, status: ServiceStatus? = nil) {
+        public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, idleTimeoutSeconds: Int? = nil, name: String? = nil, status: ServiceStatus? = nil) {
             self.arn = arn
             self.authType = authType
             self.certificateArn = certificateArn
             self.customDomainName = customDomainName
             self.dnsEntry = dnsEntry
             self.id = id
+            self.idleTimeoutSeconds = idleTimeoutSeconds
             self.name = name
             self.status = status
         }
@@ -1691,6 +1716,7 @@ extension VPCLattice {
             case customDomainName = "customDomainName"
             case dnsEntry = "dnsEntry"
             case id = "id"
+            case idleTimeoutSeconds = "idleTimeoutSeconds"
             case name = "name"
             case status = "status"
         }
@@ -2989,10 +3015,16 @@ extension VPCLattice {
         /// The date and time that the resource gateway was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
+        /// The Amazon Web Services service that manages the resource gateway.
+        public let managedBy: String?
         /// The name of the resource gateway.
         public let name: String?
+        /// The DNS resolution type for resource configurations that are associated with this resource gateway.
+        public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The security group IDs associated with the resource gateway.
         public let securityGroupIds: [String]?
+        /// Indicates whether the resource gateway is managed by an Amazon Web Services service.
+        public let serviceManaged: Bool?
         /// The status for the resource gateway.
         public let status: ResourceGatewayStatus?
         /// The IDs of the VPC subnets for resource gateway.
@@ -3001,15 +3033,18 @@ extension VPCLattice {
         public let vpcId: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, lastUpdatedAt: Date? = nil, managedBy: String? = nil, name: String? = nil, resourceConfigDnsResolution: ResourceConfigDnsResolution? = nil, securityGroupIds: [String]? = nil, serviceManaged: Bool? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
             self.ipAddressType = ipAddressType
             self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.lastUpdatedAt = lastUpdatedAt
+            self.managedBy = managedBy
             self.name = name
+            self.resourceConfigDnsResolution = resourceConfigDnsResolution
             self.securityGroupIds = securityGroupIds
+            self.serviceManaged = serviceManaged
             self.status = status
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -3022,8 +3057,11 @@ extension VPCLattice {
             case ipAddressType = "ipAddressType"
             case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case lastUpdatedAt = "lastUpdatedAt"
+            case managedBy = "managedBy"
             case name = "name"
+            case resourceConfigDnsResolution = "resourceConfigDnsResolution"
             case securityGroupIds = "securityGroupIds"
+            case serviceManaged = "serviceManaged"
             case status = "status"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
@@ -3573,6 +3611,8 @@ extension VPCLattice {
         public let failureMessage: String?
         /// The ID of the service.
         public let id: String?
+        /// The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.
+        public let idleTimeoutSeconds: Int?
         /// The date and time that the service was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
@@ -3582,7 +3622,7 @@ extension VPCLattice {
         public let status: ServiceStatus?
 
         @inlinable
-        public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ServiceStatus? = nil) {
+        public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, idleTimeoutSeconds: Int? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ServiceStatus? = nil) {
             self.arn = arn
             self.authType = authType
             self.certificateArn = certificateArn
@@ -3592,6 +3632,7 @@ extension VPCLattice {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
             self.id = id
+            self.idleTimeoutSeconds = idleTimeoutSeconds
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.status = status
@@ -3607,6 +3648,7 @@ extension VPCLattice {
             case failureCode = "failureCode"
             case failureMessage = "failureMessage"
             case id = "id"
+            case idleTimeoutSeconds = "idleTimeoutSeconds"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case status = "status"
@@ -5087,6 +5129,8 @@ extension VPCLattice {
         public var lastUpdatedAt: Date?
         /// The name of the resource gateway.
         public let name: String?
+        /// The DNS resolution type for resource configurations that are associated with this resource gateway.
+        public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The IDs of the security groups applied to the resource gateway.
         public let securityGroupIds: [String]?
         /// The name of the resource gateway.
@@ -5097,7 +5141,7 @@ extension VPCLattice {
         public let vpcIdentifier: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: ResourceGatewayIpAddressType? = nil, ipv4AddressesPerEni: Int? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, resourceConfigDnsResolution: ResourceConfigDnsResolution? = nil, securityGroupIds: [String]? = nil, status: ResourceGatewayStatus? = nil, subnetIds: [String]? = nil, vpcIdentifier: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -5105,6 +5149,7 @@ extension VPCLattice {
             self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.resourceConfigDnsResolution = resourceConfigDnsResolution
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.subnetIds = subnetIds
@@ -5119,6 +5164,7 @@ extension VPCLattice {
             case ipv4AddressesPerEni = "ipv4AddressesPerEni"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case resourceConfigDnsResolution = "resourceConfigDnsResolution"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
             case subnetIds = "subnetIds"
@@ -5923,7 +5969,7 @@ extension VPCLattice {
         public let port: Int?
         /// The code for why the target status is what it is.
         public let reasonCode: String?
-        /// The status of the target.    DRAINING: The target is being deregistered. No new connections are sent to this target while current connections are being drained. The default draining time is 5 minutes.    UNAVAILABLE: Health checks are unavailable for the target group.    HEALTHY: The target is healthy.    UNHEALTHY: The target is unhealthy.    INITIAL: Initial health checks on the target are being performed.    UNUSED: Target group is not used in a service.
+        /// The status of the target.    DRAINING: The target is being deregistered. No new connections are sent to this target while current connections are being drained. The default draining time is 1 minute.    UNAVAILABLE: Health checks are unavailable for the target group.    HEALTHY: The target is healthy.    UNHEALTHY: The target is unhealthy.    INITIAL: Initial health checks on the target are being performed.    UNUSED: Target group is not used in a service.
         public let status: TargetStatus?
 
         @inlinable
@@ -6571,13 +6617,16 @@ extension VPCLattice {
         public let authType: AuthType?
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
+        /// The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.
+        public let idleTimeoutSeconds: Int?
         /// The ID or ARN of the service.
         public let serviceIdentifier: String
 
         @inlinable
-        public init(authType: AuthType? = nil, certificateArn: String? = nil, serviceIdentifier: String) {
+        public init(authType: AuthType? = nil, certificateArn: String? = nil, idleTimeoutSeconds: Int? = nil, serviceIdentifier: String) {
             self.authType = authType
             self.certificateArn = certificateArn
+            self.idleTimeoutSeconds = idleTimeoutSeconds
             self.serviceIdentifier = serviceIdentifier
         }
 
@@ -6586,12 +6635,15 @@ extension VPCLattice {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.authType, forKey: .authType)
             try container.encodeIfPresent(self.certificateArn, forKey: .certificateArn)
+            try container.encodeIfPresent(self.idleTimeoutSeconds, forKey: .idleTimeoutSeconds)
             request.encodePath(self.serviceIdentifier, key: "serviceIdentifier")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^(arn(:[a-z0-9]+([.-][a-z0-9]+)*){2}(:([a-z0-9]+([.-][a-z0-9]+)*)?){2}:certificate/[0-9a-z-]+)?$")
+            try self.validate(self.idleTimeoutSeconds, name: "idleTimeoutSeconds", parent: name, max: 600)
+            try self.validate(self.idleTimeoutSeconds, name: "idleTimeoutSeconds", parent: name, min: 60)
             try self.validate(self.serviceIdentifier, name: "serviceIdentifier", parent: name, max: 2048)
             try self.validate(self.serviceIdentifier, name: "serviceIdentifier", parent: name, min: 17)
             try self.validate(self.serviceIdentifier, name: "serviceIdentifier", parent: name, pattern: "^((svc-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:service/svc-[0-9a-z]{17}))$")
@@ -6600,6 +6652,7 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case authType = "authType"
             case certificateArn = "certificateArn"
+            case idleTimeoutSeconds = "idleTimeoutSeconds"
         }
     }
 
@@ -6614,16 +6667,19 @@ extension VPCLattice {
         public let customDomainName: String?
         /// The ID of the service.
         public let id: String?
+        /// The amount of time, in seconds, that a connection can remain idle before VPC Lattice closes it.
+        public let idleTimeoutSeconds: Int?
         /// The name of the service.
         public let name: String?
 
         @inlinable
-        public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, customDomainName: String? = nil, id: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, customDomainName: String? = nil, id: String? = nil, idleTimeoutSeconds: Int? = nil, name: String? = nil) {
             self.arn = arn
             self.authType = authType
             self.certificateArn = certificateArn
             self.customDomainName = customDomainName
             self.id = id
+            self.idleTimeoutSeconds = idleTimeoutSeconds
             self.name = name
         }
 
@@ -6633,6 +6689,7 @@ extension VPCLattice {
             case certificateArn = "certificateArn"
             case customDomainName = "customDomainName"
             case id = "id"
+            case idleTimeoutSeconds = "idleTimeoutSeconds"
             case name = "name"
         }
     }

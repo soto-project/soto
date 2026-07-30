@@ -193,7 +193,7 @@ public struct Omics: AWSService {
         return try await self.batchDeleteReadSet(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels an annotation import job.
     @Sendable
     @inlinable
     public func cancelAnnotationImportJob(_ input: CancelAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAnnotationImportResponse {
@@ -207,7 +207,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels an annotation import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -253,7 +253,37 @@ public struct Omics: AWSService {
         return try await self.cancelRun(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels a variant import job.
+    /// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING, SUBMITTING, or INPROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary. Only one cancel or delete operation per batch is allowed at a time.
+    @Sendable
+    @inlinable
+    public func cancelRunBatch(_ input: CancelRunBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelRunBatchResponse {
+        try await self.client.execute(
+            operation: "CancelRunBatch", 
+            path: "/runBatch/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Cancels all runs within a specified batch. This operation prevents not-yet-submitted runs from starting and submits CancelRun requests for runs that have already started. Cancel is only allowed on batches in PENDING, SUBMITTING, or INPROGRESS state. Cancel operations are non-atomic and may be partially successful. Use GetBatch to review successfulCancelSubmissionCount and failedCancelSubmissionCount in the submissionSummary. Only one cancel or delete operation per batch is allowed at a time.
+    ///
+    /// Parameters:
+    ///   - batchId: The identifier portion of the run batch ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelRunBatch(
+        batchId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelRunBatchResponse {
+        let input = CancelRunBatchRequest(
+            batchId: batchId
+        )
+        return try await self.cancelRunBatch(input, logger: logger)
+    }
+
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels a variant import job.
     @Sendable
     @inlinable
     public func cancelVariantImportJob(_ input: CancelVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelVariantImportResponse {
@@ -267,7 +297,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels a variant import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -319,7 +349,7 @@ public struct Omics: AWSService {
         return try await self.completeMultipartReadSetUpload(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates an annotation store.
     @Sendable
     @inlinable
     public func createAnnotationStore(_ input: CreateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnnotationStoreResponse {
@@ -333,7 +363,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates an annotation store.
     ///
     /// Parameters:
     ///   - description: A description for the store.
@@ -410,6 +440,48 @@ public struct Omics: AWSService {
             versionOptions: versionOptions
         )
         return try await self.createAnnotationStoreVersion(input, logger: logger)
+    }
+
+    /// Create a new configuration.
+    @Sendable
+    @inlinable
+    public func createConfiguration(_ input: CreateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateConfiguration", 
+            path: "/configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Create a new configuration.
+    ///
+    /// Parameters:
+    ///   - description: Optional description for the configuration.
+    ///   - name: User-friendly name for the configuration.
+    ///   - requestId: Optional request idempotency token. If not specified, a universally unique identifier (UUID) will be automatically generated for the request.
+    ///   - runConfigurations: Required run-specific configurations.
+    ///   - tags: Optional tags for the configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConfiguration(
+        description: String? = nil,
+        name: String,
+        requestId: String = CreateConfigurationRequest.idempotencyToken(),
+        runConfigurations: RunConfigurations,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConfigurationResponse {
+        let input = CreateConfigurationRequest(
+            description: description, 
+            name: name, 
+            requestId: requestId, 
+            runConfigurations: runConfigurations, 
+            tags: tags
+        )
+        return try await self.createConfiguration(input, logger: logger)
     }
 
     /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To separate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it provides an uploadId which is required by the UploadReadSetPart API operation to upload parts into a sequence store. To continue uploading a multipart read set into your sequence store, you must use the UploadReadSetPart API operation to upload each part individually following the steps below:   Specify the uploadId obtained from the previous call to CreateMultipartReadSetUpload.   Upload parts for that uploadId.   When you have finished uploading parts, use the CompleteMultipartReadSetUpload API to complete the multipart read set upload and to retrieve the final read set IDs in the response. To learn more about creating parts and the split operation, see Direct upload to a sequence store in the Amazon Web Services HealthOmics User Guide.
@@ -697,7 +769,7 @@ public struct Omics: AWSService {
         return try await self.createShare(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates a variant store.
     @Sendable
     @inlinable
     public func createVariantStore(_ input: CreateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVariantStoreResponse {
@@ -711,7 +783,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates a variant store.
     ///
     /// Parameters:
     ///   - description: A description for the store.
@@ -763,7 +835,7 @@ public struct Omics: AWSService {
     ///   - definitionUri: The S3 URI of a definition for the workflow. The S3 bucket must be in the same region as the workflow.
     ///   - definitionZip: A ZIP archive containing the main workflow definition file and dependencies that it imports for the workflow. You can use a file with a ://fileb prefix instead of the Base64 string. For more information, see Workflow definition requirements in the Amazon Web Services HealthOmics User Guide.
     ///   - description: A description for the workflow.
-    ///   - engine: The workflow engine for the workflow. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
+    ///   - engine: The workflow engine for the workflow. By default, Amazon Web Services HealthOmics detects the engine automatically from your workflow definition. Provide a value if you have workflow definition files from more than one engine in your zip file, or to use WDL lenient. WDL lenient is designed to handle workflows migrated from Cromwell. It supports customer Cromwell directives and some non-conformant logic. For details, see Implicit type conversion in WDL lenient in the Amazon Web Services HealthOmics User Guide.
     ///   - main: The path of the main definition file for the workflow. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: workflow-definition/main-file.wdl.
     ///   - name: Name (optional but highly recommended) for the workflow to locate relevant information in the CloudWatch logs and Amazon Web Services HealthOmics console.
     ///   - parameterTemplate: A parameter template for the workflow. If this field is blank, Amazon Web Services HealthOmics will automatically parse the parameter template values from your workflow definition file. To override these service generated default values, provide a parameter template. To view an example of a parameter template, see Parameter template files in the Amazon Web Services HealthOmics User Guide.
@@ -916,7 +988,7 @@ public struct Omics: AWSService {
         return try await self.createWorkflowVersion(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes an annotation store.
     @Sendable
     @inlinable
     public func deleteAnnotationStore(_ input: DeleteAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnnotationStoreResponse {
@@ -930,7 +1002,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes an annotation store.
     ///
     /// Parameters:
     ///   - force: Whether to force deletion.
@@ -983,6 +1055,66 @@ public struct Omics: AWSService {
             versions: versions
         )
         return try await self.deleteAnnotationStoreVersions(input, logger: logger)
+    }
+
+    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch.  DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
+    @Sendable
+    @inlinable
+    public func deleteBatch(_ input: DeleteBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteBatch", 
+            path: "/runBatch/{batchId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch.  DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
+    ///
+    /// Parameters:
+    ///   - batchId: The identifier portion of the run batch ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBatch(
+        batchId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteBatchRequest(
+            batchId: batchId
+        )
+        return try await self.deleteBatch(input, logger: logger)
+    }
+
+    /// Delete an existing configuration.
+    @Sendable
+    @inlinable
+    public func deleteConfiguration(_ input: DeleteConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConfiguration", 
+            path: "/configuration/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Delete an existing configuration.
+    ///
+    /// Parameters:
+    ///   - name: Configuration name to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConfiguration(
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConfigurationRequest(
+            name: name
+        )
+        return try await self.deleteConfiguration(input, logger: logger)
     }
 
     /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see Deleting HealthOmics reference and sequence stores in the Amazon Web Services HealthOmics User Guide.
@@ -1076,6 +1208,36 @@ public struct Omics: AWSService {
             id: id
         )
         return try await self.deleteRun(input, logger: logger)
+    }
+
+    /// Deletes the individual workflow runs within a batch. This operation is separate from DeleteBatch, which removes the batch metadata. Delete is only allowed on batches in PROCESSED or CANCELLED state. Delete operations are non-atomic and may be partially successful. Use GetBatch to review successfulDeleteSubmissionCount and failedDeleteSubmissionCount in the submissionSummary. Only one cancel or delete operation per batch is allowed at a time.
+    @Sendable
+    @inlinable
+    public func deleteRunBatch(_ input: DeleteRunBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRunBatchResponse {
+        try await self.client.execute(
+            operation: "DeleteRunBatch", 
+            path: "/runBatch/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Deletes the individual workflow runs within a batch. This operation is separate from DeleteBatch, which removes the batch metadata. Delete is only allowed on batches in PROCESSED or CANCELLED state. Delete operations are non-atomic and may be partially successful. Use GetBatch to review successfulDeleteSubmissionCount and failedDeleteSubmissionCount in the submissionSummary. Only one cancel or delete operation per batch is allowed at a time.
+    ///
+    /// Parameters:
+    ///   - batchId: The identifier portion of the run batch ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRunBatch(
+        batchId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRunBatchResponse {
+        let input = DeleteRunBatchRequest(
+            batchId: batchId
+        )
+        return try await self.deleteRunBatch(input, logger: logger)
     }
 
     /// Deletes a run cache and returns a response with no body if the operation is successful. This action removes the cache metadata stored in the service account, but does not delete the data in Amazon S3. You can access the cache data in Amazon S3, for inspection or to troubleshoot issues. You can remove old cache data using standard S3 Delete operations.  For more information, see Deleting a run cache in the Amazon Web Services HealthOmics User Guide.
@@ -1228,7 +1390,7 @@ public struct Omics: AWSService {
         return try await self.deleteShare(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes a variant store.
     @Sendable
     @inlinable
     public func deleteVariantStore(_ input: DeleteVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVariantStoreResponse {
@@ -1242,7 +1404,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes a variant store.
     ///
     /// Parameters:
     ///   - force: Whether to force deletion.
@@ -1324,7 +1486,7 @@ public struct Omics: AWSService {
         return try await self.deleteWorkflowVersion(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation import job.
     @Sendable
     @inlinable
     public func getAnnotationImportJob(_ input: GetAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationImportResponse {
@@ -1338,7 +1500,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -1354,7 +1516,7 @@ public struct Omics: AWSService {
         return try await self.getAnnotationImportJob(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation store.
     @Sendable
     @inlinable
     public func getAnnotationStore(_ input: GetAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationStoreResponse {
@@ -1368,7 +1530,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation store.
     ///
     /// Parameters:
     ///   - name: The store's name.
@@ -1415,6 +1577,66 @@ public struct Omics: AWSService {
             versionName: versionName
         )
         return try await self.getAnnotationStoreVersion(input, logger: logger)
+    }
+
+    /// Retrieves details and current status for a specific run batch, including submission progress and run execution counts.
+    @Sendable
+    @inlinable
+    public func getBatch(_ input: GetBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBatchResponse {
+        try await self.client.execute(
+            operation: "GetBatch", 
+            path: "/runBatch/{batchId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Retrieves details and current status for a specific run batch, including submission progress and run execution counts.
+    ///
+    /// Parameters:
+    ///   - batchId: The identifier portion of the run batch ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBatch(
+        batchId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBatchResponse {
+        let input = GetBatchRequest(
+            batchId: batchId
+        )
+        return try await self.getBatch(input, logger: logger)
+    }
+
+    /// Retrieve configuration details for specified name.
+    @Sendable
+    @inlinable
+    public func getConfiguration(_ input: GetConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetConfiguration", 
+            path: "/configuration/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Retrieve configuration details for specified name.
+    ///
+    /// Parameters:
+    ///   - name: Configuration name to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConfiguration(
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConfigurationResponse {
+        let input = GetConfigurationRequest(
+            name: name
+        )
+        return try await self.getConfiguration(input, logger: logger)
     }
 
     /// Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation.
@@ -1942,7 +2164,7 @@ public struct Omics: AWSService {
         return try await self.getShare(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant import job.
     @Sendable
     @inlinable
     public func getVariantImportJob(_ input: GetVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVariantImportResponse {
@@ -1956,7 +2178,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -1972,7 +2194,7 @@ public struct Omics: AWSService {
         return try await self.getVariantImportJob(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant store.
     @Sendable
     @inlinable
     public func getVariantStore(_ input: GetVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVariantStoreResponse {
@@ -1986,7 +2208,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant store.
     ///
     /// Parameters:
     ///   - name: The store's name.
@@ -2083,7 +2305,7 @@ public struct Omics: AWSService {
         return try await self.getWorkflowVersion(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation import jobs.
     @Sendable
     @inlinable
     public func listAnnotationImportJobs(_ input: ListAnnotationImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationImportJobsResponse {
@@ -2097,7 +2319,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation import jobs.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2161,7 +2383,7 @@ public struct Omics: AWSService {
         return try await self.listAnnotationStoreVersions(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation stores.
     @Sendable
     @inlinable
     public func listAnnotationStores(_ input: ListAnnotationStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationStoresResponse {
@@ -2175,7 +2397,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation stores.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2198,6 +2420,81 @@ public struct Omics: AWSService {
             nextToken: nextToken
         )
         return try await self.listAnnotationStores(input, logger: logger)
+    }
+
+    /// Returns a list of run batches in your account, with optional filtering by status, name, or run group. Results are paginated. Only one filter per call is supported.
+    @Sendable
+    @inlinable
+    public func listBatch(_ input: ListBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBatchResponse {
+        try await self.client.execute(
+            operation: "ListBatch", 
+            path: "/runBatch", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Returns a list of run batches in your account, with optional filtering by status, name, or run group. Results are paginated. Only one filter per call is supported.
+    ///
+    /// Parameters:
+    ///   - maxItems: The maximum number of batches to return. If not specified, defaults to 100.
+    ///   - name: Filter batches by name.
+    ///   - runGroupId: Filter batches by run group ID.
+    ///   - startingToken: A pagination token returned from a prior ListBatch call.
+    ///   - status: Filter batches by status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBatch(
+        maxItems: Int? = nil,
+        name: String? = nil,
+        runGroupId: String? = nil,
+        startingToken: String? = nil,
+        status: BatchStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBatchResponse {
+        let input = ListBatchRequest(
+            maxItems: maxItems, 
+            name: name, 
+            runGroupId: runGroupId, 
+            startingToken: startingToken, 
+            status: status
+        )
+        return try await self.listBatch(input, logger: logger)
+    }
+
+    /// List all configurations for the account.
+    @Sendable
+    @inlinable
+    public func listConfigurations(_ input: ListConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListConfigurations", 
+            path: "/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// List all configurations for the account.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - startingToken: Pagination token for retrieving next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfigurations(
+        maxResults: Int? = nil,
+        startingToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfigurationsResponse {
+        let input = ListConfigurationsRequest(
+            maxResults: maxResults, 
+            startingToken: startingToken
+        )
+        return try await self.listConfigurations(input, logger: logger)
     }
 
     /// Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the CreateMultipartReadSetUploads API operation. This operation returns a response with no body when the upload is complete.
@@ -2676,6 +2973,7 @@ public struct Omics: AWSService {
     /// Retrieves a list of runs and returns each run's metadata and status. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
+    ///   - batchId: Filter by batch ID.
     ///   - maxResults: The maximum number of runs to return in one page of results.
     ///   - name: Filter the list by run name.
     ///   - runGroupId: Filter the list by run group ID.
@@ -2684,6 +2982,7 @@ public struct Omics: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listRuns(
+        batchId: String? = nil,
         maxResults: Int? = nil,
         name: String? = nil,
         runGroupId: String? = nil,
@@ -2692,6 +2991,7 @@ public struct Omics: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListRunsResponse {
         let input = ListRunsRequest(
+            batchId: batchId, 
             maxResults: maxResults, 
             name: name, 
             runGroupId: runGroupId, 
@@ -2699,6 +2999,51 @@ public struct Omics: AWSService {
             status: status
         )
         return try await self.listRuns(input, logger: logger)
+    }
+
+    /// Returns a paginated list of individual workflow runs within a specific batch. Use this operation to map each runSettingId to its HealthOmics-generated runId, and to check the submission status of each run. Only one filter per call is supported.
+    @Sendable
+    @inlinable
+    public func listRunsInBatch(_ input: ListRunsInBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRunsInBatchResponse {
+        try await self.client.execute(
+            operation: "ListRunsInBatch", 
+            path: "/runBatch/{batchId}/run", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of individual workflow runs within a specific batch. Use this operation to map each runSettingId to its HealthOmics-generated runId, and to check the submission status of each run. Only one filter per call is supported.
+    ///
+    /// Parameters:
+    ///   - batchId: The identifier portion of the run batch ARN.
+    ///   - maxItems: The maximum number of runs to return.
+    ///   - runId: Filter runs by the HealthOmics-generated run ID.
+    ///   - runSettingId: Filter runs by the customer-provided run setting ID.
+    ///   - startingToken: A pagination token returned from a prior ListRunsInBatch call.
+    ///   - submissionStatus: Filter runs by submission status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRunsInBatch(
+        batchId: String,
+        maxItems: Int? = nil,
+        runId: String? = nil,
+        runSettingId: String? = nil,
+        startingToken: String? = nil,
+        submissionStatus: SubmissionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRunsInBatchResponse {
+        let input = ListRunsInBatchRequest(
+            batchId: batchId, 
+            maxItems: maxItems, 
+            runId: runId, 
+            runSettingId: runSettingId, 
+            startingToken: startingToken, 
+            submissionStatus: submissionStatus
+        )
+        return try await self.listRunsInBatch(input, logger: logger)
     }
 
     /// Retrieves a list of sequence stores and returns each sequence store's metadata. For more information, see Creating a HealthOmics sequence store in the Amazon Web Services HealthOmics User Guide.
@@ -2806,7 +3151,7 @@ public struct Omics: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant import jobs.
     @Sendable
     @inlinable
     public func listVariantImportJobs(_ input: ListVariantImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVariantImportJobsResponse {
@@ -2820,7 +3165,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant import jobs.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2845,7 +3190,7 @@ public struct Omics: AWSService {
         return try await self.listVariantImportJobs(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant stores.
     @Sendable
     @inlinable
     public func listVariantStores(_ input: ListVariantStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVariantStoresResponse {
@@ -2859,7 +3204,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant stores.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2998,7 +3343,7 @@ public struct Omics: AWSService {
         return try await self.putS3AccessPolicy(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts an annotation import job.
     @Sendable
     @inlinable
     public func startAnnotationImportJob(_ input: StartAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAnnotationImportResponse {
@@ -3012,7 +3357,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts an annotation import job.
     ///
     /// Parameters:
     ///   - annotationFields: The annotation schema generated by the parsed annotation data.
@@ -3221,8 +3566,11 @@ public struct Omics: AWSService {
     /// Parameters:
     ///   - cacheBehavior: The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide.
     ///   - cacheId: Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached for this run.
+    ///   - configurationName: Optional configuration name to use for the workflow run.
+    ///   - engineSettings: Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
     ///   - logLevel: A log level for the run.
     ///   - name: A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs.
+    ///   - networkingMode: Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
     ///   - outputUri: An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
     ///   - parameters: Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
     ///   - priority: Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see Run priority in the Amazon Web Services HealthOmics User Guide.
@@ -3231,6 +3579,7 @@ public struct Omics: AWSService {
     ///   - roleArn: A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the AWS account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
     ///   - runGroupId: The run's group ID. Use a run group to cap the compute resources (and number of concurrent runs) for the runs that you add to the run group.
     ///   - runId: The ID of a run to duplicate.
+    ///   - scratchStorageMode: Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
     ///   - storageCapacity: The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter).
     ///   - storageType: The storage type for the run. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see Run storage types in the Amazon Web Services HealthOmics User Guide.
     ///   - tags: Tags for the run. You can add up to 50 tags per run. For more information, see Adding a tag in the Amazon Web Services HealthOmics User Guide.
@@ -3243,8 +3592,11 @@ public struct Omics: AWSService {
     public func startRun(
         cacheBehavior: CacheBehavior? = nil,
         cacheId: String? = nil,
+        configurationName: String? = nil,
+        engineSettings: AWSDocument? = nil,
         logLevel: RunLogLevel? = nil,
         name: String? = nil,
+        networkingMode: NetworkingMode? = nil,
         outputUri: String,
         parameters: AWSDocument? = nil,
         priority: Int? = nil,
@@ -3253,6 +3605,7 @@ public struct Omics: AWSService {
         roleArn: String,
         runGroupId: String? = nil,
         runId: String? = nil,
+        scratchStorageMode: ScratchStorageMode? = nil,
         storageCapacity: Int? = nil,
         storageType: StorageType? = nil,
         tags: [String: String]? = nil,
@@ -3265,8 +3618,11 @@ public struct Omics: AWSService {
         let input = StartRunRequest(
             cacheBehavior: cacheBehavior, 
             cacheId: cacheId, 
+            configurationName: configurationName, 
+            engineSettings: engineSettings, 
             logLevel: logLevel, 
             name: name, 
+            networkingMode: networkingMode, 
             outputUri: outputUri, 
             parameters: parameters, 
             priority: priority, 
@@ -3275,6 +3631,7 @@ public struct Omics: AWSService {
             roleArn: roleArn, 
             runGroupId: runGroupId, 
             runId: runId, 
+            scratchStorageMode: scratchStorageMode, 
             storageCapacity: storageCapacity, 
             storageType: storageType, 
             tags: tags, 
@@ -3286,7 +3643,49 @@ public struct Omics: AWSService {
         return try await self.startRun(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts a variant import job.
+    /// Starts a batch of workflow runs. You can group up to 100,000 runs into a single batch that share a common configuration defined in defaultRunSetting. Per-run overrides can be provided either inline via inlineSettings (up to 100 runs) or via a JSON file stored in Amazon S3 via s3UriSettings (up to 100,000 runs).  StartRunBatch validates common fields synchronously and returns immediately with a batch ID and status CREATING. The batch transitions to PENDING once initial setup completes. Runs are then submitted gradually and asynchronously at a rate governed by your StartRun throughput quota.
+    @Sendable
+    @inlinable
+    public func startRunBatch(_ input: StartRunBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRunBatchResponse {
+        try await self.client.execute(
+            operation: "StartRunBatch", 
+            path: "/runBatch", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
+    }
+    /// Starts a batch of workflow runs. You can group up to 100,000 runs into a single batch that share a common configuration defined in defaultRunSetting. Per-run overrides can be provided either inline via inlineSettings (up to 100 runs) or via a JSON file stored in Amazon S3 via s3UriSettings (up to 100,000 runs).  StartRunBatch validates common fields synchronously and returns immediately with a batch ID and status CREATING. The batch transitions to PENDING once initial setup completes. Runs are then submitted gradually and asynchronously at a rate governed by your StartRun throughput quota.
+    ///
+    /// Parameters:
+    ///   - batchName: An optional user-friendly name for the run batch.
+    ///   - batchRunSettings: The individual run configurations. Specify exactly one of inlineSettings or s3UriSettings. See BatchRunSettings.
+    ///   - defaultRunSetting: Shared configuration applied to all runs in the batch. See DefaultRunSetting.
+    ///   - requestId: A client token used to deduplicate retry requests and prevent duplicate batches from being created.
+    ///   - tags: AWS tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startRunBatch(
+        batchName: String? = nil,
+        batchRunSettings: BatchRunSettings,
+        defaultRunSetting: DefaultRunSetting,
+        requestId: String = StartRunBatchRequest.idempotencyToken(),
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartRunBatchResponse {
+        let input = StartRunBatchRequest(
+            batchName: batchName, 
+            batchRunSettings: batchRunSettings, 
+            defaultRunSetting: defaultRunSetting, 
+            requestId: requestId, 
+            tags: tags
+        )
+        return try await self.startRunBatch(input, logger: logger)
+    }
+
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts a variant import job.
     @Sendable
     @inlinable
     public func startVariantImportJob(_ input: StartVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartVariantImportResponse {
@@ -3300,7 +3699,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts a variant import job.
     ///
     /// Parameters:
     ///   - annotationFields: The annotation schema generated by the parsed annotation data.
@@ -3394,7 +3793,7 @@ public struct Omics: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates an annotation store.
     @Sendable
     @inlinable
     public func updateAnnotationStore(_ input: UpdateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnnotationStoreResponse {
@@ -3408,7 +3807,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates an annotation store.
     ///
     /// Parameters:
     ///   - description: A description for the store.
@@ -3595,7 +3994,7 @@ public struct Omics: AWSService {
         return try await self.updateSequenceStore(input, logger: logger)
     }
 
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates a variant store.
     @Sendable
     @inlinable
     public func updateVariantStore(_ input: UpdateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVariantStoreResponse {
@@ -3609,7 +4008,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores are no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates a variant store.
     ///
     /// Parameters:
     ///   - description: A description for the store.
@@ -3892,6 +4291,83 @@ extension Omics {
             maxResults: maxResults
         )
         return self.listAnnotationStoresPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBatch(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBatchPaginator(
+        _ input: ListBatchRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBatchRequest, ListBatchResponse> {
+        return .init(
+            input: input,
+            command: self.listBatch,
+            inputKey: \ListBatchRequest.startingToken,
+            outputKey: \ListBatchResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBatch(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxItems: The maximum number of batches to return. If not specified, defaults to 100.
+    ///   - name: Filter batches by name.
+    ///   - runGroupId: Filter batches by run group ID.
+    ///   - status: Filter batches by status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBatchPaginator(
+        maxItems: Int? = nil,
+        name: String? = nil,
+        runGroupId: String? = nil,
+        status: BatchStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBatchRequest, ListBatchResponse> {
+        let input = ListBatchRequest(
+            maxItems: maxItems, 
+            name: name, 
+            runGroupId: runGroupId, 
+            status: status
+        )
+        return self.listBatchPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationsPaginator(
+        _ input: ListConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationsRequest, ListConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listConfigurations,
+            inputKey: \ListConfigurationsRequest.startingToken,
+            outputKey: \ListConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfigurationsRequest, ListConfigurationsResponse> {
+        let input = ListConfigurationsRequest(
+            maxResults: maxResults
+        )
+        return self.listConfigurationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listMultipartReadSetUploads(_:logger:)``.
@@ -4386,6 +4862,7 @@ extension Omics {
     /// Return PaginatorSequence for operation ``listRuns(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - batchId: Filter by batch ID.
     ///   - maxResults: The maximum number of runs to return in one page of results.
     ///   - name: Filter the list by run name.
     ///   - runGroupId: Filter the list by run group ID.
@@ -4393,6 +4870,7 @@ extension Omics {
     ///   - logger: Logger used for logging
     @inlinable
     public func listRunsPaginator(
+        batchId: String? = nil,
         maxResults: Int? = nil,
         name: String? = nil,
         runGroupId: String? = nil,
@@ -4400,12 +4878,59 @@ extension Omics {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListRunsRequest, ListRunsResponse> {
         let input = ListRunsRequest(
+            batchId: batchId, 
             maxResults: maxResults, 
             name: name, 
             runGroupId: runGroupId, 
             status: status
         )
         return self.listRunsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRunsInBatch(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRunsInBatchPaginator(
+        _ input: ListRunsInBatchRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRunsInBatchRequest, ListRunsInBatchResponse> {
+        return .init(
+            input: input,
+            command: self.listRunsInBatch,
+            inputKey: \ListRunsInBatchRequest.startingToken,
+            outputKey: \ListRunsInBatchResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRunsInBatch(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - batchId: The identifier portion of the run batch ARN.
+    ///   - maxItems: The maximum number of runs to return.
+    ///   - runId: Filter runs by the HealthOmics-generated run ID.
+    ///   - runSettingId: Filter runs by the customer-provided run setting ID.
+    ///   - submissionStatus: Filter runs by submission status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRunsInBatchPaginator(
+        batchId: String,
+        maxItems: Int? = nil,
+        runId: String? = nil,
+        runSettingId: String? = nil,
+        submissionStatus: SubmissionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRunsInBatchRequest, ListRunsInBatchResponse> {
+        let input = ListRunsInBatchRequest(
+            batchId: batchId, 
+            maxItems: maxItems, 
+            runId: runId, 
+            runSettingId: runSettingId, 
+            submissionStatus: submissionStatus
+        )
+        return self.listRunsInBatchPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSequenceStores(_:logger:)``.
@@ -4685,6 +5210,29 @@ extension Omics.ListAnnotationStoresRequest: AWSPaginateToken {
     }
 }
 
+extension Omics.ListBatchRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Omics.ListBatchRequest {
+        return .init(
+            maxItems: self.maxItems,
+            name: self.name,
+            runGroupId: self.runGroupId,
+            startingToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension Omics.ListConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Omics.ListConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            startingToken: token
+        )
+    }
+}
+
 extension Omics.ListMultipartReadSetUploadsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Omics.ListMultipartReadSetUploadsRequest {
@@ -4826,10 +5374,25 @@ extension Omics.ListRunTasksRequest: AWSPaginateToken {
     }
 }
 
+extension Omics.ListRunsInBatchRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Omics.ListRunsInBatchRequest {
+        return .init(
+            batchId: self.batchId,
+            maxItems: self.maxItems,
+            runId: self.runId,
+            runSettingId: self.runSettingId,
+            startingToken: token,
+            submissionStatus: self.submissionStatus
+        )
+    }
+}
+
 extension Omics.ListRunsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Omics.ListRunsRequest {
         return .init(
+            batchId: self.batchId,
             maxResults: self.maxResults,
             name: self.name,
             runGroupId: self.runGroupId,

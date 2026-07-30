@@ -202,7 +202,7 @@ extension RedshiftServerless {
     }
 
     public struct ConfigParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless.
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless.
         public let parameterKey: String?
         /// The value of the parameter to set.
         public let parameterValue: String?
@@ -2835,6 +2835,8 @@ extension RedshiftServerless {
     }
 
     public struct RestoreFromRecoveryPointRequest: AWSEncodableShape {
+        /// If true, maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+        public let maintainIntegration: Bool?
         /// The name of the namespace to restore data into.
         public let namespaceName: String
         /// The unique identifier of the recovery point to restore from.
@@ -2843,7 +2845,8 @@ extension RedshiftServerless {
         public let workgroupName: String
 
         @inlinable
-        public init(namespaceName: String, recoveryPointId: String, workgroupName: String) {
+        public init(maintainIntegration: Bool? = nil, namespaceName: String, recoveryPointId: String, workgroupName: String) {
+            self.maintainIntegration = maintainIntegration
             self.namespaceName = namespaceName
             self.recoveryPointId = recoveryPointId
             self.workgroupName = workgroupName
@@ -2859,6 +2862,7 @@ extension RedshiftServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maintainIntegration = "maintainIntegration"
             case namespaceName = "namespaceName"
             case recoveryPointId = "recoveryPointId"
             case workgroupName = "workgroupName"
@@ -2886,6 +2890,8 @@ extension RedshiftServerless {
     public struct RestoreFromSnapshotRequest: AWSEncodableShape {
         /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
         public let adminPasswordSecretKmsKeyId: String?
+        /// If true, maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
+        public let maintainIntegration: Bool?
         /// If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
         public let manageAdminPassword: Bool?
         /// The name of the namespace to restore the snapshot to.
@@ -2900,8 +2906,9 @@ extension RedshiftServerless {
         public let workgroupName: String
 
         @inlinable
-        public init(adminPasswordSecretKmsKeyId: String? = nil, manageAdminPassword: Bool? = nil, namespaceName: String, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotName: String? = nil, workgroupName: String) {
+        public init(adminPasswordSecretKmsKeyId: String? = nil, maintainIntegration: Bool? = nil, manageAdminPassword: Bool? = nil, namespaceName: String, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotName: String? = nil, workgroupName: String) {
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
+            self.maintainIntegration = maintainIntegration
             self.manageAdminPassword = manageAdminPassword
             self.namespaceName = namespaceName
             self.ownerAccount = ownerAccount
@@ -2921,6 +2928,7 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case adminPasswordSecretKmsKeyId = "adminPasswordSecretKmsKeyId"
+            case maintainIntegration = "maintainIntegration"
             case manageAdminPassword = "manageAdminPassword"
             case namespaceName = "namespaceName"
             case ownerAccount = "ownerAccount"

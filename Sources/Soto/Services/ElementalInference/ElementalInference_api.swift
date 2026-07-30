@@ -78,7 +78,7 @@ public struct ElementalInference: AWSService {
 
     // MARK: API Calls
 
-    /// Associates a resource with the feed. The resource provides the input that Elemental Inference needs needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed.
+    /// Associates a resource with the feed. The resource provides the input that Elemental Inference needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed. With an association, a specific source media is claiming ownership of the feed.  AssociateFeed is a PATCH operation, which means that you can include only parameters that you want to change. Parameters that you don't include will not be affected by the operation.  Specifically:   You can add more outputs to the existing outputs. New outputs will be appended.   You can't modify an existing output (for example to change its name). Instead, use UpdateFeed.    You can't delete an existing output. Instead, use UpdateFeed.   Also note that you can't change the feed name with AssociateFeed. Instead, use UpdateFeed.
     @Sendable
     @inlinable
     public func associateFeed(_ input: AssociateFeedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateFeedResponse {
@@ -91,13 +91,13 @@ public struct ElementalInference: AWSService {
             logger: logger
         )
     }
-    /// Associates a resource with the feed. The resource provides the input that Elemental Inference needs needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed.
+    /// Associates a resource with the feed. The resource provides the input that Elemental Inference needs in order to perform an Elemental Inference feature, such as cropping video. You always provide the resource by associating it with a feed. You can associate only one resource with each feed. With an association, a specific source media is claiming ownership of the feed.  AssociateFeed is a PATCH operation, which means that you can include only parameters that you want to change. Parameters that you don't include will not be affected by the operation.  Specifically:   You can add more outputs to the existing outputs. New outputs will be appended.   You can't modify an existing output (for example to change its name). Instead, use UpdateFeed.    You can't delete an existing output. Instead, use UpdateFeed.   Also note that you can't change the feed name with AssociateFeed. Instead, use UpdateFeed.
     ///
     /// Parameters:
-    ///   - associatedResourceName: An identifier for the resource. If the resource is from an AWS service, this identifier must be the full ARN of that resource. Otherwise, the identifier is a name that you assign and that is appropriate for the application that owns the resource. This name must not resemble an ARN.
-    ///   - dryRun: Set to true if you want to do a dry run of the associate action.
+    ///   - associatedResourceName: An identifier for the resource. This name must not resemble an ARN. The resource is the source media that the feed will process. The name you assign should help you to later identify the source media that belongs to the feed. In this way, you will know which source media to push to the feed (using PutMedia).
+    ///   - dryRun: Set to true if you want to do a dry run of the associate action. Elemental Inference will validate that the real request would succeed without actually making any changes. A dry run catches errors such as missing IAM permissions, quota limits exceeded, conflicting outputs, and so on. If the dry run fails, the action returns a 4xx error code. After you've fixed the errors, resubmit the request.
     ///   - id: The ID of the feed.
-    ///   - outputs: The outputs to add to this feed. You must specify at least one output. You can later use the UpdateFeed action to change the list of outputs.
+    ///   - outputs: An array of one or more outputs that you want to add to this feed now, to supplement any outputs that you specified when you created or updated the feed.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateFeed(
@@ -116,7 +116,45 @@ public struct ElementalInference: AWSService {
         return try await self.associateFeed(input, logger: logger)
     }
 
-    /// Creates a feed. The feed is the target for live streams being sent by the calling application. An example of a calling application is AWS Elemental MediaLive. After you create the feed, you can associate a resource with the feed.
+    /// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output.
+    @Sendable
+    @inlinable
+    public func createDictionary(_ input: CreateDictionaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDictionaryResponse {
+        try await self.client.execute(
+            operation: "CreateDictionary", 
+            path: "/v1/dictionary", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a custom dictionary for improving transcription accuracy. A dictionary contains custom words and phrases that the ASR engine might not recognize, such as brand names, technical terms, or proper nouns. You can reference a dictionary when configuring a smart subtitles output.
+    ///
+    /// Parameters:
+    ///   - entries: The dictionary entries payload. Contains the custom words and phrases for the dictionary. Maximum size is 40,960 characters.
+    ///   - language: The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por.
+    ///   - name: A user-friendly name for this dictionary.
+    ///   - tags: Optional tags to associate with the dictionary.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDictionary(
+        entries: String? = nil,
+        language: DictionaryLanguage,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDictionaryResponse {
+        let input = CreateDictionaryRequest(
+            entries: entries, 
+            language: language, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createDictionary(input, logger: logger)
+    }
+
+    /// Creates a feed. The feed is the target for the live media stream that is being sent by the calling application. An example of a calling application is AWS Elemental MediaLive.  The key contents of the feed is an array of outputs. Each output represents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs.
     @Sendable
     @inlinable
     public func createFeed(_ input: CreateFeedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFeedResponse {
@@ -129,12 +167,12 @@ public struct ElementalInference: AWSService {
             logger: logger
         )
     }
-    /// Creates a feed. The feed is the target for live streams being sent by the calling application. An example of a calling application is AWS Elemental MediaLive. After you create the feed, you can associate a resource with the feed.
+    /// Creates a feed. The feed is the target for the live media stream that is being sent by the calling application. An example of a calling application is AWS Elemental MediaLive.  The key contents of the feed is an array of outputs. Each output represents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs.
     ///
     /// Parameters:
-    ///   - name: A name for this feed.
-    ///   - outputs: An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, an output might represent the crop feature.
-    ///   - tags: If you want to include tags, add them now. You won't be able to add them later.
+    ///   - name: A user-friendly name for this feed.
+    ///   - outputs: An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, there is one output type for the smart crop feature. You must specify at least one output, but you can later add outputs using AssociateFeed, or add, modify, and delete outputs using UpdateFeed.
+    ///   - tags: Optional tags. You can also add tags later, using TagResource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createFeed(
@@ -151,7 +189,36 @@ public struct ElementalInference: AWSService {
         return try await self.createFeed(input, logger: logger)
     }
 
-    /// Deletes the specified feed. The feed can be deleted at any time.
+    /// Deletes the specified dictionary. You cannot delete a dictionary that is referenced by a feed. You must first remove the dictionary reference from the feed's subtitling configuration.
+    @Sendable
+    @inlinable
+    public func deleteDictionary(_ input: DeleteDictionaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDictionaryResponse {
+        try await self.client.execute(
+            operation: "DeleteDictionary", 
+            path: "/v1/dictionary/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified dictionary. You cannot delete a dictionary that is referenced by a feed. You must first remove the dictionary reference from the feed's subtitling configuration.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the dictionary to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDictionary(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDictionaryResponse {
+        let input = DeleteDictionaryRequest(
+            id: id
+        )
+        return try await self.deleteDictionary(input, logger: logger)
+    }
+
+    /// Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide.
     @Sendable
     @inlinable
     public func deleteFeed(_ input: DeleteFeedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFeedResponse {
@@ -164,7 +231,7 @@ public struct ElementalInference: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified feed. The feed can be deleted at any time.
+    /// Deletes the specified feed. You can delete the feed at any time. Elemental Inference doesn't block you from deleting a feed when the calling application is calling PutMedia or GetMetadata on that feed, although both these calls will start to fail. For more information about managing inactive feeds, see the Elemental Inference User Guide.
     ///
     /// Parameters:
     ///   - id: The ID of the feed.
@@ -180,7 +247,7 @@ public struct ElementalInference: AWSService {
         return try await self.deleteFeed(input, logger: logger)
     }
 
-    /// Releases the resource (for example, an MediaLive channel) that is associated with this feed. The outputs in the feed become disabled.
+    /// Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED.
     @Sendable
     @inlinable
     public func disassociateFeed(_ input: DisassociateFeedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFeedResponse {
@@ -193,11 +260,11 @@ public struct ElementalInference: AWSService {
             logger: logger
         )
     }
-    /// Releases the resource (for example, an MediaLive channel) that is associated with this feed. The outputs in the feed become disabled.
+    /// Releases the resource (the source media) that is associated with this feed. The outputs in the feed become DISABLED.
     ///
     /// Parameters:
-    ///   - associatedResourceName: The name of the resource currently associated with the feed'.
-    ///   - dryRun: Set to true if you want to do a dry run of the disassociate action.
+    ///   - associatedResourceName: The name of the resource currently associated with the feed.
+    ///   - dryRun: Set to true if you want to do a dry run of the disassociate action. Elemental Inference will validate that the real request would succeed without actually making any changes. A dry run catches errors such as missing IAM permissions. If the dry run fails, the action returns a 4xx error code.
     ///   - id: The ID of the feed where you want to release the resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -213,6 +280,64 @@ public struct ElementalInference: AWSService {
             id: id
         )
         return try await self.disassociateFeed(input, logger: logger)
+    }
+
+    /// Exports the entries from the specified dictionary.
+    @Sendable
+    @inlinable
+    public func exportDictionaryEntries(_ input: ExportDictionaryEntriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportDictionaryEntriesResponse {
+        try await self.client.execute(
+            operation: "ExportDictionaryEntries", 
+            path: "/v1/dictionary/{id}/entries/export", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Exports the entries from the specified dictionary.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the dictionary whose entries you want to export.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func exportDictionaryEntries(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExportDictionaryEntriesResponse {
+        let input = ExportDictionaryEntriesRequest(
+            id: id
+        )
+        return try await self.exportDictionaryEntries(input, logger: logger)
+    }
+
+    /// Retrieves information about the specified dictionary.
+    @Sendable
+    @inlinable
+    public func getDictionary(_ input: GetDictionaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDictionaryResponse {
+        try await self.client.execute(
+            operation: "GetDictionary", 
+            path: "/v1/dictionary/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the specified dictionary.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the dictionary to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDictionary(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDictionaryResponse {
+        let input = GetDictionaryRequest(
+            id: id
+        )
+        return try await self.getDictionary(input, logger: logger)
     }
 
     /// Retrieves information about the specified feed.
@@ -244,6 +369,38 @@ public struct ElementalInference: AWSService {
         return try await self.getFeed(input, logger: logger)
     }
 
+    /// Lists the dictionaries in your account.
+    @Sendable
+    @inlinable
+    public func listDictionaries(_ input: ListDictionariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDictionariesResponse {
+        try await self.client.execute(
+            operation: "ListDictionaries", 
+            path: "/v1/dictionaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the dictionaries in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return per API request. Valid range: 1 to 100.
+    ///   - nextToken: The token that identifies the next batch of results to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDictionaries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDictionariesResponse {
+        let input = ListDictionariesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDictionaries(input, logger: logger)
+    }
+
     /// Displays a list of feeds that belong to this AWS account.
     @Sendable
     @inlinable
@@ -260,8 +417,8 @@ public struct ElementalInference: AWSService {
     /// Displays a list of feeds that belong to this AWS account.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page. Valid Range: Minimum value of 1. Maximum value of 1000.
-    ///   - nextToken: The token that identifies the batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.  Valid Range: Minimum value of 1. Maximum value of 1000.
+    ///   - nextToken: The token that identifies the batch of results that you want to see. For example, you submit a ListFeeds request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFeeds request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFeeds(
@@ -369,7 +526,45 @@ public struct ElementalInference: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the name and/or outputs in a feed.
+    /// Updates the specified dictionary.
+    @Sendable
+    @inlinable
+    public func updateDictionary(_ input: UpdateDictionaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDictionaryResponse {
+        try await self.client.execute(
+            operation: "UpdateDictionary", 
+            path: "/v1/dictionary/{id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified dictionary.
+    ///
+    /// Parameters:
+    ///   - entries: New dictionary entries. If not specified, the entries are not changed.
+    ///   - id: The ID of the dictionary to update.
+    ///   - language: A new language for the dictionary. If not specified, the language is not changed.
+    ///   - name: A new name for the dictionary. If not specified, the name is not changed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDictionary(
+        entries: String? = nil,
+        id: String,
+        language: DictionaryLanguage? = nil,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDictionaryResponse {
+        let input = UpdateDictionaryRequest(
+            entries: entries, 
+            id: id, 
+            language: language, 
+            name: name
+        )
+        return try await self.updateDictionary(input, logger: logger)
+    }
+
+    /// Updates the name and/or outputs in a feed.  UpdateFeed is a PUT operation, which means that the payload that you specify completely overwrites the existing payload.  This means that if you want to touch the array of outputs, you must pass in the full new list. So you must omit outputs you want to delete, and include outputs you want to add or modify.  If you want to patch the array of outputs to make selective additions, use AssociateFeed.
     @Sendable
     @inlinable
     public func updateFeed(_ input: UpdateFeedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFeedResponse {
@@ -382,7 +577,7 @@ public struct ElementalInference: AWSService {
             logger: logger
         )
     }
-    /// Updates the name and/or outputs in a feed.
+    /// Updates the name and/or outputs in a feed.  UpdateFeed is a PUT operation, which means that the payload that you specify completely overwrites the existing payload.  This means that if you want to touch the array of outputs, you must pass in the full new list. So you must omit outputs you want to delete, and include outputs you want to add or modify.  If you want to patch the array of outputs to make selective additions, use AssociateFeed.
     ///
     /// Parameters:
     ///   - id: The ID of the feed to update.
@@ -418,6 +613,40 @@ extension ElementalInference {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ElementalInference {
+    /// Return PaginatorSequence for operation ``listDictionaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDictionariesPaginator(
+        _ input: ListDictionariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDictionariesRequest, ListDictionariesResponse> {
+        return .init(
+            input: input,
+            command: self.listDictionaries,
+            inputKey: \ListDictionariesRequest.nextToken,
+            outputKey: \ListDictionariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDictionaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return per API request. Valid range: 1 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDictionariesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDictionariesRequest, ListDictionariesResponse> {
+        let input = ListDictionariesRequest(
+            maxResults: maxResults
+        )
+        return self.listDictionariesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFeeds(_:logger:)``.
     ///
     /// - Parameters:
@@ -439,7 +668,7 @@ extension ElementalInference {
     /// Return PaginatorSequence for operation ``listFeeds(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page. Valid Range: Minimum value of 1. Maximum value of 1000.
+    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.  Valid Range: Minimum value of 1. Maximum value of 1000.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFeedsPaginator(
@@ -450,6 +679,16 @@ extension ElementalInference {
             maxResults: maxResults
         )
         return self.listFeedsPaginator(input, logger: logger)
+    }
+}
+
+extension ElementalInference.ListDictionariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ElementalInference.ListDictionariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

@@ -123,6 +123,7 @@ extension MailManager {
 
     public enum IngressPointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case associatedVpcEndpointDoesNotExist = "ASSOCIATED_VPC_ENDPOINT_DOES_NOT_EXIST"
         case closed = "CLOSED"
         case deprovisioning = "DEPROVISIONING"
         case failed = "FAILED"
@@ -139,6 +140,7 @@ extension MailManager {
 
     public enum IngressPointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auth = "AUTH"
+        case mtls = "MTLS"
         case open = "OPEN"
         public var description: String { return self.rawValue }
     }
@@ -177,6 +179,12 @@ extension MailManager {
     public enum IpType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualStack = "DUAL_STACK"
         case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LambdaInvocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case event = "EVENT"
+        case requestResponse = "REQUEST_RESPONSE"
         public var description: String { return self.rawValue }
     }
 
@@ -226,6 +234,18 @@ extension MailManager {
     public enum RuleBooleanOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isFalse = "IS_FALSE"
         case isTrue = "IS_TRUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleClientCertificateAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cn = "CN"
+        case sanDirectoryName = "SAN_DIRECTORY_NAME"
+        case sanDnsName = "SAN_DNS_NAME"
+        case sanIpAddress = "SAN_IP_ADDRESS"
+        case sanRegisteredId = "SAN_REGISTERED_ID"
+        case sanRfc822Name = "SAN_RFC822_NAME"
+        case sanUniformResourceIdentifier = "SAN_UNIFORM_RESOURCE_IDENTIFIER"
+        case serialNumber = "SERIAL_NUMBER"
         public var description: String { return self.rawValue }
     }
 
@@ -327,6 +347,19 @@ extension MailManager {
     public enum SnsNotificationPayloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case content = "CONTENT"
         case headers = "HEADERS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TlsPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fips = "FIPS"
+        case optional = "OPTIONAL"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrustStoreResponseOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
@@ -435,6 +468,8 @@ extension MailManager {
         case secretArn(String)
         /// The password of the ingress endpoint resource.
         case smtpPassword(String)
+        /// The mutual TLS authentication configuration of the ingress endpoint resource.
+        case tlsAuthConfiguration(TlsAuthConfiguration)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -443,6 +478,8 @@ extension MailManager {
                 try container.encode(value, forKey: .secretArn)
             case .smtpPassword(let value):
                 try container.encode(value, forKey: .smtpPassword)
+            case .tlsAuthConfiguration(let value):
+                try container.encode(value, forKey: .tlsAuthConfiguration)
             }
         }
 
@@ -454,12 +491,15 @@ extension MailManager {
                 try self.validate(value, name: "smtpPassword", parent: name, max: 64)
                 try self.validate(value, name: "smtpPassword", parent: name, min: 8)
                 try self.validate(value, name: "smtpPassword", parent: name, pattern: "^[A-Za-z0-9!@#$%^&*()_+\\-=\\[\\]{}|.,?]+$")
+            case .tlsAuthConfiguration(let value):
+                try value.validate(name: "\(name).tlsAuthConfiguration")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case secretArn = "SecretArn"
             case smtpPassword = "SmtpPassword"
+            case tlsAuthConfiguration = "TlsAuthConfiguration"
         }
     }
 
@@ -698,12 +738,16 @@ extension MailManager {
         case addHeader(AddHeaderAction)
         /// This action archives the email. This can be used to deliver an email to an archive.
         case archive(ArchiveAction)
+        /// This action sends a bounce response for the email.
+        case bounce(BounceAction)
         /// This action delivers an email to a WorkMail mailbox.
         case deliverToMailbox(DeliverToMailboxAction)
         /// This action delivers an email to an Amazon Q Business application for ingestion into its knowledge base.
         case deliverToQBusiness(DeliverToQBusinessAction)
         /// This action terminates the evaluation of rules in the rule set.
         case drop(DropAction)
+        /// This action invokes an Amazon Web Services Lambda function to process the email.
+        case invokeLambda(InvokeLambdaAction)
         /// This action publishes the email content to an Amazon SNS topic.
         case publishToSns(SnsAction)
         /// This action relays the email to another SMTP server.
@@ -731,6 +775,9 @@ extension MailManager {
             case .archive:
                 let value = try container.decode(ArchiveAction.self, forKey: .archive)
                 self = .archive(value)
+            case .bounce:
+                let value = try container.decode(BounceAction.self, forKey: .bounce)
+                self = .bounce(value)
             case .deliverToMailbox:
                 let value = try container.decode(DeliverToMailboxAction.self, forKey: .deliverToMailbox)
                 self = .deliverToMailbox(value)
@@ -740,6 +787,9 @@ extension MailManager {
             case .drop:
                 let value = try container.decode(DropAction.self, forKey: .drop)
                 self = .drop(value)
+            case .invokeLambda:
+                let value = try container.decode(InvokeLambdaAction.self, forKey: .invokeLambda)
+                self = .invokeLambda(value)
             case .publishToSns:
                 let value = try container.decode(SnsAction.self, forKey: .publishToSns)
                 self = .publishToSns(value)
@@ -765,12 +815,16 @@ extension MailManager {
                 try container.encode(value, forKey: .addHeader)
             case .archive(let value):
                 try container.encode(value, forKey: .archive)
+            case .bounce(let value):
+                try container.encode(value, forKey: .bounce)
             case .deliverToMailbox(let value):
                 try container.encode(value, forKey: .deliverToMailbox)
             case .deliverToQBusiness(let value):
                 try container.encode(value, forKey: .deliverToQBusiness)
             case .drop(let value):
                 try container.encode(value, forKey: .drop)
+            case .invokeLambda(let value):
+                try container.encode(value, forKey: .invokeLambda)
             case .publishToSns(let value):
                 try container.encode(value, forKey: .publishToSns)
             case .relay(let value):
@@ -790,10 +844,14 @@ extension MailManager {
                 try value.validate(name: "\(name).addHeader")
             case .archive(let value):
                 try value.validate(name: "\(name).archive")
+            case .bounce(let value):
+                try value.validate(name: "\(name).bounce")
             case .deliverToMailbox(let value):
                 try value.validate(name: "\(name).deliverToMailbox")
             case .deliverToQBusiness(let value):
                 try value.validate(name: "\(name).deliverToQBusiness")
+            case .invokeLambda(let value):
+                try value.validate(name: "\(name).invokeLambda")
             case .publishToSns(let value):
                 try value.validate(name: "\(name).publishToSns")
             case .relay(let value):
@@ -812,9 +870,11 @@ extension MailManager {
         private enum CodingKeys: String, CodingKey {
             case addHeader = "AddHeader"
             case archive = "Archive"
+            case bounce = "Bounce"
             case deliverToMailbox = "DeliverToMailbox"
             case deliverToQBusiness = "DeliverToQBusiness"
             case drop = "Drop"
+            case invokeLambda = "InvokeLambda"
             case publishToSns = "PublishToSns"
             case relay = "Relay"
             case replaceRecipient = "ReplaceRecipient"
@@ -978,6 +1038,8 @@ extension MailManager {
         case analysis(Analysis)
         /// The email attribute to evaluate in a string condition expression.
         case attribute(RuleStringEmailAttribute)
+        /// The client certificate attribute to evaluate in a string condition expression.
+        case clientCertificateAttribute(RuleClientCertificateAttribute)
         /// The email MIME X-Header attribute to evaluate in a string condition expression.
         case mimeHeaderAttribute(String)
 
@@ -997,6 +1059,9 @@ extension MailManager {
             case .attribute:
                 let value = try container.decode(RuleStringEmailAttribute.self, forKey: .attribute)
                 self = .attribute(value)
+            case .clientCertificateAttribute:
+                let value = try container.decode(RuleClientCertificateAttribute.self, forKey: .clientCertificateAttribute)
+                self = .clientCertificateAttribute(value)
             case .mimeHeaderAttribute:
                 let value = try container.decode(String.self, forKey: .mimeHeaderAttribute)
                 self = .mimeHeaderAttribute(value)
@@ -1010,6 +1075,8 @@ extension MailManager {
                 try container.encode(value, forKey: .analysis)
             case .attribute(let value):
                 try container.encode(value, forKey: .attribute)
+            case .clientCertificateAttribute(let value):
+                try container.encode(value, forKey: .clientCertificateAttribute)
             case .mimeHeaderAttribute(let value):
                 try container.encode(value, forKey: .mimeHeaderAttribute)
             }
@@ -1029,6 +1096,7 @@ extension MailManager {
         private enum CodingKeys: String, CodingKey {
             case analysis = "Analysis"
             case attribute = "Attribute"
+            case clientCertificateAttribute = "ClientCertificateAttribute"
             case mimeHeaderAttribute = "MimeHeaderAttribute"
         }
     }
@@ -1369,6 +1437,64 @@ extension MailManager {
         }
     }
 
+    public struct BounceAction: AWSEncodableShape & AWSDecodableShape {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, the caller does not have the permissions to call the SendBounce API.
+        public let actionFailurePolicy: ActionFailurePolicy?
+        /// The diagnostic message included in the Diagnostic-Code header of the bounce.
+        public let diagnosticMessage: String
+        /// The human-readable text to include in the bounce message.
+        public let message: String?
+        /// The Amazon Resource Name (ARN) of the IAM role to use to send the bounce message.
+        public let roleArn: String
+        /// The sender email address of the bounce message.
+        public let sender: String
+        /// The SMTP reply code for the bounce, as defined by RFC 5321.
+        public let smtpReplyCode: String
+        /// The enhanced status code for the bounce, in the format of x.y.z (e.g. 5.1.1).
+        public let statusCode: String
+
+        @inlinable
+        public init(actionFailurePolicy: ActionFailurePolicy? = nil, diagnosticMessage: String, message: String? = nil, roleArn: String, sender: String, smtpReplyCode: String, statusCode: String) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.diagnosticMessage = diagnosticMessage
+            self.message = message
+            self.roleArn = roleArn
+            self.sender = sender
+            self.smtpReplyCode = smtpReplyCode
+            self.statusCode = statusCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.diagnosticMessage, name: "diagnosticMessage", parent: name, max: 256)
+            try self.validate(self.diagnosticMessage, name: "diagnosticMessage", parent: name, min: 1)
+            try self.validate(self.diagnosticMessage, name: "diagnosticMessage", parent: name, pattern: "^[\\x20-\\x7e]+$")
+            try self.validate(self.message, name: "message", parent: name, max: 500)
+            try self.validate(self.message, name: "message", parent: name, min: 1)
+            try self.validate(self.message, name: "message", parent: name, pattern: "^[\\r\\n\\x20-\\x7e]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
+            try self.validate(self.sender, name: "sender", parent: name, max: 254)
+            try self.validate(self.sender, name: "sender", parent: name, pattern: "^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+$")
+            try self.validate(self.smtpReplyCode, name: "smtpReplyCode", parent: name, max: 3)
+            try self.validate(self.smtpReplyCode, name: "smtpReplyCode", parent: name, min: 3)
+            try self.validate(self.smtpReplyCode, name: "smtpReplyCode", parent: name, pattern: "^[45][0-9][0-9]$")
+            try self.validate(self.statusCode, name: "statusCode", parent: name, max: 9)
+            try self.validate(self.statusCode, name: "statusCode", parent: name, min: 5)
+            try self.validate(self.statusCode, name: "statusCode", parent: name, pattern: "^[45]\\.[0-9]{1,3}\\.[0-9]{1,3}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionFailurePolicy = "ActionFailurePolicy"
+            case diagnosticMessage = "DiagnosticMessage"
+            case message = "Message"
+            case roleArn = "RoleArn"
+            case sender = "Sender"
+            case smtpReplyCode = "SmtpReplyCode"
+            case statusCode = "StatusCode"
+        }
+    }
+
     public struct CreateAddonInstanceRequest: AWSEncodableShape {
         /// The unique ID of a previously created subscription that an Add On instance is created for. You can only have one instance per subscription.
         public let addonSubscriptionId: String
@@ -1635,19 +1761,22 @@ extension MailManager {
         public let ruleSetId: String
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [Tag]?
+        /// The Transport Layer Security (TLS) policy for the ingress point. The FIPS value is only valid in US and Canada regions.
+        public let tlsPolicy: TlsPolicy?
         /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
         public let trafficPolicyId: String
         /// The type of the ingress endpoint to create.
         public let type: IngressPointType
 
         @inlinable
-        public init(clientToken: String? = CreateIngressPointRequest.idempotencyToken(), ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointName: String, networkConfiguration: NetworkConfiguration? = nil, ruleSetId: String, tags: [Tag]? = nil, trafficPolicyId: String, type: IngressPointType) {
+        public init(clientToken: String? = CreateIngressPointRequest.idempotencyToken(), ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointName: String, networkConfiguration: NetworkConfiguration? = nil, ruleSetId: String, tags: [Tag]? = nil, tlsPolicy: TlsPolicy? = nil, trafficPolicyId: String, type: IngressPointType) {
             self.clientToken = clientToken
             self.ingressPointConfiguration = ingressPointConfiguration
             self.ingressPointName = ingressPointName
             self.networkConfiguration = networkConfiguration
             self.ruleSetId = ruleSetId
             self.tags = tags
+            self.tlsPolicy = tlsPolicy
             self.trafficPolicyId = trafficPolicyId
             self.type = type
         }
@@ -1677,6 +1806,7 @@ extension MailManager {
             case networkConfiguration = "NetworkConfiguration"
             case ruleSetId = "RuleSetId"
             case tags = "Tags"
+            case tlsPolicy = "TlsPolicy"
             case trafficPolicyId = "TrafficPolicyId"
             case type = "Type"
         }
@@ -2724,11 +2854,14 @@ extension MailManager {
     }
 
     public struct GetIngressPointRequest: AWSEncodableShape {
+        /// Whether to include the trust store contents in the response. Use INCLUDE to retrieve trust store certificate and CRL contents.
+        public let includeTrustStoreContents: TrustStoreResponseOption?
         /// The identifier of an ingress endpoint.
         public let ingressPointId: String
 
         @inlinable
-        public init(ingressPointId: String) {
+        public init(includeTrustStoreContents: TrustStoreResponseOption? = nil, ingressPointId: String) {
+            self.includeTrustStoreContents = includeTrustStoreContents
             self.ingressPointId = ingressPointId
         }
 
@@ -2738,6 +2871,7 @@ extension MailManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includeTrustStoreContents = "IncludeTrustStoreContents"
             case ingressPointId = "IngressPointId"
         }
     }
@@ -2763,13 +2897,15 @@ extension MailManager {
         public let ruleSetId: String?
         /// The status of the ingress endpoint resource.
         public let status: IngressPointStatus?
+        /// The selected Transport Layer Security (TLS) policy of the ingress point.
+        public let tlsPolicy: TlsPolicy?
         /// The identifier of the traffic policy resource associated with the ingress endpoint.
         public let trafficPolicyId: String?
         /// The type of ingress endpoint.
         public let type: IngressPointType?
 
         @inlinable
-        public init(aRecord: String? = nil, createdTimestamp: Date? = nil, ingressPointArn: String? = nil, ingressPointAuthConfiguration: IngressPointAuthConfiguration? = nil, ingressPointId: String, ingressPointName: String, lastUpdatedTimestamp: Date? = nil, networkConfiguration: NetworkConfiguration? = nil, ruleSetId: String? = nil, status: IngressPointStatus? = nil, trafficPolicyId: String? = nil, type: IngressPointType? = nil) {
+        public init(aRecord: String? = nil, createdTimestamp: Date? = nil, ingressPointArn: String? = nil, ingressPointAuthConfiguration: IngressPointAuthConfiguration? = nil, ingressPointId: String, ingressPointName: String, lastUpdatedTimestamp: Date? = nil, networkConfiguration: NetworkConfiguration? = nil, ruleSetId: String? = nil, status: IngressPointStatus? = nil, tlsPolicy: TlsPolicy? = nil, trafficPolicyId: String? = nil, type: IngressPointType? = nil) {
             self.aRecord = aRecord
             self.createdTimestamp = createdTimestamp
             self.ingressPointArn = ingressPointArn
@@ -2780,6 +2916,7 @@ extension MailManager {
             self.networkConfiguration = networkConfiguration
             self.ruleSetId = ruleSetId
             self.status = status
+            self.tlsPolicy = tlsPolicy
             self.trafficPolicyId = trafficPolicyId
             self.type = type
         }
@@ -2795,6 +2932,7 @@ extension MailManager {
             case networkConfiguration = "NetworkConfiguration"
             case ruleSetId = "RuleSetId"
             case status = "Status"
+            case tlsPolicy = "TlsPolicy"
             case trafficPolicyId = "TrafficPolicyId"
             case type = "Type"
         }
@@ -3254,16 +3392,20 @@ extension MailManager {
         public let ingressPointPasswordConfiguration: IngressPointPasswordConfiguration?
         /// The ingress endpoint SecretsManager::Secret ARN configuration for the ingress endpoint resource.
         public let secretArn: String?
+        /// The mutual TLS authentication configuration for the ingress endpoint resource.
+        public let tlsAuthConfiguration: TlsAuthConfiguration?
 
         @inlinable
-        public init(ingressPointPasswordConfiguration: IngressPointPasswordConfiguration? = nil, secretArn: String? = nil) {
+        public init(ingressPointPasswordConfiguration: IngressPointPasswordConfiguration? = nil, secretArn: String? = nil, tlsAuthConfiguration: TlsAuthConfiguration? = nil) {
             self.ingressPointPasswordConfiguration = ingressPointPasswordConfiguration
             self.secretArn = secretArn
+            self.tlsAuthConfiguration = tlsAuthConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case ingressPointPasswordConfiguration = "IngressPointPasswordConfiguration"
             case secretArn = "SecretArn"
+            case tlsAuthConfiguration = "TlsAuthConfiguration"
         }
     }
 
@@ -3334,6 +3476,47 @@ extension MailManager {
             case evaluate = "Evaluate"
             case `operator` = "Operator"
             case value = "Value"
+        }
+    }
+
+    public struct InvokeLambdaAction: AWSEncodableShape & AWSDecodableShape {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, the Amazon Web Services Lambda function no longer exists.
+        public let actionFailurePolicy: ActionFailurePolicy?
+        /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
+        public let functionArn: String
+        /// The invocation type of the Lambda function. Use EVENT for asynchronous invocation or REQUEST_RESPONSE for synchronous invocation.
+        public let invocationType: LambdaInvocationType
+        /// The maximum time in minutes that the email processing can be retried if the Lambda invocation fails. The maximum value is 2160 minutes (36 hours).
+        public let retryTimeMinutes: Int?
+        /// The Amazon Resource Name (ARN) of the IAM role to use to invoke the Lambda function.
+        public let roleArn: String
+
+        @inlinable
+        public init(actionFailurePolicy: ActionFailurePolicy? = nil, functionArn: String, invocationType: LambdaInvocationType, retryTimeMinutes: Int? = nil, roleArn: String) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.functionArn = functionArn
+            self.invocationType = invocationType
+            self.retryTimeMinutes = retryTimeMinutes
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionArn, name: "functionArn", parent: name, max: 2048)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, min: 20)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
+            try self.validate(self.retryTimeMinutes, name: "retryTimeMinutes", parent: name, max: 2160)
+            try self.validate(self.retryTimeMinutes, name: "retryTimeMinutes", parent: name, min: 0)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionFailurePolicy = "ActionFailurePolicy"
+            case functionArn = "FunctionArn"
+            case invocationType = "InvocationType"
+            case retryTimeMinutes = "RetryTimeMinutes"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -4954,6 +5137,24 @@ extension MailManager {
         public init() {}
     }
 
+    public struct TlsAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The trust store configuration for mutual TLS authentication.
+        public let trustStore: TrustStore?
+
+        @inlinable
+        public init(trustStore: TrustStore? = nil) {
+            self.trustStore = trustStore
+        }
+
+        public func validate(name: String) throws {
+            try self.trustStore?.validate(name: "\(name).trustStore")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trustStore = "TrustStore"
+        }
+    }
+
     public struct TrafficPolicy: AWSDecodableShape {
         /// Default action instructs the traﬃc policy to either Allow or Deny (block) messages that fall outside of (or not addressed by) the conditions of your policy statements
         public let defaultAction: AcceptAction
@@ -4973,6 +5174,38 @@ extension MailManager {
             case defaultAction = "DefaultAction"
             case trafficPolicyId = "TrafficPolicyId"
             case trafficPolicyName = "TrafficPolicyName"
+        }
+    }
+
+    public struct TrustStore: AWSEncodableShape & AWSDecodableShape {
+        /// The PEM-encoded certificate authority (CA) certificates bundle for the trust store.
+        public let caContent: String
+        /// The PEM-encoded certificate revocation lists (CRLs) for the trust store. There can be one CRL per certificate authority (CA) in the trust store.
+        public let crlContent: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the trust store contents.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(caContent: String, crlContent: String? = nil, kmsKeyArn: String? = nil) {
+            self.caContent = caContent
+            self.crlContent = crlContent
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caContent, name: "caContent", parent: name, max: 500000)
+            try self.validate(self.caContent, name: "caContent", parent: name, min: 1)
+            try self.validate(self.caContent, name: "caContent", parent: name, pattern: "^[\\P{C}\\s]*$")
+            try self.validate(self.crlContent, name: "crlContent", parent: name, max: 500000)
+            try self.validate(self.crlContent, name: "crlContent", parent: name, min: 1)
+            try self.validate(self.crlContent, name: "crlContent", parent: name, pattern: "^[\\P{C}\\s]*$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov|-eusc):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caContent = "CAContent"
+            case crlContent = "CrlContent"
+            case kmsKeyArn = "KmsKeyArn"
         }
     }
 
@@ -5055,16 +5288,19 @@ extension MailManager {
         public let ruleSetId: String?
         /// The update status of an ingress endpoint.
         public let statusToUpdate: IngressPointStatusToUpdate?
+        /// The Transport Layer Security (TLS) policy for the ingress point. Valid values are REQUIRED, OPTIONAL. Only ingress endpoints using REQUIRED or OPTIONAL as TlsPolicy can be updated.
+        public let tlsPolicy: TlsPolicy?
         /// The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
         public let trafficPolicyId: String?
 
         @inlinable
-        public init(ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointId: String, ingressPointName: String? = nil, ruleSetId: String? = nil, statusToUpdate: IngressPointStatusToUpdate? = nil, trafficPolicyId: String? = nil) {
+        public init(ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointId: String, ingressPointName: String? = nil, ruleSetId: String? = nil, statusToUpdate: IngressPointStatusToUpdate? = nil, tlsPolicy: TlsPolicy? = nil, trafficPolicyId: String? = nil) {
             self.ingressPointConfiguration = ingressPointConfiguration
             self.ingressPointId = ingressPointId
             self.ingressPointName = ingressPointName
             self.ruleSetId = ruleSetId
             self.statusToUpdate = statusToUpdate
+            self.tlsPolicy = tlsPolicy
             self.trafficPolicyId = trafficPolicyId
         }
 
@@ -5087,6 +5323,7 @@ extension MailManager {
             case ingressPointName = "IngressPointName"
             case ruleSetId = "RuleSetId"
             case statusToUpdate = "StatusToUpdate"
+            case tlsPolicy = "TlsPolicy"
             case trafficPolicyId = "TrafficPolicyId"
         }
     }

@@ -555,6 +555,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case filterString = "FILTER_STRING"
+        case queryParams = "QUERY_PARAMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eq = "EQ"
         case gt = "GT"
@@ -600,6 +606,12 @@ extension Glue {
         case short = "SHORT"
         case string = "STRING"
         case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlueResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case job = "JOB"
+        case session = "SESSION"
         public var description: String { return self.rawValue }
     }
 
@@ -849,6 +861,24 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ObservationConfiguration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ObservationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fixed = "FIXED"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OverwriteChildResourcePermissionsWithDefaultEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accept = "Accept"
+        case deny = "Deny"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ParamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bool = "bool"
         case complex = "complex"
@@ -985,6 +1015,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResultTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case failedOnly = "FAILED_ONLY"
+        case passedOnly = "PASSED_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3EncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case ssekms = "SSE-KMS"
@@ -1025,6 +1062,22 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "equals"
+        case greaterThan = "greaterThan"
+        case greaterThanOrEquals = "greaterThanOrEquals"
+        case lessThan = "lessThan"
+        case lessThanOrEquals = "lessThanOrEquals"
+        case notExists = "notExists"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Separator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case comma = "comma"
         case ctrla = "ctrla"
@@ -1041,6 +1094,12 @@ extension Glue {
         case stopped = "STOPPED"
         case stopping = "STOPPING"
         case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case livy = "LIVY"
+        case sparkConnect = "SPARK_CONNECT"
         public var description: String { return self.rawValue }
     }
 
@@ -1102,6 +1161,8 @@ extension Glue {
     }
 
     public enum TableAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case latestIcebergMetadata = "LATEST_ICEBERG_METADATA"
         case name = "NAME"
         case tableType = "TABLE_TYPE"
         public var description: String { return self.rawValue }
@@ -1264,6 +1325,90 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchFilterClause: AWSEncodableShape, Sendable {
+        /// A list of filter clauses that must all match (logical AND).
+        case andAllFilters([SearchFilterClause])
+        /// A filter on a single attribute value.
+        case attributeFilter(SearchAttributeFilter)
+        /// A filter on a map attribute's key-value pair.
+        case mapFilter(SearchMapFilter)
+        /// A list of filter clauses where at least one must match (logical OR).
+        case orAnyFilters([SearchFilterClause])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .andAllFilters(let value):
+                try container.encode(value, forKey: .andAllFilters)
+            case .attributeFilter(let value):
+                try container.encode(value, forKey: .attributeFilter)
+            case .mapFilter(let value):
+                try container.encode(value, forKey: .mapFilter)
+            case .orAnyFilters(let value):
+                try container.encode(value, forKey: .orAnyFilters)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .andAllFilters(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).andAllFilters[]")
+                }
+                try self.validate(value, name: "andAllFilters", parent: name, max: 10)
+                try self.validate(value, name: "andAllFilters", parent: name, min: 1)
+            case .attributeFilter(let value):
+                try value.validate(name: "\(name).attributeFilter")
+            case .mapFilter(let value):
+                try value.validate(name: "\(name).mapFilter")
+            case .orAnyFilters(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).orAnyFilters[]")
+                }
+                try self.validate(value, name: "orAnyFilters", parent: name, max: 10)
+                try self.validate(value, name: "orAnyFilters", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andAllFilters = "AndAllFilters"
+            case attributeFilter = "AttributeFilter"
+            case mapFilter = "MapFilter"
+            case orAnyFilters = "OrAnyFilters"
+        }
+    }
+
+    public enum SearchFilterValue: AWSEncodableShape, Sendable {
+        /// A long integer filter value.
+        case longValue(Int64)
+        /// A string filter value.
+        case stringValue(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .longValue(let value):
+                try container.encode(value, forKey: .longValue)
+            case .stringValue(let value):
+                try container.encode(value, forKey: .stringValue)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .stringValue(let value):
+                try self.validate(value, name: "stringValue", parent: name, max: 256)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case longValue = "LongValue"
+            case stringValue = "StringValue"
+        }
+    }
+
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
@@ -1277,7 +1422,7 @@ extension Glue {
         public let notificationProperty: NotificationProperty?
         /// The name of the SecurityConfiguration structure to be used with this action.
         public let securityConfiguration: String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
 
         @inlinable
@@ -1658,6 +1803,124 @@ extension Glue {
             case inputs = "Inputs"
             case mapping = "Mapping"
             case name = "Name"
+        }
+    }
+
+    public struct AssetFormEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The JSON content of the form, conforming to the schema of the specified form type.
+        public let content: String?
+        /// The identifier of the form type that defines this form's schema.
+        public let formTypeId: String?
+
+        @inlinable
+        public init(content: String? = nil, formTypeId: String? = nil) {
+            self.content = content
+            self.formTypeId = formTypeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.formTypeId, name: "formTypeId", parent: name, max: 256)
+            try self.validate(self.formTypeId, name: "formTypeId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case formTypeId = "FormTypeId"
+        }
+    }
+
+    public struct AssetTypeFormReference: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the referenced form type.
+        public let formTypeIdentifier: String
+
+        @inlinable
+        public init(formTypeIdentifier: String) {
+            self.formTypeIdentifier = formTypeIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.formTypeIdentifier, name: "formTypeIdentifier", parent: name, max: 256)
+            try self.validate(self.formTypeIdentifier, name: "formTypeIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formTypeIdentifier = "FormTypeIdentifier"
+        }
+    }
+
+    public struct AssetTypeItem: AWSDecodableShape {
+        /// The identifier of the asset type.
+        public let id: String?
+        /// The name of the asset type.
+        public let name: String?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct AssociateGlossaryTermsRequest: AWSEncodableShape {
+        /// The unique identifier of the asset to associate glossary terms with.
+        public let assetIdentifier: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The list of glossary term identifiers to associate with the asset.
+        public let glossaryTermIdentifiers: [String]
+
+        @inlinable
+        public init(assetIdentifier: String, clientToken: String? = AssociateGlossaryTermsRequest.idempotencyToken(), glossaryTermIdentifiers: [String]) {
+            self.assetIdentifier = assetIdentifier
+            self.clientToken = clientToken
+            self.glossaryTermIdentifiers = glossaryTermIdentifiers
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.glossaryTermIdentifiers, forKey: .glossaryTermIdentifiers)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, max: 1087)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, min: 1)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, max: 10)
+            try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case glossaryTermIdentifiers = "GlossaryTermIdentifiers"
+        }
+    }
+
+    public struct AssociateGlossaryTermsResponse: AWSDecodableShape {
+        /// The unique identifier of the asset.
+        public let assetIdentifier: String?
+        /// The glossary terms now associated with the asset.
+        public let glossaryTerms: [String]?
+
+        @inlinable
+        public init(assetIdentifier: String? = nil, glossaryTerms: [String]? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.glossaryTerms = glossaryTerms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetIdentifier = "AssetIdentifier"
+            case glossaryTerms = "GlossaryTerms"
         }
     }
 
@@ -2451,6 +2714,48 @@ extension Glue {
         }
     }
 
+    public struct BatchGetDataQualityRulesetEvaluationRunRequest: AWSEncodableShape {
+        /// A list of unique run identifiers for the evaluation runs to retrieve.
+        public let runIds: [String]
+
+        @inlinable
+        public init(runIds: [String]) {
+            self.runIds = runIds
+        }
+
+        public func validate(name: String) throws {
+            try self.runIds.forEach {
+                try validate($0, name: "runIds[]", parent: name, max: 255)
+                try validate($0, name: "runIds[]", parent: name, min: 1)
+                try validate($0, name: "runIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.runIds, name: "runIds", parent: name, max: 100)
+            try self.validate(self.runIds, name: "runIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runIds = "RunIds"
+        }
+    }
+
+    public struct BatchGetDataQualityRulesetEvaluationRunResponse: AWSDecodableShape {
+        /// A list of evaluation run details for the requested run IDs.
+        public let runs: [DataQualityRulesetEvaluationRun]?
+        /// A list of run IDs that were not found.
+        public let runsNotFound: [String]?
+
+        @inlinable
+        public init(runs: [DataQualityRulesetEvaluationRun]? = nil, runsNotFound: [String]? = nil) {
+            self.runs = runs
+            self.runsNotFound = runsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runs = "Runs"
+            case runsNotFound = "RunsNotFound"
+        }
+    }
+
     public struct BatchGetDevEndpointsRequest: AWSEncodableShape {
         /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
@@ -2485,6 +2790,67 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case devEndpoints = "DevEndpoints"
             case devEndpointsNotFound = "DevEndpointsNotFound"
+        }
+    }
+
+    public struct BatchGetIterableFormsRequest: AWSEncodableShape {
+        /// The unique identifier of the asset.
+        public let assetIdentifier: String
+        /// The list of item identifiers to retrieve. Each identifier can be an item ID or item name.
+        public let itemIdentifiers: [String]
+        /// The name of the iterable form to retrieve items from.
+        public let iterableFormName: String
+
+        @inlinable
+        public init(assetIdentifier: String, itemIdentifiers: [String], iterableFormName: String) {
+            self.assetIdentifier = assetIdentifier
+            self.itemIdentifiers = itemIdentifiers
+            self.iterableFormName = iterableFormName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
+            try container.encode(self.itemIdentifiers, forKey: .itemIdentifiers)
+            request.encodePath(self.iterableFormName, key: "IterableFormName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, max: 1087)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, min: 1)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+            try self.itemIdentifiers.forEach {
+                try validate($0, name: "itemIdentifiers[]", parent: name, max: 1087)
+                try validate($0, name: "itemIdentifiers[]", parent: name, min: 1)
+            }
+            try self.validate(self.itemIdentifiers, name: "itemIdentifiers", parent: name, max: 100)
+            try self.validate(self.itemIdentifiers, name: "itemIdentifiers", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, max: 256)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemIdentifiers = "ItemIdentifiers"
+        }
+    }
+
+    public struct BatchGetIterableFormsResponse: AWSDecodableShape {
+        /// The list of errors for items that could not be retrieved.
+        public let errors: [ItemError]?
+        /// The list of retrieved iterable form items.
+        public let items: [IterableFormItem]?
+
+        @inlinable
+        public init(errors: [ItemError]? = nil, items: [IterableFormItem]? = nil) {
+            self.errors = errors
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case items = "Items"
         }
     }
 
@@ -3039,6 +3405,28 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case errors = "Errors"
+        }
+    }
+
+    public struct BetweenConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter name used for the upper bound value in a BETWEEN filter operation.
+        public let highBoundKey: String?
+        /// The parameter name used for the lower bound value in a BETWEEN filter operation.
+        public let lowBoundKey: String?
+        /// A template string for constructing the BETWEEN filter expression.
+        public let template: String?
+
+        @inlinable
+        public init(highBoundKey: String? = nil, lowBoundKey: String? = nil, template: String? = nil) {
+            self.highBoundKey = highBoundKey
+            self.lowBoundKey = lowBoundKey
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case highBoundKey = "HighBoundKey"
+            case lowBoundKey = "LowBoundKey"
+            case template = "Template"
         }
     }
 
@@ -3623,19 +4011,22 @@ extension Glue {
         public let description: String?
         /// A FederatedCatalog object. A FederatedCatalog structure that references an entity outside the Glue Data Catalog, for example a Redshift database.
         public let federatedCatalog: FederatedCatalog?
+        ///  Overwrites existing Amazon Web Services Lake Formation permissions with CatalogInput$CreateTableDefaultPermissions and CatalogInput$CreateDatabaseDefaultPermissions for all child resources.
+        public let overwriteChildResourcePermissionsWithDefault: OverwriteChildResourcePermissionsWithDefaultEnum?
         /// A map array of key-value pairs that define the parameters and properties of the catalog.
         public let parameters: [String: String]?
         /// A TargetRedshiftCatalog object that describes a target catalog for resource linking.
         public let targetRedshiftCatalog: TargetRedshiftCatalog?
 
         @inlinable
-        public init(allowFullTableExternalDataAccess: AllowFullTableExternalDataAccessEnum? = nil, catalogProperties: CatalogProperties? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, federatedCatalog: FederatedCatalog? = nil, parameters: [String: String]? = nil, targetRedshiftCatalog: TargetRedshiftCatalog? = nil) {
+        public init(allowFullTableExternalDataAccess: AllowFullTableExternalDataAccessEnum? = nil, catalogProperties: CatalogProperties? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, federatedCatalog: FederatedCatalog? = nil, overwriteChildResourcePermissionsWithDefault: OverwriteChildResourcePermissionsWithDefaultEnum? = nil, parameters: [String: String]? = nil, targetRedshiftCatalog: TargetRedshiftCatalog? = nil) {
             self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
             self.federatedCatalog = federatedCatalog
+            self.overwriteChildResourcePermissionsWithDefault = overwriteChildResourcePermissionsWithDefault
             self.parameters = parameters
             self.targetRedshiftCatalog = targetRedshiftCatalog
         }
@@ -3666,6 +4057,7 @@ extension Glue {
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case description = "Description"
             case federatedCatalog = "FederatedCatalog"
+            case overwriteChildResourcePermissionsWithDefault = "OverwriteChildResourcePermissionsWithDefault"
             case parameters = "Parameters"
             case targetRedshiftCatalog = "TargetRedshiftCatalog"
         }
@@ -3875,6 +4267,44 @@ extension Glue {
             case outputSchemas = "OutputSchemas"
             case partitionPredicate = "PartitionPredicate"
             case table = "Table"
+        }
+    }
+
+    public struct CatalogTableConfigOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A unique identifier for the Glue Data Catalog.
+        public let catalogId: String?
+        /// The name of the database in the Glue Data Catalog.
+        public let databaseName: String?
+        /// The Amazon S3 location for storing the results.
+        public let s3Location: String?
+        /// The name of the table in the Glue Data Catalog.
+        public let tableName: String?
+
+        @inlinable
+        public init(catalogId: String? = nil, databaseName: String? = nil, s3Location: String? = nil, tableName: String? = nil) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.s3Location = s3Location
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case s3Location = "S3Location"
+            case tableName = "TableName"
         }
     }
 
@@ -5628,6 +6058,8 @@ extension Glue {
         public let allowedValues: [String]?
         /// The default value for the property.
         public let defaultValue: String?
+        /// A format template for the property value that defines how the value should be formatted before sending it in API requests. Use {value} as a placeholder for the actual property value (for example, SSWS {value}).
+        public let format: String?
         /// A key name to use when sending this property in API requests, if different from the display name.
         public let keyOverride: String?
         /// The name of the property.
@@ -5640,9 +6072,10 @@ extension Glue {
         public let required: Bool
 
         @inlinable
-        public init(allowedValues: [String]? = nil, defaultValue: String? = nil, keyOverride: String? = nil, name: String, propertyLocation: PropertyLocation? = nil, propertyType: PropertyType, required: Bool) {
+        public init(allowedValues: [String]? = nil, defaultValue: String? = nil, format: String? = nil, keyOverride: String? = nil, name: String, propertyLocation: PropertyLocation? = nil, propertyType: PropertyType, required: Bool) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
+            self.format = format
             self.keyOverride = keyOverride
             self.name = name
             self.propertyLocation = propertyLocation
@@ -5661,6 +6094,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case allowedValues = "AllowedValues"
             case defaultValue = "DefaultValue"
+            case format = "Format"
             case keyOverride = "KeyOverride"
             case name = "Name"
             case propertyLocation = "PropertyLocation"
@@ -6751,6 +7185,132 @@ extension Glue {
         }
     }
 
+    public struct CreateGlossaryRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description of the glossary.
+        public let description: String?
+        /// The name of the glossary.
+        public let name: String
+
+        @inlinable
+        public init(clientToken: String? = CreateGlossaryRequest.idempotencyToken(), description: String? = nil, name: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateGlossaryResponse: AWSDecodableShape {
+        /// The description of the glossary.
+        public let description: String?
+        /// The unique identifier of the glossary.
+        public let id: String?
+        /// The name of the glossary.
+        public let name: String?
+
+        @inlinable
+        public init(description: String? = nil, id: String? = nil, name: String? = nil) {
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateGlossaryTermRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the glossary in which to create the term.
+        public let glossaryIdentifier: String
+        /// A long description of the glossary term.
+        public let longDescription: String?
+        /// The name of the glossary term.
+        public let name: String
+        /// A short description of the glossary term.
+        public let shortDescription: String?
+
+        @inlinable
+        public init(clientToken: String? = CreateGlossaryTermRequest.idempotencyToken(), glossaryIdentifier: String, longDescription: String? = nil, name: String, shortDescription: String? = nil) {
+            self.clientToken = clientToken
+            self.glossaryIdentifier = glossaryIdentifier
+            self.longDescription = longDescription
+            self.name = name
+            self.shortDescription = shortDescription
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.longDescription, name: "longDescription", parent: name, max: 4096)
+            try self.validate(self.longDescription, name: "longDescription", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.shortDescription, name: "shortDescription", parent: name, max: 1024)
+            try self.validate(self.shortDescription, name: "shortDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case glossaryIdentifier = "GlossaryIdentifier"
+            case longDescription = "LongDescription"
+            case name = "Name"
+            case shortDescription = "ShortDescription"
+        }
+    }
+
+    public struct CreateGlossaryTermResponse: AWSDecodableShape {
+        /// The unique identifier of the glossary containing this term.
+        public let glossaryId: String?
+        /// The unique identifier of the glossary term.
+        public let id: String?
+        /// The long description of the glossary term.
+        public let longDescription: String?
+        /// The name of the glossary term.
+        public let name: String?
+        /// The short description of the glossary term.
+        public let shortDescription: String?
+
+        @inlinable
+        public init(glossaryId: String? = nil, id: String? = nil, longDescription: String? = nil, name: String? = nil, shortDescription: String? = nil) {
+            self.glossaryId = glossaryId
+            self.id = id
+            self.longDescription = longDescription
+            self.name = name
+            self.shortDescription = shortDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glossaryId = "GlossaryId"
+            case id = "Id"
+            case longDescription = "LongDescription"
+            case name = "Name"
+            case shortDescription = "ShortDescription"
+        }
+    }
+
     public struct CreateGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration.
         public let instanceArn: String
@@ -7116,7 +7676,7 @@ extension Glue {
         public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
-        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 5.1.
         public let glueVersion: String?
         /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public let jobMode: JobMode?
@@ -7146,7 +7706,7 @@ extension Glue {
         public let sourceControlDetails: SourceControlDetails?
         /// The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
         public let tags: [String: String]?
-        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Spain), Europe (Stockholm), and South America (São Paulo).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
@@ -7794,6 +8354,8 @@ extension Glue {
         public let role: String
         /// The name of the SecurityConfiguration structure to be used with the session
         public let securityConfiguration: String?
+        /// The type of session to create.
+        public let sessionType: SessionType?
         /// The map of key value pairs (tags) belonging to the session.
         public let tags: [String: String]?
         ///  The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes). Consult the documentation for other job types.
@@ -7802,7 +8364,7 @@ extension Glue {
         public let workerType: WorkerType?
 
         @inlinable
-        public init(command: SessionCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, glueVersion: String? = nil, id: String, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, requestOrigin: String? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(command: SessionCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, glueVersion: String? = nil, id: String, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, requestOrigin: String? = nil, role: String, securityConfiguration: String? = nil, sessionType: SessionType? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -7815,6 +8377,7 @@ extension Glue {
             self.requestOrigin = requestOrigin
             self.role = role
             self.securityConfiguration = securityConfiguration
+            self.sessionType = sessionType
             self.tags = tags
             self.timeout = timeout
             self.workerType = workerType
@@ -7871,6 +8434,7 @@ extension Glue {
             case requestOrigin = "RequestOrigin"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
+            case sessionType = "SessionType"
             case tags = "Tags"
             case timeout = "Timeout"
             case workerType = "WorkerType"
@@ -7979,7 +8543,6 @@ extension Glue {
             try self.partitionIndexes?.forEach {
                 try $0.validate(name: "\(name).partitionIndexes[]")
             }
-            try self.validate(self.partitionIndexes, name: "partitionIndexes", parent: name, max: 3)
             try self.tableInput?.validate(name: "\(name).tableInput")
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
@@ -8705,6 +9268,8 @@ extension Glue {
     public struct DataQualityAnalyzerResult: AWSDecodableShape {
         /// A description of the data quality analyzer.
         public let description: String?
+        /// A map of distribution metrics associated with the evaluation of the analyzer.
+        public let evaluatedDistributions: [String: DistributionData]?
         /// A map of metrics associated with the evaluation of the analyzer.
         public let evaluatedMetrics: [String: Double]?
         /// An evaluation message.
@@ -8713,8 +9278,9 @@ extension Glue {
         public let name: String?
 
         @inlinable
-        public init(description: String? = nil, evaluatedMetrics: [String: Double]? = nil, evaluationMessage: String? = nil, name: String? = nil) {
+        public init(description: String? = nil, evaluatedDistributions: [String: DistributionData]? = nil, evaluatedMetrics: [String: Double]? = nil, evaluationMessage: String? = nil, name: String? = nil) {
             self.description = description
+            self.evaluatedDistributions = evaluatedDistributions
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluationMessage = evaluationMessage
             self.name = name
@@ -8722,6 +9288,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case evaluatedDistributions = "EvaluatedDistributions"
             case evaluatedMetrics = "EvaluatedMetrics"
             case evaluationMessage = "EvaluationMessage"
             case name = "Name"
@@ -8755,20 +9322,55 @@ extension Glue {
         public let cloudWatchMetricsEnabled: Bool?
         /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
         public let compositeRuleEvaluationMethod: DQCompositeRuleEvaluationMethod?
+        /// A custom prefix for the CloudWatch log group names. When specified, evaluation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
+        public let customLogGroupPrefix: String?
+        /// The configuration for writing rule results to a Glue Data Catalog table.
+        public let dataQualityRuleResults: DataQualityRuleResultsOptions?
+        /// The observation mode for the evaluation run. Specifies how anomaly detection bounds are calculated.
+        public let observationMode: ObservationMode?
+        /// The configuration for writing observation results to a Glue Data Catalog table.
+        public let observationResults: ObservationResultsOptions?
+        /// The scope of the observation for the evaluation run. Specifies whether anomaly detection is enabled or disabled.
+        public let observationScope: ObservationConfiguration?
+        /// The configuration for writing profiling results to a Glue Data Catalog table.
+        public let profilingResults: ProfilingResultsOptions?
         /// Prefix for Amazon S3 to store results.
         public let resultsS3Prefix: String?
+        /// The configuration for writing row-level evaluation results to a Glue Data Catalog table.
+        public let rowLevelResults: RowLevelResultsOptions?
 
         @inlinable
-        public init(cloudWatchMetricsEnabled: Bool? = nil, compositeRuleEvaluationMethod: DQCompositeRuleEvaluationMethod? = nil, resultsS3Prefix: String? = nil) {
+        public init(cloudWatchMetricsEnabled: Bool? = nil, compositeRuleEvaluationMethod: DQCompositeRuleEvaluationMethod? = nil, customLogGroupPrefix: String? = nil, dataQualityRuleResults: DataQualityRuleResultsOptions? = nil, observationMode: ObservationMode? = nil, observationResults: ObservationResultsOptions? = nil, observationScope: ObservationConfiguration? = nil, profilingResults: ProfilingResultsOptions? = nil, resultsS3Prefix: String? = nil, rowLevelResults: RowLevelResultsOptions? = nil) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
+            self.customLogGroupPrefix = customLogGroupPrefix
+            self.dataQualityRuleResults = dataQualityRuleResults
+            self.observationMode = observationMode
+            self.observationResults = observationResults
+            self.observationScope = observationScope
+            self.profilingResults = profilingResults
             self.resultsS3Prefix = resultsS3Prefix
+            self.rowLevelResults = rowLevelResults
+        }
+
+        public func validate(name: String) throws {
+            try self.dataQualityRuleResults?.validate(name: "\(name).dataQualityRuleResults")
+            try self.observationResults?.validate(name: "\(name).observationResults")
+            try self.profilingResults?.validate(name: "\(name).profilingResults")
+            try self.rowLevelResults?.validate(name: "\(name).rowLevelResults")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
             case compositeRuleEvaluationMethod = "CompositeRuleEvaluationMethod"
+            case customLogGroupPrefix = "CustomLogGroupPrefix"
+            case dataQualityRuleResults = "DataQualityRuleResults"
+            case observationMode = "ObservationMode"
+            case observationResults = "ObservationResults"
+            case observationScope = "ObservationScope"
+            case profilingResults = "ProfilingResults"
             case resultsS3Prefix = "ResultsS3Prefix"
+            case rowLevelResults = "RowLevelResults"
         }
     }
 
@@ -9016,7 +9618,23 @@ extension Glue {
         }
     }
 
+    public struct DataQualityRuleRecommendationRunAdditionalRunOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A custom prefix for the CloudWatch log group names. When specified, recommendation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
+        public let customLogGroupPrefix: String?
+
+        @inlinable
+        public init(customLogGroupPrefix: String? = nil) {
+            self.customLogGroupPrefix = customLogGroupPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customLogGroupPrefix = "CustomLogGroupPrefix"
+        }
+    }
+
     public struct DataQualityRuleRecommendationRunDescription: AWSDecodableShape {
+        /// The name of the ruleset that was created by the recommendation run.
+        public let createdRulesetName: String?
         /// The data source (Glue table) associated with the recommendation run.
         public let dataSource: DataSource?
         /// The unique run identifier associated with this run.
@@ -9027,7 +9645,8 @@ extension Glue {
         public let status: TaskStatusType?
 
         @inlinable
-        public init(dataSource: DataSource? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil) {
+        public init(createdRulesetName: String? = nil, dataSource: DataSource? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil) {
+            self.createdRulesetName = createdRulesetName
             self.dataSource = dataSource
             self.runId = runId
             self.startedOn = startedOn
@@ -9035,6 +9654,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdRulesetName = "CreatedRulesetName"
             case dataSource = "DataSource"
             case runId = "RunId"
             case startedOn = "StartedOn"
@@ -9110,6 +9730,96 @@ extension Glue {
         }
     }
 
+    public struct DataQualityRuleResultsOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The Glue Data Catalog table configuration for storing the rule results.
+        public let catalogTableConfig: CatalogTableConfigOptions?
+        /// Set to true to write data quality rule results.
+        public let writeDataQualityRuleResultsEnabled: Bool?
+
+        @inlinable
+        public init(catalogTableConfig: CatalogTableConfigOptions? = nil, writeDataQualityRuleResultsEnabled: Bool? = nil) {
+            self.catalogTableConfig = catalogTableConfig
+            self.writeDataQualityRuleResultsEnabled = writeDataQualityRuleResultsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogTableConfig?.validate(name: "\(name).catalogTableConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogTableConfig = "CatalogTableConfig"
+            case writeDataQualityRuleResultsEnabled = "WriteDataQualityRuleResultsEnabled"
+        }
+    }
+
+    public struct DataQualityRulesetEvaluationRun: AWSDecodableShape {
+        /// A map of reference strings to additional data sources you can specify for an evaluation run.
+        public let additionalDataSources: [String: DataSource]?
+        public let additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions?
+        /// The date and time when this run was completed.
+        public let completedOn: Date?
+        public let dataSource: DataSource?
+        /// The error strings that are associated with the run.
+        public let errorString: String?
+        /// The amount of time (in seconds) that the run consumed resources.
+        public let executionTime: Int?
+        /// A timestamp. The last point in time when this run was modified.
+        public let lastModifiedOn: Date?
+        /// The number of G.1X workers to be used in the run. The default is 5.
+        public let numberOfWorkers: Int?
+        /// A list of result IDs for the data quality results for the run.
+        public let resultIds: [String]?
+        /// An IAM role supplied to encrypt the results of the run.
+        public let role: String?
+        /// A list of ruleset names for the run.
+        public let rulesetNames: [String]?
+        /// The unique run identifier associated with this run.
+        public let runId: String?
+        /// The date and time when this run started.
+        public let startedOn: Date?
+        /// The status for this run.
+        public let status: TaskStatusType?
+        /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        public let timeout: Int?
+
+        @inlinable
+        public init(additionalDataSources: [String: DataSource]? = nil, additionalRunOptions: DataQualityEvaluationRunAdditionalRunOptions? = nil, completedOn: Date? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, resultIds: [String]? = nil, role: String? = nil, rulesetNames: [String]? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
+            self.additionalDataSources = additionalDataSources
+            self.additionalRunOptions = additionalRunOptions
+            self.completedOn = completedOn
+            self.dataSource = dataSource
+            self.errorString = errorString
+            self.executionTime = executionTime
+            self.lastModifiedOn = lastModifiedOn
+            self.numberOfWorkers = numberOfWorkers
+            self.resultIds = resultIds
+            self.role = role
+            self.rulesetNames = rulesetNames
+            self.runId = runId
+            self.startedOn = startedOn
+            self.status = status
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDataSources = "AdditionalDataSources"
+            case additionalRunOptions = "AdditionalRunOptions"
+            case completedOn = "CompletedOn"
+            case dataSource = "DataSource"
+            case errorString = "ErrorString"
+            case executionTime = "ExecutionTime"
+            case lastModifiedOn = "LastModifiedOn"
+            case numberOfWorkers = "NumberOfWorkers"
+            case resultIds = "ResultIds"
+            case role = "Role"
+            case rulesetNames = "RulesetNames"
+            case runId = "RunId"
+            case startedOn = "StartedOn"
+            case status = "Status"
+            case timeout = "Timeout"
+        }
+    }
+
     public struct DataQualityRulesetEvaluationRunDescription: AWSDecodableShape {
         /// The data source (an Glue table) associated with the run.
         public let dataSource: DataSource?
@@ -9139,24 +9849,31 @@ extension Glue {
     public struct DataQualityRulesetEvaluationRunFilter: AWSEncodableShape {
         /// Filter based on a data source (an Glue table) associated with the run.
         public let dataSource: DataSource
+        /// Filter results by the name of the ruleset.
+        public let rulesetName: String?
         /// Filter results by runs that started after this time.
         public let startedAfter: Date?
         /// Filter results by runs that started before this time.
         public let startedBefore: Date?
 
         @inlinable
-        public init(dataSource: DataSource, startedAfter: Date? = nil, startedBefore: Date? = nil) {
+        public init(dataSource: DataSource, rulesetName: String? = nil, startedAfter: Date? = nil, startedBefore: Date? = nil) {
             self.dataSource = dataSource
+            self.rulesetName = rulesetName
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
         }
 
         public func validate(name: String) throws {
             try self.dataSource.validate(name: "\(name).dataSource")
+            try self.validate(self.rulesetName, name: "rulesetName", parent: name, max: 255)
+            try self.validate(self.rulesetName, name: "rulesetName", parent: name, min: 1)
+            try self.validate(self.rulesetName, name: "rulesetName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSource = "DataSource"
+            case rulesetName = "RulesetName"
             case startedAfter = "StartedAfter"
             case startedBefore = "StartedBefore"
         }
@@ -9578,6 +10295,119 @@ extension Glue {
         }
     }
 
+    public struct DeleteAssetRequest: AWSEncodableShape {
+        /// The unique identifier of the asset to delete.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1087)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAssetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAssetTypeRequest: AWSEncodableShape {
+        /// The identifier of the asset type to delete.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAssetTypeResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAttachmentRequest: AWSEncodableShape {
+        /// The unique identifier of the asset from which to delete the attachment.
+        public let assetIdentifier: String
+        /// The name of the attachment to delete.
+        public let attachmentName: String
+        /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+        public let itemIdentifier: String?
+        /// The name of the iterable form. When specified along with itemIdentifier, the attachment is deleted from an item within the iterable form rather than from the asset itself.
+        public let iterableFormName: String?
+
+        @inlinable
+        public init(assetIdentifier: String, attachmentName: String, itemIdentifier: String? = nil, iterableFormName: String? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.attachmentName = attachmentName
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
+            request.encodePath(self.attachmentName, key: "AttachmentName")
+            request.encodeQuery(self.itemIdentifier, key: "itemIdentifier")
+            request.encodeQuery(self.iterableFormName, key: "iterableFormName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, max: 1087)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, min: 1)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, max: 256)
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, min: 1)
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, max: 1087)
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, max: 256)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAttachmentResponse: AWSDecodableShape {
+        /// The unique identifier of the asset.
+        public let assetIdentifier: String?
+
+        @inlinable
+        public init(assetIdentifier: String? = nil) {
+            self.assetIdentifier = assetIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetIdentifier = "AssetIdentifier"
+        }
+    }
+
     public struct DeleteBlueprintRequest: AWSEncodableShape {
         /// The name of the blueprint to delete.
         public let name: String
@@ -9972,6 +10802,77 @@ extension Glue {
     }
 
     public struct DeleteDevEndpointResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteFormTypeRequest: AWSEncodableShape {
+        /// The identifier of the form type to delete.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFormTypeResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteGlossaryRequest: AWSEncodableShape {
+        /// The unique identifier of the glossary to delete.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteGlossaryResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteGlossaryTermRequest: AWSEncodableShape {
+        /// The unique identifier of the glossary term to delete.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteGlossaryTermResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -11304,6 +12205,108 @@ extension Glue {
         }
     }
 
+    public struct DisassociateGlossaryTermsRequest: AWSEncodableShape {
+        /// The unique identifier of the asset to disassociate glossary terms from.
+        public let assetIdentifier: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The list of glossary term identifiers to disassociate from the asset.
+        public let glossaryTermIdentifiers: [String]
+
+        @inlinable
+        public init(assetIdentifier: String, clientToken: String? = DisassociateGlossaryTermsRequest.idempotencyToken(), glossaryTermIdentifiers: [String]) {
+            self.assetIdentifier = assetIdentifier
+            self.clientToken = clientToken
+            self.glossaryTermIdentifiers = glossaryTermIdentifiers
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.glossaryTermIdentifiers, forKey: .glossaryTermIdentifiers)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, max: 1087)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, min: 1)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, max: 10)
+            try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case glossaryTermIdentifiers = "GlossaryTermIdentifiers"
+        }
+    }
+
+    public struct DisassociateGlossaryTermsResponse: AWSDecodableShape {
+        /// The unique identifier of the asset.
+        public let assetIdentifier: String?
+        /// The remaining glossary terms associated with the asset.
+        public let glossaryTerms: [String]?
+
+        @inlinable
+        public init(assetIdentifier: String? = nil, glossaryTerms: [String]? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.glossaryTerms = glossaryTerms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetIdentifier = "AssetIdentifier"
+            case glossaryTerms = "GlossaryTerms"
+        }
+    }
+
+    public struct DistributionData: AWSDecodableShape {
+        /// The bin edge values for the distribution.
+        public let binEdges: [String]?
+        /// The frequency count for each bin in the distribution.
+        public let count: [Int]?
+        /// The data type of the column for the distribution.
+        public let dataType: String?
+
+        @inlinable
+        public init(binEdges: [String]? = nil, count: [Int]? = nil, dataType: String? = nil) {
+            self.binEdges = binEdges
+            self.count = count
+            self.dataType = dataType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case binEdges = "BinEdges"
+            case count = "Count"
+            case dataType = "DataType"
+        }
+    }
+
+    public struct DistributionResultsOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The Glue Data Catalog table configuration for storing the distribution results.
+        public let catalogTableConfig: CatalogTableConfigOptions?
+        /// Set to true to write distribution results.
+        public let writeDistributionResultsEnabled: Bool?
+
+        @inlinable
+        public init(catalogTableConfig: CatalogTableConfigOptions? = nil, writeDistributionResultsEnabled: Bool? = nil) {
+            self.catalogTableConfig = catalogTableConfig
+            self.writeDistributionResultsEnabled = writeDistributionResultsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogTableConfig?.validate(name: "\(name).catalogTableConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogTableConfig = "CatalogTableConfig"
+            case writeDistributionResultsEnabled = "WriteDistributionResultsEnabled"
+        }
+    }
+
     public struct DoubleColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
         /// The highest value in the column.
         public let maximumValue: Double?
@@ -12230,18 +13233,42 @@ extension Glue {
     public struct FieldDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The data type of the field.
         public let fieldDataType: FieldDataType
+        /// Per-field overrides for filter behavior, allowing customization of how filters are applied to this specific field.
+        public let filterOverrides: FilterOverrides?
+        /// Indicates whether this field can contain null values.
+        public let isNullable: Bool?
+        /// Indicates whether this field can be used for ordering results.
+        public let isOrderable: Bool?
+        /// Indicates whether this field can be used for partitioning queries to the data source.
+        public let isPartitionable: Bool?
+        /// Indicates whether this field can be used in filter predicates when querying data.
+        public let isQueryable: Bool?
         /// The name of the field in the entity schema.
         public let name: String
+        /// The format pattern for parsing date values from API responses. Required when the API uses a non-ISO-8601 format. Accepts Java DateTimeFormatter patterns (for example, EEE, d MMM yyyy HH:mm:ss Z), EPOCH_SECONDS for Unix epoch seconds, or EPOCH_MILLIS for Unix epoch milliseconds.
+        public let responseDateFormat: String?
 
         @inlinable
-        public init(fieldDataType: FieldDataType, name: String) {
+        public init(fieldDataType: FieldDataType, filterOverrides: FilterOverrides? = nil, isNullable: Bool? = nil, isOrderable: Bool? = nil, isPartitionable: Bool? = nil, isQueryable: Bool? = nil, name: String, responseDateFormat: String? = nil) {
             self.fieldDataType = fieldDataType
+            self.filterOverrides = filterOverrides
+            self.isNullable = isNullable
+            self.isOrderable = isOrderable
+            self.isPartitionable = isPartitionable
+            self.isQueryable = isQueryable
             self.name = name
+            self.responseDateFormat = responseDateFormat
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldDataType = "FieldDataType"
+            case filterOverrides = "FilterOverrides"
+            case isNullable = "IsNullable"
+            case isOrderable = "IsOrderable"
+            case isPartitionable = "IsPartitionable"
+            case isQueryable = "IsQueryable"
             case name = "Name"
+            case responseDateFormat = "ResponseDateFormat"
         }
     }
 
@@ -12320,6 +13347,40 @@ extension Glue {
         }
     }
 
+    public struct FilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for handling BETWEEN range filter operations.
+        public let betweenConfiguration: BetweenConfiguration?
+        /// The global date and time format for filter expressions. Accepts Java DateTimeFormatter patterns (for example, EEE, d MMM yyyy HH:mm:ss Z), EPOCH_SECONDS for Unix epoch seconds, or EPOCH_MILLIS for Unix epoch milliseconds. If not specified, values are passed as-is in ISO-8601 format.
+        public let dateTimeFormat: String?
+        /// The strategy for applying filters to requests. Use QUERY_PARAMS to pass filters as individual query parameters, or FILTER_STRING to construct a single filter expression string.
+        public let filterMode: FilterMode
+        /// Configuration for constructing filter expressions when FilterMode is set to FILTER_STRING.
+        public let filterStringConfiguration: FilterStringConfiguration?
+        /// A map of logical filter operators to their API-specific string representations. Supported operator keys are: EQUAL_TO, NOT_EQUAL_TO, LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, CONTAINS, BETWEEN, AND, and OR.
+        public let operatorMappings: [String: String]?
+        /// Indicates whether surrounding double quotes should be stripped from filter values before processing.
+        public let stripQuotes: Bool?
+
+        @inlinable
+        public init(betweenConfiguration: BetweenConfiguration? = nil, dateTimeFormat: String? = nil, filterMode: FilterMode, filterStringConfiguration: FilterStringConfiguration? = nil, operatorMappings: [String: String]? = nil, stripQuotes: Bool? = nil) {
+            self.betweenConfiguration = betweenConfiguration
+            self.dateTimeFormat = dateTimeFormat
+            self.filterMode = filterMode
+            self.filterStringConfiguration = filterStringConfiguration
+            self.operatorMappings = operatorMappings
+            self.stripQuotes = stripQuotes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case betweenConfiguration = "BetweenConfiguration"
+            case dateTimeFormat = "DateTimeFormat"
+            case filterMode = "FilterMode"
+            case filterStringConfiguration = "FilterStringConfiguration"
+            case operatorMappings = "OperatorMappings"
+            case stripQuotes = "StripQuotes"
+        }
+    }
+
     public struct FilterExpression: AWSEncodableShape & AWSDecodableShape {
         /// Whether the expression is to be negated.
         public let negated: Bool?
@@ -12345,6 +13406,54 @@ extension Glue {
             case negated = "Negated"
             case operation = "Operation"
             case values = "Values"
+        }
+    }
+
+    public struct FilterOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// Field-specific configuration for handling BETWEEN range filter operations.
+        public let betweenConfiguration: BetweenConfiguration?
+        /// The date and time format for filter expressions on this field, overriding the global DateTimeFormat. Accepts Java DateTimeFormatter patterns (for example, EEE, d MMM yyyy HH:mm:ss Z), EPOCH_SECONDS for Unix epoch seconds, or EPOCH_MILLIS for Unix epoch milliseconds.
+        public let dateTimeFormat: String?
+        /// An override for the field name to use in filter expressions, if different from the schema field name.
+        public let fieldName: String?
+        /// A map of logical filter operators to their field-specific API representations, overriding the global operator mappings. Supported operator keys are: EQUAL_TO, NOT_EQUAL_TO, LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUAL_TO, GREATER_THAN_OR_EQUAL_TO, CONTAINS, BETWEEN, AND, and OR.
+        public let operatorMappings: [String: String]?
+
+        @inlinable
+        public init(betweenConfiguration: BetweenConfiguration? = nil, dateTimeFormat: String? = nil, fieldName: String? = nil, operatorMappings: [String: String]? = nil) {
+            self.betweenConfiguration = betweenConfiguration
+            self.dateTimeFormat = dateTimeFormat
+            self.fieldName = fieldName
+            self.operatorMappings = operatorMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case betweenConfiguration = "BetweenConfiguration"
+            case dateTimeFormat = "DateTimeFormat"
+            case fieldName = "FieldName"
+            case operatorMappings = "OperatorMappings"
+        }
+    }
+
+    public struct FilterStringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The query parameter name used to send the constructed filter expression string in API requests.
+        public let queryParameterName: String
+        /// The character used to quote values when QuoteStringValues is true. Defaults to double quotes if not specified.
+        public let quoteCharacter: String?
+        /// Indicates whether string and date values should be wrapped with a quote character in the filter expression.
+        public let quoteStringValues: Bool?
+
+        @inlinable
+        public init(queryParameterName: String, quoteCharacter: String? = nil, quoteStringValues: Bool? = nil) {
+            self.queryParameterName = queryParameterName
+            self.quoteCharacter = quoteCharacter
+            self.quoteStringValues = quoteStringValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryParameterName = "QueryParameterName"
+            case quoteCharacter = "QuoteCharacter"
+            case quoteStringValues = "QuoteStringValues"
         }
     }
 
@@ -12461,6 +13570,143 @@ extension Glue {
             case jobId = "JobId"
             case jobName = "JobName"
             case jobRunId = "JobRunId"
+        }
+    }
+
+    public struct FormTypeItem: AWSDecodableShape {
+        /// The identifier of the form type.
+        public let id: String?
+        /// The name of the form type.
+        public let name: String?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct GetAssetInput: AWSEncodableShape {
+        /// The unique identifier of the asset to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1087)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAssetOutput: AWSDecodableShape {
+        /// The identifier of the asset type for this asset.
+        public let assetTypeId: String
+        /// Additional attachments on the asset for more context, keyed by attachment name.
+        public let attachments: [String: AssetFormEntry]?
+        /// The timestamp at which the asset was created.
+        public let createdAt: Date?
+        /// The description of the asset.
+        public let description: String?
+        /// The forms on the asset, keyed by form name.
+        public let forms: [String: AssetFormEntry]?
+        /// The identifiers of the glossary terms associated with the asset.
+        public let glossaryTerms: [String]?
+        /// The unique identifier of the asset.
+        public let id: String
+        /// The iterable forms available on the asset, keyed by form name (for example, columns). Use the form name with ListIterableForms or BatchGetIterableForms to retrieve the form's items.
+        public let iterableForms: [String: IterableFormEntry]?
+        /// The name of the asset.
+        public let name: String?
+        /// The timestamp at which the asset was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(assetTypeId: String, attachments: [String: AssetFormEntry]? = nil, createdAt: Date? = nil, description: String? = nil, forms: [String: AssetFormEntry]? = nil, glossaryTerms: [String]? = nil, id: String, iterableForms: [String: IterableFormEntry]? = nil, name: String? = nil, updatedAt: Date? = nil) {
+            self.assetTypeId = assetTypeId
+            self.attachments = attachments
+            self.createdAt = createdAt
+            self.description = description
+            self.forms = forms
+            self.glossaryTerms = glossaryTerms
+            self.id = id
+            self.iterableForms = iterableForms
+            self.name = name
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetTypeId = "AssetTypeId"
+            case attachments = "Attachments"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case forms = "Forms"
+            case glossaryTerms = "GlossaryTerms"
+            case id = "Id"
+            case iterableForms = "IterableForms"
+            case name = "Name"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetAssetTypeRequest: AWSEncodableShape {
+        /// The identifier of the asset type to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAssetTypeResponse: AWSDecodableShape {
+        /// The forms that make up the asset type, keyed by form name.
+        public let forms: [String: AssetTypeFormReference]?
+        /// The identifier of the asset type.
+        public let id: String?
+        /// The name of the asset type.
+        public let name: String?
+
+        @inlinable
+        public init(forms: [String: AssetTypeFormReference]? = nil, id: String? = nil, name: String? = nil) {
+            self.forms = forms
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forms = "Forms"
+            case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -12664,6 +13910,8 @@ extension Glue {
     }
 
     public struct GetCatalogsRequest: AWSEncodableShape {
+        /// When true, the response only includes catalogs that can contain databases. Some catalogs are organizational containers that hold only other catalogs, not databases. When this parameter is set to true, those container-only catalogs are excluded, and only catalogs capable of containing databases are returned. Defaults to false.
+        public let hasDatabases: Bool?
         /// Whether to list the default catalog in the account and region in the response. Defaults to false. When true and ParentCatalogId = NULL | Amazon Web Services Account ID, all catalogs and the default catalog are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true, an InvalidInputException is thrown.
         public let includeRoot: Bool?
         /// The maximum number of catalogs to return in one response.
@@ -12676,7 +13924,8 @@ extension Glue {
         public let recursive: Bool?
 
         @inlinable
-        public init(includeRoot: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, parentCatalogId: String? = nil, recursive: Bool? = nil) {
+        public init(hasDatabases: Bool? = nil, includeRoot: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, parentCatalogId: String? = nil, recursive: Bool? = nil) {
+            self.hasDatabases = hasDatabases
             self.includeRoot = includeRoot
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12693,6 +13942,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case hasDatabases = "HasDatabases"
             case includeRoot = "IncludeRoot"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -13360,6 +14610,51 @@ extension Glue {
         }
     }
 
+    public struct GetDashboardUrlRequest: AWSEncodableShape {
+        /// The origin of the request.
+        public let requestOrigin: String?
+        /// The unique identifier of the resource for which to retrieve the dashboard URL.
+        public let resourceId: String
+        /// The type of the resource. Valid values are SESSION and JOB.
+        public let resourceType: GlueResourceType
+
+        @inlinable
+        public init(requestOrigin: String? = nil, resourceId: String, resourceType: GlueResourceType) {
+            self.requestOrigin = requestOrigin
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 255)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestOrigin = "RequestOrigin"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct GetDashboardUrlResponse: AWSDecodableShape {
+        /// The URL for the Spark monitoring dashboard.
+        public let url: String
+
+        @inlinable
+        public init(url: String) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
+        }
+    }
+
     public struct GetDataCatalogEncryptionSettingsRequest: AWSEncodableShape {
         /// The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -13603,6 +14898,8 @@ extension Glue {
     }
 
     public struct GetDataQualityRuleRecommendationRunResponse: AWSDecodableShape {
+        /// Additional run options you can specify for a recommendation run.
+        public let additionalRunOptions: DataQualityRuleRecommendationRunAdditionalRunOptions?
         /// The date and time when this run was completed.
         public let completedOn: Date?
         /// The name of the ruleset that was created by the run.
@@ -13633,7 +14930,8 @@ extension Glue {
         public let timeout: Int?
 
         @inlinable
-        public init(completedOn: Date? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, recommendedRuleset: String? = nil, role: String? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
+        public init(additionalRunOptions: DataQualityRuleRecommendationRunAdditionalRunOptions? = nil, completedOn: Date? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource? = nil, errorString: String? = nil, executionTime: Int? = nil, lastModifiedOn: Date? = nil, numberOfWorkers: Int? = nil, recommendedRuleset: String? = nil, role: String? = nil, runId: String? = nil, startedOn: Date? = nil, status: TaskStatusType? = nil, timeout: Int? = nil) {
+            self.additionalRunOptions = additionalRunOptions
             self.completedOn = completedOn
             self.createdRulesetName = createdRulesetName
             self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -13651,6 +14949,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalRunOptions = "AdditionalRunOptions"
             case completedOn = "CompletedOn"
             case createdRulesetName = "CreatedRulesetName"
             case dataQualitySecurityConfiguration = "DataQualitySecurityConfiguration"
@@ -14113,6 +15412,139 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case records = "Records"
+        }
+    }
+
+    public struct GetFormTypeRequest: AWSEncodableShape {
+        /// The identifier of the form type to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFormTypeResponse: AWSDecodableShape {
+        /// The identifier of the form type.
+        public let id: String?
+        /// The name of the form type.
+        public let name: String?
+        /// The Smithy IDL schema of the form type.
+        public let schema: String?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil, schema: String? = nil) {
+            self.id = id
+            self.name = name
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case schema = "Schema"
+        }
+    }
+
+    public struct GetGlossaryRequest: AWSEncodableShape {
+        /// The unique identifier of the glossary to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetGlossaryResponse: AWSDecodableShape {
+        /// The description of the glossary.
+        public let description: String?
+        /// The unique identifier of the glossary.
+        public let id: String?
+        /// The name of the glossary.
+        public let name: String?
+
+        @inlinable
+        public init(description: String? = nil, id: String? = nil, name: String? = nil) {
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct GetGlossaryTermRequest: AWSEncodableShape {
+        /// The unique identifier of the glossary term to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetGlossaryTermResponse: AWSDecodableShape {
+        /// The unique identifier of the glossary containing this term.
+        public let glossaryId: String?
+        /// The unique identifier of the glossary term.
+        public let id: String?
+        /// The long description of the glossary term.
+        public let longDescription: String?
+        /// The name of the glossary term.
+        public let name: String?
+        /// The short description of the glossary term.
+        public let shortDescription: String?
+
+        @inlinable
+        public init(glossaryId: String? = nil, id: String? = nil, longDescription: String? = nil, name: String? = nil, shortDescription: String? = nil) {
+            self.glossaryId = glossaryId
+            self.id = id
+            self.longDescription = longDescription
+            self.name = name
+            self.shortDescription = shortDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glossaryId = "GlossaryId"
+            case id = "Id"
+            case longDescription = "LongDescription"
+            case name = "Name"
+            case shortDescription = "ShortDescription"
         }
     }
 
@@ -14871,6 +16303,7 @@ extension Glue {
     }
 
     public struct GetPartitionRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the partition in question resides. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partition resides.
@@ -14881,7 +16314,8 @@ extension Glue {
         public let tableName: String
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
+        public init(auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, partitionValues: [String], tableName: String) {
+            self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.partitionValues = partitionValues
@@ -14889,6 +16323,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -14905,6 +16340,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case partitionValues = "PartitionValues"
@@ -14927,6 +16363,7 @@ extension Glue {
     }
 
     public struct GetPartitionsRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partitions reside.
@@ -14949,7 +16386,8 @@ extension Glue {
         public let transactionId: String?
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, excludeColumnSchema: Bool? = nil, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, segment: Segment? = nil, tableName: String, transactionId: String? = nil) {
+        public init(auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, excludeColumnSchema: Bool? = nil, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, segment: Segment? = nil, tableName: String, transactionId: String? = nil) {
+            self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.excludeColumnSchema = excludeColumnSchema
@@ -14963,6 +16401,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -14983,6 +16422,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case excludeColumnSchema = "ExcludeColumnSchema"
@@ -15537,6 +16977,40 @@ extension Glue {
         }
     }
 
+    public struct GetSessionEndpointRequest: AWSEncodableShape {
+        /// The unique identifier of the interactive session.
+        public let sessionId: String
+
+        @inlinable
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 255)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetSessionEndpointResponse: AWSDecodableShape {
+        /// The Spark Connect endpoint details for the session.
+        public let sparkConnect: SessionEndpoint
+
+        @inlinable
+        public init(sparkConnect: SessionEndpoint) {
+            self.sparkConnect = sparkConnect
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sparkConnect = "SPARK_CONNECT"
+        }
+    }
+
     public struct GetSessionRequest: AWSEncodableShape {
         /// The ID of the session.
         public let id: String
@@ -15688,6 +17162,8 @@ extension Glue {
     }
 
     public struct GetTableRequest: AWSEncodableShape {
+        /// Specifies the table fields returned by the GetTable call. This parameter doesn't accept an empty list. The following are the valid combinations of values:    DEFAULT - Returns the Hive-style table definition only.    LATEST_ICEBERG_METADATA - Returns only the latest Apache Iceberg table metadata.    DEFAULT, LATEST_ICEBERG_METADATA - Returns both the Hive-style table definition and the latest Apache Iceberg table metadata.
+        public let attributesToGet: [TableAttributes]?
         /// A structure containing the Lake Formation audit context.
         public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
@@ -15704,7 +17180,8 @@ extension Glue {
         public let transactionId: String?
 
         @inlinable
-        public init(auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, includeStatusDetails: Bool? = nil, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+        public init(attributesToGet: [TableAttributes]? = nil, auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, includeStatusDetails: Bool? = nil, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
+            self.attributesToGet = attributesToGet
             self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -15731,6 +17208,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributesToGet = "AttributesToGet"
             case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
@@ -15756,6 +17234,7 @@ extension Glue {
     }
 
     public struct GetTableVersionRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -15766,7 +17245,8 @@ extension Glue {
         public let versionId: String?
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String? = nil) {
+        public init(auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, tableName: String, versionId: String? = nil) {
+            self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -15774,6 +17254,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -15789,6 +17270,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
@@ -15811,6 +17293,7 @@ extension Glue {
     }
 
     public struct GetTableVersionsRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
         /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -15823,7 +17306,8 @@ extension Glue {
         public let tableName: String
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
+        public init(auditContext: AuditContext? = nil, catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
+            self.auditContext = auditContext
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.maxResults = maxResults
@@ -15832,6 +17316,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -15846,6 +17331,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case maxResults = "MaxResults"
@@ -16725,6 +18211,50 @@ extension Glue {
         }
     }
 
+    public struct GlossaryItem: AWSDecodableShape {
+        /// The description of the glossary.
+        public let description: String?
+        /// The unique identifier of the glossary.
+        public let id: String?
+        /// The name of the glossary.
+        public let name: String?
+
+        @inlinable
+        public init(description: String? = nil, id: String? = nil, name: String? = nil) {
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct GlossaryTermItem: AWSDecodableShape {
+        /// The unique identifier of the glossary term.
+        public let id: String?
+        /// The name of the glossary term.
+        public let name: String?
+        /// The short description of the glossary term.
+        public let shortDescription: String?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil, shortDescription: String? = nil) {
+            self.id = id
+            self.name = name
+            self.shortDescription = shortDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case shortDescription = "ShortDescription"
+        }
+    }
+
     public struct GluePolicy: AWSDecodableShape {
         /// The date and time at which the policy was created.
         public let createTime: Date?
@@ -17273,7 +18803,7 @@ extension Glue {
         }
     }
 
-    public struct IcebergPartitionField: AWSEncodableShape {
+    public struct IcebergPartitionField: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier assigned to this partition field within the Iceberg table's partition specification.
         public let fieldId: Int?
         /// The name of the partition field as it will appear in the partitioned table structure.
@@ -17284,7 +18814,7 @@ extension Glue {
         public let transform: String
 
         @inlinable
-        public init(fieldId: Int? = nil, name: String, sourceId: Int = 0, transform: String) {
+        public init(fieldId: Int? = nil, name: String, sourceId: Int, transform: String) {
             self.fieldId = fieldId
             self.name = name
             self.sourceId = sourceId
@@ -17305,7 +18835,7 @@ extension Glue {
         }
     }
 
-    public struct IcebergPartitionSpec: AWSEncodableShape {
+    public struct IcebergPartitionSpec: AWSEncodableShape & AWSDecodableShape {
         /// The list of partition fields that define how the table data should be partitioned, including source fields and their transformations.
         public let fields: [IcebergPartitionField]
         /// The unique identifier for this partition specification within the Iceberg table's metadata history.
@@ -17389,7 +18919,7 @@ extension Glue {
         }
     }
 
-    public struct IcebergSchema: AWSEncodableShape {
+    public struct IcebergSchema: AWSEncodableShape & AWSDecodableShape {
         /// The list of field definitions that make up the table schema, including field names, types, and metadata.
         public let fields: [IcebergStructField]
         /// The list of field identifiers that uniquely identify records in the table, used for row-level operations and deduplication.
@@ -17421,7 +18951,7 @@ extension Glue {
         }
     }
 
-    public struct IcebergSortField: AWSEncodableShape {
+    public struct IcebergSortField: AWSEncodableShape & AWSDecodableShape {
         /// The sort direction for this field, either ascending or descending.
         public let direction: IcebergSortDirection
         /// The ordering behavior for null values in this field, specifying whether nulls should appear first or last in the sort order.
@@ -17432,7 +18962,7 @@ extension Glue {
         public let transform: String
 
         @inlinable
-        public init(direction: IcebergSortDirection, nullOrder: IcebergNullOrder, sourceId: Int = 0, transform: String) {
+        public init(direction: IcebergSortDirection, nullOrder: IcebergNullOrder, sourceId: Int, transform: String) {
             self.direction = direction
             self.nullOrder = nullOrder
             self.sourceId = sourceId
@@ -17447,14 +18977,14 @@ extension Glue {
         }
     }
 
-    public struct IcebergSortOrder: AWSEncodableShape {
+    public struct IcebergSortOrder: AWSEncodableShape & AWSDecodableShape {
         /// The list of fields and their sort directions that define the ordering criteria for the Iceberg table data.
         public let fields: [IcebergSortField]
         /// The unique identifier for this sort order specification within the Iceberg table's metadata.
         public let orderId: Int
 
         @inlinable
-        public init(fields: [IcebergSortField], orderId: Int = 0) {
+        public init(fields: [IcebergSortField], orderId: Int) {
             self.fields = fields
             self.orderId = orderId
         }
@@ -17465,7 +18995,7 @@ extension Glue {
         }
     }
 
-    public struct IcebergStructField: AWSEncodableShape {
+    public struct IcebergStructField: AWSEncodableShape & AWSDecodableShape {
         /// Optional documentation or description text that provides additional context about the purpose and usage of this field.
         public let doc: String?
         /// The unique identifier assigned to this field within the Iceberg table schema, used for schema evolution and field tracking.
@@ -17482,7 +19012,7 @@ extension Glue {
         public let writeDefault: AWSDocument?
 
         @inlinable
-        public init(doc: String? = nil, id: Int = 0, initialDefault: AWSDocument? = nil, name: String, required: Bool = false, type: AWSDocument, writeDefault: AWSDocument? = nil) {
+        public init(doc: String? = nil, id: Int, initialDefault: AWSDocument? = nil, name: String, required: Bool, type: AWSDocument, writeDefault: AWSDocument? = nil) {
             self.doc = doc
             self.id = id
             self.initialDefault = initialDefault
@@ -17508,6 +19038,64 @@ extension Glue {
             case required = "Required"
             case type = "Type"
             case writeDefault = "WriteDefault"
+        }
+    }
+
+    public struct IcebergTableMetadata: AWSDecodableShape {
+        /// The identifier of the schema that is currently active for the Iceberg table. Matches an entry in Schemas.
+        public let currentSchemaId: Int?
+        /// The identifier of the sort order that is currently used by default when writing new data to the Iceberg table.
+        public let defaultSortOrderId: Int?
+        /// The identifier of the partition specification that is currently used by default when writing new data to the Iceberg table.
+        public let defaultSpecId: Int?
+        /// The Apache Iceberg table format version, such as 1 or 2. Determines the set of features and on-disk layout supported by the table.
+        public let formatVersion: String?
+        /// The highest column identifier that has been assigned in the Iceberg table's schema, used to ensure unique IDs as new columns are added.
+        public let lastColumnId: Int?
+        /// The highest partition field identifier that has been assigned across the table's partition specifications.
+        public let lastPartitionId: Int?
+        /// The base S3 location where the Iceberg table's data and metadata files are stored.
+        public let location: String?
+        /// The list of partition specifications that have been associated with the Iceberg table over its history, supporting partition evolution.
+        public let partitionSpecs: [IcebergPartitionSpec]?
+        /// A map of key-value pairs that define table-level properties and configuration settings for the Iceberg table.
+        public let properties: [String: String]?
+        /// The list of schemas that have been associated with the Iceberg table over its history, supporting schema evolution.
+        public let schemas: [IcebergSchema]?
+        /// The list of sort order specifications that have been associated with the Iceberg table over its history.
+        public let sortOrders: [IcebergSortOrder]?
+        /// The unique identifier (UUID) for the Iceberg table, assigned when the table is created and used to track the table across metadata updates.
+        public let tableUuid: String?
+
+        @inlinable
+        public init(currentSchemaId: Int? = nil, defaultSortOrderId: Int? = nil, defaultSpecId: Int? = nil, formatVersion: String? = nil, lastColumnId: Int? = nil, lastPartitionId: Int? = nil, location: String? = nil, partitionSpecs: [IcebergPartitionSpec]? = nil, properties: [String: String]? = nil, schemas: [IcebergSchema]? = nil, sortOrders: [IcebergSortOrder]? = nil, tableUuid: String? = nil) {
+            self.currentSchemaId = currentSchemaId
+            self.defaultSortOrderId = defaultSortOrderId
+            self.defaultSpecId = defaultSpecId
+            self.formatVersion = formatVersion
+            self.lastColumnId = lastColumnId
+            self.lastPartitionId = lastPartitionId
+            self.location = location
+            self.partitionSpecs = partitionSpecs
+            self.properties = properties
+            self.schemas = schemas
+            self.sortOrders = sortOrders
+            self.tableUuid = tableUuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentSchemaId = "CurrentSchemaId"
+            case defaultSortOrderId = "DefaultSortOrderId"
+            case defaultSpecId = "DefaultSpecId"
+            case formatVersion = "FormatVersion"
+            case lastColumnId = "LastColumnId"
+            case lastPartitionId = "LastPartitionId"
+            case location = "Location"
+            case partitionSpecs = "PartitionSpecs"
+            case properties = "Properties"
+            case schemas = "Schemas"
+            case sortOrders = "SortOrders"
+            case tableUuid = "TableUuid"
         }
     }
 
@@ -17905,6 +19493,98 @@ extension Glue {
         }
     }
 
+    public struct ItemError: AWSDecodableShape {
+        /// The error code.
+        public let code: String?
+        /// The identifier of the item that caused the error.
+        public let itemIdentifier: String?
+        /// The error message.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, itemIdentifier: String? = nil, message: String? = nil) {
+            self.code = code
+            self.itemIdentifier = itemIdentifier
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case itemIdentifier = "ItemIdentifier"
+            case message = "Message"
+        }
+    }
+
+    public struct IterableFormEntry: AWSDecodableShape {
+        /// The form type identifier of the iterable form (for example, columns), used to retrieve its items via ListIterableForms or BatchGetIterableForms.
+        public let formTypeId: String?
+
+        @inlinable
+        public init(formTypeId: String? = nil) {
+            self.formTypeId = formTypeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formTypeId = "FormTypeId"
+        }
+    }
+
+    public struct IterableFormItem: AWSDecodableShape {
+        /// Additional attachments on the item for more context, keyed by attachment name.
+        public let attachments: [String: AssetFormEntry]?
+        /// The forms on the item, keyed by form name.
+        public let forms: [String: AssetFormEntry]?
+        /// The identifiers of the glossary terms associated with the item.
+        public let glossaryTerms: [String]?
+        /// The unique identifier of the item.
+        public let itemId: String?
+        /// The name of the item.
+        public let itemName: String?
+
+        @inlinable
+        public init(attachments: [String: AssetFormEntry]? = nil, forms: [String: AssetFormEntry]? = nil, glossaryTerms: [String]? = nil, itemId: String? = nil, itemName: String? = nil) {
+            self.attachments = attachments
+            self.forms = forms
+            self.glossaryTerms = glossaryTerms
+            self.itemId = itemId
+            self.itemName = itemName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachments = "Attachments"
+            case forms = "Forms"
+            case glossaryTerms = "GlossaryTerms"
+            case itemId = "ItemId"
+            case itemName = "ItemName"
+        }
+    }
+
+    public struct IterableFormListItem: AWSDecodableShape {
+        /// The description of the item.
+        public let description: String?
+        /// The identifiers of the glossary terms associated with the item.
+        public let glossaryTerms: [String]?
+        /// The unique identifier of the item.
+        public let itemId: String?
+        /// The name of the item.
+        public let itemName: String?
+
+        @inlinable
+        public init(description: String? = nil, glossaryTerms: [String]? = nil, itemId: String? = nil, itemName: String? = nil) {
+            self.description = description
+            self.glossaryTerms = glossaryTerms
+            self.itemId = itemId
+            self.itemName = itemName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case glossaryTerms = "GlossaryTerms"
+            case itemId = "ItemId"
+            case itemName = "ItemName"
+        }
+    }
+
     public struct JDBCConnectorOptions: AWSEncodableShape & AWSDecodableShape {
         /// Custom data type mapping that builds a mapping from a JDBC data type to an Glue data type. For example, the option "dataTypeMapping":{"FLOAT":"STRING"} maps data fields of JDBC type FLOAT into the Java String type by calling the ResultSet.getString() method of the driver, and uses it to build the Glue record. The ResultSet object is implemented by each driver, so the behavior is specific to the driver you use. Refer to the documentation for your JDBC driver to understand how the driver performs the conversions.
         public let dataTypeMapping: [JDBCDataType: GlueRecordType]?
@@ -18159,7 +19839,7 @@ extension Glue {
         public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
-        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 5.1.
         public let glueVersion: String?
         /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public let jobMode: JobMode?
@@ -18191,7 +19871,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public let sourceControlDetails: SourceControlDetails?
-        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Glue provides multiple worker types to accommodate different workload requirements: G Worker Types (General-purpose compute workers):   G.1X: 1 DPU (4 vCPUs, 16 GB memory, 94GB disk)   G.2X: 2 DPU (8 vCPUs, 32 GB memory, 138GB disk)   G.4X: 4 DPU (16 vCPUs, 64 GB memory, 256GB disk)   G.8X: 8 DPU (32 vCPUs, 128 GB memory, 512GB disk)   G.12X: 12 DPU (48 vCPUs, 192 GB memory, 768GB disk)   G.16X: 16 DPU (64 vCPUs, 256 GB memory, 1024GB disk)   R Worker Types (Memory-optimized workers):   R.1X: 1 M-DPU (4 vCPUs, 32 GB memory)   R.2X: 2 M-DPU (8 vCPUs, 64 GB memory)   R.4X: 4 M-DPU (16 vCPUs, 128 GB memory)   R.8X: 8 M-DPU (32 vCPUs, 256 GB memory)
         public let workerType: WorkerType?
@@ -18416,7 +20096,7 @@ extension Glue {
         public let executionRoleSessionPolicy: String?
         /// The amount of time (in seconds) that the job run consumed resources.
         public let executionTime: Int?
-        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 5.1.
         public let glueVersion: String?
         /// The ID of this job run.
         public let id: String?
@@ -18452,7 +20132,7 @@ extension Glue {
         public let startedOn: Date?
         /// This field holds details that pertain to the state of a job run. The field is nullable. For example, when a job run is in a WAITING state as a result of job run queuing, the field has the reason why the job run is in that state.
         public let stateDetail: String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
@@ -18579,7 +20259,7 @@ extension Glue {
         public let executionClass: ExecutionClass?
         /// An ExecutionProperty specifying the maximum number of concurrent runs allowed for this job.
         public let executionProperty: ExecutionProperty?
-        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+        /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. If not provided in the update request, the Glue version retains the value from the existing job definition.
         public let glueVersion: String?
         /// A mode that describes how a job was created. Valid values are:    SCRIPT - The job was created using the Glue Studio script editor.    VISUAL - The job was created using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the default value.
         public let jobMode: JobMode?
@@ -18605,7 +20285,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public let sourceControlDetails: SourceControlDetails?
-        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs. For more information, see  Defining job properties for Spark jobs
         public let workerType: WorkerType?
@@ -19164,6 +20844,51 @@ extension Glue {
         }
     }
 
+    public struct ListAssetTypesRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssetTypesResponse: AWSDecodableShape {
+        /// The list of asset type items.
+        public let items: [AssetTypeItem]?
+        /// A continuation token, present if the current segment is not the last.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AssetTypeItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListBlueprintsRequest: AWSEncodableShape {
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -19507,24 +21232,34 @@ extension Glue {
         public let maxResults: Int?
         /// A paginated token to offset the results.
         public let nextToken: String?
+        /// A list of key-value pair tags to filter recommendation runs.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(filter: DataQualityRuleRecommendationRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filter: DataQualityRuleRecommendationRunFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, tags: [String: String]? = nil) {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case filter = "Filter"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
@@ -19880,6 +21615,145 @@ extension Glue {
         }
     }
 
+    public struct ListFormTypesRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFormTypesResponse: AWSDecodableShape {
+        /// The list of form type items.
+        public let items: [FormTypeItem]
+        /// A continuation token, present if the current segment is not the last.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [FormTypeItem], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGlossariesRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListGlossariesResponse: AWSDecodableShape {
+        /// The list of glossary items.
+        public let items: [GlossaryItem]?
+        /// A continuation token, present if the current segment is not the last.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [GlossaryItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGlossaryTermsRequest: AWSEncodableShape {
+        /// The unique identifier of the glossary whose terms to list.
+        public let glossaryIdentifier: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(glossaryIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.glossaryIdentifier = glossaryIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.glossaryIdentifier, key: "glossaryIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListGlossaryTermsResponse: AWSDecodableShape {
+        /// The list of glossary term items.
+        public let items: [GlossaryTermItem]?
+        /// A continuation token, present if the current segment is not the last.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [GlossaryTermItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListIntegrationResourcePropertiesRequest: AWSEncodableShape {
         /// A list of filters, supported filter Key is SourceArn and TargetArn.
         public let filters: [IntegrationResourcePropertyFilter]?
@@ -19925,6 +21799,65 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case integrationResourcePropertyList = "IntegrationResourcePropertyList"
             case marker = "Marker"
+        }
+    }
+
+    public struct ListIterableFormsRequest: AWSEncodableShape {
+        /// The unique identifier of the asset.
+        public let assetIdentifier: String
+        /// The name of the iterable form to list items from.
+        public let iterableFormName: String
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assetIdentifier: String, iterableFormName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.iterableFormName = iterableFormName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
+            request.encodePath(self.iterableFormName, key: "IterableFormName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, max: 1087)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, min: 1)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, max: 256)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIterableFormsResponse: AWSDecodableShape {
+        /// The list of iterable form items.
+        public let items: [IterableFormListItem]?
+        /// A continuation token, present if the current segment is not the last.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [IterableFormListItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -21485,6 +23418,28 @@ extension Glue {
         }
     }
 
+    public struct ObservationResultsOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The Glue Data Catalog table configuration for storing the observation results.
+        public let catalogTableConfig: CatalogTableConfigOptions?
+        /// Set to true to write observation results.
+        public let writeObservationResultsEnabled: Bool?
+
+        @inlinable
+        public init(catalogTableConfig: CatalogTableConfigOptions? = nil, writeObservationResultsEnabled: Bool? = nil) {
+            self.catalogTableConfig = catalogTableConfig
+            self.writeObservationResultsEnabled = writeObservationResultsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogTableConfig?.validate(name: "\(name).catalogTableConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogTableConfig = "CatalogTableConfig"
+            case writeObservationResultsEnabled = "WriteObservationResultsEnabled"
+        }
+    }
+
     public struct OffsetConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The parameter name used to specify the maximum number of results to return per page.
         public let limitParameter: ExtractedParameter
@@ -22195,6 +24150,33 @@ extension Glue {
         }
     }
 
+    public struct ProfilingResultsOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The Glue Data Catalog table configuration for storing the profiling results.
+        public let catalogTableConfig: CatalogTableConfigOptions?
+        /// The configuration for writing distribution results.
+        public let distributionResults: DistributionResultsOptions?
+        /// Set to true to write profiling results.
+        public let writeProfilingResultsEnabled: Bool?
+
+        @inlinable
+        public init(catalogTableConfig: CatalogTableConfigOptions? = nil, distributionResults: DistributionResultsOptions? = nil, writeProfilingResultsEnabled: Bool? = nil) {
+            self.catalogTableConfig = catalogTableConfig
+            self.distributionResults = distributionResults
+            self.writeProfilingResultsEnabled = writeProfilingResultsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogTableConfig?.validate(name: "\(name).catalogTableConfig")
+            try self.distributionResults?.validate(name: "\(name).distributionResults")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogTableConfig = "CatalogTableConfig"
+            case distributionResults = "DistributionResults"
+            case writeProfilingResultsEnabled = "WriteProfilingResultsEnabled"
+        }
+    }
+
     public struct Property: AWSDecodableShape {
         /// A list of AllowedValue objects representing the values allowed for the property.
         public let allowedValues: [AllowedValue]?
@@ -22270,6 +24252,243 @@ extension Glue {
         }
     }
 
+    public struct PutAssetRequest: AWSEncodableShape {
+        /// The identifier of the asset type for the asset.
+        public let assetTypeId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description of the asset.
+        public let description: String?
+        /// The forms to set on the asset, keyed by form name. Each entry specifies the form type and its JSON content.
+        public let forms: [String: AssetFormEntry]
+        /// The unique identifier of the asset. If an asset with this identifier already exists, it is updated.
+        public let identifier: String
+        /// The name of the asset.
+        public let name: String
+
+        @inlinable
+        public init(assetTypeId: String, clientToken: String? = PutAssetRequest.idempotencyToken(), description: String? = nil, forms: [String: AssetFormEntry], identifier: String, name: String) {
+            self.assetTypeId = assetTypeId
+            self.clientToken = clientToken
+            self.description = description
+            self.forms = forms
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetTypeId, name: "assetTypeId", parent: name, max: 256)
+            try self.validate(self.assetTypeId, name: "assetTypeId", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.forms.forEach {
+                try $0.value.validate(name: "\(name).forms[\"\($0.key)\"]")
+            }
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1087)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetTypeId = "AssetTypeId"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case forms = "Forms"
+            case identifier = "Identifier"
+            case name = "Name"
+        }
+    }
+
+    public struct PutAssetResponse: AWSDecodableShape {
+        /// The timestamp at which the asset was created.
+        public let createdAt: Date?
+        /// The description of the asset.
+        public let description: String?
+        /// The forms attached to the asset, keyed by form name.
+        public let forms: [String: AssetFormEntry]?
+        /// The unique identifier of the asset.
+        public let id: String
+        /// The name of the asset.
+        public let name: String
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, forms: [String: AssetFormEntry]? = nil, id: String, name: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.forms = forms
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case forms = "Forms"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct PutAssetTypeRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The forms that make up the asset type, keyed by form name. Each entry references the form type that defines the form's schema.
+        public let forms: [String: AssetTypeFormReference]
+        /// The name of the asset type.
+        public let name: String
+
+        @inlinable
+        public init(clientToken: String? = PutAssetTypeRequest.idempotencyToken(), forms: [String: AssetTypeFormReference], name: String) {
+            self.clientToken = clientToken
+            self.forms = forms
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.forms.forEach {
+                try validate($0.key, name: "forms.key", parent: name, max: 128)
+                try validate($0.key, name: "forms.key", parent: name, min: 1)
+                try validate($0.key, name: "forms.key", parent: name, pattern: "^(?![0-9_])\\w+$|^_\\w*[a-zA-Z0-9]\\w*$")
+                try $0.value.validate(name: "\(name).forms[\"\($0.key)\"]")
+            }
+            try self.validate(self.forms, name: "forms", parent: name, max: 100)
+            try self.validate(self.forms, name: "forms", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?![0-9_])\\w+$|^_\\w*[a-zA-Z0-9]\\w*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case forms = "Forms"
+            case name = "Name"
+        }
+    }
+
+    public struct PutAssetTypeResponse: AWSDecodableShape {
+        /// The forms that make up the asset type, keyed by form name.
+        public let forms: [String: AssetTypeFormReference]?
+        /// The identifier of the asset type.
+        public let id: String?
+        /// The name of the asset type.
+        public let name: String?
+
+        @inlinable
+        public init(forms: [String: AssetTypeFormReference]? = nil, id: String? = nil, name: String? = nil) {
+            self.forms = forms
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forms = "Forms"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct PutAttachmentRequest: AWSEncodableShape {
+        /// The unique identifier of the asset to attach the form to.
+        public let assetIdentifier: String
+        /// The name of the attachment.
+        public let attachmentName: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The JSON content of the form, conforming to the schema of the specified form type.
+        public let content: String
+        /// The identifier of the form type for this attachment.
+        public let formTypeId: String
+        /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+        public let itemIdentifier: String?
+        /// The name of the iterable form. When specified along with itemIdentifier, the attachment targets an item within the iterable form rather than the asset itself.
+        public let iterableFormName: String?
+
+        @inlinable
+        public init(assetIdentifier: String, attachmentName: String, clientToken: String? = PutAttachmentRequest.idempotencyToken(), content: String, formTypeId: String, itemIdentifier: String? = nil, iterableFormName: String? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.attachmentName = attachmentName
+            self.clientToken = clientToken
+            self.content = content
+            self.formTypeId = formTypeId
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
+            try container.encode(self.attachmentName, forKey: .attachmentName)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.content, forKey: .content)
+            try container.encode(self.formTypeId, forKey: .formTypeId)
+            try container.encodeIfPresent(self.itemIdentifier, forKey: .itemIdentifier)
+            try container.encodeIfPresent(self.iterableFormName, forKey: .iterableFormName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, max: 1087)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, min: 1)
+            try self.validate(self.assetIdentifier, name: "assetIdentifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, max: 256)
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, min: 1)
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.formTypeId, name: "formTypeId", parent: name, max: 256)
+            try self.validate(self.formTypeId, name: "formTypeId", parent: name, min: 1)
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, max: 1087)
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, max: 256)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentName = "AttachmentName"
+            case clientToken = "ClientToken"
+            case content = "Content"
+            case formTypeId = "FormTypeId"
+            case itemIdentifier = "ItemIdentifier"
+            case iterableFormName = "IterableFormName"
+        }
+    }
+
+    public struct PutAttachmentResponse: AWSDecodableShape {
+        /// The unique identifier of the asset.
+        public let assetIdentifier: String?
+        /// The name of the attachment.
+        public let attachmentName: String?
+        /// The identifier of the form type for this attachment.
+        public let formTypeId: String?
+        /// The identifier of the item within the iterable form, if applicable.
+        public let itemIdentifier: String?
+        /// The name of the iterable form, if the attachment targets an item.
+        public let iterableFormName: String?
+
+        @inlinable
+        public init(assetIdentifier: String? = nil, attachmentName: String? = nil, formTypeId: String? = nil, itemIdentifier: String? = nil, iterableFormName: String? = nil) {
+            self.assetIdentifier = assetIdentifier
+            self.attachmentName = attachmentName
+            self.formTypeId = formTypeId
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetIdentifier = "AssetIdentifier"
+            case attachmentName = "AttachmentName"
+            case formTypeId = "FormTypeId"
+            case itemIdentifier = "ItemIdentifier"
+            case iterableFormName = "IterableFormName"
+        }
+    }
+
     public struct PutDataCatalogEncryptionSettingsRequest: AWSEncodableShape {
         /// The ID of the Data Catalog to set the security configuration for. If none is provided, the Amazon Web Services account ID is used by default.
         public let catalogId: String?
@@ -22325,6 +24544,61 @@ extension Glue {
 
     public struct PutDataQualityProfileAnnotationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct PutFormTypeRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The name of the form type. Must start with an uppercase letter.
+        public let name: String
+        /// The Smithy IDL schema definition for the form type.
+        public let schema: String
+
+        @inlinable
+        public init(clientToken: String? = PutFormTypeRequest.idempotencyToken(), name: String, schema: String) {
+            self.clientToken = clientToken
+            self.name = name
+            self.schema = schema
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Z]\\w*$")
+            try self.validate(self.schema, name: "schema", parent: name, max: 100000)
+            try self.validate(self.schema, name: "schema", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case name = "Name"
+            case schema = "Schema"
+        }
+    }
+
+    public struct PutFormTypeResponse: AWSDecodableShape {
+        /// The identifier of the form type.
+        public let id: String?
+        /// The name of the form type.
+        public let name: String?
+        /// The Smithy IDL schema of the form type.
+        public let schema: String?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil, schema: String? = nil) {
+            self.id = id
+            self.name = name
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case name = "Name"
+            case schema = "Schema"
+        }
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
@@ -23412,6 +25686,32 @@ extension Glue {
             case groupFiltersList = "GroupFiltersList"
             case inputs = "Inputs"
             case name = "Name"
+        }
+    }
+
+    public struct RowLevelResultsOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The Glue Data Catalog table configuration for storing the results.
+        public let catalogTableConfig: CatalogTableConfigOptions?
+        /// The maximum number of rows to write in the results.
+        public let maxRowsToWrite: Int?
+        /// The result type to include in the row-level results output.
+        public let resultType: ResultTypeEnum?
+
+        @inlinable
+        public init(catalogTableConfig: CatalogTableConfigOptions? = nil, maxRowsToWrite: Int? = nil, resultType: ResultTypeEnum? = nil) {
+            self.catalogTableConfig = catalogTableConfig
+            self.maxRowsToWrite = maxRowsToWrite
+            self.resultType = resultType
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogTableConfig?.validate(name: "\(name).catalogTableConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogTableConfig = "CatalogTableConfig"
+            case maxRowsToWrite = "MaxRowsToWrite"
+            case resultType = "ResultType"
         }
     }
 
@@ -25063,6 +27363,174 @@ extension Glue {
         }
     }
 
+    public struct SearchAssetsInput: AWSEncodableShape {
+        /// The filter clause to apply to the search. Supports nested AND/OR logic with attribute-level and map-level filters.
+        public let filterClause: SearchFilterClause?
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// The text to search for. At least one of searchText or filterClause must be provided.
+        public let searchText: String?
+        /// The sort criteria for the search results.
+        public let sort: SearchSort?
+
+        @inlinable
+        public init(filterClause: SearchFilterClause? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchText: String? = nil, sort: SearchSort? = nil) {
+            self.filterClause = filterClause
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchText = searchText
+            self.sort = sort
+        }
+
+        public func validate(name: String) throws {
+            try self.filterClause?.validate(name: "\(name).filterClause")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.searchText, name: "searchText", parent: name, max: 1000)
+            try self.validate(self.searchText, name: "searchText", parent: name, min: 1)
+            try self.sort?.validate(name: "\(name).sort")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterClause = "FilterClause"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchText = "SearchText"
+            case sort = "Sort"
+        }
+    }
+
+    public struct SearchAssetsOutput: AWSDecodableShape {
+        /// The list of assets matching the search criteria.
+        public let items: [SearchResultItem]?
+        /// A continuation token, present if the current segment is not the last.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [SearchResultItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchAttributeFilter: AWSEncodableShape {
+        /// The attribute name to filter on.
+        public let attribute: String
+        /// The comparison operator. Valid values are equals, greaterThan, greaterThanOrEquals, lessThan, lessThanOrEquals, and notExists.
+        public let `operator`: SearchFilterOperator
+        /// The value to compare against.
+        public let value: SearchFilterValue?
+
+        @inlinable
+        public init(attribute: String, operator: SearchFilterOperator, value: SearchFilterValue? = nil) {
+            self.attribute = attribute
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attribute, name: "attribute", parent: name, max: 128)
+            try self.validate(self.attribute, name: "attribute", parent: name, min: 1)
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct SearchMapFilter: AWSEncodableShape {
+        /// The map attribute name to filter on.
+        public let attribute: String
+        /// The key within the map attribute to filter on.
+        public let key: String
+        /// The value to compare against.
+        public let value: SearchMapFilterValue
+
+        @inlinable
+        public init(attribute: String, key: String, value: SearchMapFilterValue) {
+            self.attribute = attribute
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attribute, name: "attribute", parent: name, max: 128)
+            try self.validate(self.attribute, name: "attribute", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct SearchResultItem: AWSDecodableShape {
+        /// The description of the matched asset.
+        public let assetDescription: String?
+        /// The name of the matched asset.
+        public let assetName: String?
+        /// The identifier of the asset type for the matched asset.
+        public let assetTypeId: String?
+        /// The unique identifier of the matched asset.
+        public let id: String?
+        /// The timestamp at which the matched asset was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(assetDescription: String? = nil, assetName: String? = nil, assetTypeId: String? = nil, id: String? = nil, updatedAt: Date? = nil) {
+            self.assetDescription = assetDescription
+            self.assetName = assetName
+            self.assetTypeId = assetTypeId
+            self.id = id
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetDescription = "AssetDescription"
+            case assetName = "AssetName"
+            case assetTypeId = "AssetTypeId"
+            case id = "Id"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct SearchSort: AWSEncodableShape {
+        /// The attribute to sort by.
+        public let attribute: String
+        /// The sort order. Valid values are ASCENDING and DESCENDING.
+        public let order: SearchSortOrder?
+
+        @inlinable
+        public init(attribute: String, order: SearchSortOrder? = nil) {
+            self.attribute = attribute
+            self.order = order
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attribute, name: "attribute", parent: name, max: 128)
+            try self.validate(self.attribute, name: "attribute", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case order = "Order"
+        }
+    }
+
     public struct SearchTablesRequest: AWSEncodableShape {
         /// A unique identifier, consisting of  account_id .
         public let catalogId: String?
@@ -25323,13 +27791,15 @@ extension Glue {
         public let role: String?
         /// The name of the SecurityConfiguration structure to be used with the session.
         public let securityConfiguration: String?
+        /// The type of the session.
+        public let sessionType: SessionType?
         /// The session status.
         public let status: SessionStatus?
         /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark sessions. Accepts the value Z.2X for Ray sessions.
         public let workerType: WorkerType?
 
         @inlinable
-        public init(command: SessionCommand? = nil, completedOn: Date? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Double? = nil, glueVersion: String? = nil, id: String? = nil, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, status: SessionStatus? = nil, workerType: WorkerType? = nil) {
+        public init(command: SessionCommand? = nil, completedOn: Date? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Double? = nil, glueVersion: String? = nil, id: String? = nil, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, profileName: String? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, sessionType: SessionType? = nil, status: SessionStatus? = nil, workerType: WorkerType? = nil) {
             self.command = command
             self.completedOn = completedOn
             self.connections = connections
@@ -25348,6 +27818,7 @@ extension Glue {
             self.progress = progress
             self.role = role
             self.securityConfiguration = securityConfiguration
+            self.sessionType = sessionType
             self.status = status
             self.workerType = workerType
         }
@@ -25371,6 +27842,7 @@ extension Glue {
             case progress = "Progress"
             case role = "Role"
             case securityConfiguration = "SecurityConfiguration"
+            case sessionType = "SessionType"
             case status = "Status"
             case workerType = "WorkerType"
         }
@@ -25398,6 +27870,28 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case pythonVersion = "PythonVersion"
+        }
+    }
+
+    public struct SessionEndpoint: AWSDecodableShape {
+        /// The authentication token to include in requests to the Spark Connect endpoint.
+        public let authToken: String
+        /// The time at which the authentication token expires.
+        public let authTokenExpirationTime: Date
+        /// The Spark Connect endpoint URL for the session.
+        public let url: String
+
+        @inlinable
+        public init(authToken: String, authTokenExpirationTime: Date, url: String) {
+            self.authToken = authToken
+            self.authTokenExpirationTime = authTokenExpirationTime
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authToken = "AuthToken"
+            case authTokenExpirationTime = "AuthTokenExpirationTime"
+            case url = "Url"
         }
     }
 
@@ -25631,6 +28125,8 @@ extension Glue {
     }
 
     public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for applying filter pushdown to REST API requests, defining how filter predicates are translated into query parameters or filter strings.
+        public let filterConfiguration: FilterConfiguration?
         /// Configuration for handling paginated responses from the REST API, supporting both cursor-based and offset-based pagination strategies.
         public let paginationConfiguration: PaginationConfiguration?
         /// The HTTP method to use for requests to this endpoint, such as GET, POST.
@@ -25643,7 +28139,8 @@ extension Glue {
         public let responseConfiguration: ResponseConfiguration?
 
         @inlinable
-        public init(paginationConfiguration: PaginationConfiguration? = nil, requestMethod: HTTPMethod? = nil, requestParameters: [ConnectorProperty]? = nil, requestPath: String? = nil, responseConfiguration: ResponseConfiguration? = nil) {
+        public init(filterConfiguration: FilterConfiguration? = nil, paginationConfiguration: PaginationConfiguration? = nil, requestMethod: HTTPMethod? = nil, requestParameters: [ConnectorProperty]? = nil, requestPath: String? = nil, responseConfiguration: ResponseConfiguration? = nil) {
+            self.filterConfiguration = filterConfiguration
             self.paginationConfiguration = paginationConfiguration
             self.requestMethod = requestMethod
             self.requestParameters = requestParameters
@@ -25663,6 +28160,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filterConfiguration = "FilterConfiguration"
             case paginationConfiguration = "PaginationConfiguration"
             case requestMethod = "RequestMethod"
             case requestParameters = "RequestParameters"
@@ -26241,6 +28739,8 @@ extension Glue {
     }
 
     public struct StartDataQualityRuleRecommendationRunRequest: AWSEncodableShape {
+        /// Additional run options you can specify for a recommendation run.
+        public let additionalRunOptions: DataQualityRuleRecommendationRunAdditionalRunOptions?
         /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource.
         public let clientToken: String?
         /// A name for the ruleset.
@@ -26257,7 +28757,8 @@ extension Glue {
         public let timeout: Int?
 
         @inlinable
-        public init(clientToken: String? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, timeout: Int? = nil) {
+        public init(additionalRunOptions: DataQualityRuleRecommendationRunAdditionalRunOptions? = nil, clientToken: String? = nil, createdRulesetName: String? = nil, dataQualitySecurityConfiguration: String? = nil, dataSource: DataSource, numberOfWorkers: Int? = nil, role: String, timeout: Int? = nil) {
+            self.additionalRunOptions = additionalRunOptions
             self.clientToken = clientToken
             self.createdRulesetName = createdRulesetName
             self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -26282,6 +28783,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalRunOptions = "AdditionalRunOptions"
             case clientToken = "ClientToken"
             case createdRulesetName = "CreatedRulesetName"
             case dataQualitySecurityConfiguration = "DataQualitySecurityConfiguration"
@@ -26343,6 +28845,7 @@ extension Glue {
                 try validate($0.key, name: "additionalDataSources.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
                 try $0.value.validate(name: "\(name).additionalDataSources[\"\($0.key)\"]")
             }
+            try self.additionalRunOptions?.validate(name: "\(name).additionalRunOptions")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -26486,7 +28989,7 @@ extension Glue {
         public let numberOfWorkers: Int?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public let timeout: Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
         public let workerType: WorkerType?
@@ -26941,6 +29444,8 @@ extension Glue {
     public struct StatisticSummary: AWSDecodableShape {
         /// The list of columns referenced by the statistic.
         public let columnsReferenced: [String]?
+        /// The distribution value for the statistic.
+        public let distributionValue: DistributionData?
         /// The value of the statistic.
         public let doubleValue: Double?
         /// The evaluation level of the statistic. Possible values: Dataset, Column, Multicolumn.
@@ -26963,8 +29468,9 @@ extension Glue {
         public let statisticProperties: [String: String]?
 
         @inlinable
-        public init(columnsReferenced: [String]? = nil, doubleValue: Double? = nil, evaluationLevel: StatisticEvaluationLevel? = nil, inclusionAnnotation: TimestampedInclusionAnnotation? = nil, profileId: String? = nil, recordedOn: Date? = nil, referencedDatasets: [String]? = nil, runIdentifier: RunIdentifier? = nil, statisticId: String? = nil, statisticName: String? = nil, statisticProperties: [String: String]? = nil) {
+        public init(columnsReferenced: [String]? = nil, distributionValue: DistributionData? = nil, doubleValue: Double? = nil, evaluationLevel: StatisticEvaluationLevel? = nil, inclusionAnnotation: TimestampedInclusionAnnotation? = nil, profileId: String? = nil, recordedOn: Date? = nil, referencedDatasets: [String]? = nil, runIdentifier: RunIdentifier? = nil, statisticId: String? = nil, statisticName: String? = nil, statisticProperties: [String: String]? = nil) {
             self.columnsReferenced = columnsReferenced
+            self.distributionValue = distributionValue
             self.doubleValue = doubleValue
             self.evaluationLevel = evaluationLevel
             self.inclusionAnnotation = inclusionAnnotation
@@ -26979,6 +29485,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case columnsReferenced = "ColumnsReferenced"
+            case distributionValue = "DistributionValue"
             case doubleValue = "DoubleValue"
             case evaluationLevel = "EvaluationLevel"
             case inclusionAnnotation = "InclusionAnnotation"
@@ -27452,6 +29959,8 @@ extension Glue {
         public let description: String?
         /// A FederatedTable structure that references an entity outside the Glue Data Catalog.
         public let federatedTable: FederatedTable?
+        /// The latest Apache Iceberg table metadata for the table, including format version, schemas, partition specifications, and sort orders. This field is populated for Iceberg tables and reflects the current state of the table's Iceberg metadata.
+        public let icebergTableMetadata: IcebergTableMetadata?
         /// Indicates a table is a MaterializedView.
         public let isMaterializedView: Bool?
         /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
@@ -27492,13 +30001,14 @@ extension Glue {
         public let viewOriginalText: String?
 
         @inlinable
-        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, isMaterializedView: Bool? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, icebergTableMetadata: IcebergTableMetadata? = nil, isMaterializedView: Bool? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
             self.createTime = createTime
             self.databaseName = databaseName
             self.description = description
             self.federatedTable = federatedTable
+            self.icebergTableMetadata = icebergTableMetadata
             self.isMaterializedView = isMaterializedView
             self.isMultiDialectView = isMultiDialectView
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
@@ -27527,6 +30037,7 @@ extension Glue {
             case databaseName = "DatabaseName"
             case description = "Description"
             case federatedTable = "FederatedTable"
+            case icebergTableMetadata = "IcebergTableMetadata"
             case isMaterializedView = "IsMaterializedView"
             case isMultiDialectView = "IsMultiDialectView"
             case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
@@ -28643,6 +31154,75 @@ extension Glue {
         public init() {}
     }
 
+    public struct UpdateAssetRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The new description of the asset.
+        public let description: String?
+        /// The unique identifier of the asset to update.
+        public let identifier: String
+        /// The new name of the asset.
+        public let name: String?
+
+        @inlinable
+        public init(clientToken: String? = UpdateAssetRequest.idempotencyToken(), description: String? = nil, identifier: String, name: String? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 1087)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9\\-\\:\\/\\.\\_\\*]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateAssetResponse: AWSDecodableShape {
+        /// The description of the asset.
+        public let description: String?
+        /// The unique identifier of the asset.
+        public let id: String
+        /// The name of the asset.
+        public let name: String?
+        /// The timestamp at which the asset was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(description: String? = nil, id: String, name: String? = nil, updatedAt: Date? = nil) {
+            self.description = description
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct UpdateBlueprintRequest: AWSEncodableShape {
         /// Specifies a path in Amazon S3 where the blueprint is published.
         public let blueprintLocation: String
@@ -29310,6 +31890,153 @@ extension Glue {
 
     public struct UpdateDevEndpointResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateGlossaryRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The updated description of the glossary.
+        public let description: String?
+        /// The unique identifier of the glossary to update.
+        public let identifier: String
+        /// The updated name of the glossary.
+        public let name: String?
+
+        @inlinable
+        public init(clientToken: String? = UpdateGlossaryRequest.idempotencyToken(), description: String? = nil, identifier: String, name: String? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.identifier = identifier
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateGlossaryResponse: AWSDecodableShape {
+        /// The description of the glossary.
+        public let description: String?
+        /// The unique identifier of the glossary.
+        public let id: String?
+        /// The name of the glossary.
+        public let name: String?
+
+        @inlinable
+        public init(description: String? = nil, id: String? = nil, name: String? = nil) {
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateGlossaryTermRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The unique identifier of the glossary term to update.
+        public let identifier: String
+        /// The updated long description of the glossary term.
+        public let longDescription: String?
+        /// The updated name of the glossary term.
+        public let name: String?
+        /// The updated short description of the glossary term.
+        public let shortDescription: String?
+
+        @inlinable
+        public init(clientToken: String? = UpdateGlossaryTermRequest.idempotencyToken(), identifier: String, longDescription: String? = nil, name: String? = nil, shortDescription: String? = nil) {
+            self.clientToken = clientToken
+            self.identifier = identifier
+            self.longDescription = longDescription
+            self.name = name
+            self.shortDescription = shortDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.longDescription, forKey: .longDescription)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.shortDescription, forKey: .shortDescription)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.longDescription, name: "longDescription", parent: name, max: 4096)
+            try self.validate(self.longDescription, name: "longDescription", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.shortDescription, name: "shortDescription", parent: name, max: 1024)
+            try self.validate(self.shortDescription, name: "shortDescription", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case longDescription = "LongDescription"
+            case name = "Name"
+            case shortDescription = "ShortDescription"
+        }
+    }
+
+    public struct UpdateGlossaryTermResponse: AWSDecodableShape {
+        /// The unique identifier of the glossary containing this term.
+        public let glossaryId: String?
+        /// The unique identifier of the glossary term.
+        public let id: String?
+        /// The long description of the glossary term.
+        public let longDescription: String?
+        /// The name of the glossary term.
+        public let name: String?
+        /// The short description of the glossary term.
+        public let shortDescription: String?
+
+        @inlinable
+        public init(glossaryId: String? = nil, id: String? = nil, longDescription: String? = nil, name: String? = nil, shortDescription: String? = nil) {
+            self.glossaryId = glossaryId
+            self.id = id
+            self.longDescription = longDescription
+            self.name = name
+            self.shortDescription = shortDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glossaryId = "GlossaryId"
+            case id = "Id"
+            case longDescription = "LongDescription"
+            case name = "Name"
+            case shortDescription = "ShortDescription"
+        }
     }
 
     public struct UpdateGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
@@ -30890,6 +33617,24 @@ extension Glue {
         }
     }
 
+    public struct SearchMapFilterValue: AWSEncodableShape {
+        /// A string filter value.
+        public let stringValue: String?
+
+        @inlinable
+        public init(stringValue: String? = nil) {
+            self.stringValue = stringValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stringValue, name: "stringValue", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringValue = "StringValue"
+        }
+    }
+
     public struct TableOptimizerVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the Glue connection used for the VPC for the table optimizer.
         public let glueConnectionName: String?
@@ -30958,6 +33703,7 @@ public struct GlueErrorType: AWSErrorType {
         case schedulerNotRunningException = "SchedulerNotRunningException"
         case schedulerRunningException = "SchedulerRunningException"
         case schedulerTransitioningException = "SchedulerTransitioningException"
+        case sessionBusyException = "SessionBusyException"
         case targetResourceNotFound = "TargetResourceNotFound"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
@@ -31070,6 +33816,8 @@ public struct GlueErrorType: AWSErrorType {
     public static var schedulerRunningException: Self { .init(.schedulerRunningException) }
     /// The specified scheduler is transitioning.
     public static var schedulerTransitioningException: Self { .init(.schedulerTransitioningException) }
+    /// The session is currently busy processing another request and cannot accept new operations.
+    public static var sessionBusyException: Self { .init(.sessionBusyException) }
     /// The target resource could not be found.
     public static var targetResourceNotFound: Self { .init(.targetResourceNotFound) }
     /// The throttling threshhold was exceeded.

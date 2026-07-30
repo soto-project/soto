@@ -66,6 +66,7 @@ extension SSM {
     public enum AssociationFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associationId = "AssociationId"
         case associationName = "AssociationName"
+        case cloudConnectorId = "CloudConnectorId"
         case instanceId = "InstanceId"
         case lastExecutedAfter = "LastExecutedAfter"
         case lastExecutedBefore = "LastExecutedBefore"
@@ -161,6 +162,12 @@ extension SSM {
     public enum CalendarState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case closed = "CLOSED"
         case open = "OPEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CloudConnectorFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case subscriptionId = "SubscriptionId"
+        case tenantId = "TenantId"
         public var description: String { return self.rawValue }
     }
 
@@ -487,11 +494,13 @@ extension SSM {
 
     public enum NodeAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agentVersion = "AgentVersion"
+        case availabilityZone = "AvailabilityZone"
         case platformName = "PlatformName"
         case platformType = "PlatformType"
         case platformVersion = "PlatformVersion"
         case region = "Region"
         case resourceType = "ResourceType"
+        case sourceType = "SourceType"
         public var description: String { return self.rawValue }
     }
 
@@ -499,6 +508,8 @@ extension SSM {
         case accountId = "AccountId"
         case agentType = "AgentType"
         case agentVersion = "AgentVersion"
+        case availabilityZone = "AvailabilityZone"
+        case availabilityZoneId = "AvailabilityZoneId"
         case computerName = "ComputerName"
         case instanceId = "InstanceId"
         case instanceStatus = "InstanceStatus"
@@ -511,6 +522,9 @@ extension SSM {
         case platformVersion = "PlatformVersion"
         case region = "Region"
         case resourceType = "ResourceType"
+        case sourceId = "SourceId"
+        case sourceLocation = "SourceLocation"
+        case sourceType = "SourceType"
         public var description: String { return self.rawValue }
     }
 
@@ -814,6 +828,7 @@ extension SSM {
     public enum ResourceTypeForTagging: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case association = "Association"
         case automation = "Automation"
+        case cloudConnector = "CloudConnector"
         case document = "Document"
         case maintenanceWindow = "MaintenanceWindow"
         case managedInstance = "ManagedInstance"
@@ -873,6 +888,7 @@ extension SSM {
         case awsEc2Instance = "AWS::EC2::Instance"
         case awsIotThing = "AWS::IoT::Thing"
         case awsSsmManagedinstance = "AWS::SSM::ManagedInstance"
+        case azureInstance = "Microsoft.Compute/virtualMachines"
         public var description: String { return self.rawValue }
     }
 
@@ -892,6 +908,32 @@ extension SSM {
     public enum StopType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancel = "Cancel"
         case complete = "Complete"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationFindingCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsRoleAssumptionFailed = "AwsRoleAssumptionFailed"
+        case outboundWebIdentityFederationDisabled = "OutboundWebIdentityFederationDisabled"
+        case providerCredentialCreationFailed = "ProviderCredentialCreationFailed"
+        case subscriptionAccessible = "SubscriptionAccessible"
+        case targetInaccessible = "TargetInaccessible"
+        case targetStateWarning = "TargetStateWarning"
+        case targetUnusable = "TargetUnusable"
+        case tenantSummary = "TenantSummary"
+        case webIdentityTokenFailed = "WebIdentityTokenFailed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationFindingScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azureSubscription = "azure:subscription"
+        case azureTenant = "azure:tenant"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationFindingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case info = "INFO"
+        case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
@@ -1757,9 +1799,11 @@ extension SSM {
         public let triggeredAlarms: [AlarmStateInformation]?
         /// Variables defined for the automation.
         public let variables: [String: [String]]?
+        /// A message that describes a non-critical issue that occurred during the automation execution.
+        public let warningMessage: String?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, variables: [String: [String]]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parameters: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, progressCounters: ProgressCounters? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, stepExecutions: [StepExecution]? = nil, stepExecutionsTruncated: Bool? = nil, target: String? = nil, targetLocations: [TargetLocation]? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, variables: [String: [String]]? = nil, warningMessage: String? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
@@ -1795,6 +1839,7 @@ extension SSM {
             self.targets = targets
             self.triggeredAlarms = triggeredAlarms
             self.variables = variables
+            self.warningMessage = warningMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1833,6 +1878,7 @@ extension SSM {
             case targets = "Targets"
             case triggeredAlarms = "TriggeredAlarms"
             case variables = "Variables"
+            case warningMessage = "WarningMessage"
         }
     }
 
@@ -1911,7 +1957,7 @@ extension SSM {
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+            try self.validate(self.targets, name: "targets", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1953,7 +1999,7 @@ extension SSM {
         public let executionEndTime: Date?
         /// The time the execution started.
         public let executionStartTime: Date?
-        /// The list of execution outputs as defined in the Automation runbook.
+        /// A message that describes a failure that occurred during the automation execution.
         public let failureMessage: String?
         /// An S3 bucket where execution information is stored.
         public let logFile: String?
@@ -1987,9 +2033,11 @@ extension SSM {
         public let targets: [Target]?
         /// The CloudWatch alarm that was invoked by the automation.
         public let triggeredAlarms: [AlarmStateInformation]?
+        /// A message that describes a non-critical issue that occurred during the automation execution.
+        public let warningMessage: String?
 
         @inlinable
-        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, automationType: AutomationType? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, target: String? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil) {
+        public init(alarmConfiguration: AlarmConfiguration? = nil, associationId: String? = nil, automationExecutionId: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, automationSubtype: AutomationSubtype? = nil, automationType: AutomationType? = nil, changeRequestName: String? = nil, currentAction: String? = nil, currentStepName: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executedBy: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureMessage: String? = nil, logFile: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, mode: ExecutionMode? = nil, opsItemId: String? = nil, outputs: [String: [String]]? = nil, parentAutomationExecutionId: String? = nil, resolvedTargets: ResolvedTargets? = nil, runbooks: [Runbook]? = nil, scheduledTime: Date? = nil, target: String? = nil, targetLocationsURL: String? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, warningMessage: String? = nil) {
             self.alarmConfiguration = alarmConfiguration
             self.associationId = associationId
             self.automationExecutionId = automationExecutionId
@@ -2021,6 +2069,7 @@ extension SSM {
             self.targetParameterName = targetParameterName
             self.targets = targets
             self.triggeredAlarms = triggeredAlarms
+            self.warningMessage = warningMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2055,6 +2104,7 @@ extension SSM {
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
             case triggeredAlarms = "TriggeredAlarms"
+            case warningMessage = "WarningMessage"
         }
     }
 
@@ -2081,6 +2131,76 @@ extension SSM {
             case stepPreviews = "StepPreviews"
             case targetPreviews = "TargetPreviews"
             case totalAccounts = "TotalAccounts"
+        }
+    }
+
+    public struct AzureConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The display name of the Azure application registration.
+        public let applicationDisplayName: String?
+        /// The ID of the Azure application registration used for authentication.
+        public let applicationId: String
+        /// The target Azure subscriptions for the cloud connector.
+        public let targets: ConfigurationTargets?
+        /// The display name of the Azure tenant.
+        public let tenantDisplayName: String?
+        /// The ID of the Azure tenant.
+        public let tenantId: String
+
+        @inlinable
+        public init(applicationDisplayName: String? = nil, applicationId: String, targets: ConfigurationTargets? = nil, tenantDisplayName: String? = nil, tenantId: String) {
+            self.applicationDisplayName = applicationDisplayName
+            self.applicationId = applicationId
+            self.targets = targets
+            self.tenantDisplayName = tenantDisplayName
+            self.tenantId = tenantId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationDisplayName, name: "applicationDisplayName", parent: name, max: 256)
+            try self.validate(self.applicationDisplayName, name: "applicationDisplayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 256)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+            try self.targets?.validate(name: "\(name).targets")
+            try self.validate(self.tenantDisplayName, name: "tenantDisplayName", parent: name, max: 256)
+            try self.validate(self.tenantDisplayName, name: "tenantDisplayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+            try self.validate(self.tenantId, name: "tenantId", parent: name, max: 256)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, min: 1)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationDisplayName = "ApplicationDisplayName"
+            case applicationId = "ApplicationId"
+            case targets = "Targets"
+            case tenantDisplayName = "TenantDisplayName"
+            case tenantId = "TenantId"
+        }
+    }
+
+    public struct AzureSubscription: AWSEncodableShape & AWSDecodableShape {
+        /// The display name of the Azure subscription.
+        public let displayName: String?
+        /// The ID of the Azure subscription.
+        public let id: String
+
+        @inlinable
+        public init(displayName: String? = nil, id: String) {
+            self.displayName = displayName
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 128)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case id = "Id"
         }
     }
 
@@ -2213,6 +2333,67 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case windowExecutionId = "WindowExecutionId"
+        }
+    }
+
+    public struct CloudConnectorFilter: AWSEncodableShape {
+        /// The name of the filter key.
+        public let filterKey: CloudConnectorFilterKey?
+        /// The filter values. Valid values for each filter key are as follows:  SubscriptionId  The Azure subscription ID to filter by. To return only tenant-level connectors, specify NONE.  TenantId  The Azure tenant ID to filter by. Filters the results to connectors that target the specified tenant.
+        public let filterValues: [String]?
+
+        @inlinable
+        public init(filterKey: CloudConnectorFilterKey? = nil, filterValues: [String]? = nil) {
+            self.filterKey = filterKey
+            self.filterValues = filterValues
+        }
+
+        public func validate(name: String) throws {
+            try self.filterValues?.forEach {
+                try validate($0, name: "filterValues[]", parent: name, max: 256)
+                try validate($0, name: "filterValues[]", parent: name, min: 1)
+            }
+            try self.validate(self.filterValues, name: "filterValues", parent: name, max: 1)
+            try self.validate(self.filterValues, name: "filterValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterKey = "FilterKey"
+            case filterValues = "FilterValues"
+        }
+    }
+
+    public struct CloudConnectorSummary: AWSDecodableShape {
+        /// The ID of the cloud connector.
+        public let cloudConnectorId: String?
+        /// The date and time the cloud connector was created.
+        public let createdAt: Date?
+        /// The description of the cloud connector.
+        public let description: String?
+        /// The friendly name of the cloud connector.
+        public let displayName: String?
+        /// The ARN of the IAM role used by the cloud connector.
+        public let roleArn: String?
+        /// The date and time the cloud connector was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(cloudConnectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, roleArn: String? = nil, updatedAt: Date? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.roleArn = roleArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case roleArn = "RoleArn"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -2971,7 +3152,7 @@ extension SSM {
         public let syncCompliance: AssociationSyncCompliance?
         /// Adds or overwrites one or more tags for a State Manager association. Tags are metadata that you can assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [Tag]?
-        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.  The IncludeChildOrganizationUnits parameter is not supported by State Manager.
+        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.  The TargetLocationAlarmConfiguration parameter is not supported by State Manager.
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
         public let targetMaps: [[String: [String]]]?
@@ -3085,6 +3266,73 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case associationDescription = "AssociationDescription"
+        }
+    }
+
+    public struct CreateCloudConnectorRequest: AWSEncodableShape {
+        /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
+        public let configConnectorArn: String
+        /// The configuration details for connecting to the third-party cloud environment.
+        public let configuration: CloudConnectorConfiguration
+        /// A description for the cloud connector.
+        public let description: String?
+        /// A friendly name for the cloud connector.
+        public let displayName: String
+        /// The Amazon Resource Name (ARN) of the IAM role that the cloud connector uses to communicate with the third-party cloud environment.
+        public let roleArn: String
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(configConnectorArn: String, configuration: CloudConnectorConfiguration, description: String? = nil, displayName: String, roleArn: String, tags: [Tag]? = nil) {
+            self.configConnectorArn = configConnectorArn
+            self.configuration = configuration
+            self.description = description
+            self.displayName = displayName
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configConnectorArn, name: "configConnectorArn", parent: name, max: 512)
+            try self.validate(self.configConnectorArn, name: "configConnectorArn", parent: name, min: 1)
+            try self.validate(self.configConnectorArn, name: "configConnectorArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:config:([^:]+):\\d{12}:connector/.+$")
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:iam::\\d{12}:role\\/[\\w-\\/.@+=,]{1,1017}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 1000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configConnectorArn = "ConfigConnectorArn"
+            case configuration = "Configuration"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateCloudConnectorResult: AWSDecodableShape {
+        /// The ID of the cloud connector that was created.
+        public let cloudConnectorId: String?
+
+        @inlinable
+        public init(cloudConnectorId: String? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
         }
     }
 
@@ -3673,6 +3921,40 @@ extension SSM {
 
     public struct DeleteAssociationResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteCloudConnectorRequest: AWSEncodableShape {
+        /// The ID of the cloud connector to delete.
+        public let cloudConnectorId: String
+
+        @inlinable
+        public init(cloudConnectorId: String) {
+            self.cloudConnectorId = cloudConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, max: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, min: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
+        }
+    }
+
+    public struct DeleteCloudConnectorResult: AWSDecodableShape {
+        /// The ID of the cloud connector that was deleted.
+        public let cloudConnectorId: String?
+
+        @inlinable
+        public init(cloudConnectorId: String? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
+        }
     }
 
     public struct DeleteDocumentRequest: AWSEncodableShape {
@@ -6621,6 +6903,68 @@ extension SSM {
         }
     }
 
+    public struct GetCloudConnectorRequest: AWSEncodableShape {
+        /// The ID of the cloud connector to retrieve information about.
+        public let cloudConnectorId: String
+
+        @inlinable
+        public init(cloudConnectorId: String) {
+            self.cloudConnectorId = cloudConnectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, max: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, min: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
+        }
+    }
+
+    public struct GetCloudConnectorResult: AWSDecodableShape {
+        /// The ARN of the cloud connector.
+        public let cloudConnectorArn: String?
+        /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
+        public let configConnectorArn: String?
+        /// The configuration details for the third-party cloud environment connection.
+        public let configuration: CloudConnectorConfiguration?
+        /// The date and time the cloud connector was created.
+        public let createdAt: Date?
+        /// The description of the cloud connector.
+        public let description: String?
+        /// The friendly name of the cloud connector.
+        public let displayName: String?
+        /// The ARN of the IAM role used by the cloud connector.
+        public let roleArn: String?
+        /// The date and time the cloud connector was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(cloudConnectorArn: String? = nil, configConnectorArn: String? = nil, configuration: CloudConnectorConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, roleArn: String? = nil, updatedAt: Date? = nil) {
+            self.cloudConnectorArn = cloudConnectorArn
+            self.configConnectorArn = configConnectorArn
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.roleArn = roleArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorArn = "CloudConnectorArn"
+            case configConnectorArn = "ConfigConnectorArn"
+            case configuration = "Configuration"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case roleArn = "RoleArn"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct GetCommandInvocationRequest: AWSEncodableShape {
         /// (Required) The parent command ID of the invocation plugin.
         public let commandId: String
@@ -7916,7 +8260,7 @@ extension SSM {
     }
 
     public struct GetPatchBaselineForPatchGroupRequest: AWSEncodableShape {
-        /// Returns the operating system rule specified for patch groups using the patch baseline.
+        /// Returns the operating system rule specified for patch groups using the patch baseline. The default value is WINDOWS.
         public let operatingSystem: OperatingSystem?
         /// The name of the patch group whose patch baseline should be retrieved.
         public let patchGroup: String
@@ -8296,6 +8640,10 @@ extension SSM {
         public let agentType: String?
         /// The version number of the agent installed on the node.
         public let agentVersion: String?
+        /// The Availability Zone where the managed node is located.
+        public let availabilityZone: String?
+        /// The Availability Zone ID where the managed node is located.
+        public let availabilityZoneId: String?
         /// The fully qualified host name of the managed node.
         public let computerName: String?
         /// The current status of the managed node.
@@ -8304,6 +8652,8 @@ extension SSM {
         public let ipAddress: String?
         /// Indicates whether the node is managed by Systems Manager.
         public let managedStatus: ManagedStatus?
+        /// The name assigned to the managed node.
+        public let name: String?
         /// The name of the operating system platform running on your managed node.
         public let platformName: String?
         /// The operating system platform type of the managed node.
@@ -8312,32 +8662,50 @@ extension SSM {
         public let platformVersion: String?
         /// The type of instance, either an EC2 instance or another supported machine type in a hybrid fleet.
         public let resourceType: ResourceType?
+        /// The ID of the source resource. For IoT Greengrass devices, SourceId is the Thing name.
+        public let sourceId: String?
+        /// The location of the source resource in the third-party cloud environment.
+        public let sourceLocation: String?
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing.
+        public let sourceType: SourceType?
 
         @inlinable
-        public init(agentType: String? = nil, agentVersion: String? = nil, computerName: String? = nil, instanceStatus: String? = nil, ipAddress: String? = nil, managedStatus: ManagedStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, resourceType: ResourceType? = nil) {
+        public init(agentType: String? = nil, agentVersion: String? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, computerName: String? = nil, instanceStatus: String? = nil, ipAddress: String? = nil, managedStatus: ManagedStatus? = nil, name: String? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, resourceType: ResourceType? = nil, sourceId: String? = nil, sourceLocation: String? = nil, sourceType: SourceType? = nil) {
             self.agentType = agentType
             self.agentVersion = agentVersion
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.computerName = computerName
             self.instanceStatus = instanceStatus
             self.ipAddress = ipAddress
             self.managedStatus = managedStatus
+            self.name = name
             self.platformName = platformName
             self.platformType = platformType
             self.platformVersion = platformVersion
             self.resourceType = resourceType
+            self.sourceId = sourceId
+            self.sourceLocation = sourceLocation
+            self.sourceType = sourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case agentType = "AgentType"
             case agentVersion = "AgentVersion"
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case computerName = "ComputerName"
             case instanceStatus = "InstanceStatus"
             case ipAddress = "IpAddress"
             case managedStatus = "ManagedStatus"
+            case name = "Name"
             case platformName = "PlatformName"
             case platformType = "PlatformType"
             case platformVersion = "PlatformVersion"
             case resourceType = "ResourceType"
+            case sourceId = "SourceId"
+            case sourceLocation = "SourceLocation"
+            case sourceType = "SourceType"
         }
     }
 
@@ -8382,11 +8750,13 @@ extension SSM {
         public let resourceType: ResourceType?
         /// The ID of the source resource. For IoT Greengrass devices, SourceId is the Thing name.
         public let sourceId: String?
-        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing.
+        /// The location of the source resource in the third-party cloud environment.
+        public let sourceLocation: String?
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines.
         public let sourceType: SourceType?
 
         @inlinable
-        public init(activationId: String? = nil, agentVersion: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, isLatestVersion: Bool? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: ResourceType? = nil, sourceId: String? = nil, sourceType: SourceType? = nil) {
+        public init(activationId: String? = nil, agentVersion: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, isLatestVersion: Bool? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: ResourceType? = nil, sourceId: String? = nil, sourceLocation: String? = nil, sourceType: SourceType? = nil) {
             self.activationId = activationId
             self.agentVersion = agentVersion
             self.associationOverview = associationOverview
@@ -8407,6 +8777,7 @@ extension SSM {
             self.registrationDate = registrationDate
             self.resourceType = resourceType
             self.sourceId = sourceId
+            self.sourceLocation = sourceLocation
             self.sourceType = sourceType
         }
 
@@ -8431,6 +8802,7 @@ extension SSM {
             case registrationDate = "RegistrationDate"
             case resourceType = "ResourceType"
             case sourceId = "SourceId"
+            case sourceLocation = "SourceLocation"
             case sourceType = "SourceType"
         }
     }
@@ -8462,7 +8834,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformType | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}    Valid values for the AssociationStatus filter key: Success | Pending | Failed   Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)   Valid values for the PlatformType filter key: Windows | Linux | MacOS   Valid values for the ResourceType filter key: EC2Instance | ManagedInstance   Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing   Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
+        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}    Valid values for the AssociationStatus filter key: Success | Pending | Failed   Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)   Valid values for the PlatformTypes filter key: Windows | Linux | MacOS   Valid values for the ResourceType filter key: EC2Instance | ManagedInstance   Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines   Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -8629,6 +9001,8 @@ extension SSM {
         public let associationOverview: InstanceAggregatedAssociationOverview?
         /// The status of the State Manager association applied to the managed node.
         public let associationStatus: String?
+        /// The Availability Zone where the managed node is located.
+        public let availabilityZone: String?
         /// The fully qualified host name of the managed node.
         public let computerName: String?
         /// The IAM role used in the hybrid activation to register the node with Systems Manager.
@@ -8669,16 +9043,19 @@ extension SSM {
         public let resourceType: String?
         /// The ID of the source resource.
         public let sourceId: String?
-        /// The type of the source resource.
+        /// The location of the source resource in the third-party cloud environment.
+        public let sourceLocation: String?
+        /// The type of the source resource. Valid values: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines.
         public let sourceType: SourceType?
 
         @inlinable
-        public init(activationId: String? = nil, agentVersion: String? = nil, architecture: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, instanceRole: String? = nil, instanceState: String? = nil, instanceType: String? = nil, ipAddress: String? = nil, keyName: String? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, launchTime: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: String? = nil, sourceId: String? = nil, sourceType: SourceType? = nil) {
+        public init(activationId: String? = nil, agentVersion: String? = nil, architecture: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, availabilityZone: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, instanceRole: String? = nil, instanceState: String? = nil, instanceType: String? = nil, ipAddress: String? = nil, keyName: String? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, launchTime: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: String? = nil, sourceId: String? = nil, sourceLocation: String? = nil, sourceType: SourceType? = nil) {
             self.activationId = activationId
             self.agentVersion = agentVersion
             self.architecture = architecture
             self.associationOverview = associationOverview
             self.associationStatus = associationStatus
+            self.availabilityZone = availabilityZone
             self.computerName = computerName
             self.iamRole = iamRole
             self.instanceId = instanceId
@@ -8699,6 +9076,7 @@ extension SSM {
             self.registrationDate = registrationDate
             self.resourceType = resourceType
             self.sourceId = sourceId
+            self.sourceLocation = sourceLocation
             self.sourceType = sourceType
         }
 
@@ -8708,6 +9086,7 @@ extension SSM {
             case architecture = "Architecture"
             case associationOverview = "AssociationOverview"
             case associationStatus = "AssociationStatus"
+            case availabilityZone = "AvailabilityZone"
             case computerName = "ComputerName"
             case iamRole = "IamRole"
             case instanceId = "InstanceId"
@@ -8728,6 +9107,7 @@ extension SSM {
             case registrationDate = "RegistrationDate"
             case resourceType = "ResourceType"
             case sourceId = "SourceId"
+            case sourceLocation = "SourceLocation"
             case sourceType = "SourceType"
         }
     }
@@ -9306,6 +9686,56 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case associations = "Associations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCloudConnectorsRequest: AWSEncodableShape {
+        /// One or more filters to limit the cloud connectors returned in the response.
+        public let filters: [CloudConnectorFilter]?
+        /// The maximum number of items to return for this call.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [CloudConnectorFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 2)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCloudConnectorsResult: AWSDecodableShape {
+        /// A list of cloud connector summary objects.
+        public let cloudConnectors: [CloudConnectorSummary]?
+        /// The token to use when requesting the next set of items.
+        public let nextToken: String?
+
+        @inlinable
+        public init(cloudConnectors: [CloudConnectorSummary]? = nil, nextToken: String? = nil) {
+            self.cloudConnectors = cloudConnectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectors = "CloudConnectors"
             case nextToken = "NextToken"
         }
     }
@@ -10675,7 +11105,7 @@ extension SSM {
         public let serviceRoleArn: String?
         /// The targets (either managed nodes or tags). Managed nodes are specified using Key=instanceids,Values=,. Tags are specified using Key=,Values=.
         public let targets: [Target]?
-        /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Amazon Web Services Systems Manager (SSM document) name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTIONS tasks, it's the state machine ARN.
+        /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Amazon Web Services Systems Manager (SSM document) name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTIONS tasks, it's the state machine ARN.  Maintenance Window does not validate the TaskArn when you register a task. A successful registration does not guarantee that the TaskArn is valid.
         public let taskArn: String?
         /// The parameters that should be passed to the task when it is run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
@@ -12229,7 +12659,7 @@ extension SSM {
     }
 
     public struct PatchRule: AWSEncodableShape & AWSDecodableShape {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If the day represented by 7 is 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server.  Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic How security patches are selected in the Amazon Web Services Systems Manager User Guide.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If a patch is released at 2025-11-09T18:00:00Z and ApproveAfterDays is set to 7, the patch will be approved after 2025-11-16T18:00:00Z. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server.  Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic How security patches are selected in the Amazon Web Services Systems Manager User Guide.
         public let approveAfterDays: Int?
         /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2025-11-16. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If you enter the date 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveUntilDate or ApproveAfterDays. Not supported for Debian Server or Ubuntu Server.  Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic How security patches are selected in the Amazon Web Services Systems Manager User Guide.
         public let approveUntilDate: String?
@@ -14110,7 +14540,7 @@ extension SSM {
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+            try self.validate(self.targets, name: "targets", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14395,9 +14825,11 @@ extension SSM {
         public let triggeredAlarms: [AlarmStateInformation]?
         /// Strategies used when step fails, we support Continue and Abort. Abort will fail the automation when the step fails. Continue will ignore the failure of current step and allow automation to run the next step. With conditional branching, we add step:stepName to support the automation to go to another specific step.
         public let validNextSteps: [String]?
+        /// A message that describes a non-critical issue that occurred during the step execution. Present only if the step status includes a warning.
+        public let warningMessage: String?
 
         @inlinable
-        public init(action: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, parentStepDetails: ParentStepDetails? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, validNextSteps: [String]? = nil) {
+        public init(action: String? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, failureDetails: FailureDetails? = nil, failureMessage: String? = nil, inputs: [String: String]? = nil, isCritical: Bool? = nil, isEnd: Bool? = nil, maxAttempts: Int? = nil, nextStep: String? = nil, onFailure: String? = nil, outputs: [String: [String]]? = nil, overriddenParameters: [String: [String]]? = nil, parentStepDetails: ParentStepDetails? = nil, response: String? = nil, responseCode: String? = nil, stepExecutionId: String? = nil, stepName: String? = nil, stepStatus: AutomationExecutionStatus? = nil, targetLocation: TargetLocation? = nil, targets: [Target]? = nil, timeoutSeconds: Int64? = nil, triggeredAlarms: [AlarmStateInformation]? = nil, validNextSteps: [String]? = nil, warningMessage: String? = nil) {
             self.action = action
             self.executionEndTime = executionEndTime
             self.executionStartTime = executionStartTime
@@ -14422,6 +14854,7 @@ extension SSM {
             self.timeoutSeconds = timeoutSeconds
             self.triggeredAlarms = triggeredAlarms
             self.validNextSteps = validNextSteps
+            self.warningMessage = warningMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14449,6 +14882,7 @@ extension SSM {
             case timeoutSeconds = "TimeoutSeconds"
             case triggeredAlarms = "TriggeredAlarms"
             case validNextSteps = "ValidNextSteps"
+            case warningMessage = "WarningMessage"
         }
     }
 
@@ -14564,7 +14998,7 @@ extension SSM {
         public let excludeAccounts: [String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public let executionRoleName: String?
-        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.  This parameter is not supported by State Manager.
+        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.
         public let includeChildOrganizationUnits: Bool?
         /// The Amazon Web Services Regions targeted by the current Automation execution.
         public let regions: [String]?
@@ -14620,7 +15054,7 @@ extension SSM {
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
-            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+            try self.validate(self.targets, name: "targets", parent: name, max: 1)
             try self.validate(self.targetsMaxConcurrency, name: "targetsMaxConcurrency", parent: name, max: 7)
             try self.validate(self.targetsMaxConcurrency, name: "targetsMaxConcurrency", parent: name, min: 1)
             try self.validate(self.targetsMaxConcurrency, name: "targetsMaxConcurrency", parent: name, pattern: "^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$")
@@ -14821,7 +15255,7 @@ extension SSM {
         public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
-        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.  The IncludeChildOrganizationUnits parameter is not supported by State Manager.
+        /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.  The TargetLocationAlarmConfiguration parameter is not supported by State Manager.
         public let targetLocations: [TargetLocation]?
         /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
         public let targetMaps: [[String: [String]]]?
@@ -14974,6 +15408,58 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case associationDescription = "AssociationDescription"
+        }
+    }
+
+    public struct UpdateCloudConnectorRequest: AWSEncodableShape {
+        /// The ID of the cloud connector to update.
+        public let cloudConnectorId: String
+        /// The updated configuration details for connecting to the third-party cloud environment.
+        public let configuration: CloudConnectorConfiguration?
+        /// A new description for the cloud connector.
+        public let description: String?
+        /// A new friendly name for the cloud connector.
+        public let displayName: String?
+
+        @inlinable
+        public init(cloudConnectorId: String, configuration: CloudConnectorConfiguration? = nil, description: String? = nil, displayName: String? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+            self.configuration = configuration
+            self.description = description
+            self.displayName = displayName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, max: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, min: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 256)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}\\p{P}\\p{M}]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
+            case configuration = "Configuration"
+            case description = "Description"
+            case displayName = "DisplayName"
+        }
+    }
+
+    public struct UpdateCloudConnectorResult: AWSDecodableShape {
+        /// The ID of the cloud connector that was updated.
+        public let cloudConnectorId: String?
+
+        @inlinable
+        public init(cloudConnectorId: String? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
         }
     }
 
@@ -15940,6 +16426,54 @@ extension SSM {
         public init() {}
     }
 
+    public struct ValidateCloudConnectorRequest: AWSEncodableShape {
+        /// The ID of the cloud connector to validate.
+        public let cloudConnectorId: String
+        /// The maximum number of validation findings to return.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(cloudConnectorId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.cloudConnectorId = cloudConnectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, max: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, min: 36)
+            try self.validate(self.cloudConnectorId, name: "cloudConnectorId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 75)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudConnectorId = "CloudConnectorId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ValidateCloudConnectorResult: AWSDecodableShape {
+        /// The token to use when requesting the next set of items.
+        public let nextToken: String?
+        /// A list of validation findings for the cloud connector.
+        public let validationFindings: [ValidationFinding]?
+
+        @inlinable
+        public init(nextToken: String? = nil, validationFindings: [ValidationFinding]? = nil) {
+            self.nextToken = nextToken
+            self.validationFindings = validationFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case validationFindings = "ValidationFindings"
+        }
+    }
+
     public struct ValidationException: AWSErrorShape {
         public let message: String?
         /// The reason code for the invalid request.
@@ -15954,6 +16488,94 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case reasonCode = "ReasonCode"
+        }
+    }
+
+    public struct ValidationFinding: AWSDecodableShape {
+        /// A code that identifies the specific validation finding.
+        public let code: ValidationFindingCode?
+        /// A message that describes the validation finding.
+        public let message: String?
+        /// A message from the third-party cloud provider related to the validation finding.
+        public let providerMessage: String?
+        /// The scope of the validation finding, identifying the specific resource affected.
+        public let scope: ValidationFindingScope?
+        /// The type of the validation finding.
+        public let type: ValidationFindingType?
+
+        @inlinable
+        public init(code: ValidationFindingCode? = nil, message: String? = nil, providerMessage: String? = nil, scope: ValidationFindingScope? = nil, type: ValidationFindingType? = nil) {
+            self.code = code
+            self.message = message
+            self.providerMessage = providerMessage
+            self.scope = scope
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case providerMessage = "ProviderMessage"
+            case scope = "Scope"
+            case type = "Type"
+        }
+    }
+
+    public struct ValidationFindingScope: AWSDecodableShape {
+        /// The ID of the resource within the scope.
+        public let id: String?
+        /// The type of the resource scope.
+        public let type: ValidationFindingScopeType?
+
+        @inlinable
+        public init(id: String? = nil, type: ValidationFindingScopeType? = nil) {
+            self.id = id
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case type = "Type"
+        }
+    }
+
+    public struct CloudConnectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The access details and targets for connecting to a Microsoft Azure environment.
+        public let azureConfiguration: AzureConfiguration?
+
+        @inlinable
+        public init(azureConfiguration: AzureConfiguration? = nil) {
+            self.azureConfiguration = azureConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.azureConfiguration?.validate(name: "\(name).azureConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azureConfiguration = "AzureConfiguration"
+        }
+    }
+
+    public struct ConfigurationTargets: AWSEncodableShape & AWSDecodableShape {
+        /// A list of Azure subscriptions to target.
+        public let subscriptions: [AzureSubscription]?
+
+        @inlinable
+        public init(subscriptions: [AzureSubscription]? = nil) {
+            self.subscriptions = subscriptions
+        }
+
+        public func validate(name: String) throws {
+            try self.subscriptions?.forEach {
+                try $0.validate(name: "\(name).subscriptions[]")
+            }
+            try self.validate(self.subscriptions, name: "subscriptions", parent: name, max: 75)
+            try self.validate(self.subscriptions, name: "subscriptions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptions = "Subscriptions"
         }
     }
 
@@ -16024,6 +16646,7 @@ public struct SSMErrorType: AWSErrorType {
         case automationExecutionNotFoundException = "AutomationExecutionNotFoundException"
         case automationStepNotFoundException = "AutomationStepNotFoundException"
         case complianceTypeCountLimitExceededException = "ComplianceTypeCountLimitExceededException"
+        case conflictException = "ConflictException"
         case customSchemaCountLimitExceededException = "CustomSchemaCountLimitExceededException"
         case documentAlreadyExists = "DocumentAlreadyExists"
         case documentLimitExceeded = "DocumentLimitExceeded"
@@ -16198,6 +16821,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var automationStepNotFoundException: Self { .init(.automationStepNotFoundException) }
     /// You specified too many custom compliance types. You can specify a maximum of 10 different types.
     public static var complianceTypeCountLimitExceededException: Self { .init(.complianceTypeCountLimitExceededException) }
+    /// An error occurred because of a conflict with a concurrent request or the current state of the resource. Retry your request.
+    public static var conflictException: Self { .init(.conflictException) }
     /// You have exceeded the limit for custom schemas. Delete one or more custom schemas and try again.
     public static var customSchemaCountLimitExceededException: Self { .init(.customSchemaCountLimitExceededException) }
     /// The specified document already exists.

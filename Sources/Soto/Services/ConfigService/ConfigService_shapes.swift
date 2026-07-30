@@ -107,6 +107,11 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectorFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case provider = "provider"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failure = "Failure"
         case notApplicable = "Not_Applicable"
@@ -211,6 +216,11 @@ extension ConfigService {
         case aws = "AWS"
         case customLambda = "CUSTOM_LAMBDA"
         case customPolicy = "CUSTOM_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Provider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azure = "AZURE"
         public var description: String { return self.rawValue }
     }
 
@@ -826,6 +836,12 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuleEvaluationVisibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `internal` = "INTERNAL"
+        case external = "EXTERNAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case score = "SCORE"
         public var description: String { return self.rawValue }
@@ -1331,6 +1347,31 @@ extension ConfigService {
         }
     }
 
+    public struct AzureConnectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Azure client identifier.
+        public let clientIdentifier: String
+        /// The Azure tenant identifier.
+        public let tenantIdentifier: String
+
+        @inlinable
+        public init(clientIdentifier: String, tenantIdentifier: String) {
+            self.clientIdentifier = clientIdentifier
+            self.tenantIdentifier = tenantIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientIdentifier, name: "clientIdentifier", parent: name, max: 128)
+            try self.validate(self.clientIdentifier, name: "clientIdentifier", parent: name, min: 1)
+            try self.validate(self.tenantIdentifier, name: "tenantIdentifier", parent: name, max: 128)
+            try self.validate(self.tenantIdentifier, name: "tenantIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientIdentifier = "clientIdentifier"
+            case tenantIdentifier = "tenantIdentifier"
+        }
+    }
+
     public struct BaseConfigurationItem: AWSDecodableShape {
         /// The 12-digit Amazon Web Services account ID associated with the resource.
         public let accountId: String?
@@ -1722,6 +1763,8 @@ extension ConfigService {
         /// 				for the MaximumExecutionFrequency
         /// 				parameter.
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        /// Indicates whether you can get Evaluations for the Config rule. You can get Evaluations for the Amazon Web Services Config rule if this value is EXTERNAL. You cannot get Evaluations for the Amazon Web Services Config rule if this value is INTERNAL.
+        public let ruleEvaluationVisibility: RuleEvaluationVisibility?
         /// Defines which resources can trigger an evaluation for the rule.
         /// 			The scope can include one or more resource types, a combination of
         /// 			one resource type and one resource ID, or a combination of a tag key
@@ -1736,7 +1779,7 @@ extension ConfigService {
         public let source: Source
 
         @inlinable
-        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, configRuleState: ConfigRuleState? = nil, createdBy: String? = nil, description: String? = nil, evaluationModes: [EvaluationModeConfiguration]? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, scope: Scope? = nil, source: Source) {
+        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, configRuleState: ConfigRuleState? = nil, createdBy: String? = nil, description: String? = nil, evaluationModes: [EvaluationModeConfiguration]? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, ruleEvaluationVisibility: RuleEvaluationVisibility? = nil, scope: Scope? = nil, source: Source) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
             self.configRuleName = configRuleName
@@ -1746,6 +1789,7 @@ extension ConfigService {
             self.evaluationModes = evaluationModes
             self.inputParameters = inputParameters
             self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.ruleEvaluationVisibility = ruleEvaluationVisibility
             self.scope = scope
             self.source = source
         }
@@ -1777,6 +1821,7 @@ extension ConfigService {
             case evaluationModes = "EvaluationModes"
             case inputParameters = "InputParameters"
             case maximumExecutionFrequency = "MaximumExecutionFrequency"
+            case ruleEvaluationVisibility = "RuleEvaluationVisibility"
             case scope = "Scope"
             case source = "Source"
         }
@@ -2128,6 +2173,8 @@ extension ConfigService {
     public struct ConfigurationRecorder: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the specified configuration recorder.
         public let arn: String?
+        /// The Amazon Resource Name (ARN) of the connector that specifies the connection between a third-party cloud service provider and Config.
+        public let connectorArn: String?
         /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to a new service-linked configuration recorder.   Changing the name of a configuration recorder  To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
         public let name: String?
         /// Specifies which resource types are in scope for the configuration recorder to record.   High Number of Config Evaluations  You might notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the
@@ -2159,26 +2206,33 @@ extension ConfigService {
         /// 				to the IAM role you use when setting up Config. Otherwise, it may
         /// 				interfere with how Control Tower operates.  The service-linked IAM role for Config must be used for service-linked configuration recorders  For service-linked configuration recorders, you must use the service-linked IAM role for Config: AWSServiceRoleForConfig.
         public let roleARN: String?
+        /// Specifies the scope of resources to record from the third-party cloud service provider connected through the connector.
+        public let scopeConfiguration: ScopeConfiguration?
         /// For service-linked configuration recorders, specifies the linked Amazon Web Services service for the configuration recorder.
         public let servicePrincipal: String?
 
         @inlinable
-        public init(arn: String? = nil, name: String? = nil, recordingGroup: RecordingGroup? = nil, recordingMode: RecordingMode? = nil, recordingScope: RecordingScope? = nil, roleARN: String? = nil, servicePrincipal: String? = nil) {
+        public init(arn: String? = nil, connectorArn: String? = nil, name: String? = nil, recordingGroup: RecordingGroup? = nil, recordingMode: RecordingMode? = nil, recordingScope: RecordingScope? = nil, roleARN: String? = nil, scopeConfiguration: ScopeConfiguration? = nil, servicePrincipal: String? = nil) {
             self.arn = arn
+            self.connectorArn = connectorArn
             self.name = name
             self.recordingGroup = recordingGroup
             self.recordingMode = recordingMode
             self.recordingScope = recordingScope
             self.roleARN = roleARN
+            self.scopeConfiguration = scopeConfiguration
             self.servicePrincipal = servicePrincipal
         }
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1000)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, max: 1000)
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.recordingMode?.validate(name: "\(name).recordingMode")
+            try self.scopeConfiguration?.validate(name: "\(name).scopeConfiguration")
             try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, max: 128)
             try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, min: 1)
             try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -2186,11 +2240,13 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case connectorArn = "connectorArn"
             case name = "name"
             case recordingGroup = "recordingGroup"
             case recordingMode = "recordingMode"
             case recordingScope = "recordingScope"
             case roleARN = "roleARN"
+            case scopeConfiguration = "scopeConfiguration"
             case servicePrincipal = "servicePrincipal"
         }
     }
@@ -2275,15 +2331,18 @@ extension ConfigService {
         public let arn: String
         /// The name of the configuration recorder.
         public let name: String
+        /// For service-linked configuration recorders that record resources from a third-party cloud service provider, indicates the cloud service provider. Currently, AZURE is supported.
+        public let provider: Provider?
         /// Indicates whether the ConfigurationItems in scope for the configuration recorder are recorded for free (INTERNAL) or if you are charged a service fee for recording (PAID).
         public let recordingScope: RecordingScope
         /// For service-linked configuration recorders, indicates which Amazon Web Services service the configuration recorder is linked to.
         public let servicePrincipal: String?
 
         @inlinable
-        public init(arn: String, name: String, recordingScope: RecordingScope, servicePrincipal: String? = nil) {
+        public init(arn: String, name: String, provider: Provider? = nil, recordingScope: RecordingScope, servicePrincipal: String? = nil) {
             self.arn = arn
             self.name = name
+            self.provider = provider
             self.recordingScope = recordingScope
             self.servicePrincipal = servicePrincipal
         }
@@ -2291,6 +2350,7 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case name = "name"
+            case provider = "provider"
             case recordingScope = "recordingScope"
             case servicePrincipal = "servicePrincipal"
         }
@@ -2591,6 +2651,102 @@ extension ConfigService {
         }
     }
 
+    public struct Connector: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let arn: String
+        /// The provider-specific configuration for connecting to the third-party cloud service provider.
+        public let connectorConfiguration: ConnectorConfiguration
+        /// The date and time that the connector was created.
+        public let createdTime: Date
+        /// The name of the connector.
+        public let name: String
+
+        @inlinable
+        public init(arn: String, connectorConfiguration: ConnectorConfiguration, createdTime: Date, name: String) {
+            self.arn = arn
+            self.connectorConfiguration = connectorConfiguration
+            self.createdTime = createdTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case connectorConfiguration = "connectorConfiguration"
+            case createdTime = "createdTime"
+            case name = "name"
+        }
+    }
+
+    public struct ConnectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for an Azure connector.
+        public let azure: AzureConnectorConfiguration?
+
+        @inlinable
+        public init(azure: AzureConnectorConfiguration? = nil) {
+            self.azure = azure
+        }
+
+        public func validate(name: String) throws {
+            try self.azure?.validate(name: "\(name).azure")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azure = "azure"
+        }
+    }
+
+    public struct ConnectorFilter: AWSEncodableShape {
+        /// The name of the filter. Currently, only provider is supported.
+        public let filterName: ConnectorFilterName?
+        /// The value of the filter. For provider, valid values include: AZURE.
+        public let filterValues: [String]?
+
+        @inlinable
+        public init(filterName: ConnectorFilterName? = nil, filterValues: [String]? = nil) {
+            self.filterName = filterName
+            self.filterValues = filterValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterValues, name: "filterValues", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterName = "filterName"
+            case filterValues = "filterValues"
+        }
+    }
+
+    public struct ConnectorSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let arn: String
+        /// The date and time that the connector was created.
+        public let createdTime: Date
+        /// The name of the connector.
+        public let name: String
+        /// The third-party cloud service provider. Currently, AZURE is supported.
+        public let provider: Provider
+        /// The Azure tenant identifier for the connector.
+        public let tenantIdentifier: String
+
+        @inlinable
+        public init(arn: String, createdTime: Date, name: String, provider: Provider, tenantIdentifier: String) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.name = name
+            self.provider = provider
+            self.tenantIdentifier = tenantIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case name = "name"
+            case provider = "provider"
+            case tenantIdentifier = "tenantIdentifier"
+        }
+    }
+
     public struct CustomPolicyDetails: AWSEncodableShape & AWSDecodableShape {
         /// The boolean expression for enabling debug logging for your Config Custom Policy rule. The default value is false.
         public let enableDebugLogDelivery: Bool?
@@ -2724,6 +2880,25 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case conformancePackName = "ConformancePackName"
+        }
+    }
+
+    public struct DeleteConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector that you want to delete.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1000)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -2952,21 +3127,27 @@ extension ConfigService {
     }
 
     public struct DeleteServiceLinkedConfigurationRecorderRequest: AWSEncodableShape {
-        /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete.
-        public let servicePrincipal: String
+        /// The Amazon Resource Name (ARN) of the service-linked configuration recorder that you want to delete. For third-party service-linked configuration recorders, you must use Arn. You must specify exactly one of Arn or ServicePrincipal.
+        public let arn: String?
+        /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
+        public let servicePrincipal: String?
 
         @inlinable
-        public init(servicePrincipal: String) {
+        public init(arn: String? = nil, servicePrincipal: String? = nil) {
+            self.arn = arn
             self.servicePrincipal = servicePrincipal
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1000)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, max: 128)
             try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, min: 1)
             try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, pattern: "^[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
             case servicePrincipal = "ServicePrincipal"
         }
     }
@@ -3478,14 +3659,18 @@ extension ConfigService {
     public struct DescribeConfigRulesFilters: AWSEncodableShape {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public let evaluationMode: EvaluationMode?
+        /// Filters the results by RuleEvaluationVisibility.
+        public let ruleEvaluationVisibility: RuleEvaluationVisibility?
 
         @inlinable
-        public init(evaluationMode: EvaluationMode? = nil) {
+        public init(evaluationMode: EvaluationMode? = nil, ruleEvaluationVisibility: RuleEvaluationVisibility? = nil) {
             self.evaluationMode = evaluationMode
+            self.ruleEvaluationVisibility = ruleEvaluationVisibility
         }
 
         private enum CodingKeys: String, CodingKey {
             case evaluationMode = "EvaluationMode"
+            case ruleEvaluationVisibility = "RuleEvaluationVisibility"
         }
     }
 
@@ -3667,7 +3852,7 @@ extension ConfigService {
         /// 			specified, the operation returns the status for the customer managed configuration recorder configured for the
         /// 			account, if applicable.  When making a request to this operation, you can only specify one configuration recorder.
         public let configurationRecorderNames: [String]?
-        /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+        /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
         public let servicePrincipal: String?
 
         @inlinable
@@ -3716,7 +3901,7 @@ extension ConfigService {
         public let arn: String?
         /// A list of names of the configuration recorders that you want to specify.  When making a request to this operation, you can only specify one configuration recorder.
         public let configurationRecorderNames: [String]?
-        /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+        /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
         public let servicePrincipal: String?
 
         @inlinable
@@ -5424,6 +5609,39 @@ extension ConfigService {
         }
     }
 
+    public struct GetConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1000)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct GetConnectorResponse: AWSDecodableShape {
+        /// The details of the specified connector.
+        public let connector: Connector
+
+        @inlinable
+        public init(connector: Connector) {
+            self.connector = connector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connector = "Connector"
+        }
+    }
+
     public struct GetCustomRulePolicyRequest: AWSEncodableShape {
         /// The name of your Config Custom Policy rule.
         public let configRuleName: String?
@@ -6024,6 +6242,55 @@ extension ConfigService {
         }
     }
 
+    public struct ListConnectorsRequest: AWSEncodableShape {
+        /// Filters the results based on a list of ConnectorFilter objects that you specify.
+        public let filters: [ConnectorFilter]?
+        /// The maximum number of results to include in the response.
+        public let maxResults: Int?
+        /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [ConnectorFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 5)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorsResponse: AWSDecodableShape {
+        /// A list of ConnectorSummary objects.
+        public let connectorSummaries: [ConnectorSummary]
+        /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectorSummaries: [ConnectorSummary], nextToken: String? = nil) {
+            self.connectorSummaries = connectorSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorSummaries = "ConnectorSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDiscoveredResourcesRequest: AWSEncodableShape {
         /// Specifies whether Config includes deleted resources in the
         /// 			results. By default, deleted resources are not included.
@@ -6192,7 +6459,7 @@ extension ConfigService {
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery     Connector
         public let resourceArn: String
 
         @inlinable
@@ -7055,6 +7322,46 @@ extension ConfigService {
         }
     }
 
+    public struct PutConnectorRequest: AWSEncodableShape {
+        /// The provider-specific configuration for connecting to the third-party cloud service provider.
+        public let connectorConfiguration: ConnectorConfiguration
+        /// The tags for the connector. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(connectorConfiguration: ConnectorConfiguration, tags: [Tag]? = nil) {
+            self.connectorConfiguration = connectorConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.connectorConfiguration.validate(name: "\(name).connectorConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorConfiguration = "ConnectorConfiguration"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct PutDeliveryChannelRequest: AWSEncodableShape {
         /// An object for the delivery channel. A delivery channel sends notifications and updated configuration states.
         ///
@@ -7174,14 +7481,17 @@ extension ConfigService {
         /// 			managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier.
         /// 			It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
+        /// The tags for the organization Config rule. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata? = nil, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
+        public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata? = nil, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil, tags: [Tag]? = nil) {
             self.excludedAccounts = excludedAccounts
             self.organizationConfigRuleName = organizationConfigRuleName
             self.organizationCustomPolicyRuleMetadata = organizationCustomPolicyRuleMetadata
             self.organizationCustomRuleMetadata = organizationCustomRuleMetadata
             self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -7195,6 +7505,10 @@ extension ConfigService {
             try self.organizationCustomPolicyRuleMetadata?.validate(name: "\(name).organizationCustomPolicyRuleMetadata")
             try self.organizationCustomRuleMetadata?.validate(name: "\(name).organizationCustomRuleMetadata")
             try self.organizationManagedRuleMetadata?.validate(name: "\(name).organizationManagedRuleMetadata")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7203,6 +7517,7 @@ extension ConfigService {
             case organizationCustomPolicyRuleMetadata = "OrganizationCustomPolicyRuleMetadata"
             case organizationCustomRuleMetadata = "OrganizationCustomRuleMetadata"
             case organizationManagedRuleMetadata = "OrganizationManagedRuleMetadata"
+            case tags = "Tags"
         }
     }
 
@@ -7231,6 +7546,8 @@ extension ConfigService {
         public let excludedAccounts: [String]?
         /// Name of the organization conformance pack you want to create.
         public let organizationConformancePackName: String
+        /// The tags for the organization conformance pack. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [Tag]?
         /// A string that contains the full conformance pack template body. Structure containing the template body
         /// 			with a minimum length of 1 byte and a maximum length of 51,200 bytes.
         public let templateBody: String?
@@ -7240,12 +7557,13 @@ extension ConfigService {
         public let templateS3Uri: String?
 
         @inlinable
-        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, organizationConformancePackName: String, templateBody: String? = nil, templateS3Uri: String? = nil) {
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, organizationConformancePackName: String, tags: [Tag]? = nil, templateBody: String? = nil, templateS3Uri: String? = nil) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
             self.excludedAccounts = excludedAccounts
             self.organizationConformancePackName = organizationConformancePackName
+            self.tags = tags
             self.templateBody = templateBody
             self.templateS3Uri = templateS3Uri
         }
@@ -7264,6 +7582,10 @@ extension ConfigService {
             try self.validate(self.organizationConformancePackName, name: "organizationConformancePackName", parent: name, max: 128)
             try self.validate(self.organizationConformancePackName, name: "organizationConformancePackName", parent: name, min: 1)
             try self.validate(self.organizationConformancePackName, name: "organizationConformancePackName", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.templateBody, name: "templateBody", parent: name, max: 51200)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
             try self.validate(self.templateS3Uri, name: "templateS3Uri", parent: name, max: 1024)
@@ -7277,6 +7599,7 @@ extension ConfigService {
             case deliveryS3KeyPrefix = "DeliveryS3KeyPrefix"
             case excludedAccounts = "ExcludedAccounts"
             case organizationConformancePackName = "OrganizationConformancePackName"
+            case tags = "Tags"
             case templateBody = "TemplateBody"
             case templateS3Uri = "TemplateS3Uri"
         }
@@ -7550,6 +7873,63 @@ extension ConfigService {
 
         private enum CodingKeys: String, CodingKey {
             case queryArn = "QueryArn"
+        }
+    }
+
+    public struct PutThirdPartyServiceLinkedConfigurationRecorderRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Config. The specified connector must exist.
+        public let connectorArn: String
+        /// Specifies the scope of resources to record from the third-party cloud service provider.
+        public let scopeConfiguration: ScopeConfiguration
+        /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create.
+        public let servicePrincipal: String
+        /// The tags for a service-linked configuration recorder. Each tag consists of a key and an optional value, both of which you define.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(connectorArn: String, scopeConfiguration: ScopeConfiguration, servicePrincipal: String, tags: [Tag]? = nil) {
+            self.connectorArn = connectorArn
+            self.scopeConfiguration = scopeConfiguration
+            self.servicePrincipal = servicePrincipal
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, max: 1000)
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, min: 1)
+            try self.scopeConfiguration.validate(name: "\(name).scopeConfiguration")
+            try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, max: 128)
+            try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, min: 1)
+            try self.validate(self.servicePrincipal, name: "servicePrincipal", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
+            case scopeConfiguration = "ScopeConfiguration"
+            case servicePrincipal = "ServicePrincipal"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutThirdPartyServiceLinkedConfigurationRecorderResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+        public let arn: String
+        /// The name of the specified configuration recorder.
+        public let name: String
+
+        @inlinable
+        public init(arn: String, name: String) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
         }
     }
 
@@ -8233,6 +8613,8 @@ extension ConfigService {
         /// 			you also specify a resource ID for
         /// 			ComplianceResourceId.
         public let complianceResourceTypes: [String]?
+        /// The service principals of the Amazon Web Services services for the rule.  The field is populated only if the service-linked rule is created by a service. The field is empty if you create your own rule.
+        public let servicePrincipals: [String]?
         /// The tag key that is applied to only those Amazon Web Services resources that
         /// 			you want to trigger an evaluation for the rule.
         public let tagKey: String?
@@ -8243,9 +8625,10 @@ extension ConfigService {
         public let tagValue: String?
 
         @inlinable
-        public init(complianceResourceId: String? = nil, complianceResourceTypes: [String]? = nil, tagKey: String? = nil, tagValue: String? = nil) {
+        public init(complianceResourceId: String? = nil, complianceResourceTypes: [String]? = nil, servicePrincipals: [String]? = nil, tagKey: String? = nil, tagValue: String? = nil) {
             self.complianceResourceId = complianceResourceId
             self.complianceResourceTypes = complianceResourceTypes
+            self.servicePrincipals = servicePrincipals
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -8258,6 +8641,11 @@ extension ConfigService {
                 try validate($0, name: "complianceResourceTypes[]", parent: name, min: 1)
             }
             try self.validate(self.complianceResourceTypes, name: "complianceResourceTypes", parent: name, max: 100)
+            try self.servicePrincipals?.forEach {
+                try validate($0, name: "servicePrincipals[]", parent: name, max: 128)
+                try validate($0, name: "servicePrincipals[]", parent: name, min: 1)
+            }
+            try self.validate(self.servicePrincipals, name: "servicePrincipals", parent: name, max: 100)
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
             try self.validate(self.tagValue, name: "tagValue", parent: name, max: 256)
@@ -8267,8 +8655,49 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case complianceResourceId = "ComplianceResourceId"
             case complianceResourceTypes = "ComplianceResourceTypes"
+            case servicePrincipals = "ServicePrincipals"
             case tagKey = "TagKey"
             case tagValue = "TagValue"
+        }
+    }
+
+    public struct ScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to record resources from all supported regions for the third-party cloud service provider.
+        public let allRegions: Bool
+        /// The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false.
+        public let includedRegions: [String]?
+        /// The type of scope for the third-party cloud resources. Valid values include tenant and subscription.
+        public let scopeType: String
+        /// The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscriptions or management groups.
+        public let scopeValues: [String]?
+
+        @inlinable
+        public init(allRegions: Bool, includedRegions: [String]? = nil, scopeType: String, scopeValues: [String]? = nil) {
+            self.allRegions = allRegions
+            self.includedRegions = includedRegions
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+
+        public func validate(name: String) throws {
+            try self.includedRegions?.forEach {
+                try validate($0, name: "includedRegions[]", parent: name, max: 128)
+                try validate($0, name: "includedRegions[]", parent: name, min: 1)
+            }
+            try self.validate(self.includedRegions, name: "includedRegions", parent: name, max: 200)
+            try self.validate(self.scopeType, name: "scopeType", parent: name, max: 256)
+            try self.validate(self.scopeType, name: "scopeType", parent: name, min: 1)
+            try self.scopeValues?.forEach {
+                try validate($0, name: "scopeValues[]", parent: name, max: 256)
+                try validate($0, name: "scopeValues[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allRegions = "allRegions"
+            case includedRegions = "includedRegions"
+            case scopeType = "scopeType"
+            case scopeValues = "scopeValues"
         }
     }
 
@@ -8826,7 +9255,7 @@ extension ConfigService {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery     Connector
         public let resourceArn: String
         /// An array of tag object.
         public let tags: [Tag]
@@ -8896,7 +9325,7 @@ extension ConfigService {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery     Connector
         public let resourceArn: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
@@ -8954,6 +9383,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
         case maxNumberOfConfigRulesExceededException = "MaxNumberOfConfigRulesExceededException"
         case maxNumberOfConfigurationRecordersExceededException = "MaxNumberOfConfigurationRecordersExceededException"
         case maxNumberOfConformancePacksExceededException = "MaxNumberOfConformancePacksExceededException"
+        case maxNumberOfConnectorsExceededException = "MaxNumberOfConnectorsExceededException"
         case maxNumberOfDeliveryChannelsExceededException = "MaxNumberOfDeliveryChannelsExceededException"
         case maxNumberOfOrganizationConfigRulesExceededException = "MaxNumberOfOrganizationConfigRulesExceededException"
         case maxNumberOfOrganizationConformancePacksExceededException = "MaxNumberOfOrganizationConformancePacksExceededException"
@@ -9006,7 +9436,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// For PutServiceLinkedConfigurationRecorder, you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For DeleteServiceLinkedConfigurationRecorder, you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For DeleteDeliveryChannel, you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the StopConfigurationRecorder operation to stop the customer managed configuration
+    /// For PutServiceLinkedConfigurationRecorder, you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For PutThirdPartyServiceLinkedConfigurationRecorder, you cannot create a service-linked recorder because the specified service principal does not support multiple configuration recorders and one already exists. For PutThirdPartyServiceLinkedConfigurationRecorder, another in-progress operation is currently referencing the same connector or service principal. Please try again later. For PutConnector, you cannot create a connector because a connector already exists for the specified connector configuration. For DeleteServiceLinkedConfigurationRecorder, you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For DeleteServiceLinkedConfigurationRecorder, another in-progress operation is currently referencing the same connector. Please try again later. For DeleteConnector, another in-progress operation is currently referencing the connector. Please try again later. For DeleteDeliveryChannel, you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the StopConfigurationRecorder operation to stop the customer managed configuration
     /// 			recorder. For AssociateResourceTypes and DisassociateResourceTypes, one of the following errors:   For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.   For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
     public static var conflictException: Self { .init(.conflictException) }
     /// You have specified a template that is not valid or supported.
@@ -9016,7 +9446,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// Your Amazon S3 bucket policy does not allow Config to
     /// 			write to it.
     public static var insufficientDeliveryPolicyException: Self { .init(.insufficientDeliveryPolicyException) }
-    /// Indicates one of the following errors:   For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:    You do not have permission to call IAM GetRole action or create a service-linked role.   You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.     For PutServiceLinkedConfigurationRecorder, a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    /// Indicates one of the following errors:   For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:    You do not have permission to call IAM GetRole action or create a service-linked role.   You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.     For PutServiceLinkedConfigurationRecorder, a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.   For PutConnector, a connector cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
     /// The configuration recorder name is not valid. The prefix "AWSConfigurationRecorderFor" is reserved for service-linked configuration recorders.
     public static var invalidConfigurationRecorderNameException: Self { .init(.invalidConfigurationRecorderNameException) }
@@ -9070,6 +9500,8 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var maxNumberOfConfigurationRecordersExceededException: Self { .init(.maxNumberOfConfigurationRecordersExceededException) }
     /// You have reached the limit of the number of conformance packs you can create in an account. For more information, see  Service Limits in the Config Developer Guide.
     public static var maxNumberOfConformancePacksExceededException: Self { .init(.maxNumberOfConformancePacksExceededException) }
+    /// You have reached the limit of the number of connectors in your account.
+    public static var maxNumberOfConnectorsExceededException: Self { .init(.maxNumberOfConnectorsExceededException) }
     /// You have reached the limit of the number of delivery channels
     /// 			you can create.
     public static var maxNumberOfDeliveryChannelsExceededException: Self { .init(.maxNumberOfDeliveryChannelsExceededException) }
@@ -9147,7 +9579,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     /// 			Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the DeleteServiceLinkedConfigurationRecorder operation to delete a service-linked configuration
     /// 			recorder.
     public static var unmodifiableEntityException: Self { .init(.unmodifiableEntityException) }
-    /// The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For PutStoredQuery, one of the following errors:   There are missing required fields.   The input value fails the validation.   You are trying to create more than 300 queries.   For DescribeConfigurationRecorders and DescribeConfigurationRecorderStatus, one of the following errors:   You have specified more than one configuration recorder.   You have provided a service principal for service-linked configuration recorder that is not valid.   For AssociateResourceTypes and DisassociateResourceTypes, one of the following errors:   Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.   One or more of the specified resource types are already associated or disassociated with the configuration recorder.   For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    /// The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For PutStoredQuery, one of the following errors:   There are missing required fields.   The input value fails the validation.   You are trying to create more than 300 queries.   For DescribeConfigurationRecorders and DescribeConfigurationRecorderStatus, one of the following errors:   You have specified more than one configuration recorder.   You have provided a service principal for service-linked configuration recorder that is not valid.   For AssociateResourceTypes and DisassociateResourceTypes, one of the following errors:   Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.   One or more of the specified resource types are already associated or disassociated with the configuration recorder.   For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.   For DeleteServiceLinkedConfigurationRecorder, one of the following errors:   You have provided both Arn and ServicePrincipal. Only one of Arn or ServicePrincipal can be specified.   You have provided a service principal for service-linked configuration recorder that is not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

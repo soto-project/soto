@@ -358,7 +358,7 @@ public struct BedrockAgent: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
-    ///   - dataDeletionPolicy: The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted if you delete a knowledge base or data source resource.
+    ///   - dataDeletionPolicy: The data deletion policy for the data source. You can set the data deletion policy to:   DELETE: Deletes all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the data. This flag is ignored if an Amazon Web Services account is deleted.   RETAIN: Retains all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted if you delete a knowledge base or data source resource.    For managed knowledge bases, the only supported option is DELETE, which is also the default.
     ///   - dataSourceConfiguration: The connection configuration for the data source.
     ///   - description: A description of the data source.
     ///   - knowledgeBaseId: The unique identifier of the knowledge base to which to add the data source.
@@ -520,7 +520,7 @@ public struct BedrockAgent: AWSService {
         return try await self.createFlowVersion(input, logger: logger)
     }
 
-    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base.  If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see Create a knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   Provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
+    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base.  To create a managed knowledge base, provide a managedKnowledgeBaseConfiguration during creation. For more information, see Build a managed knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   For managed knowledge bases, set embeddingModelType to MANAGED to use the service-managed embedding model, or CUSTOM with an embeddingModelArn to use your own. To use your own KMS key for encryption, provide the ARN in serverSideEncryptionConfiguration. No vector store configuration is required for managed knowledge bases.   For self-managed knowledge bases, provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   For self-managed knowledge bases, provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
     @Sendable
     @inlinable
     public func createKnowledgeBase(_ input: CreateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKnowledgeBaseResponse {
@@ -533,7 +533,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base.  If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see Create a knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   Provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
+    /// Creates a knowledge base. A knowledge base contains your data sources so that Large Language Models (LLMs) can use your data. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see Set up a knowledge base.  To create a managed knowledge base, provide a managedKnowledgeBaseConfiguration during creation. For more information, see Build a managed knowledge base.    Provide the name and an optional description.   Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.   For managed knowledge bases, set embeddingModelType to MANAGED to use the service-managed embedding model, or CUSTOM with an embeddingModelArn to use your own. To use your own KMS key for encryption, provide the ARN in serverSideEncryptionConfiguration. No vector store configuration is required for managed knowledge bases.   For self-managed knowledge bases, provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.   For self-managed knowledge bases, provide the configuration for your vector store in the storageConfiguration object.   For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see Create a vector store in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone database, use the pineconeConfiguration object. For more information, see Create a vector store in Pinecone.   For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see Create a vector store in Redis Enterprise Cloud.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
@@ -1019,6 +1019,38 @@ public struct BedrockAgent: AWSService {
         return try await self.deletePrompt(input, logger: logger)
     }
 
+    /// Removes the resource policy associated with a knowledge base. After deletion, other AWS accounts can no longer access the knowledge base using cross-account permissions.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the resource policy associated with a knowledge base. After deletion, other AWS accounts can no longer access the knowledge base using cross-account permissions.
+    ///
+    /// Parameters:
+    ///   - expectedRevisionId: The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concurrently.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the knowledge base to remove the resource policy from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        expectedRevisionId: String? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourcePolicyResponse {
+        let input = DeleteResourcePolicyRequest(
+            expectedRevisionId: expectedRevisionId, 
+            resourceArn: resourceArn
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
     /// Disassociates an agent collaborator.
     @Sendable
     @inlinable
@@ -1336,14 +1368,17 @@ public struct BedrockAgent: AWSService {
     ///
     /// Parameters:
     ///   - flowIdentifier: The unique identifier of the flow.
+    ///   - includedData: Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
     ///   - logger: Logger use during operation
     @inlinable
     public func getFlow(
         flowIdentifier: String,
+        includedData: IncludedData? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetFlowResponse {
         let input = GetFlowRequest(
-            flowIdentifier: flowIdentifier
+            flowIdentifier: flowIdentifier, 
+            includedData: includedData
         )
         return try await self.getFlow(input, logger: logger)
     }
@@ -1398,16 +1433,19 @@ public struct BedrockAgent: AWSService {
     /// Parameters:
     ///   - flowIdentifier: The unique identifier of the flow for which to get information.
     ///   - flowVersion: The version of the flow for which to get information.
+    ///   - includedData: Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
     ///   - logger: Logger use during operation
     @inlinable
     public func getFlowVersion(
         flowIdentifier: String,
         flowVersion: String,
+        includedData: IncludedData? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetFlowVersionResponse {
         let input = GetFlowVersionRequest(
             flowIdentifier: flowIdentifier, 
-            flowVersion: flowVersion
+            flowVersion: flowVersion, 
+            includedData: includedData
         )
         return try await self.getFlowVersion(input, logger: logger)
     }
@@ -1527,20 +1565,52 @@ public struct BedrockAgent: AWSService {
     /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
+    ///   - includedData: Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
     ///   - promptIdentifier: The unique identifier of the prompt.
     ///   - promptVersion: The version of the prompt about which you want to retrieve information. Omit this field to return information about the working draft of the prompt.
     ///   - logger: Logger use during operation
     @inlinable
     public func getPrompt(
+        includedData: IncludedData? = nil,
         promptIdentifier: String,
         promptVersion: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetPromptResponse {
         let input = GetPromptRequest(
+            includedData: includedData, 
             promptIdentifier: promptIdentifier, 
             promptVersion: promptVersion
         )
         return try await self.getPrompt(input, logger: logger)
+    }
+
+    /// Retrieves the resource policy associated with a knowledge base.
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the resource policy associated with a knowledge base.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the knowledge base to retrieve the resource policy for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResponse {
+        let input = GetResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
     }
 
     /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
@@ -2168,6 +2238,41 @@ public struct BedrockAgent: AWSService {
             flowIdentifier: flowIdentifier
         )
         return try await self.prepareFlow(input, logger: logger)
+    }
+
+    /// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more information, see Cross-account access for knowledge bases.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more information, see Cross-account access for knowledge bases.
+    ///
+    /// Parameters:
+    ///   - expectedRevisionId: The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concurrently. Specify the revisionId from the most recent GetResourcePolicy or PutResourcePolicy response.
+    ///   - policy: The JSON-formatted resource policy to associate with the knowledge base.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the knowledge base to attach the resource policy to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        expectedRevisionId: String? = nil,
+        policy: String,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResponse {
+        let input = PutResourcePolicyRequest(
+            expectedRevisionId: expectedRevisionId, 
+            policy: policy, 
+            resourceArn: resourceArn
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
     }
 
     /// Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.

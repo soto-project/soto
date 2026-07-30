@@ -1408,7 +1408,7 @@ extension ECR {
     }
 
     public struct DescribeImagesFilter: AWSEncodableShape {
-        /// The image status with which to filter your DescribeImages results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        /// The image status with which to filter your DescribeImages results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.  If not specified, only images with ACTIVE status are returned.
         public let imageStatus: ImageStatusFilter?
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
@@ -1827,7 +1827,7 @@ extension ECR {
     public struct GetAccountSettingResponse: AWSDecodableShape {
         /// Retrieves the name of the account setting.
         public let name: String?
-        /// The setting value for the setting name. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V1 or V2. Valid values for blob mounting: ENABLED or DISABLED.
+        /// The setting value for the setting name. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V2. Valid values for blob mounting: ENABLED or DISABLED.
         public let value: String?
 
         @inlinable
@@ -2802,7 +2802,7 @@ extension ECR {
     public struct ListImageReferrersRequest: AWSEncodableShape {
         /// The filter key and value with which to filter your ListImageReferrers results. If no filter is specified, only artifacts with ACTIVE status are returned.
         public let filter: ListImageReferrersFilter?
-        /// The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 50 results and a nextToken value, if applicable.
+        /// The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 20 results and a nextToken value, if applicable.
         public let maxResults: Int?
         /// The nextToken value returned from a previous paginated ListImageReferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
@@ -2862,7 +2862,7 @@ extension ECR {
     }
 
     public struct ListImagesFilter: AWSEncodableShape {
-        /// The image status with which to filter your ListImages results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        /// The image status with which to filter your ListImages results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING. If not specified, only images with ACTIVE status are returned.
         public let imageStatus: ImageStatusFilter?
         /// The tag status with which to filter your ListImages results.
         public let tagStatus: TagStatus?
@@ -3104,7 +3104,7 @@ extension ECR {
     public struct PutAccountSettingRequest: AWSEncodableShape {
         /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION, REGISTRY_POLICY_SCOPE, or BLOB_MOUNTING.
         public let name: String
-        /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V1 or V2. Valid values for blob mounting: ENABLED or DISABLED.
+        /// Setting value that is specified. Valid value for basic scan type: AWS_NATIVE. Valid values for registry policy scope: V2. Valid values for blob mounting: ENABLED or DISABLED.
         public let value: String
 
         @inlinable
@@ -4731,6 +4731,7 @@ public struct ECRErrorType: AWSErrorType {
         case unableToDecryptSecretValueException = "UnableToDecryptSecretValueException"
         case unableToGetUpstreamImageException = "UnableToGetUpstreamImageException"
         case unableToGetUpstreamLayerException = "UnableToGetUpstreamLayerException"
+        case unableToListUpstreamImageReferrersException = "UnableToListUpstreamImageReferrersException"
         case unsupportedImageTypeException = "UnsupportedImageTypeException"
         case unsupportedUpstreamRegistryException = "UnsupportedUpstreamRegistryException"
         case uploadNotFoundException = "UploadNotFoundException"
@@ -4839,6 +4840,8 @@ public struct ECRErrorType: AWSErrorType {
     public static var unableToGetUpstreamImageException: Self { .init(.unableToGetUpstreamImageException) }
     /// There was an issue getting the upstream layer matching the pull through cache rule.
     public static var unableToGetUpstreamLayerException: Self { .init(.unableToGetUpstreamLayerException) }
+    /// The referrer or referrers were unable to be listed using the pull through cache rule. This is usually caused because of an issue with the Secrets Manager secret containing the credentials for the upstream registry.
+    public static var unableToListUpstreamImageReferrersException: Self { .init(.unableToListUpstreamImageReferrersException) }
     /// The image is of a type that cannot be scanned.
     public static var unsupportedImageTypeException: Self { .init(.unsupportedImageTypeException) }
     /// The specified upstream registry isn't supported.

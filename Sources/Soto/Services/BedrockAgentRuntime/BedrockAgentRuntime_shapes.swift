@@ -48,6 +48,46 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgenticRetrieveRerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgenticRetrieveRerankingModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case managed = "MANAGED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgenticRetrieveStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The step failed.
+        case failed = "FAILED"
+        /// The step is currently in progress.
+        case inProgress = "IN_PROGRESS"
+        /// The step completed successfully.
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgenticRetrieveStep: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The full document expansion phase.
+        case fullDocumentExpansion = "FullDocumentExpansion"
+        /// The planning phase of retrieval.
+        case planning = "Planning"
+        /// The retrieval phase where data is fetched.
+        case retrieval = "Retrieval"
+        /// A speculative retrieval phase for optimization.
+        case speculativeRetrieval = "SpeculativeRetrieval"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgenticRetrieveType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// A Bedrock knowledge base retrieval source.
+        case bedrockKnowledgeBase = "BedrockKnowledgeBase"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case boolean = "BOOLEAN"
         case number = "NUMBER"
@@ -76,6 +116,12 @@ extension BedrockAgentRuntime {
 
     public enum CustomControlMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case returnControl = "RETURN_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentOutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case extracted = "EXTRACTED"
+        case raw = "RAW"
         public var description: String { return self.rawValue }
     }
 
@@ -155,6 +201,17 @@ extension BedrockAgentRuntime {
         case exitLoop = "ExitLoop"
         case loopCondition = "LoopCondition"
         case returnValueToLoopStart = "ReturnValueToLoopStart"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FoundationModelConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FoundationModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -303,6 +360,11 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedSearchRerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sessionSummary = "SESSION_SUMMARY"
         public var description: String { return self.rawValue }
@@ -418,6 +480,13 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum RerankingModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case managed = "MANAGED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResponseState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failure = "FAILURE"
         case reprompt = "REPROMPT"
@@ -446,7 +515,9 @@ extension BedrockAgentRuntime {
     public enum RetrievalResultLocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case confluence = "CONFLUENCE"
         case custom = "CUSTOM"
+        case googledrive = "GOOGLEDRIVE"
         case kendra = "KENDRA"
+        case onedrive = "ONEDRIVE"
         case s3 = "S3"
         case salesforce = "SALESFORCE"
         case sharepoint = "SHAREPOINT"
@@ -561,6 +632,128 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case customControl = "customControl"
             case lambda = "lambda"
+        }
+    }
+
+    public enum AgenticRetrieveStreamResponseOutput: AWSDecodableShape, Sendable {
+        /// Access to the resource was denied.
+        case accessDeniedException(AccessDeniedException)
+        /// A bad gateway error occurred.
+        case badGatewayException(BadGatewayException)
+        /// A conflict occurred with the current state of the resource.
+        case conflictException(ConflictException)
+        /// A dependency failed during the operation.
+        case dependencyFailedException(DependencyFailedException)
+        /// An internal server error occurred.
+        case internalServerException(InternalServerException)
+        /// The specified resource was not found.
+        case resourceNotFoundException(ResourceNotFoundException)
+        /// A chunk of the generated answer. Emitted only when generateResponse is true.
+        case responseEvent(AgenticRetrieveResponseEvent)
+        /// A retrieval result event containing the retrieved items.
+        case result(AgenticRetrieveResultEvent)
+        /// The service quota has been exceeded.
+        case serviceQuotaExceededException(ServiceQuotaExceededException)
+        /// The request was throttled.
+        case throttlingException(ThrottlingException)
+        /// A trace event providing visibility into the retrieval process.
+        case traceEvent(AgenticRetrieveTraceEvent)
+        /// The request validation failed.
+        case validationException(ValidationException)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .accessDeniedException:
+                let value = try container.decode(AccessDeniedException.self, forKey: .accessDeniedException)
+                self = .accessDeniedException(value)
+            case .badGatewayException:
+                let value = try container.decode(BadGatewayException.self, forKey: .badGatewayException)
+                self = .badGatewayException(value)
+            case .conflictException:
+                let value = try container.decode(ConflictException.self, forKey: .conflictException)
+                self = .conflictException(value)
+            case .dependencyFailedException:
+                let value = try container.decode(DependencyFailedException.self, forKey: .dependencyFailedException)
+                self = .dependencyFailedException(value)
+            case .internalServerException:
+                let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
+                self = .internalServerException(value)
+            case .resourceNotFoundException:
+                let value = try container.decode(ResourceNotFoundException.self, forKey: .resourceNotFoundException)
+                self = .resourceNotFoundException(value)
+            case .responseEvent:
+                let value = try container.decode(AgenticRetrieveResponseEvent.self, forKey: .responseEvent)
+                self = .responseEvent(value)
+            case .result:
+                let value = try container.decode(AgenticRetrieveResultEvent.self, forKey: .result)
+                self = .result(value)
+            case .serviceQuotaExceededException:
+                let value = try container.decode(ServiceQuotaExceededException.self, forKey: .serviceQuotaExceededException)
+                self = .serviceQuotaExceededException(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .traceEvent:
+                let value = try container.decode(AgenticRetrieveTraceEvent.self, forKey: .traceEvent)
+                self = .traceEvent(value)
+            case .validationException:
+                let value = try container.decode(ValidationException.self, forKey: .validationException)
+                self = .validationException(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessDeniedException = "accessDeniedException"
+            case badGatewayException = "badGatewayException"
+            case conflictException = "conflictException"
+            case dependencyFailedException = "dependencyFailedException"
+            case internalServerException = "internalServerException"
+            case resourceNotFoundException = "resourceNotFoundException"
+            case responseEvent = "responseEvent"
+            case result = "result"
+            case serviceQuotaExceededException = "serviceQuotaExceededException"
+            case throttlingException = "throttlingException"
+            case traceEvent = "traceEvent"
+            case validationException = "validationException"
+        }
+    }
+
+    public enum AgenticRetrieveWarning: AWSDecodableShape, Sendable {
+        /// A warning from a guardrail evaluation.
+        case guardrail(AgenticRetrieveGuardrailWarning)
+        /// A general warning message.
+        case message(AgenticRetrieveWarningMessage)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .guardrail:
+                let value = try container.decode(AgenticRetrieveGuardrailWarning.self, forKey: .guardrail)
+                self = .guardrail(value)
+            case .message:
+                let value = try container.decode(AgenticRetrieveWarningMessage.self, forKey: .message)
+                self = .message(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrail = "guardrail"
+            case message = "message"
         }
     }
 
@@ -1920,6 +2113,591 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct AgenticRetrieveAction: AWSDecodableShape {
+        /// Details of a full document expansion action.
+        public let fullDocumentExpansion: AgenticRetrieveFullDocExpansionDetails?
+        /// Details of the retrieve action.
+        public let retrieve: AgenticRetrieveActionDetails?
+
+        @inlinable
+        public init(fullDocumentExpansion: AgenticRetrieveFullDocExpansionDetails? = nil, retrieve: AgenticRetrieveActionDetails? = nil) {
+            self.fullDocumentExpansion = fullDocumentExpansion
+            self.retrieve = retrieve
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fullDocumentExpansion = "fullDocumentExpansion"
+            case retrieve = "retrieve"
+        }
+    }
+
+    public struct AgenticRetrieveActionDetails: AWSDecodableShape {
+        /// The input query used for retrieval.
+        public let inputQuery: AgenticRetrieveMessageContent
+        /// The list of source retrievers targeted by this action.
+        public let sourceRetrievers: [AgenticRetrieveSourceRetriever]
+
+        @inlinable
+        public init(inputQuery: AgenticRetrieveMessageContent, sourceRetrievers: [AgenticRetrieveSourceRetriever]) {
+            self.inputQuery = inputQuery
+            self.sourceRetrievers = sourceRetrievers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputQuery = "inputQuery"
+            case sourceRetrievers = "sourceRetrievers"
+        }
+    }
+
+    public struct AgenticRetrieveBedrockGuardrailConfiguration: AWSEncodableShape {
+        /// The unique identifier of the guardrail.
+        public let guardrailId: String
+        /// The version of the guardrail to use.
+        public let guardrailVersion: String
+
+        @inlinable
+        public init(guardrailId: String, guardrailVersion: String) {
+            self.guardrailId = guardrailId
+            self.guardrailVersion = guardrailVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailId = "guardrailId"
+            case guardrailVersion = "guardrailVersion"
+        }
+    }
+
+    public struct AgenticRetrieveBedrockRerankingConfiguration: AWSEncodableShape {
+        /// The model configuration containing the model ARN.
+        public let modelConfiguration: AgenticRetrieveBedrockRerankingModelConfiguration
+
+        @inlinable
+        public init(modelConfiguration: AgenticRetrieveBedrockRerankingModelConfiguration) {
+            self.modelConfiguration = modelConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelConfiguration = "modelConfiguration"
+        }
+    }
+
+    public struct AgenticRetrieveBedrockRerankingModelConfiguration: AWSEncodableShape {
+        /// The ARN of the Bedrock reranking model.
+        public let modelArn: String
+
+        @inlinable
+        public init(modelArn: String) {
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+        }
+    }
+
+    public struct AgenticRetrieveCitation: AWSDecodableShape {
+        /// Character offset end (exclusive) in the answer text.
+        public let endIndex: Int
+        /// References to results that support this span.
+        public let references: [AgenticRetrieveCitationReference]
+        /// Character offset start in the answer text.
+        public let startIndex: Int
+
+        @inlinable
+        public init(endIndex: Int, references: [AgenticRetrieveCitationReference], startIndex: Int) {
+            self.endIndex = endIndex
+            self.references = references
+            self.startIndex = startIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endIndex = "endIndex"
+            case references = "references"
+            case startIndex = "startIndex"
+        }
+    }
+
+    public struct AgenticRetrieveCitationReference: AWSDecodableShape {
+        /// Index into the results array on the same event.
+        public let resultIndex: Int
+
+        @inlinable
+        public init(resultIndex: Int) {
+            self.resultIndex = resultIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultIndex = "resultIndex"
+        }
+    }
+
+    public struct AgenticRetrieveConfiguration: AWSEncodableShape {
+        /// The foundation model configuration. Required when foundationModelType is CUSTOM.
+        public let foundationModelConfiguration: FoundationModelConfiguration?
+        /// The type of foundation model to use. CUSTOM uses a specified model, MANAGED uses the service default.
+        public let foundationModelType: FoundationModelType?
+        /// The maximum number of agent iterations for retrieval.
+        public let maxAgentIteration: Int?
+        /// The reranking model configuration. Required when rerankingModelType is CUSTOM.
+        public let rerankingConfiguration: AgenticRetrieveRerankingConfiguration?
+        /// The type of reranking model to use. CUSTOM uses a specified model, MANAGED uses the service default. If not specified, defaults to MANAGED for managed embedding knowledge bases and NONE for custom embedding knowledge bases.
+        public let rerankingModelType: AgenticRetrieveRerankingModelType?
+
+        @inlinable
+        public init(foundationModelConfiguration: FoundationModelConfiguration? = nil, foundationModelType: FoundationModelType? = nil, maxAgentIteration: Int? = nil, rerankingConfiguration: AgenticRetrieveRerankingConfiguration? = nil, rerankingModelType: AgenticRetrieveRerankingModelType? = nil) {
+            self.foundationModelConfiguration = foundationModelConfiguration
+            self.foundationModelType = foundationModelType
+            self.maxAgentIteration = maxAgentIteration
+            self.rerankingConfiguration = rerankingConfiguration
+            self.rerankingModelType = rerankingModelType
+        }
+
+        public func validate(name: String) throws {
+            try self.foundationModelConfiguration?.validate(name: "\(name).foundationModelConfiguration")
+            try self.rerankingConfiguration?.validate(name: "\(name).rerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case foundationModelConfiguration = "foundationModelConfiguration"
+            case foundationModelType = "foundationModelType"
+            case maxAgentIteration = "maxAgentIteration"
+            case rerankingConfiguration = "rerankingConfiguration"
+            case rerankingModelType = "rerankingModelType"
+        }
+    }
+
+    public struct AgenticRetrieveFailure: AWSDecodableShape {
+        /// A message describing the failure.
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct AgenticRetrieveFullDocExpansionDetails: AWSDecodableShape {
+        /// The identifier of the document to expand.
+        public let documentId: String?
+        /// The source retriever associated with the document.
+        public let sourceRetriever: AgenticRetrieveSourceRetriever?
+
+        @inlinable
+        public init(documentId: String? = nil, sourceRetriever: AgenticRetrieveSourceRetriever? = nil) {
+            self.documentId = documentId
+            self.sourceRetriever = sourceRetriever
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentId = "documentId"
+            case sourceRetriever = "sourceRetriever"
+        }
+    }
+
+    public struct AgenticRetrieveGeneratedResponse: AWSDecodableShape {
+        /// The generated answer text.
+        public let answer: String
+        /// Citations mapping spans of the answer to supporting results.
+        public let citations: [AgenticRetrieveCitation]?
+
+        @inlinable
+        public init(answer: String, citations: [AgenticRetrieveCitation]? = nil) {
+            self.answer = answer
+            self.citations = citations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answer = "answer"
+            case citations = "citations"
+        }
+    }
+
+    public struct AgenticRetrieveGuardrailWarning: AWSDecodableShape {
+        /// The action taken by the guardrail.
+        public let action: GuardrailAction
+        /// The unique identifier of the guardrail.
+        public let id: String
+        /// A message describing the guardrail evaluation result.
+        public let message: String?
+        /// The version of the guardrail.
+        public let version: String
+
+        @inlinable
+        public init(action: GuardrailAction, id: String, message: String? = nil, version: String) {
+            self.action = action
+            self.id = id
+            self.message = message
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case id = "id"
+            case message = "message"
+            case version = "version"
+        }
+    }
+
+    public struct AgenticRetrieveMessage: AWSEncodableShape {
+        /// The content of the message.
+        public let content: AgenticRetrieveMessageContent
+        /// The role of the message sender (e.g., user or assistant).
+        public let role: ConversationRole
+
+        @inlinable
+        public init(content: AgenticRetrieveMessageContent, role: ConversationRole) {
+            self.content = content
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case role = "role"
+        }
+    }
+
+    public struct AgenticRetrieveMessageContent: AWSEncodableShape & AWSDecodableShape {
+        /// The text content of the message.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct AgenticRetrievePolicyConfiguration: AWSEncodableShape {
+        /// Configuration for Bedrock guardrails to apply during retrieval.
+        public let bedrockGuardrailConfiguration: AgenticRetrieveBedrockGuardrailConfiguration?
+
+        @inlinable
+        public init(bedrockGuardrailConfiguration: AgenticRetrieveBedrockGuardrailConfiguration? = nil) {
+            self.bedrockGuardrailConfiguration = bedrockGuardrailConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockGuardrailConfiguration = "bedrockGuardrailConfiguration"
+        }
+    }
+
+    public struct AgenticRetrieveRerankingConfiguration: AWSEncodableShape {
+        /// The Bedrock reranking model configuration.
+        public let bedrockRerankingConfiguration: AgenticRetrieveBedrockRerankingConfiguration?
+        /// The type of reranking configuration.
+        public let type: AgenticRetrieveRerankingConfigurationType
+
+        @inlinable
+        public init(bedrockRerankingConfiguration: AgenticRetrieveBedrockRerankingConfiguration? = nil, type: AgenticRetrieveRerankingConfigurationType) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockRerankingConfiguration?.validate(name: "\(name).bedrockRerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
+            case type = "type"
+        }
+    }
+
+    public struct AgenticRetrieveResponseEvent: AWSDecodableShape {
+        /// The generated text chunk.
+        public let text: String
+
+        @inlinable
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct AgenticRetrieveResultEvent: AWSDecodableShape {
+        /// The generated response. Present only when generateResponse is true.
+        public let generatedResponse: AgenticRetrieveGeneratedResponse?
+        /// Opaque continuation token for paginated results.
+        public let nextToken: String?
+        /// The list of retrieved result items.
+        public let results: [AgenticRetrieveResultItem]
+
+        @inlinable
+        public init(generatedResponse: AgenticRetrieveGeneratedResponse? = nil, nextToken: String? = nil, results: [AgenticRetrieveResultItem]) {
+            self.generatedResponse = generatedResponse
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generatedResponse = "generatedResponse"
+            case nextToken = "nextToken"
+            case results = "results"
+        }
+    }
+
+    public struct AgenticRetrieveResultItem: AWSDecodableShape {
+        /// The retrieved content.
+        public let content: RetrievalContent
+        /// Metadata associated with the retrieved item.
+        public let metadata: [String: AWSDocument]?
+        /// The source retriever that produced this result.
+        public let sourceRetriever: AgenticRetrieveSourceRetriever
+
+        @inlinable
+        public init(content: RetrievalContent, metadata: [String: AWSDocument]? = nil, sourceRetriever: AgenticRetrieveSourceRetriever) {
+            self.content = content
+            self.metadata = metadata
+            self.sourceRetriever = sourceRetriever
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case metadata = "metadata"
+            case sourceRetriever = "sourceRetriever"
+        }
+    }
+
+    public struct AgenticRetrieveSourceMetadata: AWSDecodableShape {
+        /// The identifier of the retrieval source.
+        public let identifier: String?
+        /// The type of retrieval source.
+        public let retrievalType: AgenticRetrieveType?
+
+        @inlinable
+        public init(identifier: String? = nil, retrievalType: AgenticRetrieveType? = nil) {
+            self.identifier = identifier
+            self.retrievalType = retrievalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+            case retrievalType = "retrievalType"
+        }
+    }
+
+    public struct AgenticRetrieveSourceRetriever: AWSDecodableShape {
+        /// The unique identifier of the source retriever.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+        }
+    }
+
+    public struct AgenticRetrieveStreamRequest: AWSEncodableShape {
+        /// Configuration settings for the agentic retrieval operation.
+        public let agenticRetrieveConfiguration: AgenticRetrieveConfiguration
+        /// Whether to generate a response based on the retrieved results.
+        public let generateResponse: Bool?
+        /// The list of messages for the agentic retrieval conversation.
+        public let messages: [AgenticRetrieveMessage]
+        /// Opaque continuation token for paginated results.
+        public let nextToken: String?
+        /// Policy configuration for guardrails and content filtering.
+        public let policyConfiguration: AgenticRetrievePolicyConfiguration?
+        /// The list of retrievers to use for agentic retrieval.
+        public let retrievers: [AgenticRetriever]
+        /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
+        public let userContext: UserContext?
+
+        @inlinable
+        public init(agenticRetrieveConfiguration: AgenticRetrieveConfiguration, generateResponse: Bool? = nil, messages: [AgenticRetrieveMessage], nextToken: String? = nil, policyConfiguration: AgenticRetrievePolicyConfiguration? = nil, retrievers: [AgenticRetriever], userContext: UserContext? = nil) {
+            self.agenticRetrieveConfiguration = agenticRetrieveConfiguration
+            self.generateResponse = generateResponse
+            self.messages = messages
+            self.nextToken = nextToken
+            self.policyConfiguration = policyConfiguration
+            self.retrievers = retrievers
+            self.userContext = userContext
+        }
+
+        public func validate(name: String) throws {
+            try self.agenticRetrieveConfiguration.validate(name: "\(name).agenticRetrieveConfiguration")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.retrievers.forEach {
+                try $0.validate(name: "\(name).retrievers[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agenticRetrieveConfiguration = "agenticRetrieveConfiguration"
+            case generateResponse = "generateResponse"
+            case messages = "messages"
+            case nextToken = "nextToken"
+            case policyConfiguration = "policyConfiguration"
+            case retrievers = "retrievers"
+            case userContext = "userContext"
+        }
+    }
+
+    public struct AgenticRetrieveStreamResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The output stream containing retrieval results and trace events.
+        public let stream: AWSEventStream<AgenticRetrieveStreamResponseOutput>
+
+        @inlinable
+        public init(stream: AWSEventStream<AgenticRetrieveStreamResponseOutput>) {
+            self.stream = stream
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.stream = try container.decode(AWSEventStream<AgenticRetrieveStreamResponseOutput>.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct AgenticRetrieveTraceEvent: AWSDecodableShape {
+        /// The attributes describing the trace event details.
+        public let attributes: AgenticRetrieveTraceEventAttributes
+        /// The unique identifier of the trace event.
+        public let id: String
+        /// The timestamp when the trace event occurred.
+        public let timestamp: Int64
+
+        @inlinable
+        public init(attributes: AgenticRetrieveTraceEventAttributes, id: String, timestamp: Int64) {
+            self.attributes = attributes
+            self.id = id
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case id = "id"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct AgenticRetrieveTraceEventAttributes: AWSDecodableShape {
+        /// The list of actions taken during this step.
+        public let actions: [AgenticRetrieveAction]?
+        /// Failures that occurred during this step.
+        public let failures: [AgenticRetrieveFailure]?
+        /// A human-readable message describing the trace event.
+        public let message: String
+        /// Metadata about the retrieval sources used.
+        public let retrievalMetadata: [AgenticRetrieveSourceMetadata]?
+        /// The retrieval results from this step.
+        public let retrievalResponse: [AgenticRetrieveTraceResultItem]?
+        /// The status of the current step.
+        public let status: AgenticRetrieveStatus
+        /// The current step in the retrieval process.
+        public let step: AgenticRetrieveStep
+        /// Warnings generated during this step.
+        public let warnings: [AgenticRetrieveWarning]?
+
+        @inlinable
+        public init(actions: [AgenticRetrieveAction]? = nil, failures: [AgenticRetrieveFailure]? = nil, message: String, retrievalMetadata: [AgenticRetrieveSourceMetadata]? = nil, retrievalResponse: [AgenticRetrieveTraceResultItem]? = nil, status: AgenticRetrieveStatus, step: AgenticRetrieveStep, warnings: [AgenticRetrieveWarning]? = nil) {
+            self.actions = actions
+            self.failures = failures
+            self.message = message
+            self.retrievalMetadata = retrievalMetadata
+            self.retrievalResponse = retrievalResponse
+            self.status = status
+            self.step = step
+            self.warnings = warnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case failures = "failures"
+            case message = "message"
+            case retrievalMetadata = "retrievalMetadata"
+            case retrievalResponse = "retrievalResponse"
+            case status = "status"
+            case step = "step"
+            case warnings = "warnings"
+        }
+    }
+
+    public struct AgenticRetrieveTraceResultItem: AWSDecodableShape {
+        /// The retrieved content.
+        public let content: RetrievalContent?
+        /// Metadata associated with the retrieved item.
+        public let metadata: [String: AWSDocument]?
+        /// The source retriever that produced this result.
+        public let sourceRetriever: AgenticRetrieveSourceRetriever?
+
+        @inlinable
+        public init(content: RetrievalContent? = nil, metadata: [String: AWSDocument]? = nil, sourceRetriever: AgenticRetrieveSourceRetriever? = nil) {
+            self.content = content
+            self.metadata = metadata
+            self.sourceRetriever = sourceRetriever
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case metadata = "metadata"
+            case sourceRetriever = "sourceRetriever"
+        }
+    }
+
+    public struct AgenticRetrieveWarningMessage: AWSDecodableShape {
+        /// The warning message text.
+        public let message: String
+
+        @inlinable
+        public init(message: String) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct AgenticRetriever: AWSEncodableShape {
+        /// The configuration for this retriever.
+        public let configuration: RetrieverConfiguration
+        /// A description of the retriever's purpose.
+        public let description: String?
+
+        @inlinable
+        public init(configuration: RetrieverConfiguration, description: String? = nil) {
+            self.configuration = configuration
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case description = "description"
+        }
+    }
+
     public struct AnalyzePromptEvent: AWSDecodableShape {
         /// A message describing the analysis of the prompt.
         public let message: String?
@@ -2100,6 +2878,44 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case resourceName = "resourceName"
+        }
+    }
+
+    public struct BedrockFoundationModelConfiguration: AWSEncodableShape {
+        /// The model configuration containing the model ARN.
+        public let modelConfiguration: BedrockFoundationModelModelConfiguration
+
+        @inlinable
+        public init(modelConfiguration: BedrockFoundationModelModelConfiguration) {
+            self.modelConfiguration = modelConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelConfiguration = "modelConfiguration"
+        }
+    }
+
+    public struct BedrockFoundationModelModelConfiguration: AWSEncodableShape {
+        /// The ARN of the Bedrock foundation model.
+        public let modelArn: String
+
+        @inlinable
+        public init(modelArn: String) {
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
         }
     }
 
@@ -2989,7 +3805,7 @@ extension BedrockAgentRuntime {
     public struct FilterAttribute: AWSEncodableShape {
         /// The name that the metadata attribute must match.
         public let key: String
-        /// The value to whcih to compare the value of the metadata attribute.
+        /// The value to which to compare the value of the metadata attribute.
         public let value: AWSDocument
 
         @inlinable
@@ -3565,6 +4381,28 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct FoundationModelConfiguration: AWSEncodableShape {
+        /// The Bedrock foundation model configuration.
+        public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration?
+        /// The type of foundation model configuration.
+        public let type: FoundationModelConfigurationType
+
+        @inlinable
+        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, type: FoundationModelConfigurationType) {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockFoundationModelConfiguration?.validate(name: "\(name).bedrockFoundationModelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
+            case type = "type"
+        }
+    }
+
     public struct FunctionDefinition: AWSEncodableShape {
         ///  A description of the function and its purpose.
         public let description: String?
@@ -3866,6 +4704,75 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case memoryContents = "memoryContents"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetDocumentContentRequest: AWSEncodableShape {
+        /// The unique identifier of the data source that contains the document.
+        public let dataSourceId: String
+        /// The unique identifier of the document to retrieve content for.
+        public let documentId: String
+        /// The unique identifier of the knowledge base that contains the document.
+        public let knowledgeBaseId: String
+        /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
+        public let outputFormat: DocumentOutputFormat?
+        public let userContext: UserContext?
+
+        @inlinable
+        public init(dataSourceId: String, documentId: String, knowledgeBaseId: String, outputFormat: DocumentOutputFormat? = nil, userContext: UserContext? = nil) {
+            self.dataSourceId = dataSourceId
+            self.documentId = documentId
+            self.knowledgeBaseId = knowledgeBaseId
+            self.outputFormat = outputFormat
+            self.userContext = userContext
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            request.encodePath(self.documentId, key: "documentId")
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encodeIfPresent(self.outputFormat, forKey: .outputFormat)
+            try container.encodeIfPresent(self.userContext, forKey: .userContext)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 10)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.documentId, name: "documentId", parent: name, max: 1825)
+            try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
+            try self.validate(self.documentId, name: "documentId", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 2048)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 10)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputFormat = "outputFormat"
+            case userContext = "userContext"
+        }
+    }
+
+    public struct GetDocumentContentResponse: AWSDecodableShape {
+        /// The size of the document content in bytes available at the pre-signed URL.
+        public let documentContentLength: Int64?
+        /// The MIME type of the document content. For RAW format, this is the original file type (for example, application/pdf). For EXTRACTED format, this is always application/json.
+        public let mimeType: String
+        /// A pre-signed URL for downloading the document content. The URL expires after 5 minutes.
+        public let presignedUrl: String
+
+        @inlinable
+        public init(documentContentLength: Int64? = nil, mimeType: String, presignedUrl: String) {
+            self.documentContentLength = documentContentLength
+            self.mimeType = mimeType
+            self.presignedUrl = presignedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentContentLength = "documentContentLength"
+            case mimeType = "mimeType"
+            case presignedUrl = "presignedUrl"
         }
     }
 
@@ -5381,19 +6288,24 @@ extension BedrockAgentRuntime {
     }
 
     public struct KnowledgeBaseRetrievalConfiguration: AWSEncodableShape {
+        /// Contains configurations for managed search. For more information, see Query configurations.
+        public let managedSearchConfiguration: ManagedSearchConfiguration?
         /// Contains details about how the results from the vector search should be returned. For more information, see Query configurations.
-        public let vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration
+        public let vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration?
 
         @inlinable
-        public init(vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration) {
+        public init(managedSearchConfiguration: ManagedSearchConfiguration? = nil, vectorSearchConfiguration: KnowledgeBaseVectorSearchConfiguration? = nil) {
+            self.managedSearchConfiguration = managedSearchConfiguration
             self.vectorSearchConfiguration = vectorSearchConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.vectorSearchConfiguration.validate(name: "\(name).vectorSearchConfiguration")
+            try self.managedSearchConfiguration?.validate(name: "\(name).managedSearchConfiguration")
+            try self.vectorSearchConfiguration?.validate(name: "\(name).vectorSearchConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedSearchConfiguration = "managedSearchConfiguration"
             case vectorSearchConfiguration = "vectorSearchConfiguration"
         }
     }
@@ -5401,6 +6313,8 @@ extension BedrockAgentRuntime {
     public struct KnowledgeBaseRetrievalResult: AWSDecodableShape {
         /// Contains information about the content of the chunk.
         public let content: RetrievalResultContent
+        /// The unique identifier of the document. Use with GetDocumentContent to retrieve the full document.
+        public let documentId: String?
         /// Contains information about the location of the data source.
         public let location: RetrievalResultLocation?
         /// Contains metadata attributes and their values for the file in the data source. For more information, see Metadata and filtering.
@@ -5409,8 +6323,9 @@ extension BedrockAgentRuntime {
         public let score: Double?
 
         @inlinable
-        public init(content: RetrievalResultContent, location: RetrievalResultLocation? = nil, metadata: [String: AWSDocument]? = nil, score: Double? = nil) {
+        public init(content: RetrievalResultContent, documentId: String? = nil, location: RetrievalResultLocation? = nil, metadata: [String: AWSDocument]? = nil, score: Double? = nil) {
             self.content = content
+            self.documentId = documentId
             self.location = location
             self.metadata = metadata
             self.score = score
@@ -5418,6 +6333,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case content = "content"
+            case documentId = "documentId"
             case location = "location"
             case metadata = "metadata"
             case score = "score"
@@ -5462,6 +6378,30 @@ extension BedrockAgentRuntime {
             case modelArn = "modelArn"
             case orchestrationConfiguration = "orchestrationConfiguration"
             case retrievalConfiguration = "retrievalConfiguration"
+        }
+    }
+
+    public struct KnowledgeBaseRetrieverConfiguration: AWSEncodableShape {
+        /// The unique identifier of the knowledge base.
+        public let knowledgeBaseId: String
+        /// Overrides for retrieval behavior such as filters and result limits.
+        public let retrievalOverrides: RetrievalOverrides?
+
+        @inlinable
+        public init(knowledgeBaseId: String, retrievalOverrides: RetrievalOverrides? = nil) {
+            self.knowledgeBaseId = knowledgeBaseId
+            self.retrievalOverrides = retrievalOverrides
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.retrievalOverrides?.validate(name: "\(name).retrievalOverrides")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseId = "knowledgeBaseId"
+            case retrievalOverrides = "retrievalOverrides"
         }
     }
 
@@ -5827,6 +6767,113 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct ManagedSearchBedrockRerankingConfiguration: AWSEncodableShape {
+        /// The metadata configuration for reranking.
+        public let metadataConfiguration: MetadataConfigurationForReranking?
+        /// The model configuration containing the model ARN for reranking.
+        public let modelConfiguration: ManagedSearchBedrockRerankingModelConfiguration
+        /// The number of results to return after reranking.
+        public let numberOfRerankedResults: Int?
+
+        @inlinable
+        public init(metadataConfiguration: MetadataConfigurationForReranking? = nil, modelConfiguration: ManagedSearchBedrockRerankingModelConfiguration, numberOfRerankedResults: Int? = nil) {
+            self.metadataConfiguration = metadataConfiguration
+            self.modelConfiguration = modelConfiguration
+            self.numberOfRerankedResults = numberOfRerankedResults
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataConfiguration = "metadataConfiguration"
+            case modelConfiguration = "modelConfiguration"
+            case numberOfRerankedResults = "numberOfRerankedResults"
+        }
+    }
+
+    public struct ManagedSearchBedrockRerankingModelConfiguration: AWSEncodableShape {
+        /// Additional request fields to pass to the reranking model.
+        public let additionalModelRequestFields: [String: AWSDocument]?
+        /// The ARN of the Bedrock reranking model.
+        public let modelArn: String
+
+        @inlinable
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, modelArn: String) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/(.*))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case modelArn = "modelArn"
+        }
+    }
+
+    public struct ManagedSearchConfiguration: AWSEncodableShape {
+        public let filter: RetrievalFilter?
+        /// The number of results to retrieve.
+        public let numberOfResults: Int?
+        /// Contains configurations for reranking the results retrieved from the managed search.
+        public let rerankingConfiguration: ManagedSearchRerankingConfiguration?
+        /// The type of reranking model to use when reranking results retrieved from the managed search. Use CUSTOM to specify a model, MANAGED to use the service default, or NONE to disable reranking.
+        public let rerankingModelType: RerankingModelType?
+
+        @inlinable
+        public init(filter: RetrievalFilter? = nil, numberOfResults: Int? = nil, rerankingConfiguration: ManagedSearchRerankingConfiguration? = nil, rerankingModelType: RerankingModelType? = nil) {
+            self.filter = filter
+            self.numberOfResults = numberOfResults
+            self.rerankingConfiguration = rerankingConfiguration
+            self.rerankingModelType = rerankingModelType
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.rerankingConfiguration?.validate(name: "\(name).rerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case numberOfResults = "numberOfResults"
+            case rerankingConfiguration = "rerankingConfiguration"
+            case rerankingModelType = "rerankingModelType"
+        }
+    }
+
+    public struct ManagedSearchRerankingConfiguration: AWSEncodableShape {
+        /// The Bedrock reranking model configuration for managed search.
+        public let bedrockRerankingConfiguration: ManagedSearchBedrockRerankingConfiguration?
+        /// The type of reranking configuration.
+        public let type: ManagedSearchRerankingConfigurationType
+
+        @inlinable
+        public init(bedrockRerankingConfiguration: ManagedSearchBedrockRerankingConfiguration? = nil, type: ManagedSearchRerankingConfigurationType) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockRerankingConfiguration?.validate(name: "\(name).bedrockRerankingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
+            case type = "type"
         }
     }
 
@@ -7126,6 +8173,50 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct RetrievalContent: AWSDecodableShape {
+        /// The binary content of the retrieved item.
+        public let byteContent: AWSBase64Data?
+        /// The MIME type of the retrieved content.
+        public let mimeType: String
+        /// The text content of the retrieved item.
+        public let text: String?
+
+        @inlinable
+        public init(byteContent: AWSBase64Data? = nil, mimeType: String, text: String? = nil) {
+            self.byteContent = byteContent
+            self.mimeType = mimeType
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case byteContent = "byteContent"
+            case mimeType = "mimeType"
+            case text = "text"
+        }
+    }
+
+    public struct RetrievalOverrides: AWSEncodableShape {
+        /// A filter to apply to the retrieval results.
+        public let filter: RetrievalFilter?
+        /// The maximum number of results to return.
+        public let maxNumberOfResults: Int?
+
+        @inlinable
+        public init(filter: RetrievalFilter? = nil, maxNumberOfResults: Int? = nil) {
+            self.filter = filter
+            self.maxNumberOfResults = maxNumberOfResults
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxNumberOfResults = "maxNumberOfResults"
+        }
+    }
+
     public struct RetrievalResultConfluenceLocation: AWSDecodableShape {
         /// The Confluence host URL for the data source location.
         public let url: String?
@@ -7210,6 +8301,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct RetrievalResultGoogleDriveLocation: AWSDecodableShape {
+        /// The Google Drive URL for the data source location.
+        public let url: String?
+
+        @inlinable
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "url"
+        }
+    }
+
     public struct RetrievalResultKendraDocumentLocation: AWSDecodableShape {
         /// The document's uri.
         public let uri: String?
@@ -7229,8 +8334,12 @@ extension BedrockAgentRuntime {
         public let confluenceLocation: RetrievalResultConfluenceLocation?
         /// Specifies the location of a document in a custom data source.
         public let customDocumentLocation: RetrievalResultCustomDocumentLocation?
+        /// The Google Drive data source location.
+        public let googleDriveLocation: RetrievalResultGoogleDriveLocation?
         /// The location of a document in Amazon Kendra.
         public let kendraDocumentLocation: RetrievalResultKendraDocumentLocation?
+        /// The Microsoft OneDrive data source location.
+        public let oneDriveLocation: RetrievalResultOneDriveLocation?
         /// The S3 data source location.
         public let s3Location: RetrievalResultS3Location?
         /// The Salesforce data source location.
@@ -7245,10 +8354,12 @@ extension BedrockAgentRuntime {
         public let webLocation: RetrievalResultWebLocation?
 
         @inlinable
-        public init(confluenceLocation: RetrievalResultConfluenceLocation? = nil, customDocumentLocation: RetrievalResultCustomDocumentLocation? = nil, kendraDocumentLocation: RetrievalResultKendraDocumentLocation? = nil, s3Location: RetrievalResultS3Location? = nil, salesforceLocation: RetrievalResultSalesforceLocation? = nil, sharePointLocation: RetrievalResultSharePointLocation? = nil, sqlLocation: RetrievalResultSqlLocation? = nil, type: RetrievalResultLocationType, webLocation: RetrievalResultWebLocation? = nil) {
+        public init(confluenceLocation: RetrievalResultConfluenceLocation? = nil, customDocumentLocation: RetrievalResultCustomDocumentLocation? = nil, googleDriveLocation: RetrievalResultGoogleDriveLocation? = nil, kendraDocumentLocation: RetrievalResultKendraDocumentLocation? = nil, oneDriveLocation: RetrievalResultOneDriveLocation? = nil, s3Location: RetrievalResultS3Location? = nil, salesforceLocation: RetrievalResultSalesforceLocation? = nil, sharePointLocation: RetrievalResultSharePointLocation? = nil, sqlLocation: RetrievalResultSqlLocation? = nil, type: RetrievalResultLocationType, webLocation: RetrievalResultWebLocation? = nil) {
             self.confluenceLocation = confluenceLocation
             self.customDocumentLocation = customDocumentLocation
+            self.googleDriveLocation = googleDriveLocation
             self.kendraDocumentLocation = kendraDocumentLocation
+            self.oneDriveLocation = oneDriveLocation
             self.s3Location = s3Location
             self.salesforceLocation = salesforceLocation
             self.sharePointLocation = sharePointLocation
@@ -7260,13 +8371,29 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case confluenceLocation = "confluenceLocation"
             case customDocumentLocation = "customDocumentLocation"
+            case googleDriveLocation = "googleDriveLocation"
             case kendraDocumentLocation = "kendraDocumentLocation"
+            case oneDriveLocation = "oneDriveLocation"
             case s3Location = "s3Location"
             case salesforceLocation = "salesforceLocation"
             case sharePointLocation = "sharePointLocation"
             case sqlLocation = "sqlLocation"
             case type = "type"
             case webLocation = "webLocation"
+        }
+    }
+
+    public struct RetrievalResultOneDriveLocation: AWSDecodableShape {
+        /// The OneDrive URL for the data source location.
+        public let url: String?
+
+        @inlinable
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "url"
         }
     }
 
@@ -7418,13 +8545,15 @@ extension BedrockAgentRuntime {
         public let sessionConfiguration: RetrieveAndGenerateSessionConfiguration?
         /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
         public let sessionId: String?
+        public let userContext: UserContext?
 
         @inlinable
-        public init(input: RetrieveAndGenerateInput, retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil, sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil, sessionId: String? = nil) {
+        public init(input: RetrieveAndGenerateInput, retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil, sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil, sessionId: String? = nil, userContext: UserContext? = nil) {
             self.input = input
             self.retrieveAndGenerateConfiguration = retrieveAndGenerateConfiguration
             self.sessionConfiguration = sessionConfiguration
             self.sessionId = sessionId
+            self.userContext = userContext
         }
 
         public func validate(name: String) throws {
@@ -7440,6 +8569,7 @@ extension BedrockAgentRuntime {
             case retrieveAndGenerateConfiguration = "retrieveAndGenerateConfiguration"
             case sessionConfiguration = "sessionConfiguration"
             case sessionId = "sessionId"
+            case userContext = "userContext"
         }
     }
 
@@ -7498,13 +8628,15 @@ extension BedrockAgentRuntime {
         public let sessionConfiguration: RetrieveAndGenerateSessionConfiguration?
         /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
         public let sessionId: String?
+        public let userContext: UserContext?
 
         @inlinable
-        public init(input: RetrieveAndGenerateInput, retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil, sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil, sessionId: String? = nil) {
+        public init(input: RetrieveAndGenerateInput, retrieveAndGenerateConfiguration: RetrieveAndGenerateConfiguration? = nil, sessionConfiguration: RetrieveAndGenerateSessionConfiguration? = nil, sessionId: String? = nil, userContext: UserContext? = nil) {
             self.input = input
             self.retrieveAndGenerateConfiguration = retrieveAndGenerateConfiguration
             self.sessionConfiguration = sessionConfiguration
             self.sessionId = sessionId
+            self.userContext = userContext
         }
 
         public func validate(name: String) throws {
@@ -7520,6 +8652,7 @@ extension BedrockAgentRuntime {
             case retrieveAndGenerateConfiguration = "retrieveAndGenerateConfiguration"
             case sessionConfiguration = "sessionConfiguration"
             case sessionId = "sessionId"
+            case userContext = "userContext"
         }
     }
 
@@ -7557,14 +8690,16 @@ extension BedrockAgentRuntime {
         public let retrievalConfiguration: KnowledgeBaseRetrievalConfiguration?
         /// Contains the query to send the knowledge base.
         public let retrievalQuery: KnowledgeBaseQuery
+        public let userContext: UserContext?
 
         @inlinable
-        public init(guardrailConfiguration: GuardrailConfiguration? = nil, knowledgeBaseId: String, nextToken: String? = nil, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil, retrievalQuery: KnowledgeBaseQuery) {
+        public init(guardrailConfiguration: GuardrailConfiguration? = nil, knowledgeBaseId: String, nextToken: String? = nil, retrievalConfiguration: KnowledgeBaseRetrievalConfiguration? = nil, retrievalQuery: KnowledgeBaseQuery, userContext: UserContext? = nil) {
             self.guardrailConfiguration = guardrailConfiguration
             self.knowledgeBaseId = knowledgeBaseId
             self.nextToken = nextToken
             self.retrievalConfiguration = retrievalConfiguration
             self.retrievalQuery = retrievalQuery
+            self.userContext = userContext
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -7575,11 +8710,13 @@ extension BedrockAgentRuntime {
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
             try container.encodeIfPresent(self.retrievalConfiguration, forKey: .retrievalConfiguration)
             try container.encode(self.retrievalQuery, forKey: .retrievalQuery)
+            try container.encodeIfPresent(self.userContext, forKey: .userContext)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 10)
-            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 2048)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 10)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
@@ -7592,6 +8729,7 @@ extension BedrockAgentRuntime {
             case nextToken = "nextToken"
             case retrievalConfiguration = "retrievalConfiguration"
             case retrievalQuery = "retrievalQuery"
+            case userContext = "userContext"
         }
     }
 
@@ -8401,6 +9539,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct UserContext: AWSEncodableShape {
+        /// The identifier of the user making the retrieval request.
+        public let userId: String
+
+        @inlinable
+        public init(userId: String) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "userId"
+        }
+    }
+
     public struct ValidationException: AWSDecodableShape {
         public let message: String?
 
@@ -8757,6 +9909,24 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case lambda = "lambda"
+        }
+    }
+
+    public struct RetrieverConfiguration: AWSEncodableShape {
+        /// Configuration for a knowledge base retriever.
+        public let knowledgeBase: KnowledgeBaseRetrieverConfiguration?
+
+        @inlinable
+        public init(knowledgeBase: KnowledgeBaseRetrieverConfiguration? = nil) {
+            self.knowledgeBase = knowledgeBase
+        }
+
+        public func validate(name: String) throws {
+            try self.knowledgeBase?.validate(name: "\(name).knowledgeBase")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBase = "knowledgeBase"
         }
     }
 

@@ -74,6 +74,14 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnalyticsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatedInteraction = "AutomatedInteraction"
+        case contactLens = "ContactLens"
+        case postContact = "PostContact"
+        case realTime = "RealTime"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnsweringMachineDetectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amdError = "AMD_ERROR"
         case amdNotApplicable = "AMD_NOT_APPLICABLE"
@@ -118,10 +126,29 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum AttachmentScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `case` = "CASE"
+        case chat = "CHAT"
+        case email = "EMAIL"
+        case task = "TASK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthCodeEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customerProfile = "CUSTOMER_PROFILE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoEvaluationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Behavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "Disable"
+        case enable = "Enable"
         public var description: String { return self.rawValue }
     }
 
@@ -160,6 +187,23 @@ extension Connect {
     public enum ConfigurableNotificationPriority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "HIGH"
         case low = "LOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactEvaluationAttributeComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exact = "EXACT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactEvaluationAttributeKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contactAgentId = "ContactAgentId"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case additionalEmailRecipients = "ADDITIONAL_EMAIL_RECIPIENTS"
+        case customerEndpoint = "CUSTOMER_ENDPOINT"
+        case emailSubject = "EMAIL_SUBJECT"
         public var description: String { return self.rawValue }
     }
 
@@ -220,6 +264,7 @@ extension Connect {
     public enum ContactInteractionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agent = "AGENT"
         case automated = "AUTOMATED"
+        case customer = "CUSTOMER"
         public var description: String { return self.rawValue }
     }
 
@@ -238,6 +283,7 @@ extension Connect {
     public enum ContactParticipantRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agent = "AGENT"
         case customBot = "CUSTOM_BOT"
+        case customer = "CUSTOMER"
         case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
@@ -417,7 +463,10 @@ extension Connect {
         case esEs = "es-ES"
         case frFr = "fr-FR"
         case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case koKr = "ko-KR"
         case ptBr = "pt-BR"
+        case zhCn = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -443,6 +492,7 @@ extension Connect {
     }
 
     public enum EvaluationFormScoringMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pointsBased = "POINTS_BASED"
         case questionOnly = "QUESTION_ONLY"
         case sectionOnly = "SECTION_ONLY"
         public var description: String { return self.rawValue }
@@ -457,6 +507,19 @@ extension Connect {
     public enum EvaluationFormSingleSelectQuestionDisplayMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dropdown = "DROPDOWN"
         case radio = "RADIO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormValidationFindingSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case warning = "WARNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormValidationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -505,15 +568,20 @@ extension Connect {
     }
 
     public enum EventSourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onAlertUpdate = "OnAlertUpdate"
         case onCaseCreate = "OnCaseCreate"
         case onCaseUpdate = "OnCaseUpdate"
         case onContactEvaluationSubmit = "OnContactEvaluationSubmit"
+        case onEmailAnalysisAvailable = "OnEmailAnalysisAvailable"
         case onMetricDataUpdate = "OnMetricDataUpdate"
         case onPostCallAnalysisAvailable = "OnPostCallAnalysisAvailable"
         case onPostChatAnalysisAvailable = "OnPostChatAnalysisAvailable"
         case onRealTimeCallAnalysisAvailable = "OnRealTimeCallAnalysisAvailable"
         case onRealTimeChatAnalysisAvailable = "OnRealTimeChatAnalysisAvailable"
         case onSalesforceCaseCreate = "OnSalesforceCaseCreate"
+        case onSchedulePublish = "OnSchedulePublish"
+        case onScheduleTimeOffRequestActivity = "OnScheduleTimeOffRequestActivity"
+        case onScheduleUpdate = "OnScheduleUpdate"
         case onSlaBreach = "OnSlaBreach"
         case onZendeskTicketCreate = "OnZendeskTicketCreate"
         case onZendeskTicketStatusUpdate = "OnZendeskTicketStatusUpdate"
@@ -553,7 +621,12 @@ extension Connect {
 
     public enum FileUseCaseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attachment = "ATTACHMENT"
+        case contactAnalysis = "CONTACT_ANALYSIS"
         case emailMessage = "EMAIL_MESSAGE"
+        case emailMessagePlainText = "EMAIL_MESSAGE_PLAIN_TEXT"
+        case emailMessagePlainTextRedacted = "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"
+        case emailMessageRedacted = "EMAIL_MESSAGE_REDACTED"
+        case voiceRecording = "VOICE_RECORDING"
         public var description: String { return self.rawValue }
     }
 
@@ -759,6 +832,12 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaskMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityType = "EntityType"
+        case pii = "PII"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MediaStreamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audio = "AUDIO"
         case video = "VIDEO"
@@ -824,6 +903,12 @@ extension Connect {
         case hidden = "HIDDEN"
         case read = "READ"
         case unread = "UNREAD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case widgetAction = "WIDGET_ACTION"
+        case widgetView = "WIDGET_VIEW"
         public var description: String { return self.rawValue }
     }
 
@@ -924,6 +1009,12 @@ extension Connect {
         case customer = "CUSTOMER"
         case manager = "MANAGER"
         case thirdparty = "THIRDPARTY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PerformanceCategoryName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exceedsExpectations = "EXCEEDS_EXPECTATIONS"
+        case needsImprovement = "NEEDS_IMPROVEMENT"
         public var description: String { return self.rawValue }
     }
 
@@ -1192,6 +1283,13 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum Policy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "None"
+        case redactedAndOriginal = "RedactedAndOriginal"
+        case redactedOnly = "RedactedOnly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PropertyValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case invalidFormat = "INVALID_FORMAT"
         case notSupported = "NOT_SUPPORTED"
@@ -1309,6 +1407,8 @@ extension Connect {
         case email = "EMAIL"
         case emailMessage = "EMAIL_MESSAGE"
         case emailMessagePlainText = "EMAIL_MESSAGE_PLAIN_TEXT"
+        case emailMessagePlainTextRedacted = "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"
+        case emailMessageRedacted = "EMAIL_MESSAGE_REDACTED"
         case number = "NUMBER"
         case string = "STRING"
         case url = "URL"
@@ -1344,6 +1444,11 @@ extension Connect {
         case expired = "EXPIRED"
         case inactive = "INACTIVE"
         case joined = "JOINED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleCapabilityTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case generativeAI = "GenerativeAI"
         public var description: String { return self.rawValue }
     }
 
@@ -1451,6 +1556,13 @@ extension Connect {
         case contains = "CONTAINS"
         case exact = "EXACT"
         case startsWith = "STARTS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SummaryMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatedInteraction = "AutomatedInteraction"
+        case contactChain = "ContactChain"
+        case postContact = "PostContact"
         public var description: String { return self.rawValue }
     }
 
@@ -1936,6 +2048,10 @@ extension Connect {
             switch self {
             case .multiSelect(let value):
                 try value.validate(name: "\(name).multiSelect")
+            case .numeric(let value):
+                try value.validate(name: "\(name).numeric")
+            case .singleSelect(let value):
+                try value.validate(name: "\(name).singleSelect")
             default:
                 break
             }
@@ -2073,6 +2189,8 @@ extension Connect {
         /// Information about the reference when the referenceType is EMAIL_MESSAGE. Otherwise, null.
         case emailMessage(EmailMessageReference)
         case emailMessagePlainText(EmailMessageReference)
+        case emailMessagePlainTextRedacted(EmailMessageReference)
+        case emailMessageRedacted(EmailMessageReference)
         /// Information about a reference when the referenceType is NUMBER. Otherwise, null.
         case number(NumberReference)
         /// Information about a reference when the referenceType is STRING. Otherwise, null.
@@ -2105,6 +2223,12 @@ extension Connect {
             case .emailMessagePlainText:
                 let value = try container.decode(EmailMessageReference.self, forKey: .emailMessagePlainText)
                 self = .emailMessagePlainText(value)
+            case .emailMessagePlainTextRedacted:
+                let value = try container.decode(EmailMessageReference.self, forKey: .emailMessagePlainTextRedacted)
+                self = .emailMessagePlainTextRedacted(value)
+            case .emailMessageRedacted:
+                let value = try container.decode(EmailMessageReference.self, forKey: .emailMessageRedacted)
+                self = .emailMessageRedacted(value)
             case .number:
                 let value = try container.decode(NumberReference.self, forKey: .number)
                 self = .number(value)
@@ -2123,6 +2247,8 @@ extension Connect {
             case email = "Email"
             case emailMessage = "EmailMessage"
             case emailMessagePlainText = "EmailMessagePlainText"
+            case emailMessagePlainTextRedacted = "EmailMessagePlainTextRedacted"
+            case emailMessageRedacted = "EmailMessageRedacted"
             case number = "Number"
             case string = "String"
             case url = "Url"
@@ -2150,7 +2276,7 @@ extension Connect {
         public let evaluationFormId: String
         /// The version of the evaluation form to activate. If the version property is not provided, the latest version of the evaluation form is activated.
         public let evaluationFormVersion: Int
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -2292,7 +2418,7 @@ extension Connect {
         public let channel: Channel?
         /// The time at which the contact was connected to an agent.
         public let connectedToAgentTimestamp: Date?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String?
         /// How the contact was initiated.
         public let initiationMethod: ContactInitiationMethod?
@@ -2418,9 +2544,11 @@ extension Connect {
         public let previewEndTimestamp: Date?
         /// List of StateTransition for a supervisor.
         public let stateTransitions: [StateTransition]?
+        /// The voice enhancement mode used by the agent as the call is ending.  Valid values: VOICE_ISOLATION | NOISE_SUPPRESSION | NONE.  A value of null indicates this mode has not yet been set for this user.
+        public let voiceEnhancementMode: VoiceEnhancementMode?
 
         @inlinable
-        public init(acceptedByAgentTimestamp: Date? = nil, afterContactWorkDuration: Int? = nil, afterContactWorkEndTimestamp: Date? = nil, afterContactWorkStartTimestamp: Date? = nil, agentInitiatedHoldDuration: Int? = nil, agentPauseDurationInSeconds: Int? = nil, capabilities: ParticipantCapabilities? = nil, connectedToAgentTimestamp: Date? = nil, deviceInfo: DeviceInfo? = nil, hierarchyGroups: HierarchyGroups? = nil, id: String? = nil, previewEndTimestamp: Date? = nil, stateTransitions: [StateTransition]? = nil) {
+        public init(acceptedByAgentTimestamp: Date? = nil, afterContactWorkDuration: Int? = nil, afterContactWorkEndTimestamp: Date? = nil, afterContactWorkStartTimestamp: Date? = nil, agentInitiatedHoldDuration: Int? = nil, agentPauseDurationInSeconds: Int? = nil, capabilities: ParticipantCapabilities? = nil, connectedToAgentTimestamp: Date? = nil, deviceInfo: DeviceInfo? = nil, hierarchyGroups: HierarchyGroups? = nil, id: String? = nil, previewEndTimestamp: Date? = nil, stateTransitions: [StateTransition]? = nil, voiceEnhancementMode: VoiceEnhancementMode? = nil) {
             self.acceptedByAgentTimestamp = acceptedByAgentTimestamp
             self.afterContactWorkDuration = afterContactWorkDuration
             self.afterContactWorkEndTimestamp = afterContactWorkEndTimestamp
@@ -2434,6 +2562,7 @@ extension Connect {
             self.id = id
             self.previewEndTimestamp = previewEndTimestamp
             self.stateTransitions = stateTransitions
+            self.voiceEnhancementMode = voiceEnhancementMode
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2450,6 +2579,7 @@ extension Connect {
             case id = "Id"
             case previewEndTimestamp = "PreviewEndTimestamp"
             case stateTransitions = "StateTransitions"
+            case voiceEnhancementMode = "VoiceEnhancementMode"
         }
     }
 
@@ -2669,6 +2799,57 @@ extension Connect {
         }
     }
 
+    public struct AiAgentSearchCriteria: AWSEncodableShape {
+        /// A boolean flag indicating whether the contact initially handled by this AI agent was escalated to a human agent.
+        public let aiAgentEscalated: Bool?
+        /// The use case or scenario for which the AI agent is involved in the contact.
+        public let aiUseCase: AiUseCase?
+        /// ID of the AI Agent that was involved in the contact.
+        public let id: String?
+        /// Version of the AI agent that was involved in the contact. ID is required if VersionNumber is passed.
+        public let versionNumber: Int?
+
+        @inlinable
+        public init(aiAgentEscalated: Bool? = nil, aiUseCase: AiUseCase? = nil, id: String? = nil, versionNumber: Int? = nil) {
+            self.aiAgentEscalated = aiAgentEscalated
+            self.aiUseCase = aiUseCase
+            self.id = id
+            self.versionNumber = versionNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentEscalated = "AiAgentEscalated"
+            case aiUseCase = "AiUseCase"
+            case id = "Id"
+            case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct AiAgentsCriteria: AWSEncodableShape {
+        /// The list of criteria based on AI Agent metadata.
+        public let criteria: [AiAgentSearchCriteria]?
+
+        @inlinable
+        public init(criteria: [AiAgentSearchCriteria]? = nil) {
+            self.criteria = criteria
+        }
+
+        public func validate(name: String) throws {
+            try self.criteria?.forEach {
+                try $0.validate(name: "\(name).criteria[]")
+            }
+            try self.validate(self.criteria, name: "criteria", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case criteria = "Criteria"
+        }
+    }
+
     public struct AliasConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The email address ID.
         public let emailAddressId: String
@@ -2703,6 +2884,61 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case agent = "Agent"
             case customer = "Customer"
+        }
+    }
+
+    public struct AllowedExtension: AWSEncodableShape & AWSDecodableShape {
+        /// The file extension. The extension must be between 1 and 10 characters and can contain only alphanumeric characters, hyphens, and underscores.
+        public let `extension`: String
+
+        @inlinable
+        public init(extension: String) {
+            self.`extension` = `extension`
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.`extension`, name: "`extension`", parent: name, max: 10)
+            try self.validate(self.`extension`, name: "`extension`", parent: name, min: 1)
+            try self.validate(self.`extension`, name: "`extension`", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `extension` = "Extension"
+        }
+    }
+
+    public struct AnalyticsConfiguration: AWSEncodableShape {
+        /// The language configuration for conversational analytics.
+        public let languageConfiguration: LanguageConfiguration
+        /// The redaction configuration for conversational analytics.
+        public let redactionConfiguration: RedactionConfiguration
+        /// The rules configuration for conversational analytics.
+        public let rulesConfiguration: RulesConfiguration
+        /// The sentiment configuration for conversational analytics.
+        public let sentimentConfiguration: SentimentConfiguration
+        /// The summary configuration for conversational analytics.
+        public let summaryConfiguration: SummaryConfiguration
+
+        @inlinable
+        public init(languageConfiguration: LanguageConfiguration, redactionConfiguration: RedactionConfiguration, rulesConfiguration: RulesConfiguration, sentimentConfiguration: SentimentConfiguration, summaryConfiguration: SummaryConfiguration) {
+            self.languageConfiguration = languageConfiguration
+            self.redactionConfiguration = redactionConfiguration
+            self.rulesConfiguration = rulesConfiguration
+            self.sentimentConfiguration = sentimentConfiguration
+            self.summaryConfiguration = summaryConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.redactionConfiguration.validate(name: "\(name).redactionConfiguration")
+            try self.summaryConfiguration.validate(name: "\(name).summaryConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageConfiguration = "LanguageConfiguration"
+            case redactionConfiguration = "RedactionConfiguration"
+            case rulesConfiguration = "RulesConfiguration"
+            case sentimentConfiguration = "SentimentConfiguration"
+            case summaryConfiguration = "SummaryConfiguration"
         }
     }
 
@@ -2834,9 +3070,9 @@ extension Connect {
     public struct AssociateAnalyticsDataSetRequest: AWSEncodableShape {
         /// The identifier of the dataset to associate with the target account.
         public let dataSetId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+        /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
         public let targetAccountId: String?
 
         @inlinable
@@ -2896,7 +3132,7 @@ extension Connect {
     public struct AssociateApprovedOriginRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The domain to add to your allow list.
         public let origin: String
@@ -2932,7 +3168,7 @@ extension Connect {
     public struct AssociateBotRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let lexBot: LexBot?
         /// The Amazon Lex V2 bot to associate with the instance.
@@ -2971,9 +3207,9 @@ extension Connect {
     }
 
     public struct AssociateContactWithUserRequest: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the user. This can be the ID or the ARN of the user.
         public let userId: String
@@ -3012,7 +3248,7 @@ extension Connect {
     }
 
     public struct AssociateDefaultVocabularyRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
         /// What is Amazon Transcribe?
@@ -3052,13 +3288,13 @@ extension Connect {
     }
 
     public struct AssociateEmailAddressAliasRequest: AWSEncodableShape {
-        /// Configuration object that specifies which email address will serve as the alias. The specified email address must already exist in the Amazon Connect instance and cannot already be configured as an alias or have an alias of its own.
+        /// Configuration object that specifies which email address will serve as the alias. The specified email address must already exist in the Connect Customer instance and cannot already be configured as an alias or have an alias of its own.
         public let aliasConfiguration: AliasConfiguration
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the email address.
         public let emailAddressId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -3100,7 +3336,7 @@ extension Connect {
     public struct AssociateFlowRequest: AWSEncodableShape {
         /// The identifier of the flow.
         public let flowId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the resource.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
         public let resourceId: String
@@ -3177,7 +3413,7 @@ extension Connect {
     public struct AssociateInstanceStorageConfigRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type. To enable streaming for real-time analysis of contacts, use the following types:   For chat contacts, use REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS.   For voice contacts, use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.     REAL_TIME_CONTACT_ANALYSIS_SEGMENTS is deprecated, but it is still supported and will apply only to VOICE channel contacts. Use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS for voice contacts moving forward. If you have previously associated a stream with REAL_TIME_CONTACT_ANALYSIS_SEGMENTS, no action is needed to update the stream to REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.
         public let resourceType: InstanceStorageResourceType
@@ -3234,7 +3470,7 @@ extension Connect {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
         public let functionArn: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -3269,7 +3505,7 @@ extension Connect {
     public struct AssociateLexBotRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The Amazon Lex bot to associate with the instance.
         public let lexBot: LexBot
@@ -3305,7 +3541,7 @@ extension Connect {
     public struct AssociatePhoneNumberContactFlowRequest: AWSEncodableShape {
         /// The identifier of the flow.
         public let contactFlowId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
@@ -3342,7 +3578,7 @@ extension Connect {
         public let clientToken: String?
         /// Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes.
         public let emailAddressesConfig: [EmailAddressConfig]
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -3382,7 +3618,7 @@ extension Connect {
     }
 
     public struct AssociateQueueQuickConnectsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -3417,9 +3653,9 @@ extension Connect {
     }
 
     public struct AssociateRoutingProfileQueuesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The manual assignment queues to associate with this routing profile. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
+        /// The manual assignment queues to associate with this routing profile.  For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.
         public let manualAssignmentQueueConfigs: [RoutingProfileManualAssignmentQueueConfig]?
         /// The queues to associate with this routing profile.
         public let queueConfigs: [RoutingProfileQueueConfig]?
@@ -3464,7 +3700,7 @@ extension Connect {
     public struct AssociateSecurityKeyRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid security key in PEM format as a String.
         public let key: String
@@ -3555,7 +3791,7 @@ extension Connect {
     }
 
     public struct AssociateTrafficDistributionGroupUserRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the traffic distribution group.
         /// This can be the ID or the ARN of the traffic distribution group.
@@ -3595,7 +3831,7 @@ extension Connect {
     }
 
     public struct AssociateUserProficienciesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -3690,7 +3926,7 @@ extension Connect {
         public let channel: Channel?
         /// The Amazon Resource Name (ARN) of the contact
         public let contactArn: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String?
         /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public let disconnectTimestamp: Date?
@@ -3800,6 +4036,61 @@ extension Connect {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case fileId = "FileId"
+        }
+    }
+
+    public struct AttachedFilesConfiguration: AWSDecodableShape {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        public let attachmentScope: AttachmentScope
+        /// The configuration for allowed file extensions.
+        public let extensionConfiguration: ExtensionConfiguration?
+        /// The identifier of the Connect Customer instance.
+        public let instanceId: String
+        /// The timestamp when the configuration was last modified.
+        public let lastModifiedTime: Date?
+        /// The maximum size limit for attached files in bytes.
+        public let maximumSizeLimitInBytes: Int64?
+
+        @inlinable
+        public init(attachmentScope: AttachmentScope, extensionConfiguration: ExtensionConfiguration? = nil, instanceId: String, lastModifiedTime: Date? = nil, maximumSizeLimitInBytes: Int64? = nil) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentScope = "AttachmentScope"
+            case extensionConfiguration = "ExtensionConfiguration"
+            case instanceId = "InstanceId"
+            case lastModifiedTime = "LastModifiedTime"
+            case maximumSizeLimitInBytes = "MaximumSizeLimitInBytes"
+        }
+    }
+
+    public struct AttachedFilesConfigurationSummary: AWSDecodableShape {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        public let attachmentScope: AttachmentScope
+        /// The configuration for allowed file extensions.
+        public let extensionConfiguration: ExtensionConfiguration?
+        /// The identifier of the Connect Customer instance.
+        public let instanceId: String
+        public let maximumSizeLimitInBytes: Int64?
+
+        @inlinable
+        public init(attachmentScope: AttachmentScope, extensionConfiguration: ExtensionConfiguration? = nil, instanceId: String, maximumSizeLimitInBytes: Int64? = nil) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentScope = "AttachmentScope"
+            case extensionConfiguration = "ExtensionConfiguration"
+            case instanceId = "InstanceId"
+            case maximumSizeLimitInBytes = "MaximumSizeLimitInBytes"
         }
     }
 
@@ -3961,12 +4252,49 @@ extension Connect {
         }
     }
 
+    public struct AuthScope: AWSEncodableShape {
+        /// The name of the Customer Profiles domain to scope the session to.
+        public let domainName: String?
+        /// The identifier of the entity to scope the session to.
+        public let entityId: String?
+        /// The type of entity to scope the session to.
+        public let entityType: AuthCodeEntityType
+        /// The list of security profile identifiers to scope the session to. Maximum of 10 security profiles.
+        public let securityProfileIds: [String]?
+
+        @inlinable
+        public init(domainName: String? = nil, entityId: String? = nil, entityType: AuthCodeEntityType, securityProfileIds: [String]? = nil) {
+            self.domainName = domainName
+            self.entityId = entityId
+            self.entityType = entityType
+            self.securityProfileIds = securityProfileIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 256)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: ".*")
+            try self.validate(self.securityProfileIds, name: "securityProfileIds", parent: name, max: 10)
+            try self.validate(self.securityProfileIds, name: "securityProfileIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case entityId = "EntityId"
+            case entityType = "EntityType"
+            case securityProfileIds = "SecurityProfileIds"
+        }
+    }
+
     public struct AuthenticationProfile: AWSDecodableShape {
-        /// A list of IP address range strings that are allowed to access the Amazon Connect instance. For more information about how to configure IP addresses, see Configure IP address based access control in the Amazon Connect Administrator Guide.
+        /// A list of IP address range strings that are allowed to access the Connect Customer instance. For more information about how to configure IP addresses, see Configure IP address based access control in the Connect Customer Administrator Guide.
         public let allowedIps: [String]?
         /// The Amazon Resource Name (ARN) for the authentication profile.
         public let arn: String?
-        /// A list of IP address range strings that are blocked from accessing the Amazon Connect instance. For more information about how to configure IP addresses, see Configure IP address based access control in the Amazon Connect Administrator Guide.
+        /// A list of IP address range strings that are blocked from accessing the Connect Customer instance. For more information about how to configure IP addresses, see Configure IP address based access control in the Connect Customer Administrator Guide.
         public let blockedIps: [String]?
         /// The timestamp when the authentication profile was created.
         public let createdTime: Date?
@@ -3974,17 +4302,17 @@ extension Connect {
         public let description: String?
         /// A unique identifier for the authentication profile.
         public let id: String?
-        /// Shows whether the authentication profile is the default authentication profile for the Amazon Connect instance. The default authentication profile applies to all agents in an Amazon Connect instance, unless overridden by another authentication profile.
+        /// Shows whether the authentication profile is the default authentication profile for the Connect Customer instance. The default authentication profile applies to all agents in an Connect Customer instance, unless overridden by another authentication profile.
         public let isDefault: Bool?
         /// The Amazon Web Services Region where the authentication profile was last modified.
         public let lastModifiedRegion: String?
         /// The timestamp when the authentication profile was last modified.
         public let lastModifiedTime: Date?
-        /// The long lived session duration for users logged in to Amazon Connect, in minutes. After this time period, users must log in again. For more information, see Configure the session duration in the Amazon Connect Administrator Guide.
+        /// The long lived session duration for users logged in to Connect Customer, in minutes. After this time period, users must log in again. For more information, see Configure the session duration in the Connect Customer Administrator Guide.
         public let maxSessionDuration: Int?
         /// The name for the authentication profile.
         public let name: String?
-        /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, see Configure the session duration in the Amazon Connect Administrator Guide.
+        /// The short lived session duration configuration for users logged in to Connect Customer, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, see Configure the session duration in the Connect Customer Administrator Guide.
         public let periodicSessionDuration: Int?
         /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
         public let sessionInactivityDuration: Int?
@@ -4051,7 +4379,7 @@ extension Connect {
         public let arn: String?
         /// The unique identifier of the authentication profile.
         public let id: String?
-        /// Shows whether the authentication profile is the default authentication profile for the Amazon Connect instance. The default authentication profile applies to all agents in an Amazon Connect instance, unless overridden by another authentication profile.
+        /// Shows whether the authentication profile is the default authentication profile for the Connect Customer instance. The default authentication profile applies to all agents in an Connect Customer instance, unless overridden by another authentication profile.
         public let isDefault: Bool?
         /// The Amazon Web Services Region when the authentication profile summary was last modified.
         public let lastModifiedRegion: String?
@@ -4173,9 +4501,9 @@ extension Connect {
     public struct BatchAssociateAnalyticsDataSetRequest: AWSEncodableShape {
         /// An array of dataset identifiers to associate.
         public let dataSetIds: [String]
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+        /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
         public let targetAccountId: String?
 
         @inlinable
@@ -4554,9 +4882,9 @@ extension Connect {
     public struct BatchDisassociateAnalyticsDataSetRequest: AWSEncodableShape {
         /// An array of associated dataset identifiers to remove.
         public let dataSetIds: [String]
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The identifier of the target account.  Use to disassociate a dataset from a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+        /// The identifier of the target account.  Use to disassociate a dataset from a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
         public let targetAccountId: String?
 
         @inlinable
@@ -4665,7 +4993,7 @@ extension Connect {
     }
 
     public struct BatchGetFlowAssociationRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A list of resource identifiers to retrieve flow associations.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
         public let resourceIds: [String]
@@ -4719,7 +5047,7 @@ extension Connect {
         public let clientToken: String?
         /// List of individual contact requests.
         public let contactDataRequestList: [ContactDataRequest]
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -4941,7 +5269,7 @@ extension Connect {
                 try $0.validate(name: "\(name).targetFieldValues[]")
             }
             try self.validate(self.targetFieldValues, name: "targetFieldValues", parent: name, max: 1)
-            try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, max: 129600)
+            try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, max: 1051200)
             try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, min: 1)
         }
 
@@ -5015,9 +5343,9 @@ extension Connect {
     }
 
     public struct ChatEvent: AWSEncodableShape {
-        /// Content of the message or event. This is required when Type is MESSAGE and for certain ContentTypes when Type is EVENT.   For allowed message content, see the Content parameter in the SendMessage topic in the Amazon Connect Participant Service API Reference.   For allowed event content, see the Content parameter in the SendEvent topic in the Amazon Connect Participant Service API Reference.
+        /// Content of the message or event. This is required when Type is MESSAGE and for certain ContentTypes when Type is EVENT.   For allowed message content, see the Content parameter in the SendMessage topic in the Connect Customer Participant Service API Reference.   For allowed event content, see the Content parameter in the SendEvent topic in the Connect Customer Participant Service API Reference.
         public let content: String?
-        /// Type of content. This is required when Type is MESSAGE or EVENT.    For allowed message content types, see the ContentType parameter in the SendMessage topic in the Amazon Connect Participant Service API Reference.   For allowed event content types, see the ContentType parameter in the SendEvent topic in the Amazon Connect Participant Service API Reference.
+        /// Type of content. This is required when Type is MESSAGE or EVENT.    For allowed message content types, see the ContentType parameter in the SendMessage topic in the Connect Customer Participant Service API Reference.   For allowed event content types, see the ContentType parameter in the SendEvent topic in the Connect Customer Participant Service API Reference.
         public let contentType: String?
         /// Type of chat integration event.
         public let type: ChatEventType
@@ -5044,7 +5372,7 @@ extension Connect {
     }
 
     public struct ChatMessage: AWSEncodableShape {
-        /// The content of the chat message.    For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.    For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
+        /// The content of the chat message. Maximum of 16,384 bytes for all content types (text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response). Some messaging channels enforce lower limits. For channel-specific message size limits, see Chat message size limits by channel in the Amazon Connect Customer Administrator Guide.
         public let content: String
         /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
         public let contentType: String
@@ -5134,7 +5462,7 @@ extension Connect {
     public struct ClaimPhoneNumberRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
         public let instanceId: String?
         /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public let phoneNumber: String
@@ -5142,7 +5470,7 @@ extension Connect {
         public let phoneNumberDescription: String?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
         public let targetArn: String?
 
         @inlinable
@@ -5201,7 +5529,7 @@ extension Connect {
     }
 
     public struct ClaimedPhoneNumberSummary: AWSDecodableShape {
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public let phoneNumber: String?
@@ -5221,7 +5549,7 @@ extension Connect {
         public let sourcePhoneNumberArn: String?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through.
         public let targetArn: String?
 
         @inlinable
@@ -5273,7 +5601,7 @@ extension Connect {
         public let associatedResourceArn: String
         /// The unique identifier of the attached file resource.
         public let fileId: String
-        /// The unique identifier of the Amazon Connect instance.
+        /// The unique identifier of the Connect Customer instance.
         public let instanceId: String
 
         @inlinable
@@ -5346,7 +5674,7 @@ extension Connect {
         public let additionalEmailRecipients: AdditionalEmailRecipients?
         /// Information about the agent who accepted the contact.
         public let agentInfo: AgentInfo?
-        /// Indicates how an outbound campaign call is actually disposed if the contact is connected to Amazon Connect.
+        /// Indicates how an outbound campaign call is actually disposed if the contact is connected to Connect Customer.
         public let answeringMachineDetectionStatus: AnsweringMachineDetectionStatus?
         /// The Amazon Resource Name (ARN) for the contact.
         public let arn: String?
@@ -5357,7 +5685,7 @@ extension Connect {
         public let channel: Channel?
         /// Information about how agent, bot, and customer interact in a chat contact.
         public let chatMetrics: ChatMetrics?
-        /// The timestamp when customer endpoint connected to Amazon Connect.
+        /// The timestamp when customer endpoint connected to Connect Customer.
         public let connectedToSystemTimestamp: Date?
         /// This is the root contactId which is used as a unique identifier for all subsequent contacts in a contact tree.
         public let contactAssociationId: String?
@@ -5369,7 +5697,7 @@ extension Connect {
         public let customer: Customer?
         /// The customer or external third party participant endpoint.
         public let customerEndpoint: EndpointInfo?
-        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Amazon Connect Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
+        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Connect Customer Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
         public let customerId: String?
         /// Information about customer’s voice activity.
         public let customerVoiceActivity: CustomerVoiceActivity?
@@ -5377,7 +5705,7 @@ extension Connect {
         public let description: String?
         /// Information about the call disconnect experience.
         public let disconnectDetails: DisconnectDetails?
-        /// The disconnect reason for the contact. For a list and description of all the possible disconnect reasons by channel, see DisconnectReason under ContactTraceRecord in the Amazon Connect Administrator Guide.
+        /// The disconnect reason for the contact. For a list and description of all the possible disconnect reasons by channel, see DisconnectReason under ContactTraceRecord in the Connect Customer Administrator Guide.
         public let disconnectReason: String?
         /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public let disconnectTimestamp: Date?
@@ -5423,7 +5751,7 @@ extension Connect {
         public let routingCriteria: RoutingCriteria?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public let scheduledTimestamp: Date?
-        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes and can be accessed in flows. Attribute keys can include only alphanumeric, -, and _ characters. This field can be used to show channel subtype. For example, connect:Guide or connect:SMS.
+        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes and can be accessed in flows. Attribute keys can include only alphanumeric, -, and _ characters. This field can be used to show channel subtype. For example, connect:Guide or connect:SMS.
         public let segmentAttributes: [String: SegmentAttributeValue]?
         /// The system endpoint. For INBOUND, this is the phone number or email address that the customer dialed. For OUTBOUND and EXTERNAL_OUTBOUND, this is the outbound caller ID number assigned to the outbound queue that is used to dial the customer. For callback, this shows up as Softphone for calls handled by agents with softphone.
         public let systemEndpoint: EndpointInfo?
@@ -5435,7 +5763,7 @@ extension Connect {
         public let totalPauseCount: Int?
         /// Total pause duration for a contact in seconds.
         public let totalPauseDurationInSeconds: Int?
-        /// Information about Amazon Connect Wisdom.
+        /// Information about Connect Customer Wisdom.
         public let wisdomInfo: WisdomInfo?
 
         @inlinable
@@ -5543,7 +5871,7 @@ extension Connect {
     }
 
     public struct ContactAnalysis: AWSEncodableShape {
-        /// Search criteria based on transcript analyzed by Amazon Connect Contact Lens.
+        /// Search criteria based on transcript analyzed by Connect Customer Contact Lens.
         public let transcript: Transcript?
 
         @inlinable
@@ -5596,11 +5924,11 @@ extension Connect {
         public let customerEndpoint: Endpoint?
         /// Information about the outbound strategy.
         public let outboundStrategy: OutboundStrategy?
-        /// The identifier of the queue associated with the Amazon Connect instance in which contacts that are created will be queued.
+        /// The identifier of the queue associated with the Connect Customer instance in which contacts that are created will be queued.
         public let queueId: String?
         /// Identifier to uniquely identify individual requests in the batch.
         public let requestIdentifier: String?
-        /// Endpoint associated with the Amazon Connect instance from which outbound contact will be initiated for the campaign.
+        /// Endpoint associated with the Connect Customer instance from which outbound contact will be initiated for the campaign.
         public let systemEndpoint: Endpoint?
 
         @inlinable
@@ -5694,6 +6022,86 @@ extension Connect {
         }
     }
 
+    public struct ContactEvaluationAttributeAndCondition: AWSEncodableShape {
+        /// A list of attribute conditions to apply.
+        public let attributeConditions: [ContactEvaluationAttributeCondition]?
+        /// A list of tag conditions to apply.
+        public let tagConditions: [TagCondition]?
+
+        @inlinable
+        public init(attributeConditions: [ContactEvaluationAttributeCondition]? = nil, tagConditions: [TagCondition]? = nil) {
+            self.attributeConditions = attributeConditions
+            self.tagConditions = tagConditions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeConditions = "AttributeConditions"
+            case tagConditions = "TagConditions"
+        }
+    }
+
+    public struct ContactEvaluationAttributeCondition: AWSEncodableShape {
+        /// The key of the attribute.
+        public let attributeKey: ContactEvaluationAttributeKey?
+        /// The value of the attribute.
+        public let attributeValue: ContactEvaluationAttributeValue?
+        /// The comparison type for the condition.
+        public let comparisonType: ContactEvaluationAttributeComparisonType?
+
+        @inlinable
+        public init(attributeKey: ContactEvaluationAttributeKey? = nil, attributeValue: ContactEvaluationAttributeValue? = nil, comparisonType: ContactEvaluationAttributeComparisonType? = nil) {
+            self.attributeKey = attributeKey
+            self.attributeValue = attributeValue
+            self.comparisonType = comparisonType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeKey = "AttributeKey"
+            case attributeValue = "AttributeValue"
+            case comparisonType = "ComparisonType"
+        }
+    }
+
+    public struct ContactEvaluationAttributeFilter: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andCondition: ContactEvaluationAttributeAndCondition?
+        /// An attribute condition to apply.
+        public let contactEvaluationAttributeCondition: ContactEvaluationAttributeCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [ContactEvaluationAttributeAndCondition]?
+        /// A tag condition to apply.
+        public let tagCondition: TagCondition?
+
+        @inlinable
+        public init(andCondition: ContactEvaluationAttributeAndCondition? = nil, contactEvaluationAttributeCondition: ContactEvaluationAttributeCondition? = nil, orConditions: [ContactEvaluationAttributeAndCondition]? = nil, tagCondition: TagCondition? = nil) {
+            self.andCondition = andCondition
+            self.contactEvaluationAttributeCondition = contactEvaluationAttributeCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andCondition = "AndCondition"
+            case contactEvaluationAttributeCondition = "ContactEvaluationAttributeCondition"
+            case orConditions = "OrConditions"
+            case tagCondition = "TagCondition"
+        }
+    }
+
+    public struct ContactEvaluationAttributeValue: AWSEncodableShape {
+        /// A string value for the attribute.
+        public let stringValue: String?
+
+        @inlinable
+        public init(stringValue: String? = nil) {
+            self.stringValue = stringValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringValue = "StringValue"
+        }
+    }
+
     public struct ContactFilter: AWSEncodableShape {
         /// A list of up to 9 contact states.
         public let contactStates: [ContactState]?
@@ -5715,7 +6123,7 @@ extension Connect {
     public struct ContactFlow: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the flow.
         public let arn: String?
-        /// The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
+        /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
         public let content: String?
         /// The description of the flow.
         public let description: String?
@@ -5735,7 +6143,7 @@ extension Connect {
         public let status: ContactFlowStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
-        /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Amazon Connect Administrator Guide.
+        /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide.
         public let type: ContactFlowType?
         /// The identifier of the flow version.
         public let version: Int64?
@@ -5824,7 +6232,7 @@ extension Connect {
     public struct ContactFlowModule: AWSDecodableShape {
         /// The Amazon Resource Name (ARN).
         public let arn: String?
-        /// The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.
+        /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.
         public let content: String?
         /// The description of the flow module.
         public let description: String?
@@ -6204,11 +6612,13 @@ extension Connect {
     public struct ContactSearchSummary: AWSDecodableShape {
         /// Information about the agent who accepted the contact.
         public let agentInfo: ContactSearchSummaryAgentInfo?
+        /// Information about the AI agents involved in the contact.
+        public let aiAgentInfo: [ContactSearchSummaryAiAgentInfo]?
         /// The Amazon Resource Name (ARN) of the contact.
         public let arn: String?
         /// How the contact reached your contact center.
         public let channel: Channel?
-        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        /// The timestamp when the customer endpoint disconnected from Connect Customer.
         public let disconnectTimestamp: Date?
         /// Additional routing information for contacts created in ACGR instances.
         public let globalResiliencyMetadata: GlobalResiliencyMetadata?
@@ -6235,8 +6645,9 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(agentInfo: ContactSearchSummaryAgentInfo? = nil, arn: String? = nil, channel: Channel? = nil, disconnectTimestamp: Date? = nil, globalResiliencyMetadata: GlobalResiliencyMetadata? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, queueInfo: ContactSearchSummaryQueueInfo? = nil, routingCriteria: RoutingCriteria? = nil, scheduledTimestamp: Date? = nil, segmentAttributes: [String: ContactSearchSummarySegmentAttributeValue]? = nil, tags: [String: String]? = nil) {
+        public init(agentInfo: ContactSearchSummaryAgentInfo? = nil, aiAgentInfo: [ContactSearchSummaryAiAgentInfo]? = nil, arn: String? = nil, channel: Channel? = nil, disconnectTimestamp: Date? = nil, globalResiliencyMetadata: GlobalResiliencyMetadata? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, queueInfo: ContactSearchSummaryQueueInfo? = nil, routingCriteria: RoutingCriteria? = nil, scheduledTimestamp: Date? = nil, segmentAttributes: [String: ContactSearchSummarySegmentAttributeValue]? = nil, tags: [String: String]? = nil) {
             self.agentInfo = agentInfo
+            self.aiAgentInfo = aiAgentInfo
             self.arn = arn
             self.channel = channel
             self.disconnectTimestamp = disconnectTimestamp
@@ -6256,6 +6667,7 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case agentInfo = "AgentInfo"
+            case aiAgentInfo = "AiAgentInfo"
             case arn = "Arn"
             case channel = "Channel"
             case disconnectTimestamp = "DisconnectTimestamp"
@@ -6292,6 +6704,28 @@ extension Connect {
         }
     }
 
+    public struct ContactSearchSummaryAiAgentInfo: AWSDecodableShape {
+        /// A boolean flag indicating whether the contact initially handled by this AI agent was escalated to a human agent.
+        public let aiAgentEscalated: Bool?
+        /// The unique identifier that specifies both the AI agent ID and its version number that was involved in the contact.
+        public let aiAgentVersionId: String?
+        /// The use case or scenario for which the AI agent is involved in the contact. Valid values are AgentAssistance and SelfService.
+        public let aiUseCase: AiUseCase?
+
+        @inlinable
+        public init(aiAgentEscalated: Bool? = nil, aiAgentVersionId: String? = nil, aiUseCase: AiUseCase? = nil) {
+            self.aiAgentEscalated = aiAgentEscalated
+            self.aiAgentVersionId = aiAgentVersionId
+            self.aiUseCase = aiUseCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentEscalated = "AiAgentEscalated"
+            case aiAgentVersionId = "AiAgentVersionId"
+            case aiUseCase = "AiUseCase"
+        }
+    }
+
     public struct ContactSearchSummaryQueueInfo: AWSDecodableShape {
         /// The timestamp when the contact was added to the queue.
         public let enqueueTimestamp: Date?
@@ -6325,6 +6759,24 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case valueMap = "ValueMap"
             case valueString = "ValueString"
+        }
+    }
+
+    public struct ContentAttributes: AWSEncodableShape {
+        /// Configuration for the recommender used to generate personalized recommendations for the notification content.
+        public let recommenderConfig: RecommenderConfig?
+
+        @inlinable
+        public init(recommenderConfig: RecommenderConfig? = nil) {
+            self.recommenderConfig = recommenderConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.recommenderConfig?.validate(name: "\(name).recommenderConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderConfig = "RecommenderConfig"
         }
     }
 
@@ -6400,7 +6852,7 @@ extension Connect {
         public let description: String?
         /// The display order of the status.
         public let displayOrder: Int?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the status.
         public let name: String
@@ -6476,6 +6928,161 @@ extension Connect {
         }
     }
 
+    public struct CreateAttachedFileRequest: AWSEncodableShape {
+        /// The ARN of the completed voice contact to attach the file to. Only voice contacts with Telephony subtype are supported.  This value must be a valid ARN.
+        public let associatedResourceArn: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The S3 URI of the file to be attached. Only S3 source URIs are supported.
+        public let fileSourceUri: String
+        /// The use case for the file.  Only VOICE_RECORDING is supported.
+        public let fileUseCaseType: FileUseCaseType
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(associatedResourceArn: String, clientToken: String? = CreateAttachedFileRequest.idempotencyToken(), fileSourceUri: String, fileUseCaseType: FileUseCaseType, instanceId: String, tags: [String: String]? = nil) {
+            self.associatedResourceArn = associatedResourceArn
+            self.clientToken = clientToken
+            self.fileSourceUri = fileSourceUri
+            self.fileUseCaseType = fileUseCaseType
+            self.instanceId = instanceId
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.associatedResourceArn, key: "associatedResourceArn")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.fileSourceUri, forKey: .fileSourceUri)
+            try container.encode(self.fileUseCaseType, forKey: .fileUseCaseType)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.fileSourceUri, name: "fileSourceUri", parent: name, max: 2000)
+            try self.validate(self.fileSourceUri, name: "fileSourceUri", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case fileSourceUri = "FileSourceUri"
+            case fileUseCaseType = "FileUseCaseType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAttachedFileResponse: AWSDecodableShape {
+        /// The time of Creation of the file resource as an ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2024-05-03T02:41:28.172Z.
+        public let creationTime: String?
+        /// The unique identifier of the attached file resource (ARN).
+        public let fileArn: String?
+        /// The unique identifier of the attached file resource.
+        public let fileId: String?
+        /// The current status of the attached file. Valid values: PROCESSING | APPROVED | REJECTED | FAILED.
+        public let fileStatus: FileStatusType?
+
+        @inlinable
+        public init(creationTime: String? = nil, fileArn: String? = nil, fileId: String? = nil, fileStatus: FileStatusType? = nil) {
+            self.creationTime = creationTime
+            self.fileArn = fileArn
+            self.fileId = fileId
+            self.fileStatus = fileStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case fileArn = "FileArn"
+            case fileId = "FileId"
+            case fileStatus = "FileStatus"
+        }
+    }
+
+    public struct CreateAuthCodeRequest: AWSEncodableShape {
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum duration of the session, in minutes. Minimum value of 1440 (24 hours). Maximum value of 43200 (30 days). If no value is provided, the session will expire after 400 days.
+        public let maxSessionDurationMinutes: Int?
+        /// The scope for the authorization code. Defines the permissions and access boundaries for the session.
+        public let scope: AuthScope
+        /// The duration of inactivity, in minutes, after which the session expires. Minimum value of 1440 (24 hours). Maximum value of 20160 (14 days).
+        public let sessionInactivityDurationMinutes: Int
+
+        @inlinable
+        public init(instanceId: String, maxSessionDurationMinutes: Int? = nil, scope: AuthScope, sessionInactivityDurationMinutes: Int = 0) {
+            self.instanceId = instanceId
+            self.maxSessionDurationMinutes = maxSessionDurationMinutes
+            self.scope = scope
+            self.sessionInactivityDurationMinutes = sessionInactivityDurationMinutes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maxSessionDurationMinutes, forKey: .maxSessionDurationMinutes)
+            try container.encode(self.scope, forKey: .scope)
+            try container.encode(self.sessionInactivityDurationMinutes, forKey: .sessionInactivityDurationMinutes)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxSessionDurationMinutes, name: "maxSessionDurationMinutes", parent: name, max: 43200)
+            try self.validate(self.maxSessionDurationMinutes, name: "maxSessionDurationMinutes", parent: name, min: 1440)
+            try self.scope.validate(name: "\(name).scope")
+            try self.validate(self.sessionInactivityDurationMinutes, name: "sessionInactivityDurationMinutes", parent: name, max: 20160)
+            try self.validate(self.sessionInactivityDurationMinutes, name: "sessionInactivityDurationMinutes", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSessionDurationMinutes = "MaxSessionDurationMinutes"
+            case scope = "Scope"
+            case sessionInactivityDurationMinutes = "SessionInactivityDurationMinutes"
+        }
+    }
+
+    public struct CreateAuthCodeResponse: AWSDecodableShape {
+        /// The authorization code to use for establishing a session.
+        public let authCode: String?
+        /// The identifier of the entity associated with the authorization code.
+        public let entityId: String?
+        /// The type of entity associated with the authorization code.
+        public let entityType: AuthCodeEntityType?
+        /// The identifier of the session created with the authorization code.
+        public let sessionId: String?
+
+        @inlinable
+        public init(authCode: String? = nil, entityId: String? = nil, entityType: AuthCodeEntityType? = nil, sessionId: String? = nil) {
+            self.authCode = authCode
+            self.entityId = entityId
+            self.entityType = entityType
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authCode = "AuthCode"
+            case entityId = "EntityId"
+            case entityType = "EntityType"
+            case sessionId = "SessionId"
+        }
+    }
+
     public struct CreateCaseActionDefinition: AWSEncodableShape & AWSDecodableShape {
         /// An array of objects with Field ID and Value data.
         public let fields: [FieldValue]
@@ -6511,7 +7118,7 @@ extension Connect {
         public let contactFlowModuleVersion: Int64
         /// The description of the alias.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -6573,13 +7180,13 @@ extension Connect {
     public struct CreateContactFlowModuleRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.
+        /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.
         public let content: String
         /// The description of the flow module.
         public let description: String?
         /// The external invocation configuration for the flow module.
         public let externalInvocationConfiguration: ExternalInvocationConfiguration?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the flow module.
         public let name: String
@@ -6670,7 +7277,7 @@ extension Connect {
         public let description: String?
         /// Indicates the checksum value of the flow module content.
         public let flowModuleContentSha256: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -6725,11 +7332,11 @@ extension Connect {
     }
 
     public struct CreateContactFlowRequest: AWSEncodableShape {
-        /// The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
+        /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
         public let content: String
         /// The description of the flow.
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The name of the flow.
         public let name: String
@@ -6737,7 +7344,7 @@ extension Connect {
         public let status: ContactFlowStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
-        /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Amazon Connect Administrator Guide.
+        /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide.
         public let type: ContactFlowType
 
         @inlinable
@@ -6818,7 +7425,7 @@ extension Connect {
         public let description: String?
         /// Indicates the checksum value of the flow content.
         public let flowContentSha256: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The Amazon Web Services Region where this resource was last modified.
         public let lastModifiedRegion: String?
@@ -6886,7 +7493,7 @@ extension Connect {
     }
 
     public struct CreateContactRequest: AWSEncodableShape {
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// The channel for the contact.  The CHAT channel is not supported. The following information is incorrect. We're working to correct it.
         public let channel: Channel
@@ -6900,17 +7507,17 @@ extension Connect {
         public let initiateAs: InitiateAs?
         /// Indicates how the contact was initiated.   CreateContact only supports the following initiation methods. Valid values by channel are:    For VOICE: TRANSFER and the subtype connect:ExternalAudio    For EMAIL: OUTBOUND | AGENT_REPLY | FLOW    For TASK: API    The other channels listed below are incorrect. We're working to correct this information.
         public let initiationMethod: ContactInitiationMethod
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of a the contact.
         public let name: String?
-        /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Amazon Connect Contact Lens with external voice systems in the Amazon Connect Administrator Guide.
+        /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Connect Customer Contact Lens with external voice systems in the Connect Customer Administrator Guide.
         public let previousContactId: String?
         /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
         public let references: [String: Reference]?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let relatedContactId: String?
-        /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
+        /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
         public let segmentAttributes: [String: SegmentAttributeValue]?
         /// User details for the contact  UserInfo is required when creating an EMAIL contact with OUTBOUND and AGENT_REPLY contact initiation methods.
         public let userInfo: UserInfo?
@@ -6982,7 +7589,7 @@ extension Connect {
     public struct CreateContactResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the created contact.
         public let contactArn: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String?
 
         @inlinable
@@ -7178,7 +7785,7 @@ extension Connect {
         public let displayName: String?
         /// The email address, including the domain.
         public let emailAddress: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -7259,7 +7866,7 @@ extension Connect {
         public let clientToken: String?
         /// The description of the evaluation form.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
         public let items: [EvaluationFormItem]
@@ -7371,7 +7978,7 @@ extension Connect {
         public let effectiveTill: String
         /// The identifier for the hours of operation
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The name of the hours of operation override.
         public let name: String
@@ -7451,7 +8058,7 @@ extension Connect {
         public let config: [HoursOfOperationConfig]
         /// The description of the hours of operation.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the hours of operation.
         public let name: String
@@ -7540,7 +8147,7 @@ extension Connect {
         public let clientToken: String?
         /// The identifier for the directory.
         public let directoryId: String?
-        /// The type of identity management for your Amazon Connect users.
+        /// The type of identity management for your Connect Customer users.
         public let identityManagementType: DirectoryType
         /// Your contact center handles incoming contacts.
         public let inboundCallsEnabled: Bool
@@ -7610,9 +8217,9 @@ extension Connect {
     }
 
     public struct CreateIntegrationAssociationRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The Amazon Resource Name (ARN) of the integration.  When integrating with Amazon Web Services End User Messaging, the Amazon Connect and Amazon Web Services End User Messaging instances must be in the same account.
+        /// The Amazon Resource Name (ARN) of the integration.  When integrating with Amazon Web Services End User Messaging, the Connect Customer and Amazon Web Services End User Messaging instances must be in the same account.
         public let integrationArn: String
         /// The type of information to be ingested.
         public let integrationType: IntegrationType
@@ -7801,9 +8408,9 @@ extension Connect {
     public struct CreateParticipantRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the contact in this instance of Amazon Connect.  Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel
+        /// The identifier of the contact in this instance of Connect Customer.  Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Information identifying the participant.  The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact.
         public let participantDetails: ParticipantDetailsToAdd
@@ -7856,9 +8463,9 @@ extension Connect {
         public let clientToken: String?
         /// This is the contactId of the current contact that the CreatePersistentContactAssociation API is being called from.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The contactId chosen for rehydration depends on the type chosen.    ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat.     FROM_SEGMENT: Rehydrates a chat from the specified past chat contact provided in the sourceContactId field.    The actual contactId used for rehydration is provided in the response of this API. To illustrate how to use rehydration type, consider the following example: A customer starts a chat session. Agent a1 accepts the chat and a conversation starts between the customer and Agent a1. This first contact creates a contact ID C1. Agent a1 then transfers the chat to Agent a2. This creates another contact ID C2. At this point Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat survey that creates another contact ID C3. After the chat survey, the chat session ends. Later, the customer returns and wants to resume their past chat session. At this point, the customer can have following use cases:     Use Case 1: The customer wants to continue the past chat session but they want to hide the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C2"   RehydrationType = "FROM_SEGMENT"      Expected behavior    This starts a persistent chat session from the specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are accessible in the current persistent chat session. Note that chat segment C3 is dropped from the persistent chat session.        Use Case 2: The customer wants to continue the past chat session and see the transcript of the entire past engagement, including the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C1"   RehydrationType = "ENTIRE_PAST_SESSION"      Expected behavior    This starts a persistent chat session from the most recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current persistent chat session.
+        /// The contactId chosen for rehydration depends on the type chosen.    ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat.     FROM_SEGMENT: Rehydrates a chat from the specified past chat contact provided in the sourceContactId field.    The actual contactId used for rehydration is provided in the response of this API. To illustrate how to use rehydration type, consider the following example: A customer starts a chat session. Agent a1 accepts the chat and a conversation starts between the customer and Agent a1. This first contact creates a contact ID C1. Agent a1 then transfers the chat to Agent a2. This creates another contact ID C2. At this point Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat survey that creates another contact ID C3. After the chat survey, the chat session ends. Later, the customer returns and wants to resume their past chat session. At this point, the customer can have following use cases:     Use Case 1: The customer wants to continue the past chat session but they want to hide the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C2"   RehydrationType = "FROM_SEGMENT"      Expected behavior    This starts a persistent chat session from the specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are accessible in the current persistent chat session. Note that chat segment C3 is dropped from the persistent chat session.        Use Case 2: The customer wants to continue the past chat session and see the transcript of the entire past engagement, including the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C1"   RehydrationType = "ENTIRE_PAST_SESSION"      Expected behavior    This starts a persistent chat session from the most recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current persistent chat session.
         public let rehydrationType: RehydrationType
         /// The contactId from which a persistent chat session must be started.
         public let sourceContactId: String
@@ -7916,13 +8523,13 @@ extension Connect {
     public struct CreatePredefinedAttributeRequest: AWSEncodableShape {
         /// Custom metadata that is associated to predefined attributes to control behavior
         /// in upstream services, such as controlling
-        /// how a predefined attribute should be displayed in the Amazon Connect admin website.
+        /// how a predefined attribute should be displayed in the Connect Customer admin website.
         public let attributeConfiguration: InputPredefinedAttributeConfiguration?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         ///  The name of the predefined attribute.
         public let name: String
-        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
         public let purposes: [String]?
         ///  The values of the predefined attribute.
         public let values: PredefinedAttributeValues?
@@ -7970,7 +8577,7 @@ extension Connect {
     public struct CreatePromptRequest: AWSEncodableShape {
         /// The description of the prompt.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the prompt.
         public let name: String
@@ -8119,7 +8726,7 @@ extension Connect {
         public let emailAddressesConfig: [EmailAddressConfig]?
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of contacts that can be in the queue before it is considered full.
         public let maxContacts: Int?
@@ -8224,7 +8831,7 @@ extension Connect {
     public struct CreateQuickConnectRequest: AWSEncodableShape {
         /// The description of the quick connect.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique name of the quick connect.
         public let name: String
@@ -8303,15 +8910,15 @@ extension Connect {
         public let defaultOutboundQueueId: String
         /// Description of the routing profile. Must not be more than 250 characters.
         public let description: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
+        /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas.  For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.
         public let manualAssignmentQueueConfigs: [RoutingProfileManualAssignmentQueueConfig]?
         /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public let mediaConcurrencies: [MediaConcurrency]
         /// The name of the routing profile. Must not be more than 127 characters.
         public let name: String
-        /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.
+        /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas.
         public let queueConfigs: [RoutingProfileQueueConfig]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -8407,7 +9014,7 @@ extension Connect {
         public let clientToken: String?
         /// The conditions of the rule.
         public let function: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique name for the rule.
         public let name: String
@@ -8481,9 +9088,9 @@ extension Connect {
     }
 
     public struct CreateSecurityProfileRequest: AWSEncodableShape {
-        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
         public let allowedAccessControlHierarchyGroupId: String?
-        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
         public let allowedAccessControlTags: [String: String]?
         ///  A list of Flow Modules an AI Agent can invoke as a tool.
         public let allowedFlowModules: [FlowModule]?
@@ -8493,15 +9100,15 @@ extension Connect {
         public let description: String?
         /// The granular access control configuration for the security profile, including data table permissions.
         public let granularAccessControlConfiguration: GranularAccessControlConfiguration?
-        /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+        /// The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
         public let hierarchyRestrictedResources: [String]?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Permissions assigned to the security profile. For a list of valid permissions, see List of security profile permissions.
         public let permissions: [String]?
         /// The name of the security profile.
         public let securityProfileName: String
-        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. For a list of Amazon Connect resources that you can tag, see Add tags to resources in Amazon Connect in the Amazon Connect Administrator Guide.
+        /// The list of resources that a security profile applies tag restrictions to in Connect Customer. For a list of Connect Customer resources that you can tag, see Add tags to resources in Connect Customer in the Connect Customer Administrator Guide.
         public let tagRestrictedResources: [String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -8622,16 +9229,18 @@ extension Connect {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// Constraints that are applicable to the fields listed.
+        /// Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate.
+        /// The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
         public let constraints: TaskTemplateConstraints?
-        /// The identifier of the flow that runs by default when a task is created by referencing this template.
+        /// The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
         public let contactFlowId: String?
         /// The default values for fields when a task is created by referencing this template.
         public let defaults: TaskTemplateDefaults?
         /// The description of the task template.
         public let description: String?
-        /// Fields that are part of the template.
+        /// Fields that are part of the template. The request must contain exactly one field of type NAME. This field must also be listed in the RequiredFields array within the Constraints parameter.
         public let fields: [TaskTemplateField]
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the task template.
         public let name: String
@@ -8827,7 +9436,7 @@ extension Connect {
         public let clientToken: String?
         /// A description for the traffic distribution group.
         public let description: String?
-        /// The identifier of the Amazon Connect instance that has been replicated. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance that has been replicated. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name for the traffic distribution group.
         public let name: String
@@ -8893,7 +9502,7 @@ extension Connect {
     }
 
     public struct CreateUseCaseRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
@@ -8959,7 +9568,7 @@ extension Connect {
     }
 
     public struct CreateUserHierarchyGroupRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the user hierarchy group. Must not be more than 100 characters.
         public let name: String
@@ -9028,15 +9637,15 @@ extension Connect {
         public let afterContactWorkConfigs: [AfterContactWorkConfigPerChannel]?
         /// The list of auto-accept configuration settings for each channel.
         public let autoAcceptConfigs: [AutoAcceptConfig]?
-        /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
+        /// The identifier of the user account in the directory used for identity management. If Connect Customer cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Connect Customer cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Connect Customer when Connect Customer cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
         public let directoryUserId: String?
         /// The identifier of the hierarchy group for the user.
         public let hierarchyGroupId: String?
         /// The information about the identity of the user.
         public let identityInfo: UserIdentityInfo?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
+        /// The password for the user account. A password is required if you are using Connect Customer for identity management. Otherwise, it is an error to include a password.
         public let password: String?
         /// The list of persistent connection configuration settings for each channel.
         public let persistentConnectionConfigs: [PersistentConnectionConfig]?
@@ -9163,7 +9772,7 @@ extension Connect {
         public let content: ViewInputContent
         /// The description of the view.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the view.
         public let name: String
@@ -9243,7 +9852,7 @@ extension Connect {
     }
 
     public struct CreateViewVersionRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The description for the version being published.
         public let versionDescription: String?
@@ -9309,7 +9918,7 @@ extension Connect {
         public let clientToken: String?
         /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table.
         public let content: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
         /// What is Amazon Transcribe?
@@ -9534,11 +10143,11 @@ extension Connect {
     }
 
     public struct Credentials: AWSDecodableShape {
-        /// An access token generated for a federated user to access Amazon Connect.
+        /// An access token generated for a federated user to access Connect Customer.
         public let accessToken: String?
-        /// A token generated with an expiration time for the session a user is logged in to Amazon Connect.
+        /// A token generated with an expiration time for the session a user is logged in to Connect Customer.
         public let accessTokenExpiration: Date?
-        /// Renews a token generated for a user to access the Amazon Connect instance.
+        /// Renews a token generated for a user to access the Connect Customer instance.
         public let refreshToken: String?
         /// Renews the expiration timer for a generated token.
         public let refreshTokenExpiration: Date?
@@ -10228,7 +10837,7 @@ extension Connect {
         public let evaluationFormId: String
         /// A version of the evaluation form. If the version property is not provided, the latest version of the evaluation form is deactivated.
         public let evaluationFormVersion: Int
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10307,7 +10916,7 @@ extension Connect {
     }
 
     public struct DefaultVocabulary: AWSDecodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
         /// What is Amazon Transcribe?
@@ -10370,10 +10979,49 @@ extension Connect {
         public init() {}
     }
 
+    public struct DeleteContactDataRequest: AWSEncodableShape {
+        /// The categories of PII to redact from the contact. Valid values are CUSTOMER_ENDPOINT, ADDITIONAL_EMAIL_RECIPIENTS, and EMAIL_SUBJECT. ADDITIONAL_EMAIL_RECIPIENTS and EMAIL_SUBJECT are supported only for contacts in the email channel.
+        public let contactFields: [ContactField]
+        /// The identifier of the contact. PII can be deleted only from a contact that has been disconnected (is in a terminated state).
+        public let contactId: String
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(contactFields: [ContactField], contactId: String, instanceId: String) {
+            self.contactFields = contactFields
+            self.contactId = contactId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.contactFields, forKey: .contactFields)
+            request.encodePath(self.contactId, key: "ContactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFields = "ContactFields"
+        }
+    }
+
+    public struct DeleteContactDataResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteContactEvaluationRequest: AWSEncodableShape {
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10404,7 +11052,7 @@ extension Connect {
         public let aliasId: String
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10442,7 +11090,7 @@ extension Connect {
     public struct DeleteContactFlowModuleRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10477,7 +11125,7 @@ extension Connect {
         public let contactFlowModuleId: String
         /// The version of the flow module to delete.
         public let contactFlowModuleVersion: Int64
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10511,7 +11159,7 @@ extension Connect {
     public struct DeleteContactFlowRequest: AWSEncodableShape {
         /// The identifier of the flow.
         public let contactFlowId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10545,7 +11193,7 @@ extension Connect {
         public let contactFlowId: String
         /// The identifier of the flow version.
         public let contactFlowVersion: Int64
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10662,7 +11310,7 @@ extension Connect {
     public struct DeleteEmailAddressRequest: AWSEncodableShape {
         /// The identifier of the email address.
         public let emailAddressId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10697,7 +11345,7 @@ extension Connect {
         public let evaluationFormId: String
         /// The unique identifier for the evaluation form.
         public let evaluationFormVersion: Int?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10730,7 +11378,7 @@ extension Connect {
         public let hoursOfOperationId: String
         /// The identifier for the hours of operation override.
         public let hoursOfOperationOverrideId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
 
         @inlinable
@@ -10761,7 +11409,7 @@ extension Connect {
     public struct DeleteHoursOfOperationRequest: AWSEncodableShape {
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10788,7 +11436,7 @@ extension Connect {
     public struct DeleteInstanceRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -10814,7 +11462,7 @@ extension Connect {
     }
 
     public struct DeleteIntegrationAssociationRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
@@ -10876,7 +11524,7 @@ extension Connect {
     }
 
     public struct DeletePredefinedAttributeRequest: AWSEncodableShape {
-        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        ///  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         ///  The name of the predefined attribute.
         public let name: String
@@ -10905,7 +11553,7 @@ extension Connect {
     }
 
     public struct DeletePromptRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the prompt.
         public let promptId: String
@@ -10934,7 +11582,7 @@ extension Connect {
     }
 
     public struct DeletePushNotificationRegistrationRequest: AWSEncodableShape {
-        /// The identifier of the contact within the Amazon Connect instance.
+        /// The identifier of the contact within the Connect Customer instance.
         public let contactId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -10973,7 +11621,7 @@ extension Connect {
     }
 
     public struct DeleteQueueRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -11000,7 +11648,7 @@ extension Connect {
     }
 
     public struct DeleteQuickConnectRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the quick connect.
         public let quickConnectId: String
@@ -11027,7 +11675,7 @@ extension Connect {
     }
 
     public struct DeleteRoutingProfileRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the routing profile.
         public let routingProfileId: String
@@ -11054,7 +11702,7 @@ extension Connect {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the rule.
         public let ruleId: String
@@ -11083,7 +11731,7 @@ extension Connect {
     }
 
     public struct DeleteSecurityProfileRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the security profle.
         public let securityProfileId: String
@@ -11109,8 +11757,40 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteSessionRequest: AWSEncodableShape {
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The identifier of the session to delete.
+        public let sessionId: String
+
+        @inlinable
+        public init(instanceId: String, sessionId: String) {
+            self.instanceId = instanceId
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.sessionId, key: "SessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSessionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteTaskTemplateRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the task template.
         public let taskTemplateId: String
@@ -11203,7 +11883,7 @@ extension Connect {
     }
 
     public struct DeleteUseCaseRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
@@ -11240,7 +11920,7 @@ extension Connect {
     public struct DeleteUserHierarchyGroupRequest: AWSEncodableShape {
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -11265,7 +11945,7 @@ extension Connect {
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user.
         public let userId: String
@@ -11292,7 +11972,7 @@ extension Connect {
     }
 
     public struct DeleteViewRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the view. Both ViewArn and ViewId can be used.
         public let viewId: String
@@ -11327,7 +12007,7 @@ extension Connect {
     }
 
     public struct DeleteViewVersionRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the view. Both ViewArn and ViewId can be used.
         public let viewId: String
@@ -11366,7 +12046,7 @@ extension Connect {
     }
 
     public struct DeleteVocabularyRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the custom vocabulary.
         public let vocabularyId: String
@@ -11529,7 +12209,7 @@ extension Connect {
     public struct DescribeAgentStatusRequest: AWSEncodableShape {
         /// The identifier for the agent status.
         public let agentStatusId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -11567,10 +12247,51 @@ extension Connect {
         }
     }
 
+    public struct DescribeAttachedFilesConfigurationRequest: AWSEncodableShape {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        public let attachmentScope: AttachmentScope
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(attachmentScope: AttachmentScope, instanceId: String) {
+            self.attachmentScope = attachmentScope
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentScope, key: "AttachmentScope")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAttachedFilesConfigurationResponse: AWSDecodableShape {
+        /// Information about the attached files configuration.
+        public let attachedFilesConfiguration: AttachedFilesConfiguration
+
+        @inlinable
+        public init(attachedFilesConfiguration: AttachedFilesConfiguration) {
+            self.attachedFilesConfiguration = attachedFilesConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedFilesConfiguration = "AttachedFilesConfiguration"
+        }
+    }
+
     public struct DescribeAuthenticationProfileRequest: AWSEncodableShape {
         /// A unique identifier for the authentication profile.
         public let authenticationProfileId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -11613,7 +12334,7 @@ extension Connect {
     public struct DescribeContactEvaluationRequest: AWSEncodableShape {
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -11662,7 +12383,7 @@ extension Connect {
         public let aliasId: String
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -11710,7 +12431,7 @@ extension Connect {
     public struct DescribeContactFlowModuleRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -11753,7 +12474,7 @@ extension Connect {
     public struct DescribeContactFlowRequest: AWSEncodableShape {
         /// The identifier of the flow.
         public let contactFlowId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
 
         @inlinable
@@ -11795,7 +12516,7 @@ extension Connect {
     public struct DescribeContactRequest: AWSEncodableShape {
         /// The identifier of the contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -11931,7 +12652,7 @@ extension Connect {
     public struct DescribeEmailAddressRequest: AWSEncodableShape {
         /// The identifier of the email address.
         public let emailAddressId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -12008,7 +12729,7 @@ extension Connect {
         public let evaluationFormId: String
         /// A version of the evaluation form.
         public let evaluationFormVersion: Int?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -12055,7 +12776,7 @@ extension Connect {
         public let hoursOfOperationId: String
         /// The identifier for the hours of operation override.
         public let hoursOfOperationOverrideId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
 
         @inlinable
@@ -12100,7 +12821,7 @@ extension Connect {
     public struct DescribeHoursOfOperationRequest: AWSEncodableShape {
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -12141,7 +12862,7 @@ extension Connect {
     public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
         /// The type of attribute.
         public let attributeType: InstanceAttributeType
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -12180,7 +12901,7 @@ extension Connect {
     }
 
     public struct DescribeInstanceRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -12205,7 +12926,7 @@ extension Connect {
     public struct DescribeInstanceResponse: AWSDecodableShape {
         /// The name of the instance.
         public let instance: Instance?
-        /// Status information about the replication process. This field is included only when you are using the ReplicateInstance API to replicate an Amazon Connect instance across Amazon Web Services Regions. For information about replicating Amazon Connect instances, see Create a replica of your existing Amazon Connect instance in the Amazon Connect Administrator Guide.
+        /// Status information about the replication process. This field is included only when you are using the ReplicateInstance API to replicate an Connect Customer instance across Amazon Web Services Regions. For information about replicating Connect Customer instances, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide.
         public let replicationConfiguration: ReplicationConfiguration?
 
         @inlinable
@@ -12223,7 +12944,7 @@ extension Connect {
     public struct DescribeInstanceStorageConfigRequest: AWSEncodableShape {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
@@ -12329,7 +13050,7 @@ extension Connect {
     }
 
     public struct DescribePhoneNumberResponse: AWSDecodableShape {
-        /// Information about a phone number that's been claimed to your Amazon Connect instance or traffic distribution group.
+        /// Information about a phone number that's been claimed to your Connect Customer instance or traffic distribution group.
         public let claimedPhoneNumberSummary: ClaimedPhoneNumberSummary?
 
         @inlinable
@@ -12343,7 +13064,7 @@ extension Connect {
     }
 
     public struct DescribePredefinedAttributeRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the predefined attribute.
         public let name: String
@@ -12386,7 +13107,7 @@ extension Connect {
     }
 
     public struct DescribePromptRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the prompt.
         public let promptId: String
@@ -12429,7 +13150,7 @@ extension Connect {
     }
 
     public struct DescribeQueueRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -12470,7 +13191,7 @@ extension Connect {
     }
 
     public struct DescribeQuickConnectRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the quick connect.
         public let quickConnectId: String
@@ -12511,7 +13232,7 @@ extension Connect {
     }
 
     public struct DescribeRoutingProfileRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the routing profile.
         public let routingProfileId: String
@@ -12552,7 +13273,7 @@ extension Connect {
     }
 
     public struct DescribeRuleRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the rule.
         public let ruleId: String
@@ -12595,7 +13316,7 @@ extension Connect {
     }
 
     public struct DescribeSecurityProfileRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the security profle.
         public let securityProfileId: String
@@ -12723,7 +13444,7 @@ extension Connect {
     public struct DescribeUserHierarchyGroupRequest: AWSEncodableShape {
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -12762,7 +13483,7 @@ extension Connect {
     }
 
     public struct DescribeUserHierarchyStructureRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -12799,7 +13520,7 @@ extension Connect {
     }
 
     public struct DescribeUserRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -12840,7 +13561,7 @@ extension Connect {
     }
 
     public struct DescribeViewRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The ViewId of the view. This must be an ARN for Amazon Web Services managed views.
         public let viewId: String
@@ -12885,7 +13606,7 @@ extension Connect {
     }
 
     public struct DescribeVocabularyRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the custom vocabulary.
         public let vocabularyId: String
@@ -12914,7 +13635,7 @@ extension Connect {
     }
 
     public struct DescribeVocabularyResponse: AWSDecodableShape {
-        /// A list of specific words that you want Contact Lens for Amazon Connect to recognize in your audio input. They are generally domain-specific words and phrases, words that Contact Lens is not recognizing, or proper nouns.
+        /// A list of specific words that you want Contact Lens for Connect Customer to recognize in your audio input. They are generally domain-specific words and phrases, words that Contact Lens is not recognizing, or proper nouns.
         public let vocabulary: Vocabulary
 
         @inlinable
@@ -13032,9 +13753,9 @@ extension Connect {
     public struct DisassociateAnalyticsDataSetRequest: AWSEncodableShape {
         /// The identifier of the dataset to remove.
         public let dataSetId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
-        /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+        /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
         public let targetAccountId: String?
 
         @inlinable
@@ -13068,7 +13789,7 @@ extension Connect {
     public struct DisassociateApprovedOriginRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The domain URL of the integrated application.
         public let origin: String
@@ -13101,7 +13822,7 @@ extension Connect {
     public struct DisassociateBotRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let lexBot: LexBot?
         /// The Amazon Lex V2 bot to disassociate from the instance.
@@ -13146,7 +13867,7 @@ extension Connect {
         public let clientToken: String?
         /// The identifier of the email address.
         public let emailAddressId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -13186,7 +13907,7 @@ extension Connect {
     }
 
     public struct DisassociateFlowRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the resource.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
         public let resourceId: String
@@ -13260,7 +13981,7 @@ extension Connect {
         public let associationId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
@@ -13298,7 +14019,7 @@ extension Connect {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
         public let functionArn: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance..
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance..
         public let instanceId: String
 
         @inlinable
@@ -13332,7 +14053,7 @@ extension Connect {
         public let botName: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The Amazon Web Services Region in which the Amazon Lex bot has been created.
         public let lexRegion: String
@@ -13366,7 +14087,7 @@ extension Connect {
     }
 
     public struct DisassociatePhoneNumberContactFlowRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
@@ -13397,7 +14118,7 @@ extension Connect {
         public let clientToken: String?
         /// List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue.
         public let emailAddressesId: [String]
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -13438,7 +14159,7 @@ extension Connect {
     }
 
     public struct DisassociateQueueQuickConnectsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -13473,7 +14194,7 @@ extension Connect {
     }
 
     public struct DisassociateRoutingProfileQueuesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The manual assignment queues to disassociate with this routing profile.
         public let manualAssignmentQueueReferences: [RoutingProfileQueueReference]?
@@ -13515,7 +14236,7 @@ extension Connect {
         public let associationId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -13587,7 +14308,7 @@ extension Connect {
     }
 
     public struct DisassociateTrafficDistributionGroupUserRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the traffic distribution group.
         /// This can be the ID or the ARN of the traffic distribution group.
@@ -13624,7 +14345,7 @@ extension Connect {
     }
 
     public struct DisassociateUserProficienciesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -13745,7 +14466,7 @@ extension Connect {
     public struct DismissUserContactRequest: AWSEncodableShape {
         /// The identifier of the contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -13862,7 +14583,7 @@ extension Connect {
     }
 
     public struct EmailAddressConfig: AWSEncodableShape {
-        /// The identifier of the email address that should be associated with the queue. This email address must already exist in the Amazon Connect instance and will be used to route incoming email contacts to the specified queue.
+        /// The identifier of the email address that should be associated with the queue. This email address must already exist in the Connect Customer instance and will be used to route incoming email contacts to the specified queue.
         public let emailAddressId: String
 
         @inlinable
@@ -14082,7 +14803,7 @@ extension Connect {
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The type of encryption.
         public let encryptionType: EncryptionType
-        /// The full ARN of the encryption key.   Be sure to provide the full ARN of the encryption key, not just the ID. Amazon Connect supports only KMS keys with the default key spec of  SYMMETRIC_DEFAULT .
+        /// The full ARN of the encryption key.   Be sure to provide the full ARN of the encryption key, not just the ID. Connect Customer supports only KMS keys with the default key spec of  SYMMETRIC_DEFAULT .
         public let keyId: String
 
         @inlinable
@@ -14454,6 +15175,10 @@ extension Connect {
         public let lastModifiedBy: String
         /// The timestamp for when the evaluation form was last updated.
         public let lastModifiedTime: Date
+        /// The timestamp when the most recent validation was started for this evaluation form.
+        public let lastValidationTime: Date?
+        /// The status of the most recent validation run for this evaluation form. Valid values: IN_PROGRESS, COMPLETED, FAILED.
+        public let latestValidationStatus: EvaluationFormValidationStatus?
         /// The flag indicating whether the evaluation form is locked for changes.
         public let locked: Bool
         /// Configuration for evaluation review settings of this evaluation form.
@@ -14470,7 +15195,7 @@ extension Connect {
         public let title: String
 
         @inlinable
-        public init(autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration? = nil, createdBy: String, createdTime: Date, description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], languageConfiguration: EvaluationFormLanguageConfiguration? = nil, lastModifiedBy: String, lastModifiedTime: Date, locked: Bool, reviewConfiguration: EvaluationReviewConfiguration? = nil, scoringStrategy: EvaluationFormScoringStrategy? = nil, status: EvaluationFormVersionStatus, tags: [String: String]? = nil, targetConfiguration: EvaluationFormTargetConfiguration? = nil, title: String) {
+        public init(autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration? = nil, createdBy: String, createdTime: Date, description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], languageConfiguration: EvaluationFormLanguageConfiguration? = nil, lastModifiedBy: String, lastModifiedTime: Date, lastValidationTime: Date? = nil, latestValidationStatus: EvaluationFormValidationStatus? = nil, locked: Bool, reviewConfiguration: EvaluationReviewConfiguration? = nil, scoringStrategy: EvaluationFormScoringStrategy? = nil, status: EvaluationFormVersionStatus, tags: [String: String]? = nil, targetConfiguration: EvaluationFormTargetConfiguration? = nil, title: String) {
             self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -14482,6 +15207,8 @@ extension Connect {
             self.languageConfiguration = languageConfiguration
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.lastValidationTime = lastValidationTime
+            self.latestValidationStatus = latestValidationStatus
             self.locked = locked
             self.reviewConfiguration = reviewConfiguration
             self.scoringStrategy = scoringStrategy
@@ -14503,6 +15230,8 @@ extension Connect {
             case languageConfiguration = "LanguageConfiguration"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case lastValidationTime = "LastValidationTime"
+            case latestValidationStatus = "LatestValidationStatus"
             case locked = "Locked"
             case reviewConfiguration = "ReviewConfiguration"
             case scoringStrategy = "ScoringStrategy"
@@ -14721,23 +15450,39 @@ extension Connect {
     }
 
     public struct EvaluationFormMultiSelectQuestionOption: AWSEncodableShape & AWSDecodableShape {
+        /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
+        public let automaticFail: Bool?
+        public let automaticFailConfiguration: AutomaticFailConfiguration?
+        /// The points configuration for point-based scoring.
+        public let pointsConfiguration: QuestionOptionPointsConfiguration?
         /// Reference identifier for this option.
         public let refId: String
+        /// The score assigned to the answer option.
+        public let score: Int?
         /// Display text for this option.
         public let text: String
 
         @inlinable
-        public init(refId: String, text: String) {
+        public init(automaticFail: Bool? = nil, automaticFailConfiguration: AutomaticFailConfiguration? = nil, pointsConfiguration: QuestionOptionPointsConfiguration? = nil, refId: String, score: Int? = nil, text: String) {
+            self.automaticFail = automaticFail
+            self.automaticFailConfiguration = automaticFailConfiguration
+            self.pointsConfiguration = pointsConfiguration
             self.refId = refId
+            self.score = score
             self.text = text
         }
 
         public func validate(name: String) throws {
+            try self.pointsConfiguration?.validate(name: "\(name).pointsConfiguration")
             try self.validate(self.text, name: "text", parent: name, max: 128)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case automaticFail = "AutomaticFail"
+            case automaticFailConfiguration = "AutomaticFailConfiguration"
+            case pointsConfiguration = "PointsConfiguration"
             case refId = "RefId"
+            case score = "Score"
             case text = "Text"
         }
     }
@@ -14780,16 +15525,23 @@ extension Connect {
         public let maxValue: Int
         /// The minimum answer value of the range option.
         public let minValue: Int
+        /// The points configuration for point-based scoring.
+        public let pointsConfiguration: QuestionOptionPointsConfiguration?
         /// The score assigned to answer values within the range option.
         public let score: Int?
 
         @inlinable
-        public init(automaticFail: Bool? = nil, automaticFailConfiguration: AutomaticFailConfiguration? = nil, maxValue: Int, minValue: Int, score: Int? = nil) {
+        public init(automaticFail: Bool? = nil, automaticFailConfiguration: AutomaticFailConfiguration? = nil, maxValue: Int, minValue: Int, pointsConfiguration: QuestionOptionPointsConfiguration? = nil, score: Int? = nil) {
             self.automaticFail = automaticFail
             self.automaticFailConfiguration = automaticFailConfiguration
             self.maxValue = maxValue
             self.minValue = minValue
+            self.pointsConfiguration = pointsConfiguration
             self.score = score
+        }
+
+        public func validate(name: String) throws {
+            try self.pointsConfiguration?.validate(name: "\(name).pointsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14797,6 +15549,7 @@ extension Connect {
             case automaticFailConfiguration = "AutomaticFailConfiguration"
             case maxValue = "MaxValue"
             case minValue = "MinValue"
+            case pointsConfiguration = "PointsConfiguration"
             case score = "Score"
         }
     }
@@ -14817,6 +15570,12 @@ extension Connect {
             self.maxValue = maxValue
             self.minValue = minValue
             self.options = options
+        }
+
+        public func validate(name: String) throws {
+            try self.options?.forEach {
+                try $0.validate(name: "\(name).options[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14840,25 +15599,29 @@ extension Connect {
         public let questionTypeProperties: EvaluationFormQuestionTypeProperties?
         /// The identifier of the question. An identifier must be unique within the evaluation form.
         public let refId: String
+        /// The scoring configuration of the question.
+        public let scoringConfiguration: EvaluationFormQuestionScoringConfiguration?
         /// The title of the question.
         public let title: String
         /// The scoring weight of the section.
         public let weight: Double?
 
         @inlinable
-        public init(enablement: EvaluationFormItemEnablementConfiguration? = nil, instructions: String? = nil, notApplicableEnabled: Bool? = nil, questionType: EvaluationFormQuestionType, questionTypeProperties: EvaluationFormQuestionTypeProperties? = nil, refId: String, title: String, weight: Double? = nil) {
+        public init(enablement: EvaluationFormItemEnablementConfiguration? = nil, instructions: String? = nil, notApplicableEnabled: Bool? = nil, questionType: EvaluationFormQuestionType, questionTypeProperties: EvaluationFormQuestionTypeProperties? = nil, refId: String, scoringConfiguration: EvaluationFormQuestionScoringConfiguration? = nil, title: String, weight: Double? = nil) {
             self.enablement = enablement
             self.instructions = instructions
             self.notApplicableEnabled = notApplicableEnabled
             self.questionType = questionType
             self.questionTypeProperties = questionTypeProperties
             self.refId = refId
+            self.scoringConfiguration = scoringConfiguration
             self.title = title
             self.weight = weight
         }
 
         public func validate(name: String) throws {
             try self.questionTypeProperties?.validate(name: "\(name).questionTypeProperties")
+            try self.scoringConfiguration?.validate(name: "\(name).scoringConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14868,6 +15631,7 @@ extension Connect {
             case questionType = "QuestionType"
             case questionTypeProperties = "QuestionTypeProperties"
             case refId = "RefId"
+            case scoringConfiguration = "ScoringConfiguration"
             case title = "Title"
             case weight = "Weight"
         }
@@ -14887,20 +15651,72 @@ extension Connect {
         }
     }
 
+    public struct EvaluationFormQuestionScoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The flag to exclude the question from scoring.
+        public let isExcludedFromScoring: Bool?
+        /// The points configuration for point-based scoring.
+        public let pointsConfiguration: QuestionPointsConfiguration?
+        /// The score thresholds for performance categories.
+        public let scoreThresholds: [EvaluationFormScoreThreshold]?
+
+        @inlinable
+        public init(isExcludedFromScoring: Bool? = nil, pointsConfiguration: QuestionPointsConfiguration? = nil, scoreThresholds: [EvaluationFormScoreThreshold]? = nil) {
+            self.isExcludedFromScoring = isExcludedFromScoring
+            self.pointsConfiguration = pointsConfiguration
+            self.scoreThresholds = scoreThresholds
+        }
+
+        public func validate(name: String) throws {
+            try self.pointsConfiguration?.validate(name: "\(name).pointsConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isExcludedFromScoring = "IsExcludedFromScoring"
+            case pointsConfiguration = "PointsConfiguration"
+            case scoreThresholds = "ScoreThresholds"
+        }
+    }
+
+    public struct EvaluationFormScoreThreshold: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum score percentage for the performance category.
+        public let maxScorePercentage: Double?
+        /// The minimum score percentage for the performance category.
+        public let minScorePercentage: Double?
+        /// The performance category name.
+        public let performanceCategory: PerformanceCategoryName
+
+        @inlinable
+        public init(maxScorePercentage: Double? = nil, minScorePercentage: Double? = nil, performanceCategory: PerformanceCategoryName) {
+            self.maxScorePercentage = maxScorePercentage
+            self.minScorePercentage = minScorePercentage
+            self.performanceCategory = performanceCategory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxScorePercentage = "MaxScorePercentage"
+            case minScorePercentage = "MinScorePercentage"
+            case performanceCategory = "PerformanceCategory"
+        }
+    }
+
     public struct EvaluationFormScoringStrategy: AWSEncodableShape & AWSDecodableShape {
         /// The scoring mode of the evaluation form.
         public let mode: EvaluationFormScoringMode
+        /// The score thresholds for performance categories.
+        public let scoreThresholds: [EvaluationFormScoreThreshold]?
         /// The scoring status of the evaluation form.
         public let status: EvaluationFormScoringStatus
 
         @inlinable
-        public init(mode: EvaluationFormScoringMode, status: EvaluationFormScoringStatus) {
+        public init(mode: EvaluationFormScoringMode, scoreThresholds: [EvaluationFormScoreThreshold]? = nil, status: EvaluationFormScoringStatus) {
             self.mode = mode
+            self.scoreThresholds = scoreThresholds
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case mode = "Mode"
+            case scoreThresholds = "ScoreThresholds"
             case status = "Status"
         }
     }
@@ -15041,20 +15857,26 @@ extension Connect {
     public struct EvaluationFormSection: AWSEncodableShape & AWSDecodableShape {
         /// The instructions of the section.
         public let instructions: String?
+        /// The flag to exclude the section from scoring.
+        public let isExcludedFromScoring: Bool?
         /// The items of the section.
         public let items: [EvaluationFormItem]
         /// The identifier of the section. An identifier must be unique within the evaluation form.
         public let refId: String
+        /// The score thresholds for performance categories.
+        public let scoreThresholds: [EvaluationFormScoreThreshold]?
         /// The title of the section.
         public let title: String
         /// The scoring weight of the section.
         public let weight: Double?
 
         @inlinable
-        public init(instructions: String? = nil, items: [EvaluationFormItem], refId: String, title: String, weight: Double? = nil) {
+        public init(instructions: String? = nil, isExcludedFromScoring: Bool? = nil, items: [EvaluationFormItem], refId: String, scoreThresholds: [EvaluationFormScoreThreshold]? = nil, title: String, weight: Double? = nil) {
             self.instructions = instructions
+            self.isExcludedFromScoring = isExcludedFromScoring
             self.items = items
             self.refId = refId
+            self.scoreThresholds = scoreThresholds
             self.title = title
             self.weight = weight
         }
@@ -15067,8 +15889,10 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case instructions = "Instructions"
+            case isExcludedFromScoring = "IsExcludedFromScoring"
             case items = "Items"
             case refId = "RefId"
+            case scoreThresholds = "ScoreThresholds"
             case title = "Title"
             case weight = "Weight"
         }
@@ -15101,6 +15925,8 @@ extension Connect {
         public let automaticFail: Bool?
         /// Whether automatic fail is configured on a single select question.
         public let automaticFailConfiguration: AutomaticFailConfiguration?
+        /// The points configuration for point-based scoring.
+        public let pointsConfiguration: QuestionOptionPointsConfiguration?
         /// The identifier of the answer option. An identifier must be unique within the question.
         public let refId: String
         /// The score assigned to the answer option.
@@ -15109,17 +15935,23 @@ extension Connect {
         public let text: String
 
         @inlinable
-        public init(automaticFail: Bool? = nil, automaticFailConfiguration: AutomaticFailConfiguration? = nil, refId: String, score: Int? = nil, text: String) {
+        public init(automaticFail: Bool? = nil, automaticFailConfiguration: AutomaticFailConfiguration? = nil, pointsConfiguration: QuestionOptionPointsConfiguration? = nil, refId: String, score: Int? = nil, text: String) {
             self.automaticFail = automaticFail
             self.automaticFailConfiguration = automaticFailConfiguration
+            self.pointsConfiguration = pointsConfiguration
             self.refId = refId
             self.score = score
             self.text = text
         }
 
+        public func validate(name: String) throws {
+            try self.pointsConfiguration?.validate(name: "\(name).pointsConfiguration")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case automaticFail = "AutomaticFail"
             case automaticFailConfiguration = "AutomaticFailConfiguration"
+            case pointsConfiguration = "PointsConfiguration"
             case refId = "RefId"
             case score = "Score"
             case text = "Text"
@@ -15139,6 +15971,12 @@ extension Connect {
             self.automation = automation
             self.displayAs = displayAs
             self.options = options
+        }
+
+        public func validate(name: String) throws {
+            try self.options.forEach {
+                try $0.validate(name: "\(name).options[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15244,6 +16082,54 @@ extension Connect {
         }
     }
 
+    public struct EvaluationFormValidationFinding: AWSDecodableShape {
+        /// A description of the validation issue.
+        public let description: String
+        /// A code that identifies the type of validation issue found.
+        public let issueCode: String
+        /// A list of evaluation form items affected by this finding.
+        public let items: [EvaluationFormValidationFindingItem]?
+        /// The severity of the finding. Valid values: WARNING, ERROR.
+        public let severity: EvaluationFormValidationFindingSeverity
+        /// A suggested fix for the validation issue.
+        public let suggestion: String?
+
+        @inlinable
+        public init(description: String, issueCode: String, items: [EvaluationFormValidationFindingItem]? = nil, severity: EvaluationFormValidationFindingSeverity, suggestion: String? = nil) {
+            self.description = description
+            self.issueCode = issueCode
+            self.items = items
+            self.severity = severity
+            self.suggestion = suggestion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case issueCode = "IssueCode"
+            case items = "Items"
+            case severity = "Severity"
+            case suggestion = "Suggestion"
+        }
+    }
+
+    public struct EvaluationFormValidationFindingItem: AWSDecodableShape {
+        /// The specific property of the evaluation form item that the finding relates to.
+        public let property: String?
+        /// The identifier of the evaluation form item (question or section) affected by the finding.
+        public let refId: String?
+
+        @inlinable
+        public init(property: String? = nil, refId: String? = nil) {
+            self.property = property
+            self.refId = refId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case property = "Property"
+            case refId = "RefId"
+        }
+    }
+
     public struct EvaluationFormVersionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
         public let createdBy: String
@@ -15317,7 +16203,7 @@ extension Connect {
         public let calibrationSessionId: String?
         /// The identifier of the agent who performed the contact.
         public let contactAgentId: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
         /// Information about a contact participant in this evaluation.
         public let contactParticipant: EvaluationContactParticipant?
@@ -15528,24 +16414,36 @@ extension Connect {
         public let appliedWeight: Double?
         /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag will be true.
         public let automaticFail: Bool?
+        /// The points earned for the item.
+        public let earnedPoints: Int?
+        /// The maximum base points possible for the item.
+        public let maxBasePoint: Int?
         /// The flag to mark the item as not applicable for scoring.
         public let notApplicable: Bool?
         /// The score percentage for an item in a contact evaluation.
         public let percentage: Double?
+        /// The performance category for the score.
+        public let performanceCategory: PerformanceCategoryName?
 
         @inlinable
-        public init(appliedWeight: Double? = nil, automaticFail: Bool? = nil, notApplicable: Bool? = nil, percentage: Double? = nil) {
+        public init(appliedWeight: Double? = nil, automaticFail: Bool? = nil, earnedPoints: Int? = nil, maxBasePoint: Int? = nil, notApplicable: Bool? = nil, percentage: Double? = nil, performanceCategory: PerformanceCategoryName? = nil) {
             self.appliedWeight = appliedWeight
             self.automaticFail = automaticFail
+            self.earnedPoints = earnedPoints
+            self.maxBasePoint = maxBasePoint
             self.notApplicable = notApplicable
             self.percentage = percentage
+            self.performanceCategory = performanceCategory
         }
 
         private enum CodingKeys: String, CodingKey {
             case appliedWeight = "AppliedWeight"
             case automaticFail = "AutomaticFail"
+            case earnedPoints = "EarnedPoints"
+            case maxBasePoint = "MaxBasePoint"
             case notApplicable = "NotApplicable"
             case percentage = "Percentage"
+            case performanceCategory = "PerformanceCategory"
         }
     }
 
@@ -15596,15 +16494,20 @@ extension Connect {
     }
 
     public struct EvaluationSearchFilter: AWSEncodableShape {
+        /// An object that can be used to specify tag conditions.
         public let attributeFilter: ControlPlaneAttributeFilter?
+        /// An object that can be used to specify tag conditions and attribute conditions for contact evaluations.
+        public let contactEvaluationAttributeFilter: ContactEvaluationAttributeFilter?
 
         @inlinable
-        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil, contactEvaluationAttributeFilter: ContactEvaluationAttributeFilter? = nil) {
             self.attributeFilter = attributeFilter
+            self.contactEvaluationAttributeFilter = contactEvaluationAttributeFilter
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributeFilter = "AttributeFilter"
+            case contactEvaluationAttributeFilter = "ContactEvaluationAttributeFilter"
         }
     }
 
@@ -15623,14 +16526,20 @@ extension Connect {
         public let calibrationSessionId: String?
         /// The unique ID of the agent who handled the contact.
         public let contactAgentId: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
         /// Identifier for a contact participant in the evaluation.
         public let contactParticipantId: String?
         /// Role of a contact participant in the evaluation.
         public let contactParticipantRole: ContactParticipantRole?
+        /// The points earned for the evaluation.
+        public let earnedPoints: Int?
         /// The Amazon Resource Name (ARN) of the person who evaluated the contact.
         public let evaluatorArn: String
+        /// The maximum base points possible for the evaluation.
+        public let maxBasePoint: Int?
+        /// The performance category for the evaluation score.
+        public let performanceCategory: PerformanceCategoryName?
         /// Identifier for the review.
         public let reviewId: String?
         /// Identifier of the sampling job.
@@ -15643,7 +16552,7 @@ extension Connect {
         public let scorePercentage: Double?
 
         @inlinable
-        public init(acknowledgedBy: String? = nil, acknowledgedTime: Date? = nil, acknowledgerComment: String? = nil, autoEvaluationEnabled: Bool? = nil, autoEvaluationStatus: AutoEvaluationStatus? = nil, calibrationSessionId: String? = nil, contactAgentId: String? = nil, contactId: String, contactParticipantId: String? = nil, contactParticipantRole: ContactParticipantRole? = nil, evaluatorArn: String, reviewId: String? = nil, samplingJobId: String? = nil, scoreAutomaticFail: Bool? = nil, scoreNotApplicable: Bool? = nil, scorePercentage: Double? = nil) {
+        public init(acknowledgedBy: String? = nil, acknowledgedTime: Date? = nil, acknowledgerComment: String? = nil, autoEvaluationEnabled: Bool? = nil, autoEvaluationStatus: AutoEvaluationStatus? = nil, calibrationSessionId: String? = nil, contactAgentId: String? = nil, contactId: String, contactParticipantId: String? = nil, contactParticipantRole: ContactParticipantRole? = nil, earnedPoints: Int? = nil, evaluatorArn: String, maxBasePoint: Int? = nil, performanceCategory: PerformanceCategoryName? = nil, reviewId: String? = nil, samplingJobId: String? = nil, scoreAutomaticFail: Bool? = nil, scoreNotApplicable: Bool? = nil, scorePercentage: Double? = nil) {
             self.acknowledgedBy = acknowledgedBy
             self.acknowledgedTime = acknowledgedTime
             self.acknowledgerComment = acknowledgerComment
@@ -15654,7 +16563,10 @@ extension Connect {
             self.contactId = contactId
             self.contactParticipantId = contactParticipantId
             self.contactParticipantRole = contactParticipantRole
+            self.earnedPoints = earnedPoints
             self.evaluatorArn = evaluatorArn
+            self.maxBasePoint = maxBasePoint
+            self.performanceCategory = performanceCategory
             self.reviewId = reviewId
             self.samplingJobId = samplingJobId
             self.scoreAutomaticFail = scoreAutomaticFail
@@ -15673,7 +16585,10 @@ extension Connect {
             case contactId = "ContactId"
             case contactParticipantId = "ContactParticipantId"
             case contactParticipantRole = "ContactParticipantRole"
+            case earnedPoints = "EarnedPoints"
             case evaluatorArn = "EvaluatorArn"
+            case maxBasePoint = "MaxBasePoint"
+            case performanceCategory = "PerformanceCategory"
             case reviewId = "ReviewId"
             case samplingJobId = "SamplingJobId"
             case scoreAutomaticFail = "ScoreAutomaticFail"
@@ -15966,6 +16881,26 @@ extension Connect {
         }
     }
 
+    public struct ExtensionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of allowed file extensions.
+        public let allowedExtensions: [AllowedExtension]
+
+        @inlinable
+        public init(allowedExtensions: [AllowedExtension]) {
+            self.allowedExtensions = allowedExtensions
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedExtensions.forEach {
+                try $0.validate(name: "\(name).allowedExtensions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedExtensions = "AllowedExtensions"
+        }
+    }
+
     public struct ExternalInvocationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Enable external invocation.
         public let enabled: Bool?
@@ -16134,7 +17069,7 @@ extension Connect {
         public let queues: [String]?
         /// A list of up to 100 routing profile IDs or ARNs.
         public let routingProfiles: [String]?
-        /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria.
+        /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria. Accepts filter values up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.
         public let routingStepExpressions: [String]?
         /// A list of up to 10 subtypes can be provided.
         public let subtypes: [String]?
@@ -16264,7 +17199,7 @@ extension Connect {
         public let associatedResourceArn: String
         /// The unique identifier of the attached file resource.
         public let fileId: String
-        /// The unique identifier of the Amazon Connect instance.
+        /// The unique identifier of the Connect Customer instance.
         public let instanceId: String
         /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
         public let urlExpiryInSeconds: Int?
@@ -16355,7 +17290,7 @@ extension Connect {
     public struct GetContactAttributesRequest: AWSEncodableShape {
         /// The identifier of the initial contact.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
 
         @inlinable
@@ -16396,9 +17331,9 @@ extension Connect {
     }
 
     public struct GetContactMetricsRequest: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent)
         public let metrics: [ContactMetricInfo]
@@ -16450,13 +17385,13 @@ extension Connect {
     }
 
     public struct GetCurrentMetricDataRequest: AWSEncodableShape {
-        /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+        /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Connect Customer Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
         public let currentMetrics: [CurrentMetric]
         /// The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Subtypes: 10   ValidationTestTypes: 10   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
         public let filters: Filters
         /// Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as  primary grouping and use Queue as filter   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
         public let groupings: [Grouping]?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -16541,7 +17476,7 @@ extension Connect {
     public struct GetCurrentUserDataRequest: AWSEncodableShape {
         /// The filters to apply to returned user data. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Agents: 100   Contact states: 9   User hierarchy groups: 1   The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups.  Currently tagging is only supported on the resources that are passed in the filter.
         public let filters: UserDataFilters
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -16608,7 +17543,7 @@ extension Connect {
         public let fromDate: String
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The date until when the hours of operation are listed.
         public let toDate: String
@@ -16662,8 +17597,75 @@ extension Connect {
         }
     }
 
+    public struct GetEvaluationFormValidationRequest: AWSEncodableShape {
+        /// The unique identifier for the evaluation form.
+        public let evaluationFormId: String
+        /// The version of the evaluation form to retrieve validation results for.
+        public let evaluationFormVersion: Int?
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(evaluationFormId: String, evaluationFormVersion: Int? = nil, instanceId: String) {
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            request.encodeQuery(self.evaluationFormVersion, key: "version")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, max: 500)
+            try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEvaluationFormValidationResponse: AWSDecodableShape {
+        /// The unique identifier for the evaluation form.
+        public let evaluationFormId: String
+        /// A version of the evaluation form.
+        public let evaluationFormVersion: Int
+        /// The reason the validation failed. This field is populated only when the status is FAILED.
+        public let failureReason: String?
+        /// A list of findings from the validation process. Each finding identifies a structural issue or quality improvement for the evaluation form, and may include a suggested fix. This field is populated when the status is COMPLETED.
+        public let findings: [EvaluationFormValidationFinding]?
+        /// The timestamp when the validation process was started.
+        public let startedTime: Date
+        /// The current status of the validation process. Valid values: IN_PROGRESS, COMPLETED, FAILED.
+        public let status: EvaluationFormValidationStatus
+
+        @inlinable
+        public init(evaluationFormId: String, evaluationFormVersion: Int, failureReason: String? = nil, findings: [EvaluationFormValidationFinding]? = nil, startedTime: Date, status: EvaluationFormValidationStatus) {
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.failureReason = failureReason
+            self.findings = findings
+            self.startedTime = startedTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationFormId = "EvaluationFormId"
+            case evaluationFormVersion = "EvaluationFormVersion"
+            case failureReason = "FailureReason"
+            case findings = "Findings"
+            case startedTime = "StartedTime"
+            case status = "Status"
+        }
+    }
+
     public struct GetFederationTokenRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -16712,7 +17714,7 @@ extension Connect {
     }
 
     public struct GetFlowAssociationRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the resource.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
         public let resourceId: String
@@ -16771,9 +17773,9 @@ extension Connect {
         public let filters: Filters
         /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features.
         public let groupings: [Grouping]?
-        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Average queue abandon time
+        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide.  This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Average queue abandon time
         public let historicalMetrics: [HistoricalMetric]
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -16849,20 +17851,20 @@ extension Connect {
     public struct GetMetricDataV2Request: AWSEncodableShape {
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
         public let endTime: Date
-        /// The filters to apply to returned metrics. You can filter on the following resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing step expression   User hierarchy groups   At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see Create a historical metrics report in the Amazon Connect Administrator Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_FIVE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_ HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_TWO |  ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |  CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL |  contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType |  DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_ TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_ CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE     Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.   FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow   EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filterValues for the contact/segmentAttributes/connect:ValidationTestType filter key   This filter is available only for contact record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
+        /// Filtering is an operation that selects records that match a set of specified criteria. By narrowing the dataset before aggregation, filters ensure that only relevant records are included in the computation.  Filter keys  The following are valid filter keys for a GetMetricDataV2 request:  AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | BROWSER_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL | contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType | DEVICE_MODEL | DEVICE_TYPE | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE | WEB_NOTIFICATION_TYPE   The following filter keys correspond to Connect Customer resources and are used for authorizing requests. A GetMetricDataV2 request requires at least one of these filters:  QUEUE, ROUTING_PROFILE, AGENT, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE, CAMPAIGN, EVALUATION_FORM, EVALUATOR_ID  You can use up to 5 filter keys in a single request, and up to 100 filter values across all filter keys.   Filter values    VOICE, CHAT, TASK, and EMAIL are valid filter values for the CHANNEL filter key. They do not count towards the limit of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 4 channel filters.    contact_lens_conversational_analytics is a valid filter value for the FEATURE filter key. It is available only for contacts analyzed by Contact Lens conversational analytics.    connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filter value examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.    ROUTING_STEP_EXPRESSION accepts a filter value up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.   TRUE and FALSE are the only valid filter values for the Q_CONNECT_ENABLED filter key.   TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.   FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow.      EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filter values for the contact/segmentAttributes/connect:ValidationTestType filter key. This filter is available only for contact record-driven metrics.    Campaign ARNs are valid filter values for the CAMPAIGN filter key.   To filter by phone number, see Create a historical metrics report in the Connect Customer Administrator Guide.
         public let filters: [FilterV2]
-        /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD  API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
+        /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_NAME_VERSION | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_NAME_VERSION | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | BROWSER_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DEVICE_MODEL | DEVICE_TYPE | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_ARTICLE_NAME | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD | WEB_NOTIFICATION_TYPE    AI_AGENT_NAME_VERSION, AI_PROMPT_NAME_VERSION, and KNOWLEDGE_ARTICLE_NAME are valid groupings but not valid filters.  API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
         public let groupings: [String]?
-        /// The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
+        /// The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Connect Customer returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Connect Customer aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
         public let interval: IntervalDetails?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request.   ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONCURRENCY  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent concurrency   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   ACTIVE_AI_AGENTS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents  AI_HANDOFF_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Handoff Rate  AI_HANDOFFS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count  AI_AGENT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_RESPONSE_COMPLETION_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate  AI_INVOLVED_CONTACTS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Contacts  AI_PROMPT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_AGENT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile  UI name: Average AI Agent Conversation Turns  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Conversation Turns  AVG_AI_PROMPT_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_TOOL_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   KNOWLEDGE_CONTENT_REFERENCES  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: KnowledgeBase Reference Count  PROACTIVE_INTENT_ENGAGEMENT_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate  PROACTIVE_INTENT_RESPONSE_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile  UI name: Proactive Intent Response Rate  PROACTIVE_INTENTS_ANSWERED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered  PROACTIVE_INTENTS_DETECTED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected    Unit:  Valid groupings and filters:  UI name:     Unit:  Valid groupings and filters:  UI name:   PROACTIVE_INTENTS_ENGAGED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: UI name:  AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email delivery mode.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
+        /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request.   ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONCURRENCY  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent concurrency   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, AI Use Case, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   ACTIVE_AI_AGENTS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents   AI_HANDOFF_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Rate   AI_HANDOFFS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count   AI_AGENT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_RESPONSE_HELPFUL  Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Response Helpful   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_RESPONSE_NOT_HELPFUL  Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Response Not Helpful   AI Agent Name Version is not a valid filter but a valid grouping.   AI_RESPONSE_COMPLETION_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate   AI_INVOLVED_CONTACTS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Involved Contacts   AI_PROMPT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocations   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocations   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_AGENT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile  UI name: Average AI Agent Conversation Turns   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Conversation Turns   AVG_AI_PROMPT_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_TOOL_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_PARAMETER_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Parameter Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_SELECTION_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Selection Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_UTILIZATION_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: AI Tool Utilization Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   COMPLETENESS_SCORE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Completeness Score   FAITHFULNESS_SCORE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Faithfulness Score   GOAL_SUCCESS_RATE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Goal Success Rate   KNOWLEDGE_CONTENT_REFERENCES  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: Knowledge Content References   PROACTIVE_INTENT_ENGAGEMENT_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate   PROACTIVE_INTENT_RESPONSE_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Response Rate   PROACTIVE_INTENTS_ANSWERED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered   PROACTIVE_INTENTS_DETECTED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected   PROACTIVE_INTENTS_ENGAGED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Engaged   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email, WhatsApp, and web notification delivery modes.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Browser Name, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Web Notification Type UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Browser Name, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Disconnect Reason, Queue, Routing Profile, Web Notification Type UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Browser Name, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Disconnect Reason, Queue, Routing Profile, Web Notification Type UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
         public let metrics: [MetricV2]
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Amazon Connect instance.
+        /// The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Connect Customer instance.
         public let resourceArn: String
         /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The start and end time depends on the IntervalPeriod selected. By default the time range between start and end time is 35 days. Historical metrics are available for 3 months.
         public let startTime: Date
@@ -16928,7 +17930,7 @@ extension Connect {
     }
 
     public struct GetPromptFileRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A unique identifier for the prompt.
         public let promptId: String
@@ -16979,7 +17981,7 @@ extension Connect {
     }
 
     public struct GetTaskTemplateRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The system generated version of a task template that is associated with a task, when the task is created.
         public let snapshotVersion: String?
@@ -17015,6 +18017,8 @@ extension Connect {
         /// The Amazon Resource Name (ARN).
         public let arn: String
         /// Constraints that are applicable to the fields listed.
+        /// Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate.
+        /// The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
         public let constraints: TaskTemplateConstraints?
         /// The identifier of the flow that runs by default when a task is created by referencing this template.
         public let contactFlowId: String?
@@ -17028,7 +18032,7 @@ extension Connect {
         public let fields: [TaskTemplateField]?
         /// A unique identifier for the task template.
         public let id: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// The timestamp when the task template was last modified.
         public let lastModifiedTime: Date?
@@ -17537,7 +18541,7 @@ extension Connect {
     }
 
     public struct HistoricalMetric: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the metric. Following is a list of each supported metric mapped to the UI name, linked to a detailed description in the Amazon Connect Administrator Guide.   ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Service level X
+        /// The name of the metric. Following is a list of each supported metric mapped to the UI name, linked to a detailed description in the Connect Customer Administrator Guide.   ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Service level X
         public let name: HistoricalMetricName?
         /// The statistic for the metric.
         public let statistic: Statistic?
@@ -17929,7 +18933,7 @@ extension Connect {
     public struct ImportPhoneNumberRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The description of the phone number.
         public let phoneNumberDescription: String?
@@ -18129,7 +19133,7 @@ extension Connect {
     }
 
     public struct InputPredefinedAttributeConfiguration: AWSEncodableShape {
-        /// When this parameter is set to true, Amazon Connect enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for the predefined attribute key.
+        /// When this parameter is set to true, Connect Customer enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for the predefined attribute key.
         public let enableValueValidationOnAssociation: Bool?
 
         @inlinable
@@ -18147,13 +19151,13 @@ extension Connect {
         public let arn: String?
         /// When the instance was created.
         public let createdTime: Date?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let id: String?
         /// The identity management type.
         public let identityManagementType: DirectoryType?
         /// Whether inbound calls are enabled.
         public let inboundCallsEnabled: Bool?
-        /// This URL allows contact center users to access the Amazon Connect admin website.
+        /// This URL allows contact center users to access the Connect Customer admin website.
         public let instanceAccessUrl: String?
         /// The alias of instance.
         public let instanceAlias: String?
@@ -18266,7 +19270,7 @@ extension Connect {
         public let identityManagementType: DirectoryType?
         /// Whether inbound calls are enabled.
         public let inboundCallsEnabled: Bool?
-        /// This URL allows contact center users to access the Amazon Connect admin website.
+        /// This URL allows contact center users to access the Connect Customer admin website.
         public let instanceAccessUrl: String?
         /// The alias of the instance.
         public let instanceAlias: String?
@@ -18306,7 +19310,7 @@ extension Connect {
     }
 
     public struct IntegrationAssociationSummary: AWSDecodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// The Amazon Resource Name (ARN) for the AppIntegration.
         public let integrationArn: String?
@@ -18348,7 +19352,7 @@ extension Connect {
     }
 
     public struct IntervalDetails: AWSEncodableShape {
-        ///  IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on what IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.
+        ///  IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Connect Customer returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Connect Customer aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on what IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.
         public let intervalPeriod: IntervalPeriod?
         /// The timezone applied to requested metrics.
         public let timeZone: String?
@@ -18499,6 +19503,20 @@ extension Connect {
         }
     }
 
+    public struct LanguageConfiguration: AWSEncodableShape {
+        /// The language locale setting for conversational analytics.
+        public let languageLocale: String?
+
+        @inlinable
+        public init(languageLocale: String? = nil) {
+            self.languageLocale = languageLocale
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageLocale = "LanguageLocale"
+        }
+    }
+
     public struct LexBot: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Web Services Region where the Amazon Lex bot was created.
         public let lexRegion: String
@@ -18561,7 +19579,7 @@ extension Connect {
     public struct ListAgentStatusRequest: AWSEncodableShape {
         /// Available agent status types.
         public let agentStatusTypes: [AgentStatusType]?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -18618,7 +19636,7 @@ extension Connect {
     public struct ListAnalyticsDataAssociationsRequest: AWSEncodableShape {
         /// The identifier of the dataset to get the association status.
         public let dataSetId: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -18674,7 +19692,7 @@ extension Connect {
     }
 
     public struct ListAnalyticsDataLakeDataSetsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -18726,7 +19744,7 @@ extension Connect {
     }
 
     public struct ListApprovedOriginsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -18778,9 +19796,9 @@ extension Connect {
     }
 
     public struct ListAssociatedContactsRequest: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -18835,8 +19853,60 @@ extension Connect {
         }
     }
 
+    public struct ListAttachedFilesConfigurationsRequest: AWSEncodableShape {
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page. The default MaxResult size is 100.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAttachedFilesConfigurationsResponse: AWSDecodableShape {
+        /// Information about the attached files configurations.
+        public let attachedFilesConfigurations: [AttachedFilesConfigurationSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attachedFilesConfigurations: [AttachedFilesConfigurationSummary]? = nil, nextToken: String? = nil) {
+            self.attachedFilesConfigurations = attachedFilesConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedFilesConfigurations = "AttachedFilesConfigurations"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListAuthenticationProfilesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -18888,7 +19958,7 @@ extension Connect {
     }
 
     public struct ListBotsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The version of Amazon Lex or Amazon Lex V2.
         public let lexVersion: LexVersion
@@ -19026,9 +20096,9 @@ extension Connect {
     }
 
     public struct ListContactEvaluationsRequest: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.  This is not expected to be set because the value returned in the previous response is always null.
@@ -19080,7 +20150,7 @@ extension Connect {
     public struct ListContactFlowModuleAliasesRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -19137,7 +20207,7 @@ extension Connect {
     public struct ListContactFlowModuleVersionsRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -19193,7 +20263,7 @@ extension Connect {
     public struct ListContactFlowModulesRequest: AWSEncodableShape {
         /// The state of the flow module.
         public let contactFlowModuleState: ContactFlowModuleState?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -19249,7 +20319,7 @@ extension Connect {
     public struct ListContactFlowVersionsRequest: AWSEncodableShape {
         /// The identifier of the flow.
         public let contactFlowId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -19305,7 +20375,7 @@ extension Connect {
     public struct ListContactFlowsRequest: AWSEncodableShape {
         /// The type of flow.
         public let contactFlowTypes: [ContactFlowType]?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -19362,7 +20432,7 @@ extension Connect {
     public struct ListContactReferencesRequest: AWSEncodableShape {
         /// The identifier of the initial contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.  This is not expected to be set, because the value returned in the previous response is always null.
@@ -19685,7 +20755,7 @@ extension Connect {
     }
 
     public struct ListDefaultVocabulariesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
         /// What is Amazon Transcribe?
@@ -19818,7 +20888,7 @@ extension Connect {
     public struct ListEvaluationFormVersionsRequest: AWSEncodableShape {
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -19874,7 +20944,7 @@ extension Connect {
     }
 
     public struct ListEvaluationFormsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -19926,7 +20996,7 @@ extension Connect {
     }
 
     public struct ListFlowAssociationsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -19984,7 +21054,7 @@ extension Connect {
     public struct ListHoursOfOperationOverridesRequest: AWSEncodableShape {
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -20045,7 +21115,7 @@ extension Connect {
     }
 
     public struct ListHoursOfOperationsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -20097,7 +21167,7 @@ extension Connect {
     }
 
     public struct ListInstanceAttributesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -20149,7 +21219,7 @@ extension Connect {
     }
 
     public struct ListInstanceStorageConfigsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -20251,7 +21321,7 @@ extension Connect {
     }
 
     public struct ListIntegrationAssociationsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The Amazon Resource Name (ARN) of the integration.
         public let integrationArn: String?
@@ -20311,7 +21381,7 @@ extension Connect {
     }
 
     public struct ListLambdaFunctionsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -20363,7 +21433,7 @@ extension Connect {
     }
 
     public struct ListLexBotsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. If no value is specified, the default is 10.
         public let maxResults: Int?
@@ -20466,7 +21536,7 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -20528,7 +21598,7 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersSummary: AWSDecodableShape {
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// The phone number. Phone numbers are formatted [+] [country code] [subscriber number including area code].
         public let phoneNumber: String?
@@ -20544,7 +21614,7 @@ extension Connect {
         public let phoneNumberType: PhoneNumberType?
         /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Web Services End User Messaging. If it is from Amazon Web Services End User Messaging, it looks like the ARN of the phone number that was imported from Amazon Web Services End User Messaging.
         public let sourcePhoneNumberArn: String?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through.
         public let targetArn: String?
 
         @inlinable
@@ -20574,7 +21644,7 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersV2Request: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
         public let instanceId: String?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -20587,7 +21657,7 @@ extension Connect {
         public let phoneNumberPrefix: String?
         /// The type of phone number.
         public let phoneNumberTypes: [PhoneNumberType]?
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
         public let targetArn: String?
 
         @inlinable
@@ -20625,7 +21695,7 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersV2Response: AWSDecodableShape {
-        /// Information about phone numbers that have been claimed to your Amazon Connect instances or traffic distribution groups.
+        /// Information about phone numbers that have been claimed to your Connect Customer instances or traffic distribution groups.
         public let listPhoneNumbersSummaryList: [ListPhoneNumbersSummary]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -20643,7 +21713,7 @@ extension Connect {
     }
 
     public struct ListPredefinedAttributesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -20694,7 +21764,7 @@ extension Connect {
     }
 
     public struct ListPromptsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -20745,7 +21815,7 @@ extension Connect {
     }
 
     public struct ListQueueEmailAddressesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -20809,7 +21879,7 @@ extension Connect {
     }
 
     public struct ListQueueQuickConnectsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -20873,7 +21943,7 @@ extension Connect {
     }
 
     public struct ListQueuesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -20930,14 +22000,14 @@ extension Connect {
     }
 
     public struct ListQuickConnectsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        /// The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         public let quickConnectTypes: [QuickConnectType]?
 
         @inlinable
@@ -20987,9 +22057,9 @@ extension Connect {
     }
 
     public struct ListRealtimeContactAnalysisSegmentsV2Request: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -21069,7 +22139,7 @@ extension Connect {
     }
 
     public struct ListRoutingProfileManualAssignmentQueuesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -21133,7 +22203,7 @@ extension Connect {
     }
 
     public struct ListRoutingProfileQueuesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -21197,7 +22267,7 @@ extension Connect {
     }
 
     public struct ListRoutingProfilesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -21251,7 +22321,7 @@ extension Connect {
     public struct ListRulesRequest: AWSEncodableShape {
         /// The name of the event source.
         public let eventSourceName: EventSourceName?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -21309,7 +22379,7 @@ extension Connect {
     }
 
     public struct ListSecurityKeysRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -21361,7 +22431,7 @@ extension Connect {
     }
 
     public struct ListSecurityProfileApplicationsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -21425,7 +22495,7 @@ extension Connect {
     }
 
     public struct ListSecurityProfileFlowModulesRequest: AWSEncodableShape {
-        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        ///  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         ///  The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -21488,7 +22558,7 @@ extension Connect {
     }
 
     public struct ListSecurityProfilePermissionsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -21552,7 +22622,7 @@ extension Connect {
     }
 
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -21604,7 +22674,7 @@ extension Connect {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource. All Amazon Connect resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see Find your Amazon Connect instance ID/ARN.
+        /// The Amazon Resource Name (ARN) of the resource. All Connect Customer resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see Find your Connect Customer instance ID/ARN.
         public let resourceArn: String
 
         @inlinable
@@ -21636,7 +22706,7 @@ extension Connect {
     }
 
     public struct ListTaskTemplatesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.  It is not expected that you set this.
         public let maxResults: Int?
@@ -21767,7 +22837,7 @@ extension Connect {
 
     public struct ListTestCaseExecutionsRequest: AWSEncodableShape {
         /// Filter executions that started before this time.
-        public let endTime: Date?
+        public let endTime: Int64?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
@@ -21776,7 +22846,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
         /// Filter executions that started after this time.
-        public let startTime: Date?
+        public let startTime: Int64?
         /// Filter executions by status.
         public let status: TestCaseExecutionStatus?
         /// Filter executions by test case identifier.
@@ -21785,7 +22855,7 @@ extension Connect {
         public let testCaseName: String?
 
         @inlinable
-        public init(endTime: Date? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, status: TestCaseExecutionStatus? = nil, testCaseId: String? = nil, testCaseName: String? = nil) {
+        public init(endTime: Int64? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Int64? = nil, status: TestCaseExecutionStatus? = nil, testCaseId: String? = nil, testCaseName: String? = nil) {
             self.endTime = endTime
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -21810,10 +22880,12 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.startTime, name: "startTime", parent: name, min: 0)
             try self.validate(self.testCaseId, name: "testCaseId", parent: name, max: 500)
             try self.validate(self.testCaseName, name: "testCaseName", parent: name, min: 1)
         }
@@ -21945,7 +23017,7 @@ extension Connect {
     }
 
     public struct ListTrafficDistributionGroupsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -21998,7 +23070,7 @@ extension Connect {
     }
 
     public struct ListUseCasesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
@@ -22056,7 +23128,7 @@ extension Connect {
     }
 
     public struct ListUserHierarchyGroupsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -22163,7 +23235,7 @@ extension Connect {
     }
 
     public struct ListUserProficienciesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -22226,7 +23298,7 @@ extension Connect {
     }
 
     public struct ListUsersRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -22278,7 +23350,7 @@ extension Connect {
     }
 
     public struct ListViewVersionsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -22340,7 +23412,7 @@ extension Connect {
     }
 
     public struct ListViewsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page. The default MaxResult size is 100.
         public let maxResults: Int?
@@ -22703,7 +23775,7 @@ extension Connect {
     public struct MetricFilterV2: AWSEncodableShape & AWSDecodableShape {
         /// The key to use for filtering data.  Valid metric filter keys:    ANSWERING_MACHINE_DETECTION_STATUS   CASE_STATUS   DISCONNECT_REASON   FLOWS_ACTION_IDENTIFIER   FLOWS_NEXT_ACTION_IDENTIFIER   FLOWS_OUTCOME_TYPE   FLOWS_RESOURCE_TYPE   INITIATION_METHOD
         public let metricFilterKey: String?
-        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see ContactTraceRecord in the Amazon Connect Administrator Guide.  For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the Flow outcome metric in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_CONVERSATION_OUTCOME_TYPE, see the description for the Bot conversations completed in the Amazon Connect Administrator Guide. For valid values of the metric-level filter BOT_INTENT_OUTCOME_TYPE, see the description for the Bot intents completed metric in the Amazon Connect Administrator Guide.
+        /// The values to use for filtering data. Values for metric-level filters can be either a fixed set of values or a customized list, depending on the use case. For valid values of metric-level filters INITIATION_METHOD, DISCONNECT_REASON, and ANSWERING_MACHINE_DETECTION_STATUS, see ContactTraceRecord in the Connect Customer Administrator Guide.  For valid values of the metric-level filter FLOWS_OUTCOME_TYPE, see the description for the Flow outcome metric in the Connect Customer Administrator Guide. For valid values of the metric-level filter BOT_CONVERSATION_OUTCOME_TYPE, see the description for the Bot conversations completed in the Connect Customer Administrator Guide. For valid values of the metric-level filter BOT_INTENT_OUTCOME_TYPE, see the description for the Bot intents completed metric in the Connect Customer Administrator Guide.
         public let metricFilterValues: [String]?
         /// If set to true, the API response contains results that filter out the results matched by the metric-level filters condition. By default, Negate is set to false.
         public let negate: Bool?
@@ -22774,7 +23846,7 @@ extension Connect {
     public struct MetricV2: AWSEncodableShape & AWSDecodableShape {
         /// Contains the filters to be used when returning data.
         public let metricFilters: [MetricFilterV2]?
-        /// Historical metrics or custom metrics can be referenced via this field. This field is a valid Amazon Connect Arn or a UUID
+        /// Historical metrics or custom metrics can be referenced via this field. This field is a valid Connect Customer Arn or a UUID
         public let metricId: String?
         /// The name of the metric.
         public let name: String?
@@ -22817,7 +23889,7 @@ extension Connect {
         public let clientToken: String?
         /// The identifier of the contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -22922,7 +23994,7 @@ extension Connect {
     }
 
     public struct NewSessionDetails: AWSEncodableShape {
-        ///  A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        ///  A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         public let participantDetails: ParticipantDetails?
         public let streamingConfiguration: ChatStreamingConfiguration?
@@ -23030,7 +24102,7 @@ extension Connect {
     public struct NotificationRecipientType: AWSEncodableShape & AWSDecodableShape {
         /// A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for OnContactEvaluationSubmit event source.
         public let userIds: [String]?
-        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Connect Customer users with the specified tags will be notified.
         public let userTags: [String: String]?
 
         @inlinable
@@ -23799,7 +24871,7 @@ extension Connect {
         public let contactFlowId: String?
         /// The identifier of the contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         @inlinable
@@ -23829,7 +24901,7 @@ extension Connect {
     }
 
     public struct PersistentChat: AWSEncodableShape {
-        /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.     ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.     FROM_SEGMENT: Rehydrates a chat from the past chat contact that is specified in the sourceContactId field.    The actual contactId used for rehydration is provided in the response of this API.
+        /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.     ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.     FROM_SEGMENT: Rehydrates a chat from the past chat contact that is specified in the sourceContactId field.    The actual contactId used for rehydration is provided in the response of this API.
         public let rehydrationType: RehydrationType?
         /// The contactId from which a persistent chat session must be started.
         public let sourceContactId: String?
@@ -23982,7 +25054,7 @@ extension Connect {
     public struct PredefinedAttribute: AWSDecodableShape {
         /// Custom metadata that is associated to predefined attributes to control behavior
         /// in upstream services, such as controlling
-        /// how a predefined attribute should be displayed in the Amazon Connect admin website.
+        /// how a predefined attribute should be displayed in the Connect Customer admin website.
         public let attributeConfiguration: PredefinedAttributeConfiguration?
         /// Last modified region.
         public let lastModifiedRegion: String?
@@ -23990,7 +25062,7 @@ extension Connect {
         public let lastModifiedTime: Date?
         /// The name of the predefined attribute.
         public let name: String?
-        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
         public let purposes: [String]?
         /// The values of the predefined attribute.
         public let values: PredefinedAttributeValues?
@@ -24016,9 +25088,9 @@ extension Connect {
     }
 
     public struct PredefinedAttributeConfiguration: AWSDecodableShape {
-        /// When this parameter is set to true, Amazon Connect enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for teh predefined attribute key.
+        /// When this parameter is set to true, Connect Customer enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for teh predefined attribute key.
         public let enableValueValidationOnAssociation: Bool?
-        /// A boolean flag used to indicate whether a predefined attribute should be displayed in the Amazon Connect admin website.
+        /// A boolean flag used to indicate whether a predefined attribute should be displayed in the Connect Customer admin website.
         public let isReadOnly: Bool?
 
         @inlinable
@@ -24379,7 +25451,7 @@ extension Connect {
     public struct PutUserStatusRequest: AWSEncodableShape {
         /// The identifier of the agent status.
         public let agentStatusId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user.
         public let userId: String
@@ -24428,6 +25500,58 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case agent = "Agent"
             case customer = "Customer"
+        }
+    }
+
+    public struct QuestionOptionPointsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The flag to mark the option as a bonus option.
+        public let isBonus: Bool?
+        /// The point value assigned to the answer option.
+        public let pointValue: Int
+
+        @inlinable
+        public init(isBonus: Bool? = nil, pointValue: Int) {
+            self.isBonus = isBonus
+            self.pointValue = pointValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pointValue, name: "pointValue", parent: name, max: 100)
+            try self.validate(self.pointValue, name: "pointValue", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isBonus = "IsBonus"
+            case pointValue = "PointValue"
+        }
+    }
+
+    public struct QuestionPointsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The flag to mark the question as a bonus question.
+        public let isBonus: Bool?
+        /// The maximum point value.
+        public let maxPointValue: Int?
+        /// The minimum point value.
+        public let minPointValue: Int?
+
+        @inlinable
+        public init(isBonus: Bool? = nil, maxPointValue: Int? = nil, minPointValue: Int? = nil) {
+            self.isBonus = isBonus
+            self.maxPointValue = maxPointValue
+            self.minPointValue = minPointValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxPointValue, name: "maxPointValue", parent: name, max: 100)
+            try self.validate(self.maxPointValue, name: "maxPointValue", parent: name, min: 0)
+            try self.validate(self.minPointValue, name: "minPointValue", parent: name, max: 100)
+            try self.validate(self.minPointValue, name: "minPointValue", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isBonus = "IsBonus"
+            case maxPointValue = "MaxPointValue"
+            case minPointValue = "MinPointValue"
         }
     }
 
@@ -24683,7 +25807,7 @@ extension Connect {
         public let phoneConfig: PhoneNumberQuickConnectConfig?
         /// The queue configuration. This is required only if QuickConnectType is QUEUE.
         public let queueConfig: QueueQuickConnectConfig?
-        /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        /// The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         public let quickConnectType: QuickConnectType
         /// The user configuration. This is required only if QuickConnectType is USER.
         public let userConfig: UserQuickConnectConfig?
@@ -24789,7 +25913,7 @@ extension Connect {
         public let lastModifiedTime: Date?
         /// The name of the quick connect.
         public let name: String?
-        /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+        /// The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         public let quickConnectType: QuickConnectType?
 
         @inlinable
@@ -24860,7 +25984,7 @@ extension Connect {
         public let attachmentId: String
         /// A case-sensitive name of the attachment being uploaded. Can be redacted.
         public let attachmentName: String
-        /// Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide.
+        /// Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Connect Customer Administrator Guide.
         public let contentType: String?
         /// Status of the attachment.
         public let status: ArtifactStatus?
@@ -25158,6 +26282,41 @@ extension Connect {
         }
     }
 
+    public struct RecommenderConfig: AWSEncodableShape {
+        /// A map of contextual key-value pairs supplied to the recommender to influence the recommendations returned.
+        public let context: [String: String]?
+        /// The name of the Amazon Personalize domain that hosts the recommender.
+        public let domainName: String
+        /// The name of the recommender used to generate the recommendations.
+        public let recommenderName: String
+
+        @inlinable
+        public init(context: [String: String]? = nil, domainName: String, recommenderName: String) {
+            self.context = context
+            self.domainName = domainName
+            self.recommenderName = recommenderName
+        }
+
+        public func validate(name: String) throws {
+            try self.context?.forEach {
+                try validate($0.key, name: "context.key", parent: name, max: 64)
+                try validate($0.key, name: "context.key", parent: name, min: 1)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "Context"
+            case domainName = "DomainName"
+            case recommenderName = "RecommenderName"
+        }
+    }
+
     public struct RecordPrimaryValue: AWSDecodableShape {
         /// The value's last modified region.
         public let lastModifiedRegion: String?
@@ -25306,6 +26465,38 @@ extension Connect {
         }
     }
 
+    public struct RedactionConfiguration: AWSEncodableShape {
+        /// Controls whether redaction is applied to the analytics output. Valid values: Enable | Disable.
+        public let behavior: Behavior
+        /// The list of PII entity types to redact from the transcript (for example, NAME, ADDRESS, CREDIT_DEBIT_NUMBER).
+        public let entities: [String]?
+        /// The masking mode that determines how redacted content is replaced in the output. Valid values: PII (replaces with the literal string [PII]) | EntityType (replaces with the entity type name, for example [NAME]).
+        public let maskMode: MaskMode?
+        /// The redaction output policy that determines which versions of the transcript are stored. Valid values: None | RedactedOnly | RedactedAndOriginal.
+        public let policy: Policy
+
+        @inlinable
+        public init(behavior: Behavior, entities: [String]? = nil, maskMode: MaskMode? = nil, policy: Policy) {
+            self.behavior = behavior
+            self.entities = entities
+            self.maskMode = maskMode
+            self.policy = policy
+        }
+
+        public func validate(name: String) throws {
+            try self.entities?.forEach {
+                try validate($0, name: "entities[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "Behavior"
+            case entities = "Entities"
+            case maskMode = "MaskMode"
+            case policy = "Policy"
+        }
+    }
+
     public struct Reference: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the reference
         public let arn: String?
@@ -25373,11 +26564,11 @@ extension Connect {
     public struct ReplicateInstanceRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
         public let instanceId: String
         /// The alias for the replicated instance. The ReplicaAlias must be unique.
         public let replicaAlias: String
-        /// The Amazon Web Services Region where to replicate the Amazon Connect instance.
+        /// The Amazon Web Services Region where to replicate the Connect Customer instance.
         public let replicaRegion: String
 
         @inlinable
@@ -25436,11 +26627,11 @@ extension Connect {
     }
 
     public struct ReplicationConfiguration: AWSDecodableShape {
-        /// The URL that is used to sign-in to your Amazon Connect instance according to your traffic distribution group configuration. For more information about sign-in and traffic distribution groups, see Important things to know in the Create traffic distribution groups topic in the Amazon Connect Administrator Guide.
+        /// The URL that is used to sign-in to your Connect Customer instance according to your traffic distribution group configuration. For more information about sign-in and traffic distribution groups, see Important things to know in the Create traffic distribution groups topic in the Connect Customer Administrator Guide.
         public let globalSignInEndpoint: String?
-        /// A list of replication status summaries. The summaries contain details about the replication of configuration information for Amazon Connect resources, for each Amazon Web Services Region.
+        /// A list of replication status summaries. The summaries contain details about the replication of configuration information for Connect Customer resources, for each Amazon Web Services Region.
         public let replicationStatusSummaryList: [ReplicationStatusSummary]?
-        /// The Amazon Web Services Region where the source Amazon Connect instance was created. This is the Region where the ReplicateInstance API was called to start the replication process.
+        /// The Amazon Web Services Region where the source Connect Customer instance was created. This is the Region where the ReplicateInstance API was called to start the replication process.
         public let sourceRegion: String?
 
         @inlinable
@@ -25462,7 +26653,7 @@ extension Connect {
         public let region: String?
         /// The state of the replication.
         public let replicationStatus: InstanceReplicationStatus?
-        /// A description of the replication status. Use this information to resolve any issues that are preventing the successful replication of your Amazon Connect instance to another Region.
+        /// A description of the replication status. Use this information to resolve any issues that are preventing the successful replication of your Connect Customer instance to another Region.
         public let replicationStatusReason: String?
 
         @inlinable
@@ -25543,7 +26734,7 @@ extension Connect {
         public let contactRecordingType: ContactRecordingType?
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -25580,7 +26771,7 @@ extension Connect {
         public let contactFlowId: String?
         /// The identifier of the contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         @inlinable
@@ -25614,7 +26805,7 @@ extension Connect {
         public let activationTimestamp: Date?
         /// Information about the index of the routing criteria.
         public let index: Int?
-        /// List of routing steps. When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        /// List of routing steps. When Connect Customer does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public let steps: [Step]?
 
         @inlinable
@@ -25632,7 +26823,7 @@ extension Connect {
     }
 
     public struct RoutingCriteriaInput: AWSEncodableShape {
-        /// When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        /// When Connect Customer does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public let steps: [RoutingCriteriaInputStep]?
 
         @inlinable
@@ -25698,7 +26889,7 @@ extension Connect {
         public let defaultOutboundQueueId: String?
         /// The description of the routing profile.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// Whether this a default routing profile.
         public let isDefault: Bool?
@@ -25805,7 +26996,7 @@ extension Connect {
     }
 
     public struct RoutingProfileQueueConfig: AWSEncodableShape {
-        /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
+        /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Connect Customer Administrator Guide.
         public let delay: Int
         /// The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay.
         public let priority: Int
@@ -25836,7 +27027,7 @@ extension Connect {
     public struct RoutingProfileQueueConfigSummary: AWSDecodableShape {
         /// The channels this queue supports.
         public let channel: Channel
-        /// The delay, in seconds, that a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
+        /// The delay, in seconds, that a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Connect Customer Administrator Guide.
         public let delay: Int
         /// The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay.
         public let priority: Int
@@ -25985,6 +27176,8 @@ extension Connect {
         public let publishStatus: RulePublishStatus
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
+        /// The list of capability tiers associated with the rule. Used for categorizing rules by capability (for example, GenerativeAI).
+        public let ruleCapabilityTiers: [RuleCapabilityTier]?
         /// A unique identifier for the rule.
         public let ruleId: String
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -25993,7 +27186,7 @@ extension Connect {
         public let triggerEventSource: RuleTriggerEventSource
 
         @inlinable
-        public init(actions: [RuleAction], createdTime: Date, function: String, lastUpdatedBy: String, lastUpdatedTime: Date, name: String, publishStatus: RulePublishStatus, ruleArn: String, ruleId: String, tags: [String: String]? = nil, triggerEventSource: RuleTriggerEventSource) {
+        public init(actions: [RuleAction], createdTime: Date, function: String, lastUpdatedBy: String, lastUpdatedTime: Date, name: String, publishStatus: RulePublishStatus, ruleArn: String, ruleCapabilityTiers: [RuleCapabilityTier]? = nil, ruleId: String, tags: [String: String]? = nil, triggerEventSource: RuleTriggerEventSource) {
             self.actions = actions
             self.createdTime = createdTime
             self.function = function
@@ -26002,6 +27195,7 @@ extension Connect {
             self.name = name
             self.publishStatus = publishStatus
             self.ruleArn = ruleArn
+            self.ruleCapabilityTiers = ruleCapabilityTiers
             self.ruleId = ruleId
             self.tags = tags
             self.triggerEventSource = triggerEventSource
@@ -26016,6 +27210,7 @@ extension Connect {
             case name = "Name"
             case publishStatus = "PublishStatus"
             case ruleArn = "RuleArn"
+            case ruleCapabilityTiers = "RuleCapabilityTiers"
             case ruleId = "RuleId"
             case tags = "Tags"
             case triggerEventSource = "TriggerEventSource"
@@ -26082,6 +27277,95 @@ extension Connect {
         }
     }
 
+    public struct RuleAttributeAndCondition: AWSEncodableShape {
+        /// A list of tag conditions that need to be applied with AND condition.
+        public let tagConditions: [TagCondition]?
+
+        @inlinable
+        public init(tagConditions: [TagCondition]? = nil) {
+            self.tagConditions = tagConditions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagConditions = "TagConditions"
+        }
+    }
+
+    public struct RuleAttributeFilter: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andCondition: RuleAttributeAndCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [RuleAttributeAndCondition]?
+        public let tagCondition: TagCondition?
+
+        @inlinable
+        public init(andCondition: RuleAttributeAndCondition? = nil, orConditions: [RuleAttributeAndCondition]? = nil, tagCondition: TagCondition? = nil) {
+            self.andCondition = andCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andCondition = "AndCondition"
+            case orConditions = "OrConditions"
+            case tagCondition = "TagCondition"
+        }
+    }
+
+    public struct RuleSearchSummary: AWSDecodableShape {
+        /// A list of ActionTypes associated with a rule.
+        public let actionSummaries: [ActionSummary]
+        /// The timestamp for when the rule was created.
+        public let createdTime: Date
+        /// The Amazon Resource Name (ARN) of the user who last updated the rule.
+        public let lastUpdatedBy: String
+        /// The timestamp for when the rule was last updated.
+        public let lastUpdatedTime: Date
+        /// The name of the rule.
+        public let name: String
+        /// The publish status of the rule.
+        public let publishStatus: RulePublishStatus
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let ruleArn: String
+        /// The list of capability tiers associated with the rule. Used for categorizing rules by capability (for example, GenerativeAI).
+        public let ruleCapabilityTiers: [RuleCapabilityTier]?
+        /// A unique identifier for the rule.
+        public let ruleId: String
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+        /// The event source to trigger the rule.
+        public let triggerEventSource: RuleTriggerEventSource
+
+        @inlinable
+        public init(actionSummaries: [ActionSummary], createdTime: Date, lastUpdatedBy: String, lastUpdatedTime: Date, name: String, publishStatus: RulePublishStatus, ruleArn: String, ruleCapabilityTiers: [RuleCapabilityTier]? = nil, ruleId: String, tags: [String: String]? = nil, triggerEventSource: RuleTriggerEventSource) {
+            self.actionSummaries = actionSummaries
+            self.createdTime = createdTime
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.publishStatus = publishStatus
+            self.ruleArn = ruleArn
+            self.ruleCapabilityTiers = ruleCapabilityTiers
+            self.ruleId = ruleId
+            self.tags = tags
+            self.triggerEventSource = triggerEventSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionSummaries = "ActionSummaries"
+            case createdTime = "CreatedTime"
+            case lastUpdatedBy = "LastUpdatedBy"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case publishStatus = "PublishStatus"
+            case ruleArn = "RuleArn"
+            case ruleCapabilityTiers = "RuleCapabilityTiers"
+            case ruleId = "RuleId"
+            case tags = "Tags"
+            case triggerEventSource = "TriggerEventSource"
+        }
+    }
+
     public struct RuleSummary: AWSDecodableShape {
         /// A list of ActionTypes associated with a rule.
         public let actionSummaries: [ActionSummary]
@@ -26097,11 +27381,13 @@ extension Connect {
         public let publishStatus: RulePublishStatus
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
+        /// The list of capability tiers associated with the rule. Used for categorizing rules by capability (for example, GenerativeAI).
+        public let ruleCapabilityTiers: [RuleCapabilityTier]?
         /// A unique identifier for the rule.
         public let ruleId: String
 
         @inlinable
-        public init(actionSummaries: [ActionSummary], createdTime: Date, eventSourceName: EventSourceName, lastUpdatedTime: Date, name: String, publishStatus: RulePublishStatus, ruleArn: String, ruleId: String) {
+        public init(actionSummaries: [ActionSummary], createdTime: Date, eventSourceName: EventSourceName, lastUpdatedTime: Date, name: String, publishStatus: RulePublishStatus, ruleArn: String, ruleCapabilityTiers: [RuleCapabilityTier]? = nil, ruleId: String) {
             self.actionSummaries = actionSummaries
             self.createdTime = createdTime
             self.eventSourceName = eventSourceName
@@ -26109,6 +27395,7 @@ extension Connect {
             self.name = name
             self.publishStatus = publishStatus
             self.ruleArn = ruleArn
+            self.ruleCapabilityTiers = ruleCapabilityTiers
             self.ruleId = ruleId
         }
 
@@ -26120,6 +27407,7 @@ extension Connect {
             case name = "Name"
             case publishStatus = "PublishStatus"
             case ruleArn = "RuleArn"
+            case ruleCapabilityTiers = "RuleCapabilityTiers"
             case ruleId = "RuleId"
         }
     }
@@ -26144,6 +27432,56 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case eventSourceName = "EventSourceName"
             case integrationAssociationId = "IntegrationAssociationId"
+        }
+    }
+
+    public struct RulesConfiguration: AWSEncodableShape {
+        /// Controls whether Contact Lens rules are evaluated for the contact. Valid values: Enable | Disable.
+        public let behavior: Behavior?
+
+        @inlinable
+        public init(behavior: Behavior? = nil) {
+            self.behavior = behavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "Behavior"
+        }
+    }
+
+    public struct RulesSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [RulesSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [RulesSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are Name, PublishStatus, EventSourceName, RuleId, IntegrationAssociationId, ActionSummaries, and RuleCapabilityTiers.
+        public let stringCondition: StringCondition?
+
+        @inlinable
+        public init(andConditions: [RulesSearchCriteria]? = nil, orConditions: [RulesSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct RulesSearchFilter: AWSEncodableShape {
+        /// An object that can be used to specify tag conditions inside the SearchFilter.
+        public let attributeFilter: RuleAttributeFilter?
+
+        @inlinable
+        public init(attributeFilter: RuleAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
         }
     }
 
@@ -26178,7 +27516,7 @@ extension Connect {
     }
 
     public struct SearchAgentStatusesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26239,7 +27577,7 @@ extension Connect {
     }
 
     public struct SearchAvailablePhoneNumbersRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
         public let instanceId: String?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26252,7 +27590,7 @@ extension Connect {
         public let phoneNumberPrefix: String?
         /// The type of phone number.
         public let phoneNumberType: PhoneNumberType
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
         public let targetArn: String?
 
         @inlinable
@@ -26288,7 +27626,7 @@ extension Connect {
     }
 
     public struct SearchAvailablePhoneNumbersResponse: AWSDecodableShape {
-        /// A list of available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group.
+        /// A list of available phone numbers that you can claim to your Connect Customer instance or traffic distribution group.
         public let availableNumbersList: [AvailableNumberSummary]?
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
@@ -26306,7 +27644,7 @@ extension Connect {
     }
 
     public struct SearchContactEvaluationsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26367,7 +27705,7 @@ extension Connect {
     }
 
     public struct SearchContactFlowModulesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26428,7 +27766,7 @@ extension Connect {
     }
 
     public struct SearchContactFlowsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26524,7 +27862,7 @@ extension Connect {
     }
 
     public struct SearchContactsRequest: AWSEncodableShape {
-        /// The identifier of Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26638,9 +27976,11 @@ extension Connect {
         public let agentHierarchyGroups: AgentHierarchyGroups?
         /// The identifiers of agents who handled the contacts.
         public let agentIds: [String]?
+        /// AI Agent search criteria definitions.
+        public let aiAgents: AiAgentsCriteria?
         /// The list of channels associated with contacts.
         public let channels: [Channel]?
-        /// Search criteria based on analysis outputs from Amazon Connect Contact Lens.
+        /// Search criteria based on analysis outputs from Connect Customer Contact Lens.
         public let contactAnalysis: ContactAnalysis?
         public let contactTags: ControlPlaneTagFilter?
         /// The list of initiation methods associated with contacts.
@@ -26651,17 +27991,18 @@ extension Connect {
         public let queueIds: [String]?
         /// Routing criteria for the contact.
         public let routingCriteria: SearchableRoutingCriteria?
-        /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see Search by custom contact attributes in the Amazon Connect Administrator Guide.  To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissionsActions defined by Amazon Connect.
+        /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see Search by custom contact attributes in the Connect Customer Administrator Guide.  To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissionsActions defined by Connect Customer.
         public let searchableContactAttributes: SearchableContactAttributes?
         /// The search criteria based on searchable segment attributes of a contact.
         public let searchableSegmentAttributes: SearchableSegmentAttributes?
 
         @inlinable
-        public init(activeRegions: [String]? = nil, additionalTimeRange: SearchContactsAdditionalTimeRange? = nil, agentHierarchyGroups: AgentHierarchyGroups? = nil, agentIds: [String]? = nil, channels: [Channel]? = nil, contactAnalysis: ContactAnalysis? = nil, contactTags: ControlPlaneTagFilter? = nil, initiationMethods: [ContactInitiationMethod]? = nil, name: NameCriteria? = nil, queueIds: [String]? = nil, routingCriteria: SearchableRoutingCriteria? = nil, searchableContactAttributes: SearchableContactAttributes? = nil, searchableSegmentAttributes: SearchableSegmentAttributes? = nil) {
+        public init(activeRegions: [String]? = nil, additionalTimeRange: SearchContactsAdditionalTimeRange? = nil, agentHierarchyGroups: AgentHierarchyGroups? = nil, agentIds: [String]? = nil, aiAgents: AiAgentsCriteria? = nil, channels: [Channel]? = nil, contactAnalysis: ContactAnalysis? = nil, contactTags: ControlPlaneTagFilter? = nil, initiationMethods: [ContactInitiationMethod]? = nil, name: NameCriteria? = nil, queueIds: [String]? = nil, routingCriteria: SearchableRoutingCriteria? = nil, searchableContactAttributes: SearchableContactAttributes? = nil, searchableSegmentAttributes: SearchableSegmentAttributes? = nil) {
             self.activeRegions = activeRegions
             self.additionalTimeRange = additionalTimeRange
             self.agentHierarchyGroups = agentHierarchyGroups
             self.agentIds = agentIds
+            self.aiAgents = aiAgents
             self.channels = channels
             self.contactAnalysis = contactAnalysis
             self.contactTags = contactTags
@@ -26683,6 +28024,7 @@ extension Connect {
                 try validate($0, name: "agentIds[]", parent: name, min: 1)
             }
             try self.validate(self.agentIds, name: "agentIds", parent: name, max: 100)
+            try self.aiAgents?.validate(name: "\(name).aiAgents")
             try self.contactAnalysis?.validate(name: "\(name).contactAnalysis")
             try self.name?.validate(name: "\(name).name")
             try self.validate(self.queueIds, name: "queueIds", parent: name, max: 100)
@@ -26696,6 +28038,7 @@ extension Connect {
             case additionalTimeRange = "AdditionalTimeRange"
             case agentHierarchyGroups = "AgentHierarchyGroups"
             case agentIds = "AgentIds"
+            case aiAgents = "AiAgents"
             case channels = "Channels"
             case contactAnalysis = "ContactAnalysis"
             case contactTags = "ContactTags"
@@ -26768,7 +28111,7 @@ extension Connect {
     }
 
     public struct SearchEmailAddressesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26830,7 +28173,7 @@ extension Connect {
     }
 
     public struct SearchEvaluationFormsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26891,7 +28234,7 @@ extension Connect {
     }
 
     public struct SearchHoursOfOperationOverridesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26952,7 +28295,7 @@ extension Connect {
     }
 
     public struct SearchHoursOfOperationsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27073,7 +28416,7 @@ extension Connect {
     }
 
     public struct SearchPredefinedAttributesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27130,7 +28473,7 @@ extension Connect {
     }
 
     public struct SearchPromptsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27192,7 +28535,7 @@ extension Connect {
     }
 
     public struct SearchQueuesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27254,7 +28597,7 @@ extension Connect {
     }
 
     public struct SearchQuickConnectsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27316,7 +28659,7 @@ extension Connect {
     }
 
     public struct SearchResourceTagsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27359,7 +28702,7 @@ extension Connect {
     public struct SearchResourceTagsResponse: AWSDecodableShape {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        /// A list of tags used in the Amazon Connect instance.
+        /// A list of tags used in the Connect Customer instance.
         public let tags: [TagSet]?
 
         @inlinable
@@ -27375,7 +28718,7 @@ extension Connect {
     }
 
     public struct SearchRoutingProfilesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27436,8 +28779,70 @@ extension Connect {
         }
     }
 
+    public struct SearchRulesRequest: AWSEncodableShape {
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return rules.
+        public let searchCriteria: RulesSearchCriteria?
+        /// Filters to be applied to search results, such as tag-based filters.
+        public let searchFilter: RulesSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: RulesSearchCriteria? = nil, searchFilter: RulesSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchRulesResponse: AWSDecodableShape {
+        /// The total number of rules which matched your search query.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Information about the rules.
+        public let rules: [RuleSearchSummary]
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, rules: [RuleSearchSummary]) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case rules = "Rules"
+        }
+    }
+
     public struct SearchSecurityProfilesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27562,7 +28967,7 @@ extension Connect {
     }
 
     public struct SearchUserHierarchyGroupsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27623,7 +29028,7 @@ extension Connect {
     }
 
     public struct SearchUsersRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -27746,7 +29151,7 @@ extension Connect {
     }
 
     public struct SearchVocabulariesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
         /// What is Amazon Transcribe?
@@ -28137,9 +29542,9 @@ extension Connect {
     }
 
     public struct SecurityProfile: AWSDecodableShape {
-        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
         public let allowedAccessControlHierarchyGroupId: String?
-        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
         public let allowedAccessControlTags: [String: String]?
         /// The Amazon Resource Name (ARN) for the security profile.
         public let arn: String?
@@ -28147,7 +29552,7 @@ extension Connect {
         public let description: String?
         /// The granular access control configuration for the security profile, including data table permissions.
         public let granularAccessControlConfiguration: GranularAccessControlConfiguration?
-        /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+        /// The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
         public let hierarchyRestrictedResources: [String]?
         /// The identifier for the security profile.
         public let id: String?
@@ -28159,7 +29564,7 @@ extension Connect {
         public let organizationResourceId: String?
         /// The name for the security profile.
         public let securityProfileName: String?
-        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+        /// The list of resources that a security profile applies tag restrictions to in Connect Customer.
         public let tagRestrictedResources: [String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -28354,7 +29759,7 @@ extension Connect {
     }
 
     public struct SendChatIntegrationEventRequest: AWSEncodableShape {
-        /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Amazon Connect instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
+        /// Chat system identifier, used in part to uniquely identify chat. This is associated with the Connect Customer instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
         public let destinationId: String
         /// Chat integration event payload
         public let event: ChatEvent
@@ -28415,7 +29820,7 @@ extension Connect {
     public struct SendNotificationActionDefinition: AWSEncodableShape & AWSDecodableShape {
         /// Notification content. Supports variable injection. For more information, see
         /// JSONPath reference
-        /// in the Amazon Connect Administrators Guide.
+        /// in the Connect Customer Administrators Guide.
         public let content: String
         /// Content type format.
         public let contentType: NotificationContentType
@@ -28427,7 +29832,7 @@ extension Connect {
         public let recipient: NotificationRecipientType
         /// The subject of the email if the delivery method is EMAIL. Supports variable injection. For more information, see
         /// JSONPath reference
-        /// in the Amazon Connect Administrators Guide.
+        /// in the Connect Customer Administrators Guide.
         public let subject: String?
 
         @inlinable
@@ -28468,7 +29873,7 @@ extension Connect {
         public let emailMessage: OutboundEmailContent
         /// The email address to be used for sending email.
         public let fromEmailAddress: EmailAddressInfo
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A Campaign object need for Campaign traffic type.
         public let sourceCampaign: SourceCampaign?
@@ -28524,6 +29929,91 @@ extension Connect {
 
     public struct SendOutboundEmailResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct SendOutboundWebNotificationRequest: AWSEncodableShape {
+        /// A unique identifier for the customer's web browser instance to which the notification is being sent.
+        public let browserId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The content of the web notification, including the notification type, the view to render, and any optional attributes used to populate it.
+        public let content: WebNotificationContent
+        /// The destination for the web notification, specifying the communication widget that delivers the notification and the customer profile of the recipient.
+        public let destination: WidgetDestination
+        /// The timestamp, in Unix epoch time format, at which the web notification expires. After this time, the notification is no longer delivered to the customer's browser.
+        public let expiresAt: Date
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// A unique identifier for the customer's web session to which the notification is being sent.
+        public let sessionId: String
+        /// The source of the web notification. A SourceCampaign object identifies the campaign and outbound request that triggered this notification.
+        public let source: WebNotificationSource
+
+        @inlinable
+        public init(browserId: String, clientToken: String? = SendOutboundWebNotificationRequest.idempotencyToken(), content: WebNotificationContent, destination: WidgetDestination, expiresAt: Date, instanceId: String, sessionId: String, source: WebNotificationSource) {
+            self.browserId = browserId
+            self.clientToken = clientToken
+            self.content = content
+            self.destination = destination
+            self.expiresAt = expiresAt
+            self.instanceId = instanceId
+            self.sessionId = sessionId
+            self.source = source
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.browserId, forKey: .browserId)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.content, forKey: .content)
+            try container.encode(self.destination, forKey: .destination)
+            try container.encode(self.expiresAt, forKey: .expiresAt)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.sessionId, forKey: .sessionId)
+            try container.encode(self.source, forKey: .source)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.browserId, name: "browserId", parent: name, max: 36)
+            try self.validate(self.browserId, name: "browserId", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.content.validate(name: "\(name).content")
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case browserId = "BrowserId"
+            case clientToken = "ClientToken"
+            case content = "Content"
+            case destination = "Destination"
+            case expiresAt = "ExpiresAt"
+            case sessionId = "SessionId"
+            case source = "Source"
+        }
+    }
+
+    public struct SendOutboundWebNotificationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct SentimentConfiguration: AWSEncodableShape {
+        /// Controls whether sentiment analysis is applied to the analytics output. Valid values: Enable | Disable.
+        public let behavior: Behavior
+
+        @inlinable
+        public init(behavior: Behavior) {
+            self.behavior = behavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "Behavior"
+        }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
@@ -28664,7 +30154,7 @@ extension Connect {
         public let fileSizeInBytes: Int64
         /// The use case for the file.  Only ATTACHMENTS are supported.
         public let fileUseCaseType: FileUseCaseType
-        /// The unique identifier of the Amazon Connect instance.
+        /// The unique identifier of the Connect Customer instance.
         public let instanceId: String
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -28764,13 +30254,13 @@ extension Connect {
     }
 
     public struct StartChatContactRequest: AWSEncodableShape {
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
         public let chatDurationInMinutes: Int?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
         /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
         public let customerId: String?
@@ -28778,7 +30268,7 @@ extension Connect {
         public let disconnectOnCustomerExit: [DisconnectOnCustomerExitParticipantType]?
         /// The initial message to be sent to the newly created chat.
         public let initialMessage: ChatMessage?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         ///  The configuration of the participant.
         public let participantConfiguration: ParticipantConfiguration?
@@ -28786,9 +30276,9 @@ extension Connect {
         public let participantDetails: ParticipantDetails
         /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see Enable persistent chat.
         public let persistentChat: PersistentChat?
-        /// The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting.  You cannot provide data for both RelatedContactId and PersistentChat.
+        /// The unique identifier for an Connect Customer contact. This identifier is related to the chat starting.  You cannot provide data for both RelatedContactId and PersistentChat.
         public let relatedContactId: String?
-        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
+        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
         public let segmentAttributes: [String: SegmentAttributeValue]?
         /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response.  Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response].   The type application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow block.
         public let supportedMessagingContentTypes: [String]?
@@ -28862,7 +30352,7 @@ extension Connect {
     }
 
     public struct StartChatContactResponse: AWSDecodableShape {
-        /// The identifier of this contact within the Amazon Connect instance.
+        /// The identifier of this contact within the Connect Customer instance.
         public let contactId: String?
         /// The contactId from which a persistent chat session is started. This field is populated only for persistent chats.
         public let continuedFromContactId: String?
@@ -28887,16 +30377,81 @@ extension Connect {
         }
     }
 
+    public struct StartContactConversationalAnalyticsJobRequest: AWSEncodableShape {
+        /// The configuration for the conversational analytics job.
+        public let analyticsConfiguration: AnalyticsConfiguration
+        /// The analytics modes to run for the contact. Valid values: PostContact.
+        public let analyticsModes: [AnalyticsMode]
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The identifier of the contact in this instance of Connect Customer.
+        public let contactId: String
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(analyticsConfiguration: AnalyticsConfiguration, analyticsModes: [AnalyticsMode], clientToken: String? = nil, contactId: String, instanceId: String) {
+            self.analyticsConfiguration = analyticsConfiguration
+            self.analyticsModes = analyticsModes
+            self.clientToken = clientToken
+            self.contactId = contactId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analyticsConfiguration, forKey: .analyticsConfiguration)
+            try container.encode(self.analyticsModes, forKey: .analyticsModes)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.contactId, key: "ContactId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.analyticsConfiguration.validate(name: "\(name).analyticsConfiguration")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyticsConfiguration = "AnalyticsConfiguration"
+            case analyticsModes = "AnalyticsModes"
+            case clientToken = "ClientToken"
+        }
+    }
+
+    public struct StartContactConversationalAnalyticsJobResponse: AWSDecodableShape {
+        /// The identifier of the contact.
+        public let contactId: String?
+        /// The identifier of the Connect Customer instance.
+        public let instanceId: String?
+
+        @inlinable
+        public init(contactId: String? = nil, instanceId: String? = nil) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
     public struct StartContactEvaluationRequest: AWSEncodableShape {
         /// Whether automated evaluations are enabled.
         public let autoEvaluationConfiguration: AutoEvaluationConfiguration?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -28972,7 +30527,7 @@ extension Connect {
         public let contactId: String?
         ///  The desired behavior for failed message processing.
         public let failureMode: ContactMediaProcessingFailureMode?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         ///  The Amazon Resource Name (ARN) of the Lambda processor. You can find the Amazon Resource Name of the lambda in the lambda console.
         public let processorArn: String?
@@ -29009,7 +30564,7 @@ extension Connect {
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The person being recorded.
         public let voiceRecordingConfiguration: VoiceRecordingConfiguration
@@ -29050,7 +30605,7 @@ extension Connect {
         public let clientToken: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -29097,21 +30652,21 @@ extension Connect {
         public let additionalRecipients: InboundAdditionalRecipients?
         /// List of S3 presigned URLs of email attachments and their file name.
         public let attachments: [EmailAttachment]?
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the flow for initiating the emails. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        /// The identifier of the flow for initiating the emails. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String?
         /// A description of the email contact.
         public let description: String?
-        /// The email address associated with the Amazon Connect instance.
+        /// The email address associated with the Connect Customer instance.
         public let destinationEmailAddress: String
         /// The email message body to be sent to the newly created email.
         public let emailMessage: InboundEmailContent
         /// The email address of the customer.
         public let fromEmailAddress: EmailAddressInfo
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of a email that is shown to an agent in the Contact Control Panel (CCP).
         public let name: String?
@@ -29119,7 +30674,7 @@ extension Connect {
         public let references: [String: Reference]?
         /// The contactId that is related to this contact. Linking emails together by using RelatedContactID copies over contact attributes from the related email contact to the new email contact. All updates to user-defined attributes in the new email contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
         public let relatedContactId: String?
-        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
+        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
         public let segmentAttributes: [String: SegmentAttributeValue]?
 
         @inlinable
@@ -29196,7 +30751,7 @@ extension Connect {
     }
 
     public struct StartEmailContactResponse: AWSDecodableShape {
-        /// The identifier of this contact within the Amazon Connect instance.
+        /// The identifier of this contact within the Connect Customer instance.
         public let contactId: String?
 
         @inlinable
@@ -29209,24 +30764,81 @@ extension Connect {
         }
     }
 
+    public struct StartEvaluationFormValidationRequest: AWSEncodableShape {
+        /// The unique identifier for the evaluation form.
+        public let evaluationFormId: String
+        /// The version of the evaluation form to validate.
+        public let evaluationFormVersion: Int
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(evaluationFormId: String, evaluationFormVersion: Int = 0, instanceId: String) {
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.evaluationFormId, key: "EvaluationFormId")
+            try container.encode(self.evaluationFormVersion, forKey: .evaluationFormVersion)
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, max: 500)
+            try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationFormVersion = "EvaluationFormVersion"
+        }
+    }
+
+    public struct StartEvaluationFormValidationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        public let evaluationFormArn: String
+        /// The unique identifier for the evaluation form.
+        public let evaluationFormId: String
+        /// A version of the evaluation form.
+        public let evaluationFormVersion: Int
+
+        @inlinable
+        public init(evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int) {
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormVersion = evaluationFormVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationFormArn = "EvaluationFormArn"
+            case evaluationFormId = "EvaluationFormId"
+            case evaluationFormVersion = "EvaluationFormVersion"
+        }
+    }
+
     public struct StartOutboundChatContactRequest: AWSEncodableShape {
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes.
         public let attributes: [String: String]?
         /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
         public let chatDurationInMinutes: Int?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
         public let clientToken: String?
-        /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
+        /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
         public let contactFlowId: String
         public let destinationEndpoint: Endpoint
         public let initialSystemMessage: ChatMessage?
         public let initialTemplatedSystemMessage: TemplatedMessageConfig?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let participantDetails: ParticipantDetails?
-        /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+        /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
         public let relatedContactId: String?
-        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:SMS and connect:WhatsApp.
+        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:SMS and connect:WhatsApp.
         public let segmentAttributes: [String: SegmentAttributeValue]
         public let sourceEndpoint: Endpoint
         /// The supported chat message content types. Supported types are:    text/plain     text/markdown     application/json, application/vnd.amazonaws.connect.message.interactive     application/vnd.amazonaws.connect.message.interactive.response    Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:    [text/plain, text/markdown, application/json]     [text/markdown, text/plain]     [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
@@ -29297,7 +30909,7 @@ extension Connect {
     }
 
     public struct StartOutboundChatContactResponse: AWSDecodableShape {
-        /// The identifier of this contact within the Amazon Connect instance.
+        /// The identifier of this contact within the Connect Customer instance.
         public let contactId: String?
 
         @inlinable
@@ -29315,15 +30927,15 @@ extension Connect {
         public let additionalRecipients: OutboundAdditionalRecipients?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
         /// The email address of the customer.
         public let destinationEmailAddress: EmailAddressInfo
         /// The email message body to be sent to the newly created email.
         public let emailMessage: OutboundEmailContent
-        /// The email address associated with the Amazon Connect instance.
+        /// The email address associated with the Connect Customer instance.
         public let fromEmailAddress: EmailAddressInfo?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -29361,7 +30973,7 @@ extension Connect {
     }
 
     public struct StartOutboundEmailContactResponse: AWSDecodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String?
 
         @inlinable
@@ -29377,19 +30989,19 @@ extension Connect {
     public struct StartOutboundVoiceContactRequest: AWSEncodableShape {
         /// Configuration of the answering machine detection for this outbound call.
         public let answerMachineDetectionConfig: AnswerMachineDetectionConfig?
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// The campaign identifier of the outbound communication.
         public let campaignId: String?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
         public let clientToken: String?
-        /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
-        /// A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see Download and review CCP logs in the Amazon Connect Administrator Guide.
+        /// A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see Download and review CCP logs in the Connect Customer Administrator Guide.
         public let description: String?
         /// The phone number of the customer, in E.164 format.
         public let destinationPhoneNumber: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP).
         public let name: String?
@@ -29403,9 +31015,9 @@ extension Connect {
         public let relatedContactId: String?
         /// The maximum time the outbound call will wait for the destination to answer the call, in seconds
         public let ringTimeoutInSeconds: Int?
-        /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
+        /// The phone number associated with the Connect Customer instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
         public let sourcePhoneNumber: String?
-        /// Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
+        /// Denotes the class of traffic. Calls with different traffic types are handled differently by Connect Customer. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
         public let trafficType: TrafficType?
 
         @inlinable
@@ -29477,7 +31089,7 @@ extension Connect {
     }
 
     public struct StartOutboundVoiceContactResponse: AWSDecodableShape {
-        /// The identifier of this contact within the Amazon Connect instance.
+        /// The identifier of this contact within the Connect Customer instance.
         public let contactId: String?
 
         @inlinable
@@ -29493,9 +31105,9 @@ extension Connect {
     public struct StartScreenSharingRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -29527,15 +31139,15 @@ extension Connect {
     public struct StartTaskContactRequest: AWSEncodableShape {
         /// List of S3 presigned URLs of task attachments and their file name. You can have a maximum of 5 attachments per task.
         public let attachments: [TaskAttachment]?
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        /// The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String?
         /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
         public let name: String
@@ -29549,9 +31161,9 @@ extension Connect {
         public let relatedContactId: String?
         /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
         public let scheduledTime: Date?
-        /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.  To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
+        /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.  To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
         public let segmentAttributes: [String: SegmentAttributeValue]?
-        /// A unique identifier for the task template. For more information about task templates, see Create task templates in the Amazon Connect Administrator Guide.
+        /// A unique identifier for the task template. For more information about task templates, see Create task templates in the Connect Customer Administrator Guide.
         public let taskTemplateId: String?
 
         @inlinable
@@ -29626,7 +31238,7 @@ extension Connect {
     }
 
     public struct StartTaskContactResponse: AWSDecodableShape {
-        /// The identifier of this contact within the Amazon Connect instance.
+        /// The identifier of this contact within the Connect Customer instance.
         public let contactId: String?
 
         @inlinable
@@ -29648,7 +31260,7 @@ extension Connect {
         public let testCaseId: String
 
         @inlinable
-        public init(clientToken: String? = nil, instanceId: String, testCaseId: String) {
+        public init(clientToken: String? = StartTestCaseExecutionRequest.idempotencyToken(), instanceId: String, testCaseId: String) {
             self.clientToken = clientToken
             self.instanceId = instanceId
             self.testCaseId = testCaseId
@@ -29698,20 +31310,20 @@ extension Connect {
     public struct StartWebRTCContactRequest: AWSEncodableShape {
         /// Information about the video sharing capabilities of the participants (customer, agent).
         public let allowedCapabilities: AllowedCapabilities?
-        /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
+        /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
         public let clientToken: String?
-        /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        /// The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
         /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let participantDetails: ParticipantDetails
         /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
         public let references: [String: Reference]?
-        /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+        /// The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
         public let relatedContactId: String?
 
         @inlinable
@@ -29764,7 +31376,7 @@ extension Connect {
     public struct StartWebRTCContactResponse: AWSDecodableShape {
         /// Information required for the client application (mobile application or website) to connect to the call.
         public let connectionData: ConnectionData?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String?
         /// The identifier for a contact participant. The ParticipantId for a contact participant is the same throughout the contact lifecycle.
         public let participantId: String?
@@ -29834,7 +31446,7 @@ extension Connect {
     public struct StopContactMediaProcessingRequest: AWSEncodableShape {
         ///  The identifier of the contact.
         public let contactId: String?
-        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        ///  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
 
         @inlinable
@@ -29867,7 +31479,7 @@ extension Connect {
         public let contactRecordingType: ContactRecordingType?
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -29902,9 +31514,9 @@ extension Connect {
     public struct StopContactRequest: AWSEncodableShape {
         /// The ID of the contact.
         public let contactId: String
-        /// The reason a contact can be disconnected. Only Amazon Connect outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under ContactTraceRecord in the Amazon Connect Administrator Guide.
+        /// The reason a contact can be disconnected. Only Connect Customer outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under ContactTraceRecord in the Connect Customer Administrator Guide.
         public let disconnectReason: DisconnectReason?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -29935,7 +31547,7 @@ extension Connect {
     public struct StopContactStreamingRequest: AWSEncodableShape {
         /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the streaming configuration enabled.
         public let streamingId: String
@@ -29978,7 +31590,7 @@ extension Connect {
         public let testCaseId: String
 
         @inlinable
-        public init(clientToken: String? = nil, instanceId: String, testCaseExecutionId: String, testCaseId: String) {
+        public init(clientToken: String? = StopTestCaseExecutionRequest.idempotencyToken(), instanceId: String, testCaseExecutionId: String, testCaseId: String) {
             self.clientToken = clientToken
             self.instanceId = instanceId
             self.testCaseExecutionId = testCaseExecutionId
@@ -30075,7 +31687,7 @@ extension Connect {
         public let answers: [String: EvaluationAnswerInput]?
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A map of question identifiers to note value.
         public let notes: [String: EvaluationNote]?
@@ -30177,6 +31789,24 @@ extension Connect {
         }
     }
 
+    public struct SummaryConfiguration: AWSEncodableShape {
+        /// The summary modes that determine what type of summarization is generated. Valid values: PostContact | AutomatedInteraction | ContactChain.
+        public let summaryModes: [SummaryMode]
+
+        @inlinable
+        public init(summaryModes: [SummaryMode]) {
+            self.summaryModes = summaryModes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.summaryModes, name: "summaryModes", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case summaryModes = "SummaryModes"
+        }
+    }
+
     public struct SuspendContactRecordingRequest: AWSEncodableShape {
         /// The identifier of the contact.
         public let contactId: String
@@ -30184,7 +31814,7 @@ extension Connect {
         public let contactRecordingType: ContactRecordingType?
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -30235,9 +31865,9 @@ extension Connect {
     }
 
     public struct TagContactRequest: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The tags to be assigned to the contact resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.  Authorization is not supported by this tag.
         public let tags: [String: String]
@@ -30364,11 +31994,11 @@ extension Connect {
         public let contactFlowId: String
         /// The description. Supports variable injection. For more information, see
         /// JSONPath reference
-        /// in the Amazon Connect Administrators Guide.
+        /// in the Connect Customer Administrators Guide.
         public let description: String?
         /// The name. Supports variable injection. For more information, see
         /// JSONPath reference
-        /// in the Amazon Connect Administrators Guide.
+        /// in the Connect Customer Administrators Guide.
         public let name: String
         /// Information about the reference when the referenceType is URL. Otherwise, null. (Supports variable injection in the Value field.)
         public let references: [String: Reference]?
@@ -30704,7 +32334,7 @@ extension Connect {
         public let entryPoint: TestCaseEntryPoint?
         /// The identifier of the test case.
         public let id: String?
-        /// Defines the test attributes for precise data representation.
+        /// Defines the test attributes for precise data representation. The value must be a valid JSON string.
         public let initializationData: String?
         /// The region in which the test case was last modified.
         public let lastModifiedRegion: String?
@@ -31082,9 +32712,9 @@ extension Connect {
         public let clientToken: String?
         /// The identifier of the flow.
         public let contactFlowId: String
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String?
@@ -31125,7 +32755,7 @@ extension Connect {
     public struct TransferContactResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the contact.
         public let contactArn: String?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String?
 
         @inlinable
@@ -31141,9 +32771,9 @@ extension Connect {
     }
 
     public struct UntagContactRequest: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed.
         public let tagKeys: [String]
@@ -31223,7 +32853,7 @@ extension Connect {
         public let description: String?
         /// The display order of the agent status.
         public let displayOrder: Int?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the agent status.
         public let name: String?
@@ -31274,20 +32904,91 @@ extension Connect {
         }
     }
 
+    public struct UpdateAttachedFilesConfigurationRequest: AWSEncodableShape {
+        /// The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+        public let attachmentScope: AttachmentScope
+        /// The configuration for allowed file extensions.
+        public let extensionConfiguration: ExtensionConfiguration?
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB).
+        public let maximumSizeLimitInBytes: Int64?
+
+        @inlinable
+        public init(attachmentScope: AttachmentScope, extensionConfiguration: ExtensionConfiguration? = nil, instanceId: String, maximumSizeLimitInBytes: Int64? = nil) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentScope, key: "AttachmentScope")
+            try container.encodeIfPresent(self.extensionConfiguration, forKey: .extensionConfiguration)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maximumSizeLimitInBytes, forKey: .maximumSizeLimitInBytes)
+        }
+
+        public func validate(name: String) throws {
+            try self.extensionConfiguration?.validate(name: "\(name).extensionConfiguration")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maximumSizeLimitInBytes, name: "maximumSizeLimitInBytes", parent: name, max: 104857600)
+            try self.validate(self.maximumSizeLimitInBytes, name: "maximumSizeLimitInBytes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extensionConfiguration = "ExtensionConfiguration"
+            case maximumSizeLimitInBytes = "MaximumSizeLimitInBytes"
+        }
+    }
+
+    public struct UpdateAttachedFilesConfigurationResponse: AWSDecodableShape {
+        /// The scope of the attachment.
+        public let attachmentScope: AttachmentScope
+        /// The configuration for allowed file extensions.
+        public let extensionConfiguration: ExtensionConfiguration?
+        /// The identifier of the Connect Customer instance.
+        public let instanceId: String
+        /// The timestamp when the configuration was last modified.
+        public let lastModifiedTime: Date?
+        /// The maximum size limit for attached files in bytes.
+        public let maximumSizeLimitInBytes: Int64?
+
+        @inlinable
+        public init(attachmentScope: AttachmentScope, extensionConfiguration: ExtensionConfiguration? = nil, instanceId: String, lastModifiedTime: Date? = nil, maximumSizeLimitInBytes: Int64? = nil) {
+            self.attachmentScope = attachmentScope
+            self.extensionConfiguration = extensionConfiguration
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.maximumSizeLimitInBytes = maximumSizeLimitInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentScope = "AttachmentScope"
+            case extensionConfiguration = "ExtensionConfiguration"
+            case instanceId = "InstanceId"
+            case lastModifiedTime = "LastModifiedTime"
+            case maximumSizeLimitInBytes = "MaximumSizeLimitInBytes"
+        }
+    }
+
     public struct UpdateAuthenticationProfileRequest: AWSEncodableShape {
-        /// A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, seeConfigure session timeouts in the Amazon Connect Administrator Guide.
+        /// A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, seeConfigure session timeouts in the Connect Customer Administrator Guide.
         public let allowedIps: [String]?
         /// A unique identifier for the authentication profile.
         public let authenticationProfileId: String
-        /// A list of IP address range strings that are blocked from accessing the instance. For more information on how to configure IP addresses, For more information on how to configure IP addresses, see Configure IP-based access control in the Amazon Connect Administrator Guide.
+        /// A list of IP address range strings that are blocked from accessing the instance. For more information on how to configure IP addresses, For more information on how to configure IP addresses, see Configure IP-based access control in the Connect Customer Administrator Guide.
         public let blockedIps: [String]?
         /// The description for the authentication profile.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name for the authentication profile.
         public let name: String?
-        /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, For more information on how to configure IP addresses, see Configure session timeouts in the Amazon Connect Administrator Guide.
+        /// The short lived session duration configuration for users logged in to Connect Customer, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, For more information on how to configure IP addresses, see Configure session timeouts in the Connect Customer Administrator Guide.
         public let periodicSessionDuration: Int?
         /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
         public let sessionInactivityDuration: Int?
@@ -31392,11 +33093,11 @@ extension Connect {
     }
 
     public struct UpdateContactAttributesRequest: AWSEncodableShape {
-        /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the Set contact attributes block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:   Remove unnecessary attributes by setting their values to empty.   If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Amazon Connect Administrator Guide.
+        /// The Connect Customer attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the Set contact attributes block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:   Remove unnecessary attributes by setting their values to empty.   If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Connect Customer Administrator Guide.
         public let attributes: [String: String]
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -31434,7 +33135,7 @@ extension Connect {
         public let answers: [String: EvaluationAnswerInput]?
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A map of question identifiers to note value.
         public let notes: [String: EvaluationNote]?
@@ -31507,9 +33208,9 @@ extension Connect {
     public struct UpdateContactFlowContentRequest: AWSEncodableShape {
         /// The identifier of the flow.
         public let contactFlowId: String
-        /// The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
+        /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
         public let content: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
 
         @inlinable
@@ -31549,7 +33250,7 @@ extension Connect {
         public let contactFlowState: ContactFlowState?
         /// The description of the flow.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the flow.
         public let name: String?
@@ -31600,7 +33301,7 @@ extension Connect {
         public let contactFlowModuleVersion: Int64?
         /// The description of the alias.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the alias.
         public let name: String?
@@ -31656,9 +33357,9 @@ extension Connect {
     public struct UpdateContactFlowModuleContentRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
-        /// The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.
+        /// The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.
         public let content: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Serialized JSON string of the flow module Settings schema.
         public let settings: String?
@@ -31704,7 +33405,7 @@ extension Connect {
         public let contactFlowModuleId: String
         /// The description of the flow module.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the flow module.
         public let name: String?
@@ -31758,7 +33459,7 @@ extension Connect {
         public let contactFlowId: String
         /// The description of the flow.
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The name of the flow.
         public let name: String?
@@ -31800,23 +33501,23 @@ extension Connect {
     public struct UpdateContactRequest: AWSEncodableShape {
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
         public let contactId: String
-        /// The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see Amazon Connect Contact Lens integration in the Amazon Connect Administrator Guide.
+        /// The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see Connect Customer Contact Lens integration in the Connect Customer Administrator Guide.
         public let customerEndpoint: Endpoint?
         /// The description of the contact.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the contact.
         public let name: String?
-        ///  Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Amazon Connect Contact Lens integration in the  Amazon Connect Administrator Guide.
+        ///  Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Connect Customer Contact Lens integration in the  Connect Customer Administrator Guide.
         public let queueInfo: QueueInfoInput?
         /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
         public let references: [String: Reference]?
-        /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Contact Expiry, and user-defined attributes (String - String) that are defined in predefined attributes, can be updated by using the UpdateContact API.
+        /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Contact Expiry, and user-defined attributes (String - String) that are defined in predefined attributes, can be updated by using the UpdateContact API.
         public let segmentAttributes: [String: SegmentAttributeValue]?
-        /// External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see Amazon Connect Contact Lens integration in the Amazon Connect Administrator Guide.
+        /// External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see Connect Customer Contact Lens integration in the Connect Customer Administrator Guide.
         public let systemEndpoint: Endpoint?
-        /// Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Amazon Connect Contact Lens integration in the  Amazon Connect Administrator Guide.
+        /// Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Connect Customer Contact Lens integration in the  Connect Customer Administrator Guide.
         public let userInfo: UserInfo?
 
         @inlinable
@@ -31887,9 +33588,9 @@ extension Connect {
     }
 
     public struct UpdateContactRoutingDataRequest: AWSEncodableShape {
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
         public let queuePriority: Int64?
@@ -31941,7 +33642,7 @@ extension Connect {
     public struct UpdateContactScheduleRequest: AWSEncodableShape {
         /// The identifier of the contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
         public let scheduledTime: Date
@@ -32200,7 +33901,7 @@ extension Connect {
         public let displayName: String?
         /// The identifier of the email address.
         public let emailAddressId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -32272,7 +33973,7 @@ extension Connect {
         public let evaluationFormId: String
         /// A version of the evaluation form to update.
         public let evaluationFormVersion: Int
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
         public let items: [EvaluationFormItem]
@@ -32387,7 +34088,7 @@ extension Connect {
         public let hoursOfOperationId: String
         /// The identifier for the hours of operation override.
         public let hoursOfOperationOverrideId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Connect Customer instance.
         public let instanceId: String
         /// The name of the hours of operation override.
         public let name: String?
@@ -32459,7 +34160,7 @@ extension Connect {
         public let description: String?
         /// The identifier of the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the hours of operation.
         public let name: String?
@@ -32512,7 +34213,7 @@ extension Connect {
         public let attributeType: InstanceAttributeType
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The value for the attribute. Maximum character limit is 100.
         public let value: String
@@ -32553,7 +34254,7 @@ extension Connect {
         public let associationId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
@@ -32642,7 +34343,7 @@ extension Connect {
         public let error: String?
         /// The error_description parameter provided by Cognito in the redirectUri.
         public let errorDescription: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The state query parameter that was provided by Cognito in the redirectUri. This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response.
         public let state: String
@@ -32685,11 +34386,11 @@ extension Connect {
     }
 
     public struct UpdateParticipantRoleConfigRequest: AWSEncodableShape {
-        /// The Amazon Connect channel you want to configure.
+        /// The Connect Customer channel you want to configure.
         public let channelConfiguration: UpdateParticipantRoleConfigChannelInfo
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The identifier of the contact in this instance of Connect Customer.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -32762,11 +34463,11 @@ extension Connect {
     public struct UpdatePhoneNumberRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+        /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
         public let instanceId: String?
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
-        /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+        /// The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
         public let targetArn: String?
 
         @inlinable
@@ -32820,13 +34521,13 @@ extension Connect {
     public struct UpdatePredefinedAttributeRequest: AWSEncodableShape {
         /// Custom metadata that is associated to predefined attributes to control behavior
         /// in upstream services, such as controlling
-        /// how a predefined attribute should be displayed in the Amazon Connect admin website.
+        /// how a predefined attribute should be displayed in the Connect Customer admin website.
         public let attributeConfiguration: InputPredefinedAttributeConfiguration?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the predefined attribute.
         public let name: String
-        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+        /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
         public let purposes: [String]?
         /// The values of the predefined attribute.
         public let values: PredefinedAttributeValues?
@@ -32873,7 +34574,7 @@ extension Connect {
     public struct UpdatePromptRequest: AWSEncodableShape {
         /// A description of the prompt.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the prompt.
         public let name: String?
@@ -32944,7 +34645,7 @@ extension Connect {
     public struct UpdateQueueHoursOfOperationRequest: AWSEncodableShape {
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -32975,7 +34676,7 @@ extension Connect {
     }
 
     public struct UpdateQueueMaxContactsRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of contacts that can be in the queue before it is considered full.
         public let maxContacts: Int?
@@ -33011,7 +34712,7 @@ extension Connect {
     public struct UpdateQueueNameRequest: AWSEncodableShape {
         /// The description of the queue.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the queue.
         public let name: String?
@@ -33051,7 +34752,7 @@ extension Connect {
     }
 
     public struct UpdateQueueOutboundCallerConfigRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The outbound caller ID name, number, and outbound whisper flow.
         public let outboundCallerConfig: OutboundCallerConfig
@@ -33085,7 +34786,7 @@ extension Connect {
     }
 
     public struct UpdateQueueOutboundEmailConfigRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The outbound email address ID for a specified queue.
         public let outboundEmailConfig: OutboundEmailConfig
@@ -33119,7 +34820,7 @@ extension Connect {
     }
 
     public struct UpdateQueueStatusRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -33152,7 +34853,7 @@ extension Connect {
     }
 
     public struct UpdateQuickConnectConfigRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Information about the configuration settings for the quick connect.
         public let quickConnectConfig: QuickConnectConfig
@@ -33188,7 +34889,7 @@ extension Connect {
     public struct UpdateQuickConnectNameRequest: AWSEncodableShape {
         /// The description of the quick connect.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the quick connect.
         public let name: String?
@@ -33229,7 +34930,7 @@ extension Connect {
     public struct UpdateRoutingProfileAgentAvailabilityTimerRequest: AWSEncodableShape {
         /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
         public let agentAvailabilityTimer: AgentAvailabilityTimer
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the routing profile.
         public let routingProfileId: String
@@ -33260,7 +34961,7 @@ extension Connect {
     }
 
     public struct UpdateRoutingProfileConcurrencyRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         public let mediaConcurrencies: [MediaConcurrency]
@@ -33298,7 +34999,7 @@ extension Connect {
     public struct UpdateRoutingProfileDefaultOutboundQueueRequest: AWSEncodableShape {
         /// The identifier for the default outbound queue.
         public let defaultOutboundQueueId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the routing profile.
         public let routingProfileId: String
@@ -33331,7 +35032,7 @@ extension Connect {
     public struct UpdateRoutingProfileNameRequest: AWSEncodableShape {
         /// The description of the routing profile. Must not be more than 250 characters.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the routing profile. Must not be more than 127 characters.
         public let name: String?
@@ -33371,7 +35072,7 @@ extension Connect {
     }
 
     public struct UpdateRoutingProfileQueuesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
         public let queueConfigs: [RoutingProfileQueueConfig]
@@ -33413,7 +35114,7 @@ extension Connect {
         public let actions: [RuleAction]
         /// The conditions of the rule.
         public let function: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the rule. You can change the name only if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
         public let name: String
@@ -33465,9 +35166,9 @@ extension Connect {
     }
 
     public struct UpdateSecurityProfileRequest: AWSEncodableShape {
-        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
         public let allowedAccessControlHierarchyGroupId: String?
-        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        /// The list of tags that a security profile uses to restrict access to resources in Connect Customer.
         public let allowedAccessControlTags: [String: String]?
         ///  A list of Flow Modules an AI Agent can invoke as a tool
         public let allowedFlowModules: [FlowModule]?
@@ -33477,15 +35178,15 @@ extension Connect {
         public let description: String?
         /// The granular access control configuration for the security profile, including data table permissions.
         public let granularAccessControlConfiguration: GranularAccessControlConfiguration?
-        /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+        /// The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
         public let hierarchyRestrictedResources: [String]?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The permissions granted to a security profile. For a list of valid permissions, see List of security profile permissions.
         public let permissions: [String]?
         /// The identifier for the security profle.
         public let securityProfileId: String
-        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+        /// The list of resources that a security profile applies tag restrictions to in Connect Customer.
         public let tagRestrictedResources: [String]?
 
         @inlinable
@@ -33569,16 +35270,18 @@ extension Connect {
 
     public struct UpdateTaskTemplateRequest: AWSEncodableShape {
         /// Constraints that are applicable to the fields listed.
+        /// Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate.
+        /// The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
         public let constraints: TaskTemplateConstraints?
-        /// The identifier of the flow that runs by default when a task is created by referencing this template.
+        /// The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
         public let contactFlowId: String?
         /// The default values for fields when a task is created by referencing this template.
         public let defaults: TaskTemplateDefaults?
         /// The description of the task template.
         public let description: String?
-        /// Fields that are part of the template.
+        /// Fields that are part of the template. The request must contain exactly one field of type NAME. This field must also be listed in the RequiredFields array within the Constraints parameter.
         public let fields: [TaskTemplateField]?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the task template.
         public let name: String?
@@ -33586,7 +35289,7 @@ extension Connect {
         public let selfAssignFlowId: String?
         /// Marks a template as ACTIVE or INACTIVE for a task to refer to it.
         /// Tasks can only be created from ACTIVE templates.
-        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created. Although this parameter is marked as optional, the service requires it when calling UpdateTaskTemplate.
         public let status: TaskTemplateStatus?
         /// A unique identifier for the task template.
         public let taskTemplateId: String
@@ -33654,6 +35357,8 @@ extension Connect {
         /// The Amazon Resource Name (ARN) for the task template resource.
         public let arn: String?
         /// Constraints that are applicable to the fields listed.
+        /// Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate.
+        /// The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields.
         public let constraints: TaskTemplateConstraints?
         /// The identifier of the flow that runs by default when a task is created by referencing this template.
         public let contactFlowId: String?
@@ -33667,7 +35372,7 @@ extension Connect {
         public let fields: [TaskTemplateField]?
         /// The identifier of the task template resource.
         public let id: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String?
         /// The timestamp when the task template was last modified.
         public let lastModifiedTime: Date?
@@ -33842,7 +35547,7 @@ extension Connect {
         public let afterContactWorkConfigs: [AfterContactWorkConfigPerChannel]?
         /// The list of auto-accept configuration settings for each channel. When auto-accept is enabled for a channel, available agents are automatically connected to contacts from that channel without needing to manually accept. Auto-accept connects agents to contacts in less than one second.
         public let autoAcceptConfigs: [AutoAcceptConfig]?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The list of persistent connection configuration settings for each channel.
         public let persistentConnectionConfigs: [PersistentConnectionConfig]?
@@ -33899,7 +35604,7 @@ extension Connect {
     public struct UpdateUserHierarchyGroupNameRequest: AWSEncodableShape {
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the hierarchy group. Must not be more than 100 characters.
         public let name: String
@@ -33932,7 +35637,7 @@ extension Connect {
     public struct UpdateUserHierarchyRequest: AWSEncodableShape {
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String?
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -33965,7 +35670,7 @@ extension Connect {
     public struct UpdateUserHierarchyStructureRequest: AWSEncodableShape {
         /// The hierarchy levels to update.
         public let hierarchyStructure: HierarchyStructureUpdate
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
@@ -33994,7 +35699,7 @@ extension Connect {
     public struct UpdateUserIdentityInfoRequest: AWSEncodableShape {
         /// The identity information for the user.
         public let identityInfo: UserIdentityInfo
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -34079,7 +35784,7 @@ extension Connect {
     }
 
     public struct UpdateUserPhoneConfigRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// Information about phone configuration settings for the user.
         public let phoneConfig: UserPhoneConfig
@@ -34113,7 +35818,7 @@ extension Connect {
     }
 
     public struct UpdateUserProficienciesRequest: AWSEncodableShape {
-        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        ///  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -34149,7 +35854,7 @@ extension Connect {
     }
 
     public struct UpdateUserRoutingProfileRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifier of the routing profile for the user.
         public let routingProfileId: String
@@ -34182,7 +35887,7 @@ extension Connect {
     }
 
     public struct UpdateUserSecurityProfilesRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The identifiers of the security profiles for the user.
         public let securityProfileIds: [String]
@@ -34219,7 +35924,7 @@ extension Connect {
     public struct UpdateViewContentRequest: AWSEncodableShape {
         /// View content containing all content necessary to render a view except for runtime input data and the runtime input schema, which is auto-generated by this operation. The total uncompressed content has a maximum file size of 400kB.
         public let content: ViewInputContent
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
         public let status: ViewStatus
@@ -34276,7 +35981,7 @@ extension Connect {
     public struct UpdateViewMetadataRequest: AWSEncodableShape {
         /// The description of the view.
         public let description: String?
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the view.
         public let name: String?
@@ -34794,9 +36499,9 @@ extension Connect {
     public struct UserIdentityInfo: AWSEncodableShape & AWSDecodableShape {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
-        /// The first name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
+        /// The first name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public let firstName: String?
-        /// The last name. This is required if you are using Amazon Connect or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
+        /// The last name. This is required if you are using Connect Customer or SAML for identity management. Inputs must be in Unicode Normalization Form C (NFC). Text containing characters in a non-NFC form (for example, decomposed characters or combining marks) are not accepted.
         public let lastName: String?
         /// The user's mobile number.
         public let mobile: String?
@@ -34946,9 +36651,9 @@ extension Connect {
     }
 
     public struct UserProficiency: AWSEncodableShape & AWSDecodableShape {
-        /// The name of user's proficiency. You must use name of predefined attribute present in the Amazon Connect instance.
+        /// The name of user's proficiency. You must use name of predefined attribute present in the Connect Customer instance.
         public let attributeName: String
-        /// The value of user's proficiency. You must use value of predefined attribute present in the Amazon Connect instance.
+        /// The value of user's proficiency. You must use value of predefined attribute present in the Connect Customer instance.
         public let attributeValue: String
         /// The level of the proficiency. The valid values are 1, 2, 3, 4 and 5.
         public let level: Float
@@ -35166,7 +36871,7 @@ extension Connect {
         public let lastModifiedRegion: String?
         /// The timestamp when this resource was last modified.
         public let lastModifiedTime: Date?
-        /// The Amazon Connect user name of the user account.
+        /// The Connect Customer user name of the user account.
         public let username: String?
 
         @inlinable
@@ -35645,6 +37350,77 @@ extension Connect {
         }
     }
 
+    public struct WebNotificationContent: AWSEncodableShape {
+        /// Optional attributes used to populate the notification content, such as recommender configuration for personalized content.
+        public let attributes: ContentAttributes?
+        /// The type of web notification to send.
+        public let type: NotificationType
+        /// The Amazon Resource Name (ARN) of the view to render for the notification.
+        public let viewArn: String?
+
+        @inlinable
+        public init(attributes: ContentAttributes? = nil, type: NotificationType, viewArn: String? = nil) {
+            self.attributes = attributes
+            self.type = type
+            self.viewArn = viewArn
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.validate(name: "\(name).attributes")
+            try self.validate(self.viewArn, name: "viewArn", parent: name, max: 500)
+            try self.validate(self.viewArn, name: "viewArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case type = "Type"
+            case viewArn = "ViewArn"
+        }
+    }
+
+    public struct WebNotificationSource: AWSEncodableShape {
+        /// Information about the campaign that triggered the web notification, including the campaign identifier and outbound request identifier.
+        public let sourceCampaign: SourceCampaign
+
+        @inlinable
+        public init(sourceCampaign: SourceCampaign) {
+            self.sourceCampaign = sourceCampaign
+        }
+
+        public func validate(name: String) throws {
+            try self.sourceCampaign.validate(name: "\(name).sourceCampaign")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceCampaign = "SourceCampaign"
+        }
+    }
+
+    public struct WidgetDestination: AWSEncodableShape {
+        /// The identifier of the customer profile associated with the browser session that should receive the notification.
+        public let profileId: String
+        /// The identifier of the communication widget that delivers the notification to the customer's browser.
+        public let widgetId: String
+
+        @inlinable
+        public init(profileId: String, widgetId: String) {
+            self.profileId = profileId
+            self.widgetId = widgetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.widgetId, name: "widgetId", parent: name, max: 36)
+            try self.validate(self.widgetId, name: "widgetId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
+            case widgetId = "WidgetId"
+        }
+    }
+
     public struct WisdomInfo: AWSDecodableShape {
         /// The array of AI agents involved in the contact.
         public let aiAgents: [AiAgentInfo]?
@@ -36075,7 +37851,7 @@ extension Connect {
     }
 
     public struct EvaluatorUserUnion: AWSEncodableShape {
-        /// Represents the Amazon Connect ARN of the user.
+        /// Represents the Connect Customer ARN of the user.
         public let connectUserArn: String?
 
         @inlinable
@@ -36196,6 +37972,7 @@ public struct ConnectErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case contactFlowNotPublishedException = "ContactFlowNotPublishedException"
         case contactNotFoundException = "ContactNotFoundException"
+        case contactNotTerminatedException = "ContactNotTerminatedException"
         case destinationNotAllowedException = "DestinationNotAllowedException"
         case duplicateResourceException = "DuplicateResourceException"
         case idempotencyException = "IdempotencyException"
@@ -36249,6 +38026,8 @@ public struct ConnectErrorType: AWSErrorType {
     public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
     /// The contact with the specified ID does not exist.
     public static var contactNotFoundException: Self { .init(.contactNotFoundException) }
+    /// The contact has not been disconnected and is not in a terminated state. PII can be deleted only from a contact that has been disconnected. This error is returned with an HTTP 409 status code.
+    public static var contactNotTerminatedException: Self { .init(.contactNotTerminatedException) }
     /// Outbound calls to the destination number are not allowed.
     public static var destinationNotAllowedException: Self { .init(.destinationNotAllowedException) }
     /// A resource with the specified name already exists.
@@ -36293,7 +38072,7 @@ public struct ConnectErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Displayed when rate-related API limits are exceeded.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
-    /// No user with the specified credentials was found in the Amazon Connect instance.
+    /// No user with the specified credentials was found in the Connect Customer instance.
     public static var userNotFoundException: Self { .init(.userNotFoundException) }
 }
 

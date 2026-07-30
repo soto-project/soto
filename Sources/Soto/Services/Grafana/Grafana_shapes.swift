@@ -63,6 +63,14 @@ extension Grafana {
         public var description: String { return self.rawValue }
     }
 
+    public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Indicates that connections to this workspace can be made over IPv4 or IPv6.
+        case dualStack = "DualStack"
+        /// Indicates that connections to this workspace can only be made over IPv4.
+        case iPv4 = "IPv4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LicenseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Grafana Enterprise License.
         case enterprise = "ENTERPRISE"
@@ -134,6 +142,8 @@ extension Grafana {
         case creating = "CREATING"
         /// Workspace creation failed.
         case creationFailed = "CREATION_FAILED"
+        /// Workspace is degraded.
+        case degraded = "DEGRADED"
         /// Workspace is being deleted.
         case deleting = "DELETING"
         /// Workspace deletion failed.
@@ -454,6 +464,8 @@ extension Grafana {
         public let configuration: String?
         /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
         public let grafanaVersion: String?
+        /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see Network access control.
+        public let ipAddressType: IPAddressType?
         /// The ID or ARN of the Key Management Service key to use for encrypting workspace data.
         public let kmsKeyId: String?
         /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
@@ -482,12 +494,13 @@ extension Grafana {
         public let workspaceRoleArn: String?
 
         @inlinable
-        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), configuration: String? = nil, grafanaVersion: String? = nil, kmsKeyId: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), configuration: String? = nil, grafanaVersion: String? = nil, ipAddressType: IPAddressType? = nil, kmsKeyId: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authenticationProviders = authenticationProviders
             self.clientToken = clientToken
             self.configuration = configuration
             self.grafanaVersion = grafanaVersion
+            self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.networkAccessControl = networkAccessControl
             self.organizationRoleName = organizationRoleName
@@ -534,6 +547,7 @@ extension Grafana {
             case clientToken = "clientToken"
             case configuration = "configuration"
             case grafanaVersion = "grafanaVersion"
+            case ipAddressType = "ipAddressType"
             case kmsKeyId = "kmsKeyId"
             case networkAccessControl = "networkAccessControl"
             case organizationRoleName = "organizationRoleName"
@@ -1892,6 +1906,8 @@ extension Grafana {
     public struct UpdateWorkspaceRequest: AWSEncodableShape {
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
         public let accountAccessType: AccountAccessType?
+        /// Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see Network access control.
+        public let ipAddressType: IPAddressType?
         /// The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
         public let networkAccessControl: NetworkAccessConfiguration?
         /// The name of an IAM role that already exists to use to access resources through Organizations. This can only be used with a workspace that has the permissionType set to CUSTOMER_MANAGED.
@@ -1922,8 +1938,9 @@ extension Grafana {
         public let workspaceRoleArn: String?
 
         @inlinable
-        public init(accountAccessType: AccountAccessType? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, removeNetworkAccessConfiguration: Bool? = nil, removeVpcConfiguration: Bool? = nil, stackSetName: String? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceId: String, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType? = nil, ipAddressType: IPAddressType? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, removeNetworkAccessConfiguration: Bool? = nil, removeVpcConfiguration: Bool? = nil, stackSetName: String? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceId: String, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
+            self.ipAddressType = ipAddressType
             self.networkAccessControl = networkAccessControl
             self.organizationRoleName = organizationRoleName
             self.permissionType = permissionType
@@ -1944,6 +1961,7 @@ extension Grafana {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.accountAccessType, forKey: .accountAccessType)
+            try container.encodeIfPresent(self.ipAddressType, forKey: .ipAddressType)
             try container.encodeIfPresent(self.networkAccessControl, forKey: .networkAccessControl)
             try container.encodeIfPresent(self.organizationRoleName, forKey: .organizationRoleName)
             try container.encodeIfPresent(self.permissionType, forKey: .permissionType)
@@ -1974,6 +1992,7 @@ extension Grafana {
 
         private enum CodingKeys: String, CodingKey {
             case accountAccessType = "accountAccessType"
+            case ipAddressType = "ipAddressType"
             case networkAccessControl = "networkAccessControl"
             case organizationRoleName = "organizationRoleName"
             case permissionType = "permissionType"
@@ -2107,6 +2126,8 @@ extension Grafana {
         public let created: Date
         /// Specifies the Amazon Web Services data sources that have been configured to have IAM roles and permissions created to allow Amazon Managed Grafana to read data from these sources. This list is only used when the workspace was created through the Amazon Web Services console, and the permissionType is SERVICE_MANAGED.
         public let dataSources: [DataSourceType]
+        /// If the workspace is in the DEGRADED status, this field describes the reason the workspace is degraded.
+        public let degradedWorkspaceReason: String?
         /// The user-defined description of the workspace.
         public let description: String?
         /// The URL that users can use to access the Grafana console in the workspace.
@@ -2121,6 +2142,8 @@ extension Grafana {
         public let grafanaVersion: String
         /// The unique ID of this workspace.
         public let id: String
+        /// The type of IP addresses supported for connection to the workspace. Valid values are IPv4 and DualStack.
+        public let ipAddressType: IPAddressType?
         /// The ID or ARN of the Key Management Service key used for encrypting workspace data.
         public let kmsKeyId: String?
         /// If this workspace has a full Grafana Enterprise license purchased through Amazon Web Services Marketplace, this specifies when the license ends and will need to be renewed. Purchasing the Enterprise plugins option through Amazon Managed Grafana does not have an expiration. It is valid until the license is removed.
@@ -2153,11 +2176,12 @@ extension Grafana {
         public let workspaceRoleArn: String?
 
         @inlinable
-        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaToken: String? = nil, grafanaVersion: String, id: String, kmsKeyId: String? = nil, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], degradedWorkspaceReason: String? = nil, description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaToken: String? = nil, grafanaVersion: String, id: String, ipAddressType: IPAddressType? = nil, kmsKeyId: String? = nil, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authentication = authentication
             self.created = created
             self.dataSources = dataSources
+            self.degradedWorkspaceReason = degradedWorkspaceReason
             self.description = description
             self.endpoint = endpoint
             self.freeTrialConsumed = freeTrialConsumed
@@ -2165,6 +2189,7 @@ extension Grafana {
             self.grafanaToken = grafanaToken
             self.grafanaVersion = grafanaVersion
             self.id = id
+            self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.licenseExpiration = licenseExpiration
             self.licenseType = licenseType
@@ -2187,6 +2212,7 @@ extension Grafana {
             case authentication = "authentication"
             case created = "created"
             case dataSources = "dataSources"
+            case degradedWorkspaceReason = "degradedWorkspaceReason"
             case description = "description"
             case endpoint = "endpoint"
             case freeTrialConsumed = "freeTrialConsumed"
@@ -2194,6 +2220,7 @@ extension Grafana {
             case grafanaToken = "grafanaToken"
             case grafanaVersion = "grafanaVersion"
             case id = "id"
+            case ipAddressType = "ipAddressType"
             case kmsKeyId = "kmsKeyId"
             case licenseExpiration = "licenseExpiration"
             case licenseType = "licenseType"

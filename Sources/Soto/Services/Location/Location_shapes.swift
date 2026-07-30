@@ -71,6 +71,44 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The job will perform address validation over the job's input.
+        case validateAddress = "ValidateAddress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalServerError = "InternalServerError"
+        case validationError = "ValidationError"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobInputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case parquet = "Parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobOutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case parquet = "Parquet"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The job has been cancelled and cannot be resumed.
+        case cancelled = "Cancelled"
+        /// The job is being cancelled.
+        case cancelling = "Cancelling"
+        /// The job has processed all records and is complete.
+        case completed = "Completed"
+        /// The job has failed to process all records.
+        case failed = "Failed"
+        /// The job has not yet started.
+        case pending = "Pending"
+        /// The job is currently running.
+        case running = "Running"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OptimizationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fastestRoute = "FastestRoute"
         case shortestRoute = "ShortestRoute"
@@ -130,6 +168,12 @@ extension Location {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidateAddressAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case countrySpecificAttributes = "CountrySpecificAttributes"
+        case position = "Position"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         ///     The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse = "CannotParse"
@@ -155,9 +199,9 @@ extension Location {
     // MARK: Shapes
 
     public struct AndroidApp: AWSEncodableShape & AWSDecodableShape {
-        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate.
+        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate. Example: BB:0D:AC:74:D3:21:E1:43:67:71:9B:62:91:AF:A1:66:6E:44:5D:75
         public let certificateFingerprint: String
-        /// Unique package name for an Android app.
+        /// Unique package name identifier for an Android app. Example: com.mydomain.appname
         public let package: String
 
         @inlinable
@@ -248,7 +292,7 @@ extension Location {
     }
 
     public struct AppleApp: AWSEncodableShape & AWSDecodableShape {
-        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS, watchOS, etc.)
+        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS and watchOS). Example: com.mydomain.appname
         public let bundleId: String
 
         @inlinable
@@ -1108,6 +1152,48 @@ extension Location {
             case avoidTolls = "AvoidTolls"
             case dimensions = "Dimensions"
             case weight = "Weight"
+        }
+    }
+
+    public struct CancelJobRequest: AWSEncodableShape {
+        /// The unique identifier of the job to cancel.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 200)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct CancelJobResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the cancelled job.
+        public let jobArn: String
+        /// Unique job identifier.
+        public let jobId: String
+        /// Job status after cancellation request.
+        public let status: JobStatus
+
+        @inlinable
+        public init(jobArn: String, jobId: String, status: JobStatus) {
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
+            case jobId = "JobId"
+            case status = "Status"
         }
     }
 
@@ -2910,6 +2996,99 @@ extension Location {
         }
     }
 
+    public struct GetJobRequest: AWSEncodableShape {
+        /// The unique identifier of the job to retrieve.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 200)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[-._\\w]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetJobResponse: AWSDecodableShape {
+        /// Action performed by the job.
+        public let action: JobAction
+        /// Additional options for configuring job action parameters.
+        public let actionOptions: JobActionOptions?
+        /// Job creation time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// Job completion time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss. Only returned for jobs in a terminal status: Completed | Failed | Cancelled.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// Error information if the job failed.
+        public let error: JobError?
+        /// IAM role used for permissions when running the job.
+        public let executionRoleArn: String
+        /// Input configuration.
+        public let inputOptions: JobInputOptions
+        /// Amazon Resource Name (ARN) of the specified job.
+        public let jobArn: String
+        /// Unique job identifier.
+        public let jobId: String
+        /// Job name (if provided during creation).
+        public let name: String?
+        /// Output configuration.
+        public let outputOptions: JobOutputOptions
+        /// Current job status.
+        public let status: JobStatus
+        /// Tags and corresponding values associated with the specified job.
+        public let tags: [String: String]?
+        /// Last update time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(action: JobAction, actionOptions: JobActionOptions? = nil, createdAt: Date, endedAt: Date? = nil, error: JobError? = nil, executionRoleArn: String, inputOptions: JobInputOptions, jobArn: String, jobId: String, name: String? = nil, outputOptions: JobOutputOptions, status: JobStatus, tags: [String: String]? = nil, updatedAt: Date) {
+            self.action = action
+            self.actionOptions = actionOptions
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.error = error
+            self.executionRoleArn = executionRoleArn
+            self.inputOptions = inputOptions
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.name = name
+            self.outputOptions = outputOptions
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case actionOptions = "ActionOptions"
+            case createdAt = "CreatedAt"
+            case endedAt = "EndedAt"
+            case error = "Error"
+            case executionRoleArn = "ExecutionRoleArn"
+            case inputOptions = "InputOptions"
+            case jobArn = "JobArn"
+            case jobId = "JobId"
+            case name = "Name"
+            case outputOptions = "OutputOptions"
+            case status = "Status"
+            case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct GetMapGlyphsRequest: AWSEncodableShape {
         /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite – Fira GO Italic | Fira GO Map | Fira GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark – Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans for glyphs unsupported by Amazon Ember.
         public let fontStack: String
@@ -3237,6 +3416,102 @@ extension Location {
         }
     }
 
+    public struct JobActionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Options specific to address validation jobs.
+        public let validateAddress: ValidateAddressActionOptions?
+
+        @inlinable
+        public init(validateAddress: ValidateAddressActionOptions? = nil) {
+            self.validateAddress = validateAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.validateAddress?.validate(name: "\(name).validateAddress")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validateAddress = "ValidateAddress"
+        }
+    }
+
+    public struct JobError: AWSDecodableShape {
+        /// Error code indicating the type of error that occurred.
+        public let code: JobErrorCode
+        /// Error messages providing details about the failure.
+        public let messages: [String]?
+
+        @inlinable
+        public init(code: JobErrorCode, messages: [String]? = nil) {
+            self.code = code
+            self.messages = messages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case messages = "Messages"
+        }
+    }
+
+    public struct JobInputOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Input data format. Currently only Parquet is supported.  Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+        public let format: JobInputFormat
+        /// S3 ARN or URI where input files are stored.  The Amazon S3 bucket must be created in the same Amazon Web Services region where you plan to run your job.
+        public let location: String
+
+        @inlinable
+        public init(format: JobInputFormat, location: String) {
+            self.format = format
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.location, name: "location", parent: name, max: 300)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^(arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\\d{12})?:[\\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case location = "Location"
+        }
+    }
+
+    public struct JobOutputOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Output data format. Currently only "Parquet" is supported.
+        public let format: JobOutputFormat
+        /// S3 ARN or URI where output files will be written.  The Amazon S3 bucket must exist in the same Amazon Web Services region where you plan to run your job.
+        public let location: String
+
+        @inlinable
+        public init(format: JobOutputFormat, location: String) {
+            self.format = format
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.location, name: "location", parent: name, max: 300)
+            try self.validate(self.location, name: "location", parent: name, pattern: "^(arn:aws(-[a-z]+)*:[a-z0-9-]+:[a-z0-9-]*:(\\d{12})?:[\\w/+=,.-]+|s3://[a-z0-9][a-z0-9._-]{2,254}(/[^/]+)*/)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case location = "Location"
+        }
+    }
+
+    public struct JobsFilter: AWSEncodableShape {
+        /// Filter by job status.
+        public let jobStatus: JobStatus?
+
+        @inlinable
+        public init(jobStatus: JobStatus? = nil) {
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobStatus = "JobStatus"
+        }
+    }
+
     public struct Leg: AWSDecodableShape {
         /// The distance between the leg's StartPosition and EndPosition along a calculated route.    The default measurement is Kilometers unless the request specifies a DistanceUnit of Miles.
         public let distance: Double
@@ -3553,6 +3828,116 @@ extension Location {
         private enum CodingKeys: String, CodingKey {
             case entries = "Entries"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListJobsRequest: AWSEncodableShape {
+        /// An optional structure containing criteria by which to filter job results.
+        public let filter: JobsFilter?
+        /// Maximum number of jobs to return.
+        public let maxResults: Int?
+        /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filter: JobsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 60000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListJobsResponse: AWSDecodableShape {
+        /// List of jobs in your Amazon Web Services account.
+        public let entries: [ListJobsResponseEntry]
+        /// Token for retrieving the next page (present if more results available).
+        public let nextToken: String?
+
+        @inlinable
+        public init(entries: [ListJobsResponseEntry], nextToken: String? = nil) {
+            self.entries = entries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListJobsResponseEntry: AWSDecodableShape {
+        /// Action performed by the job.
+        public let action: JobAction
+        /// Additional options for configuring job action parameters.
+        public let actionOptions: JobActionOptions?
+        /// Job creation time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// Job completion time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss. Only returned for jobs in a terminal status: Completed | Failed | Cancelled.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// Error information if the job failed.
+        public let error: JobError?
+        /// IAM role used for job execution.
+        public let executionRoleArn: String
+        /// Input configuration.
+        public let inputOptions: JobInputOptions
+        /// Amazon Resource Name (ARN) of the job.
+        public let jobArn: String
+        /// Unique job identifier.
+        public let jobId: String
+        /// Job name (if provided during creation).
+        public let name: String?
+        /// Output configuration.
+        public let outputOptions: JobOutputOptions
+        /// Current job status.
+        public let status: JobStatus
+        /// Last update time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(action: JobAction, actionOptions: JobActionOptions? = nil, createdAt: Date, endedAt: Date? = nil, error: JobError? = nil, executionRoleArn: String, inputOptions: JobInputOptions, jobArn: String, jobId: String, name: String? = nil, outputOptions: JobOutputOptions, status: JobStatus, updatedAt: Date) {
+            self.action = action
+            self.actionOptions = actionOptions
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.error = error
+            self.executionRoleArn = executionRoleArn
+            self.inputOptions = inputOptions
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.name = name
+            self.outputOptions = outputOptions
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case actionOptions = "ActionOptions"
+            case createdAt = "CreatedAt"
+            case endedAt = "EndedAt"
+            case error = "Error"
+            case executionRoleArn = "ExecutionRoleArn"
+            case inputOptions = "InputOptions"
+            case jobArn = "JobArn"
+            case jobId = "JobId"
+            case name = "Name"
+            case outputOptions = "OutputOptions"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -4952,6 +5337,95 @@ extension Location {
         }
     }
 
+    public struct StartJobRequest: AWSEncodableShape {
+        /// The action to perform on the input data.
+        public let action: JobAction
+        /// Additional parameters that can be requested for each result.
+        public let actionOptions: JobActionOptions?
+        /// A unique identifier for this request to ensure idempotency.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job.  The IAM role must be created in the same Amazon Web Services account where you plan to run your job.  For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide.
+        public let executionRoleArn: String
+        /// Configuration for input data location and format.  Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+        public let inputOptions: JobInputOptions
+        /// An optional name for the job resource.
+        public let name: String?
+        /// Configuration for output data location and format.
+        public let outputOptions: JobOutputOptions
+        /// Tags and corresponding values to be associated with the job.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(action: JobAction, actionOptions: JobActionOptions? = nil, clientToken: String? = StartJobRequest.idempotencyToken(), executionRoleArn: String, inputOptions: JobInputOptions, name: String? = nil, outputOptions: JobOutputOptions, tags: [String: String]? = nil) {
+            self.action = action
+            self.actionOptions = actionOptions
+            self.clientToken = clientToken
+            self.executionRoleArn = executionRoleArn
+            self.inputOptions = inputOptions
+            self.name = name
+            self.outputOptions = outputOptions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.actionOptions?.validate(name: "\(name).actionOptions")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.inputOptions.validate(name: "\(name).inputOptions")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-._\\w]+$")
+            try self.outputOptions.validate(name: "\(name).outputOptions")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case actionOptions = "ActionOptions"
+            case clientToken = "ClientToken"
+            case executionRoleArn = "ExecutionRoleArn"
+            case inputOptions = "InputOptions"
+            case name = "Name"
+            case outputOptions = "OutputOptions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartJobResponse: AWSDecodableShape {
+        /// Job creation time in ISO 8601 format: YYYY-MM-DDThh:mm:ss.sss.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The Amazon Resource Name (ARN) for the job resource. Used when you need to specify a resource across all Amazon Web Services. Format example: arn:aws:geo:region:account-id:job/ExampleJob
+        public let jobArn: String
+        /// Unique job identifier.
+        public let jobId: String
+        /// Initial job status (always "Pending" for new jobs).
+        public let status: JobStatus
+
+        @inlinable
+        public init(createdAt: Date, jobArn: String, jobId: String, status: JobStatus) {
+            self.createdAt = createdAt
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case jobArn = "JobArn"
+            case jobId = "JobId"
+            case status = "Status"
+        }
+    }
+
     public struct Step: AWSDecodableShape {
         /// The travel distance between the step's StartPosition and EndPosition.
         public let distance: Double
@@ -5590,6 +6064,25 @@ extension Location {
             case trackerArn = "TrackerArn"
             case trackerName = "TrackerName"
             case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct ValidateAddressActionOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of optional additional parameters that can be requested for each result. Values:    Position - Return the position coordinates of the address if available.    CountrySpecificAttributes - Return additional information about the address specific to the country of origin.
+        public let additionalFeatures: [ValidateAddressAdditionalFeature]?
+
+        @inlinable
+        public init(additionalFeatures: [ValidateAddressAdditionalFeature]? = nil) {
+            self.additionalFeatures = additionalFeatures
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 2)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalFeatures = "AdditionalFeatures"
         }
     }
 

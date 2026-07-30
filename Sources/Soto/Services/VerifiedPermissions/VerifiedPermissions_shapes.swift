@@ -25,8 +25,15 @@ import Foundation
 extension VerifiedPermissions {
     // MARK: Enums
 
+    public enum AliasState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case pendingDeletion = "PendingDeletion"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatchGetPolicyErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policyNotFound = "POLICY_NOT_FOUND"
+        case policyStoreAliasNotFound = "POLICY_STORE_ALIAS_NOT_FOUND"
         case policyStoreNotFound = "POLICY_STORE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
@@ -40,6 +47,12 @@ extension VerifiedPermissions {
     public enum Decision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hardDelete = "HardDelete"
+        case softDelete = "SoftDelete"
         public var description: String { return self.rawValue }
     }
 
@@ -70,6 +83,7 @@ extension VerifiedPermissions {
         case identitySource = "IDENTITY_SOURCE"
         case policy = "POLICY"
         case policyStore = "POLICY_STORE"
+        case policyStoreAlias = "POLICY_STORE_ALIAS"
         case policyTemplate = "POLICY_TEMPLATE"
         case schema = "SCHEMA"
         public var description: String { return self.rawValue }
@@ -910,7 +924,7 @@ extension VerifiedPermissions {
     }
 
     public struct BatchGetPolicyInputItem: AWSEncodableShape {
-        /// The identifier of the policy you want information about.
+        /// The identifier of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:   ID: SPEXAMPLEabcdefg111111    Name: name/example-policy
         public let policyId: String
         /// The identifier of the policy store where the policy you want information about is stored.
         public let policyStoreId: String
@@ -963,6 +977,8 @@ extension VerifiedPermissions {
         /// The date and time the policy was most recently updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
+        /// The name of the policy, if one was assigned when the policy was created or last updated.
+        public let name: String?
         /// The identifier of the policy you want information about.
         public let policyId: String
         /// The identifier of the policy store where the policy you want information about is stored.
@@ -971,10 +987,11 @@ extension VerifiedPermissions {
         public let policyType: PolicyType
 
         @inlinable
-        public init(createdDate: Date, definition: PolicyDefinitionDetail, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType) {
+        public init(createdDate: Date, definition: PolicyDefinitionDetail, lastUpdatedDate: Date, name: String? = nil, policyId: String, policyStoreId: String, policyType: PolicyType) {
             self.createdDate = createdDate
             self.definition = definition
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyId = policyId
             self.policyStoreId = policyStoreId
             self.policyType = policyType
@@ -984,6 +1001,7 @@ extension VerifiedPermissions {
             case createdDate = "createdDate"
             case definition = "definition"
             case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
             case policyType = "policyType"
@@ -993,7 +1011,7 @@ extension VerifiedPermissions {
     public struct BatchIsAuthorizedInput: AWSEncodableShape {
         /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
         public let entities: EntitiesDefinition?
-        /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
+        /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// An array of up to 30 requests that you want Verified Permissions to evaluate.
         public let requests: [BatchIsAuthorizedInputItem]
@@ -1103,7 +1121,7 @@ extension VerifiedPermissions {
         public let entities: EntitiesDefinition?
         /// Specifies an identity (ID) token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
         public let identityToken: String?
-        /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+        /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// An array of up to 30 requests that you want Verified Permissions to evaluate.
         public let requests: [BatchIsAuthorizedWithTokenInputItem]
@@ -1372,7 +1390,7 @@ extension VerifiedPermissions {
         public let clientToken: String?
         /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
         public let configuration: Configuration
-        /// Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source.
+        /// Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// Specifies the namespace and data type of the principals generated for identities authenticated by the new identity source.
         public let principalEntityType: String?
@@ -1439,13 +1457,16 @@ extension VerifiedPermissions {
         public let clientToken: String?
         /// A structure that specifies the policy type and content to use for the new policy. You must include either a static or a templateLinked element. The policy content must be written in the Cedar policy language.
         public let definition: PolicyDefinition
-        /// Specifies the PolicyStoreId of the policy store you want to store the policy in.
+        /// Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/. If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error.
+        public let name: String?
+        /// Specifies the PolicyStoreId of the policy store you want to store the policy in. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
-        public init(clientToken: String? = CreatePolicyInput.idempotencyToken(), definition: PolicyDefinition, policyStoreId: String) {
+        public init(clientToken: String? = CreatePolicyInput.idempotencyToken(), definition: PolicyDefinition, name: String? = nil, policyStoreId: String) {
             self.clientToken = clientToken
             self.definition = definition
+            self.name = name
             self.policyStoreId = policyStoreId
         }
 
@@ -1454,6 +1475,8 @@ extension VerifiedPermissions {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.definition.validate(name: "\(name).definition")
+            try self.validate(self.name, name: "name", parent: name, max: 150)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
@@ -1462,6 +1485,7 @@ extension VerifiedPermissions {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case definition = "definition"
+            case name = "name"
             case policyStoreId = "policyStoreId"
         }
     }
@@ -1511,6 +1535,59 @@ extension VerifiedPermissions {
             case policyType = "policyType"
             case principal = "principal"
             case resource = "resource"
+        }
+    }
+
+    public struct CreatePolicyStoreAliasInput: AWSEncodableShape {
+        /// Specifies the name of the policy store alias to create. The name must be unique within your Amazon Web Services account and Amazon Web Services Region.  The alias name must always be prefixed with policy-store-alias/.
+        public let aliasName: String
+        /// Specifies the ID of the policy store to associate with the alias.  The associated policy store must be specified using its ID. The alias name cannot be used.
+        public let policyStoreId: String
+
+        @inlinable
+        public init(aliasName: String, policyStoreId: String) {
+            self.aliasName = aliasName
+            self.policyStoreId = policyStoreId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 150)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "aliasName"
+            case policyStoreId = "policyStoreId"
+        }
+    }
+
+    public struct CreatePolicyStoreAliasOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the policy store alias.
+        public let aliasArn: String
+        /// The name of the policy store alias.
+        public let aliasName: String
+        /// The date and time the policy store alias was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the policy store associated with the alias.
+        public let policyStoreId: String
+
+        @inlinable
+        public init(aliasArn: String, aliasName: String, createdAt: Date, policyStoreId: String) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
+            self.createdAt = createdAt
+            self.policyStoreId = policyStoreId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasArn = "aliasArn"
+            case aliasName = "aliasName"
+            case createdAt = "createdAt"
+            case policyStoreId = "policyStoreId"
         }
     }
 
@@ -1595,15 +1672,18 @@ extension VerifiedPermissions {
         public let clientToken: String?
         /// Specifies a description for the policy template.
         public let description: String?
-        /// The ID of the policy store in which to create the policy template.
+        /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/. If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error.
+        public let name: String?
+        /// The ID of the policy store in which to create the policy template. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// Specifies the content that you want to use for the new policy template, written in the Cedar policy language.
         public let statement: String
 
         @inlinable
-        public init(clientToken: String? = CreatePolicyTemplateInput.idempotencyToken(), description: String? = nil, policyStoreId: String, statement: String) {
+        public init(clientToken: String? = CreatePolicyTemplateInput.idempotencyToken(), description: String? = nil, name: String? = nil, policyStoreId: String, statement: String) {
             self.clientToken = clientToken
             self.description = description
+            self.name = name
             self.policyStoreId = policyStoreId
             self.statement = statement
         }
@@ -1613,16 +1693,18 @@ extension VerifiedPermissions {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.description, name: "description", parent: name, max: 150)
+            try self.validate(self.name, name: "name", parent: name, max: 150)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
-            try self.validate(self.statement, name: "statement", parent: name, max: 10000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case name = "name"
             case policyStoreId = "policyStoreId"
             case statement = "statement"
         }
@@ -1659,7 +1741,7 @@ extension VerifiedPermissions {
     public struct DeleteIdentitySourceInput: AWSEncodableShape {
         /// Specifies the ID of the identity source that you want to delete.
         public let identitySourceId: String
-        /// Specifies the ID of the policy store that contains the identity source that you want to delete.
+        /// Specifies the ID of the policy store that contains the identity source that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -1688,9 +1770,9 @@ extension VerifiedPermissions {
     }
 
     public struct DeletePolicyInput: AWSEncodableShape {
-        /// Specifies the ID of the policy that you want to delete.
+        /// Specifies the ID of the policy that you want to delete. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:   ID: SPEXAMPLEabcdefg111111    Name: name/example-policy
         public let policyId: String
-        /// Specifies the ID of the policy store that contains the policy that you want to delete.
+        /// Specifies the ID of the policy store that contains the policy that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -1718,8 +1800,35 @@ extension VerifiedPermissions {
         public init() {}
     }
 
+    public struct DeletePolicyStoreAliasInput: AWSEncodableShape {
+        /// Specifies the name of the policy store alias that you want to delete.  The alias name must always be prefixed with policy-store-alias/.
+        public let aliasName: String
+        /// Specifies the deletion mode for the policy store alias. The valid values are:    SoftDelete – The policy store alias enters the PendingDeletion state. This is the default behavior when no deletionMode is specified.    HardDelete – The policy store alias is immediately deleted, bypassing the PendingDeletion state.
+        public let deletionMode: DeletionMode?
+
+        @inlinable
+        public init(aliasName: String, deletionMode: DeletionMode? = nil) {
+            self.aliasName = aliasName
+            self.deletionMode = deletionMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 150)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "aliasName"
+            case deletionMode = "deletionMode"
+        }
+    }
+
+    public struct DeletePolicyStoreAliasOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeletePolicyStoreInput: AWSEncodableShape {
-        /// Specifies the ID of the policy store that you want to delete.
+        /// Specifies the ID of the policy store that you want to delete.  To specify a policy store, the alias name cannot be used. Only the ID can be used.
         public let policyStoreId: String
 
         @inlinable
@@ -1743,9 +1852,9 @@ extension VerifiedPermissions {
     }
 
     public struct DeletePolicyTemplateInput: AWSEncodableShape {
-        /// Specifies the ID of the policy store that contains the policy template that you want to delete.
+        /// Specifies the ID of the policy store that contains the policy template that you want to delete. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
-        /// Specifies the ID of the policy template that you want to delete.
+        /// Specifies the ID of the policy template that you want to delete. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:   ID: PTEXAMPLEabcdefg111111    Name: name/example-policy-template
         public let policyTemplateId: String
 
         @inlinable
@@ -1870,7 +1979,7 @@ extension VerifiedPermissions {
     public struct GetIdentitySourceInput: AWSEncodableShape {
         /// Specifies the ID of the identity source you want information about.
         public let identitySourceId: String
-        /// Specifies the ID of the policy store that contains the identity source you want information about.
+        /// Specifies the ID of the policy store that contains the identity source you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -1947,9 +2056,9 @@ extension VerifiedPermissions {
     }
 
     public struct GetPolicyInput: AWSEncodableShape {
-        /// Specifies the ID of the policy you want information about.
+        /// Specifies the ID of the policy you want information about. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:   ID: SPEXAMPLEabcdefg111111    Name: name/example-policy
         public let policyId: String
-        /// Specifies the ID of the policy store that contains the policy that you want information about.
+        /// Specifies the ID of the policy store that contains the policy that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -1986,6 +2095,8 @@ extension VerifiedPermissions {
         /// The date and time that the policy was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
+        /// The name of the policy, if one was assigned when the policy was created or last updated.
+        public let name: String?
         /// The unique ID of the policy that you want information about.
         public let policyId: String
         /// The ID of the policy store that contains the policy that you want information about.
@@ -1998,12 +2109,13 @@ extension VerifiedPermissions {
         public let resource: EntityIdentifier?
 
         @inlinable
-        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionDetail, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionDetail, effect: PolicyEffect? = nil, lastUpdatedDate: Date, name: String? = nil, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.actions = actions
             self.createdDate = createdDate
             self.definition = definition
             self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyId = policyId
             self.policyStoreId = policyStoreId
             self.policyType = policyType
@@ -2017,6 +2129,7 @@ extension VerifiedPermissions {
             case definition = "definition"
             case effect = "effect"
             case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
             case policyType = "policyType"
@@ -2025,8 +2138,58 @@ extension VerifiedPermissions {
         }
     }
 
+    public struct GetPolicyStoreAliasInput: AWSEncodableShape {
+        /// Specifies the name of the policy store alias that you want information about.  The alias name must always be prefixed with policy-store-alias/.
+        public let aliasName: String
+
+        @inlinable
+        public init(aliasName: String) {
+            self.aliasName = aliasName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 150)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "aliasName"
+        }
+    }
+
+    public struct GetPolicyStoreAliasOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the policy store alias.
+        public let aliasArn: String
+        /// The name of the policy store alias.
+        public let aliasName: String
+        /// The date and time the policy store alias was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the policy store associated with the alias.
+        public let policyStoreId: String
+        /// The state of the policy store alias. Policy Store Aliases in the Active state can be used normally. When a policy store alias is deleted, it enters the PendingDeletion state. Policy Store Aliases in the PendingDeletion cannot be used, and creating a policy store alias with the same alias name will fail.
+        public let state: AliasState
+
+        @inlinable
+        public init(aliasArn: String, aliasName: String, createdAt: Date, policyStoreId: String, state: AliasState) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
+            self.createdAt = createdAt
+            self.policyStoreId = policyStoreId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasArn = "aliasArn"
+            case aliasName = "aliasName"
+            case createdAt = "createdAt"
+            case policyStoreId = "policyStoreId"
+            case state = "state"
+        }
+    }
+
     public struct GetPolicyStoreInput: AWSEncodableShape {
-        /// Specifies the ID of the policy store that you want information about.
+        /// Specifies the policy store that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// Specifies whether to return the tags that are attached to the policy store. If this parameter is included in the API call, the tags are returned, otherwise they are not returned.  If this parameter is included in the API call but there are no tags attached to the policy store, the tags response parameter is omitted from the response.
         public let tags: Bool?
@@ -2102,9 +2265,9 @@ extension VerifiedPermissions {
     }
 
     public struct GetPolicyTemplateInput: AWSEncodableShape {
-        /// Specifies the ID of the policy store that contains the policy template that you want information about.
+        /// Specifies the ID of the policy store that contains the policy template that you want information about. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
-        /// Specifies the ID of the policy template that you want information about.
+        /// Specifies the ID of the policy template that you want information about. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:   ID: PTEXAMPLEabcdefg111111    Name: name/example-policy-template
         public let policyTemplateId: String
 
         @inlinable
@@ -2137,6 +2300,8 @@ extension VerifiedPermissions {
         /// The date and time that the policy template was most recently updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
+        /// The name of the policy template, if one was assigned when the policy template was created or last updated.
+        public let name: String?
         /// The ID of the policy store that contains the policy template.
         public let policyStoreId: String
         /// The ID of the policy template.
@@ -2145,10 +2310,11 @@ extension VerifiedPermissions {
         public let statement: String
 
         @inlinable
-        public init(createdDate: Date, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, policyTemplateId: String, statement: String) {
+        public init(createdDate: Date, description: String? = nil, lastUpdatedDate: Date, name: String? = nil, policyStoreId: String, policyTemplateId: String, statement: String) {
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyStoreId = policyStoreId
             self.policyTemplateId = policyTemplateId
             self.statement = statement
@@ -2158,6 +2324,7 @@ extension VerifiedPermissions {
             case createdDate = "createdDate"
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
             case policyStoreId = "policyStoreId"
             case policyTemplateId = "policyTemplateId"
             case statement = "statement"
@@ -2165,7 +2332,7 @@ extension VerifiedPermissions {
     }
 
     public struct GetSchemaInput: AWSEncodableShape {
-        /// Specifies the ID of the policy store that contains the schema.
+        /// Specifies the ID of the policy store that contains the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -2365,7 +2532,7 @@ extension VerifiedPermissions {
         public let context: ContextDefinition?
         /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
         public let entities: EntitiesDefinition?
-        /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+        /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// Specifies the principal for which the authorization decision is to be made.
         public let principal: EntityIdentifier?
@@ -2436,7 +2603,7 @@ extension VerifiedPermissions {
         public let entities: EntitiesDefinition?
         /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
         public let identityToken: String?
-        /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+        /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// Specifies the resource for which the authorization decision is made. For example, is the principal allowed to perform the action on the resource?
         public let resource: EntityIdentifier?
@@ -2557,7 +2724,7 @@ extension VerifiedPermissions {
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// Specifies the ID of the policy store that contains the identity sources that you want to list.
+        /// Specifies the ID of the policy store that contains the identity sources that you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -2615,7 +2782,7 @@ extension VerifiedPermissions {
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// Specifies the ID of the policy store you want to list policies from.
+        /// Specifies the ID of the policy store you want to list policies from. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -2660,6 +2827,54 @@ extension VerifiedPermissions {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case policies = "policies"
+        }
+    }
+
+    public struct ListPolicyStoreAliasesInput: AWSEncodableShape {
+        /// Specifies a filter to narrow the results. You can filter by policyStoreId to list only the policy store aliases associated with a specific policy store.
+        public let filter: PolicyStoreAliasFilter?
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 5 policy store aliases per response. You can specify a maximum of 50 policy store aliases per response.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filter: PolicyStoreAliasFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-_=+/\\.]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPolicyStoreAliasesOutput: AWSDecodableShape {
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+        /// The list of policy store aliases in the account.
+        public let policyStoreAliases: [PolicyStoreAliasItem]
+
+        @inlinable
+        public init(nextToken: String? = nil, policyStoreAliases: [PolicyStoreAliasItem]) {
+            self.nextToken = nextToken
+            self.policyStoreAliases = policyStoreAliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case policyStoreAliases = "policyStoreAliases"
         }
     }
 
@@ -2711,7 +2926,7 @@ extension VerifiedPermissions {
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// Specifies the ID of the policy store that contains the policy templates you want to list.
+        /// Specifies the ID of the policy store that contains the policy templates you want to list. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -3113,6 +3328,8 @@ extension VerifiedPermissions {
         /// The date and time the policy was most recently updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
+        /// The name of the policy, if one was assigned when the policy was created or last updated.
+        public let name: String?
         /// The identifier of the policy you want information about.
         public let policyId: String
         /// The identifier of the policy store where the policy you want information about is stored.
@@ -3125,12 +3342,13 @@ extension VerifiedPermissions {
         public let resource: EntityIdentifier?
 
         @inlinable
-        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionItem, effect: PolicyEffect? = nil, lastUpdatedDate: Date, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
+        public init(actions: [ActionIdentifier]? = nil, createdDate: Date, definition: PolicyDefinitionItem, effect: PolicyEffect? = nil, lastUpdatedDate: Date, name: String? = nil, policyId: String, policyStoreId: String, policyType: PolicyType, principal: EntityIdentifier? = nil, resource: EntityIdentifier? = nil) {
             self.actions = actions
             self.createdDate = createdDate
             self.definition = definition
             self.effect = effect
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyId = policyId
             self.policyStoreId = policyStoreId
             self.policyType = policyType
@@ -3144,11 +3362,63 @@ extension VerifiedPermissions {
             case definition = "definition"
             case effect = "effect"
             case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
             case policyType = "policyType"
             case principal = "principal"
             case resource = "resource"
+        }
+    }
+
+    public struct PolicyStoreAliasFilter: AWSEncodableShape {
+        /// The ID of the policy store to filter by. Only policy store aliases associated with this policy store are returned.
+        public let policyStoreId: String?
+
+        @inlinable
+        public init(policyStoreId: String? = nil) {
+            self.policyStoreId = policyStoreId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyStoreId = "policyStoreId"
+        }
+    }
+
+    public struct PolicyStoreAliasItem: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the policy store alias.
+        public let aliasArn: String
+        /// The name of the policy store alias.
+        public let aliasName: String
+        /// The date and time the policy store alias was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The ID of the policy store associated with the alias.
+        public let policyStoreId: String
+        /// The state of the policy store alias. Policy Store Aliases in the Active state can be used normally. When a policy store alias is deleted, it enters the PendingDeletion state. Policy Store Aliases in the PendingDeletion state cannot be used, and creating a policy store alias with the same alias name will fail.
+        public let state: AliasState
+
+        @inlinable
+        public init(aliasArn: String, aliasName: String, createdAt: Date, policyStoreId: String, state: AliasState) {
+            self.aliasArn = aliasArn
+            self.aliasName = aliasName
+            self.createdAt = createdAt
+            self.policyStoreId = policyStoreId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasArn = "aliasArn"
+            case aliasName = "aliasName"
+            case createdAt = "createdAt"
+            case policyStoreId = "policyStoreId"
+            case state = "state"
         }
     }
 
@@ -3193,16 +3463,19 @@ extension VerifiedPermissions {
         /// The date and time that the policy template was most recently updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
+        /// The name of the policy template, if one was assigned when the policy template was created or last updated.
+        public let name: String?
         /// The unique identifier of the policy store that contains the template.
         public let policyStoreId: String
         /// The unique identifier of the policy template.
         public let policyTemplateId: String
 
         @inlinable
-        public init(createdDate: Date, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, policyTemplateId: String) {
+        public init(createdDate: Date, description: String? = nil, lastUpdatedDate: Date, name: String? = nil, policyStoreId: String, policyTemplateId: String) {
             self.createdDate = createdDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
+            self.name = name
             self.policyStoreId = policyStoreId
             self.policyTemplateId = policyTemplateId
         }
@@ -3211,6 +3484,7 @@ extension VerifiedPermissions {
             case createdDate = "createdDate"
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
+            case name = "name"
             case policyStoreId = "policyStoreId"
             case policyTemplateId = "policyTemplateId"
         }
@@ -3219,7 +3493,7 @@ extension VerifiedPermissions {
     public struct PutSchemaInput: AWSEncodableShape {
         /// Specifies the definition of the schema to be stored. The schema definition must be written in Cedar schema JSON.
         public let definition: SchemaDefinition
-        /// Specifies the ID of the policy store in which to place the schema.
+        /// Specifies the ID of the policy store in which to place the schema. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
@@ -3351,7 +3625,6 @@ extension VerifiedPermissions {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 150)
-            try self.validate(self.statement, name: "statement", parent: name, max: 10000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
         }
 
@@ -3628,7 +3901,7 @@ extension VerifiedPermissions {
     public struct UpdateIdentitySourceInput: AWSEncodableShape {
         /// Specifies the ID of the identity source that you want to update.
         public let identitySourceId: String
-        /// Specifies the ID of the policy store that contains the identity source that you want to update.
+        /// Specifies the ID of the policy store that contains the identity source that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// Specifies the data type of principals generated for identities authenticated by the identity source.
         public let principalEntityType: String?
@@ -3810,22 +4083,27 @@ extension VerifiedPermissions {
     }
 
     public struct UpdatePolicyInput: AWSEncodableShape {
-        /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. You can change only the following elements from the policy definition:   The action referenced by the policy.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   Changing from static to templateLinked.   Changing the effect of the policy from permit or forbid.   The principal referenced by the policy.   The resource referenced by the policy.
+        /// Specifies the updated policy content that you want to replace on the specified policy. The content must be valid Cedar policy language text. If you don't specify this parameter, the existing policy definition remains unchanged. You can change only the following elements from the policy definition:   The action referenced by the policy.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   Changing from static to templateLinked.   Changing the effect of the policy from permit or forbid.   The principal referenced by the policy.   The resource referenced by the policy.
         public let definition: UpdatePolicyDefinition?
-        /// Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies.
+        /// Specifies a name for the policy that is unique among all policies within the policy store. You can use the name in place of the policy ID in API operations that reference the policy. The name must be prefixed with name/.  If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("").  If you specify a name that is already associated with another policy in the policy store, you receive a ConflictException error.
+        public let name: String?
+        /// Specifies the ID of the policy that you want to update. To find this value, you can use ListPolicies. You can use the policy name in place of the policy ID. When using a name, prefix it with name/. For example:   ID: SPEXAMPLEabcdefg111111    Name: name/example-policy
         public let policyId: String
-        /// Specifies the ID of the policy store that contains the policy that you want to update.
+        /// Specifies the ID of the policy store that contains the policy that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
 
         @inlinable
-        public init(definition: UpdatePolicyDefinition? = nil, policyId: String, policyStoreId: String) {
+        public init(definition: UpdatePolicyDefinition? = nil, name: String? = nil, policyId: String, policyStoreId: String) {
             self.definition = definition
+            self.name = name
             self.policyId = policyId
             self.policyStoreId = policyStoreId
         }
 
         public func validate(name: String) throws {
             try self.definition?.validate(name: "\(name).definition")
+            try self.validate(self.name, name: "name", parent: name, max: 150)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyId, name: "policyId", parent: name, max: 200)
             try self.validate(self.policyId, name: "policyId", parent: name, min: 1)
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
@@ -3836,6 +4114,7 @@ extension VerifiedPermissions {
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
+            case name = "name"
             case policyId = "policyId"
             case policyStoreId = "policyStoreId"
         }
@@ -3894,7 +4173,7 @@ extension VerifiedPermissions {
         public let deletionProtection: DeletionProtection?
         /// Descriptive text that you can provide to help with identification of the current policy store.
         public let description: String?
-        /// Specifies the ID of the policy store that you want to update
+        /// Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
         /// A structure that defines the validation settings that want to enable for the policy store.
         public let validationSettings: ValidationSettings
@@ -3953,16 +4232,19 @@ extension VerifiedPermissions {
     public struct UpdatePolicyTemplateInput: AWSEncodableShape {
         /// Specifies a new description to apply to the policy template.
         public let description: String?
-        /// Specifies the ID of the policy store that contains the policy template that you want to update.
+        /// Specifies a name for the policy template that is unique among all policy templates within the policy store. You can use the name in place of the policy template ID in API operations that reference the policy template. The name must be prefixed with name/.  If you don't include the name in an update request, the existing name is unchanged. To remove a name, set it to an empty string ("").  If you specify a name that is already associated with another policy template in the policy store, you receive a ConflictException error.
+        public let name: String?
+        /// Specifies the ID of the policy store that contains the policy template that you want to update. To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/. For example:   ID: PSEXAMPLEabcdefg111111    Alias name: policy-store-alias/example-policy-store    To view aliases, use ListPolicyStoreAliases.
         public let policyStoreId: String
-        /// Specifies the ID of the policy template that you want to update.
+        /// Specifies the ID of the policy template that you want to update. You can use the policy template name in place of the policy template ID. When using a name, prefix it with name/. For example:   ID: PTEXAMPLEabcdefg111111    Name: name/example-policy-template
         public let policyTemplateId: String
         /// Specifies new statement content written in Cedar policy language to replace the current body of the policy template. You can change only the following elements of the policy body:   The action referenced by the policy template.   Any conditional clauses, such as when or unless clauses.   You can't change the following elements:   The effect (permit or forbid) of the policy template.   The principal referenced by the policy template.   The resource referenced by the policy template.
         public let statement: String
 
         @inlinable
-        public init(description: String? = nil, policyStoreId: String, policyTemplateId: String, statement: String) {
+        public init(description: String? = nil, name: String? = nil, policyStoreId: String, policyTemplateId: String, statement: String) {
             self.description = description
+            self.name = name
             self.policyStoreId = policyStoreId
             self.policyTemplateId = policyTemplateId
             self.statement = statement
@@ -3970,18 +4252,20 @@ extension VerifiedPermissions {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 150)
+            try self.validate(self.name, name: "name", parent: name, max: 150)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, max: 200)
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, min: 1)
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
-            try self.validate(self.statement, name: "statement", parent: name, max: 10000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case name = "name"
             case policyStoreId = "policyStoreId"
             case policyTemplateId = "policyTemplateId"
             case statement = "statement"
@@ -4030,7 +4314,6 @@ extension VerifiedPermissions {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 150)
-            try self.validate(self.statement, name: "statement", parent: name, max: 10000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
         }
 
@@ -4127,7 +4410,7 @@ public struct VerifiedPermissionsErrorType: AWSErrorType {
 
     /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// The request failed because another request to modify a resource occurred at the same.
+    /// The request failed because another request to modify a resource occurred at the same time.
     public static var conflictException: Self { .init(.conflictException) }
     /// The request failed because of an internal error. Try your request again later
     public static var internalServerException: Self { .init(.internalServerException) }

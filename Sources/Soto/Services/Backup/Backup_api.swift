@@ -1048,7 +1048,7 @@ public struct Backup: AWSService {
         return try await self.describeFramework(input, logger: logger)
     }
 
-    /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
+    /// Describes whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
     @Sendable
     @inlinable
     public func describeGlobalSettings(_ input: DescribeGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGlobalSettingsOutput {
@@ -1061,7 +1061,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
+    /// Describes whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1617,6 +1617,44 @@ public struct Backup: AWSService {
         return try await self.getLegalHold(input, logger: logger)
     }
 
+    /// Returns the malware scan results for a specified point in time within a continuous (point-in-time recovery) backup.
+    @Sendable
+    @inlinable
+    public func getPITRMalwareScanResults(_ input: GetPITRMalwareScanResultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPITRMalwareScanResultsOutput {
+        try await self.client.execute(
+            operation: "GetPITRMalwareScanResults", 
+            path: "/scan/pitr-malware-scan-results", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the malware scan results for a specified point in time within a continuous (point-in-time recovery) backup.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
+    ///   - malwareScanner: The scanning engine used for the corresponding scan job. Currently only GUARDDUTY is supported.
+    ///   - recoveryPointArn: An ARN that uniquely identifies the target recovery point for scanning; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    ///   - scanEndTime: The point in time within the continuous backup to examine for malware scan results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPITRMalwareScanResults(
+        backupVaultName: String,
+        malwareScanner: MalwareScanner,
+        recoveryPointArn: String,
+        scanEndTime: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPITRMalwareScanResultsOutput {
+        let input = GetPITRMalwareScanResultsInput(
+            backupVaultName: backupVaultName, 
+            malwareScanner: malwareScanner, 
+            recoveryPointArn: recoveryPointArn, 
+            scanEndTime: scanEndTime
+        )
+        return try await self.getPITRMalwareScanResults(input, logger: logger)
+    }
+
     /// This operation returns the metadata and details specific to  the backup index associated with the specified recovery point.
     @Sendable
     @inlinable
@@ -1923,7 +1961,7 @@ public struct Backup: AWSService {
     ///   - byMessageCategory: This is an optional parameter that can be used to  filter out jobs with a MessageCategory which matches the  value you input. Example strings may include AccessDenied,  SUCCESS, AGGREGATE_ALL, and  InvalidParameters. View Monitoring  The wildcard () returns count of all message categories.  AGGREGATE_ALL aggregates job counts  for all message categories and returns the sum.
     ///   - byParentJobId: This is a filter to list child (nested) jobs based on parent job ID.
     ///   - byResourceArn: Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
-    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - byState: Returns only backup jobs that are in the specified state.  Completed with issues is a status found only in the Backup console. For API, this status refers to jobs with a state of COMPLETED and a MessageCategory with a value other than SUCCESS; that is, the status is completed but comes with a status message. To obtain the job count for Completed with issues, run two GET requests, and subtract the second, smaller number: GET /backup-jobs/?state=COMPLETED GET /backup-jobs/?messageCategory=SUCCESS&state=COMPLETED
     ///   - maxResults: The maximum number of items to be returned.
     ///   - nextToken: The next item following a partial list of returned items. For example, if a request is  made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2210,7 +2248,7 @@ public struct Backup: AWSService {
     ///   - byMessageCategory: This is an optional parameter that can be used to  filter out jobs with a MessageCategory which matches the  value you input. Example strings may include AccessDenied,  SUCCESS, AGGREGATE_ALL, and  INVALIDPARAMETERS. View  Monitoring for a list of accepted strings. The the value ANY returns count of all message categories.  AGGREGATE_ALL aggregates job counts  for all message categories and returns the sum.
     ///   - byParentJobId: This is a filter to list child (nested) jobs based on parent job ID.
     ///   - byResourceArn: Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
-    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - bySourceRecoveryPointArn: Filters copy jobs by the specified source recovery point ARN.
     ///   - byState: Returns only copy jobs that are in the specified state.
     ///   - maxResults: The maximum number of items to be returned.
@@ -2457,7 +2495,7 @@ public struct Backup: AWSService {
     ///   - byCreatedBefore: Returns only recovery points that were created before the specified timestamp.
     ///   - byParentRecoveryPointArn: This returns only recovery points that match the specified parent (composite) recovery point Amazon Resource Name (ARN).
     ///   - byResourceArn: Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
-    ///   - byResourceType: Returns only recovery points that match the specified resource type(s):    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Returns only recovery points that match the specified resource type(s):    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - maxResults: The maximum number of items to be returned.
     ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     ///   - logger: Logger use during operation
@@ -2740,7 +2778,7 @@ public struct Backup: AWSService {
     ///   - byCreatedAfter: Returns only restore jobs that were created after the specified date.
     ///   - byCreatedBefore: Returns only restore jobs that were created before the specified date.
     ///   - byParentJobId: This is a filter to list child (nested) restore jobs based on parent restore job ID.
-    ///   - byResourceType: Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - byRestoreTestingPlanArn: This returns only restore testing jobs that match the  specified resource Amazon Resource Name (ARN).
     ///   - byStatus: Returns only restore jobs associated with the specified job status.
     ///   - maxResults: The maximum number of items to be returned.
@@ -3116,7 +3154,7 @@ public struct Backup: AWSService {
     ///
     /// Parameters:
     ///   - backupVaultName: The Backup Vault Lock configuration that specifies the name of the backup vault it protects.
-    ///   - changeableForDays: The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
+    ///   - changeableForDays: The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. The maximum value you can specify is 36,500 days (approximately 100 years). Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
     ///   - maxRetentionDays: The Backup Vault Lock configuration that specifies the maximum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to destroy certain data after retaining it for four years (1460 days). If this parameter is not included, Vault Lock does not enforce a maximum retention period on the recovery points in the vault. If this parameter is included without a value, Vault Lock will not enforce a maximum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. The longest maximum retention period you can specify is 36500 days (approximately 100 years). Recovery points already saved in the vault prior to Vault Lock are not affected.
     ///   - minRetentionDays: The Backup Vault Lock configuration that specifies the minimum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to retain certain data for at least seven years (2555 days). This parameter is required when a vault lock is created through CloudFormation; otherwise, this parameter is optional. If this parameter is not specified, Vault Lock will not enforce a minimum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails that backup or copy job, and you should either modify your lifecycle settings or use a different vault. The shortest minimum retention period you can specify is 1 day. Recovery points already saved in the vault prior to Vault Lock are not affected.
     ///   - logger: Logger use during operation
@@ -3396,9 +3434,9 @@ public struct Backup: AWSService {
     ///   - copySourceTagsToRestoredResource: This is an optional parameter. If this equals True, tags included in the backup will be copied to the restored resource. This can only be applied to backups created through Backup.
     ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
     ///   - idempotencyToken: A customer-chosen string that you can use to distinguish between otherwise identical calls to StartRestoreJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
-    ///   - metadata: A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following:    Metadata for Amazon Aurora     Metadata for Amazon DocumentDB     Metadata for CloudFormation     Metadata for Amazon DynamoDB      Metadata for Amazon EBS     Metadata for Amazon EC2     Metadata for Amazon EFS     Metadata for Amazon FSx     Metadata for Amazon Neptune     Metadata for Amazon RDS     Metadata for Amazon Redshift     Metadata for Storage Gateway     Metadata for Amazon S3     Metadata for Amazon Timestream     Metadata for virtual machines
+    ///   - metadata: A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following:    Metadata for Amazon Aurora     Metadata for Amazon DocumentDB     Metadata for CloudFormation     Metadata for Amazon DynamoDB      Metadata for Amazon EBS     Metadata for Amazon EC2     Metadata for Amazon EFS     Metadata for Amazon EKS     Metadata for Amazon FSx     Metadata for Amazon Neptune     Metadata for Amazon RDS     Metadata for Amazon Redshift     Metadata for Storage Gateway     Metadata for Amazon S3     Metadata for Amazon Timestream     Metadata for virtual machines
     ///   - recoveryPointArn: An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
-    ///   - resourceType: Starts a job to restore a recovery point for one of the following resources:    Aurora - Amazon Aurora    DocumentDB - Amazon DocumentDB    CloudFormation - CloudFormation    DynamoDB - Amazon DynamoDB    EBS - Amazon Elastic Block Store    EC2 - Amazon Elastic Compute Cloud    EFS - Amazon Elastic File System    FSx - Amazon FSx    Neptune - Amazon Neptune    RDS - Amazon Relational Database Service    Redshift - Amazon Redshift    Storage Gateway - Storage Gateway    S3 - Amazon Simple Storage Service    Timestream - Amazon Timestream    VirtualMachine - Virtual machines
+    ///   - resourceType: Starts a job to restore a recovery point for one of the following resources:    Aurora - Amazon Aurora    DocumentDB - Amazon DocumentDB    CloudFormation - CloudFormation    DynamoDB - Amazon DynamoDB    EBS - Amazon Elastic Block Store    EC2 - Amazon Elastic Compute Cloud    EFS - Amazon Elastic File System    EKS - Amazon Elastic Kubernetes Service    FSx - Amazon FSx    Neptune - Amazon Neptune    RDS - Amazon Relational Database Service    Redshift - Amazon Redshift    Storage Gateway - Storage Gateway    S3 - Amazon Simple Storage Service    Timestream - Amazon Timestream    VirtualMachine - Virtual machines
     ///   - logger: Logger use during operation
     @inlinable
     public func startRestoreJob(
@@ -3438,6 +3476,7 @@ public struct Backup: AWSService {
     ///
     /// Parameters:
     ///   - backupVaultName: The name of a logical container where backups are stored. Backup vaults are identified by names that  are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    ///   - continuousScanEndTime: The point in time the scan job will scan up to for a continuous backup.
     ///   - iamRoleArn: Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     ///   - idempotencyToken: A customer-chosen string that you can use to distinguish between otherwise identical calls to StartScanJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     ///   - malwareScanner: Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY.
@@ -3449,6 +3488,7 @@ public struct Backup: AWSService {
     @inlinable
     public func startScanJob(
         backupVaultName: String,
+        continuousScanEndTime: Date? = nil,
         iamRoleArn: String,
         idempotencyToken: String? = nil,
         malwareScanner: MalwareScanner,
@@ -3460,6 +3500,7 @@ public struct Backup: AWSService {
     ) async throws -> StartScanJobOutput {
         let input = StartScanJobInput(
             backupVaultName: backupVaultName, 
+            continuousScanEndTime: continuousScanEndTime, 
             iamRoleArn: iamRoleArn, 
             idempotencyToken: idempotencyToken, 
             malwareScanner: malwareScanner, 
@@ -3634,7 +3675,7 @@ public struct Backup: AWSService {
         return try await self.updateFramework(input, logger: logger)
     }
 
-    /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
+    /// Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     @Sendable
     @inlinable
     public func updateGlobalSettings(_ input: UpdateGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3647,10 +3688,10 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
+    /// Updates whether the Amazon Web Services account has enabled different cross-account management options, including cross-account backup, multi-party approval, and delegated administrator. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     ///
     /// Parameters:
-    ///   - globalSettings: Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2. A value for Backup Service-Linked Role creation, styled asisDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false --region us-west-2.
+    ///   - globalSettings: Inputs can include: A value for isCrossAccountBackupEnabled. Values can be true or false. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false. A value for Multi-party approval, styled as isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false. A value for Backup Service-Linked Role creation, styled as isDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGlobalSettings(
@@ -4001,7 +4042,7 @@ extension Backup {
     ///   - byMessageCategory: This is an optional parameter that can be used to  filter out jobs with a MessageCategory which matches the  value you input. Example strings may include AccessDenied,  SUCCESS, AGGREGATE_ALL, and  InvalidParameters. View Monitoring  The wildcard () returns count of all message categories.  AGGREGATE_ALL aggregates job counts  for all message categories and returns the sum.
     ///   - byParentJobId: This is a filter to list child (nested) jobs based on parent job ID.
     ///   - byResourceArn: Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
-    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - byState: Returns only backup jobs that are in the specified state.  Completed with issues is a status found only in the Backup console. For API, this status refers to jobs with a state of COMPLETED and a MessageCategory with a value other than SUCCESS; that is, the status is completed but comes with a status message. To obtain the job count for Completed with issues, run two GET requests, and subtract the second, smaller number: GET /backup-jobs/?state=COMPLETED GET /backup-jobs/?messageCategory=SUCCESS&state=COMPLETED
     ///   - maxResults: The maximum number of items to be returned.
     ///   - logger: Logger used for logging
@@ -4302,7 +4343,7 @@ extension Backup {
     ///   - byMessageCategory: This is an optional parameter that can be used to  filter out jobs with a MessageCategory which matches the  value you input. Example strings may include AccessDenied,  SUCCESS, AGGREGATE_ALL, and  INVALIDPARAMETERS. View  Monitoring for a list of accepted strings. The the value ANY returns count of all message categories.  AGGREGATE_ALL aggregates job counts  for all message categories and returns the sum.
     ///   - byParentJobId: This is a filter to list child (nested) jobs based on parent job ID.
     ///   - byResourceArn: Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
-    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - bySourceRecoveryPointArn: Filters copy jobs by the specified source recovery point ARN.
     ///   - byState: Returns only copy jobs that are in the specified state.
     ///   - maxResults: The maximum number of items to be returned.
@@ -4561,7 +4602,7 @@ extension Backup {
     ///   - byCreatedBefore: Returns only recovery points that were created before the specified timestamp.
     ///   - byParentRecoveryPointArn: This returns only recovery points that match the specified parent (composite) recovery point Amazon Resource Name (ARN).
     ///   - byResourceArn: Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
-    ///   - byResourceType: Returns only recovery points that match the specified resource type(s):    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Returns only recovery points that match the specified resource type(s):    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - maxResults: The maximum number of items to be returned.
     ///   - logger: Logger used for logging
     @inlinable
@@ -4858,7 +4899,7 @@ extension Backup {
     ///   - byCreatedAfter: Returns only restore jobs that were created after the specified date.
     ///   - byCreatedBefore: Returns only restore jobs that were created before the specified date.
     ///   - byParentJobId: This is a filter to list child (nested) restore jobs based on parent restore job ID.
-    ///   - byResourceType: Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - byResourceType: Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - byRestoreTestingPlanArn: This returns only restore testing jobs that match the  specified resource Amazon Resource Name (ARN).
     ///   - byStatus: Returns only restore jobs associated with the specified job status.
     ///   - maxResults: The maximum number of items to be returned.

@@ -98,6 +98,7 @@ public struct RTBFabric: AWSService {
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - linkId: The unique identifier of the link.
     ///   - logSettings: Settings for the application logs.
+    ///   - timeoutInMillis: The timeout value in milliseconds.
     ///   - logger: Logger use during operation
     @inlinable
     public func acceptLink(
@@ -105,15 +106,52 @@ public struct RTBFabric: AWSService {
         gatewayId: String,
         linkId: String,
         logSettings: LinkLogSettings,
+        timeoutInMillis: Int64? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AcceptLinkResponse {
         let input = AcceptLinkRequest(
             attributes: attributes, 
             gatewayId: gatewayId, 
             linkId: linkId, 
-            logSettings: logSettings
+            logSettings: logSettings, 
+            timeoutInMillis: timeoutInMillis
         )
         return try await self.acceptLink(input, logger: logger)
+    }
+
+    /// Associates an ACM certificate with a responder gateway.
+    @Sendable
+    @inlinable
+    public func associateCertificate(_ input: AssociateCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateCertificateResponse {
+        try await self.client.execute(
+            operation: "AssociateCertificate", 
+            path: "/responder-gateway/{gatewayId}/certificate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an ACM certificate with a responder gateway.
+    ///
+    /// Parameters:
+    ///   - acmCertificateArn: The Amazon Resource Name (ARN) of the ACM certificate to associate.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateCertificate(
+        acmCertificateArn: String,
+        clientToken: String = AssociateCertificateRequest.idempotencyToken(),
+        gatewayId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateCertificateResponse {
+        let input = AssociateCertificateRequest(
+            acmCertificateArn: acmCertificateArn, 
+            clientToken: clientToken, 
+            gatewayId: gatewayId
+        )
+        return try await self.associateCertificate(input, logger: logger)
     }
 
     /// Creates an inbound external link.
@@ -135,7 +173,7 @@ public struct RTBFabric: AWSService {
     ///   - attributes: Attributes of the link.
     ///   - clientToken: The unique client token.
     ///   - gatewayId: The unique identifier of the gateway.
-    ///   - logSettings: 
+    ///   - logSettings: Settings for the application logs.
     ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -179,6 +217,7 @@ public struct RTBFabric: AWSService {
     ///   - logSettings: Settings for the application logs.
     ///   - peerGatewayId: The unique identifier of the peer gateway.
     ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
+    ///   - timeoutInMillis: The timeout value in milliseconds.
     ///   - logger: Logger use during operation
     @inlinable
     public func createLink(
@@ -188,6 +227,7 @@ public struct RTBFabric: AWSService {
         logSettings: LinkLogSettings,
         peerGatewayId: String,
         tags: [String: String]? = nil,
+        timeoutInMillis: Int64? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLinkResponse {
         let input = CreateLinkRequest(
@@ -196,9 +236,54 @@ public struct RTBFabric: AWSService {
             httpResponderAllowed: httpResponderAllowed, 
             logSettings: logSettings, 
             peerGatewayId: peerGatewayId, 
-            tags: tags
+            tags: tags, 
+            timeoutInMillis: timeoutInMillis
         )
         return try await self.createLink(input, logger: logger)
+    }
+
+    /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority numbers are evaluated first. Each rule specifies conditions that must all match for the rule to apply.
+    @Sendable
+    @inlinable
+    public func createLinkRoutingRule(_ input: CreateLinkRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLinkRoutingRuleResponse {
+        try await self.client.execute(
+            operation: "CreateLinkRoutingRule", 
+            path: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority numbers are evaluated first. Each rule specifies conditions that must all match for the rule to apply.
+    ///
+    /// Parameters:
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - conditions: The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - priority: The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link.
+    ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLinkRoutingRule(
+        clientToken: String = CreateLinkRoutingRuleRequest.idempotencyToken(),
+        conditions: RuleCondition,
+        gatewayId: String,
+        linkId: String,
+        priority: Int,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLinkRoutingRuleResponse {
+        let input = CreateLinkRoutingRuleRequest(
+            clientToken: clientToken, 
+            conditions: conditions, 
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            priority: priority, 
+            tags: tags
+        )
+        return try await self.createLinkRoutingRule(input, logger: logger)
     }
 
     /// Creates an outbound external link.
@@ -217,10 +302,10 @@ public struct RTBFabric: AWSService {
     /// Creates an outbound external link.
     ///
     /// Parameters:
-    ///   - attributes: 
+    ///   - attributes: Attributes of the link.
     ///   - clientToken: The unique client token.
     ///   - gatewayId: The unique identifier of the gateway.
-    ///   - logSettings: 
+    ///   - logSettings: Settings for the application logs.
     ///   - publicEndpoint: The public endpoint of the link.
     ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
     ///   - logger: Logger use during operation
@@ -308,6 +393,8 @@ public struct RTBFabric: AWSService {
     ///   - clientToken: The unique client token.
     ///   - description: An optional description for the responder gateway.
     ///   - domainName: The domain name for the responder gateway.
+    ///   - gatewayType: The type of gateway. Valid values are EXTERNAL or INTERNAL.
+    ///   - listenerConfig: 
     ///   - managedEndpointConfiguration: The configuration for the managed endpoint.
     ///   - port: The networking port to use.
     ///   - protocol: The networking protocol to use.
@@ -322,6 +409,8 @@ public struct RTBFabric: AWSService {
         clientToken: String = CreateResponderGatewayRequest.idempotencyToken(),
         description: String? = nil,
         domainName: String? = nil,
+        gatewayType: GatewayType? = nil,
+        listenerConfig: ListenerConfig? = nil,
         managedEndpointConfiguration: ManagedEndpointConfiguration? = nil,
         port: Int,
         protocol: `Protocol`,
@@ -336,6 +425,8 @@ public struct RTBFabric: AWSService {
             clientToken: clientToken, 
             description: description, 
             domainName: domainName, 
+            gatewayType: gatewayType, 
+            listenerConfig: listenerConfig, 
             managedEndpointConfiguration: managedEndpointConfiguration, 
             port: port, 
             protocol: `protocol`, 
@@ -410,6 +501,41 @@ public struct RTBFabric: AWSService {
             linkId: linkId
         )
         return try await self.deleteLink(input, logger: logger)
+    }
+
+    /// Deletes a routing rule from a link.
+    @Sendable
+    @inlinable
+    public func deleteLinkRoutingRule(_ input: DeleteLinkRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLinkRoutingRuleResponse {
+        try await self.client.execute(
+            operation: "DeleteLinkRoutingRule", 
+            path: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a routing rule from a link.
+    ///
+    /// Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - ruleId: The unique identifier of the routing rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLinkRoutingRule(
+        gatewayId: String,
+        linkId: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLinkRoutingRuleResponse {
+        let input = DeleteLinkRoutingRuleRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            ruleId: ruleId
+        )
+        return try await self.deleteLinkRoutingRule(input, logger: logger)
     }
 
     /// Deletes an outbound external link.
@@ -502,6 +628,70 @@ public struct RTBFabric: AWSService {
         return try await self.deleteResponderGateway(input, logger: logger)
     }
 
+    /// Removes a certificate association from a responder gateway.
+    @Sendable
+    @inlinable
+    public func disassociateCertificate(_ input: DisassociateCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateCertificateResponse {
+        try await self.client.execute(
+            operation: "DisassociateCertificate", 
+            path: "/responder-gateway/{gatewayId}/certificate", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes a certificate association from a responder gateway.
+    ///
+    /// Parameters:
+    ///   - acmCertificateArn: The Amazon Resource Name (ARN) of the ACM certificate to disassociate.
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateCertificate(
+        acmCertificateArn: String,
+        gatewayId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateCertificateResponse {
+        let input = DisassociateCertificateRequest(
+            acmCertificateArn: acmCertificateArn, 
+            gatewayId: gatewayId
+        )
+        return try await self.disassociateCertificate(input, logger: logger)
+    }
+
+    /// Retrieves the details of a certificate association with a responder gateway.
+    @Sendable
+    @inlinable
+    public func getCertificateAssociation(_ input: GetCertificateAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateAssociationResponse {
+        try await self.client.execute(
+            operation: "GetCertificateAssociation", 
+            path: "/responder-gateway/{gatewayId}/certificate", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of a certificate association with a responder gateway.
+    ///
+    /// Parameters:
+    ///   - acmCertificateArn: The Amazon Resource Name (ARN) of the ACM certificate.
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCertificateAssociation(
+        acmCertificateArn: String,
+        gatewayId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCertificateAssociationResponse {
+        let input = GetCertificateAssociationRequest(
+            acmCertificateArn: acmCertificateArn, 
+            gatewayId: gatewayId
+        )
+        return try await self.getCertificateAssociation(input, logger: logger)
+    }
+
     /// Retrieves information about an inbound external link.
     @Sendable
     @inlinable
@@ -564,6 +754,41 @@ public struct RTBFabric: AWSService {
             linkId: linkId
         )
         return try await self.getLink(input, logger: logger)
+    }
+
+    /// Retrieves the details of a routing rule for a link.
+    @Sendable
+    @inlinable
+    public func getLinkRoutingRule(_ input: GetLinkRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLinkRoutingRuleResponse {
+        try await self.client.execute(
+            operation: "GetLinkRoutingRule", 
+            path: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of a routing rule for a link.
+    ///
+    /// Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - ruleId: The unique identifier of the routing rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getLinkRoutingRule(
+        gatewayId: String,
+        linkId: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetLinkRoutingRuleResponse {
+        let input = GetLinkRoutingRuleRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            ruleId: ruleId
+        )
+        return try await self.getLinkRoutingRule(input, logger: logger)
     }
 
     /// Retrieves information about an outbound external link.
@@ -654,6 +879,79 @@ public struct RTBFabric: AWSService {
             gatewayId: gatewayId
         )
         return try await self.getResponderGateway(input, logger: logger)
+    }
+
+    /// Lists the certificate associations for a responder gateway.
+    @Sendable
+    @inlinable
+    public func listCertificateAssociations(_ input: ListCertificateAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificateAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListCertificateAssociations", 
+            path: "/responder-gateway/{gatewayId}/certificates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the certificate associations for a responder gateway.
+    ///
+    /// Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCertificateAssociations(
+        gatewayId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCertificateAssociationsResponse {
+        let input = ListCertificateAssociationsRequest(
+            gatewayId: gatewayId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCertificateAssociations(input, logger: logger)
+    }
+
+    /// Lists the routing rules for a link.
+    @Sendable
+    @inlinable
+    public func listLinkRoutingRules(_ input: ListLinkRoutingRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLinkRoutingRulesResponse {
+        try await self.client.execute(
+            operation: "ListLinkRoutingRules", 
+            path: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the routing rules for a link.
+    ///
+    /// Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLinkRoutingRules(
+        gatewayId: String,
+        linkId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLinkRoutingRulesResponse {
+        let input = ListLinkRoutingRulesRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listLinkRoutingRules(input, logger: logger)
     }
 
     /// Lists links associated with gateways. Returns a list of all links for the specified gateways, including their status and configuration details.
@@ -899,18 +1197,21 @@ public struct RTBFabric: AWSService {
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - linkId: The unique identifier of the link.
     ///   - logSettings: Settings for the application logs.
+    ///   - timeoutInMillis: The timeout value in milliseconds.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLink(
         gatewayId: String,
         linkId: String,
         logSettings: LinkLogSettings? = nil,
+        timeoutInMillis: Int64? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLinkResponse {
         let input = UpdateLinkRequest(
             gatewayId: gatewayId, 
             linkId: linkId, 
-            logSettings: logSettings
+            logSettings: logSettings, 
+            timeoutInMillis: timeoutInMillis
         )
         return try await self.updateLink(input, logger: logger)
     }
@@ -951,6 +1252,47 @@ public struct RTBFabric: AWSService {
             modules: modules
         )
         return try await self.updateLinkModuleFlow(input, logger: logger)
+    }
+
+    /// Updates a routing rule for a link.
+    @Sendable
+    @inlinable
+    public func updateLinkRoutingRule(_ input: UpdateLinkRoutingRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLinkRoutingRuleResponse {
+        try await self.client.execute(
+            operation: "UpdateLinkRoutingRule", 
+            path: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a routing rule for a link.
+    ///
+    /// Parameters:
+    ///   - conditions: The updated conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - priority: The updated priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link.
+    ///   - ruleId: The unique identifier of the routing rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLinkRoutingRule(
+        conditions: RuleCondition,
+        gatewayId: String,
+        linkId: String,
+        priority: Int,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLinkRoutingRuleResponse {
+        let input = UpdateLinkRoutingRuleRequest(
+            conditions: conditions, 
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            priority: priority, 
+            ruleId: ruleId
+        )
+        return try await self.updateLinkRoutingRule(input, logger: logger)
     }
 
     /// Updates a requester gateway.
@@ -1008,6 +1350,7 @@ public struct RTBFabric: AWSService {
     ///   - description: An optional description for the responder gateway.
     ///   - domainName: The domain name for the responder gateway.
     ///   - gatewayId: The unique identifier of the gateway.
+    ///   - listenerConfig: The listener configuration for the responder gateway.
     ///   - managedEndpointConfiguration: The configuration for the managed endpoint.
     ///   - port: The networking port to use.
     ///   - protocol: The networking protocol to use.
@@ -1019,6 +1362,7 @@ public struct RTBFabric: AWSService {
         description: String? = nil,
         domainName: String? = nil,
         gatewayId: String,
+        listenerConfig: ListenerConfig? = nil,
         managedEndpointConfiguration: ManagedEndpointConfiguration? = nil,
         port: Int,
         protocol: `Protocol`,
@@ -1030,6 +1374,7 @@ public struct RTBFabric: AWSService {
             description: description, 
             domainName: domainName, 
             gatewayId: gatewayId, 
+            listenerConfig: listenerConfig, 
             managedEndpointConfiguration: managedEndpointConfiguration, 
             port: port, 
             protocol: `protocol`, 
@@ -1052,6 +1397,83 @@ extension RTBFabric {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RTBFabric {
+    /// Return PaginatorSequence for operation ``listCertificateAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCertificateAssociationsPaginator(
+        _ input: ListCertificateAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCertificateAssociationsRequest, ListCertificateAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCertificateAssociations,
+            inputKey: \ListCertificateAssociationsRequest.nextToken,
+            outputKey: \ListCertificateAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCertificateAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCertificateAssociationsPaginator(
+        gatewayId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCertificateAssociationsRequest, ListCertificateAssociationsResponse> {
+        let input = ListCertificateAssociationsRequest(
+            gatewayId: gatewayId, 
+            maxResults: maxResults
+        )
+        return self.listCertificateAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listLinkRoutingRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLinkRoutingRulesPaginator(
+        _ input: ListLinkRoutingRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLinkRoutingRulesRequest, ListLinkRoutingRulesResponse> {
+        return .init(
+            input: input,
+            command: self.listLinkRoutingRules,
+            inputKey: \ListLinkRoutingRulesRequest.nextToken,
+            outputKey: \ListLinkRoutingRulesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listLinkRoutingRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLinkRoutingRulesPaginator(
+        gatewayId: String,
+        linkId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListLinkRoutingRulesRequest, ListLinkRoutingRulesResponse> {
+        let input = ListLinkRoutingRulesRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            maxResults: maxResults
+        )
+        return self.listLinkRoutingRulesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listLinks(_:logger:)``.
     ///
     /// - Parameters:
@@ -1158,6 +1580,29 @@ extension RTBFabric {
     }
 }
 
+extension RTBFabric.ListCertificateAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RTBFabric.ListCertificateAssociationsRequest {
+        return .init(
+            gatewayId: self.gatewayId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension RTBFabric.ListLinkRoutingRulesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RTBFabric.ListLinkRoutingRulesRequest {
+        return .init(
+            gatewayId: self.gatewayId,
+            linkId: self.linkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension RTBFabric.ListLinksRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> RTBFabric.ListLinksRequest {
@@ -1193,6 +1638,91 @@ extension RTBFabric.ListResponderGatewaysRequest: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RTBFabric {
+    /// Waiter for operation ``getCertificateAssociation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCertificateAssociated(
+        _ input: GetCertificateAssociationRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetCertificateAssociationRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ASSOCIATED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DISASSOCIATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "PENDING_DISASSOCIATION")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.getCertificateAssociation
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getCertificateAssociation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmCertificateArn: The Amazon Resource Name (ARN) of the ACM certificate.
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCertificateAssociated(
+        acmCertificateArn: String,
+        gatewayId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetCertificateAssociationRequest(
+            acmCertificateArn: acmCertificateArn, 
+            gatewayId: gatewayId
+        )
+        try await self.waitUntilCertificateAssociated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getCertificateAssociation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCertificateDisassociated(
+        _ input: GetCertificateAssociationRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetCertificateAssociationRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DISASSOCIATED")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "PENDING_ASSOCIATION")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.getCertificateAssociation
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getCertificateAssociation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - acmCertificateArn: The Amazon Resource Name (ARN) of the ACM certificate.
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCertificateDisassociated(
+        acmCertificateArn: String,
+        gatewayId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetCertificateAssociationRequest(
+            acmCertificateArn: acmCertificateArn, 
+            gatewayId: gatewayId
+        )
+        try await self.waitUntilCertificateDisassociated(input, logger: logger)
+    }
+
     /// Waiter for operation ``getInboundExternalLink(_:logger:)``.
     ///
     /// - Parameters:
@@ -1234,6 +1764,47 @@ extension RTBFabric {
             linkId: linkId
         )
         try await self.waitUntilInboundExternalLinkActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getInboundExternalLink(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInboundExternalLinkDeleted(
+        _ input: GetInboundExternalLinkRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetInboundExternalLinkRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "REJECTED")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.getInboundExternalLink
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getInboundExternalLink(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInboundExternalLinkDeleted(
+        gatewayId: String,
+        linkId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetInboundExternalLinkRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId
+        )
+        try await self.waitUntilInboundExternalLinkDeleted(input, logger: logger)
     }
 
     /// Waiter for operation ``getLink(_:logger:)``.
@@ -1320,6 +1891,135 @@ extension RTBFabric {
         try await self.waitUntilLinkActive(input, logger: logger)
     }
 
+    /// Waiter for operation ``getLink(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLinkDeleted(
+        _ input: GetLinkRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetLinkRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "REJECTED")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.getLink
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getLink(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLinkDeleted(
+        gatewayId: String,
+        linkId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetLinkRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId
+        )
+        try await self.waitUntilLinkDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getLinkRoutingRule(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLinkRoutingRuleActive(
+        _ input: GetLinkRoutingRuleRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetLinkRoutingRuleRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.getLinkRoutingRule
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getLinkRoutingRule(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - ruleId: The unique identifier of the routing rule.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLinkRoutingRuleActive(
+        gatewayId: String,
+        linkId: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetLinkRoutingRuleRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            ruleId: ruleId
+        )
+        try await self.waitUntilLinkRoutingRuleActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getLinkRoutingRule(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLinkRoutingRuleDeleted(
+        _ input: GetLinkRoutingRuleRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetLinkRoutingRuleRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.getLinkRoutingRule
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getLinkRoutingRule(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - ruleId: The unique identifier of the routing rule.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLinkRoutingRuleDeleted(
+        gatewayId: String,
+        linkId: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetLinkRoutingRuleRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId, 
+            ruleId: ruleId
+        )
+        try await self.waitUntilLinkRoutingRuleDeleted(input, logger: logger)
+    }
+
     /// Waiter for operation ``getOutboundExternalLink(_:logger:)``.
     ///
     /// - Parameters:
@@ -1361,6 +2061,47 @@ extension RTBFabric {
             linkId: linkId
         )
         try await self.waitUntilOutboundExternalLinkActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getOutboundExternalLink(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutboundExternalLinkDeleted(
+        _ input: GetOutboundExternalLinkRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetOutboundExternalLinkRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "REJECTED")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.getOutboundExternalLink
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getOutboundExternalLink(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayId: The unique identifier of the gateway.
+    ///   - linkId: The unique identifier of the link.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutboundExternalLinkDeleted(
+        gatewayId: String,
+        linkId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetOutboundExternalLinkRequest(
+            gatewayId: gatewayId, 
+            linkId: linkId
+        )
+        try await self.waitUntilOutboundExternalLinkDeleted(input, logger: logger)
     }
 
     /// Waiter for operation ``getRequesterGateway(_:logger:)``.
@@ -1416,6 +2157,7 @@ extension RTBFabric {
         let waiter = AWSClient.Waiter<GetRequesterGatewayRequest, _>(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "ERROR")),
             ],
             minDelayTime: .seconds(30),
@@ -1493,6 +2235,7 @@ extension RTBFabric {
         let waiter = AWSClient.Waiter<GetResponderGatewayRequest, _>(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "DELETED")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "ERROR")),
             ],
             minDelayTime: .seconds(30),

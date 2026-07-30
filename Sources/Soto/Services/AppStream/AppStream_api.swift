@@ -900,8 +900,9 @@ public struct AppStream: AWSService {
     ///   - iamRoleArn: The ARN of the IAM role that allows WorkSpaces Applications to access your AMI. The role must have permissions to modify image attributes and describe images, with a trust relationship allowing appstream.amazonaws.com to assume the role.
     ///   - name: A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, periods, and hyphens.
     ///   - runtimeValidationConfig: Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use.
-    ///   - sourceAmiId: The ID of the EC2 AMI to import. The AMI must meet specific requirements including Windows Server 2022 Full Base, UEFI boot mode, TPM 2.0 support, and proper drivers.
+    ///   - sourceAmiId: The ID of the EC2 AMI to import.
     ///   - tags: The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources.
+    ///   - workspaceImageId: The ID of the Workspaces Image to import.
     ///   - logger: Logger use during operation
     @inlinable
     public func createImportedImage(
@@ -915,6 +916,7 @@ public struct AppStream: AWSService {
         runtimeValidationConfig: RuntimeValidationConfig? = nil,
         sourceAmiId: String? = nil,
         tags: [String: String]? = nil,
+        workspaceImageId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateImportedImageResult {
         let input = CreateImportedImageRequest(
@@ -927,7 +929,8 @@ public struct AppStream: AWSService {
             name: name, 
             runtimeValidationConfig: runtimeValidationConfig, 
             sourceAmiId: sourceAmiId, 
-            tags: tags
+            tags: tags, 
+            workspaceImageId: workspaceImageId
         )
         return try await self.createImportedImage(input, logger: logger)
     }
@@ -949,7 +952,9 @@ public struct AppStream: AWSService {
     ///
     /// Parameters:
     ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
+    ///   - agentAccessConfig: The configuration for agent access on the stack. If specified, agent access is enabled for the stack.
     ///   - applicationSettings: The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
+    ///   - contentRedirection: 
     ///   - description: The description to display.
     ///   - displayName: The stack name to display.
     ///   - embedHostDomains: The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
@@ -964,7 +969,9 @@ public struct AppStream: AWSService {
     @inlinable
     public func createStack(
         accessEndpoints: [AccessEndpoint]? = nil,
+        agentAccessConfig: AgentAccessConfig? = nil,
         applicationSettings: ApplicationSettings? = nil,
+        contentRedirection: ContentRedirection? = nil,
         description: String? = nil,
         displayName: String? = nil,
         embedHostDomains: [String]? = nil,
@@ -979,7 +986,9 @@ public struct AppStream: AWSService {
     ) async throws -> CreateStackResult {
         let input = CreateStackRequest(
             accessEndpoints: accessEndpoints, 
+            agentAccessConfig: agentAccessConfig, 
             applicationSettings: applicationSettings, 
+            contentRedirection: contentRedirection, 
             description: description, 
             displayName: displayName, 
             embedHostDomains: embedHostDomains, 
@@ -2457,6 +2466,35 @@ public struct AppStream: AWSService {
         return try await self.disassociateSoftwareFromImageBuilder(input, logger: logger)
     }
 
+    /// Drains the instance hosting the specified streaming session. The instance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and replaced. This only applies to multi-session fleets.
+    @Sendable
+    @inlinable
+    public func drainSessionInstance(_ input: DrainSessionInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DrainSessionInstanceResult {
+        try await self.client.execute(
+            operation: "DrainSessionInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Drains the instance hosting the specified streaming session. The instance stops accepting new sessions while existing sessions continue uninterrupted. Once all sessions end, the instance is reclaimed and replaced. This only applies to multi-session fleets.
+    ///
+    /// Parameters:
+    ///   - sessionId: The identifier of the streaming session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func drainSessionInstance(
+        sessionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DrainSessionInstanceResult {
+        let input = DrainSessionInstanceRequest(
+            sessionId: sessionId
+        )
+        return try await self.drainSessionInstance(input, logger: logger)
+    }
+
     /// Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
     @Sendable
     @inlinable
@@ -3324,8 +3362,10 @@ public struct AppStream: AWSService {
     ///
     /// Parameters:
     ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
+    ///   - agentAccessConfig: The configuration for agent access on the stack. Specify this to update agent access settings. To remove agent access, use AttributesToDelete with the AGENT_ACCESS_CONFIG value.
     ///   - applicationSettings: The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     ///   - attributesToDelete: The stack attributes to delete.
+    ///   - contentRedirection: 
     ///   - description: The description to display.
     ///   - displayName: The stack name to display.
     ///   - embedHostDomains: The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
@@ -3339,8 +3379,10 @@ public struct AppStream: AWSService {
     @inlinable
     public func updateStack(
         accessEndpoints: [AccessEndpoint]? = nil,
+        agentAccessConfig: AgentAccessConfigForUpdate? = nil,
         applicationSettings: ApplicationSettings? = nil,
         attributesToDelete: [StackAttribute]? = nil,
+        contentRedirection: ContentRedirection? = nil,
         description: String? = nil,
         displayName: String? = nil,
         embedHostDomains: [String]? = nil,
@@ -3354,8 +3396,10 @@ public struct AppStream: AWSService {
     ) async throws -> UpdateStackResult {
         let input = UpdateStackRequest(
             accessEndpoints: accessEndpoints, 
+            agentAccessConfig: agentAccessConfig, 
             applicationSettings: applicationSettings, 
             attributesToDelete: attributesToDelete, 
+            contentRedirection: contentRedirection, 
             description: description, 
             displayName: displayName, 
             embedHostDomains: embedHostDomains, 

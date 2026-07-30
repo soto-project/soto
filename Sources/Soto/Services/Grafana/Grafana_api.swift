@@ -148,6 +148,7 @@ public struct Grafana: AWSService {
     ///   - clientToken: A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
     ///   - configuration: The configuration string for the workspace that you create. For more information about the format and configuration options available, see Working in your Grafana workspace.
     ///   - grafanaVersion: Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
+    ///   - ipAddressType: Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see Network access control.
     ///   - kmsKeyId: The ID or ARN of the Key Management Service key to use for encrypting workspace data.
     ///   - networkAccessControl: Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     ///   - organizationRoleName: The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
@@ -169,6 +170,7 @@ public struct Grafana: AWSService {
         clientToken: String? = CreateWorkspaceRequest.idempotencyToken(),
         configuration: String? = nil,
         grafanaVersion: String? = nil,
+        ipAddressType: IPAddressType? = nil,
         kmsKeyId: String? = nil,
         networkAccessControl: NetworkAccessConfiguration? = nil,
         organizationRoleName: String? = nil,
@@ -190,6 +192,7 @@ public struct Grafana: AWSService {
             clientToken: clientToken, 
             configuration: configuration, 
             grafanaVersion: grafanaVersion, 
+            ipAddressType: ipAddressType, 
             kmsKeyId: kmsKeyId, 
             networkAccessControl: networkAccessControl, 
             organizationRoleName: organizationRoleName, 
@@ -891,6 +894,7 @@ public struct Grafana: AWSService {
     ///
     /// Parameters:
     ///   - accountAccessType: Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
+    ///   - ipAddressType: Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are IPv4 and DualStack. For more information about IP address types, see Network access control.
     ///   - networkAccessControl: The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     ///   - organizationRoleName: The name of an IAM role that already exists to use to access resources through Organizations. This can only be used with a workspace that has the permissionType set to CUSTOMER_MANAGED.
     ///   - permissionType: Use this parameter if you want to change a workspace from SERVICE_MANAGED to CUSTOMER_MANAGED. This allows you to manage the permissions that the workspace uses to access datasources and notification channels. If the workspace is in a member Amazon Web Services account of an organization, and that account is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. If you specify this as CUSTOMER_MANAGED, you must also specify a workspaceRoleArn that the workspace will use for accessing Amazon Web Services resources. For more information on the role and permissions needed, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels   Do not use this to convert a CUSTOMER_MANAGED workspace to SERVICE_MANAGED. Do not include this parameter if you want to leave the workspace as SERVICE_MANAGED. You can convert a CUSTOMER_MANAGED workspace to SERVICE_MANAGED using the Amazon Managed Grafana console. For more information, see Managing permissions for data sources and notification channels.
@@ -909,6 +913,7 @@ public struct Grafana: AWSService {
     @inlinable
     public func updateWorkspace(
         accountAccessType: AccountAccessType? = nil,
+        ipAddressType: IPAddressType? = nil,
         networkAccessControl: NetworkAccessConfiguration? = nil,
         organizationRoleName: String? = nil,
         permissionType: PermissionType? = nil,
@@ -927,6 +932,7 @@ public struct Grafana: AWSService {
     ) async throws -> UpdateWorkspaceResponse {
         let input = UpdateWorkspaceRequest(
             accountAccessType: accountAccessType, 
+            ipAddressType: ipAddressType, 
             networkAccessControl: networkAccessControl, 
             organizationRoleName: organizationRoleName, 
             permissionType: permissionType, 

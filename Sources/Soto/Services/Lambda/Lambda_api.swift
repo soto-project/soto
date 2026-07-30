@@ -337,7 +337,9 @@ public struct Lambda: AWSService {
     ///   - instanceRequirements: The instance requirements that specify the compute instance characteristics, including architectures and allowed or excluded instance types.
     ///   - kmsKeyArn: The ARN of the KMS key used to encrypt data associated with the capacity provider.
     ///   - permissionsConfig: The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources.
+    ///   - propagateTags: The tag propagation configuration for the capacity provider. Specifies tags to apply to managed resources at launch.
     ///   - tags: A list of tags to associate with the capacity provider.
+    ///   - telemetryConfig: The telemetry configuration for the capacity provider. Specifies logging settings for managed resources.
     ///   - vpcConfig: The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched.
     ///   - logger: Logger use during operation
     @inlinable
@@ -347,7 +349,9 @@ public struct Lambda: AWSService {
         instanceRequirements: InstanceRequirements? = nil,
         kmsKeyArn: String? = nil,
         permissionsConfig: CapacityProviderPermissionsConfig,
+        propagateTags: PropagateTags? = nil,
         tags: [String: String]? = nil,
+        telemetryConfig: CapacityProviderTelemetryConfig? = nil,
         vpcConfig: CapacityProviderVpcConfig,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCapacityProviderResponse {
@@ -357,7 +361,9 @@ public struct Lambda: AWSService {
             instanceRequirements: instanceRequirements, 
             kmsKeyArn: kmsKeyArn, 
             permissionsConfig: permissionsConfig, 
+            propagateTags: propagateTags, 
             tags: tags, 
+            telemetryConfig: telemetryConfig, 
             vpcConfig: vpcConfig
         )
         return try await self.createCapacityProvider(input, logger: logger)
@@ -536,7 +542,7 @@ public struct Lambda: AWSService {
     ///   - durableConfig: Configuration settings for durable functions. Enables creating functions with durability that can remember their state and continue execution even after interruptions.
     ///   - environment: Environment variables that are accessible from function code during execution.
     ///   - ephemeralStorage: The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
-    ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system.
+    ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - handler: The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
     ///   - imageConfig: Container image configuration values that override the values in the container image Dockerfile.
@@ -1132,14 +1138,17 @@ public struct Lambda: AWSService {
     ///
     /// Parameters:
     ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - includeExecutionData: Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The default value is set to true.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDurableExecution(
         durableExecutionArn: String,
+        includeExecutionData: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetDurableExecutionResponse {
         let input = GetDurableExecutionRequest(
-            durableExecutionArn: durableExecutionArn
+            durableExecutionArn: durableExecutionArn, 
+            includeExecutionData: includeExecutionData
         )
         return try await self.getDurableExecution(input, logger: logger)
     }
@@ -1705,7 +1714,7 @@ public struct Lambda: AWSService {
     ///
     /// Parameters:
     ///   - clientContext: Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
-    ///   - durableExecutionName: Optional unique name for the durable execution. When you start your special function, you can give it a unique name to identify this specific execution. It's like giving a nickname to a task.
+    ///   - durableExecutionName: A unique name for the durable execution. If you invoke a durable function using a name that already exists with the same payload, Lambda returns the existing execution instead of creating a duplicate. If the payload differs, Lambda returns a DurableExecutionAlreadyStartedException error. If not specified, Lambda generates a unique identifier automatically. For more information, see Execution names.
     ///   - functionName: The name or ARN of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - invocationType: Choose from the following options.    RequestResponse (default) – Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.    Event – Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if one is configured). The API response only includes a status code.    DryRun – Validate parameter values and verify that the user or role has permission to invoke the function.
     ///   - logType: Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
@@ -1938,12 +1947,12 @@ public struct Lambda: AWSService {
     /// Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets.
     ///
     /// Parameters:
-    ///   - durableExecutionName: Filter executions by name. Only executions with names that contain this string are returned.
+    ///   - durableExecutionName: Filter executions by name. Only executions with names that matches this string are returned.
     ///   - functionName: The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
     ///   - marker: Pagination token from a previous request to continue retrieving results.
     ///   - maxItems: Maximum number of executions to return (1-1000). Default is 100.
     ///   - qualifier: The function version or alias. If not specified, lists executions for the $LATEST version.
-    ///   - reverseOrder: Set to true to return results in reverse chronological order (newest first). Default is false.
+    ///   - reverseOrder: Set to true to return results in chronological order (oldest first). Default is false.
     ///   - startedAfter: Filter executions that started after this timestamp (ISO 8601 format).
     ///   - startedBefore: Filter executions that started before this timestamp (ISO 8601 format).
     ///   - statuses: Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
@@ -3026,16 +3035,22 @@ public struct Lambda: AWSService {
     /// Parameters:
     ///   - capacityProviderName: The name of the capacity provider to update.
     ///   - capacityProviderScalingConfig: The updated scaling configuration for the capacity provider.
+    ///   - propagateTags: 
+    ///   - telemetryConfig: The updated telemetry configuration for the capacity provider.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCapacityProvider(
         capacityProviderName: String,
         capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil,
+        propagateTags: PropagateTags? = nil,
+        telemetryConfig: CapacityProviderTelemetryConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCapacityProviderResponse {
         let input = UpdateCapacityProviderRequest(
             capacityProviderName: capacityProviderName, 
-            capacityProviderScalingConfig: capacityProviderScalingConfig
+            capacityProviderScalingConfig: capacityProviderScalingConfig, 
+            propagateTags: propagateTags, 
+            telemetryConfig: telemetryConfig
         )
         return try await self.updateCapacityProvider(input, logger: logger)
     }
@@ -3195,6 +3210,7 @@ public struct Lambda: AWSService {
     ///   - revisionId: Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
     ///   - s3Bucket: An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
     ///   - s3Key: The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
+    ///   - s3ObjectStorageMode: Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
     ///   - s3ObjectVersion: For versioned objects, the version of the deployment package object to use.
     ///   - sourceKMSKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
     ///   - zipFile: The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
@@ -3210,6 +3226,7 @@ public struct Lambda: AWSService {
         revisionId: String? = nil,
         s3Bucket: String? = nil,
         s3Key: String? = nil,
+        s3ObjectStorageMode: S3ObjectStorageMode? = nil,
         s3ObjectVersion: String? = nil,
         sourceKMSKeyArn: String? = nil,
         zipFile: AWSBase64Data? = nil,
@@ -3225,6 +3242,7 @@ public struct Lambda: AWSService {
             revisionId: revisionId, 
             s3Bucket: s3Bucket, 
             s3Key: s3Key, 
+            s3ObjectStorageMode: s3ObjectStorageMode, 
             s3ObjectVersion: s3ObjectVersion, 
             sourceKMSKeyArn: sourceKMSKeyArn, 
             zipFile: zipFile
@@ -3251,10 +3269,10 @@ public struct Lambda: AWSService {
     ///   - capacityProviderConfig: Configuration for the capacity provider that manages compute resources for Lambda functions.
     ///   - deadLetterConfig: A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
     ///   - description: A description of the function.
-    ///   - durableConfig: Configuration settings for durable functions. Allows updating execution timeout and retention period for functions with durability enabled.
+    ///   - durableConfig: Configuration settings for durable functions, including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
     ///   - environment: Environment variables that are accessible from function code during execution.
     ///   - ephemeralStorage: The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
-    ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system.
+    ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - handler: The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Lambda programming model.
     ///   - imageConfig:  Container image configuration values that override the values in the container image Docker file.
@@ -3500,6 +3518,43 @@ extension Lambda {
         return self.getDurableExecutionStatePaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCapacityProviders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCapacityProvidersPaginator(
+        _ input: ListCapacityProvidersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCapacityProvidersRequest, ListCapacityProvidersResponse> {
+        return .init(
+            input: input,
+            command: self.listCapacityProviders,
+            inputKey: \ListCapacityProvidersRequest.marker,
+            outputKey: \ListCapacityProvidersResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCapacityProviders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxItems: The maximum number of capacity providers to return.
+    ///   - state: Filter capacity providers by their current state.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCapacityProvidersPaginator(
+        maxItems: Int? = nil,
+        state: CapacityProviderState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCapacityProvidersRequest, ListCapacityProvidersResponse> {
+        let input = ListCapacityProvidersRequest(
+            maxItems: maxItems, 
+            state: state
+        )
+        return self.listCapacityProvidersPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDurableExecutionsByFunction(_:logger:)``.
     ///
     /// - Parameters:
@@ -3521,11 +3576,11 @@ extension Lambda {
     /// Return PaginatorSequence for operation ``listDurableExecutionsByFunction(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - durableExecutionName: Filter executions by name. Only executions with names that contain this string are returned.
+    ///   - durableExecutionName: Filter executions by name. Only executions with names that matches this string are returned.
     ///   - functionName: The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
     ///   - maxItems: Maximum number of executions to return (1-1000). Default is 100.
     ///   - qualifier: The function version or alias. If not specified, lists executions for the $LATEST version.
-    ///   - reverseOrder: Set to true to return results in reverse chronological order (newest first). Default is false.
+    ///   - reverseOrder: Set to true to return results in chronological order (oldest first). Default is false.
     ///   - startedAfter: Filter executions that started after this timestamp (ISO 8601 format).
     ///   - startedBefore: Filter executions that started before this timestamp (ISO 8601 format).
     ///   - statuses: Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
@@ -3554,6 +3609,80 @@ extension Lambda {
         )
         return self.listDurableExecutionsByFunctionPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listFunctionVersionsByCapacityProvider(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFunctionVersionsByCapacityProviderPaginator(
+        _ input: ListFunctionVersionsByCapacityProviderRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFunctionVersionsByCapacityProviderRequest, ListFunctionVersionsByCapacityProviderResponse> {
+        return .init(
+            input: input,
+            command: self.listFunctionVersionsByCapacityProvider,
+            inputKey: \ListFunctionVersionsByCapacityProviderRequest.marker,
+            outputKey: \ListFunctionVersionsByCapacityProviderResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFunctionVersionsByCapacityProvider(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - capacityProviderName: The name of the capacity provider to list function versions for.
+    ///   - maxItems: The maximum number of function versions to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFunctionVersionsByCapacityProviderPaginator(
+        capacityProviderName: String,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFunctionVersionsByCapacityProviderRequest, ListFunctionVersionsByCapacityProviderResponse> {
+        let input = ListFunctionVersionsByCapacityProviderRequest(
+            capacityProviderName: capacityProviderName, 
+            maxItems: maxItems
+        )
+        return self.listFunctionVersionsByCapacityProviderPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listVersionsByFunction(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVersionsByFunctionPaginator(
+        _ input: ListVersionsByFunctionRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVersionsByFunctionRequest, ListVersionsByFunctionResponse> {
+        return .init(
+            input: input,
+            command: self.listVersionsByFunction,
+            inputKey: \ListVersionsByFunctionRequest.marker,
+            outputKey: \ListVersionsByFunctionResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listVersionsByFunction(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    ///   - maxItems: The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response, even if you set the number higher.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVersionsByFunctionPaginator(
+        functionName: String,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListVersionsByFunctionRequest, ListVersionsByFunctionResponse> {
+        let input = ListVersionsByFunctionRequest(
+            functionName: functionName, 
+            maxItems: maxItems
+        )
+        return self.listVersionsByFunctionPaginator(input, logger: logger)
+    }
 }
 
 extension Lambda.GetDurableExecutionHistoryRequest: AWSPaginateToken {
@@ -3581,6 +3710,17 @@ extension Lambda.GetDurableExecutionStateRequest: AWSPaginateToken {
     }
 }
 
+extension Lambda.ListCapacityProvidersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Lambda.ListCapacityProvidersRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            state: self.state
+        )
+    }
+}
+
 extension Lambda.ListDurableExecutionsByFunctionRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Lambda.ListDurableExecutionsByFunctionRequest {
@@ -3594,6 +3734,28 @@ extension Lambda.ListDurableExecutionsByFunctionRequest: AWSPaginateToken {
             startedAfter: self.startedAfter,
             startedBefore: self.startedBefore,
             statuses: self.statuses
+        )
+    }
+}
+
+extension Lambda.ListFunctionVersionsByCapacityProviderRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionVersionsByCapacityProviderRequest {
+        return .init(
+            capacityProviderName: self.capacityProviderName,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension Lambda.ListVersionsByFunctionRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Lambda.ListVersionsByFunctionRequest {
+        return .init(
+            functionName: self.functionName,
+            marker: token,
+            maxItems: self.maxItems
         )
     }
 }

@@ -587,6 +587,38 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.adminGetUser(input, logger: logger)
     }
 
+    /// Lists the authentication options for a user in a user pool. Returns the following:   The user's multi-factor authentication (MFA) preferences.   The user's options for choice-based authentication with the USER_AUTH flow.    Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func adminGetUserAuthFactors(_ input: AdminGetUserAuthFactorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminGetUserAuthFactorsResponse {
+        try await self.client.execute(
+            operation: "AdminGetUserAuthFactors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the authentication options for a user in a user pool. Returns the following:   The user's multi-factor authentication (MFA) preferences.   The user's options for choice-based authentication with the USER_AUTH flow.    Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - username: The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
+    ///   - userPoolId: The ID of the user pool where you want to get information about the user's authentication factors.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func adminGetUserAuthFactors(
+        username: String,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AdminGetUserAuthFactorsResponse {
+        let input = AdminGetUserAuthFactorsRequest(
+            username: username, 
+            userPoolId: userPoolId
+        )
+        return try await self.adminGetUserAuthFactors(input, logger: logger)
+    }
+
     /// Starts sign-in for applications with a server-side component, for example a traditional web application. This operation specifies the authentication flow that you'd like to begin. The authentication flow that you specify must be supported in your app client configuration. For more information about authentication flows, see Authentication flows.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
@@ -927,6 +959,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - softwareTokenMfaSettings: User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available.
     ///   - username: The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     ///   - userPoolId: The ID of the user pool where you want to set a user's MFA preferences.
+    ///   - webAuthnMfaSettings: User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION. To activate this setting, your user pool must be in the  Essentials tier or higher.
     ///   - logger: Logger use during operation
     @inlinable
     public func adminSetUserMFAPreference(
@@ -935,6 +968,7 @@ public struct CognitoIdentityProvider: AWSService {
         softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil,
         username: String,
         userPoolId: String,
+        webAuthnMfaSettings: WebAuthnMfaSettingsType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AdminSetUserMFAPreferenceResponse {
         let input = AdminSetUserMFAPreferenceRequest(
@@ -942,7 +976,8 @@ public struct CognitoIdentityProvider: AWSService {
             smsMfaSettings: smsMfaSettings, 
             softwareTokenMfaSettings: softwareTokenMfaSettings, 
             username: username, 
-            userPoolId: userPoolId
+            userPoolId: userPoolId, 
+            webAuthnMfaSettings: webAuthnMfaSettings
         )
         return try await self.adminSetUserMFAPreference(input, logger: logger)
     }
@@ -1632,18 +1667,21 @@ public struct CognitoIdentityProvider: AWSService {
     /// Parameters:
     ///   - cloudWatchLogsRoleArn: You must specify an IAM role that has permission to log import-job results to Amazon CloudWatch Logs. This parameter is the ARN of that role.
     ///   - jobName: A friendly name for the user import job.
+    ///   - passwordHashingAlgorithm: The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256
     ///   - userPoolId: The ID of the user pool that you want to import users into.
     ///   - logger: Logger use during operation
     @inlinable
     public func createUserImportJob(
         cloudWatchLogsRoleArn: String,
         jobName: String,
+        passwordHashingAlgorithm: PasswordHashingAlgorithmType? = nil,
         userPoolId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateUserImportJobResponse {
         let input = CreateUserImportJobRequest(
             cloudWatchLogsRoleArn: cloudWatchLogsRoleArn, 
             jobName: jobName, 
+            passwordHashingAlgorithm: passwordHashingAlgorithm, 
             userPoolId: userPoolId
         )
         return try await self.createUserImportJob(input, logger: logger)
@@ -1674,8 +1712,10 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - emailConfiguration: The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for messages from your user pool.
     ///   - emailVerificationMessage: This parameter is no longer used.
     ///   - emailVerificationSubject: This parameter is no longer used.
+    ///   - issuerConfiguration: The issuer configuration for the user pool. Specifies the issuer type for token generation.
+    ///   - keyConfiguration: The key configuration for the user pool. Specifies the key type and KMS key ARN for encryption.
     ///   - lambdaConfig: A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
-    ///   - mfaConfiguration: Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
+    ///   - mfaConfiguration: Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor. The CreateUserPool operation supports only SMS MFA configuration. If you set MfaConfiguration to either of these values, include an SmsConfiguration in the same request:    ON – Requires MFA for all users    OPTIONAL – Makes MFA optional for each user   If you omit SmsConfiguration, the operation returns an InvalidParameterException. To configure TOTP or email MFA, use the SetUserPoolMfaConfig operation. You can also use SetUserPoolMfaConfig to add MFA factors later.
     ///   - policies: The password policy and sign-in policy in the user pool. The password policy sets options like password complexity requirements and password history. The sign-in policy sets the options available to applications in choice-based authentication.
     ///   - poolName: A friendly name for your user pool.
     ///   - schema: An array of attributes for the new user pool. You can add custom attributes and modify the properties of default attributes. The specifications in this parameter set the required attributes in your user pool. For more information, see Working with user attributes.
@@ -1701,6 +1741,8 @@ public struct CognitoIdentityProvider: AWSService {
         emailConfiguration: EmailConfigurationType? = nil,
         emailVerificationMessage: String? = nil,
         emailVerificationSubject: String? = nil,
+        issuerConfiguration: IssuerConfigurationType? = nil,
+        keyConfiguration: KeyConfigurationType? = nil,
         lambdaConfig: LambdaConfigType? = nil,
         mfaConfiguration: UserPoolMfaType? = nil,
         policies: UserPoolPolicyType? = nil,
@@ -1728,6 +1770,8 @@ public struct CognitoIdentityProvider: AWSService {
             emailConfiguration: emailConfiguration, 
             emailVerificationMessage: emailVerificationMessage, 
             emailVerificationSubject: emailVerificationSubject, 
+            issuerConfiguration: issuerConfiguration, 
+            keyConfiguration: keyConfiguration, 
             lambdaConfig: lambdaConfig, 
             mfaConfiguration: mfaConfiguration, 
             policies: policies, 
@@ -1867,7 +1911,8 @@ public struct CognitoIdentityProvider: AWSService {
     /// Parameters:
     ///   - customDomainConfig: The configuration for a custom domain. Configures your domain with an Certificate Manager certificate in the us-east-1 Region. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can omit this parameter and use a prefix domain instead. When you create a custom domain, the passkey RP ID defaults to the custom domain. If you had a prefix domain active, this will cause passkey integration for your prefix domain to stop working due to a mismatch in RP ID. To keep the prefix domain passkey integration working, you can explicitly set RP ID to the prefix domain.
     ///   - domain: The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For prefix domains, this is the prefix alone, such as myprefix. A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of myprefix.auth.us-east-1.amazoncognito.com.
-    ///   - managedLoginVersion: The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any feature plan other than Lite.
+    ///   - managedLoginVersion: The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any feature plan other than Lite. A ManagedLoginVersion value of 2 does not activate managed login pages for your app client. When you create an app client programmatically, your app client has no branding style. To use managed login, create a branding style using the CreateManagedLoginBranding operation. When you use the console, Amazon Cognito assigns a default branding style automatically. When you use the API or an SDK, you must create a branding style yourself.
+    ///   - routing: The configuration of routing for requests to the domain for replicas of a replicated user pool. The routing configuration is currently only supported for custom domains.
     ///   - userPoolId: The ID of the user pool where you want to add a domain.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1875,6 +1920,7 @@ public struct CognitoIdentityProvider: AWSService {
         customDomainConfig: CustomDomainConfigType? = nil,
         domain: String,
         managedLoginVersion: Int? = nil,
+        routing: RoutingType? = nil,
         userPoolId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateUserPoolDomainResponse {
@@ -1882,9 +1928,45 @@ public struct CognitoIdentityProvider: AWSService {
             customDomainConfig: customDomainConfig, 
             domain: domain, 
             managedLoginVersion: managedLoginVersion, 
+            routing: routing, 
             userPoolId: userPoolId
         )
         return try await self.createUserPoolDomain(input, logger: logger)
+    }
+
+    /// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func createUserPoolReplica(_ input: CreateUserPoolReplicaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserPoolReplicaResponse {
+        try await self.client.execute(
+            operation: "CreateUserPoolReplica", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - regionName: The Amazon Web Services Region where you want to create the replica user pool.
+    ///   - userPoolId: The ID of the user pool to replicate.
+    ///   - userPoolTags: A map of tags to assign to the replica user pool. Each tag consists of a key and an optional value, both of which you define. You can maintain tags independently on replica user pools.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createUserPoolReplica(
+        regionName: String,
+        userPoolId: String,
+        userPoolTags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateUserPoolReplicaResponse {
+        let input = CreateUserPoolReplicaRequest(
+            regionName: regionName, 
+            userPoolId: userPoolId, 
+            userPoolTags: userPoolTags
+        )
+        return try await self.createUserPoolReplica(input, logger: logger)
     }
 
     /// Deletes a group from the specified user pool. When you delete a group, that group no longer contributes to users' cognito:preferred_group or cognito:groups claims, and no longer influence access-control decision that are based on group membership. For more information about user pool groups, see Adding groups to a user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
@@ -2234,6 +2316,38 @@ public struct CognitoIdentityProvider: AWSService {
             userPoolId: userPoolId
         )
         return try await self.deleteUserPoolDomain(input, logger: logger)
+    }
+
+    /// Deletes a secondary replica user pool. You can only delete replicas that are in the INACTIVE status. This operation must be called from the primary Region.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func deleteUserPoolReplica(_ input: DeleteUserPoolReplicaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserPoolReplicaResponse {
+        try await self.client.execute(
+            operation: "DeleteUserPoolReplica", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a secondary replica user pool. You can only delete replicas that are in the INACTIVE status. This operation must be called from the primary Region.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - regionName: The Amazon Web Services Region of the replica to delete.
+    ///   - userPoolId: The ID of the user pool that contains the replica to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteUserPoolReplica(
+        regionName: String,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteUserPoolReplicaResponse {
+        let input = DeleteUserPoolReplicaRequest(
+            regionName: regionName, 
+            userPoolId: userPoolId
+        )
+        return try await self.deleteUserPoolReplica(input, logger: logger)
     }
 
     /// Deletes a registered passkey, or WebAuthn, authenticator for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
@@ -2816,6 +2930,35 @@ public struct CognitoIdentityProvider: AWSService {
             userPoolId: userPoolId
         )
         return try await self.getLogDeliveryConfiguration(input, logger: logger)
+    }
+
+    /// Returns the current provisioned limit for a specific API category.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func getProvisionedLimit(_ input: GetProvisionedLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProvisionedLimitResponse {
+        try await self.client.execute(
+            operation: "GetProvisionedLimit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the current provisioned limit for a specific API category.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - limitDefinition: The limit to retrieve. Specify the limit class and the attributes that identify the limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProvisionedLimit(
+        limitDefinition: LimitDefinitionType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProvisionedLimitResponse {
+        let input = GetProvisionedLimitRequest(
+            limitDefinition: limitDefinition
+        )
+        return try await self.getProvisionedLimit(input, logger: logger)
     }
 
     /// Given a user pool ID, returns the signing certificate for SAML 2.0 federation. Issued certificates are valid for 10 years from the date of issue. Amazon Cognito issues and assigns a new signing certificate annually. This renewal process returns a new value in the response to GetSigningCertificate, but doesn't invalidate the original certificate. For more information, see Signing SAML requests.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
@@ -3427,6 +3570,38 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.listUserPoolClients(input, logger: logger)
     }
 
+    /// Lists all replicas for a user pool, including both primary and secondary replicas. We recommend using pagination to ensure that the operation returns quickly and successfully.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func listUserPoolReplicas(_ input: ListUserPoolReplicasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserPoolReplicasResponse {
+        try await self.client.execute(
+            operation: "ListUserPoolReplicas", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all replicas for a user pool, including both primary and secondary replicas. We recommend using pagination to ensure that the operation returns quickly and successfully.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - nextToken: A pagination token for retrieving the next page of results. If this parameter is omitted, the operation returns the first page of results.
+    ///   - userPoolId: The ID of the user pool for which to list replicas.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listUserPoolReplicas(
+        nextToken: String? = nil,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListUserPoolReplicasResponse {
+        let input = ListUserPoolReplicasRequest(
+            nextToken: nextToken, 
+            userPoolId: userPoolId
+        )
+        return try await self.listUserPoolReplicas(input, logger: logger)
+    }
+
     /// Lists user pools and their details in the current Amazon Web Services account.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
@@ -3731,7 +3906,7 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.setLogDeliveryConfiguration(input, logger: logger)
     }
 
-    /// Configures threat protection for a user pool or app client. Sets configuration for the following.   Responses to risks with adaptive authentication   Responses to vulnerable passwords with compromised-credentials detection   Notifications to users who have had risky activity detected   IP-address denylist and allowlist   To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protection settings of an app client to be inherited from the user pool, send UserPoolId and ClientId parameters only. To change threat protection to audit-only or off, update the value of UserPoolAddOns in an UpdateUserPool request. To activate this setting, your user pool must be on the  Plus tier.
+    /// Configures threat protection for a user pool or app client. Sets configuration for the following.   Responses to risks with adaptive authentication   Responses to vulnerable passwords with compromised-credentials detection   Notifications to users who have had risky activity detected   IP-address denylist and allowlist   To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protection settings of an app client to be inherited from the user pool, send UserPoolId and ClientId parameters only. To change threat protection to audit-only or off, update the value of UserPoolAddOns in an UpdateUserPool request. To activate this setting, your user pool must be on the  Plus tier. In secondary regions for user pools with multi-region replication, only the SourceARN and From attributes of NotifyConfiguration can be modified to configure region-specific SES integration. All other risk configuration settings must match the existing values to maintain consistency across replicas.
     @Sendable
     @inlinable
     public func setRiskConfiguration(_ input: SetRiskConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetRiskConfigurationResponse {
@@ -3744,7 +3919,7 @@ public struct CognitoIdentityProvider: AWSService {
             logger: logger
         )
     }
-    /// Configures threat protection for a user pool or app client. Sets configuration for the following.   Responses to risks with adaptive authentication   Responses to vulnerable passwords with compromised-credentials detection   Notifications to users who have had risky activity detected   IP-address denylist and allowlist   To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protection settings of an app client to be inherited from the user pool, send UserPoolId and ClientId parameters only. To change threat protection to audit-only or off, update the value of UserPoolAddOns in an UpdateUserPool request. To activate this setting, your user pool must be on the  Plus tier.
+    /// Configures threat protection for a user pool or app client. Sets configuration for the following.   Responses to risks with adaptive authentication   Responses to vulnerable passwords with compromised-credentials detection   Notifications to users who have had risky activity detected   IP-address denylist and allowlist   To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protection settings of an app client to be inherited from the user pool, send UserPoolId and ClientId parameters only. To change threat protection to audit-only or off, update the value of UserPoolAddOns in an UpdateUserPool request. To activate this setting, your user pool must be on the  Plus tier. In secondary regions for user pools with multi-region replication, only the SourceARN and From attributes of NotifyConfiguration can be modified to configure region-specific SES integration. All other risk configuration settings must match the existing values to maintain consistency across replicas.
     ///
     /// Parameters:
     ///   - accountTakeoverRiskConfiguration: The settings for automated responses and notification templates for adaptive authentication with threat protection.
@@ -3830,6 +4005,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - emailMfaSettings: User preferences for email message MFA. Activates or deactivates email MFA and sets it as the preferred MFA method when multiple methods are available. To activate this setting, your user pool must be in the  Essentials tier or higher.
     ///   - smsMfaSettings: User preferences for SMS message MFA. Activates or deactivates SMS MFA and sets it as the preferred MFA method when multiple methods are available.
     ///   - softwareTokenMfaSettings: User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. Users must register a TOTP authenticator before they set this as their preferred MFA method.
+    ///   - webAuthnMfaSettings: User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION. To activate this setting, your user pool must be in the  Essentials tier or higher.
     ///   - logger: Logger use during operation
     @inlinable
     public func setUserMFAPreference(
@@ -3837,13 +4013,15 @@ public struct CognitoIdentityProvider: AWSService {
         emailMfaSettings: EmailMfaSettingsType? = nil,
         smsMfaSettings: SMSMfaSettingsType? = nil,
         softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil,
+        webAuthnMfaSettings: WebAuthnMfaSettingsType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SetUserMFAPreferenceResponse {
         let input = SetUserMFAPreferenceRequest(
             accessToken: accessToken, 
             emailMfaSettings: emailMfaSettings, 
             smsMfaSettings: smsMfaSettings, 
-            softwareTokenMfaSettings: softwareTokenMfaSettings
+            softwareTokenMfaSettings: softwareTokenMfaSettings, 
+            webAuthnMfaSettings: webAuthnMfaSettings
         )
         return try await self.setUserMFAPreference(input, logger: logger)
     }
@@ -3869,7 +4047,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - smsMfaConfiguration: Configures user pool SMS messages for MFA. Sets the message template and the SMS message sending configuration for Amazon SNS.
     ///   - softwareTokenMfaConfiguration: Configures a user pool for time-based one-time password (TOTP) MFA. Enables or disables TOTP.
     ///   - userPoolId: The user pool ID.
-    ///   - webAuthnConfiguration: The configuration of your user pool for passkey, or WebAuthn, authentication and registration. You can set this configuration independent of the MFA configuration options in this operation.
+    ///   - webAuthnConfiguration: The configuration of your user pool for passkey, or WebAuthn, authentication and registration. Includes relying-party configuration, user-verification requirements, and whether passkeys can satisfy MFA requirements.
     ///   - logger: Logger use during operation
     @inlinable
     public func setUserPoolMfaConfig(
@@ -4333,6 +4511,38 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.updateManagedLoginBranding(input, logger: logger)
     }
 
+    /// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthentication or UserFederation categories. To increase these limits, submit a Service Quotas increase request.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func updateProvisionedLimit(_ input: UpdateProvisionedLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProvisionedLimitResponse {
+        try await self.client.execute(
+            operation: "UpdateProvisionedLimit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthentication or UserFederation categories. To increase these limits, submit a Service Quotas increase request.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - limitDefinition: The limit to update. Specify the limit class and the attributes that identify the limit.
+    ///   - requestedLimitValue: The provisioned rate to set, in requests per second (RPS).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProvisionedLimit(
+        limitDefinition: LimitDefinitionType,
+        requestedLimitValue: Int = 0,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProvisionedLimitResponse {
+        let input = UpdateProvisionedLimitRequest(
+            limitDefinition: limitDefinition, 
+            requestedLimitValue: requestedLimitValue
+        )
+        return try await self.updateProvisionedLimit(input, logger: logger)
+    }
+
     /// Updates the name and scopes of a resource server. All other fields are read-only. For more information about resource servers, see Access control with resource servers.  If you don't provide a value for an attribute, it is set to the default value.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
@@ -4450,7 +4660,7 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.updateUserAttributes(input, logger: logger)
     }
 
-    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make.  With the exception of UserPoolTier, if you don't provide a value for an attribute, Amazon Cognito sets it to its default value.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make.  If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.  In secondary regions for user pools with multi-region replication, regional configurations for email, SMS, Lambda functions, and tags can be updated. Both global and regional settings must be provided as inputs, with global settings required to match existing values to maintain consistency across replicas.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
     public func updateUserPool(_ input: UpdateUserPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserPoolResponse {
@@ -4463,7 +4673,7 @@ public struct CognitoIdentityProvider: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make.  With the exception of UserPoolTier, if you don't provide a value for an attribute, Amazon Cognito sets it to its default value.   This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make.  If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.  In secondary regions for user pools with multi-region replication, regional configurations for email, SMS, Lambda functions, and tags can be updated. Both global and regional settings must be provided as inputs, with global settings required to match existing values to maintain consistency across replicas.  This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     ///
     /// Parameters:
     ///   - accountRecoverySetting: The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
@@ -4474,6 +4684,8 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - emailConfiguration: The email configuration of your user pool. The email configuration type sets your preferred sending method, Amazon Web Services Region, and sender for email invitation and verification messages from your user pool.
     ///   - emailVerificationMessage: This parameter is no longer used.
     ///   - emailVerificationSubject: This parameter is no longer used.
+    ///   - issuerConfiguration: The issuer configuration for the user pool. In secondary regions, this parameter must match the existing configuration and cannot be modified.
+    ///   - keyConfiguration: The key configuration for the user pool. In secondary regions, this parameter must match the existing configuration and cannot be modified.
     ///   - lambdaConfig: A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
     ///   - mfaConfiguration: Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
     ///   - policies: The password policy and sign-in policy in the user pool. The password policy sets options like password complexity requirements and password history. The sign-in policy sets the options available to applications in choice-based authentication.
@@ -4498,6 +4710,8 @@ public struct CognitoIdentityProvider: AWSService {
         emailConfiguration: EmailConfigurationType? = nil,
         emailVerificationMessage: String? = nil,
         emailVerificationSubject: String? = nil,
+        issuerConfiguration: IssuerConfigurationType? = nil,
+        keyConfiguration: KeyConfigurationType? = nil,
         lambdaConfig: LambdaConfigType? = nil,
         mfaConfiguration: UserPoolMfaType? = nil,
         policies: UserPoolPolicyType? = nil,
@@ -4522,6 +4736,8 @@ public struct CognitoIdentityProvider: AWSService {
             emailConfiguration: emailConfiguration, 
             emailVerificationMessage: emailVerificationMessage, 
             emailVerificationSubject: emailVerificationSubject, 
+            issuerConfiguration: issuerConfiguration, 
+            keyConfiguration: keyConfiguration, 
             lambdaConfig: lambdaConfig, 
             mfaConfiguration: mfaConfiguration, 
             policies: policies, 
@@ -4657,6 +4873,7 @@ public struct CognitoIdentityProvider: AWSService {
     ///   - customDomainConfig: The configuration for a custom domain that hosts managed login for your application. In an UpdateUserPoolDomain request, this parameter specifies an SSL certificate for the managed login hosted webserver. The certificate must be an ACM ARN in us-east-1. When you create a custom domain, the passkey RP ID defaults to the custom domain. If you had a prefix domain active, this will cause passkey integration for your prefix domain to stop working due to a mismatch in RP ID. To keep the prefix domain passkey integration working, you can explicitly set RP ID to the prefix domain.
     ///   - domain: The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.example.com. For prefix domains, this is the prefix alone, such as myprefix.
     ///   - managedLoginVersion: A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see Managed login.
+    ///   - routing: The routing configuration for the user pool domain. Specifies failover settings for multi-region deployments.
     ///   - userPoolId: The ID of the user pool that is associated with the domain you're updating.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4664,6 +4881,7 @@ public struct CognitoIdentityProvider: AWSService {
         customDomainConfig: CustomDomainConfigType? = nil,
         domain: String,
         managedLoginVersion: Int? = nil,
+        routing: RoutingType? = nil,
         userPoolId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateUserPoolDomainResponse {
@@ -4671,9 +4889,45 @@ public struct CognitoIdentityProvider: AWSService {
             customDomainConfig: customDomainConfig, 
             domain: domain, 
             managedLoginVersion: managedLoginVersion, 
+            routing: routing, 
             userPoolId: userPoolId
         )
         return try await self.updateUserPoolDomain(input, logger: logger)
+    }
+
+    /// Updates replica-specific settings for a user pool replica. You can modify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func updateUserPoolReplica(_ input: UpdateUserPoolReplicaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserPoolReplicaResponse {
+        try await self.client.execute(
+            operation: "UpdateUserPoolReplica", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates replica-specific settings for a user pool replica. You can modify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - regionName: The Amazon Web Services Region of the replica to update.
+    ///   - status: The status to set for the replica. Valid values are ACTIVE and INACTIVE.
+    ///   - userPoolId: The ID of the user pool that contains the replica to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateUserPoolReplica(
+        regionName: String,
+        status: UpdateReplicaStatusType,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateUserPoolReplicaResponse {
+        let input = UpdateUserPoolReplicaRequest(
+            regionName: regionName, 
+            status: status, 
+            userPoolId: userPoolId
+        )
+        return try await self.updateUserPoolReplica(input, logger: logger)
     }
 
     /// Registers the current user's time-based one-time password (TOTP) authenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.

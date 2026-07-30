@@ -224,6 +224,20 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationLogs = "application-logs"
+        case persistentUiLogs = "persistent-ui-logs"
+        case systemLogs = "system-logs"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogUploadPolicyValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case emrManaged = "emr-managed"
+        case onCustomerS3Only = "on-customer-s3only"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MarketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case onDemand = "ON_DEMAND"
         case spot = "SPOT"
@@ -319,6 +333,18 @@ extension EMR {
     public enum ScalingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case advanced = "ADVANCED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case busy = "BUSY"
+        case failed = "FAILED"
+        case idle = "IDLE"
+        case started = "STARTED"
+        case starting = "STARTING"
+        case submitted = "SUBMITTED"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
@@ -553,18 +579,26 @@ extension EMR {
     }
 
     public struct AddTagsInput: AWSEncodableShape {
+        /// The ID of the cluster that scopes the tag operation. Required when the resource being tagged is a session-scoped resource.
+        public let clusterId: String?
         /// The Amazon EMR resource identifier to which tags will be added. For example, a cluster identifier or an Amazon EMR Studio ID.
         public let resourceId: String?
         /// A list of tags to associate with a resource. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
         public let tags: [Tag]?
 
         @inlinable
-        public init(resourceId: String? = nil, tags: [Tag]? = nil) {
+        public init(clusterId: String? = nil, resourceId: String? = nil, tags: [Tag]? = nil) {
+            self.clusterId = clusterId
             self.resourceId = resourceId
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
             case resourceId = "ResourceId"
             case tags = "Tags"
         }
@@ -1009,6 +1043,8 @@ extension EMR {
         public let securityConfiguration: String?
         /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf.
         public let serviceRole: String?
+        /// Indicates whether Spark Connect sessions are enabled on the cluster.
+        public let sessionEnabled: Bool?
         /// The current status details about the cluster.
         public let status: ClusterStatus?
         /// Specifies the number of steps that can be executed concurrently.
@@ -1023,7 +1059,7 @@ extension EMR {
         public let visibleToAllUsers: Bool?
 
         @inlinable
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, extendedSupport: Bool? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, osReleaseLabel: String? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, unhealthyNodeReplacement: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, extendedSupport: Bool? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, osReleaseLabel: String? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, sessionEnabled: Bool? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, unhealthyNodeReplacement: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -1054,6 +1090,7 @@ extension EMR {
             self.scaleDownBehavior = scaleDownBehavior
             self.securityConfiguration = securityConfiguration
             self.serviceRole = serviceRole
+            self.sessionEnabled = sessionEnabled
             self.status = status
             self.stepConcurrencyLevel = stepConcurrencyLevel
             self.tags = tags
@@ -1093,6 +1130,7 @@ extension EMR {
             case scaleDownBehavior = "ScaleDownBehavior"
             case securityConfiguration = "SecurityConfiguration"
             case serviceRole = "ServiceRole"
+            case sessionEnabled = "SessionEnabled"
             case status = "Status"
             case stepConcurrencyLevel = "StepConcurrencyLevel"
             case tags = "Tags"
@@ -1621,6 +1659,10 @@ extension EMR {
             self.clusterId = clusterId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
         }
@@ -1857,6 +1899,10 @@ extension EMR {
         public init(clusterId: String? = nil, stepId: String? = nil) {
             self.clusterId = clusterId
             self.stepId = stepId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2156,6 +2202,10 @@ extension EMR {
             self.clusterId = clusterId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
         }
@@ -2247,6 +2297,10 @@ extension EMR {
         @inlinable
         public init(clusterId: String? = nil) {
             self.clusterId = clusterId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2379,6 +2433,92 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case presignedURL = "PresignedURL"
             case presignedURLReady = "PresignedURLReady"
+        }
+    }
+
+    public struct GetSessionEndpointInput: AWSEncodableShape {
+        /// The ID of the cluster that the session belongs to.
+        public let clusterId: String?
+        /// The ID of the session.
+        public let sessionId: String?
+
+        @inlinable
+        public init(clusterId: String? = nil, sessionId: String? = nil) {
+            self.clusterId = clusterId
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetSessionEndpointOutput: AWSDecodableShape {
+        /// A time-limited authentication token used to connect to the Spark Connect endpoint.
+        public let authToken: String?
+        /// The time at which the authentication token expires. After this time, call GetSessionEndpoint again to obtain a new token.
+        public let authTokenExpirationTime: Date?
+        /// Username and password used to authenticate with the Spark Connect server when connecting directly over VPC peering.
+        public let credentials: Credentials?
+        /// The Spark Connect endpoint URL to use in the PySpark client.
+        public let endpoint: String?
+
+        @inlinable
+        public init(authToken: String? = nil, authTokenExpirationTime: Date? = nil, credentials: Credentials? = nil, endpoint: String? = nil) {
+            self.authToken = authToken
+            self.authTokenExpirationTime = authTokenExpirationTime
+            self.credentials = credentials
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authToken = "AuthToken"
+            case authTokenExpirationTime = "AuthTokenExpirationTime"
+            case credentials = "Credentials"
+            case endpoint = "Endpoint"
+        }
+    }
+
+    public struct GetSessionInput: AWSEncodableShape {
+        /// The ID of the cluster that the session belongs to.
+        public let clusterId: String?
+        /// The ID of the session.
+        public let sessionId: String?
+
+        @inlinable
+        public init(clusterId: String? = nil, sessionId: String? = nil) {
+            self.clusterId = clusterId
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetSessionOutput: AWSDecodableShape {
+        /// The output displays information about the session.
+        public let session: Session?
+
+        @inlinable
+        public init(session: Session? = nil) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session = "Session"
         }
     }
 
@@ -2696,6 +2836,7 @@ extension EMR {
         public func validate(name: String) throws {
             try self.validate(self.context, name: "context", parent: name, max: 256)
             try self.validate(self.context, name: "context", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.instanceFleetId, name: "instanceFleetId", parent: name, max: 256)
             try self.instanceTypeConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceTypeConfigs[]")
             }
@@ -3715,6 +3856,10 @@ extension EMR {
             self.marker = marker
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
             case marker = "Marker"
@@ -3795,6 +3940,10 @@ extension EMR {
             self.marker = marker
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
             case marker = "Marker"
@@ -3829,6 +3978,10 @@ extension EMR {
         public init(clusterId: String? = nil, marker: String? = nil) {
             self.clusterId = clusterId
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3880,6 +4033,12 @@ extension EMR {
             self.instanceGroupTypes = instanceGroupTypes
             self.instanceStates = instanceStates
             self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.instanceFleetId, name: "instanceFleetId", parent: name, max: 256)
+            try self.validate(self.instanceGroupId, name: "instanceGroupId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4047,6 +4206,56 @@ extension EMR {
         }
     }
 
+    public struct ListSessionsInput: AWSEncodableShape {
+        /// The ID of the cluster to list sessions for.
+        public let clusterId: String?
+        /// The maximum number of sessions to return in each page of results.
+        public let maxResults: Int?
+        /// The pagination token returned by a previous ListSessions call. Use it to retrieve the next page of results.
+        public let nextToken: String?
+        /// An optional filter that limits the results to sessions in the specified states.
+        public let sessionStates: [SessionState]?
+
+        @inlinable
+        public init(clusterId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sessionStates: [SessionState]? = nil) {
+            self.clusterId = clusterId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sessionStates = sessionStates
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sessionStates = "SessionStates"
+        }
+    }
+
+    public struct ListSessionsOutput: AWSDecodableShape {
+        /// The pagination token to use in a subsequent ListSessions call to retrieve the next page of results. This field is absent when there are no more results.
+        public let nextToken: String?
+        /// The sessions that match the request.
+        public let sessions: [Session]?
+
+        @inlinable
+        public init(nextToken: String? = nil, sessions: [Session]? = nil) {
+            self.nextToken = nextToken
+            self.sessions = sessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sessions = "Sessions"
+        }
+    }
+
     public struct ListStepsInput: AWSEncodableShape {
         /// The identifier of the cluster for which to list the steps.
         public let clusterId: String?
@@ -4066,6 +4275,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
             try self.stepIds?.forEach {
                 try validate($0, name: "stepIds[]", parent: name, max: 10280)
                 try validate($0, name: "stepIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -4309,6 +4519,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
             try self.instanceFleet?.validate(name: "\(name).instanceFleet")
         }
 
@@ -4331,6 +4542,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
             try self.instanceGroups?.forEach {
                 try $0.validate(name: "\(name).instanceGroups[]")
             }
@@ -4345,10 +4557,13 @@ extension EMR {
     public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// CloudWatch log configuration settings and metadata that specify settings like log files to monitor and where to send them.
         public let cloudWatchLogConfiguration: CloudWatchLogConfiguration?
+        /// S3 logging configuration that controls how different types of logs (system logs, application logs, and persistent UI logs) are uploaded to S3. Each log type can be configured with a specific upload policy.
+        public let s3LoggingConfiguration: S3LoggingConfiguration?
 
         @inlinable
-        public init(cloudWatchLogConfiguration: CloudWatchLogConfiguration? = nil) {
+        public init(cloudWatchLogConfiguration: CloudWatchLogConfiguration? = nil, s3LoggingConfiguration: S3LoggingConfiguration? = nil) {
             self.cloudWatchLogConfiguration = cloudWatchLogConfiguration
+            self.s3LoggingConfiguration = s3LoggingConfiguration
         }
 
         public func validate(name: String) throws {
@@ -4357,6 +4572,7 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogConfiguration = "CloudWatchLogConfiguration"
+            case s3LoggingConfiguration = "S3LoggingConfiguration"
         }
     }
 
@@ -4786,6 +5002,8 @@ extension EMR {
 
         public func validate(name: String) throws {
             try self.autoScalingPolicy?.validate(name: "\(name).autoScalingPolicy")
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.instanceGroupId, name: "instanceGroupId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4833,6 +5051,10 @@ extension EMR {
             self.clusterId = clusterId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case autoTerminationPolicy = "AutoTerminationPolicy"
             case clusterId = "ClusterId"
@@ -4878,6 +5100,7 @@ extension EMR {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
             try self.managedScalingPolicy?.validate(name: "\(name).managedScalingPolicy")
         }
 
@@ -4921,6 +5144,11 @@ extension EMR {
             self.instanceGroupId = instanceGroupId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.instanceGroupId, name: "instanceGroupId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
             case instanceGroupId = "InstanceGroupId"
@@ -4938,6 +5166,10 @@ extension EMR {
         @inlinable
         public init(clusterId: String? = nil) {
             self.clusterId = clusterId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4958,6 +5190,10 @@ extension EMR {
             self.clusterId = clusterId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case clusterId = "ClusterId"
         }
@@ -4968,18 +5204,26 @@ extension EMR {
     }
 
     public struct RemoveTagsInput: AWSEncodableShape {
+        /// The ID of the cluster that scopes the tag operation. Required when the resource being untagged is a session-scoped resource.
+        public let clusterId: String?
         /// The Amazon EMR resource identifier from which tags will be removed. For example, a cluster identifier or an Amazon EMR Studio ID.
         public let resourceId: String?
         /// A list of tag keys to remove from the resource.
         public let tagKeys: [String]?
 
         @inlinable
-        public init(resourceId: String? = nil, tagKeys: [String]? = nil) {
+        public init(clusterId: String? = nil, resourceId: String? = nil, tagKeys: [String]? = nil) {
+            self.clusterId = clusterId
             self.resourceId = resourceId
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
             case resourceId = "ResourceId"
             case tagKeys = "TagKeys"
         }
@@ -5045,8 +5289,12 @@ extension EMR {
         public let securityConfiguration: String?
         /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf. If you've created a custom service role path, you must specify it for the service role when you launch your cluster.
         public let serviceRole: String?
+        /// Indicates whether Spark Connect sessions are enabled on the cluster. When set to true, you can start Spark Connect sessions using the StartSession operation.
+        public let sessionEnabled: Bool?
         /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
         public let stepConcurrencyLevel: Int?
+        /// The Amazon Resource Name (ARN) of the runtime role for steps specified in the RunJobFlow request. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:iam::account-id:role/role-name. For example, arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN. This parameter applies only to steps included in the Steps parameter of this RunJobFlow request. It does not apply to steps added later to the cluster.
+        public let stepExecutionRoleArn: String?
         /// A list of steps to run.
         public let steps: [StepConfig]?
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.
@@ -5057,7 +5305,7 @@ extension EMR {
         public let visibleToAllUsers: Bool?
 
         @inlinable
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, extendedSupport: Bool? = nil, instances: JobFlowInstancesConfig? = nil, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, osReleaseLabel: String? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, extendedSupport: Bool? = nil, instances: JobFlowInstancesConfig? = nil, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, osReleaseLabel: String? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, sessionEnabled: Bool? = nil, stepConcurrencyLevel: Int? = nil, stepExecutionRoleArn: String? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -5086,7 +5334,9 @@ extension EMR {
             self.scaleDownBehavior = scaleDownBehavior
             self.securityConfiguration = securityConfiguration
             self.serviceRole = serviceRole
+            self.sessionEnabled = sessionEnabled
             self.stepConcurrencyLevel = stepConcurrencyLevel
+            self.stepExecutionRoleArn = stepExecutionRoleArn
             self.steps = steps
             self.supportedProducts = supportedProducts
             self.tags = tags
@@ -5128,6 +5378,8 @@ extension EMR {
             try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, max: 10280)
             try self.validate(self.serviceRole, name: "serviceRole", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.stepExecutionRoleArn, name: "stepExecutionRoleArn", parent: name, max: 2048)
+            try self.validate(self.stepExecutionRoleArn, name: "stepExecutionRoleArn", parent: name, min: 20)
             try self.steps?.forEach {
                 try $0.validate(name: "\(name).steps[]")
             }
@@ -5166,7 +5418,9 @@ extension EMR {
             case scaleDownBehavior = "ScaleDownBehavior"
             case securityConfiguration = "SecurityConfiguration"
             case serviceRole = "ServiceRole"
+            case sessionEnabled = "SessionEnabled"
             case stepConcurrencyLevel = "StepConcurrencyLevel"
+            case stepExecutionRoleArn = "StepExecutionRoleArn"
             case steps = "Steps"
             case supportedProducts = "SupportedProducts"
             case tags = "Tags"
@@ -5189,6 +5443,20 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "ClusterArn"
             case jobFlowId = "JobFlowId"
+        }
+    }
+
+    public struct S3LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A map that specifies the upload policy for each log type. The key is the log type, and the value is the upload policy. Valid log types:    system-logs: EMR Daemon logs.    application-logs: Framework logs from Hadoop, Spark, Hive and other applications running on the cluster.    persistent-ui-logs: Logs required for persistent application UIs such as Spark History Server and Tez UI.   Valid upload policies:    emr-managed: Standard behavior. Logs are uploaded to S3 bucket as configured in your LogUri, with certain logs retained by the service for operational support and troubleshooting purposes.    on-customer-s3only: Logs are uploaded only to the customer-specified S3 bucket. This requires you to specify a LogUri when creating the cluster. Persistent-ui-logs cannot have on-customer-s3only policy. Allowed policies for persistent-ui-logs are emr-managed and disabled.    disabled: No S3 upload for this log type.
+        public let logTypeUploadPolicy: [LogType: LogUploadPolicyValue]?
+
+        @inlinable
+        public init(logTypeUploadPolicy: [LogType: LogUploadPolicyValue]? = nil) {
+            self.logTypeUploadPolicy = logTypeUploadPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logTypeUploadPolicy = "LogTypeUploadPolicy"
         }
     }
 
@@ -5346,6 +5614,158 @@ extension EMR {
         }
     }
 
+    public struct Session: AWSDecodableShape {
+        /// The Amazon Web Services account ID that owns the session.
+        public let accountId: String?
+        /// The Amazon Resource Name (ARN) of the session.
+        public let arn: String?
+        /// The ID of the cluster that the session belongs to.
+        public let clusterId: String?
+        /// The date and time that the session was created.
+        public let createdAt: Date?
+        /// The date and time that the session was terminated or failed.
+        public let endedAt: Date?
+        /// The configuration overrides for the session. Only runtime configuration overrides are supported.
+        public let engineConfigurations: [Configuration]?
+        /// The execution role ARN for the session. Amazon EMR uses this role to access Amazon Web Services resources on your behalf during session execution.
+        public let executionRoleArn: String?
+        /// The ID of the session.
+        public let id: String?
+        /// The date and time that the session last entered the IDLE state.
+        public let idleSince: Date?
+        /// The monitoring configuration for the session.
+        public let monitoringConfiguration: SessionMonitoringConfiguration?
+        /// The name of the session, if one was provided at creation time.
+        public let name: String?
+        /// The Amazon EMR release label of the cluster that the session is running on.
+        public let releaseLabel: String?
+        /// The Spark Connect server URL for the session. Use this URL with the Credentials returned by GetSessionEndpoint to connect directly to the session over VPC peering.
+        public let serverUrl: String?
+        /// The idle timeout, in minutes. If the session is idle for this duration, Amazon EMR automatically terminates it.
+        public let sessionIdleTimeoutInMinutes: Int64?
+        /// The date and time that the session entered the STARTED state.
+        public let startedAt: Date?
+        /// The current state of the session. Valid values are SUBMITTED, STARTING, STARTED, IDLE, BUSY, TERMINATING, TERMINATED, and FAILED.
+        public let state: SessionState?
+        /// A human-readable message describing the most recent state change.
+        public let stateChangeReason: String?
+        /// The tags associated with the session.
+        public let tags: [Tag]?
+        /// The date and time that the session was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(accountId: String? = nil, arn: String? = nil, clusterId: String? = nil, createdAt: Date? = nil, endedAt: Date? = nil, engineConfigurations: [Configuration]? = nil, executionRoleArn: String? = nil, id: String? = nil, idleSince: Date? = nil, monitoringConfiguration: SessionMonitoringConfiguration? = nil, name: String? = nil, releaseLabel: String? = nil, serverUrl: String? = nil, sessionIdleTimeoutInMinutes: Int64? = nil, startedAt: Date? = nil, state: SessionState? = nil, stateChangeReason: String? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
+            self.accountId = accountId
+            self.arn = arn
+            self.clusterId = clusterId
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.engineConfigurations = engineConfigurations
+            self.executionRoleArn = executionRoleArn
+            self.id = id
+            self.idleSince = idleSince
+            self.monitoringConfiguration = monitoringConfiguration
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.serverUrl = serverUrl
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+            self.startedAt = startedAt
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case arn = "Arn"
+            case clusterId = "ClusterId"
+            case createdAt = "CreatedAt"
+            case endedAt = "EndedAt"
+            case engineConfigurations = "EngineConfigurations"
+            case executionRoleArn = "ExecutionRoleArn"
+            case id = "Id"
+            case idleSince = "IdleSince"
+            case monitoringConfiguration = "MonitoringConfiguration"
+            case name = "Name"
+            case releaseLabel = "ReleaseLabel"
+            case serverUrl = "ServerUrl"
+            case sessionIdleTimeoutInMinutes = "SessionIdleTimeoutInMinutes"
+            case startedAt = "StartedAt"
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
+            case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct SessionCloudWatchLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether CloudWatch Logs is enabled for the session.
+        public let enabled: Bool?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the logs published to CloudWatch Logs.
+        public let encryptionKeyArn: String?
+        /// The name of the log group where session logs are published.
+        public let logGroup: String?
+        /// The prefix applied to the log stream name where session logs are published.
+        public let logStreamNamePrefix: String?
+        /// A map of log component names (for example, SPARK_DRIVER, SPARK_EXECUTOR) to the list of log types to publish for that component (for example, stdout, stderr).
+        public let logTypes: [String: [String]]?
+
+        @inlinable
+        public init(enabled: Bool? = nil, encryptionKeyArn: String? = nil, logGroup: String? = nil, logStreamNamePrefix: String? = nil, logTypes: [String: [String]]? = nil) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logGroup = logGroup
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 10280)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.logGroup, name: "logGroup", parent: name, max: 10280)
+            try self.validate(self.logGroup, name: "logGroup", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 10280)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.logTypes?.forEach {
+                try validate($0.key, name: "logTypes.key", parent: name, max: 10280)
+                try validate($0.key, name: "logTypes.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case logGroup = "LogGroup"
+            case logStreamNamePrefix = "LogStreamNamePrefix"
+            case logTypes = "LogTypes"
+        }
+    }
+
+    public struct SessionManagedLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether Amazon EMR-managed logging is enabled for the session.
+        public let enabled: Bool?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the managed logs.
+        public let encryptionKeyArn: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, encryptionKeyArn: String? = nil) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 10280)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case encryptionKeyArn = "EncryptionKeyArn"
+        }
+    }
+
     public struct SessionMappingDetail: AWSDecodableShape {
         /// The time the session mapping was created.
         public let creationTime: Date?
@@ -5415,6 +5835,71 @@ extension EMR {
             case identityType = "IdentityType"
             case sessionPolicyArn = "SessionPolicyArn"
             case studioId = "StudioId"
+        }
+    }
+
+    public struct SessionMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The CloudWatch Logs configuration for the session.
+        public let cloudWatchLoggingConfiguration: SessionCloudWatchLoggingConfiguration?
+        /// The Amazon EMR-managed logging configuration for the session.
+        public let managedLoggingConfiguration: SessionManagedLoggingConfiguration?
+        /// The Amazon S3 logging configuration for the session.
+        public let s3LoggingConfiguration: SessionS3LoggingConfiguration?
+
+        @inlinable
+        public init(cloudWatchLoggingConfiguration: SessionCloudWatchLoggingConfiguration? = nil, managedLoggingConfiguration: SessionManagedLoggingConfiguration? = nil, s3LoggingConfiguration: SessionS3LoggingConfiguration? = nil) {
+            self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
+            self.managedLoggingConfiguration = managedLoggingConfiguration
+            self.s3LoggingConfiguration = s3LoggingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLoggingConfiguration?.validate(name: "\(name).cloudWatchLoggingConfiguration")
+            try self.managedLoggingConfiguration?.validate(name: "\(name).managedLoggingConfiguration")
+            try self.s3LoggingConfiguration?.validate(name: "\(name).s3LoggingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingConfiguration = "CloudWatchLoggingConfiguration"
+            case managedLoggingConfiguration = "ManagedLoggingConfiguration"
+            case s3LoggingConfiguration = "S3LoggingConfiguration"
+        }
+    }
+
+    public struct SessionS3LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether Amazon S3 logging is enabled for the session.
+        public let enabled: Bool?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt logs published to Amazon S3.
+        public let encryptionKeyArn: String?
+        /// A map of log component names (for example, SPARK_DRIVER, SPARK_EXECUTOR) to the list of log types to publish for that component (for example, stdout, stderr).
+        public let logTypes: [String: [String]]?
+        /// The Amazon S3 destination URI where session logs are published.
+        public let logUri: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, encryptionKeyArn: String? = nil, logTypes: [String: [String]]? = nil, logUri: String? = nil) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logTypes = logTypes
+            self.logUri = logUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 10280)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.logTypes?.forEach {
+                try validate($0.key, name: "logTypes.key", parent: name, max: 10280)
+                try validate($0.key, name: "logTypes.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
+            try self.validate(self.logUri, name: "logUri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case logTypes = "LogTypes"
+            case logUri = "LogUri"
         }
     }
 
@@ -5725,12 +6210,96 @@ extension EMR {
         }
     }
 
+    public struct StartSessionInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client request token, the service returns the original response without performing the operation again.
+        public let clientRequestToken: String?
+        /// The ID of the cluster on which to start the session.
+        public let clusterId: String?
+        /// The configuration overrides for the session. Only runtime configuration overrides are supported.
+        public let engineConfigurations: [Configuration]?
+        /// The execution role ARN for the session. Amazon EMR uses this role to access Amazon Web Services resources on your behalf during session execution.
+        public let executionRoleArn: String?
+        /// The monitoring configuration that controls where session logs are published, such as Amazon S3, CloudWatch, or managed logging.
+        public let monitoringConfiguration: SessionMonitoringConfiguration?
+        /// An optional name for the session.
+        public let name: String?
+        /// The idle timeout, in minutes. If the session is idle for this duration, Amazon EMR EC2 automatically terminates it.
+        public let sessionIdleTimeoutInMinutes: Int64?
+        /// The tags to assign to the session.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = nil, clusterId: String? = nil, engineConfigurations: [Configuration]? = nil, executionRoleArn: String? = nil, monitoringConfiguration: SessionMonitoringConfiguration? = nil, name: String? = nil, sessionIdleTimeoutInMinutes: Int64? = nil, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterId = clusterId
+            self.engineConfigurations = engineConfigurations
+            self.executionRoleArn = executionRoleArn
+            self.monitoringConfiguration = monitoringConfiguration
+            self.name = name
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 36)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case clusterId = "ClusterId"
+            case engineConfigurations = "EngineConfigurations"
+            case executionRoleArn = "ExecutionRoleArn"
+            case monitoringConfiguration = "MonitoringConfiguration"
+            case name = "Name"
+            case sessionIdleTimeoutInMinutes = "SessionIdleTimeoutInMinutes"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartSessionOutput: AWSDecodableShape {
+        /// The Amazon Web Services account ID that owns the session.
+        public let accountId: String?
+        /// The output contains the ARN of the session.
+        public let arn: String?
+        /// The ID of the cluster that the session was started on.
+        public let clusterId: String?
+        /// The output contains the ID of the session.
+        public let id: String?
+        /// The state of the session at the time the request returned. When a session is first created, it enters the SUBMITTED state.
+        public let state: SessionState?
+
+        @inlinable
+        public init(accountId: String? = nil, arn: String? = nil, clusterId: String? = nil, id: String? = nil, state: SessionState? = nil) {
+            self.accountId = accountId
+            self.arn = arn
+            self.clusterId = clusterId
+            self.id = id
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case arn = "Arn"
+            case clusterId = "ClusterId"
+            case id = "Id"
+            case state = "State"
+        }
+    }
+
     public struct Step: AWSDecodableShape {
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead. If a cluster's StepConcurrencyLevel is greater than 1, do not use AddJobFlowSteps to submit a step with this parameter set to CANCEL_AND_WAIT or TERMINATE_CLUSTER. The step is not submitted and the action fails with a message that the ActionOnFailure setting is not valid. If you change a cluster's StepConcurrencyLevel to be greater than 1 while a step is running, the ActionOnFailure parameter may not behave as you expect. In this case, for a step that fails with this parameter set to CANCEL_AND_WAIT, pending steps and the running step are not canceled; for a step that fails with this parameter set to TERMINATE_CLUSTER, the cluster does not terminate.
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
-        /// The KMS key ARN to encrypt the logs published to the given Amazon S3  destination.
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
         public let encryptionKeyArn: String?
         /// The Amazon Resource Name (ARN) of the runtime role for a step on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource.  For example, arn:aws:IAM::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
         public let executionRoleArn: String?
@@ -6238,6 +6807,51 @@ extension EMR {
 
         private enum CodingKeys: String, CodingKey {
             case jobFlowIds = "JobFlowIds"
+        }
+    }
+
+    public struct TerminateSessionInput: AWSEncodableShape {
+        /// The ID of the cluster that the session belongs to.
+        public let clusterId: String?
+        /// The ID of the session to terminate.
+        public let sessionId: String?
+
+        @inlinable
+        public init(clusterId: String? = nil, sessionId: String? = nil) {
+            self.clusterId = clusterId
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterId, name: "clusterId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct TerminateSessionOutput: AWSDecodableShape {
+        /// The ID of the cluster that the session belonged to.
+        public let clusterId: String?
+        /// The ID of the terminated session.
+        public let sessionId: String?
+        /// The state of the session after the terminate request has been accepted.
+        public let state: SessionState?
+
+        @inlinable
+        public init(clusterId: String? = nil, sessionId: String? = nil, state: SessionState? = nil) {
+            self.clusterId = clusterId
+            self.sessionId = sessionId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case sessionId = "SessionId"
+            case state = "State"
         }
     }
 

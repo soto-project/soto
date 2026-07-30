@@ -42,6 +42,19 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContainerAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerMonitoringType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ecs = "ECS"
+        case eks = "EKS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnabledAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
@@ -191,6 +204,7 @@ extension NetworkFirewall {
 
     public enum RuleGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case stateful = "STATEFUL"
+        case statefulDomain = "STATEFUL_DOMAIN"
         case stateless = "STATELESS"
         public var description: String { return self.rawValue }
     }
@@ -838,6 +852,166 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case revokedStatusAction = "RevokedStatusAction"
             case unknownStatusAction = "UnknownStatusAction"
+        }
+    }
+
+    public struct ContainerAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the container association.
+        public let arn: String?
+        /// The descriptive name of the container association.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct ContainerAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the container attribute to filter on.
+        public let key: String
+        /// The value of the container attribute to filter on.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 256)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^\\S+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct ContainerMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of key-value pairs that filter which containers within the cluster are monitored. Only containers that match the specified attributes are included.
+        public let attributeFilters: [ContainerAttribute]?
+        /// The Amazon Resource Name (ARN) of the container cluster to monitor.
+        public let clusterArn: String
+
+        @inlinable
+        public init(attributeFilters: [ContainerAttribute]? = nil, clusterArn: String) {
+            self.attributeFilters = attributeFilters
+            self.clusterArn = clusterArn
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeFilters?.forEach {
+                try $0.validate(name: "\(name).attributeFilters[]")
+            }
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, max: 256)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, min: 1)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilters = "AttributeFilters"
+            case clusterArn = "ClusterArn"
+        }
+    }
+
+    public struct CreateContainerAssociationRequest: AWSEncodableShape {
+        /// The descriptive name of the container association. You can't change the name of a container association after you create it.
+        public let containerAssociationName: String
+        /// The list of container monitoring configurations that define which clusters and container attributes to monitor.
+        public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]
+        /// A description of the container association.
+        public let description: String?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// The type of container orchestration platform for the clusters in this association. Valid values are ECS and EKS. You can't change the type after creation.
+        public let type: ContainerMonitoringType
+
+        @inlinable
+        public init(containerAssociationName: String, containerMonitoringConfigurations: [ContainerMonitoringConfiguration], description: String? = nil, tags: [Tag]? = nil, type: ContainerMonitoringType) {
+            self.containerAssociationName = containerAssociationName
+            self.containerMonitoringConfigurations = containerMonitoringConfigurations
+            self.description = description
+            self.tags = tags
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, max: 128)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, min: 1)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.containerMonitoringConfigurations.forEach {
+                try $0.validate(name: "\(name).containerMonitoringConfigurations[]")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationName = "ContainerAssociationName"
+            case containerMonitoringConfigurations = "ContainerMonitoringConfigurations"
+            case description = "Description"
+            case tags = "Tags"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateContainerAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the container association.
+        public let containerAssociationArn: String?
+        /// The descriptive name of the container association.
+        public let containerAssociationName: String?
+        /// The container monitoring configurations for this container association.
+        public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]?
+        /// A description of the container association.
+        public let description: String?
+        /// The current status of the container association.
+        public let status: ContainerAssociationStatus?
+        /// The key:value pairs associated with the resource.
+        public let tags: [Tag]?
+        /// The type of container orchestration platform. Either ECS or EKS.
+        public let type: ContainerMonitoringType?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(containerAssociationArn: String? = nil, containerAssociationName: String? = nil, containerMonitoringConfigurations: [ContainerMonitoringConfiguration]? = nil, description: String? = nil, status: ContainerAssociationStatus? = nil, tags: [Tag]? = nil, type: ContainerMonitoringType? = nil, updateToken: String? = nil) {
+            self.containerAssociationArn = containerAssociationArn
+            self.containerAssociationName = containerAssociationName
+            self.containerMonitoringConfigurations = containerMonitoringConfigurations
+            self.description = description
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationArn = "ContainerAssociationArn"
+            case containerAssociationName = "ContainerAssociationName"
+            case containerMonitoringConfigurations = "ContainerMonitoringConfigurations"
+            case description = "Description"
+            case status = "Status"
+            case tags = "Tags"
+            case type = "Type"
+            case updateToken = "UpdateToken"
         }
     }
 
@@ -1603,6 +1777,55 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DeleteContainerAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+        public let containerAssociationArn: String?
+        /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+        public let containerAssociationName: String?
+
+        @inlinable
+        public init(containerAssociationArn: String? = nil, containerAssociationName: String? = nil) {
+            self.containerAssociationArn = containerAssociationArn
+            self.containerAssociationName = containerAssociationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, max: 256)
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, min: 1)
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, max: 128)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, min: 1)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationArn = "ContainerAssociationArn"
+            case containerAssociationName = "ContainerAssociationName"
+        }
+    }
+
+    public struct DeleteContainerAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the container association.
+        public let containerAssociationArn: String?
+        /// The descriptive name of the container association.
+        public let containerAssociationName: String?
+        /// The current status of the container association.
+        public let status: ContainerAssociationStatus?
+
+        @inlinable
+        public init(containerAssociationArn: String? = nil, containerAssociationName: String? = nil, status: ContainerAssociationStatus? = nil) {
+            self.containerAssociationArn = containerAssociationArn
+            self.containerAssociationName = containerAssociationName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationArn = "ContainerAssociationArn"
+            case containerAssociationName = "ContainerAssociationName"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteFirewallPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
@@ -2066,6 +2289,83 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case vpcEndpointAssociation = "VpcEndpointAssociation"
             case vpcEndpointAssociationStatus = "VpcEndpointAssociationStatus"
+        }
+    }
+
+    public struct DescribeContainerAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+        public let containerAssociationArn: String?
+        /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+        public let containerAssociationName: String?
+
+        @inlinable
+        public init(containerAssociationArn: String? = nil, containerAssociationName: String? = nil) {
+            self.containerAssociationArn = containerAssociationArn
+            self.containerAssociationName = containerAssociationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, max: 256)
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, min: 1)
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, max: 128)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, min: 1)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationArn = "ContainerAssociationArn"
+            case containerAssociationName = "ContainerAssociationName"
+        }
+    }
+
+    public struct DescribeContainerAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the container association.
+        public let containerAssociationArn: String?
+        /// The descriptive name of the container association.
+        public let containerAssociationName: String?
+        /// The container monitoring configurations for this container association.
+        public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]?
+        /// A description of the container association.
+        public let description: String?
+        /// The last time that the container association was updated or resolved new container IP addresses.
+        public let lastUpdatedTime: Date?
+        /// The number of CIDR blocks that have been resolved from the monitored containers for this container association.
+        public let resolvedCidrCount: Int?
+        /// The current status of the container association.
+        public let status: ContainerAssociationStatus?
+        /// The key:value pairs associated with the resource.
+        public let tags: [Tag]?
+        /// The type of container orchestration platform. Either ECS or EKS.
+        public let type: ContainerMonitoringType?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+        public let updateToken: String?
+
+        @inlinable
+        public init(containerAssociationArn: String? = nil, containerAssociationName: String? = nil, containerMonitoringConfigurations: [ContainerMonitoringConfiguration]? = nil, description: String? = nil, lastUpdatedTime: Date? = nil, resolvedCidrCount: Int? = nil, status: ContainerAssociationStatus? = nil, tags: [Tag]? = nil, type: ContainerMonitoringType? = nil, updateToken: String? = nil) {
+            self.containerAssociationArn = containerAssociationArn
+            self.containerAssociationName = containerAssociationName
+            self.containerMonitoringConfigurations = containerMonitoringConfigurations
+            self.description = description
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resolvedCidrCount = resolvedCidrCount
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationArn = "ContainerAssociationArn"
+            case containerAssociationName = "ContainerAssociationName"
+            case containerMonitoringConfigurations = "ContainerMonitoringConfigurations"
+            case description = "Description"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case resolvedCidrCount = "ResolvedCidrCount"
+            case status = "Status"
+            case tags = "Tags"
+            case type = "Type"
+            case updateToken = "UpdateToken"
         }
     }
 
@@ -3384,6 +3684,8 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicyResponse: AWSDecodableShape {
+        /// The total number of domain name specifications across all domain list rule groups in the firewall policy that use the stateful-domain-rulegroup resource type.
+        public let consumedStatefulDomainCapacity: Int?
         /// The number of capacity units currently consumed by the policy's stateful rules.
         public let consumedStatefulRuleCapacity: Int?
         /// The number of capacity units currently consumed by the policy's stateless rules.
@@ -3408,7 +3710,8 @@ extension NetworkFirewall {
         public let tags: [Tag]?
 
         @inlinable
-        public init(consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
+        public init(consumedStatefulDomainCapacity: Int? = nil, consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
+            self.consumedStatefulDomainCapacity = consumedStatefulDomainCapacity
             self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
             self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
             self.description = description
@@ -3423,6 +3726,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedStatefulDomainCapacity = "ConsumedStatefulDomainCapacity"
             case consumedStatefulRuleCapacity = "ConsumedStatefulRuleCapacity"
             case consumedStatelessRuleCapacity = "ConsumedStatelessRuleCapacity"
             case description = "Description"
@@ -3867,6 +4171,50 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case analysisReports = "AnalysisReports"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContainerAssociationsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContainerAssociationsResponse: AWSDecodableShape {
+        /// The container association metadata objects.
+        public let containerAssociations: [ContainerAssociationSummary]?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(containerAssociations: [ContainerAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.containerAssociations = containerAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociations = "ContainerAssociations"
             case nextToken = "NextToken"
         }
     }
@@ -6502,6 +6850,108 @@ extension NetworkFirewall {
             case availabilityZoneChangeProtection = "AvailabilityZoneChangeProtection"
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateContainerAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+        public let containerAssociationArn: String?
+        /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+        public let containerAssociationName: String?
+        /// The updated list of container monitoring configurations that define which clusters and container attributes to monitor.
+        public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]
+        /// A description of the container association.
+        public let description: String?
+        /// The key:value pairs associated with the resource.
+        public let tags: [Tag]?
+        /// The type of container orchestration platform. This must match the type specified when the container association was created.
+        public let type: ContainerMonitoringType
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(containerAssociationArn: String? = nil, containerAssociationName: String? = nil, containerMonitoringConfigurations: [ContainerMonitoringConfiguration], description: String? = nil, tags: [Tag]? = nil, type: ContainerMonitoringType, updateToken: String) {
+            self.containerAssociationArn = containerAssociationArn
+            self.containerAssociationName = containerAssociationName
+            self.containerMonitoringConfigurations = containerMonitoringConfigurations
+            self.description = description
+            self.tags = tags
+            self.type = type
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, max: 256)
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, min: 1)
+            try self.validate(self.containerAssociationArn, name: "containerAssociationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, max: 128)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, min: 1)
+            try self.validate(self.containerAssociationName, name: "containerAssociationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.containerMonitoringConfigurations.forEach {
+                try $0.validate(name: "\(name).containerMonitoringConfigurations[]")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationArn = "ContainerAssociationArn"
+            case containerAssociationName = "ContainerAssociationName"
+            case containerMonitoringConfigurations = "ContainerMonitoringConfigurations"
+            case description = "Description"
+            case tags = "Tags"
+            case type = "Type"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateContainerAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the container association.
+        public let containerAssociationArn: String?
+        /// The descriptive name of the container association.
+        public let containerAssociationName: String?
+        /// The container monitoring configurations for this container association.
+        public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]?
+        /// A description of the container association.
+        public let description: String?
+        /// The current status of the container association.
+        public let status: ContainerAssociationStatus?
+        /// The key:value pairs associated with the resource.
+        public let tags: [Tag]?
+        /// The type of container orchestration platform. Either ECS or EKS.
+        public let type: ContainerMonitoringType?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+        public let updateToken: String?
+
+        @inlinable
+        public init(containerAssociationArn: String? = nil, containerAssociationName: String? = nil, containerMonitoringConfigurations: [ContainerMonitoringConfiguration]? = nil, description: String? = nil, status: ContainerAssociationStatus? = nil, tags: [Tag]? = nil, type: ContainerMonitoringType? = nil, updateToken: String? = nil) {
+            self.containerAssociationArn = containerAssociationArn
+            self.containerAssociationName = containerAssociationName
+            self.containerMonitoringConfigurations = containerMonitoringConfigurations
+            self.description = description
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerAssociationArn = "ContainerAssociationArn"
+            case containerAssociationName = "ContainerAssociationName"
+            case containerMonitoringConfigurations = "ContainerMonitoringConfigurations"
+            case description = "Description"
+            case status = "Status"
+            case tags = "Tags"
+            case type = "Type"
             case updateToken = "UpdateToken"
         }
     }

@@ -1015,8 +1015,8 @@ public struct DirectConnect: AWSService {
     /// Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
     ///
     /// Parameters:
-    ///   - asn: The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
-    ///   - asnLong: The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    ///   - asn: The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+    ///   - asnLong: The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
     ///   - bgpPeerId: The ID of the BGP peer.
     ///   - customerAddress: The IP address assigned to the customer interface.
     ///   - virtualInterfaceId: The ID of the virtual interface.
@@ -1781,7 +1781,7 @@ public struct DirectConnect: AWSService {
         )
     }
 
-    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.   If you're using an asn, the response includes ASN value in both the asn and asnLong fields.   If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
+    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.   If you're using an asn, the response includes the ASN value in both the asn and asnLong fields.   If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
     @Sendable
     @inlinable
     public func describeVirtualInterfaces(_ input: DescribeVirtualInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VirtualInterfaces {
@@ -1794,7 +1794,7 @@ public struct DirectConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.   If you're using an asn, the response includes ASN value in both the asn and asnLong fields.   If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
+    /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.   If you're using an asn, the response includes the ASN value in both the asn and asnLong fields.   If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
     ///
     /// Parameters:
     ///   - connectionId: The ID of the connection.
@@ -2213,6 +2213,7 @@ public struct DirectConnect: AWSService {
     /// Parameters:
     ///   - enableSiteLink: Indicates whether to enable or disable SiteLink.
     ///   - mtu: The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
+    ///   - rateLimit: The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
     ///   - virtualInterfaceId: The ID of the virtual private interface.
     ///   - virtualInterfaceName: The name of the virtual private interface.
     ///   - logger: Logger use during operation
@@ -2220,6 +2221,7 @@ public struct DirectConnect: AWSService {
     public func updateVirtualInterfaceAttributes(
         enableSiteLink: Bool? = nil,
         mtu: Int? = nil,
+        rateLimit: String? = nil,
         virtualInterfaceId: String,
         virtualInterfaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2227,6 +2229,7 @@ public struct DirectConnect: AWSService {
         let input = UpdateVirtualInterfaceAttributesRequest(
             enableSiteLink: enableSiteLink, 
             mtu: mtu, 
+            rateLimit: rateLimit, 
             virtualInterfaceId: virtualInterfaceId, 
             virtualInterfaceName: virtualInterfaceName
         )

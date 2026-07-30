@@ -433,6 +433,7 @@ extension WorkspacesInstances {
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x20-\\x7E]+$")
             try self.validate(self.iops, name: "iops", parent: name, min: 0)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 128)
             try self.validate(self.sizeInGB, name: "sizeInGB", parent: name, min: 0)
@@ -493,6 +494,7 @@ extension WorkspacesInstances {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x20-\\x7E]+$")
             try self.managedInstance.validate(name: "\(name).managedInstance")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1467,6 +1469,8 @@ extension WorkspacesInstances {
             try self.iamInstanceProfile?.validate(name: "\(name).iamInstanceProfile")
             try self.validate(self.imageId, name: "imageId", parent: name, pattern: "^ami-[0-9a-zA-Z]{1,63}$")
             try self.instanceMarketOptions?.validate(name: "\(name).instanceMarketOptions")
+            try self.validate(self.instanceType, name: "instanceType", parent: name, max: 64)
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: "^([a-z0-9-]+)\\.([a-z0-9]+)$")
             try self.validate(self.ipv6AddressCount, name: "ipv6AddressCount", parent: name, min: 0)
             try self.ipv6Addresses?.forEach {

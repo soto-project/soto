@@ -61,6 +61,12 @@ extension ResourceExplorer2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecorderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case thirdParty = "THIRD_PARTY"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssociateDefaultViewInput: AWSEncodableShape {
@@ -1169,6 +1175,8 @@ extension ResourceExplorer2 {
     public struct Resource: AWSDecodableShape {
         /// The Amazon resource name (ARN) of the resource.
         public let arn: String?
+        /// The CloudFormation resource type identifier for the resource, such as AWS::EC2::Instance or AWS::S3::Bucket.
+        public let cfnResourceType: String?
         /// The date and time that Resource Explorer last queried this resource and updated the index with the latest information about the resource.
         public let lastReportedAt: Date?
         /// The Amazon Web Services account that owns the resource.
@@ -1183,8 +1191,9 @@ extension ResourceExplorer2 {
         public let service: String?
 
         @inlinable
-        public init(arn: String? = nil, lastReportedAt: Date? = nil, owningAccountId: String? = nil, properties: [ResourceProperty]? = nil, region: String? = nil, resourceType: String? = nil, service: String? = nil) {
+        public init(arn: String? = nil, cfnResourceType: String? = nil, lastReportedAt: Date? = nil, owningAccountId: String? = nil, properties: [ResourceProperty]? = nil, region: String? = nil, resourceType: String? = nil, service: String? = nil) {
             self.arn = arn
+            self.cfnResourceType = cfnResourceType
             self.lastReportedAt = lastReportedAt
             self.owningAccountId = owningAccountId
             self.properties = properties
@@ -1195,6 +1204,7 @@ extension ResourceExplorer2 {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case cfnResourceType = "CfnResourceType"
             case lastReportedAt = "LastReportedAt"
             case owningAccountId = "OwningAccountId"
             case properties = "Properties"
@@ -1314,6 +1324,28 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct ServiceLinkedRecorderInfo: AWSDecodableShape {
+        /// The name of the service-linked recorder, such as AWSConfigurationRecorderForObservabilityAdmin.
+        public let recorderName: String?
+        /// The type of the recorder. Valid values are AWS and THIRD_PARTY.
+        public let recorderType: RecorderType?
+        /// The service principal of the Amazon Web Services service that owns the service-linked recorder, such as observabilityadmin.amazonaws.com.
+        public let servicePrincipal: String?
+
+        @inlinable
+        public init(recorderName: String? = nil, recorderType: RecorderType? = nil, servicePrincipal: String? = nil) {
+            self.recorderName = recorderName
+            self.recorderType = recorderType
+            self.servicePrincipal = servicePrincipal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recorderName = "RecorderName"
+            case recorderType = "RecorderType"
+            case servicePrincipal = "ServicePrincipal"
+        }
+    }
+
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let message: String
         /// The name of the service quota that was exceeded by the request.
@@ -1341,6 +1373,8 @@ extension ResourceExplorer2 {
         public let includedProperties: [IncludedProperty]?
         /// The scope type of the service view, which determines what resources are included.
         public let scopeType: String?
+        /// Information about the service-linked recorder associated with this service view. When a service view is paired with a service-linked recorder, Resource Explorer uses the recorder's resource type list to filter search results and streaming data.
+        public let serviceLinkedRecorder: ServiceLinkedRecorderInfo?
         /// The Amazon Resource Name (ARN) of the service view.
         public let serviceViewArn: String
         /// The name of the service view.
@@ -1349,10 +1383,11 @@ extension ResourceExplorer2 {
         public let streamingAccessForService: String?
 
         @inlinable
-        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, scopeType: String? = nil, serviceViewArn: String, serviceViewName: String? = nil, streamingAccessForService: String? = nil) {
+        public init(filters: SearchFilter? = nil, includedProperties: [IncludedProperty]? = nil, scopeType: String? = nil, serviceLinkedRecorder: ServiceLinkedRecorderInfo? = nil, serviceViewArn: String, serviceViewName: String? = nil, streamingAccessForService: String? = nil) {
             self.filters = filters
             self.includedProperties = includedProperties
             self.scopeType = scopeType
+            self.serviceLinkedRecorder = serviceLinkedRecorder
             self.serviceViewArn = serviceViewArn
             self.serviceViewName = serviceViewName
             self.streamingAccessForService = streamingAccessForService
@@ -1362,6 +1397,7 @@ extension ResourceExplorer2 {
             case filters = "Filters"
             case includedProperties = "IncludedProperties"
             case scopeType = "ScopeType"
+            case serviceLinkedRecorder = "ServiceLinkedRecorder"
             case serviceViewArn = "ServiceViewArn"
             case serviceViewName = "ServiceViewName"
             case streamingAccessForService = "StreamingAccessForService"
@@ -1387,18 +1423,22 @@ extension ResourceExplorer2 {
     }
 
     public struct SupportedResourceType: AWSDecodableShape {
+        /// The CloudFormation resource type identifiers for this resource type, such as AWS::EC2::Instance.
+        public let cfnResourceTypes: [String]?
         /// The unique identifier of the resource type.
         public let resourceType: String?
         /// The Amazon Web Services service that is associated with the resource type. This is the primary service that lets you create and interact with resources of this type.
         public let service: String?
 
         @inlinable
-        public init(resourceType: String? = nil, service: String? = nil) {
+        public init(cfnResourceTypes: [String]? = nil, resourceType: String? = nil, service: String? = nil) {
+            self.cfnResourceTypes = cfnResourceTypes
             self.resourceType = resourceType
             self.service = service
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cfnResourceTypes = "CFNResourceTypes"
             case resourceType = "ResourceType"
             case service = "Service"
         }

@@ -194,6 +194,112 @@ extension SageMakerFeatureStoreRuntime {
         }
     }
 
+    public struct BatchWriteRecordEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The name or Amazon Resource Name (ARN) of the FeatureGroup to write the record to.
+        public let featureGroupName: String?
+        /// List of FeatureValues to be inserted. This will be a full over-write.
+        public let record: [FeatureValue]?
+        /// A list of stores to which you're adding the record. By default, Feature Store adds the record to all of the stores that you're using for the FeatureGroup.
+        public let targetStores: [TargetStore]?
+        /// Time to live duration for this entry, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. This overrides the request level TtlDuration.
+        public let ttlDuration: TtlDuration?
+
+        @inlinable
+        public init(featureGroupName: String? = nil, record: [FeatureValue]? = nil, targetStores: [TargetStore]? = nil, ttlDuration: TtlDuration? = nil) {
+            self.featureGroupName = featureGroupName
+            self.record = record
+            self.targetStores = targetStores
+            self.ttlDuration = ttlDuration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 150)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})$")
+            try self.record?.forEach {
+                try $0.validate(name: "\(name).record[]")
+            }
+            try self.validate(self.record, name: "record", parent: name, min: 1)
+            try self.validate(self.targetStores, name: "targetStores", parent: name, max: 2)
+            try self.validate(self.targetStores, name: "targetStores", parent: name, min: 1)
+            try self.ttlDuration?.validate(name: "\(name).ttlDuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupName = "FeatureGroupName"
+            case record = "Record"
+            case targetStores = "TargetStores"
+            case ttlDuration = "TtlDuration"
+        }
+    }
+
+    public struct BatchWriteRecordError: AWSDecodableShape {
+        /// The entry that failed to be written.
+        public let entry: BatchWriteRecordEntry?
+        /// The error code for the failed record write.
+        public let errorCode: String?
+        /// The error message for the failed record write.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(entry: BatchWriteRecordEntry? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
+            self.entry = entry
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entry = "Entry"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
+    public struct BatchWriteRecordRequest: AWSEncodableShape {
+        /// A list of records to write. Each entry specifies the FeatureGroup, the record data, and optionally target stores and a TTL duration.
+        public let entries: [BatchWriteRecordEntry]?
+        /// Time to live duration applied to all entries in the batch that do not specify their own TtlDuration; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
+        public let ttlDuration: TtlDuration?
+
+        @inlinable
+        public init(entries: [BatchWriteRecordEntry]? = nil, ttlDuration: TtlDuration? = nil) {
+            self.entries = entries
+            self.ttlDuration = ttlDuration
+        }
+
+        public func validate(name: String) throws {
+            try self.entries?.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 25)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+            try self.ttlDuration?.validate(name: "\(name).ttlDuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
+            case ttlDuration = "TtlDuration"
+        }
+    }
+
+    public struct BatchWriteRecordResponse: AWSDecodableShape {
+        /// A list of errors that occurred when writing records in the batch.
+        public let errors: [BatchWriteRecordError]?
+        /// A list of entries that were not processed. These entries can be retried.
+        public let unprocessedEntries: [BatchWriteRecordEntry]?
+
+        @inlinable
+        public init(errors: [BatchWriteRecordError]? = nil, unprocessedEntries: [BatchWriteRecordEntry]? = nil) {
+            self.errors = errors
+            self.unprocessedEntries = unprocessedEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case unprocessedEntries = "UnprocessedEntries"
+        }
+    }
+
     public struct DeleteRecordRequest: AWSEncodableShape {
         /// The name of the deletion mode for deleting the record. By default, the deletion mode is set to SoftDelete.
         public let deletionMode: DeletionMode?
@@ -337,6 +443,68 @@ extension SageMakerFeatureStoreRuntime {
         }
     }
 
+    public struct ListRecordsRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the feature group to list records from.
+        public let featureGroupName: String
+        /// If set to true, the result includes records that have been soft deleted.
+        public let includeSoftDeletedRecords: Bool?
+        /// The maximum number of record identifiers to return in a single page of results. For the InMemory tier, this value is a hint and not a strict requirement. The response may contain more or fewer results than the specified MaxResults.
+        public let maxResults: Int?
+        /// A token to resume pagination of ListRecords results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(featureGroupName: String, includeSoftDeletedRecords: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.featureGroupName = featureGroupName
+            self.includeSoftDeletedRecords = includeSoftDeletedRecords
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.featureGroupName, key: "FeatureGroupName")
+            try container.encodeIfPresent(self.includeSoftDeletedRecords, forKey: .includeSoftDeletedRecords)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 150)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeSoftDeletedRecords = "IncludeSoftDeletedRecords"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRecordsResponse: AWSDecodableShape {
+        /// A token to resume pagination if the response includes more record identifiers than MaxResults.
+        public let nextToken: String?
+        /// A list of record identifier values for the records stored in the OnlineStore.
+        public let recordIdentifiers: [String]?
+
+        @inlinable
+        public init(nextToken: String? = nil, recordIdentifiers: [String]? = nil) {
+            self.nextToken = nextToken
+            self.recordIdentifiers = recordIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recordIdentifiers = "RecordIdentifiers"
+        }
+    }
+
     public struct PutRecordRequest: AWSEncodableShape {
         /// The name or Amazon Resource Name (ARN) of the feature group that you want to insert the record into.
         public let featureGroupName: String
@@ -384,7 +552,7 @@ extension SageMakerFeatureStoreRuntime {
         }
     }
 
-    public struct TtlDuration: AWSEncodableShape {
+    public struct TtlDuration: AWSEncodableShape & AWSDecodableShape {
         ///  TtlDuration time unit.
         public let unit: TtlDurationUnit?
         ///  TtlDuration time value.

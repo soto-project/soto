@@ -246,7 +246,7 @@ public struct Neptune: AWSService {
     /// Copies the specified DB cluster parameter group.
     ///
     /// Parameters:
-    ///   - sourceDBClusterParameterGroupIdentifier: The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same Amazon Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different Amazon Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.
+    ///   - sourceDBClusterParameterGroupIdentifier: The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
     ///   - tags: The tags to be assigned to the copied DB cluster parameter group.
     ///   - targetDBClusterParameterGroupDescription: A description for the copied DB cluster parameter group.
     ///   - targetDBClusterParameterGroupIdentifier: The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1
@@ -285,7 +285,7 @@ public struct Neptune: AWSService {
     ///
     /// Parameters:
     ///   - copyTags: True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
-    ///   - kmsKeyId: The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+    ///   - kmsKeyId: The Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
     ///   - preSignedUrl: Not currently supported.
     ///   - sourceDBClusterSnapshotIdentifier: The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a different region or  owned by another account, specify the snapshot ARN. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1
     ///   - tags: The tags to assign to the new DB cluster snapshot copy.
@@ -328,7 +328,7 @@ public struct Neptune: AWSService {
     /// Copies the specified DB parameter group.
     ///
     /// Parameters:
-    ///   - sourceDBParameterGroupIdentifier: The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.
+    ///   - sourceDBParameterGroupIdentifier: The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.   The source DB parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
     ///   - tags: The tags to be assigned to the copied DB parameter group.
     ///   - targetDBParameterGroupDescription: A description for the copied DB parameter group.
     ///   - targetDBParameterGroupIdentifier: The identifier for the copied DB parameter group. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-db-parameter-group
@@ -370,7 +370,7 @@ public struct Neptune: AWSService {
     ///   - backupRetentionPeriod: The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35
     ///   - characterSetName:  (Not supported by Neptune)
     ///   - copyTagsToSnapshot:  If set to true, tags are copied to any snapshot of the DB cluster that is created.
-    ///   - databaseName: The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Neptune will not create a database in the DB cluster you are creating.
+    ///   - databaseName: Not supported by Neptune.
     ///   - dbClusterIdentifier: The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
     ///   - dbClusterParameterGroupName:  The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default is used. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
     ///   - dbSubnetGroupName: A DB subnet group to associate with this DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
@@ -383,6 +383,7 @@ public struct Neptune: AWSService {
     ///   - kmsKeyId: The Amazon KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default encryption key.   If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default encryption key.   Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region. If you create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used to encrypt the Read Replica in that Amazon Region.
     ///   - masterUsername: Not supported by Neptune.
     ///   - masterUserPassword: Not supported by Neptune.
+    ///   - networkType: The network type of the DB cluster. Valid Values:     IPV4   –   ( the default ) The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
     ///   - optionGroupName:  (Not supported by Neptune)
     ///   - port: The port number on which the instances in the DB cluster accept connections. Default: 8182
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks available, see Neptune Maintenance Window in the Amazon Neptune User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
@@ -414,6 +415,7 @@ public struct Neptune: AWSService {
         kmsKeyId: String? = nil,
         masterUsername: String? = nil,
         masterUserPassword: String? = nil,
+        networkType: String? = nil,
         optionGroupName: String? = nil,
         port: Int? = nil,
         preferredBackupWindow: String? = nil,
@@ -445,6 +447,7 @@ public struct Neptune: AWSService {
             kmsKeyId: kmsKeyId, 
             masterUsername: masterUsername, 
             masterUserPassword: masterUserPassword, 
+            networkType: networkType, 
             optionGroupName: optionGroupName, 
             port: port, 
             preferredBackupWindow: preferredBackupWindow, 
@@ -615,7 +618,7 @@ public struct Neptune: AWSService {
     ///   - engine: The name of the database engine to be used for this instance. Valid Values: neptune
     ///   - engineVersion: The version number of the database engine to use. Currently, setting this parameter has no effect.
     ///   - iops: The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
-    ///   - kmsKeyId: The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
+    ///   - kmsKeyId: The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KMS encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
     ///   - licenseModel: License model information for this DB instance. Valid values: license-included | bring-your-own-license | general-public-license
     ///   - masterUsername: Not supported by Neptune.
     ///   - masterUserPassword: Not supported by Neptune.
@@ -824,7 +827,7 @@ public struct Neptune: AWSService {
     /// Creates an event notification subscription. This action requires a topic ARN (Amazon Resource Name) created by either the Neptune console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) you want to be notified of, provide a list of Neptune sources (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Neptune sources. If you do not specify either the SourceType nor the SourceIdentifier, you are notified of events generated from all Neptune sources belonging to your customer account.
     ///
     /// Parameters:
-    ///   - enabled:  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
+    ///   - enabled:  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not activate it.
     ///   - eventCategories:  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
     ///   - snsTopicArn: The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
     ///   - sourceIds: The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.
@@ -871,7 +874,7 @@ public struct Neptune: AWSService {
     /// Creates a Neptune global database spread across multiple Amazon Regions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operation to become the primary cluster of the global database.
     ///
     /// Parameters:
-    ///   - databaseName: The name for the new global database (up to 64 alpha-numeric characters.
+    ///   - databaseName: The name for the new global database (up to 64 alpha-numeric characters).
     ///   - deletionProtection: The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
     ///   - engine: The name of the database engine to be used in the global database. Valid values: neptune
     ///   - engineVersion: The Neptune engine version to be used by the global database. Valid values: 1.2.0.0 or above.
@@ -922,7 +925,7 @@ public struct Neptune: AWSService {
     ///
     /// Parameters:
     ///   - dbClusterIdentifier: The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
-    ///   - finalDBSnapshotIdentifier:  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
+    ///   - finalDBSnapshotIdentifier:  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
     ///   - skipFinalSnapshot:  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false
     ///   - logger: Logger use during operation
     @inlinable
@@ -1044,7 +1047,7 @@ public struct Neptune: AWSService {
     ///
     /// Parameters:
     ///   - dbInstanceIdentifier: The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.
-    ///   - finalDBSnapshotIdentifier:  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.
+    ///   - finalDBSnapshotIdentifier:  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.
     ///   - skipFinalSnapshot:  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false
     ///   - logger: Logger use during operation
     @inlinable
@@ -2022,9 +2025,9 @@ public struct Neptune: AWSService {
     /// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database.  This action applies only to Neptune global databases. This action is only intended for use on healthy Neptune global databases with healthy Neptune DB clusters and no region-wide outages, to test disaster recovery scenarios or to reconfigure the global database topology.
     ///
     /// Parameters:
-    ///   - allowDataLoss: Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:Can't be specified together with the Switchover parameter.
+    ///   - allowDataLoss: Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints: Can't be specified together with the Switchover parameter.
     ///   - globalClusterIdentifier: Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune  global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
-    ///   - switchover: Specifies whether to switch over this global database cluster. Constraints:Can't be specified together with the AllowDataLoss parameter.
+    ///   - switchover: Specifies whether to switch over this global database cluster. Constraints: Can't be specified together with the AllowDataLoss parameter.
     ///   - targetDbClusterIdentifier: The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that you want to promote to primary for the global database.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2104,6 +2107,7 @@ public struct Neptune: AWSService {
     ///   - enableIAMDatabaseAuthentication: True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
     ///   - engineVersion: The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see Engine Releases for Amazon Neptune, or call DescribeDBEngineVersions.
     ///   - masterUserPassword: Not supported by Neptune.
+    ///   - networkType: The network type of the DB cluster. Valid Values:     IPV4   –   The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
     ///   - newDBClusterIdentifier: The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
     ///   - optionGroupName:  Not supported by Neptune.
     ///   - port: The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
@@ -2127,6 +2131,7 @@ public struct Neptune: AWSService {
         enableIAMDatabaseAuthentication: Bool? = nil,
         engineVersion: String? = nil,
         masterUserPassword: String? = nil,
+        networkType: String? = nil,
         newDBClusterIdentifier: String? = nil,
         optionGroupName: String? = nil,
         port: Int? = nil,
@@ -2150,6 +2155,7 @@ public struct Neptune: AWSService {
             enableIAMDatabaseAuthentication: enableIAMDatabaseAuthentication, 
             engineVersion: engineVersion, 
             masterUserPassword: masterUserPassword, 
+            networkType: networkType, 
             newDBClusterIdentifier: newDBClusterIdentifier, 
             optionGroupName: optionGroupName, 
             port: port, 
@@ -2617,7 +2623,7 @@ public struct Neptune: AWSService {
         return try await self.rebootDBInstance(input, logger: logger)
     }
 
-    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from a the primary cluster.
+    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from the primary cluster.
     @Sendable
     @inlinable
     public func removeFromGlobalCluster(_ input: RemoveFromGlobalClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFromGlobalClusterResult {
@@ -2630,7 +2636,7 @@ public struct Neptune: AWSService {
             logger: logger
         )
     }
-    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from a the primary cluster.
+    /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from the primary cluster.
     ///
     /// Parameters:
     ///   - dbClusterIdentifier: The Amazon Resource Name (ARN) identifying the cluster to be detached from the Neptune global database cluster.
@@ -2846,6 +2852,7 @@ public struct Neptune: AWSService {
     ///   - engine: The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
     ///   - engineVersion: The version of the database engine to use for the new DB cluster.
     ///   - kmsKeyId: The Amazon KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
+    ///   - networkType: The network type of the DB cluster. Valid Values:     IPV4   –   ( the default ) The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
     ///   - optionGroupName:  (Not supported by Neptune)
     ///   - port: The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
     ///   - serverlessV2ScalingConfiguration: Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the Amazon Neptune User Guide.
@@ -2868,6 +2875,7 @@ public struct Neptune: AWSService {
         engine: String? = nil,
         engineVersion: String? = nil,
         kmsKeyId: String? = nil,
+        networkType: String? = nil,
         optionGroupName: String? = nil,
         port: Int? = nil,
         serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil,
@@ -2890,6 +2898,7 @@ public struct Neptune: AWSService {
             engine: engine, 
             engineVersion: engineVersion, 
             kmsKeyId: kmsKeyId, 
+            networkType: networkType, 
             optionGroupName: optionGroupName, 
             port: port, 
             serverlessV2ScalingConfiguration: serverlessV2ScalingConfiguration, 
@@ -2924,6 +2933,7 @@ public struct Neptune: AWSService {
     ///   - enableCloudwatchLogsExports: The list of logs that the restored DB cluster is to export to CloudWatch Logs.
     ///   - enableIAMDatabaseAuthentication: True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
     ///   - kmsKeyId: The Amazon KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
+    ///   - networkType: The network type of the DB cluster. Valid Values:     IPV4   –   ( the default ) The DB cluster uses only IPv4 addresses for communication.     DUAL   –   The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
     ///   - optionGroupName:  (Not supported by Neptune)
     ///   - port: The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
     ///   - restoreToTime: The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter is not provided   Cannot be specified if UseLatestRestorableTime parameter is true   Cannot be specified if RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z
@@ -2944,6 +2954,7 @@ public struct Neptune: AWSService {
         enableCloudwatchLogsExports: [String]? = nil,
         enableIAMDatabaseAuthentication: Bool? = nil,
         kmsKeyId: String? = nil,
+        networkType: String? = nil,
         optionGroupName: String? = nil,
         port: Int? = nil,
         restoreToTime: Date? = nil,
@@ -2964,6 +2975,7 @@ public struct Neptune: AWSService {
             enableCloudwatchLogsExports: enableCloudwatchLogsExports, 
             enableIAMDatabaseAuthentication: enableIAMDatabaseAuthentication, 
             kmsKeyId: kmsKeyId, 
+            networkType: networkType, 
             optionGroupName: optionGroupName, 
             port: port, 
             restoreToTime: restoreToTime, 

@@ -99,6 +99,33 @@ extension MQ {
         public var description: String { return self.rawValue }
     }
 
+    public enum SharedResourceErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azMismatch = "AZ_MISMATCH"
+        case internalError = "INTERNAL_ERROR"
+        case inviteFailed = "INVITE_FAILED"
+        case quotaExceeded = "QUOTA_EXCEEDED"
+        case resourceConfigurationNotFound = "RESOURCE_CONFIGURATION_NOT_FOUND"
+        case setupIncomplete = "SETUP_INCOMPLETE"
+        case shareNotFound = "SHARE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SharedResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case deletionInProgress = "DELETION_IN_PROGRESS"
+        case error = "ERROR"
+        case pendingCreate = "PENDING_CREATE"
+        case pendingDelete = "PENDING_DELETE"
+        case setupInProgress = "SETUP_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SharedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resource = "RESOURCE"
+        case resourceShare = "RESOURCE_SHARE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ActionRequired: AWSDecodableShape {
@@ -138,16 +165,20 @@ extension MQ {
         public let errorAttribute: String?
         /// The explanation of the error.
         public let message: String?
+        /// The list of resource share errors.
+        public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil) {
+        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
             self.message = message
+            self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
             case message = "message"
+            case resourceShareErrors = "resourceShareErrors"
         }
     }
 
@@ -387,16 +418,20 @@ extension MQ {
         public let errorAttribute: String?
         /// The explanation of the error.
         public let message: String?
+        /// The list of resource share errors.
+        public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil) {
+        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
             self.message = message
+            self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
             case message = "message"
+            case resourceShareErrors = "resourceShareErrors"
         }
     }
 
@@ -435,6 +470,8 @@ extension MQ {
         public let publiclyAccessible: Bool?
         /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
         public let securityGroups: [String]?
+        /// The broker's storage size in GB.
+        public let storageSize: Int?
         /// The broker's storage type.
         public let storageType: BrokerStorageType?
         /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account.
@@ -445,7 +482,7 @@ extension MQ {
         public let users: [User]?
 
         @inlinable
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), dataReplicationMode: DataReplicationMode? = nil, dataReplicationPrimaryBrokerArn: String? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerName: String? = nil, configuration: ConfigurationId? = nil, creatorRequestId: String? = CreateBrokerRequest.idempotencyToken(), dataReplicationMode: DataReplicationMode? = nil, dataReplicationPrimaryBrokerArn: String? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageSize: Int? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [User]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerName = brokerName
@@ -463,6 +500,7 @@ extension MQ {
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
+            self.storageSize = storageSize
             self.storageType = storageType
             self.subnetIds = subnetIds
             self.tags = tags
@@ -487,6 +525,7 @@ extension MQ {
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
+            case storageSize = "storageSize"
             case storageType = "storageType"
             case subnetIds = "subnetIds"
             case tags = "tags"
@@ -984,10 +1023,14 @@ extension MQ {
         public let pendingLdapServerMetadata: LdapServerMetadataOutput?
         /// The list of pending security groups to authorize connections to brokers.
         public let pendingSecurityGroups: [String]?
+        /// The pending storage size in GB, to be applied on the next broker restart.
+        public let pendingStorageSize: Int?
         /// Enables connections from applications outside of the VPC that hosts the broker's subnets.
         public let publiclyAccessible: Bool?
         /// The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
         public let securityGroups: [String]?
+        /// The broker's storage size in GB.
+        public let storageSize: Int?
         /// The broker's storage type.
         public let storageType: BrokerStorageType?
         /// The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones.
@@ -998,7 +1041,7 @@ extension MQ {
         public let users: [UserSummary]?
 
         @inlinable
-        public init(actionsRequired: [ActionRequired]? = nil, authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(actionsRequired: [ActionRequired]? = nil, authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, pendingStorageSize: Int? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageSize: Int? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
             self.actionsRequired = actionsRequired
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -1026,8 +1069,10 @@ extension MQ {
             self.pendingHostInstanceType = pendingHostInstanceType
             self.pendingLdapServerMetadata = pendingLdapServerMetadata
             self.pendingSecurityGroups = pendingSecurityGroups
+            self.pendingStorageSize = pendingStorageSize
             self.publiclyAccessible = publiclyAccessible
             self.securityGroups = securityGroups
+            self.storageSize = storageSize
             self.storageType = storageType
             self.subnetIds = subnetIds
             self.tags = tags
@@ -1062,8 +1107,10 @@ extension MQ {
             case pendingHostInstanceType = "pendingHostInstanceType"
             case pendingLdapServerMetadata = "pendingLdapServerMetadata"
             case pendingSecurityGroups = "pendingSecurityGroups"
+            case pendingStorageSize = "pendingStorageSize"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroups = "securityGroups"
+            case storageSize = "storageSize"
             case storageType = "storageType"
             case subnetIds = "subnetIds"
             case tags = "tags"
@@ -1189,6 +1236,55 @@ extension MQ {
         }
     }
 
+    public struct DescribeSharedResourcesRequest: AWSEncodableShape {
+        /// The unique ID that Amazon MQ generates for the broker.
+        public let brokerId: String
+        /// The maximum number of resources that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
+        public let maxResults: Int?
+        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+        public let nextToken: String?
+
+        @inlinable
+        public init(brokerId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.brokerId = brokerId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.brokerId, key: "BrokerId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSharedResourcesResponse: AWSDecodableShape {
+        /// The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+        public let nextToken: String?
+        /// A list of resources shared to the broker.
+        public let sharedResources: [SharedResource]?
+
+        @inlinable
+        public init(nextToken: String? = nil, sharedResources: [SharedResource]? = nil) {
+            self.nextToken = nextToken
+            self.sharedResources = sharedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sharedResources = "sharedResources"
+        }
+    }
+
     public struct DescribeUserRequest: AWSEncodableShape {
         /// The unique ID that Amazon MQ generates for the broker.
         public let brokerId: String
@@ -1282,16 +1378,20 @@ extension MQ {
         public let errorAttribute: String?
         /// The explanation of the error.
         public let message: String?
+        /// The list of resource share errors.
+        public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil) {
+        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
             self.message = message
+            self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
             case message = "message"
+            case resourceShareErrors = "resourceShareErrors"
         }
     }
 
@@ -1300,16 +1400,20 @@ extension MQ {
         public let errorAttribute: String?
         /// The explanation of the error.
         public let message: String?
+        /// The list of resource share errors.
+        public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil) {
+        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
             self.message = message
+            self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
             case message = "message"
+            case resourceShareErrors = "resourceShareErrors"
         }
     }
 
@@ -1710,16 +1814,20 @@ extension MQ {
         public let errorAttribute: String?
         /// The explanation of the error.
         public let message: String?
+        /// The list of resource share errors.
+        public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil) {
+        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
             self.message = message
+            self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
             case message = "message"
+            case resourceShareErrors = "resourceShareErrors"
         }
     }
 
@@ -1801,6 +1909,28 @@ extension MQ {
         public init() {}
     }
 
+    public struct ResourceShareError: AWSDecodableShape {
+        /// The error code of the resource share.
+        public let errorCode: String?
+        /// The ARN of the resource share.
+        public let resourceShareArn: String?
+        /// The status of the resource share.
+        public let status: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, resourceShareArn: String? = nil, status: String? = nil) {
+            self.errorCode = errorCode
+            self.resourceShareArn = resourceShareArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case resourceShareArn = "resourceShareArn"
+            case status = "status"
+        }
+    }
+
     public struct SanitizationWarning: AWSDecodableShape {
         /// The name of the configuration attribute that has been sanitized.
         public let attributeName: String?
@@ -1823,21 +1953,77 @@ extension MQ {
         }
     }
 
+    public struct SharedResource: AWSDecodableShape {
+        /// The DNS names accessible by the broker.
+        public let dnsNames: [String]?
+        /// Information on the error encountered by the resource.
+        public let error: SharedResourceError?
+        /// The ARN of the shared resource.
+        public let resourceArn: String?
+        /// The resource share ARNs to which the resource belongs.
+        public let resourceShareArns: [String]?
+        /// The status of the shared resource.
+        public let status: SharedResourceStatus?
+        /// The type of shared resource.
+        public let type: SharedResourceType?
+
+        @inlinable
+        public init(dnsNames: [String]? = nil, error: SharedResourceError? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil, status: SharedResourceStatus? = nil, type: SharedResourceType? = nil) {
+            self.dnsNames = dnsNames
+            self.error = error
+            self.resourceArn = resourceArn
+            self.resourceShareArns = resourceShareArns
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsNames = "dnsNames"
+            case error = "error"
+            case resourceArn = "resourceArn"
+            case resourceShareArns = "resourceShareArns"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct SharedResourceError: AWSDecodableShape {
+        /// The error code associated with the error.
+        public let code: SharedResourceErrorCode?
+        /// The error message.
+        public let message: String?
+
+        @inlinable
+        public init(code: SharedResourceErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct UnauthorizedException: AWSErrorShape {
         /// The attribute which caused the error.
         public let errorAttribute: String?
         /// The explanation of the error.
         public let message: String?
+        /// The list of resource share errors.
+        public let resourceShareErrors: [ResourceShareError]?
 
         @inlinable
-        public init(errorAttribute: String? = nil, message: String? = nil) {
+        public init(errorAttribute: String? = nil, message: String? = nil, resourceShareErrors: [ResourceShareError]? = nil) {
             self.errorAttribute = errorAttribute
             self.message = message
+            self.resourceShareErrors = resourceShareErrors
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorAttribute = "errorAttribute"
             case message = "message"
+            case resourceShareErrors = "resourceShareErrors"
         }
     }
 
@@ -1862,11 +2048,15 @@ extension MQ {
         public let logs: Logs?
         /// The parameters that determine the WeeklyStartTime.
         public let maintenanceWindowStartTime: WeeklyStartTime?
+        /// The list of resource shares to update on the broker
+        public let resourceShareArns: [String]?
         /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
         public let securityGroups: [String]?
+        /// The broker's storage size in GB.
+        public let storageSize: Int?
 
         @inlinable
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, securityGroups: [String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String, configuration: ConfigurationId? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataInput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, resourceShareArns: [String]? = nil, securityGroups: [String]? = nil, storageSize: Int? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
@@ -1877,7 +2067,9 @@ extension MQ {
             self.ldapServerMetadata = ldapServerMetadata
             self.logs = logs
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
+            self.resourceShareArns = resourceShareArns
             self.securityGroups = securityGroups
+            self.storageSize = storageSize
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1893,7 +2085,9 @@ extension MQ {
             try container.encodeIfPresent(self.ldapServerMetadata, forKey: .ldapServerMetadata)
             try container.encodeIfPresent(self.logs, forKey: .logs)
             try container.encodeIfPresent(self.maintenanceWindowStartTime, forKey: .maintenanceWindowStartTime)
+            try container.encodeIfPresent(self.resourceShareArns, forKey: .resourceShareArns)
             try container.encodeIfPresent(self.securityGroups, forKey: .securityGroups)
+            try container.encodeIfPresent(self.storageSize, forKey: .storageSize)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1906,7 +2100,9 @@ extension MQ {
             case ldapServerMetadata = "ldapServerMetadata"
             case logs = "logs"
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
+            case resourceShareArns = "resourceShareArns"
             case securityGroups = "securityGroups"
+            case storageSize = "storageSize"
         }
     }
 
@@ -1937,11 +2133,15 @@ extension MQ {
         public let pendingDataReplicationMetadata: DataReplicationMetadataOutput?
         /// Describes whether this broker will be a part of a data replication pair after reboot.
         public let pendingDataReplicationMode: DataReplicationMode?
+        /// The pending broker's target list of resource shares
+        public let resourceShareArns: [String]?
         /// The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
         public let securityGroups: [String]?
+        /// The broker's storage size in GB.
+        public let storageSize: Int?
 
         @inlinable
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, securityGroups: [String]? = nil) {
+        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerId: String? = nil, configuration: ConfigurationId? = nil, dataReplicationMetadata: DataReplicationMetadataOutput? = nil, dataReplicationMode: DataReplicationMode? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: Logs? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingDataReplicationMetadata: DataReplicationMetadataOutput? = nil, pendingDataReplicationMode: DataReplicationMode? = nil, resourceShareArns: [String]? = nil, securityGroups: [String]? = nil, storageSize: Int? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerId = brokerId
@@ -1955,7 +2155,9 @@ extension MQ {
             self.maintenanceWindowStartTime = maintenanceWindowStartTime
             self.pendingDataReplicationMetadata = pendingDataReplicationMetadata
             self.pendingDataReplicationMode = pendingDataReplicationMode
+            self.resourceShareArns = resourceShareArns
             self.securityGroups = securityGroups
+            self.storageSize = storageSize
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1972,7 +2174,9 @@ extension MQ {
             case maintenanceWindowStartTime = "maintenanceWindowStartTime"
             case pendingDataReplicationMetadata = "pendingDataReplicationMetadata"
             case pendingDataReplicationMode = "pendingDataReplicationMode"
+            case resourceShareArns = "resourceShareArns"
             case securityGroups = "securityGroups"
+            case storageSize = "storageSize"
         }
     }
 

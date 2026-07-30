@@ -84,8 +84,23 @@ extension ObservabilityAdmin {
     }
 
     public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case access = "ACCESS_LOGS"
+        case albAccess = "ALB_ACCESS_LOGS"
+        case albConnection = "ALB_CONNECTION_LOGS"
+        case albHealthCheck = "ALB_HEALTH_CHECK_LOGS"
         case application = "APPLICATION_LOGS"
+        case connection = "CONNECTION_LOGS"
+        case s3ServerAccess = "S3_SERVER_ACCESS_LOGS"
+        case securityFinding = "SECURITY_FINDING_LOGS"
         case usage = "USAGE_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MskEnhancedMonitoringLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case perBroker = "PER_BROKER"
+        case perTopicPerBroker = "PER_TOPIC_PER_BROKER"
+        case perTopicPerPartition = "PER_TOPIC_PER_PARTITION"
         public var description: String { return self.rawValue }
     }
 
@@ -104,14 +119,24 @@ extension ObservabilityAdmin {
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsBedrockAgentcoreBrowser = "AWS::BedrockAgentCore::Browser"
         case awsBedrockAgentcoreCodeInterpreter = "AWS::BedrockAgentCore::CodeInterpreter"
+        case awsBedrockAgentcoreGateway = "AWS::BedrockAgentCore::Gateway"
+        case awsBedrockAgentcoreMemory = "AWS::BedrockAgentCore::Memory"
         case awsBedrockAgentcoreRuntime = "AWS::BedrockAgentCore::Runtime"
+        case awsBedrockAgentcoreWorkloadIdentity = "AWS::BedrockAgentCore::WorkloadIdentity"
+        case awsBedrockKnowledgebase = "AWS::Bedrock::KnowledgeBase"
+        case awsCloudfrontDistribution = "AWS::CloudFront::Distribution"
         case awsCloudtrail = "AWS::CloudTrail"
         case awsEc2Instance = "AWS::EC2::Instance"
         case awsEc2Vpc = "AWS::EC2::VPC"
         case awsEksCluster = "AWS::EKS::Cluster"
         case awsElbLoadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
         case awsLamdbaFunction = "AWS::Lambda::Function"
+        case awsMskCluster = "AWS::MSK::Cluster"
+        case awsOtelEnrichment = "AWS::CloudWatch::OTelEnrichment"
         case awsRoute53ResolverResolverEndpoint = "AWS::Route53Resolver::ResolverEndpoint"
+        case awsS3Bucket = "AWS::S3::Bucket"
+        case awsSecurityHub = "AWS::SecurityHub::Hub"
+        case awsSecurityHubHubv2 = "AWS::SecurityHub::HubV2"
         case awsWafV2WebAcl = "AWS::WAFv2::WebACL"
         public var description: String { return self.rawValue }
     }
@@ -126,6 +151,14 @@ extension ObservabilityAdmin {
     public enum SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sseKms = "aws:kms"
         case sseS3 = "AES256"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SignalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Log signal type. The pipeline processes log records.
+        case log = "LOG"
+        /// Metric signal type. The pipeline processes metric records.
+        case metric = "METRIC"
         public var description: String { return self.rawValue }
     }
 
@@ -310,13 +343,16 @@ extension ObservabilityAdmin {
         public let account: String?
         /// Log specific configuration for centralization destination log groups.
         public let destinationLogsConfiguration: DestinationLogsConfiguration?
+        /// Metric specific configuration for centralization destination metrics.
+        public let destinationMetricsConfiguration: DestinationMetricsConfiguration?
         /// The primary destination region to which telemetry data should be centralized.
         public let region: String
 
         @inlinable
-        public init(account: String? = nil, destinationLogsConfiguration: DestinationLogsConfiguration? = nil, region: String) {
+        public init(account: String? = nil, destinationLogsConfiguration: DestinationLogsConfiguration? = nil, destinationMetricsConfiguration: DestinationMetricsConfiguration? = nil, region: String) {
             self.account = account
             self.destinationLogsConfiguration = destinationLogsConfiguration
+            self.destinationMetricsConfiguration = destinationMetricsConfiguration
             self.region = region
         }
 
@@ -325,12 +361,14 @@ extension ObservabilityAdmin {
             try self.validate(self.account, name: "account", parent: name, min: 12)
             try self.validate(self.account, name: "account", parent: name, pattern: "^[0-9]{12}$")
             try self.destinationLogsConfiguration?.validate(name: "\(name).destinationLogsConfiguration")
+            try self.destinationMetricsConfiguration?.validate(name: "\(name).destinationMetricsConfiguration")
             try self.validate(self.region, name: "region", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
             case destinationLogsConfiguration = "DestinationLogsConfiguration"
+            case destinationMetricsConfiguration = "DestinationMetricsConfiguration"
             case region = "Region"
         }
     }
@@ -342,12 +380,15 @@ extension ObservabilityAdmin {
         public let scope: String?
         /// Log specific configuration for centralization source log groups.
         public let sourceLogsConfiguration: SourceLogsConfiguration?
+        /// Metric specific configuration for centralization source metrics.
+        public let sourceMetricsConfiguration: SourceMetricsConfiguration?
 
         @inlinable
-        public init(regions: [String], scope: String? = nil, sourceLogsConfiguration: SourceLogsConfiguration? = nil) {
+        public init(regions: [String], scope: String? = nil, sourceLogsConfiguration: SourceLogsConfiguration? = nil, sourceMetricsConfiguration: SourceMetricsConfiguration? = nil) {
             self.regions = regions
             self.scope = scope
             self.sourceLogsConfiguration = sourceLogsConfiguration
+            self.sourceMetricsConfiguration = sourceMetricsConfiguration
         }
 
         public func validate(name: String) throws {
@@ -358,12 +399,14 @@ extension ObservabilityAdmin {
             try self.validate(self.scope, name: "scope", parent: name, max: 2000)
             try self.validate(self.scope, name: "scope", parent: name, min: 1)
             try self.sourceLogsConfiguration?.validate(name: "\(name).sourceLogsConfiguration")
+            try self.sourceMetricsConfiguration?.validate(name: "\(name).sourceMetricsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case regions = "Regions"
             case scope = "Scope"
             case sourceLogsConfiguration = "SourceLogsConfiguration"
+            case sourceMetricsConfiguration = "SourceMetricsConfiguration"
         }
     }
 
@@ -906,6 +949,24 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct DestinationMetricsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration defining the backup region for the metrics backup destination.
+        public let backupConfiguration: MetricsBackupConfiguration?
+
+        @inlinable
+        public init(backupConfiguration: MetricsBackupConfiguration? = nil) {
+            self.backupConfiguration = backupConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.backupConfiguration?.validate(name: "\(name).backupConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupConfiguration = "BackupConfiguration"
+        }
+    }
+
     public struct ELBLoadBalancerLoggingParameters: AWSEncodableShape & AWSDecodableShape {
         ///  The delimiter character used to separate fields in ELB access log entries when using plain text format.
         public let fieldDelimiter: String?
@@ -1140,17 +1201,25 @@ extension ObservabilityAdmin {
     public struct GetTelemetryEvaluationStatusForOrganizationOutput: AWSDecodableShape {
         ///  This field describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
         public let failureReason: String?
+        ///  The Amazon Web Services Region that is designated as the home region for multi-region telemetry evaluation for the organization. The home region is the single management point for all multi-region operations on this organization. This field is only present when multi-region telemetry evaluation is active.
+        public let homeRegion: String?
+        ///  A list of per-region telemetry evaluation statuses for the organization. Each entry indicates the evaluation status for a specific spoke region included in the multi-region configuration. This field is only present when multi-region telemetry evaluation is active.
+        public let regionStatuses: [RegionStatus]?
         ///  The onboarding status of the telemetry config feature for the organization.
         public let status: Status?
 
         @inlinable
-        public init(failureReason: String? = nil, status: Status? = nil) {
+        public init(failureReason: String? = nil, homeRegion: String? = nil, regionStatuses: [RegionStatus]? = nil, status: Status? = nil) {
             self.failureReason = failureReason
+            self.homeRegion = homeRegion
+            self.regionStatuses = regionStatuses
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case failureReason = "FailureReason"
+            case homeRegion = "HomeRegion"
+            case regionStatuses = "RegionStatuses"
             case status = "Status"
         }
     }
@@ -1158,17 +1227,25 @@ extension ObservabilityAdmin {
     public struct GetTelemetryEvaluationStatusOutput: AWSDecodableShape {
         ///  Describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
         public let failureReason: String?
+        ///  The Amazon Web Services Region that is designated as the home region for multi-region telemetry evaluation. The home region is the single management point for all multi-region operations on this account. This field is only present when multi-region telemetry evaluation is active.
+        public let homeRegion: String?
+        ///  A list of per-region telemetry evaluation statuses. Each entry indicates the evaluation status for a specific spoke region included in the multi-region configuration. This field is only present when multi-region telemetry evaluation is active.
+        public let regionStatuses: [RegionStatus]?
         ///  The onboarding status of the telemetry config feature.
         public let status: Status?
 
         @inlinable
-        public init(failureReason: String? = nil, status: Status? = nil) {
+        public init(failureReason: String? = nil, homeRegion: String? = nil, regionStatuses: [RegionStatus]? = nil, status: Status? = nil) {
             self.failureReason = failureReason
+            self.homeRegion = homeRegion
+            self.regionStatuses = regionStatuses
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case failureReason = "FailureReason"
+            case homeRegion = "HomeRegion"
+            case regionStatuses = "RegionStatuses"
             case status = "Status"
         }
     }
@@ -1228,8 +1305,14 @@ extension ObservabilityAdmin {
     public struct GetTelemetryRuleForOrganizationOutput: AWSDecodableShape {
         ///  The timestamp when the organization telemetry rule was created.
         public let createdTimeStamp: Int64?
+        ///  The Amazon Web Services Region where the organization telemetry rule was originally created. For replicated rules in spoke regions, this indicates the region that manages the rule. For rules created without multi-region scope, this field is not present.
+        public let homeRegion: String?
+        ///  Indicates whether this organization telemetry rule is a replica that was created in this region through multi-region fan-out from the home region. Replicated rules cannot be directly updated or deleted in the spoke region. To modify a replicated rule, make changes in the home region.
+        public let isReplicated: Bool?
         ///  The timestamp when the organization telemetry rule was last updated.
         public let lastUpdateTimeStamp: Int64?
+        ///  A list of per-region replication statuses for the organization telemetry rule. Each entry indicates the replication status of the rule in a specific spoke region. This field is only present for rules created with multi-region scope.
+        public let regionStatuses: [RegionStatus]?
         ///  The Amazon Resource Name (ARN) of the organization telemetry rule.
         public let ruleArn: String?
         ///  The name of the organization telemetry rule.
@@ -1238,9 +1321,12 @@ extension ObservabilityAdmin {
         public let telemetryRule: TelemetryRule?
 
         @inlinable
-        public init(createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryRule: TelemetryRule? = nil) {
+        public init(createdTimeStamp: Int64? = nil, homeRegion: String? = nil, isReplicated: Bool? = nil, lastUpdateTimeStamp: Int64? = nil, regionStatuses: [RegionStatus]? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryRule: TelemetryRule? = nil) {
             self.createdTimeStamp = createdTimeStamp
+            self.homeRegion = homeRegion
+            self.isReplicated = isReplicated
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.regionStatuses = regionStatuses
             self.ruleArn = ruleArn
             self.ruleName = ruleName
             self.telemetryRule = telemetryRule
@@ -1248,7 +1334,10 @@ extension ObservabilityAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case createdTimeStamp = "CreatedTimeStamp"
+            case homeRegion = "HomeRegion"
+            case isReplicated = "IsReplicated"
             case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case regionStatuses = "RegionStatuses"
             case ruleArn = "RuleArn"
             case ruleName = "RuleName"
             case telemetryRule = "TelemetryRule"
@@ -1277,8 +1366,14 @@ extension ObservabilityAdmin {
     public struct GetTelemetryRuleOutput: AWSDecodableShape {
         ///  The timestamp when the telemetry rule was created.
         public let createdTimeStamp: Int64?
+        ///  The Amazon Web Services Region where the telemetry rule was originally created. For replicated rules in spoke regions, this indicates the region that manages the rule. For rules created without multi-region scope, this field is not present.
+        public let homeRegion: String?
+        ///  Indicates whether this telemetry rule is a replica that was created in this region through multi-region fan-out from the home region. Replicated rules cannot be directly updated or deleted in the spoke region. To modify a replicated rule, make changes in the home region.
+        public let isReplicated: Bool?
         ///  The timestamp when the telemetry rule was last updated.
         public let lastUpdateTimeStamp: Int64?
+        ///  A list of per-region replication statuses for the telemetry rule. Each entry indicates the replication status of the rule in a specific spoke region. This field is only present for rules created with multi-region scope.
+        public let regionStatuses: [RegionStatus]?
         ///  The Amazon Resource Name (ARN) of the telemetry rule.
         public let ruleArn: String?
         ///  The name of the telemetry rule.
@@ -1287,9 +1382,12 @@ extension ObservabilityAdmin {
         public let telemetryRule: TelemetryRule?
 
         @inlinable
-        public init(createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryRule: TelemetryRule? = nil) {
+        public init(createdTimeStamp: Int64? = nil, homeRegion: String? = nil, isReplicated: Bool? = nil, lastUpdateTimeStamp: Int64? = nil, regionStatuses: [RegionStatus]? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryRule: TelemetryRule? = nil) {
             self.createdTimeStamp = createdTimeStamp
+            self.homeRegion = homeRegion
+            self.isReplicated = isReplicated
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.regionStatuses = regionStatuses
             self.ruleArn = ruleArn
             self.ruleName = ruleName
             self.telemetryRule = telemetryRule
@@ -1297,7 +1395,10 @@ extension ObservabilityAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case createdTimeStamp = "CreatedTimeStamp"
+            case homeRegion = "HomeRegion"
+            case isReplicated = "IsReplicated"
             case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case regionStatuses = "RegionStatuses"
             case ruleArn = "RuleArn"
             case ruleName = "RuleName"
             case telemetryRule = "TelemetryRule"
@@ -1803,7 +1904,7 @@ extension ObservabilityAdmin {
     }
 
     public struct LogGroupNameConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The pattern used to generate destination log group names during centralization. The pattern can contain static text and dynamic variables that are replaced with source attributes. If a variable cannot be resolved, it inherits the value from its parent variable in the hierarchy. The pattern must be between 1 and 512 characters. Supported variables:    ${source.logGroup} — The original log group name from the source account.    ${source.accountId} — The AWS account ID where the log originated.    ${source.region} — The AWS Region where the log originated.    ${source.org.id} — The AWS Organization ID of the source account.    ${source.org.ouId} — The organizational unit ID of the source account.    ${source.org.rootId} — The organization Root ID.    ${source.org.path} — The organizational path from account to root.
+        /// The pattern used to generate destination log group names during centralization. The pattern can contain static text and dynamic variables that are replaced with source attributes. If a variable cannot be resolved, it inherits the value from its parent variable in the hierarchy. The pattern must be between 1 and 512 characters. Supported variables:    ${source.logGroup} — The original log group name from the source account.    ${source.accountId} — The Amazon Web Services account ID where the log originated.    ${source.region} — The Amazon Web Services Region where the log originated.    ${source.org.id} — The Amazon Web Services Organization ID of the source account.    ${source.org.ouId} — The organizational unit ID of the source account.    ${source.org.rootId} — The organization Root ID.    ${source.org.path} — The organizational path from account to root.
         public let logGroupNamePattern: String
 
         @inlinable
@@ -1900,6 +2001,38 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct MetricsBackupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Metrics specific backup destination region within the primary destination account to which metrics data should be centralized.
+        public let region: String
+
+        @inlinable
+        public init(region: String) {
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case region = "Region"
+        }
+    }
+
+    public struct MskMonitoringParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  The level of enhanced monitoring for the MSK cluster.
+        public let enhancedMonitoring: MskEnhancedMonitoringLevel?
+
+        @inlinable
+        public init(enhancedMonitoring: MskEnhancedMonitoringLevel? = nil) {
+            self.enhancedMonitoring = enhancedMonitoring
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enhancedMonitoring = "EnhancedMonitoring"
+        }
+    }
+
     public struct PipelineOutput: AWSDecodableShape {
         /// Any error that occurred during the pipeline test operation for this record.
         public let error: PipelineOutputError?
@@ -1947,6 +2080,32 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case data = "Data"
             case type = "Type"
+        }
+    }
+
+    public struct RegionStatus: AWSDecodableShape {
+        ///  The reason for a failure status in this region. This field is only populated when Status indicates a failure.
+        public let failureReason: String?
+        ///  The Amazon Web Services Region code (for example, eu-west-1 or us-west-2) that this status applies to.
+        public let region: String?
+        ///  The Amazon Resource Name (ARN) of the telemetry rule in this spoke region. This field is only present for telemetry rule region statuses and is populated when the rule has been successfully created in the spoke region (status is ACTIVE).
+        public let ruleArn: String?
+        ///  The status of the operation in this region. For telemetry evaluation, valid values include STARTING, RUNNING, and FAILED_START. For telemetry rules, valid values include PENDING, ACTIVE, and FAILED.
+        public let status: String?
+
+        @inlinable
+        public init(failureReason: String? = nil, region: String? = nil, ruleArn: String? = nil, status: String? = nil) {
+            self.failureReason = failureReason
+            self.region = region
+            self.ruleArn = ruleArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case region = "Region"
+            case ruleArn = "RuleArn"
+            case status = "Status"
         }
     }
 
@@ -2043,25 +2202,50 @@ extension ObservabilityAdmin {
     }
 
     public struct SourceLogsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The selection criteria that specifies which data sources to centralize. The selection criteria uses the same filter expression format as LogGroupSelectionCriteria, but operates on DataSourceName and DataSourceType operands. When both LogGroupSelectionCriteria and DataSourceSelectionCriteria are specified, a log event must match both criteria to be centralized.
+        public let dataSourceSelectionCriteria: String?
         /// A strategy determining whether to centralize source log groups that are encrypted with customer managed KMS keys (CMK). ALLOW will consider CMK encrypted source log groups for centralization while SKIP will skip CMK encrypted source log groups from centralization.
         public let encryptedLogGroupStrategy: EncryptedLogGroupStrategy
         /// The selection criteria that specifies which source log groups to centralize. The selection criteria uses the same format as OAM link filters.
-        public let logGroupSelectionCriteria: String
+        public let logGroupSelectionCriteria: String?
 
         @inlinable
-        public init(encryptedLogGroupStrategy: EncryptedLogGroupStrategy, logGroupSelectionCriteria: String) {
+        public init(dataSourceSelectionCriteria: String? = nil, encryptedLogGroupStrategy: EncryptedLogGroupStrategy, logGroupSelectionCriteria: String? = nil) {
+            self.dataSourceSelectionCriteria = dataSourceSelectionCriteria
             self.encryptedLogGroupStrategy = encryptedLogGroupStrategy
             self.logGroupSelectionCriteria = logGroupSelectionCriteria
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSourceSelectionCriteria, name: "dataSourceSelectionCriteria", parent: name, max: 2000)
+            try self.validate(self.dataSourceSelectionCriteria, name: "dataSourceSelectionCriteria", parent: name, min: 1)
             try self.validate(self.logGroupSelectionCriteria, name: "logGroupSelectionCriteria", parent: name, max: 2000)
             try self.validate(self.logGroupSelectionCriteria, name: "logGroupSelectionCriteria", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSourceSelectionCriteria = "DataSourceSelectionCriteria"
             case encryptedLogGroupStrategy = "EncryptedLogGroupStrategy"
             case logGroupSelectionCriteria = "LogGroupSelectionCriteria"
+        }
+    }
+
+    public struct SourceMetricsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The filter expression that selects which source metrics to centralize. Currently, only * (all metrics) is supported. Other values return a validation error.
+        public let metricsSelectionCriteria: String?
+
+        @inlinable
+        public init(metricsSelectionCriteria: String? = nil) {
+            self.metricsSelectionCriteria = metricsSelectionCriteria
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricsSelectionCriteria, name: "metricsSelectionCriteria", parent: name, max: 2000)
+            try self.validate(self.metricsSelectionCriteria, name: "metricsSelectionCriteria", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricsSelectionCriteria = "MetricsSelectionCriteria"
         }
     }
 
@@ -2080,6 +2264,56 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case awsResourceExplorerManagedViewArn = "AwsResourceExplorerManagedViewArn"
             case status = "Status"
+        }
+    }
+
+    public struct StartTelemetryEvaluationForOrganizationInput: AWSEncodableShape {
+        ///  If set to true, telemetry evaluation for the organization starts in all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation for the organization. When new regions become available, evaluation automatically expands to include them. Mutually exclusive with Regions.
+        public let allRegions: Bool?
+        ///  An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation for the organization. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions for the organization. Mutually exclusive with AllRegions. If neither Regions nor AllRegions is provided, the operation applies only to the current region.
+        public let regions: [String]?
+
+        @inlinable
+        public init(allRegions: Bool? = nil, regions: [String]? = nil) {
+            self.allRegions = allRegions
+            self.regions = regions
+        }
+
+        public func validate(name: String) throws {
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, min: 1)
+            }
+            try self.validate(self.regions, name: "regions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allRegions = "AllRegions"
+            case regions = "Regions"
+        }
+    }
+
+    public struct StartTelemetryEvaluationInput: AWSEncodableShape {
+        ///  If set to true, telemetry evaluation starts in all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation. When new regions become available, evaluation automatically expands to include them. Mutually exclusive with Regions.
+        public let allRegions: Bool?
+        ///  An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions. Mutually exclusive with AllRegions. If neither Regions nor AllRegions is provided, the operation applies only to the current region.
+        public let regions: [String]?
+
+        @inlinable
+        public init(allRegions: Bool? = nil, regions: [String]? = nil) {
+            self.allRegions = allRegions
+            self.regions = regions
+        }
+
+        public func validate(name: String) throws {
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, min: 1)
+            }
+            try self.validate(self.regions, name: "regions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allRegions = "AllRegions"
+            case regions = "Regions"
         }
     }
 
@@ -2178,6 +2412,8 @@ extension ObservabilityAdmin {
         public let elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters?
         /// Configuration parameters specific to Amazon Bedrock AgentCore logging when Amazon Bedrock AgentCore is the resource type.
         public let logDeliveryParameters: LogDeliveryParameters?
+        ///  Configuration parameters specific to MSK monitoring when MSK is the resource type.
+        public let mskMonitoringParameters: MskMonitoringParameters?
         ///  The number of days to retain the telemetry data in the destination.
         public let retentionInDays: Int?
         ///  Configuration parameters specific to VPC Flow Logs when VPC is the resource type.
@@ -2186,12 +2422,13 @@ extension ObservabilityAdmin {
         public let wafLoggingParameters: WAFLoggingParameters?
 
         @inlinable
-        public init(cloudtrailParameters: CloudtrailParameters? = nil, destinationPattern: String? = nil, destinationType: DestinationType? = nil, elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters? = nil, logDeliveryParameters: LogDeliveryParameters? = nil, retentionInDays: Int? = nil, vpcFlowLogParameters: VPCFlowLogParameters? = nil, wafLoggingParameters: WAFLoggingParameters? = nil) {
+        public init(cloudtrailParameters: CloudtrailParameters? = nil, destinationPattern: String? = nil, destinationType: DestinationType? = nil, elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters? = nil, logDeliveryParameters: LogDeliveryParameters? = nil, mskMonitoringParameters: MskMonitoringParameters? = nil, retentionInDays: Int? = nil, vpcFlowLogParameters: VPCFlowLogParameters? = nil, wafLoggingParameters: WAFLoggingParameters? = nil) {
             self.cloudtrailParameters = cloudtrailParameters
             self.destinationPattern = destinationPattern
             self.destinationType = destinationType
             self.elbLoadBalancerLoggingParameters = elbLoadBalancerLoggingParameters
             self.logDeliveryParameters = logDeliveryParameters
+            self.mskMonitoringParameters = mskMonitoringParameters
             self.retentionInDays = retentionInDays
             self.vpcFlowLogParameters = vpcFlowLogParameters
             self.wafLoggingParameters = wafLoggingParameters
@@ -2209,6 +2446,7 @@ extension ObservabilityAdmin {
             case destinationType = "DestinationType"
             case elbLoadBalancerLoggingParameters = "ELBLoadBalancerLoggingParameters"
             case logDeliveryParameters = "LogDeliveryParameters"
+            case mskMonitoringParameters = "MskMonitoringParameters"
             case retentionInDays = "RetentionInDays"
             case vpcFlowLogParameters = "VPCFlowLogParameters"
             case wafLoggingParameters = "WAFLoggingParameters"
@@ -2329,8 +2567,14 @@ extension ObservabilityAdmin {
     }
 
     public struct TelemetryRule: AWSEncodableShape & AWSDecodableShape {
+        ///  If set to true, Amazon CloudWatch Observability Admin detects and remediates configuration drift in telemetry resources that it manages. For example, if a VPC flow log's format, traffic type, or aggregation interval no longer matches the rule's destination configuration, the flow log is replaced with one that matches. Only Observability Admin-managed resources are updated; customer-created resources are never modified. Currently supported for AWS::EC2::VPC resources (VPC flow logs).
+        public let allowFieldUpdates: Bool?
+        ///  If set to true, the telemetry rule is replicated to all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. When new regions become available, the rule automatically replicates to them. Mutually exclusive with Regions.
+        public let allRegions: Bool?
         ///  Configuration specifying where and how the telemetry data should be delivered.
         public let destinationConfiguration: TelemetryDestinationConfiguration?
+        ///  An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
+        public let regions: [String]?
         ///  The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL").
         public let resourceType: ResourceType?
         ///  The organizational scope to which the rule applies, specified using accounts or organizational units.
@@ -2343,8 +2587,11 @@ extension ObservabilityAdmin {
         public let telemetryType: TelemetryType
 
         @inlinable
-        public init(destinationConfiguration: TelemetryDestinationConfiguration? = nil, resourceType: ResourceType? = nil, scope: String? = nil, selectionCriteria: String? = nil, telemetrySourceTypes: [TelemetrySourceType]? = nil, telemetryType: TelemetryType) {
+        public init(allowFieldUpdates: Bool? = nil, allRegions: Bool? = nil, destinationConfiguration: TelemetryDestinationConfiguration? = nil, regions: [String]? = nil, resourceType: ResourceType? = nil, scope: String? = nil, selectionCriteria: String? = nil, telemetrySourceTypes: [TelemetrySourceType]? = nil, telemetryType: TelemetryType) {
+            self.allowFieldUpdates = allowFieldUpdates
+            self.allRegions = allRegions
             self.destinationConfiguration = destinationConfiguration
+            self.regions = regions
             self.resourceType = resourceType
             self.scope = scope
             self.selectionCriteria = selectionCriteria
@@ -2354,10 +2601,17 @@ extension ObservabilityAdmin {
 
         public func validate(name: String) throws {
             try self.destinationConfiguration?.validate(name: "\(name).destinationConfiguration")
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, min: 1)
+            }
+            try self.validate(self.regions, name: "regions", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowFieldUpdates = "AllowFieldUpdates"
+            case allRegions = "AllRegions"
             case destinationConfiguration = "DestinationConfiguration"
+            case regions = "Regions"
             case resourceType = "ResourceType"
             case scope = "Scope"
             case selectionCriteria = "SelectionCriteria"
@@ -2409,11 +2663,14 @@ extension ObservabilityAdmin {
         public let configuration: TelemetryPipelineConfiguration
         /// The sample records to process through the pipeline configuration for testing purposes.
         public let records: [Record]
+        /// The type of telemetry signal to test. If not specified, defaults to log processing.
+        public let signalType: SignalType?
 
         @inlinable
-        public init(configuration: TelemetryPipelineConfiguration, records: [Record]) {
+        public init(configuration: TelemetryPipelineConfiguration, records: [Record], signalType: SignalType? = nil) {
             self.configuration = configuration
             self.records = records
+            self.signalType = signalType
         }
 
         public func validate(name: String) throws {
@@ -2423,6 +2680,7 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
             case records = "Records"
+            case signalType = "SignalType"
         }
     }
 

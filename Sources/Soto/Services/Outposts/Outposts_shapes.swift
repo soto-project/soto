@@ -43,13 +43,18 @@ extension Outposts {
 
     public enum AssetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case installing = "INSTALLING"
         case isolated = "ISOLATED"
         case retiring = "RETIRING"
         public var description: String { return self.rawValue }
     }
 
     public enum AssetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `switch` = "SWITCH"
         case compute = "COMPUTE"
+        case networking = "NETWORKING"
+        case powershelf = "POWERSHELF"
+        case storage = "STORAGE"
         public var description: String { return self.rawValue }
     }
 
@@ -98,8 +103,14 @@ extension Outposts {
 
     public enum ComputeAssetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case installing = "INSTALLING"
         case isolated = "ISOLATED"
         case retiring = "RETIRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
@@ -113,6 +124,12 @@ extension Outposts {
     public enum FiberOpticCableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiMode = "MULTI_MODE"
         case singleMode = "SINGLE_MODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FormFactor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rack = "RACK"
+        case server = "SERVER"
         public var description: String { return self.rawValue }
     }
 
@@ -176,6 +193,40 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum OrderingRequirementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exempt = "EXEMPT"
+        case fail = "FAIL"
+        case pass = "PASS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OrderingRequirementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case countryCodeMismatchCheckError = "COUNTRY_CODE_MISMATCH_CHECK_ERROR"
+        case enterpriseSupportError = "ENTERPRISE_SUPPORT_ERROR"
+        case maximumAllowedOrdersCheckError = "MAXIMUM_ALLOWED_ORDERS_CHECK_ERROR"
+        case operatingAddressExistenceCheckError = "OPERATING_ADDRESS_EXISTENCE_CHECK_ERROR"
+        case outpostActiveCheckError = "OUTPOST_ACTIVE_CHECK_ERROR"
+        case outpostGenerationMismatchError = "OUTPOST_GENERATION_MISMATCH_ERROR"
+        case outpostIdMissingOnQuoteError = "OUTPOST_ID_MISSING_ON_QUOTE_ERROR"
+        case outpostNotFoundError = "OUTPOST_NOT_FOUND_ERROR"
+        case outpostRenewalRequiredError = "OUTPOST_RENEWAL_REQUIRED_ERROR"
+        case outpostStateChangedError = "OUTPOST_STATE_CHANGED_ERROR"
+        case rackPhysicalPropertiesCheckError = "RACK_PHYSICAL_PROPERTIES_CHECK_ERROR"
+        case shippingAddressExistenceCheckError = "SHIPPING_ADDRESS_EXISTENCE_CHECK_ERROR"
+        case shippingAddressMissingContactInfoError = "SHIPPING_ADDRESS_MISSING_CONTACT_INFO_ERROR"
+        case shippingAddressMissingContactNameError = "SHIPPING_ADDRESS_MISSING_CONTACT_NAME_ERROR"
+        case shippingAddressMissingContactNumberError = "SHIPPING_ADDRESS_MISSING_CONTACT_NUMBER_ERROR"
+        case unsupported = "UNSUPPORTED"
+        case validZipCodeCheckError = "VALID_ZIP_CODE_CHECK_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutpostGeneration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case generation1 = "GENERATION_1"
+        case generation2 = "GENERATION_2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allUpfront = "ALL_UPFRONT"
         case noUpfront = "NO_UPFRONT"
@@ -219,6 +270,59 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum PricingResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case priced = "PRICED"
+        case unableToPrice = "UNABLE_TO_PRICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteCapacityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ebs = "EBS"
+        case ec2 = "EC2"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteConstraintType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rackMaxPowerKva = "RACK_MAX_POWER_KVA"
+        case rackMaxWeightLbs = "RACK_MAX_WEIGHT_LBS"
+        case rackMaximum = "RACK_MAXIMUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotePricingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case subscription = "SUBSCRIPTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteRackUseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compute = "COMPUTE"
+        case networking = "NETWORKING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteSpecificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case existingRack = "EXISTING_RACK"
+        case newRack = "NEW_RACK"
+        case server = "SERVER"
+        case updatedRack = "UPDATED_RACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case created = "CREATED"
+        case expired = "EXPIRED"
+        case orderSubmitted = "ORDER_SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RackUnitHeight: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case height1U = "HEIGHT_1U"
+        case height2U = "HEIGHT_2U"
+        case height42U = "HEIGHT_42U"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case order = "ORDER"
         case outpost = "OUTPOST"
@@ -238,6 +342,7 @@ extension Outposts {
         case active = "ACTIVE"
         case cancelled = "CANCELLED"
         case inactive = "INACTIVE"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -301,7 +406,7 @@ extension Outposts {
         public let city: String
         /// The name of the contact.
         public let contactName: String
-        /// The phone number of the contact.
+        /// The phone number of the contact, including the country code (for example, +12065550100).
         public let contactPhoneNumber: String
         /// The ISO-3166 two-letter country code for the address.
         public let countryCode: String
@@ -345,7 +450,7 @@ extension Outposts {
             try self.validate(self.contactName, name: "contactName", parent: name, pattern: "^\\S[\\S ]*$")
             try self.validate(self.contactPhoneNumber, name: "contactPhoneNumber", parent: name, max: 20)
             try self.validate(self.contactPhoneNumber, name: "contactPhoneNumber", parent: name, min: 1)
-            try self.validate(self.contactPhoneNumber, name: "contactPhoneNumber", parent: name, pattern: "^[\\S ]+$")
+            try self.validate(self.contactPhoneNumber, name: "contactPhoneNumber", parent: name, pattern: "^\\+[1-9][0-9]{1,18}$")
             try self.validate(self.countryCode, name: "countryCode", parent: name, max: 2)
             try self.validate(self.countryCode, name: "countryCode", parent: name, min: 2)
             try self.validate(self.countryCode, name: "countryCode", parent: name, pattern: "^[A-Z]{2}$")
@@ -552,6 +657,28 @@ extension Outposts {
         public init() {}
     }
 
+    public struct CapacitySummary: AWSDecodableShape {
+        /// The change in capacity between the existing and final state.
+        public let capacityChange: [QuoteCapacity]?
+        /// The existing capacities on the Outpost before the quote is fulfilled.
+        public let existingCapacities: [QuoteCapacity]?
+        /// The final capacities on the Outpost after the quote is fulfilled.
+        public let finalCapacities: [QuoteCapacity]?
+
+        @inlinable
+        public init(capacityChange: [QuoteCapacity]? = nil, existingCapacities: [QuoteCapacity]? = nil, finalCapacities: [QuoteCapacity]? = nil) {
+            self.capacityChange = capacityChange
+            self.existingCapacities = existingCapacities
+            self.finalCapacities = finalCapacities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityChange = "CapacityChange"
+            case existingCapacities = "ExistingCapacities"
+            case finalCapacities = "FinalCapacities"
+        }
+    }
+
     public struct CapacityTaskFailure: AWSDecodableShape {
         /// The reason that the specified capacity task failed.
         public let reason: String
@@ -659,7 +786,7 @@ extension Outposts {
         public let instanceTypeCapacities: [AssetInstanceTypeCapacity]?
         /// The maximum number of vCPUs possible for the specified asset.
         public let maxVcpus: Int?
-        /// The state.   ACTIVE - The asset is available and can provide capacity for new compute resources.   ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.   RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.
+        /// The state.   ACTIVE - The asset is available and can provide capacity for new compute resources.   ISOLATED - The asset is undergoing maintenance and can't provide capacity for new compute resources. Existing compute resources on the asset are not affected.   RETIRING - The underlying hardware for the asset is degraded. Capacity for new compute resources is reduced. Amazon Web Services sends notifications for resources that must be stopped before the asset can be replaced.   INSTALLING - The asset is being installed and can't yet provide capacity for new compute resources.
         public let state: ComputeAssetState?
 
         @inlinable
@@ -744,13 +871,19 @@ extension Outposts {
         public let paymentOption: PaymentOption
         /// The payment terms.
         public let paymentTerm: PaymentTerm?
+        /// The ID of the quote to use for the order.
+        public let quoteIdentifier: String?
+        /// The ID of the quote option to use for the order.
+        public let quoteOptionIdentifier: String?
 
         @inlinable
-        public init(lineItems: [LineItemRequest]? = nil, outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm? = nil) {
+        public init(lineItems: [LineItemRequest]? = nil, outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm? = nil, quoteIdentifier: String? = nil, quoteOptionIdentifier: String? = nil) {
             self.lineItems = lineItems
             self.outpostIdentifier = outpostIdentifier
             self.paymentOption = paymentOption
             self.paymentTerm = paymentTerm
+            self.quoteIdentifier = quoteIdentifier
+            self.quoteOptionIdentifier = quoteOptionIdentifier
         }
 
         public func validate(name: String) throws {
@@ -762,6 +895,12 @@ extension Outposts {
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, max: 255)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, min: 1)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:quote/)?oq-[a-f0-9]{17}$")
+            try self.validate(self.quoteOptionIdentifier, name: "quoteOptionIdentifier", parent: name, max: 21)
+            try self.validate(self.quoteOptionIdentifier, name: "quoteOptionIdentifier", parent: name, min: 1)
+            try self.validate(self.quoteOptionIdentifier, name: "quoteOptionIdentifier", parent: name, pattern: "^oqo-[a-f0-9]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -769,6 +908,8 @@ extension Outposts {
             case outpostIdentifier = "OutpostIdentifier"
             case paymentOption = "PaymentOption"
             case paymentTerm = "PaymentTerm"
+            case quoteIdentifier = "QuoteIdentifier"
+            case quoteOptionIdentifier = "QuoteOptionIdentifier"
         }
     }
 
@@ -856,6 +997,148 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case outpost = "Outpost"
+        }
+    }
+
+    public struct CreateQuoteInput: AWSEncodableShape {
+        /// The country code for the Outpost site location.
+        public let countryCode: String
+        /// A description for the quote.
+        public let description: String?
+        /// The ID or ARN of the Outpost to associate with the quote. If not specified, the quote is created without an Outpost association.
+        public let outpostIdentifier: String?
+        /// The capacity requirements for the quote. Each entry specifies a capacity type (such as Amazon EC2), the unit, and the quantity. For Amazon EC2, the quantity is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, the quantity is the total desired end-state capacity of the Outpost.
+        public let requestedCapacities: [QuoteCapacity]
+        /// The physical constraints for the quote, such as maximum number of racks, maximum power draw per rack, or maximum weight per rack.
+        public let requestedConstraints: [QuoteConstraint]?
+        /// The payment options to include in the quote pricing. If not specified, all available payment options are returned.
+        public let requestedPaymentOptions: [PaymentOption]?
+        /// The payment terms to include in the quote pricing. If not specified, all available payment terms are returned.
+        public let requestedPaymentTerms: [PaymentTerm]?
+
+        @inlinable
+        public init(countryCode: String, description: String? = nil, outpostIdentifier: String? = nil, requestedCapacities: [QuoteCapacity], requestedConstraints: [QuoteConstraint]? = nil, requestedPaymentOptions: [PaymentOption]? = nil, requestedPaymentTerms: [PaymentTerm]? = nil) {
+            self.countryCode = countryCode
+            self.description = description
+            self.outpostIdentifier = outpostIdentifier
+            self.requestedCapacities = requestedCapacities
+            self.requestedConstraints = requestedConstraints
+            self.requestedPaymentOptions = requestedPaymentOptions
+            self.requestedPaymentTerms = requestedPaymentTerms
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.countryCode, name: "countryCode", parent: name, max: 2)
+            try self.validate(self.countryCode, name: "countryCode", parent: name, min: 2)
+            try self.validate(self.countryCode, name: "countryCode", parent: name, pattern: "^[A-Z]{2}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S \\n]*$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+            try self.requestedCapacities.forEach {
+                try $0.validate(name: "\(name).requestedCapacities[]")
+            }
+            try self.validate(self.requestedCapacities, name: "requestedCapacities", parent: name, max: 2000)
+            try self.requestedConstraints?.forEach {
+                try $0.validate(name: "\(name).requestedConstraints[]")
+            }
+            try self.validate(self.requestedConstraints, name: "requestedConstraints", parent: name, max: 10)
+            try self.validate(self.requestedPaymentOptions, name: "requestedPaymentOptions", parent: name, max: 3)
+            try self.validate(self.requestedPaymentTerms, name: "requestedPaymentTerms", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryCode = "CountryCode"
+            case description = "Description"
+            case outpostIdentifier = "OutpostIdentifier"
+            case requestedCapacities = "RequestedCapacities"
+            case requestedConstraints = "RequestedConstraints"
+            case requestedPaymentOptions = "RequestedPaymentOptions"
+            case requestedPaymentTerms = "RequestedPaymentTerms"
+        }
+    }
+
+    public struct CreateQuoteOutput: AWSDecodableShape {
+        /// Information about the quote.
+        public let quote: Quote?
+
+        @inlinable
+        public init(quote: Quote? = nil) {
+            self.quote = quote
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quote = "Quote"
+        }
+    }
+
+    public struct CreateRenewalInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID or ARN of the Outpost.
+        public let outpostIdentifier: String
+        /// The payment option.
+        public let paymentOption: PaymentOption
+        /// The payment term.
+        public let paymentTerm: PaymentTerm
+
+        @inlinable
+        public init(clientToken: String? = CreateRenewalInput.idempotencyToken(), outpostIdentifier: String, paymentOption: PaymentOption, paymentTerm: PaymentTerm) {
+            self.clientToken = clientToken
+            self.outpostIdentifier = outpostIdentifier
+            self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.*$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case outpostIdentifier = "OutpostIdentifier"
+            case paymentOption = "PaymentOption"
+            case paymentTerm = "PaymentTerm"
+        }
+    }
+
+    public struct CreateRenewalOutput: AWSDecodableShape {
+        /// The currency of the renewal price.
+        public let currency: CurrencyCode?
+        /// The monthly recurring price of the renewal.
+        public let monthlyRecurringPrice: Float?
+        /// The ID of the Outpost.
+        public let outpostId: String?
+        /// The payment option.
+        public let paymentOption: PaymentOption?
+        /// The payment term.
+        public let paymentTerm: PaymentTerm?
+        /// The upfront price of the renewal.
+        public let upfrontPrice: Float?
+
+        @inlinable
+        public init(currency: CurrencyCode? = nil, monthlyRecurringPrice: Float? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, upfrontPrice: Float? = nil) {
+            self.currency = currency
+            self.monthlyRecurringPrice = monthlyRecurringPrice
+            self.outpostId = outpostId
+            self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
+            self.upfrontPrice = upfrontPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case monthlyRecurringPrice = "MonthlyRecurringPrice"
+            case outpostId = "OutpostId"
+            case paymentOption = "PaymentOption"
+            case paymentTerm = "PaymentTerm"
+            case upfrontPrice = "UpfrontPrice"
         }
     }
 
@@ -959,6 +1242,34 @@ extension Outposts {
         public init() {}
     }
 
+    public struct DeleteQuoteInput: AWSEncodableShape {
+        /// The ID of the quote.
+        public let quoteIdentifier: String
+
+        @inlinable
+        public init(quoteIdentifier: String) {
+            self.quoteIdentifier = quoteIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.quoteIdentifier, key: "QuoteIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, max: 255)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, min: 1)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:quote/)?oq-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteQuoteOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteSiteInput: AWSEncodableShape {
         ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
@@ -987,6 +1298,36 @@ extension Outposts {
         public init() {}
     }
 
+    public struct DetailedInstanceTypeItem: AWSDecodableShape {
+        /// The supported form factor and Outpost generation configurations for the instance type.
+        public let formFactorConfigs: [FormFactorConfig]?
+        /// The instance type.
+        public let instanceType: String?
+        /// The memory size of the instance type, in MiB.
+        public let memoryInMib: Int?
+        /// The network performance of the instance type.
+        public let networkPerformance: String?
+        /// The number of default VCPUs in the instance type.
+        public let vcpUs: Int?
+
+        @inlinable
+        public init(formFactorConfigs: [FormFactorConfig]? = nil, instanceType: String? = nil, memoryInMib: Int? = nil, networkPerformance: String? = nil, vcpUs: Int? = nil) {
+            self.formFactorConfigs = formFactorConfigs
+            self.instanceType = instanceType
+            self.memoryInMib = memoryInMib
+            self.networkPerformance = networkPerformance
+            self.vcpUs = vcpUs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formFactorConfigs = "FormFactorConfigs"
+            case instanceType = "InstanceType"
+            case memoryInMib = "MemoryInMib"
+            case networkPerformance = "NetworkPerformance"
+            case vcpUs = "VCPUs"
+        }
+    }
+
     public struct EC2Capacity: AWSDecodableShape {
         ///  The family of the EC2 capacity.
         public let family: String?
@@ -1006,6 +1347,24 @@ extension Outposts {
             case family = "Family"
             case maxSize = "MaxSize"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct FormFactorConfig: AWSDecodableShape {
+        /// The form factor. Valid values are RACK for rack-based Outposts and SERVER for server-based Outposts.
+        public let formFactor: FormFactor?
+        /// The Outpost generation. Valid values are GENERATION_1 for first-generation rack deployments and GENERATION_2 for second-generation rack deployments. This value is not set for server form factors.
+        public let outpostGeneration: OutpostGeneration?
+
+        @inlinable
+        public init(formFactor: FormFactor? = nil, outpostGeneration: OutpostGeneration? = nil) {
+            self.formFactor = formFactor
+            self.outpostGeneration = outpostGeneration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formFactor = "FormFactor"
+            case outpostGeneration = "OutpostGeneration"
         }
     }
 
@@ -1258,19 +1617,27 @@ extension Outposts {
         /// The date the current contract term ends for the specified Outpost. You must start the renewal or decommission process at least 5 business days before the current term for your Amazon Web Services Outposts ends. Failing to complete these steps at least 5 business days before the current term ends might result in unanticipated charges.
         public let contractEndDate: String?
         public let nextToken: String?
+        /// The payment option.
+        public let paymentOption: PaymentOption?
+        /// The payment term.
+        public let paymentTerm: PaymentTerm?
         /// The subscription details for the specified Outpost.
         public let subscriptions: [Subscription]?
 
         @inlinable
-        public init(contractEndDate: String? = nil, nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
+        public init(contractEndDate: String? = nil, nextToken: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, subscriptions: [Subscription]? = nil) {
             self.contractEndDate = contractEndDate
             self.nextToken = nextToken
+            self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
             self.subscriptions = subscriptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case contractEndDate = "ContractEndDate"
             case nextToken = "NextToken"
+            case paymentOption = "PaymentOption"
+            case paymentTerm = "PaymentTerm"
             case subscriptions = "Subscriptions"
         }
     }
@@ -1432,6 +1799,86 @@ extension Outposts {
         private enum CodingKeys: String, CodingKey {
             case instanceTypes = "InstanceTypes"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetQuoteInput: AWSEncodableShape {
+        /// The ID of the quote.
+        public let quoteIdentifier: String
+
+        @inlinable
+        public init(quoteIdentifier: String) {
+            self.quoteIdentifier = quoteIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.quoteIdentifier, key: "QuoteIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, max: 255)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, min: 1)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:quote/)?oq-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetQuoteOutput: AWSDecodableShape {
+        /// Information about the quote.
+        public let quote: Quote?
+
+        @inlinable
+        public init(quote: Quote? = nil) {
+            self.quote = quote
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quote = "Quote"
+        }
+    }
+
+    public struct GetRenewalPricingInput: AWSEncodableShape {
+        /// The ID or ARN of the Outpost.
+        public let outpostIdentifier: String
+
+        @inlinable
+        public init(outpostIdentifier: String) {
+            self.outpostIdentifier = outpostIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostIdentifier, key: "OutpostIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRenewalPricingOutput: AWSDecodableShape {
+        /// The pricing options for the specified Outpost.
+        public let pricingOptions: [PricingOption]?
+        /// The result of the pricing request.
+        public let pricingResult: PricingResult?
+
+        @inlinable
+        public init(pricingOptions: [PricingOption]? = nil, pricingResult: PricingResult? = nil) {
+            self.pricingOptions = pricingOptions
+            self.pricingResult = pricingResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pricingOptions = "PricingOptions"
+            case pricingResult = "PricingResult"
         }
     }
 
@@ -1768,6 +2215,8 @@ extension Outposts {
     }
 
     public struct ListAssetsInput: AWSEncodableShape {
+        /// Filters the results by asset type.   COMPUTE - Server asset used for customer compute    STORAGE - Server asset used by storage services    POWERSHELF - Powershelf assets    SWITCH - Switch assets    NETWORKING - Asset managed by Amazon Web Services for networking purposes
+        public let assetTypeFilter: [AssetType]?
         /// Filters the results by the host ID of a Dedicated Host.
         public let hostIdFilter: [String]?
         public let maxResults: Int?
@@ -1778,7 +2227,8 @@ extension Outposts {
         public let statusFilter: [AssetState]?
 
         @inlinable
-        public init(hostIdFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifier: String, statusFilter: [AssetState]? = nil) {
+        public init(assetTypeFilter: [AssetType]? = nil, hostIdFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifier: String, statusFilter: [AssetState]? = nil) {
+            self.assetTypeFilter = assetTypeFilter
             self.hostIdFilter = hostIdFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1789,6 +2239,7 @@ extension Outposts {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assetTypeFilter, key: "AssetTypeFilter")
             request.encodeQuery(self.hostIdFilter, key: "HostIdFilter")
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
@@ -1797,6 +2248,8 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.assetTypeFilter, name: "assetTypeFilter", parent: name, max: 5)
+            try self.validate(self.assetTypeFilter, name: "assetTypeFilter", parent: name, min: 1)
             try self.hostIdFilter?.forEach {
                 try validate($0, name: "hostIdFilter[]", parent: name, max: 50)
                 try validate($0, name: "hostIdFilter[]", parent: name, min: 1)
@@ -1810,7 +2263,7 @@ extension Outposts {
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
             try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
-            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 3)
+            try self.validate(self.statusFilter, name: "statusFilter", parent: name, max: 5)
             try self.validate(self.statusFilter, name: "statusFilter", parent: name, min: 1)
         }
 
@@ -1982,7 +2435,7 @@ extension Outposts {
             try self.ec2FamilyFilter?.forEach {
                 try validate($0, name: "ec2FamilyFilter[]", parent: name, max: 10)
                 try validate($0, name: "ec2FamilyFilter[]", parent: name, min: 1)
-                try validate($0, name: "ec2FamilyFilter[]", parent: name, pattern: "^[a-z0-9]+$")
+                try validate($0, name: "ec2FamilyFilter[]", parent: name, pattern: "^[a-z0-9]+[a-z0-9-]*[a-z0-9]+$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2007,6 +2460,58 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case catalogItems = "CatalogItems"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOrderableInstanceTypesInput: AWSEncodableShape {
+        /// The maximum page size.
+        public let maxResults: Int?
+        /// The pagination token.
+        public let nextToken: String?
+        /// Filters the results by Outpost generation. Specify GENERATION_1 for first-generation rack deployments or GENERATION_2 for second-generation rack deployments.
+        public let outpostGenerationFilter: OutpostGeneration?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, outpostGenerationFilter: OutpostGeneration? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.outpostGenerationFilter = outpostGenerationFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.outpostGenerationFilter, key: "OutpostGenerationFilter")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOrderableInstanceTypesOutput: AWSDecodableShape {
+        /// Information about the instance types that can be ordered for the Outpost.
+        public let instanceTypes: [DetailedInstanceTypeItem]?
+        /// The pagination token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceTypes: [DetailedInstanceTypeItem]? = nil, nextToken: String? = nil) {
+            self.instanceTypes = instanceTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTypes = "InstanceTypes"
             case nextToken = "NextToken"
         }
     }
@@ -2140,6 +2645,54 @@ extension Outposts {
         }
     }
 
+    public struct ListQuotesInput: AWSEncodableShape {
+        /// The maximum page size.
+        public let maxResults: Int?
+        /// The pagination token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQuotesOutput: AWSDecodableShape {
+        /// The pagination token.
+        public let nextToken: String?
+        /// Information about the quotes.
+        public let quotes: [QuoteSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, quotes: [QuoteSummary]? = nil) {
+            self.nextToken = nextToken
+            self.quotes = quotes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case quotes = "Quotes"
+        }
+    }
+
     public struct ListSitesInput: AWSEncodableShape {
         public let maxResults: Int?
         public let nextToken: String?
@@ -2265,11 +2818,15 @@ extension Outposts {
         public let paymentOption: PaymentOption?
         /// The payment term.
         public let paymentTerm: PaymentTerm?
+        /// The ID of the quote associated with the order.
+        public let quoteIdentifier: String?
+        /// The ID of the quote option associated with the order.
+        public let quoteOptionIdentifier: String?
         /// The status of the order.    PREPARING - Order is received and being prepared.    IN_PROGRESS - Order is either being built or shipped. To get more details, see the line item status.    DELIVERED - Order was delivered to the Outpost site.    COMPLETED - Order is complete.    CANCELLED - Order is cancelled.    ERROR - Customer should contact support.    The following status are deprecated: RECEIVED, PENDING, PROCESSING, INSTALLING, and FULFILLED.
         public let status: OrderStatus?
 
         @inlinable
-        public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, orderType: OrderType? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, status: OrderStatus? = nil) {
+        public init(lineItems: [LineItem]? = nil, orderFulfilledDate: Date? = nil, orderId: String? = nil, orderSubmissionDate: Date? = nil, orderType: OrderType? = nil, outpostId: String? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, quoteIdentifier: String? = nil, quoteOptionIdentifier: String? = nil, status: OrderStatus? = nil) {
             self.lineItems = lineItems
             self.orderFulfilledDate = orderFulfilledDate
             self.orderId = orderId
@@ -2278,6 +2835,8 @@ extension Outposts {
             self.outpostId = outpostId
             self.paymentOption = paymentOption
             self.paymentTerm = paymentTerm
+            self.quoteIdentifier = quoteIdentifier
+            self.quoteOptionIdentifier = quoteOptionIdentifier
             self.status = status
         }
 
@@ -2290,6 +2849,8 @@ extension Outposts {
             case outpostId = "OutpostId"
             case paymentOption = "PaymentOption"
             case paymentTerm = "PaymentTerm"
+            case quoteIdentifier = "QuoteIdentifier"
+            case quoteOptionIdentifier = "QuoteOptionIdentifier"
             case status = "Status"
         }
     }
@@ -2329,6 +2890,28 @@ extension Outposts {
             case orderType = "OrderType"
             case outpostId = "OutpostId"
             case status = "Status"
+        }
+    }
+
+    public struct OrderingRequirement: AWSDecodableShape {
+        /// The type of ordering requirement. Indicates which check failed or passed.    OUTPOST_ACTIVE_CHECK_ERROR - The Outpost must be in an active state.    MAXIMUM_ALLOWED_ORDERS_CHECK_ERROR - The maximum number of allowed orders has been reached.    VALID_ZIP_CODE_CHECK_ERROR - The site address must have a valid zip code.    RACK_PHYSICAL_PROPERTIES_CHECK_ERROR - The rack physical properties do not meet requirements.    OPERATING_ADDRESS_EXISTENCE_CHECK_ERROR - The site must have an operating address.    SHIPPING_ADDRESS_EXISTENCE_CHECK_ERROR - The site must have a shipping address.    COUNTRY_CODE_MISMATCH_CHECK_ERROR - The country code on the quote does not match the Outpost site country.    OUTPOST_GENERATION_MISMATCH_ERROR - The Outpost generation does not match the requested configuration.    OUTPOST_ID_MISSING_ON_QUOTE_ERROR - The quote must be associated with an Outpost before submitting an order.    ENTERPRISE_SUPPORT_ERROR - Enterprise Support is required.    SHIPPING_ADDRESS_MISSING_CONTACT_NAME_ERROR - The shipping address must have a contact name.    SHIPPING_ADDRESS_MISSING_CONTACT_NUMBER_ERROR - The shipping address must have a contact phone number.    SHIPPING_ADDRESS_MISSING_CONTACT_INFO_ERROR - The shipping address must have contact information.    OUTPOST_STATE_CHANGED_ERROR - The Outpost state has changed since the quote was created.    OUTPOST_NOT_FOUND_ERROR - The Outpost associated with the quote was not found.    OUTPOST_RENEWAL_REQUIRED_ERROR - The Outpost requires a renewal before a new order can be submitted.    UNSUPPORTED - The requirement type is not recognized.
+        public let orderingRequirementType: OrderingRequirementType?
+        /// The status of the ordering requirement. Valid values are PASS, FAIL, and EXEMPT.
+        public let status: OrderingRequirementStatus?
+        /// A message about the ordering requirement.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(orderingRequirementType: OrderingRequirementType? = nil, status: OrderingRequirementStatus? = nil, statusMessage: String? = nil) {
+            self.orderingRequirementType = orderingRequirementType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orderingRequirementType = "OrderingRequirementType"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -2381,6 +2964,276 @@ extension Outposts {
         }
     }
 
+    public struct PricingOption: AWSDecodableShape {
+        /// The type of pricing model.
+        public let pricingType: QuotePricingType?
+        /// The subscription pricing details for this pricing option.
+        public let subscriptionPricingDetails: SubscriptionPricingDetails?
+
+        @inlinable
+        public init(pricingType: QuotePricingType? = nil, subscriptionPricingDetails: SubscriptionPricingDetails? = nil) {
+            self.pricingType = pricingType
+            self.subscriptionPricingDetails = subscriptionPricingDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pricingType = "PricingType"
+            case subscriptionPricingDetails = "SubscriptionPricingDetails"
+        }
+    }
+
+    public struct Quote: AWSDecodableShape {
+        /// The ID of the account that owns the quote.
+        public let accountId: String?
+        /// The country code for the Outpost site location.
+        public let countryCode: String?
+        /// The date the quote was created.
+        public let createdDate: Date?
+        /// The description of the quote.
+        public let description: String?
+        /// The date the quote expires.
+        public let expirationDate: Date?
+        /// The requirements that must be met before an order can be submitted for the quote.
+        public let orderingRequirements: [OrderingRequirement]?
+        /// The ARN of the Outpost associated with the quote.
+        public let outpostArn: String?
+        /// The ID of the quote.
+        public let quoteId: String?
+        /// The configuration and pricing options for the quote. Each option includes capacity details, physical specifications, and pricing information.
+        public let quoteOptions: [QuoteOption]?
+        /// The status of the quote.    CREATED - The quote has been created and is available for review.    ORDER_SUBMITTED - An order has been submitted for the quote.    EXPIRED - The quote has expired and can no longer be used to submit an order.
+        public let quoteStatus: QuoteStatus?
+        /// The capacity requirements specified in the quote request.
+        public let requestedCapacities: [QuoteCapacity]?
+        /// The physical constraints specified in the quote request.
+        public let requestedConstraints: [QuoteConstraint]?
+        /// The payment options specified in the quote request.
+        public let requestedPaymentOptions: [PaymentOption]?
+        /// The payment terms specified in the quote request.
+        public let requestedPaymentTerms: [PaymentTerm]?
+        /// A message about the status of the quote.
+        public let statusMessage: String?
+        /// The ID of the order submitted for the quote.
+        public let submittedOrderId: String?
+
+        @inlinable
+        public init(accountId: String? = nil, countryCode: String? = nil, createdDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, orderingRequirements: [OrderingRequirement]? = nil, outpostArn: String? = nil, quoteId: String? = nil, quoteOptions: [QuoteOption]? = nil, quoteStatus: QuoteStatus? = nil, requestedCapacities: [QuoteCapacity]? = nil, requestedConstraints: [QuoteConstraint]? = nil, requestedPaymentOptions: [PaymentOption]? = nil, requestedPaymentTerms: [PaymentTerm]? = nil, statusMessage: String? = nil, submittedOrderId: String? = nil) {
+            self.accountId = accountId
+            self.countryCode = countryCode
+            self.createdDate = createdDate
+            self.description = description
+            self.expirationDate = expirationDate
+            self.orderingRequirements = orderingRequirements
+            self.outpostArn = outpostArn
+            self.quoteId = quoteId
+            self.quoteOptions = quoteOptions
+            self.quoteStatus = quoteStatus
+            self.requestedCapacities = requestedCapacities
+            self.requestedConstraints = requestedConstraints
+            self.requestedPaymentOptions = requestedPaymentOptions
+            self.requestedPaymentTerms = requestedPaymentTerms
+            self.statusMessage = statusMessage
+            self.submittedOrderId = submittedOrderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case countryCode = "CountryCode"
+            case createdDate = "CreatedDate"
+            case description = "Description"
+            case expirationDate = "ExpirationDate"
+            case orderingRequirements = "OrderingRequirements"
+            case outpostArn = "OutpostArn"
+            case quoteId = "QuoteId"
+            case quoteOptions = "QuoteOptions"
+            case quoteStatus = "QuoteStatus"
+            case requestedCapacities = "RequestedCapacities"
+            case requestedConstraints = "RequestedConstraints"
+            case requestedPaymentOptions = "RequestedPaymentOptions"
+            case requestedPaymentTerms = "RequestedPaymentTerms"
+            case statusMessage = "StatusMessage"
+            case submittedOrderId = "SubmittedOrderId"
+        }
+    }
+
+    public struct QuoteCapacity: AWSEncodableShape & AWSDecodableShape {
+        /// The quantity of the specified capacity unit. For Amazon EC2, this is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, this is the total desired end-state capacity of the Outpost.
+        public let quantity: Float?
+        /// The type of capacity. Valid values are EC2, EBS, and S3.
+        public let quoteCapacityType: QuoteCapacityType?
+        /// The unit of measurement for the capacity. For Amazon EC2, this is the instance type (for example, c5.24xlarge). For Amazon EBS and Amazon S3, this is the storage unit (for example, TiB for tebibytes).
+        public let unit: String?
+
+        @inlinable
+        public init(quantity: Float? = nil, quoteCapacityType: QuoteCapacityType? = nil, unit: String? = nil) {
+            self.quantity = quantity
+            self.quoteCapacityType = quoteCapacityType
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.unit, name: "unit", parent: name, max: 1000)
+            try self.validate(self.unit, name: "unit", parent: name, min: 1)
+            try self.validate(self.unit, name: "unit", parent: name, pattern: "^[\\S \\n]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "Quantity"
+            case quoteCapacityType = "QuoteCapacityType"
+            case unit = "Unit"
+        }
+    }
+
+    public struct QuoteConstraint: AWSEncodableShape & AWSDecodableShape {
+        /// The type of constraint. Valid values are RACK_MAXIMUM, RACK_MAX_POWER_KVA, and RACK_MAX_WEIGHT_LBS.
+        public let quoteConstraintType: QuoteConstraintType?
+        /// The value of the constraint.
+        public let value: String?
+
+        @inlinable
+        public init(quoteConstraintType: QuoteConstraintType? = nil, value: String? = nil) {
+            self.quoteConstraintType = quoteConstraintType
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 2048)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\S \\n]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quoteConstraintType = "QuoteConstraintType"
+            case value = "Value"
+        }
+    }
+
+    public struct QuoteOption: AWSDecodableShape {
+        /// The capacities included in this quote option.
+        public let capacities: [QuoteCapacity]?
+        /// A summary of the existing, final, and changed capacity for this quote option.
+        public let capacitySummary: CapacitySummary?
+        /// The pricing options for this quote option.
+        public let pricingOptions: [PricingOption]?
+        /// The ID of the quote option.
+        public let quoteOptionIdentifier: String?
+        /// The physical specifications for the racks or servers in this quote option.
+        public let specifications: [QuoteSpecification]?
+
+        @inlinable
+        public init(capacities: [QuoteCapacity]? = nil, capacitySummary: CapacitySummary? = nil, pricingOptions: [PricingOption]? = nil, quoteOptionIdentifier: String? = nil, specifications: [QuoteSpecification]? = nil) {
+            self.capacities = capacities
+            self.capacitySummary = capacitySummary
+            self.pricingOptions = pricingOptions
+            self.quoteOptionIdentifier = quoteOptionIdentifier
+            self.specifications = specifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacities = "Capacities"
+            case capacitySummary = "CapacitySummary"
+            case pricingOptions = "PricingOptions"
+            case quoteOptionIdentifier = "QuoteOptionIdentifier"
+            case specifications = "Specifications"
+        }
+    }
+
+    public struct QuoteSpecification: AWSDecodableShape {
+        /// The existing rack specification details, if the specification type is UPDATED_RACK or EXISTING_RACK.
+        public let existingRackSpecificationDetails: RackSpecificationDetails?
+        /// The final rack specification details after the quote is fulfilled.
+        public let finalRackSpecificationDetails: RackSpecificationDetails?
+        /// The type of specification. Valid values are NEW_RACK, UPDATED_RACK, EXISTING_RACK, and SERVER.
+        public let quoteSpecificationType: QuoteSpecificationType?
+        /// The server specification details, if the specification type is SERVER.
+        public let serverSpecificationDetails: ServerSpecificationDetails?
+
+        @inlinable
+        public init(existingRackSpecificationDetails: RackSpecificationDetails? = nil, finalRackSpecificationDetails: RackSpecificationDetails? = nil, quoteSpecificationType: QuoteSpecificationType? = nil, serverSpecificationDetails: ServerSpecificationDetails? = nil) {
+            self.existingRackSpecificationDetails = existingRackSpecificationDetails
+            self.finalRackSpecificationDetails = finalRackSpecificationDetails
+            self.quoteSpecificationType = quoteSpecificationType
+            self.serverSpecificationDetails = serverSpecificationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case existingRackSpecificationDetails = "ExistingRackSpecificationDetails"
+            case finalRackSpecificationDetails = "FinalRackSpecificationDetails"
+            case quoteSpecificationType = "QuoteSpecificationType"
+            case serverSpecificationDetails = "ServerSpecificationDetails"
+        }
+    }
+
+    public struct QuoteSummary: AWSDecodableShape {
+        /// The ID of the account that owns the quote.
+        public let accountId: String?
+        /// The country code for the Outpost site location.
+        public let countryCode: String?
+        /// The date the quote was created.
+        public let createdDate: Date?
+        /// The description of the quote.
+        public let description: String?
+        /// The date the quote expires.
+        public let expirationDate: Date?
+        /// The ARN of the Outpost associated with the quote.
+        public let outpostArn: String?
+        /// The ID of the quote.
+        public let quoteId: String?
+        /// The configuration and pricing options for the quote.
+        public let quoteOptions: [QuoteOption]?
+        /// The status of the quote.
+        public let quoteStatus: QuoteStatus?
+        /// The capacity requirements specified in the quote request.
+        public let requestedCapacities: [QuoteCapacity]?
+        /// The physical constraints specified in the quote request.
+        public let requestedConstraints: [QuoteConstraint]?
+        /// The payment options specified in the quote request.
+        public let requestedPaymentOptions: [PaymentOption]?
+        /// The payment terms specified in the quote request.
+        public let requestedPaymentTerms: [PaymentTerm]?
+        /// A message about the status of the quote.
+        public let statusMessage: String?
+        /// The ID of the order submitted for the quote.
+        public let submittedOrderId: String?
+
+        @inlinable
+        public init(accountId: String? = nil, countryCode: String? = nil, createdDate: Date? = nil, description: String? = nil, expirationDate: Date? = nil, outpostArn: String? = nil, quoteId: String? = nil, quoteOptions: [QuoteOption]? = nil, quoteStatus: QuoteStatus? = nil, requestedCapacities: [QuoteCapacity]? = nil, requestedConstraints: [QuoteConstraint]? = nil, requestedPaymentOptions: [PaymentOption]? = nil, requestedPaymentTerms: [PaymentTerm]? = nil, statusMessage: String? = nil, submittedOrderId: String? = nil) {
+            self.accountId = accountId
+            self.countryCode = countryCode
+            self.createdDate = createdDate
+            self.description = description
+            self.expirationDate = expirationDate
+            self.outpostArn = outpostArn
+            self.quoteId = quoteId
+            self.quoteOptions = quoteOptions
+            self.quoteStatus = quoteStatus
+            self.requestedCapacities = requestedCapacities
+            self.requestedConstraints = requestedConstraints
+            self.requestedPaymentOptions = requestedPaymentOptions
+            self.requestedPaymentTerms = requestedPaymentTerms
+            self.statusMessage = statusMessage
+            self.submittedOrderId = submittedOrderId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case countryCode = "CountryCode"
+            case createdDate = "CreatedDate"
+            case description = "Description"
+            case expirationDate = "ExpirationDate"
+            case outpostArn = "OutpostArn"
+            case quoteId = "QuoteId"
+            case quoteOptions = "QuoteOptions"
+            case quoteStatus = "QuoteStatus"
+            case requestedCapacities = "RequestedCapacities"
+            case requestedConstraints = "RequestedConstraints"
+            case requestedPaymentOptions = "RequestedPaymentOptions"
+            case requestedPaymentTerms = "RequestedPaymentTerms"
+            case statusMessage = "StatusMessage"
+            case submittedOrderId = "SubmittedOrderId"
+        }
+    }
+
     public struct RackPhysicalProperties: AWSEncodableShape & AWSDecodableShape {
         /// The type of fiber used to attach the Outpost to the network.
         public let fiberOpticCableType: FiberOpticCableType?
@@ -2424,6 +3277,90 @@ extension Outposts {
             case powerPhase = "PowerPhase"
             case uplinkCount = "UplinkCount"
             case uplinkGbps = "UplinkGbps"
+        }
+    }
+
+    public struct RackSpecificationDetails: AWSDecodableShape {
+        /// The Amazon EC2 capacities for the rack.
+        public let ec2Capacities: [EC2Capacity]?
+        /// The depth of the rack in inches.
+        public let rackDepthInches: Float?
+        /// The height of the rack in inches.
+        public let rackHeightInches: Float?
+        /// The ID of the rack.
+        public let rackId: String?
+        /// The maximum power draw of the rack in kVA.
+        public let rackPowerDrawKva: Float?
+        /// The rack unit height.    HEIGHT_42U - 42 rack units.    HEIGHT_2U - 2 rack units.    HEIGHT_1U - 1 rack unit.
+        public let rackUnitHeight: RackUnitHeight?
+        /// The use of the rack. Valid values are COMPUTE and NETWORKING.
+        public let rackUse: QuoteRackUseType?
+        /// The weight of the rack in pounds.
+        public let rackWeightLbs: Float?
+        /// The width of the rack in inches.
+        public let rackWidthInches: Float?
+
+        @inlinable
+        public init(ec2Capacities: [EC2Capacity]? = nil, rackDepthInches: Float? = nil, rackHeightInches: Float? = nil, rackId: String? = nil, rackPowerDrawKva: Float? = nil, rackUnitHeight: RackUnitHeight? = nil, rackUse: QuoteRackUseType? = nil, rackWeightLbs: Float? = nil, rackWidthInches: Float? = nil) {
+            self.ec2Capacities = ec2Capacities
+            self.rackDepthInches = rackDepthInches
+            self.rackHeightInches = rackHeightInches
+            self.rackId = rackId
+            self.rackPowerDrawKva = rackPowerDrawKva
+            self.rackUnitHeight = rackUnitHeight
+            self.rackUse = rackUse
+            self.rackWeightLbs = rackWeightLbs
+            self.rackWidthInches = rackWidthInches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2Capacities = "EC2Capacities"
+            case rackDepthInches = "RackDepthInches"
+            case rackHeightInches = "RackHeightInches"
+            case rackId = "RackId"
+            case rackPowerDrawKva = "RackPowerDrawKva"
+            case rackUnitHeight = "RackUnitHeight"
+            case rackUse = "RackUse"
+            case rackWeightLbs = "RackWeightLbs"
+            case rackWidthInches = "RackWidthInches"
+        }
+    }
+
+    public struct ServerSpecificationDetails: AWSDecodableShape {
+        /// The Amazon EC2 capacities for the server.
+        public let ec2Capacities: [EC2Capacity]?
+        /// The rack unit height of the server.    HEIGHT_2U - 2 rack units.    HEIGHT_1U - 1 rack unit.
+        public let rackUnitHeight: RackUnitHeight?
+        /// The depth of the server in inches.
+        public let serverDepthInches: Float?
+        /// The height of the server in inches.
+        public let serverHeightInches: Float?
+        /// The maximum power draw of the server in kVA.
+        public let serverPowerDrawKva: Float?
+        /// The weight of the server in pounds.
+        public let serverWeightLbs: Float?
+        /// The width of the server in inches.
+        public let serverWidthInches: Float?
+
+        @inlinable
+        public init(ec2Capacities: [EC2Capacity]? = nil, rackUnitHeight: RackUnitHeight? = nil, serverDepthInches: Float? = nil, serverHeightInches: Float? = nil, serverPowerDrawKva: Float? = nil, serverWeightLbs: Float? = nil, serverWidthInches: Float? = nil) {
+            self.ec2Capacities = ec2Capacities
+            self.rackUnitHeight = rackUnitHeight
+            self.serverDepthInches = serverDepthInches
+            self.serverHeightInches = serverHeightInches
+            self.serverPowerDrawKva = serverPowerDrawKva
+            self.serverWeightLbs = serverWeightLbs
+            self.serverWidthInches = serverWidthInches
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2Capacities = "EC2Capacities"
+            case rackUnitHeight = "RackUnitHeight"
+            case serverDepthInches = "ServerDepthInches"
+            case serverHeightInches = "ServerHeightInches"
+            case serverPowerDrawKva = "ServerPowerDrawKva"
+            case serverWeightLbs = "ServerWeightLbs"
+            case serverWidthInches = "ServerWidthInches"
         }
     }
 
@@ -2730,6 +3667,8 @@ extension Outposts {
     public struct Subscription: AWSDecodableShape {
         /// The date your subscription starts.
         public let beginDate: Date?
+        /// The currency of the subscription price. Currently only USD is supported.
+        public let currency: CurrencyCode?
         /// The date your subscription ends.
         public let endDate: Date?
         /// The amount you are billed each month in the subscription period.
@@ -2738,7 +3677,7 @@ extension Outposts {
         public let orderIds: [String]?
         /// The ID of the subscription that appears on the Amazon Web Services Billing Center console.
         public let subscriptionId: String?
-        /// The status of subscription which can be one of the following:    INACTIVE - Subscription requests that are inactive.    ACTIVE - Subscription requests that are in progress and have an end date in the future.    CANCELLED - Subscription requests that are cancelled.
+        /// The status of subscription which can be one of the following:    INACTIVE - Subscription requests that are inactive.    ACTIVE - Subscription requests that are in progress and have an end date in the future.    PENDING - Subscription has been created but billing has not yet commenced because the subscription begin date has not been reached.    CANCELLED - Subscription requests that are cancelled.
         public let subscriptionStatus: SubscriptionStatus?
         /// The type of subscription which can be one of the following:    ORIGINAL - The first order on the Amazon Web Services Outposts.    RENEWAL - Renewal requests, both month to month and longer term.    CAPACITY_INCREASE - Capacity scaling orders.
         public let subscriptionType: SubscriptionType?
@@ -2746,8 +3685,9 @@ extension Outposts {
         public let upfrontPrice: Double?
 
         @inlinable
-        public init(beginDate: Date? = nil, endDate: Date? = nil, monthlyRecurringPrice: Double? = nil, orderIds: [String]? = nil, subscriptionId: String? = nil, subscriptionStatus: SubscriptionStatus? = nil, subscriptionType: SubscriptionType? = nil, upfrontPrice: Double? = nil) {
+        public init(beginDate: Date? = nil, currency: CurrencyCode? = nil, endDate: Date? = nil, monthlyRecurringPrice: Double? = nil, orderIds: [String]? = nil, subscriptionId: String? = nil, subscriptionStatus: SubscriptionStatus? = nil, subscriptionType: SubscriptionType? = nil, upfrontPrice: Double? = nil) {
             self.beginDate = beginDate
+            self.currency = currency
             self.endDate = endDate
             self.monthlyRecurringPrice = monthlyRecurringPrice
             self.orderIds = orderIds
@@ -2759,12 +3699,43 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case beginDate = "BeginDate"
+            case currency = "Currency"
             case endDate = "EndDate"
             case monthlyRecurringPrice = "MonthlyRecurringPrice"
             case orderIds = "OrderIds"
             case subscriptionId = "SubscriptionId"
             case subscriptionStatus = "SubscriptionStatus"
             case subscriptionType = "SubscriptionType"
+            case upfrontPrice = "UpfrontPrice"
+        }
+    }
+
+    public struct SubscriptionPricingDetails: AWSDecodableShape {
+        /// The currency of the price. Currently only USD is supported.
+        public let currency: CurrencyCode?
+        /// The monthly recurring price.
+        public let monthlyRecurringPrice: Float?
+        /// The payment option.
+        public let paymentOption: PaymentOption?
+        /// The payment term.
+        public let paymentTerm: PaymentTerm?
+        /// The upfront price.
+        public let upfrontPrice: Float?
+
+        @inlinable
+        public init(currency: CurrencyCode? = nil, monthlyRecurringPrice: Float? = nil, paymentOption: PaymentOption? = nil, paymentTerm: PaymentTerm? = nil, upfrontPrice: Float? = nil) {
+            self.currency = currency
+            self.monthlyRecurringPrice = monthlyRecurringPrice
+            self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
+            self.upfrontPrice = upfrontPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case monthlyRecurringPrice = "MonthlyRecurringPrice"
+            case paymentOption = "PaymentOption"
+            case paymentTerm = "PaymentTerm"
             case upfrontPrice = "UpfrontPrice"
         }
     }
@@ -2902,6 +3873,97 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case outpost = "Outpost"
+        }
+    }
+
+    public struct UpdateQuoteInput: AWSEncodableShape {
+        /// The country code for the Outpost site location.
+        public let countryCode: String?
+        /// A description for the quote.
+        public let description: String?
+        /// The ID or ARN of the Outpost to associate with the quote. Specify an empty string to remove the Outpost association.
+        public let outpostIdentifier: String?
+        /// The ID of the quote.
+        public let quoteIdentifier: String
+        /// The updated capacity requirements for the quote.
+        public let requestedCapacities: [QuoteCapacity]?
+        /// The updated physical constraints for the quote.
+        public let requestedConstraints: [QuoteConstraint]?
+        /// The updated payment options to include in the quote pricing.
+        public let requestedPaymentOptions: [PaymentOption]?
+        /// The updated payment terms to include in the quote pricing.
+        public let requestedPaymentTerms: [PaymentTerm]?
+
+        @inlinable
+        public init(countryCode: String? = nil, description: String? = nil, outpostIdentifier: String? = nil, quoteIdentifier: String, requestedCapacities: [QuoteCapacity]? = nil, requestedConstraints: [QuoteConstraint]? = nil, requestedPaymentOptions: [PaymentOption]? = nil, requestedPaymentTerms: [PaymentTerm]? = nil) {
+            self.countryCode = countryCode
+            self.description = description
+            self.outpostIdentifier = outpostIdentifier
+            self.quoteIdentifier = quoteIdentifier
+            self.requestedCapacities = requestedCapacities
+            self.requestedConstraints = requestedConstraints
+            self.requestedPaymentOptions = requestedPaymentOptions
+            self.requestedPaymentTerms = requestedPaymentTerms
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.countryCode, forKey: .countryCode)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.outpostIdentifier, forKey: .outpostIdentifier)
+            request.encodePath(self.quoteIdentifier, key: "QuoteIdentifier")
+            try container.encodeIfPresent(self.requestedCapacities, forKey: .requestedCapacities)
+            try container.encodeIfPresent(self.requestedConstraints, forKey: .requestedConstraints)
+            try container.encodeIfPresent(self.requestedPaymentOptions, forKey: .requestedPaymentOptions)
+            try container.encodeIfPresent(self.requestedPaymentTerms, forKey: .requestedPaymentTerms)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.countryCode, name: "countryCode", parent: name, max: 2)
+            try self.validate(self.countryCode, name: "countryCode", parent: name, min: 2)
+            try self.validate(self.countryCode, name: "countryCode", parent: name, pattern: "^[A-Z]{2}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S \\n]*$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^((arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17})?$")
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, max: 255)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, min: 1)
+            try self.validate(self.quoteIdentifier, name: "quoteIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:quote/)?oq-[a-f0-9]{17}$")
+            try self.requestedCapacities?.forEach {
+                try $0.validate(name: "\(name).requestedCapacities[]")
+            }
+            try self.validate(self.requestedCapacities, name: "requestedCapacities", parent: name, max: 2000)
+            try self.requestedConstraints?.forEach {
+                try $0.validate(name: "\(name).requestedConstraints[]")
+            }
+            try self.validate(self.requestedConstraints, name: "requestedConstraints", parent: name, max: 10)
+            try self.validate(self.requestedPaymentOptions, name: "requestedPaymentOptions", parent: name, max: 3)
+            try self.validate(self.requestedPaymentTerms, name: "requestedPaymentTerms", parent: name, max: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryCode = "CountryCode"
+            case description = "Description"
+            case outpostIdentifier = "OutpostIdentifier"
+            case requestedCapacities = "RequestedCapacities"
+            case requestedConstraints = "RequestedConstraints"
+            case requestedPaymentOptions = "RequestedPaymentOptions"
+            case requestedPaymentTerms = "RequestedPaymentTerms"
+        }
+    }
+
+    public struct UpdateQuoteOutput: AWSDecodableShape {
+        /// Information about the updated quote.
+        public let quote: Quote?
+
+        @inlinable
+        public init(quote: Quote? = nil) {
+            self.quote = quote
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quote = "Quote"
         }
     }
 

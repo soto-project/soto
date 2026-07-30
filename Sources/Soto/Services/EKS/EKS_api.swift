@@ -231,6 +231,41 @@ public struct EKS: AWSService {
         return try await self.associateIdentityProviderConfig(input, logger: logger)
     }
 
+    /// Cancels an in-progress update to an Amazon EKS cluster on a best-effort basis. Cancellation is only performed if the update can be cancelled. Currently, this is supported for VersionRollback update types on EKS Auto Mode clusters when nodes are rolling back. A successful cancellation stops the node rollback. After cancellation, nodes converge to the current cluster version honoring configured disruption controls. If the control plane rollback has already begun, the cancellation request fails.
+    @Sendable
+    @inlinable
+    public func cancelUpdate(_ input: CancelUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelUpdateResponse {
+        try await self.client.execute(
+            operation: "CancelUpdate", 
+            path: "/clusters/{name}/updates/{updateId}/cancel-update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an in-progress update to an Amazon EKS cluster on a best-effort basis. Cancellation is only performed if the update can be cancelled. Currently, this is supported for VersionRollback update types on EKS Auto Mode clusters when nodes are rolling back. A successful cancellation stops the node rollback. After cancellation, nodes converge to the current cluster version honoring configured disruption controls. If the control plane rollback has already begun, the cancellation request fails.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
+    ///   - name: The name of the Amazon EKS cluster associated with the update.
+    ///   - updateId: The ID of the update to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelUpdate(
+        clientRequestToken: String? = CancelUpdateRequest.idempotencyToken(),
+        name: String,
+        updateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelUpdateResponse {
+        let input = CancelUpdateRequest(
+            clientRequestToken: clientRequestToken, 
+            name: name, 
+            updateId: updateId
+        )
+        return try await self.cancelUpdate(input, logger: logger)
+    }
+
     /// Creates an access entry. An access entry allows an IAM principal to access your cluster. Access entries can replace the need to maintain entries in the aws-auth ConfigMap for authentication. You have the following options for authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects, in addition to managing access entries. If you use Amazon EKS authorization exclusively, you don't need to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects. For more information about access entries, see Access entries in the Amazon EKS User Guide.
     @Sendable
     @inlinable
@@ -596,6 +631,7 @@ public struct EKS: AWSService {
     ///   - taints: The Kubernetes taints to be applied to the nodes in the node group. For more information, see Node taints on managed node groups.
     ///   - updateConfig: The node group update configuration.
     ///   - version: The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
+    ///   - warmPoolConfig: The warm pool configuration for the node group. Warm pools maintain pre-initialized EC2 instances that can quickly join your cluster during scale-out events, improving application scaling performance and reducing costs.
     ///   - logger: Logger use during operation
     @inlinable
     public func createNodegroup(
@@ -618,6 +654,7 @@ public struct EKS: AWSService {
         taints: [Taint]? = nil,
         updateConfig: NodegroupUpdateConfig? = nil,
         version: String? = nil,
+        warmPoolConfig: WarmPoolConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateNodegroupResponse {
         let input = CreateNodegroupRequest(
@@ -639,7 +676,8 @@ public struct EKS: AWSService {
             tags: tags, 
             taints: taints, 
             updateConfig: updateConfig, 
-            version: version
+            version: version, 
+            warmPoolConfig: warmPoolConfig
         )
         return try await self.createNodegroup(input, logger: logger)
     }
@@ -2355,7 +2393,7 @@ public struct EKS: AWSService {
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The name of the Amazon EKS cluster to update.
     ///   - remoteNetworkConfig: 
-    ///   - resourcesVpcConfig: 
+    ///   - resourcesVpcConfig: An object representing the VPC configuration to use for the cluster update. You can use this parameter to update the control plane egress mode, the subnets used by the cluster, the security groups, and the endpoint access settings.
     ///   - storageConfig: Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
     ///   - upgradePolicy: You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
     ///   - zonalShiftConfig: Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
@@ -2412,8 +2450,9 @@ public struct EKS: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
-    ///   - force: Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
+    ///   - force: Set this value to true to override upgrade-blocking or rollback-blocking readiness checks when updating a cluster.
     ///   - name: The name of the Amazon EKS cluster to update.
+    ///   - rollbackConfig: The rollback configuration for the cluster version rollback.
     ///   - version: The desired Kubernetes version following a successful update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2421,6 +2460,7 @@ public struct EKS: AWSService {
         clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(),
         force: Bool? = nil,
         name: String,
+        rollbackConfig: RollbackConfig? = nil,
         version: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterVersionResponse {
@@ -2428,6 +2468,7 @@ public struct EKS: AWSService {
             clientRequestToken: clientRequestToken, 
             force: force, 
             name: name, 
+            rollbackConfig: rollbackConfig, 
             version: version
         )
         return try await self.updateClusterVersion(input, logger: logger)
@@ -2492,6 +2533,7 @@ public struct EKS: AWSService {
     ///   - scalingConfig: The scaling configuration details for the Auto Scaling group after the update.
     ///   - taints: The Kubernetes taints to be applied to the nodes in the node group after the update. For more information, see Node taints on managed node groups.
     ///   - updateConfig: The node group update configuration.
+    ///   - warmPoolConfig: The warm pool configuration to apply to the node group. You can use this to add a warm pool to an existing node group or modify the settings of an existing warm pool.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateNodegroupConfig(
@@ -2503,6 +2545,7 @@ public struct EKS: AWSService {
         scalingConfig: NodegroupScalingConfig? = nil,
         taints: UpdateTaintsPayload? = nil,
         updateConfig: NodegroupUpdateConfig? = nil,
+        warmPoolConfig: WarmPoolConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateNodegroupConfigResponse {
         let input = UpdateNodegroupConfigRequest(
@@ -2513,7 +2556,8 @@ public struct EKS: AWSService {
             nodeRepairConfig: nodeRepairConfig, 
             scalingConfig: scalingConfig, 
             taints: taints, 
-            updateConfig: updateConfig
+            updateConfig: updateConfig, 
+            warmPoolConfig: warmPoolConfig
         )
         return try await self.updateNodegroupConfig(input, logger: logger)
     }

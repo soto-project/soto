@@ -254,7 +254,7 @@ public struct EntityResolution: AWSService {
         return try await self.createIdNamespace(input, logger: logger)
     }
 
-    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow.   For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     @Sendable
     @inlinable
     public func createMatchingWorkflow(_ input: CreateMatchingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMatchingWorkflowOutput {
@@ -267,11 +267,11 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow.   For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     ///
     /// Parameters:
     ///   - description: A description of the workflow.
-    ///   - incrementalRunConfig: Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    ///   - incrementalRunConfig: Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     ///   - inputSourceConfig: A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
     ///   - resolutionTechniques: An object which defines the resolutionType and the ruleBasedProperties.
@@ -506,7 +506,7 @@ public struct EntityResolution: AWSService {
     /// Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3.  The processing type (processingType) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
     ///
     /// Parameters:
-    ///   - processingType: The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT.  CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time.  EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3.   EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.
+    ///   - processingType: The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT.  CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time.  EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3.   EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.   Advanced matching workflows don't support the processingType field.
     ///   - records:  The records to match.
     ///   - workflowName:  The name of the rule-based matching workflow.
     ///   - logger: Logger use during operation
@@ -1314,7 +1314,7 @@ public struct EntityResolution: AWSService {
         return try await self.updateIdNamespace(input, logger: logger)
     }
 
-    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed.  For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed.  For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     @Sendable
     @inlinable
     public func updateMatchingWorkflow(_ input: UpdateMatchingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMatchingWorkflowOutput {
@@ -1327,11 +1327,11 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed.  For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed.  For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     ///
     /// Parameters:
     ///   - description: A description of the workflow.
-    ///   - incrementalRunConfig: Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+    ///   - incrementalRunConfig: Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is PROVIDER, incremental processing is not supported.
     ///   - inputSourceConfig: A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     ///   - outputSourceConfig: A list of OutputSource objects, each of which contains fields outputS3Path, applyNormalization, KMSArn, and output.
     ///   - resolutionTechniques: An object which defines the resolutionType and the ruleBasedProperties.

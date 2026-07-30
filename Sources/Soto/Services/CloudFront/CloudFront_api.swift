@@ -627,18 +627,21 @@ public struct CloudFront: AWSService {
     ///   - functionCode: The function code. For more information about writing a CloudFront function, see Writing function code for CloudFront Functions in the Amazon CloudFront Developer Guide.
     ///   - functionConfig: Configuration information about the function, including an optional comment and the function's runtime.
     ///   - name: A name to identify the function.
+    ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createFunction(
         functionCode: AWSBase64Data,
         functionConfig: FunctionConfig,
         name: String,
+        tags: Tags? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateFunctionResult {
         let input = CreateFunctionRequest(
             functionCode: functionCode, 
             functionConfig: functionConfig, 
-            name: name
+            name: name, 
+            tags: tags
         )
         return try await self.createFunction(input, logger: logger)
     }
@@ -755,18 +758,21 @@ public struct CloudFront: AWSService {
     ///   - comment: The comment of the key value store.
     ///   - importSource: The S3 bucket that provides the source for the import. The source must be in a valid JSON format.
     ///   - name: The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters.
+    ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createKeyValueStore(
         comment: String? = nil,
         importSource: ImportSource? = nil,
         name: String,
+        tags: Tags? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateKeyValueStoreResult {
         let input = CreateKeyValueStoreRequest(
             comment: comment, 
             importSource: importSource, 
-            name: name
+            name: name, 
+            tags: tags
         )
         return try await self.createKeyValueStore(input, logger: logger)
     }
@@ -1034,18 +1040,21 @@ public struct CloudFront: AWSService {
     ///   - caCertificatesBundleSource: The CA certificates bundle source for the trust store.
     ///   - name: A name for the trust store.
     ///   - tags: 
+    ///   - useClientCertificateOCSPEndpoint: A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTrustStore(
         caCertificatesBundleSource: CaCertificatesBundleSource,
         name: String,
         tags: Tags? = nil,
+        useClientCertificateOCSPEndpoint: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTrustStoreResult {
         let input = CreateTrustStoreRequest(
             caCertificatesBundleSource: caCertificatesBundleSource, 
             name: name, 
-            tags: tags
+            tags: tags, 
+            useClientCertificateOCSPEndpoint: useClientCertificateOCSPEndpoint
         )
         return try await self.createTrustStore(input, logger: logger)
     }
@@ -4702,18 +4711,21 @@ public struct CloudFront: AWSService {
     ///   - id: The ID of the Anycast static IP list.
     ///   - ifMatch: The current version (ETag value) of the Anycast static IP list that you are updating.
     ///   - ipAddressType: The IP address type for the Anycast static IP list. You can specify one of the following options:    ipv4 only    ipv6 only    dualstack - Allocate a list of both IPv4 and IPv6 addresses
+    ///   - ipamCidrConfigs: A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for updating the Anycast static IP list.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAnycastIpList(
         id: String,
         ifMatch: String,
         ipAddressType: IpAddressType? = nil,
+        ipamCidrConfigs: [IpamCidrConfig]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAnycastIpListResult {
         let input = UpdateAnycastIpListRequest(
             id: id, 
             ifMatch: ifMatch, 
-            ipAddressType: ipAddressType
+            ipAddressType: ipAddressType, 
+            ipamCidrConfigs: ipamCidrConfigs
         )
         return try await self.updateAnycastIpList(input, logger: logger)
     }
@@ -5473,18 +5485,21 @@ public struct CloudFront: AWSService {
     ///   - caCertificatesBundleSource: The CA certificates bundle source.
     ///   - id: The trust store ID.
     ///   - ifMatch: The current version (ETag value) of the trust store you are updating.
+    ///   - useClientCertificateOCSPEndpoint: A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTrustStore(
-        caCertificatesBundleSource: CaCertificatesBundleSource,
+        caCertificatesBundleSource: CaCertificatesBundleSource? = nil,
         id: String,
         ifMatch: String,
+        useClientCertificateOCSPEndpoint: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateTrustStoreResult {
         let input = UpdateTrustStoreRequest(
             caCertificatesBundleSource: caCertificatesBundleSource, 
             id: id, 
-            ifMatch: ifMatch
+            ifMatch: ifMatch, 
+            useClientCertificateOCSPEndpoint: useClientCertificateOCSPEndpoint
         )
         return try await self.updateTrustStore(input, logger: logger)
     }

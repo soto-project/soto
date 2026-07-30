@@ -188,12 +188,14 @@ public struct Synthetics: AWSService {
     /// Creates a canary. Canaries are scripts that monitor your endpoints and APIs from the outside-in. Canaries help you check the availability and latency of your web services and troubleshoot anomalies by investigating load time data, screenshots of the UI, logs, and metrics. You can set up a canary to run continuously or just once.  Do not use CreateCanary to modify an existing canary. Use UpdateCanary instead. To create canaries, you must have the CloudWatchSyntheticsFullAccess policy. If you are creating a new IAM role for the canary, you also need the iam:CreateRole, iam:CreatePolicy and iam:AttachRolePolicy permissions. For more information, see Necessary Roles and Permissions. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the Amazon Resource Name (ARN) for the canary, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
     ///
     /// Parameters:
+    ///   - addReplicaLocations: A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica.  You can add up to 50 replica locations.
     ///   - artifactConfig: A structure that contains the configuration for canary artifacts, including  the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.  The name of the  Amazon S3 bucket can't include a period (.).
     ///   - browserConfigs: CloudWatch Synthetics now supports multibrowser canaries for syn-nodejs-puppeteer-11.0 and syn-nodejs-playwright-3.0 runtimes. This feature allows you to run your canaries on both  Firefox and Chrome browsers. To create a multibrowser canary, you need to specify the BrowserConfigs with a list of browsers you want to use.  If not specified, browserConfigs defaults to Chrome.
     ///   - code: A structure that includes the entry point from which the canary should start running your script. If the script is stored in  an Amazon S3 bucket, the bucket name, key, and version are also included.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. If you omit  this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key.
     ///   - name: The name for this canary. Be sure to give it a descriptive name  that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see Security Considerations for Synthetics Canaries.
     ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
     ///   - resourcesToReplicateTags: To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
@@ -206,12 +208,14 @@ public struct Synthetics: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createCanary(
+        addReplicaLocations: [AddReplicaLocationInput]? = nil,
         artifactConfig: ArtifactConfigInput? = nil,
         artifactS3Location: String,
         browserConfigs: [BrowserConfig]? = nil,
         code: CanaryCodeInput,
         executionRoleArn: String,
         failureRetentionPeriodInDays: Int? = nil,
+        kmsKeyArn: String? = nil,
         name: String,
         provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil,
         resourcesToReplicateTags: [ResourceToTag]? = nil,
@@ -224,12 +228,14 @@ public struct Synthetics: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCanaryResponse {
         let input = CreateCanaryRequest(
+            addReplicaLocations: addReplicaLocations, 
             artifactConfig: artifactConfig, 
             artifactS3Location: artifactS3Location, 
             browserConfigs: browserConfigs, 
             code: code, 
             executionRoleArn: executionRoleArn, 
             failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
+            kmsKeyArn: kmsKeyArn, 
             name: name, 
             provisionedResourceCleanup: provisionedResourceCleanup, 
             resourcesToReplicateTags: resourcesToReplicateTags, 
@@ -912,6 +918,7 @@ public struct Synthetics: AWSService {
     /// Updates the configuration of a canary that has already been created. For multibrowser canaries, you can add or remove browsers by updating the browserConfig list in the update call. For example:   To add Firefox to a canary that currently uses Chrome, specify browserConfigs as [CHROME, FIREFOX]   To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]   You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use TagResource.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///
     /// Parameters:
+    ///   - addReplicaLocations: A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica.  You can add up to 50 replica locations.
     ///   - artifactConfig: A structure that contains the configuration for canary artifacts,  including the encryption-at-rest settings for artifacts that  the canary uploads to Amazon S3.
     ///   - artifactS3Location: The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     ///   - browserConfigs: A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers.  If not specified, browserConfigs defaults to Chrome.
@@ -919,8 +926,10 @@ public struct Synthetics: AWSService {
     ///   - dryRunId: Update the existing canary using the updated configurations from the DryRun associated with the DryRunId.  When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///   - executionRoleArn: The ARN of the IAM role to be used to run the canary. This role must already exist,  and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
     ///   - failureRetentionPeriodInDays: The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by GetCanaryRuns, as well as  the range of information displayed in the Synthetics console.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the customer-managed AWS Key Management Service (AWS KMS) key used to encrypt the canary's AWS Lambda function environment variables at rest. If you don't specify a value, the service uses an AWS-managed key. If you omit this parameter, the service retains the existing value. To revert to the AWS-managed key, set this parameter to an empty string.
     ///   - name: The name of the canary that you want to update. To find the names of your  canaries, use DescribeCanaries. You cannot change the name of a canary that has already been created.
     ///   - provisionedResourceCleanup: Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the DeleteCanary operation determines whether the Lambda functions and layers will be deleted.
+    ///   - removeReplicaLocations: A list of locations (Amazon Web Services Regions) to remove as replicas for the canary. You must specify at least one location to remove. All replicas can be removed in a single API       call and you cannot remove the primary location.
     ///   - runConfig: A structure that contains the timeout value that is used for each individual run of the  canary.  Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables  are not encrypted on the client side. Do not store sensitive information in them.
     ///   - runtimeVersion: Specifies the runtime version to use for the canary.   For a list of valid runtime versions and for more information about runtime versions, see  Canary Runtime Versions.
     ///   - schedule: A structure that contains information about how often the canary is to run, and when these runs are to stop.
@@ -931,6 +940,7 @@ public struct Synthetics: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCanary(
+        addReplicaLocations: [AddReplicaLocationInput]? = nil,
         artifactConfig: ArtifactConfigInput? = nil,
         artifactS3Location: String? = nil,
         browserConfigs: [BrowserConfig]? = nil,
@@ -938,8 +948,10 @@ public struct Synthetics: AWSService {
         dryRunId: String? = nil,
         executionRoleArn: String? = nil,
         failureRetentionPeriodInDays: Int? = nil,
+        kmsKeyArn: String? = nil,
         name: String,
         provisionedResourceCleanup: ProvisionedResourceCleanupSetting? = nil,
+        removeReplicaLocations: [String]? = nil,
         runConfig: CanaryRunConfigInput? = nil,
         runtimeVersion: String? = nil,
         schedule: CanaryScheduleInput? = nil,
@@ -950,6 +962,7 @@ public struct Synthetics: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCanaryResponse {
         let input = UpdateCanaryRequest(
+            addReplicaLocations: addReplicaLocations, 
             artifactConfig: artifactConfig, 
             artifactS3Location: artifactS3Location, 
             browserConfigs: browserConfigs, 
@@ -957,8 +970,10 @@ public struct Synthetics: AWSService {
             dryRunId: dryRunId, 
             executionRoleArn: executionRoleArn, 
             failureRetentionPeriodInDays: failureRetentionPeriodInDays, 
+            kmsKeyArn: kmsKeyArn, 
             name: name, 
             provisionedResourceCleanup: provisionedResourceCleanup, 
+            removeReplicaLocations: removeReplicaLocations, 
             runConfig: runConfig, 
             runtimeVersion: runtimeVersion, 
             schedule: schedule, 

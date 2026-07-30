@@ -28,12 +28,18 @@ extension Signin {
     public enum OAuth2ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Authorization code has expired
         case authcodeExpired = "AUTHCODE_EXPIRED"
+        /// Request conflicts with current state of the resource
+        case conflict = "CONFLICT"
         /// Insufficient permissions to perform this operation
         case insufficientPermissions = "INSUFFICIENT_PERMISSIONS"
         /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed
         case invalidRequest = "INVALID_REQUEST"
+        /// Requested resource was not found
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
         /// Internal server error occurred
         case serverError = "server_error"
+        /// Request would cause a service quota to be exceeded
+        case serviceQuotaExceeded = "SERVICE_QUOTA_EXCEEDED"
         /// Token has expired and needs to be refreshed
         case tokenExpired = "TOKEN_EXPIRED"
         /// User credentials have been changed
@@ -82,6 +88,26 @@ extension Signin {
             case accessKeyId = "accessKeyId"
             case secretAccessKey = "secretAccessKey"
             case sessionToken = "sessionToken"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// OAuth 2.0 error code indicating conflict
+        /// Will be CONFLICT
+        public let error: OAuth2ErrorCode
+        /// Detailed message explaining the conflict
+        /// Provides specific information about what caused the conflict
+        public let message: String
+
+        @inlinable
+        public init(error: OAuth2ErrorCode, message: String) {
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case message = "message"
         }
     }
 
@@ -215,6 +241,182 @@ extension Signin {
         }
     }
 
+    public struct CreateOAuth2TokenWithIAMRequest: AWSEncodableShape {
+        /// OAuth 2.0 grant type. Must be "client_credentials".
+        public let grantType: String
+        /// The OAuth resource for which the access token is requested.
+        /// Example: "aws-mcp.amazonaws.com".
+        public let resource: String
+
+        @inlinable
+        public init(grantType: String, resource: String) {
+            self.grantType = grantType
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.grantType, name: "grantType", parent: name, pattern: "^client_credentials$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantType = "grant_type"
+            case resource = "resource"
+        }
+    }
+
+    public struct CreateOAuth2TokenWithIAMResponse: AWSDecodableShape {
+        /// JWT access token containing principal identity, resource scope, and session metadata
+        public let accessToken: String
+        /// Token lifetime in seconds. Value is the minimum of session validity and 1 hour.
+        public let expiresIn: Int
+        /// Always "Bearer" per OAuth 2.1 specification
+        public let tokenType: String
+
+        @inlinable
+        public init(accessToken: String, expiresIn: Int, tokenType: String) {
+            self.accessToken = accessToken
+            self.expiresIn = expiresIn
+            self.tokenType = tokenType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "access_token"
+            case expiresIn = "expires_in"
+            case tokenType = "token_type"
+        }
+    }
+
+    public struct DeleteConsoleAuthorizationConfigurationInput: AWSEncodableShape {
+        /// Target account identifier
+        public let targetId: String?
+
+        @inlinable
+        public init(targetId: String? = nil) {
+            self.targetId = targetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetId, name: "targetId", parent: name, max: 32)
+            try self.validate(self.targetId, name: "targetId", parent: name, min: 12)
+            try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^(\\d{12}|o-[a-z0-9]{10}|r-[0-9a-z]{4,32})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetId = "targetId"
+        }
+    }
+
+    public struct DeleteConsoleAuthorizationConfigurationOutput: AWSDecodableShape {
+        /// Whether console authorization is enabled
+        public let consoleAuthorizationEnabled: Bool
+        /// Authorization scope
+        public let scope: String
+        /// Target account identifier
+        public let targetId: String
+
+        @inlinable
+        public init(consoleAuthorizationEnabled: Bool, scope: String, targetId: String) {
+            self.consoleAuthorizationEnabled = consoleAuthorizationEnabled
+            self.scope = scope
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consoleAuthorizationEnabled = "consoleAuthorizationEnabled"
+            case scope = "scope"
+            case targetId = "targetId"
+        }
+    }
+
+    public struct DeleteResourcePermissionStatementInput: AWSEncodableShape {
+        /// Idempotency token for the request
+        public let clientToken: String?
+        /// Unique identifier of the permission statement to delete
+        public let statementId: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteResourcePermissionStatementInput.idempotencyToken(), statementId: String) {
+            self.clientToken = clientToken
+            self.statementId = statementId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^[A-Za-z0-9+/]{64}=?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case statementId = "statementId"
+        }
+    }
+
+    public struct DeleteResourcePermissionStatementOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct GetConsoleAuthorizationConfigurationInput: AWSEncodableShape {
+        /// Target account identifier
+        public let targetId: String?
+
+        @inlinable
+        public init(targetId: String? = nil) {
+            self.targetId = targetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetId, name: "targetId", parent: name, max: 32)
+            try self.validate(self.targetId, name: "targetId", parent: name, min: 12)
+            try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^(\\d{12}|o-[a-z0-9]{10}|r-[0-9a-z]{4,32})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetId = "targetId"
+        }
+    }
+
+    public struct GetConsoleAuthorizationConfigurationOutput: AWSDecodableShape {
+        /// Whether console authorization is enabled
+        public let consoleAuthorizationEnabled: Bool
+        /// Authorization scope
+        public let scope: String
+        /// Target account identifier
+        public let targetId: String
+
+        @inlinable
+        public init(consoleAuthorizationEnabled: Bool, scope: String, targetId: String) {
+            self.consoleAuthorizationEnabled = consoleAuthorizationEnabled
+            self.scope = scope
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consoleAuthorizationEnabled = "consoleAuthorizationEnabled"
+            case scope = "scope"
+            case targetId = "targetId"
+        }
+    }
+
+    public struct GetResourcePolicyInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetResourcePolicyOutput: AWSDecodableShape {
+        /// The account's SignIn resource-based policy
+        public let signinResourceBasedPolicy: SigninResourceBasedPolicy
+
+        @inlinable
+        public init(signinResourceBasedPolicy: SigninResourceBasedPolicy) {
+            self.signinResourceBasedPolicy = signinResourceBasedPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signinResourceBasedPolicy = "signinResourceBasedPolicy"
+        }
+    }
+
     public struct InternalServerException: AWSErrorShape {
         /// OAuth 2.0 error code indicating server error
         /// Will be SERVER_ERROR for internal server errors
@@ -232,6 +434,396 @@ extension Signin {
         private enum CodingKeys: String, CodingKey {
             case error = "error"
             case message = "message"
+        }
+    }
+
+    public struct IntrospectOAuth2TokenWithIAMRequest: AWSEncodableShape {
+        /// The string value of the token to introspect.
+        /// May be either an access_token or a refresh_token issued by AWS Sign-In.
+        public let token: String
+        /// Optional hint about the type of the token submitted for introspection.
+        /// The server uses this hint to optimize lookup, but still falls back to
+        /// the other token type on miss. Allowed values: access_token, refresh_token.
+        public let tokenTypeHint: String?
+
+        @inlinable
+        public init(token: String, tokenTypeHint: String? = nil) {
+            self.token = token
+            self.tokenTypeHint = tokenTypeHint
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.token, name: "token", parent: name, max: 4096)
+            try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, pattern: "^ASO[AR][A-Za-z0-9+/=_\\-]+$")
+            try self.validate(self.tokenTypeHint, name: "tokenTypeHint", parent: name, pattern: "^(access_token|refresh_token)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case token = "token"
+            case tokenTypeHint = "token_type_hint"
+        }
+    }
+
+    public struct IntrospectOAuth2TokenWithIAMResponse: AWSDecodableShape {
+        /// 12-digit AWS account ID of the token's subject principal.
+        public let accountId: String?
+        /// Indicates whether the token is currently active. `true` only when the
+        /// token is valid, has not expired, has not been revoked, and belongs to
+        /// the caller's account.
+        public let active: Bool
+        /// Audience of the token: the OAuth resource the token is scoped to
+        /// (for example, "aws-mcp.amazonaws.com"). Omitted for refresh tokens.
+        public let aud: String?
+        /// Client identifier for the OAuth 2.0 client that requested the token.
+        public let clientId: String?
+        /// Token expiration time as a NumericDate (Unix epoch seconds).
+        public let exp: Int64?
+        /// Token issuance time as a NumericDate (Unix epoch seconds).
+        public let iat: Int64?
+        /// Issuer of the token. Always "signin.amazonaws.com" for AWS Sign-In.
+        public let iss: String?
+        /// Unique identifier for the token.
+        public let jti: String?
+        /// Token "not before" time as a NumericDate (Unix epoch seconds).
+        public let nbf: Int64?
+        /// The OAuth resource the token is scoped to during Human OAuth flow.
+        /// Only present for refresh token introspection.
+        public let resource: String?
+        /// AWS Sign-In session ARN bound to the token, of the form
+        /// arn:aws:signin:{region}:{account}:session/{uuid}.
+        public let signinSession: String?
+        /// Subject of the token: the IAM principal ARN. For assumed-role sessions,
+        /// this is the session ARN (matches sts:GetCallerIdentity's `Arn` field),
+        /// e.g. arn:aws:sts::123456789012:assumed-role/MyRole/session-name.
+        public let sub: String?
+        /// Indicates which kind of token was introspected.
+        /// One of "access_token" or "refresh_token".
+        public let tokenType: String?
+        /// User identifier matching sts:GetCallerIdentity's `UserId` field for the
+        /// token's subject principal (e.g. "AIDAEXAMPLE" for an IAM user, or
+        /// "AROAEXAMPLE:session-name" for an assumed role).
+        public let userId: String?
+
+        @inlinable
+        public init(accountId: String? = nil, active: Bool, aud: String? = nil, clientId: String? = nil, exp: Int64? = nil, iat: Int64? = nil, iss: String? = nil, jti: String? = nil, nbf: Int64? = nil, resource: String? = nil, signinSession: String? = nil, sub: String? = nil, tokenType: String? = nil, userId: String? = nil) {
+            self.accountId = accountId
+            self.active = active
+            self.aud = aud
+            self.clientId = clientId
+            self.exp = exp
+            self.iat = iat
+            self.iss = iss
+            self.jti = jti
+            self.nbf = nbf
+            self.resource = resource
+            self.signinSession = signinSession
+            self.sub = sub
+            self.tokenType = tokenType
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "account_id"
+            case active = "active"
+            case aud = "aud"
+            case clientId = "client_id"
+            case exp = "exp"
+            case iat = "iat"
+            case iss = "iss"
+            case jti = "jti"
+            case nbf = "nbf"
+            case resource = "resource"
+            case signinSession = "signin_session"
+            case sub = "sub"
+            case tokenType = "token_type"
+            case userId = "user_id"
+        }
+    }
+
+    public struct ListResourcePermissionStatementsInput: AWSEncodableShape {
+        /// Maximum number of results to return
+        public let maxResults: Int?
+        /// Token for pagination
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListResourcePermissionStatementsOutput: AWSDecodableShape {
+        /// Token for next page of results
+        public let nextToken: String?
+        /// List of permission statement summaries
+        public let permissionStatements: [PermissionStatementSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, permissionStatements: [PermissionStatementSummary]) {
+            self.nextToken = nextToken
+            self.permissionStatements = permissionStatements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case permissionStatements = "permissionStatements"
+        }
+    }
+
+    public struct PermissionStatementSummary: AWSDecodableShape {
+        /// Condition block for the permission statement
+        public let condition: [String: [String: [String]]]?
+        /// Unique identifier for the permission statement
+        public let sid: String
+
+        @inlinable
+        public init(condition: [String: [String: [String]]]? = nil, sid: String) {
+            self.condition = condition
+            self.sid = sid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "condition"
+            case sid = "sid"
+        }
+    }
+
+    public struct PolicyStatement: AWSDecodableShape {
+        /// Actions the statement controls
+        public let action: [String]?
+        /// Condition block for the statement
+        public let condition: [String: [String: [String]]]?
+        /// Effect of the policy statement (Allow/Deny)
+        public let effect: String?
+        /// Principal the statement applies to
+        public let principal: [String: String]?
+        /// Resource the statement applies to
+        public let resource: String?
+
+        @inlinable
+        public init(action: [String]? = nil, condition: [String: [String: [String]]]? = nil, effect: String? = nil, principal: [String: String]? = nil, resource: String? = nil) {
+            self.action = action
+            self.condition = condition
+            self.effect = effect
+            self.principal = principal
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case condition = "Condition"
+            case effect = "Effect"
+            case principal = "Principal"
+            case resource = "Resource"
+        }
+    }
+
+    public struct PutConsoleAuthorizationConfigurationInput: AWSEncodableShape {
+        /// Target account identifier
+        public let targetId: String?
+
+        @inlinable
+        public init(targetId: String? = nil) {
+            self.targetId = targetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetId, name: "targetId", parent: name, max: 32)
+            try self.validate(self.targetId, name: "targetId", parent: name, min: 12)
+            try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^(\\d{12}|o-[a-z0-9]{10}|r-[0-9a-z]{4,32})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetId = "targetId"
+        }
+    }
+
+    public struct PutConsoleAuthorizationConfigurationOutput: AWSDecodableShape {
+        /// Whether console authorization is enabled
+        public let consoleAuthorizationEnabled: Bool
+        /// Authorization scope
+        public let scope: String
+        /// Target account identifier
+        public let targetId: String
+
+        @inlinable
+        public init(consoleAuthorizationEnabled: Bool, scope: String, targetId: String) {
+            self.consoleAuthorizationEnabled = consoleAuthorizationEnabled
+            self.scope = scope
+            self.targetId = targetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consoleAuthorizationEnabled = "consoleAuthorizationEnabled"
+            case scope = "scope"
+            case targetId = "targetId"
+        }
+    }
+
+    public struct PutResourcePermissionStatementInput: AWSEncodableShape {
+        /// Idempotency token for the request
+        public let clientToken: String?
+        /// Console VPC endpoint identifier
+        public let consoleSourceVpce: String?
+        /// Principal to exclude from the permission statement
+        public let excludedPrincipal: String?
+        /// AWS region where the VPC and VPC endpoint reside
+        /// Required when sourceVpc or signinSourceVpce/consoleSourceVpce is provided
+        public let requestedRegion: String?
+        /// SignIn VPC endpoint identifier
+        public let signinSourceVpce: String?
+        /// Source IP address
+        public let sourceIp: String?
+        /// VPC identifier to restrict console access
+        public let sourceVpc: String?
+        /// Source IP address within VPC
+        public let vpcSourceIp: String?
+
+        @inlinable
+        public init(clientToken: String? = PutResourcePermissionStatementInput.idempotencyToken(), consoleSourceVpce: String? = nil, excludedPrincipal: String? = nil, requestedRegion: String? = nil, signinSourceVpce: String? = nil, sourceIp: String? = nil, sourceVpc: String? = nil, vpcSourceIp: String? = nil) {
+            self.clientToken = clientToken
+            self.consoleSourceVpce = consoleSourceVpce
+            self.excludedPrincipal = excludedPrincipal
+            self.requestedRegion = requestedRegion
+            self.signinSourceVpce = signinSourceVpce
+            self.sourceIp = sourceIp
+            self.sourceVpc = sourceVpc
+            self.vpcSourceIp = vpcSourceIp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.consoleSourceVpce, name: "consoleSourceVpce", parent: name, pattern: "^vpce-[a-z0-9]{8,20}$")
+            try self.validate(self.excludedPrincipal, name: "excludedPrincipal", parent: name, max: 2048)
+            try self.validate(self.excludedPrincipal, name: "excludedPrincipal", parent: name, min: 20)
+            try self.validate(self.excludedPrincipal, name: "excludedPrincipal", parent: name, pattern: "^arn:aws:((iam::[0-9]{12}:role/[a-zA-Z0-9_+=,.@-]{1,64})|(iam::[0-9]{12}:user/[a-zA-Z0-9_+=,.@-]{1,64})|(sts::[0-9]{12}:federated-user/[a-zA-Z0-9_+=,.@-]{2,193})|(iam::[0-9]{12}:root))$")
+            try self.validate(self.requestedRegion, name: "requestedRegion", parent: name, pattern: "^[a-z]{2}(-[a-z]+)+-\\d+$")
+            try self.validate(self.signinSourceVpce, name: "signinSourceVpce", parent: name, pattern: "^vpce-[a-z0-9]{8,20}$")
+            try self.validate(self.sourceVpc, name: "sourceVpc", parent: name, pattern: "^vpc-([0-9a-f]{8}|[0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case consoleSourceVpce = "consoleSourceVpce"
+            case excludedPrincipal = "excludedPrincipal"
+            case requestedRegion = "requestedRegion"
+            case signinSourceVpce = "signinSourceVpce"
+            case sourceIp = "sourceIp"
+            case sourceVpc = "sourceVpc"
+            case vpcSourceIp = "vpcSourceIp"
+        }
+    }
+
+    public struct PutResourcePermissionStatementOutput: AWSDecodableShape {
+        /// Unique identifier for the created permission statement
+        public let statementId: String
+
+        @inlinable
+        public init(statementId: String) {
+            self.statementId = statementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statementId = "statementId"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// OAuth 2.0 error code indicating resource not found
+        /// Will be RESOURCE_NOT_FOUND
+        public let error: OAuth2ErrorCode
+        /// Detailed message explaining which resource was not found
+        /// Provides specific information about the missing resource
+        public let message: String
+
+        @inlinable
+        public init(error: OAuth2ErrorCode, message: String) {
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case message = "message"
+        }
+    }
+
+    public struct RevokeOAuth2TokenWithIAMRequest: AWSEncodableShape {
+        /// The refresh_token to revoke. Must be a refresh_token issued by AWS
+        /// Sign-In (prefix "ASOR"); access_tokens are not accepted for revocation.
+        public let token: String
+
+        @inlinable
+        public init(token: String) {
+            self.token = token
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.token, name: "token", parent: name, max: 4096)
+            try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, pattern: "^ASOR[A-Za-z0-9+/=_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case token = "token"
+        }
+    }
+
+    public struct RevokeOAuth2TokenWithIAMResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// OAuth 2.0 error code indicating service quota exceeded
+        /// Will be SERVICE_QUOTA_EXCEEDED
+        public let error: OAuth2ErrorCode
+        /// Detailed message explaining which quota was exceeded
+        /// Provides specific information about the limit and current usage
+        public let message: String
+
+        @inlinable
+        public init(error: OAuth2ErrorCode, message: String) {
+            self.error = error
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case message = "message"
+        }
+    }
+
+    public struct SigninResourceBasedPolicy: AWSDecodableShape {
+        /// Policy statements
+        public let statement: [PolicyStatement]?
+        /// Policy version
+        public let version: String?
+
+        @inlinable
+        public init(statement: [PolicyStatement]? = nil, version: String? = nil) {
+            self.statement = statement
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statement = "Statement"
+            case version = "Version"
         }
     }
 
@@ -282,7 +874,10 @@ extension Signin {
 public struct SigninErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tooManyRequestsError = "TooManyRequestsError"
         case validationException = "ValidationException"
     }
@@ -312,10 +907,22 @@ public struct SigninErrorType: AWSErrorType {
     /// The specific HTTP status code is determined at runtime based on the error enum value.
     /// Consumers should use the error field to determine the specific access denial reason.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Error thrown when request conflicts with current state
+    /// HTTP Status Code: 409 Conflict
+    /// Used when the request conflicts with the current state of the resource
+    public static var conflictException: Self { .init(.conflictException) }
     /// Error thrown when an internal server error occurs
     /// HTTP Status Code: 500 Internal Server Error
     /// Used for unexpected server-side errors that prevent request processing.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Error thrown when requested resource is not found
+    /// HTTP Status Code: 404 Not Found
+    /// Used when the specified resource does not exist
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Error thrown when service quota is exceeded
+    /// HTTP Status Code: 402 Payment Required (used as quota exceeded indicator)
+    /// Used when the request would cause a service quota to be exceeded
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Error thrown when rate limit is exceeded
     /// HTTP Status Code: 429 Too Many Requests
     /// Possible OAuth2ErrorCode values:
@@ -336,7 +943,10 @@ public struct SigninErrorType: AWSErrorType {
 extension SigninErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "AccessDeniedException": Signin.AccessDeniedException.self,
+        "ConflictException": Signin.ConflictException.self,
         "InternalServerException": Signin.InternalServerException.self,
+        "ResourceNotFoundException": Signin.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Signin.ServiceQuotaExceededException.self,
         "TooManyRequestsError": Signin.TooManyRequestsError.self,
         "ValidationException": Signin.ValidationException.self
     ]
